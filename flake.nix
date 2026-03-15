@@ -1,41 +1,39 @@
 {
   description = "Network lab examples";
 
-  outputs = { self }:
-  let
-    lib = builtins;
+  outputs =
+    { self }:
+    let
+      lib = builtins;
 
-    examplesDir = ./examples;
+      examplesDir = ./examples;
 
-    entries = lib.readDir examplesDir;
+      entries = lib.readDir examplesDir;
 
-    isExampleDir = name:
-      entries.${name} == "directory";
+      isExampleDir = name: entries.${name} == "directory";
 
-    exampleNames =
-      lib.filter isExampleDir (lib.attrNames entries);
+      exampleNames = lib.filter isExampleDir (lib.attrNames entries);
 
-    mkLab = name:
-      let
-        base = examplesDir + "/${name}";
-      in
-      {
-        intent = base + "/intent.nix";
-        inventory =
-          if lib.pathExists (base + "/inventory.nix")
-          then base + "/inventory.nix"
-          else null;
-      };
+      mkLab =
+        name:
+        let
+          base = examplesDir + "/${name}";
+        in
+        {
+          path = base;
+          intent = base + "/intent.nix";
+          inventory = if lib.pathExists (base + "/inventory.nix") then base + "/inventory.nix" else null;
+        };
 
-    labs =
-      lib.listToAttrs
-        (map (name: {
+      labs = lib.listToAttrs (
+        map (name: {
           name = name;
           value = mkLab name;
-        }) exampleNames);
+        }) exampleNames
+      );
 
-  in
-  {
-    labs = labs;
-  };
+    in
+    {
+      labs = labs;
+    };
 }
