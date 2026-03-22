@@ -112,13 +112,13 @@
         }
 
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-client = "client";
-      external-wan = "wan";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-client = "client";
+        external-wan = "wan";
+      };
     };
 
     topology = {

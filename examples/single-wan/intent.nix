@@ -1,3 +1,4 @@
+# ./examples/single-wan/intent.nix
 {
   esp0xdeadbeef.site-a = {
 
@@ -278,16 +279,16 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-client = "client";
-      external-wan = "wan";
-      service-site-dns = "site-dns";
-      service-jump-host = "jump-host";
-      service-admin-web = "admin-web";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-client = "client";
+        external-wan = "wan";
+        service-site-dns = "site-dns";
+        service-jump-host = "jump-host";
+        service-admin-web = "admin-web";
+      };
     };
 
     topology = {

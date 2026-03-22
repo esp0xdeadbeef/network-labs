@@ -40,11 +40,11 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      external-east-west = "east-west";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        external-east-west = "east-west";
+      };
     };
 
     transport.overlays = [
@@ -145,11 +145,11 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      external-east-west = "east-west";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        external-east-west = "east-west";
+      };
     };
 
     transport.overlays = [
