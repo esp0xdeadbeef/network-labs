@@ -133,15 +133,15 @@
           action = "deny";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-clients = "clients";
-      external-wan = "wan";
-      service-dns-site = "dns-site";
-      service-ntp-site = "ntp-site";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-clients = "clients";
+        external-wan = "wan";
+        service-dns-site = "dns-site";
+        service-ntp-site = "ntp-site";
+      };
     };
 
     topology = {
@@ -354,15 +354,15 @@
           action = "deny";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-clients = "clients";
-      external-wan = "wan";
-      service-dns-site = "dns-site";
-      service-ntp-site = "ntp-site";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-clients = "clients";
+        external-wan = "wan";
+        service-dns-site = "dns-site";
+        service-ntp-site = "ntp-site";
+      };
     };
 
     topology = {

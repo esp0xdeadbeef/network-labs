@@ -105,14 +105,14 @@
           trafficType = "any";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-clients = "clients";
-      external-wan = "wan";
-      service-dns-site = "dns-site";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-clients = "clients";
+        external-wan = "wan";
+        service-dns-site = "dns-site";
+      };
     };
 
     topology = {

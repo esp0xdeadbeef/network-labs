@@ -136,15 +136,15 @@
           action = "deny";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-client = "client";
-      external-wan = "wan";
-      service-dns-site = "dns-site";
-      service-external-jump-host = "external-jump-host";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-client = "client";
+        external-wan = "wan";
+        service-dns-site = "dns-site";
+        service-external-jump-host = "external-jump-host";
+      };
     };
 
     topology = {

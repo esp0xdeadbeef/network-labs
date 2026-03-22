@@ -49,12 +49,12 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-adm = "adm";
-      external-wan = "wan";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-adm = "adm";
+        external-wan = "wan";
+      };
     };
 
     topology = {
@@ -174,11 +174,11 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      external-wan = "wan";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        external-wan = "wan";
+      };
     };
 
     topology = {

@@ -1,5 +1,5 @@
 {
-  esp0xdeadbeef.site-a= {
+  esp0xdeadbeef.site-a = {
 
     pools = {
       p2p = {
@@ -92,12 +92,12 @@
           action = "allow";
         }
       ];
-    };
 
-    policy.interfaceTags = {
-      tenant-mgmt = "mgmt";
-      tenant-admin = "admin";
-      tenant-client = "client";
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-client = "client";
+      };
     };
 
     topology = {
