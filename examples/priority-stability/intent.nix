@@ -1,4 +1,3 @@
-# ./examples/priority-stability/inputs.nix
 {
   esp0xdeadbeef.site-stable = {
 
@@ -106,6 +105,14 @@
           trafficType = "any";
         }
       ];
+    };
+
+    policy.interfaceTags = {
+      tenant-mgmt = "mgmt";
+      tenant-admin = "admin";
+      tenant-clients = "clients";
+      external-wan = "wan";
+      service-dns-site = "dns-site";
     };
 
     topology = {

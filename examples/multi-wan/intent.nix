@@ -51,6 +51,12 @@
       ];
     };
 
+    policy.interfaceTags = {
+      tenant-mgmt = "mgmt";
+      tenant-adm = "adm";
+      external-wan = "wan";
+    };
+
     topology = {
       nodes = {
         s-router-core-isp-a = {
@@ -168,6 +174,11 @@
           action = "allow";
         }
       ];
+    };
+
+    policy.interfaceTags = {
+      tenant-mgmt = "mgmt";
+      external-wan = "wan";
     };
 
     topology = {
