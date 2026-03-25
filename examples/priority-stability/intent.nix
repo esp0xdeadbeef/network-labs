@@ -127,6 +127,10 @@
           };
         };
 
+        s-router-upstream-selector = {
+          role = "upstream-selector";
+        };
+
         s-router-policy = {
           role = "policy";
         };
@@ -165,6 +169,10 @@
       links = [
         [
           "s-router-core"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-upstream-selector"
           "s-router-policy"
         ]
         [
