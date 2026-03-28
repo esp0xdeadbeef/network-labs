@@ -54,15 +54,31 @@
 
       relations = [
         {
+          id = "allow-tenants-to-wan";
+          priority = 50;
+          from = {
+            kind = "tenant-set";
+            members = [
+              "mgmt"
+              "admin"
+              "client"
+            ];
+          };
+          to = {
+            kind = "external";
+            name = "wan";
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+        {
           id = "allow-admin-to-any";
           priority = 100;
           from = {
             kind = "tenant";
             name = "admin";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
@@ -73,9 +89,7 @@
             kind = "tenant";
             name = "mgmt";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
@@ -86,9 +100,7 @@
             kind = "tenant";
             name = "client";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
@@ -98,6 +110,7 @@
         tenant-mgmt = "mgmt";
         tenant-admin = "admin";
         tenant-client = "client";
+        external-wan = "wan";
       };
     };
 
