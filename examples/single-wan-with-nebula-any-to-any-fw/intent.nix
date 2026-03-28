@@ -43,6 +43,7 @@
           name = "any";
           match = [
             {
+              proto = "any";
               family = "any";
             }
           ];
@@ -59,7 +60,9 @@
             kind = "tenant";
             name = "admin";
           };
-          to = "any";
+          to = {
+            kind = "any";
+          };
           trafficType = "any";
           action = "allow";
         }
@@ -70,7 +73,9 @@
             kind = "tenant";
             name = "mgmt";
           };
-          to = "any";
+          to = {
+            kind = "any";
+          };
           trafficType = "any";
           action = "allow";
         }
@@ -81,7 +86,9 @@
             kind = "tenant";
             name = "client";
           };
-          to = "any";
+          to = {
+            kind = "any";
+          };
           trafficType = "any";
           action = "allow";
         }
