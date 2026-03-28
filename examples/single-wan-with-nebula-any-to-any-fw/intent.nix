@@ -130,7 +130,7 @@
           role = "core";
           uplinks = {
             nebula = {
-              ipv4 = [ "100.64.0.0/64" ];
+              ipv4 = [ "100.64.0.0/10" ];
               ipv6 = [ "fd42::/48" ];
 
               ingressSubject = {
