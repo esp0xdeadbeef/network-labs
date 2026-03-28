@@ -113,7 +113,7 @@
           };
           to = {
             kind = "external";
-            name = "wan";
+            uplinks = [ "wan" ];
           };
           trafficType = "any";
           action = "allow";
@@ -341,7 +341,7 @@
           };
           to = {
             kind = "external";
-            name = "wan";
+            uplinks = [ "wan" ];
           };
           trafficType = "any";
           action = "allow";

@@ -32,7 +32,7 @@
 
       relations = [
         {
-          id = "allow-tenants-to-wan";
+          id = "allow-tenants-to-uplinks";
           priority = 100;
           from = {
             kind = "tenant-set";
@@ -43,7 +43,10 @@
           };
           to = {
             kind = "external";
-            name = "wan";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
           };
           trafficType = "any";
           action = "allow";
@@ -53,7 +56,8 @@
       interfaceTags = {
         tenant-mgmt = "mgmt";
         tenant-adm = "adm";
-        external-wan = "wan";
+        external-isp-a = "isp-a";
+        external-isp-b = "isp-b";
       };
     };
 
@@ -62,7 +66,7 @@
         s-router-core-isp-a = {
           role = "core";
           uplinks = {
-            wan = {
+            isp-a = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -72,7 +76,7 @@
         s-router-core-isp-b = {
           role = "core";
           uplinks = {
-            wan = {
+            isp-b = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -160,7 +164,7 @@
 
       relations = [
         {
-          id = "allow-mgmt-to-wan";
+          id = "allow-mgmt-to-uplinks";
           priority = 100;
           from = {
             kind = "tenant";
@@ -168,7 +172,10 @@
           };
           to = {
             kind = "external";
-            name = "wan";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
           };
           trafficType = "any";
           action = "allow";
@@ -177,7 +184,8 @@
 
       interfaceTags = {
         tenant-mgmt = "mgmt";
-        external-wan = "wan";
+        external-isp-a = "isp-a";
+        external-isp-b = "isp-b";
       };
     };
 
@@ -186,7 +194,7 @@
         s-router-core-isp-a = {
           role = "core";
           uplinks = {
-            wan = {
+            isp-a = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -196,7 +204,7 @@
         s-router-core-isp-b = {
           role = "core";
           uplinks = {
-            wan = {
+            isp-b = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };

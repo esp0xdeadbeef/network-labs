@@ -82,7 +82,7 @@
 
           to = {
             kind = "external";
-            name = "wan";
+            uplinks = [ "wan" ];
           };
 
           trafficType = "any";
@@ -95,7 +95,7 @@
 
           from = {
             kind = "external";
-            name = "wan";
+            uplinks = [ "wan" ];
           };
 
           to = {
