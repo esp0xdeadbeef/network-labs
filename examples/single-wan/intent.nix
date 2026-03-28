@@ -1,4 +1,3 @@
-# ./examples/single-wan/intent.nix
 {
   esp0xdeadbeef.site-a = {
 

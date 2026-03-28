@@ -59,9 +59,7 @@
             kind = "tenant";
             name = "admin";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
@@ -72,9 +70,7 @@
             kind = "tenant";
             name = "mgmt";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
@@ -85,9 +81,7 @@
             kind = "tenant";
             name = "client";
           };
-          to = {
-            kind = "any";
-          };
+          to = "any";
           trafficType = "any";
           action = "allow";
         }
