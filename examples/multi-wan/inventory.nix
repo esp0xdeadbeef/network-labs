@@ -116,8 +116,39 @@
             };
           };
 
+          downstream-selector = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-downstream-selector = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-downstream-selector";
+        };
+        ports = {
+          policy = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+
           access-adm = {
-            link = "p2p-s-router-access-adm-s-router-policy";
+            link = "p2p-s-router-access-adm-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -127,7 +158,7 @@
           };
 
           access-mgmt = {
-            link = "p2p-s-router-access-mgmt-s-router-policy";
+            link = "p2p-s-router-access-mgmt-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -147,8 +178,8 @@
           name = "s-router-access-adm";
         };
         ports = {
-          transit-policy = {
-            link = "p2p-s-router-access-adm-s-router-policy";
+          transit-downstream-selector = {
+            link = "p2p-s-router-access-adm-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -168,8 +199,8 @@
           name = "s-router-access-mgmt";
         };
         ports = {
-          transit-policy = {
-            link = "p2p-s-router-access-mgmt-s-router-policy";
+          transit-downstream-selector = {
+            link = "p2p-s-router-access-mgmt-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -282,8 +313,39 @@
             };
           };
 
+          downstream-selector = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens14";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-b-s-router-downstream-selector = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-b";
+          name = "s-router-downstream-selector";
+        };
+        ports = {
+          policy = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens13";
+            };
+          };
+
           access = {
-            link = "p2p-s-router-access-s-router-policy";
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -303,8 +365,8 @@
           name = "s-router-access";
         };
         ports = {
-          transit-policy = {
-            link = "p2p-s-router-access-s-router-policy";
+          transit-downstream-selector = {
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };

@@ -85,8 +85,39 @@
             };
           };
 
+          downstream-selector = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
+        };
+      };
+
+      enterprise-a-site-a-s-router-downstream-selector = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterprise-a";
+          site = "site-a";
+          name = "s-router-downstream-selector";
+        };
+        ports = {
+          policy = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+
           access = {
-            link = "p2p-s-router-access-s-router-policy";
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -106,8 +137,8 @@
           name = "s-router-access";
         };
         ports = {
-          transit-policy = {
-            link = "p2p-s-router-access-s-router-policy";
+          transit-downstream-selector = {
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -189,8 +220,39 @@
             };
           };
 
+          downstream-selector = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens14";
+            };
+          };
+        };
+      };
+
+      enterprise-b-site-b-s-router-downstream-selector = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterprise-b";
+          site = "site-b";
+          name = "s-router-downstream-selector";
+        };
+        ports = {
+          policy = {
+            link = "p2p-s-router-policy-s-router-downstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens13";
+            };
+          };
+
           access = {
-            link = "p2p-s-router-access-s-router-policy";
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };
@@ -210,8 +272,8 @@
           name = "s-router-access";
         };
         ports = {
-          transit-policy = {
-            link = "p2p-s-router-access-s-router-policy";
+          transit-downstream-selector = {
+            link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
               kind = "direct";
             };

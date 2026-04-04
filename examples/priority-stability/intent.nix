@@ -135,6 +135,10 @@
           role = "policy";
         };
 
+        s-router-downstream-selector = {
+          role = "downstream-selector";
+        };
+
         s-router-access-mgmt = {
           role = "access";
           attachments = [
@@ -177,14 +181,18 @@
         ]
         [
           "s-router-policy"
+          "s-router-downstream-selector"
+        ]
+        [
+          "s-router-downstream-selector"
           "s-router-access-mgmt"
         ]
         [
-          "s-router-policy"
+          "s-router-downstream-selector"
           "s-router-access-admin"
         ]
         [
-          "s-router-policy"
+          "s-router-downstream-selector"
           "s-router-access-clients"
         ]
       ];
