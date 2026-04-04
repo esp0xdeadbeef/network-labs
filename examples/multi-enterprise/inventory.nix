@@ -6,6 +6,12 @@
           uplink0 = {
             parent = "eno1";
             bridge = "br-uplink0";
+            ipv4 = {
+              method = "dhcp";
+            };
+            ipv6 = {
+              method = "slaac";
+            };
           };
         };
       };
@@ -30,6 +36,18 @@
             };
             interface = {
               name = "ens3";
+            };
+          };
+
+          wan = {
+            upstream = "uplink0";
+            link = "wan";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens4";
             };
           };
         };
@@ -196,6 +214,18 @@
             };
             interface = {
               name = "ens13";
+            };
+          };
+
+          wan = {
+            upstream = "uplink0";
+            link = "wan";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens14";
             };
           };
         };

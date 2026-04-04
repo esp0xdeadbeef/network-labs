@@ -11,116 +11,202 @@
     };
   };
 
-  fabric = {
-    s-router-access-admin = {
-      platform = "linux";
-      ports = {
-        transit-policy = {
-          kind = "p2p";
-          link = "p2p-s-router-access-admin-s-router-policy";
-          vlan = 100;
-        };
-
-        tenant-admin = {
-          attachment = {
-            kind = "tenant";
-            name = "admin";
-          };
-          hosts = [ "web01" ];
-        };
-      };
-    };
-
-    s-router-access-client = {
-      platform = "linux";
-      ports = {
-        transit-policy = {
-          kind = "p2p";
-          link = "p2p-s-router-access-client-s-router-policy";
-          vlan = 102;
-        };
-      };
-    };
-
-    s-router-access-mgmt = {
-      platform = "linux";
-      ports = {
-        transit-policy = {
-          kind = "p2p";
-          link = "p2p-s-router-access-mgmt-s-router-policy";
-          vlan = 101;
-        };
-
-        tenant-mgmt = {
-          attachment = {
-            kind = "tenant";
-            name = "mgmt";
-          };
-          hosts = [ "s-sigma" ];
-        };
-      };
-    };
-
-    s-router-policy = {
-      platform = "linux";
-      ports = {
-        transit-admin = {
-          kind = "p2p";
-          link = "p2p-s-router-access-admin-s-router-policy";
-          vlan = 100;
-        };
-
-        transit-client = {
-          kind = "p2p";
-          link = "p2p-s-router-access-client-s-router-policy";
-          vlan = 102;
-        };
-
-        transit-mgmt = {
-          kind = "p2p";
-          link = "p2p-s-router-access-mgmt-s-router-policy";
-          vlan = 101;
-        };
-
-        upstream-selector = {
-          kind = "p2p";
-          link = "p2p-s-router-policy-s-router-upstream-selector";
-          vlan = 201;
-        };
-      };
-    };
-
-    s-router-core-wan = {
-      platform = "linux";
-      ports = {
-        upstream-selector = {
-          kind = "p2p";
-          link = "p2p-s-router-core-wan-s-router-upstream-selector";
-          vlan = 200;
-        };
-
-        wan = {
-          attachment = {
-            kind = "external";
-            name = "wan";
+  deployment = {
+    hosts = {
+      lab-host = {
+        uplinks = {
+          uplink0 = {
+            parent = "eno1";
+            bridge = "br-uplink0";
+            ipv4 = {
+              method = "dhcp";
+            };
+            ipv6 = {
+              method = "slaac";
+            };
           };
         };
       };
     };
+  };
 
-    s-router-upstream-selector = {
-      platform = "linux";
-      ports = {
-        core = {
-          kind = "p2p";
-          link = "p2p-s-router-core-wan-s-router-upstream-selector";
-          vlan = 200;
+  realization = {
+    nodes = {
+      esp0xdeadbeef-site-a-s-router-core-wan = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-core-wan";
         };
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
 
-        policy = {
-          kind = "p2p";
-          link = "p2p-s-router-policy-s-router-upstream-selector";
-          vlan = 201;
+          wan = {
+            upstream = "uplink0";
+            link = "wan";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-upstream-selector = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-upstream-selector";
+        };
+        ports = {
+          core = {
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+
+          policy = {
+            link = "p2p-s-router-policy-s-router-upstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-policy = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-policy";
+        };
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-policy-s-router-upstream-selector";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+
+          access-client = {
+            link = "p2p-s-router-access-client-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
+
+          access-admin = {
+            link = "p2p-s-router-access-admin-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens5";
+            };
+          };
+
+          access-mgmt = {
+            link = "p2p-s-router-access-mgmt-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens6";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-access-client = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-access-client";
+        };
+        ports = {
+          transit-policy = {
+            link = "p2p-s-router-access-client-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-access-admin = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-access-admin";
+        };
+        ports = {
+          transit-policy = {
+            link = "p2p-s-router-access-admin-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-access-mgmt = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-access-mgmt";
+        };
+        ports = {
+          transit-policy = {
+            link = "p2p-s-router-access-mgmt-s-router-policy";
+            attach = {
+              kind = "direct";
+            };
+            interface = {
+              name = "ens3";
+            };
+          };
         };
       };
     };
