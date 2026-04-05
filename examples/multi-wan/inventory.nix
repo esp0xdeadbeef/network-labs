@@ -6,6 +6,23 @@
           uplink0 = {
             parent = "eno1";
             bridge = "br-uplink0";
+            ipv4 = {
+              method = "dhcp";
+            };
+            ipv6 = {
+              method = "slaac";
+            };
+          };
+
+          uplink1 = {
+            parent = "eno2";
+            bridge = "br-uplink1";
+            ipv4 = {
+              method = "dhcp";
+            };
+            ipv6 = {
+              method = "slaac";
+            };
           };
         };
       };
@@ -32,6 +49,18 @@
               name = "ens3";
             };
           };
+
+          isp-a = {
+            upstream = "uplink0";
+            link = "isp-a";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens4";
+            };
+          };
         };
       };
 
@@ -51,6 +80,18 @@
             };
             interface = {
               name = "ens3";
+            };
+          };
+
+          isp-b = {
+            upstream = "uplink1";
+            link = "isp-b";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink1";
+            };
+            interface = {
+              name = "ens4";
             };
           };
         };
@@ -117,7 +158,7 @@
           };
 
           downstream-selector = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -138,7 +179,7 @@
         };
         ports = {
           policy = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -229,6 +270,18 @@
               name = "ens13";
             };
           };
+
+          isp-a = {
+            upstream = "uplink0";
+            link = "isp-a";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens14";
+            };
+          };
         };
       };
 
@@ -248,6 +301,18 @@
             };
             interface = {
               name = "ens13";
+            };
+          };
+
+          isp-b = {
+            upstream = "uplink1";
+            link = "isp-b";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink1";
+            };
+            interface = {
+              name = "ens14";
             };
           };
         };
@@ -314,7 +379,7 @@
           };
 
           downstream-selector = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -335,7 +400,7 @@
         };
         ports = {
           policy = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };

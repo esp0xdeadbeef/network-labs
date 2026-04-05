@@ -104,7 +104,7 @@
           };
 
           downstream-selector = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -125,7 +125,7 @@
         };
         ports = {
           policy = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -313,7 +313,7 @@
           };
 
           downstream-selector = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -334,7 +334,7 @@
         };
         ports = {
           policy = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };

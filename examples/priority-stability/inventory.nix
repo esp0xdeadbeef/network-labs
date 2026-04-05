@@ -6,6 +6,12 @@
           uplink0 = {
             parent = "eno1";
             bridge = "br-uplink0";
+            ipv4 = {
+              method = "dhcp";
+            };
+            ipv6 = {
+              method = "slaac";
+            };
           };
         };
       };
@@ -30,6 +36,18 @@
             };
             interface = {
               name = "ens3";
+            };
+          };
+
+          wan = {
+            upstream = "uplink0";
+            link = "wan";
+            attach = {
+              kind = "bridge";
+              bridge = "br-uplink0";
+            };
+            interface = {
+              name = "ens4";
             };
           };
         };
@@ -86,7 +104,7 @@
           };
 
           downstream-selector = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
@@ -107,7 +125,7 @@
         };
         ports = {
           policy = {
-            link = "p2p-s-router-policy-s-router-downstream-selector";
+            link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
               kind = "direct";
             };
