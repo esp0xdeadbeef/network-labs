@@ -192,13 +192,13 @@
                 start = "10.20.10.100";
                 end = "10.20.10.200";
               };
-              dnsServers = [ "10.20.10.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-mgmt = {
-              rdnss = [ "fd42:dead:beef:10::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
@@ -231,13 +231,13 @@
                 start = "10.20.15.100";
                 end = "10.20.15.200";
               };
-              dnsServers = [ "10.20.15.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-admin = {
-              rdnss = [ "fd42:dead:beef:15::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
@@ -270,13 +270,13 @@
                 start = "10.20.20.100";
                 end = "10.20.20.200";
               };
-              dnsServers = [ "10.20.20.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-clients = {
-              rdnss = [ "fd42:dead:beef:20::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
@@ -455,13 +455,13 @@
                 start = "10.30.10.100";
                 end = "10.30.10.200";
               };
-              dnsServers = [ "10.30.10.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-mgmt = {
-              rdnss = [ "fd42:dead:beef:11::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
@@ -494,13 +494,13 @@
                 start = "10.30.15.100";
                 end = "10.30.15.200";
               };
-              dnsServers = [ "10.30.15.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-admin = {
-              rdnss = [ "fd42:dead:beef:15::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
@@ -533,13 +533,13 @@
                 start = "10.30.20.100";
                 end = "10.30.20.200";
               };
-              dnsServers = [ "10.30.20.1" ];
+              dnsServers = [ "router-self" ];
               domain = "lan.";
             };
           };
           ipv6Ra = {
             tenant-clients = {
-              rdnss = [ "fd42:dead:beef:20::1" ];
+              rdnss = [ "router-self" ];
               dnssl = [ "lan." ];
             };
           };
