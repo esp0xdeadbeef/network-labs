@@ -165,6 +165,24 @@
             };
           };
         };
+        advertisements = {
+          dhcp4 = {
+            tenant-mgmt = {
+              pool = {
+                start = "10.20.10.100";
+                end = "10.20.10.200";
+              };
+              dnsServers = [ "10.20.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-mgmt = {
+              rdnss = [ "fd42:dead:beef:10::1" ];
+              dnssl = [ "lan." ];
+            };
+          };
+        };
       };
 
       enterprise-b-site-b-s-router-core = {
@@ -309,6 +327,24 @@
             };
             interface = {
               name = "ens13";
+            };
+          };
+        };
+        advertisements = {
+          dhcp4 = {
+            tenant-mgmt = {
+              pool = {
+                start = "10.30.10.100";
+                end = "10.30.10.200";
+              };
+              dnsServers = [ "10.30.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-mgmt = {
+              rdnss = [ "fd42:dead:beef:11::1" ];
+              dnssl = [ "lan." ];
             };
           };
         };

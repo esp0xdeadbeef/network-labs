@@ -71,11 +71,6 @@
           trafficType = "dns";
           providers = [ ];
         }
-        {
-          name = "external-jump-host";
-          trafficType = "ssh";
-          providers = [ ];
-        }
       ];
 
       relations = [
@@ -135,6 +130,20 @@
           trafficType = "any";
           action = "deny";
         }
+        {
+          id = "allow-admin-to-nebula-ssh";
+          priority = 210;
+          from = {
+            kind = "tenant";
+            name = "admin";
+          };
+          to = {
+            kind = "external";
+            name = "nebula";
+          };
+          trafficType = "ssh";
+          action = "allow";
+        }
       ];
 
       interfaceTags = {
@@ -142,10 +151,22 @@
         tenant-admin = "admin";
         tenant-client = "client";
         external-wan = "wan";
+        external-nebula = "nebula";
         service-dns-site = "dns-site";
-        service-external-jump-host = "external-jump-host";
       };
     };
+
+    transport.overlays = [
+      {
+        name = "nebula";
+        terminateOn = "s-router-core-wan";
+        mustTraverse = [ "policy" ];
+        ingressSubject = {
+          kind = "tenant";
+          name = "admin";
+        };
+      }
+    ];
 
     topology = {
       nodes = {
@@ -155,21 +176,6 @@
             wan = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
-            };
-          };
-        };
-
-        s-router-core-nebula = {
-          role = "core";
-          uplinks = {
-            nebula = {
-              ipv4 = [ "100.64.0.0/10" ];
-              ipv6 = [ "fd42::/48" ];
-
-              ingressSubject = {
-                kind = "tenant";
-                name = "admin";
-              };
             };
           };
         };
@@ -221,10 +227,6 @@
           "s-router-upstream-selector"
         ]
         [
-          "s-router-core-nebula"
-          "s-router-upstream-selector"
-        ]
-        [
           "s-router-upstream-selector"
           "s-router-policy"
         ]
@@ -240,7 +242,6 @@
           "s-router-downstream-selector"
           "s-router-access-admin"
         ]
-
         [
           "s-router-downstream-selector"
           "s-router-access-mgmt"

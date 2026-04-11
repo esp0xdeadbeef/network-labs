@@ -13,16 +13,6 @@
               method = "slaac";
             };
           };
-          uplink1 = {
-            parent = "eno2";
-            bridge = "br-uplink1";
-            ipv4 = {
-              method = "dhcp";
-            };
-            ipv6 = {
-              method = "slaac";
-            };
-          };
         };
       };
     };
@@ -63,39 +53,6 @@
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-core-nebula = {
-        host = "lab-host";
-        platform = "linux";
-        logicalNode = {
-          enterprise = "esp0xdeadbeef";
-          site = "site-a";
-          name = "s-router-core-nebula";
-        };
-        ports = {
-          upstream-selector = {
-            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
-            attach = {
-              kind = "direct";
-            };
-            interface = {
-              name = "ens3";
-            };
-          };
-
-          nebula = {
-            upstream = "uplink1";
-            link = "nebula";
-            attach = {
-              kind = "bridge";
-              bridge = "br-uplink1";
-            };
-            interface = {
-              name = "ens4";
-            };
-          };
-        };
-      };
-
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
         host = "lab-host";
         platform = "linux";
@@ -115,23 +72,13 @@
             };
           };
 
-          core-nebula = {
-            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
-            attach = {
-              kind = "direct";
-            };
-            interface = {
-              name = "ens4";
-            };
-          };
-
           policy = {
             link = "p2p-s-router-policy-s-router-upstream-selector";
             attach = {
               kind = "direct";
             };
             interface = {
-              name = "ens5";
+              name = "ens4";
             };
           };
         };
@@ -238,6 +185,24 @@
             };
           };
         };
+        advertisements = {
+          dhcp4 = {
+            tenant-client = {
+              pool = {
+                start = "10.20.20.100";
+                end = "10.20.20.200";
+              };
+              dnsServers = [ "10.20.20.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-client = {
+              rdnss = [ "fd42:dead:beef:20::1" ];
+              dnssl = [ "lan." ];
+            };
+          };
+        };
       };
 
       esp0xdeadbeef-site-a-s-router-access-admin = {
@@ -259,6 +224,24 @@
             };
           };
         };
+        advertisements = {
+          dhcp4 = {
+            tenant-admin = {
+              pool = {
+                start = "10.20.15.100";
+                end = "10.20.15.200";
+              };
+              dnsServers = [ "10.20.15.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-admin = {
+              rdnss = [ "fd42:dead:beef:15::1" ];
+              dnssl = [ "lan." ];
+            };
+          };
+        };
       };
 
       esp0xdeadbeef-site-a-s-router-access-mgmt = {
@@ -277,6 +260,24 @@
             };
             interface = {
               name = "ens3";
+            };
+          };
+        };
+        advertisements = {
+          dhcp4 = {
+            tenant-mgmt = {
+              pool = {
+                start = "10.20.10.100";
+                end = "10.20.10.200";
+              };
+              dnsServers = [ "10.20.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-mgmt = {
+              rdnss = [ "fd42:dead:beef:10::1" ];
+              dnssl = [ "lan." ];
             };
           };
         };
