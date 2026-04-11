@@ -229,6 +229,24 @@
             };
           };
         };
+        advertisements = {
+          dhcp4 = {
+            tenant-adm = {
+              pool = {
+                start = "10.21.10.100";
+                end = "10.21.10.200";
+              };
+              dnsServers = [ "10.21.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-adm = {
+              rdnss = [ "fd42:dead:beef:21::1" ];
+              dnssl = [ "lan." ];
+            };
+          };
+        };
       };
 
       esp0xdeadbeef-site-a-s-router-access-mgmt = {
@@ -247,6 +265,24 @@
             };
             interface = {
               name = "ens3";
+            };
+          };
+        };
+        advertisements = {
+          dhcp4 = {
+            tenant-mgmt = {
+              pool = {
+                start = "10.20.10.100";
+                end = "10.20.10.200";
+              };
+              dnsServers = [ "10.20.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-mgmt = {
+              rdnss = [ "fd42:dead:beef:20::1" ];
+              dnssl = [ "lan." ];
             };
           };
         };
@@ -437,6 +473,24 @@
             };
             interface = {
               name = "ens13";
+            };
+          };
+        };
+        advertisements = {
+          dhcp4 = {
+            tenant-mgmt = {
+              pool = {
+                start = "10.30.10.100";
+                end = "10.30.10.200";
+              };
+              dnsServers = [ "10.30.10.1" ];
+              domain = "lan.";
+            };
+          };
+          ipv6Ra = {
+            tenant-mgmt = {
+              rdnss = [ "fd42:dead:beef:11::1" ];
+              dnssl = [ "lan." ];
             };
           };
         };

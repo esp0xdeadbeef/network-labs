@@ -111,8 +111,21 @@
         tenant-admin = "admin";
         tenant-client = "client";
         external-wan = "wan";
+        external-nebula = "nebula";
       };
     };
+
+    transport.overlays = [
+      {
+        name = "nebula";
+        terminateOn = "s-router-core-wan";
+        mustTraverse = [ "policy" ];
+        ingressSubject = {
+          kind = "tenant";
+          name = "admin";
+        };
+      }
+    ];
 
     topology = {
       nodes = {
@@ -122,21 +135,6 @@
             wan = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
-            };
-          };
-        };
-
-        s-router-core-nebula = {
-          role = "core";
-          uplinks = {
-            nebula = {
-              ipv4 = [ "100.64.0.0/10" ];
-              ipv6 = [ "fd42::/48" ];
-
-              ingressSubject = {
-                kind = "tenant";
-                name = "admin";
-              };
             };
           };
         };
@@ -187,10 +185,6 @@
       links = [
         [
           "s-router-core-wan"
-          "s-router-upstream-selector"
-        ]
-        [
-          "s-router-core-nebula"
           "s-router-upstream-selector"
         ]
         [
