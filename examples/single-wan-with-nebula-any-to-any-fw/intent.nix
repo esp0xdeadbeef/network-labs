@@ -72,6 +72,20 @@
           action = "allow";
         }
         {
+          id = "allow-admin-to-nebula";
+          priority = 75;
+          from = {
+            kind = "tenant";
+            name = "admin";
+          };
+          to = {
+            kind = "external";
+            name = "nebula";
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+        {
           id = "allow-admin-to-any";
           priority = 100;
           from = {
