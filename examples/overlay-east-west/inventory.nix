@@ -14,6 +14,18 @@
             };
           };
         };
+
+        bridgeNetworks = {
+          br-site-a-core-upstream = { };
+          br-site-a-upstream-policy = { };
+          br-site-a-policy-downstream = { };
+          br-site-a-downstream-access = { };
+
+          br-site-b-core-upstream = { };
+          br-site-b-upstream-policy = { };
+          br-site-b-policy-downstream = { };
+          br-site-b-downstream-access = { };
+        };
       };
     };
   };
@@ -28,11 +40,17 @@
           site = "site-a";
           name = "s-router-core";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-core-upstream";
             };
             interface = {
               name = "ens3";
@@ -40,8 +58,8 @@
           };
 
           isp = {
-            upstream = "uplink0";
-            link = "isp";
+            uplink = "isp";
+            external = true;
             attach = {
               kind = "bridge";
               bridge = "br-uplink0";
@@ -61,11 +79,17 @@
           site = "site-a";
           name = "s-router-upstream-selector";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           core = {
             link = "p2p-s-router-core-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-core-upstream";
             };
             interface = {
               name = "ens3";
@@ -75,7 +99,8 @@
           policy = {
             link = "p2p-s-router-policy-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-upstream-policy";
             };
             interface = {
               name = "ens4";
@@ -92,11 +117,17 @@
           site = "site-a";
           name = "s-router-policy";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           upstream-selector = {
             link = "p2p-s-router-policy-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-upstream-policy";
             };
             interface = {
               name = "ens3";
@@ -106,7 +137,8 @@
           downstream-selector = {
             link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-policy-downstream";
             };
             interface = {
               name = "ens4";
@@ -123,11 +155,17 @@
           site = "site-a";
           name = "s-router-downstream-selector";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           policy = {
             link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-policy-downstream";
             };
             interface = {
               name = "ens3";
@@ -137,7 +175,8 @@
           access = {
             link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-downstream-access";
             };
             interface = {
               name = "ens4";
@@ -154,11 +193,17 @@
           site = "site-a";
           name = "s-router-access";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-a-downstream-access";
             };
             interface = {
               name = "ens3";
@@ -193,11 +238,17 @@
           site = "site-b";
           name = "s-router-core";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-core-upstream";
             };
             interface = {
               name = "ens13";
@@ -205,8 +256,8 @@
           };
 
           isp = {
-            upstream = "uplink0";
-            link = "isp";
+            uplink = "isp";
+            external = true;
             attach = {
               kind = "bridge";
               bridge = "br-uplink0";
@@ -226,11 +277,17 @@
           site = "site-b";
           name = "s-router-upstream-selector";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           core = {
             link = "p2p-s-router-core-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-core-upstream";
             };
             interface = {
               name = "ens13";
@@ -240,7 +297,8 @@
           policy = {
             link = "p2p-s-router-policy-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-upstream-policy";
             };
             interface = {
               name = "ens14";
@@ -257,11 +315,17 @@
           site = "site-b";
           name = "s-router-policy";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           upstream-selector = {
             link = "p2p-s-router-policy-s-router-upstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-upstream-policy";
             };
             interface = {
               name = "ens13";
@@ -271,7 +335,8 @@
           downstream-selector = {
             link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-policy-downstream";
             };
             interface = {
               name = "ens14";
@@ -288,11 +353,17 @@
           site = "site-b";
           name = "s-router-downstream-selector";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           policy = {
             link = "p2p-s-router-downstream-selector-s-router-policy";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-policy-downstream";
             };
             interface = {
               name = "ens13";
@@ -302,7 +373,8 @@
           access = {
             link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-downstream-access";
             };
             interface = {
               name = "ens14";
@@ -319,11 +391,17 @@
           site = "site-b";
           name = "s-router-access";
         };
+        containers = {
+          default = {
+            runtimeName = "default";
+          };
+        };
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-s-router-downstream-selector";
             attach = {
-              kind = "direct";
+              kind = "bridge";
+              bridge = "br-site-b-downstream-access";
             };
             interface = {
               name = "ens13";
