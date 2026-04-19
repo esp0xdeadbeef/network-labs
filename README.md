@@ -24,13 +24,10 @@ From `network-labs/`:
 
 ```bash
 LABS_DIR="$(pwd)"
-(
-  cd ../network-control-plane-model
-  nix run .#compile-and-build-control-plane-model -- \
-    "$LABS_DIR/examples/single-wan/intent.nix" \
-    "$LABS_DIR/examples/single-wan/inventory.nix" \
-    "$LABS_DIR/output-control-plane-model.json"
-)
+nix run github:esp0xdeadbeef/network-control-plane-model#compile-and-build-control-plane-model -- \
+  "$LABS_DIR/examples/single-wan/intent.nix" \
+  "$LABS_DIR/examples/single-wan/inventory.nix" \
+  "$LABS_DIR/output-control-plane-model.json"
 ```
 
 This produces a renderer-neutral control-plane JSON that downstream renderers consume.
@@ -38,22 +35,16 @@ This produces a renderer-neutral control-plane JSON that downstream renderers co
 ### Render to Containerlab
 
 ```bash
-(
-  cd ../network-renderer-containerlab-linux-backend
-  nix run .#generate-clab-config -- \
-    "$LABS_DIR/output-control-plane-model.json" \
-    "$LABS_DIR/fabric.clab.yml" \
-    "$LABS_DIR/vm-bridges-generated.nix"
-)
+nix run github:esp0xdeadbeef/network-renderer-containerlab-linux-backend#generate-clab-config -- \
+  "$LABS_DIR/output-control-plane-model.json" \
+  "$LABS_DIR/fabric.clab.yml" \
+  "$LABS_DIR/vm-bridges-generated.nix"
 ```
 
 ### Render to NixOS artifacts (S88-style renderer)
 
 ```bash
-(
-  cd ../network-renderer-nixos
-  nix run .#render-dry-config -- --debug "$LABS_DIR/output-control-plane-model.json"
-)
+nix run github:esp0xdeadbeef/network-renderer-nixos#render-dry-config -- --debug "$LABS_DIR/output-control-plane-model.json"
 ```
 
 ## Notes / limitations
