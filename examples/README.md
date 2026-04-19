@@ -18,7 +18,10 @@ These examples are meant to be consumed by:
 
 - Transit link names are stable and normalized:
 
-  `p2p-<nodeA>-<nodeB>` where `<nodeA>` and `<nodeB>` are lexicographically ordered.
+  - Base: `p2p-<nodeA>-<nodeB>` where `<nodeA>` and `<nodeB>` are lexicographically ordered.
+  - Dedicated lane variants (when `transit.dedicatedLanes = true`):
+    - `p2p-<nodeA>-<nodeB>--access-<accessUnit>`
+    - `p2p-<nodeA>-<nodeB>--access-<accessUnit>--uplink-<uplinkName>`
 
   Inventories bind these link names to concrete L2 attachments (bridges/VLANs/subifs/etc).
 
@@ -29,6 +32,9 @@ These examples are meant to be consumed by:
 
 - `multi-wan`
   - Two sites, each with multiple uplinks (demonstrates multi-uplink intent + policy constraints).
+
+- `multi-wan-dedicated-lanes`
+  - Like `multi-wan`, but enables policy-derived dedicated transit lanes (multiple parallel p2p links).
 
 - `multi-enterprise`
   - Multiple enterprises and sites (demonstrates multi-enterprise scoping without changing layers).
@@ -45,10 +51,9 @@ These examples are meant to be consumed by:
 - `single-wan-any-to-any-fw`, `single-wan-with-nebula-any-to-any-fw`
   - More permissive policy variants for lab iteration.
 
-## Planned evolution
+## Dedicated transit lanes
 
-Policy-driven “dedicated transit lanes” (multiple p2p segments between the same two staged units) are intentionally not modeled yet,
-because the upstream model chain currently assumes “one p2p per node pair”.
+When you set `transit.dedicatedLanes = true` in `intent.nix`, the forwarding model will replace the single
+downstream-selector<->policy and policy<->upstream-selector transit segments with multiple p2p links ("lanes") derived from policy.
 
-Once lane-aware transit exists upstream, these examples will grow additional explicit link bindings in `inventory.nix` (one per lane).
-
+The control-plane model then requires inventory bindings for every derived lane link name (missing bindings hard-fail).
