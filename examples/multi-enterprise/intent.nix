@@ -141,14 +141,6 @@
         external-wan = "wan";
         service-dns-site = "dns-site";
         service-ntp-site = "ntp-site";
-
-        p2p-s-router-core-s-router-upstream-selector = "transit-core-upstream-selector";
-        p2p-s-router-policy-s-router-upstream-selector = "transit-policy-upstream-selector";
-        p2p-s-router-policy-s-router-downstream-selector = "transit-policy-downstream-selector";
-        p2p-s-router-access-mgmt-s-router-downstream-selector = "transit-access-mgmt-downstream-selector";
-        p2p-s-router-access-admin-s-router-downstream-selector = "transit-access-admin-downstream-selector";
-        p2p-s-router-access-clients-s-router-downstream-selector = "transit-access-clients-downstream-selector";
-        wan-s-router-core-wan = "wan";
       };
     };
 
@@ -378,14 +370,6 @@
         external-wan = "wan";
         service-dns-site = "dns-site";
         service-ntp-site = "ntp-site";
-
-        p2p-s-router-core-s-router-upstream-selector = "transit-core-upstream-selector";
-        p2p-s-router-policy-s-router-upstream-selector = "transit-policy-upstream-selector";
-        p2p-s-router-policy-s-router-downstream-selector = "transit-policy-downstream-selector";
-        p2p-s-router-access-mgmt-s-router-downstream-selector = "transit-access-mgmt-downstream-selector";
-        p2p-s-router-access-admin-s-router-downstream-selector = "transit-access-admin-downstream-selector";
-        p2p-s-router-access-clients-s-router-downstream-selector = "transit-access-clients-downstream-selector";
-        wan-s-router-core-wan = "wan";
       };
     };
 
