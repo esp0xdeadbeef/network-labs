@@ -19,6 +19,7 @@
           br-site-a-core-upstream = { };
           br-site-a-policy-upstream-access-client-wan = { };
           br-site-a-policy-upstream-access-admin-wan = { };
+          br-site-a-policy-upstream-access-admin-nebula = { };
           br-site-a-policy-upstream-access-mgmt-wan = { };
 
           br-site-a-downstream-policy-access-client = { };
@@ -113,11 +114,18 @@
             interface.name = "ens5";
           };
 
+          policy-access-admin-nebula = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-admin--uplink-nebula";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-policy-upstream-access-admin-nebula";
+            interface.name = "ens6";
+          };
+
           policy-access-mgmt-wan = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-wan";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-wan";
-            interface.name = "ens6";
+            interface.name = "ens7";
           };
         };
       };
@@ -150,32 +158,39 @@
             interface.name = "ens4";
           };
 
+          upstream-access-admin-nebula = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-admin--uplink-nebula";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-policy-upstream-access-admin-nebula";
+            interface.name = "ens5";
+          };
+
           upstream-access-mgmt-wan = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-wan";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-wan";
-            interface.name = "ens5";
+            interface.name = "ens6";
           };
 
           downstream-access-client = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-client";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-client";
-            interface.name = "ens6";
+            interface.name = "ens7";
           };
 
           downstream-access-admin = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-admin";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-admin";
-            interface.name = "ens7";
+            interface.name = "ens8";
           };
 
           downstream-access-mgmt = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-mgmt";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-mgmt";
-            interface.name = "ens8";
+            interface.name = "ens9";
           };
         };
       };
