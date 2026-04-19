@@ -99,25 +99,11 @@
             };
           };
 
-          policy-access-mgmt-wan = {
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-wan";
-            attach.kind = "bridge";
-            attach.bridge = "br-site-stable-policy-upstream-access-mgmt-wan";
-            interface.name = "ens4";
-          };
-
           policy-access-admin-wan = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-admin--uplink-wan";
             attach.kind = "bridge";
             attach.bridge = "br-site-stable-policy-upstream-access-admin-wan";
-            interface.name = "ens5";
-          };
-
-          policy-access-clients-wan = {
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-clients--uplink-wan";
-            attach.kind = "bridge";
-            attach.bridge = "br-site-stable-policy-upstream-access-clients-wan";
-            interface.name = "ens6";
+            interface.name = "ens4";
           };
         };
       };
@@ -136,46 +122,32 @@
           };
         };
         ports = {
-          upstream-access-mgmt-wan = {
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-wan";
-            attach.kind = "bridge";
-            attach.bridge = "br-site-stable-policy-upstream-access-mgmt-wan";
-            interface.name = "ens3";
-          };
-
           upstream-access-admin-wan = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-admin--uplink-wan";
             attach.kind = "bridge";
             attach.bridge = "br-site-stable-policy-upstream-access-admin-wan";
-            interface.name = "ens4";
-          };
-
-          upstream-access-clients-wan = {
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-clients--uplink-wan";
-            attach.kind = "bridge";
-            attach.bridge = "br-site-stable-policy-upstream-access-clients-wan";
-            interface.name = "ens5";
+            interface.name = "ens3";
           };
 
           downstream-access-mgmt = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-mgmt";
             attach.kind = "bridge";
             attach.bridge = "br-site-stable-downstream-policy-access-mgmt";
-            interface.name = "ens6";
+            interface.name = "ens4";
           };
 
           downstream-access-admin = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-admin";
             attach.kind = "bridge";
             attach.bridge = "br-site-stable-downstream-policy-access-admin";
-            interface.name = "ens7";
+            interface.name = "ens5";
           };
 
           downstream-access-clients = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-clients";
             attach.kind = "bridge";
             attach.bridge = "br-site-stable-downstream-policy-access-clients";
-            interface.name = "ens8";
+            interface.name = "ens6";
           };
         };
       };
