@@ -33,6 +33,12 @@
           br-site-a-downstream-client = { };
           br-site-a-downstream-admin = { };
           br-site-a-downstream-mgmt = { };
+          tr100 = { };
+          tr101 = { };
+          tr102 = { };
+          tr200 = { };
+          tr201 = { };
+          tr202 = { };
         };
       };
     };
