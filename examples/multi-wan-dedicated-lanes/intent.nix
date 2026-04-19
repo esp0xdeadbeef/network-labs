@@ -1,8 +1,6 @@
 {
   esp0xdeadbeef.site-a = {
-    # Enable policy-derived "dedicated transit lanes" so intent/egress constraints can
-    # force multiple parallel L2 segments between staged units (no renderer inference).
-    transit.dedicatedLanes = true;
+    # Policy-derived dedicated transit lanes are always enabled.
 
     pools = {
       p2p = {
@@ -151,4 +149,3 @@
     };
   };
 }
-
