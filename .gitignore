@@ -1,0 +1,7 @@
+/output-*.json
+/output-*-signed.json
+/fabric.clab.yml
+/vm-bridges-generated.nix
+/work/
+/result
+/result-*

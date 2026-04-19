@@ -17,13 +17,13 @@
 
         bridgeNetworks = {
           br-site-a-core-upstream = { };
-          br-site-a-upstream-policy = { };
-          br-site-a-policy-downstream = { };
+          br-site-a-policy-upstream-access-isp = { };
+          br-site-a-downstream-policy-access = { };
           br-site-a-downstream-access = { };
 
           br-site-b-core-upstream = { };
-          br-site-b-upstream-policy = { };
-          br-site-b-policy-downstream = { };
+          br-site-b-policy-upstream-access-isp = { };
+          br-site-b-downstream-policy-access = { };
           br-site-b-downstream-access = { };
         };
       };
@@ -96,15 +96,11 @@
             };
           };
 
-          policy = {
-            link = "p2p-s-router-policy-s-router-upstream-selector";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-a-upstream-policy";
-            };
-            interface = {
-              name = "ens4";
-            };
+          policy-access-isp = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-isp";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-policy-upstream-access-isp";
+            interface.name = "ens4";
           };
         };
       };
@@ -123,26 +119,18 @@
           };
         };
         ports = {
-          upstream-selector = {
-            link = "p2p-s-router-policy-s-router-upstream-selector";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-a-upstream-policy";
-            };
-            interface = {
-              name = "ens3";
-            };
+          upstream-access-isp = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-isp";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-policy-upstream-access-isp";
+            interface.name = "ens3";
           };
 
-          downstream-selector = {
-            link = "p2p-s-router-downstream-selector-s-router-policy";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-a-policy-downstream";
-            };
-            interface = {
-              name = "ens4";
-            };
+          downstream-access = {
+            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-downstream-policy-access";
+            interface.name = "ens4";
           };
         };
       };
@@ -161,15 +149,11 @@
           };
         };
         ports = {
-          policy = {
-            link = "p2p-s-router-downstream-selector-s-router-policy";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-a-policy-downstream";
-            };
-            interface = {
-              name = "ens3";
-            };
+          policy-access = {
+            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-a-downstream-policy-access";
+            interface.name = "ens3";
           };
 
           access = {
@@ -294,15 +278,11 @@
             };
           };
 
-          policy = {
-            link = "p2p-s-router-policy-s-router-upstream-selector";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-b-upstream-policy";
-            };
-            interface = {
-              name = "ens14";
-            };
+          policy-access-isp = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-isp";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-b-policy-upstream-access-isp";
+            interface.name = "ens14";
           };
         };
       };
@@ -321,26 +301,18 @@
           };
         };
         ports = {
-          upstream-selector = {
-            link = "p2p-s-router-policy-s-router-upstream-selector";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-b-upstream-policy";
-            };
-            interface = {
-              name = "ens13";
-            };
+          upstream-access-isp = {
+            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-isp";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-b-policy-upstream-access-isp";
+            interface.name = "ens13";
           };
 
-          downstream-selector = {
-            link = "p2p-s-router-downstream-selector-s-router-policy";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-b-policy-downstream";
-            };
-            interface = {
-              name = "ens14";
-            };
+          downstream-access = {
+            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-b-downstream-policy-access";
+            interface.name = "ens14";
           };
         };
       };
@@ -359,15 +331,11 @@
           };
         };
         ports = {
-          policy = {
-            link = "p2p-s-router-downstream-selector-s-router-policy";
-            attach = {
-              kind = "bridge";
-              bridge = "br-site-b-policy-downstream";
-            };
-            interface = {
-              name = "ens13";
-            };
+          policy-access = {
+            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            attach.kind = "bridge";
+            attach.bridge = "br-site-b-downstream-policy-access";
+            interface.name = "ens13";
           };
 
           access = {

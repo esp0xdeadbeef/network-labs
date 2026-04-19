@@ -58,6 +58,7 @@ This produces a renderer-neutral control-plane JSON that downstream renderers co
 
 ## Notes / limitations
 
-- Most examples use a single transit segment per canonical stage adjacency.
-- If you enable `transit.dedicatedLanes = true` (see `examples/multi-wan-dedicated-lanes`), policy intent can derive multiple parallel
-  transit p2p links ("dedicated L2 lanes"). These lane link names must be bound explicitly in `inventory.nix`.
+- Policy intent can derive multiple parallel transit p2p links ("dedicated lanes") between:
+  - downstream-selector <-> policy (one lane per access unit)
+  - policy <-> upstream-selector (one lane per access unit and allowed uplink)
+  These lane link names must be bound explicitly in `inventory.nix`.
