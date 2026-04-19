@@ -48,6 +48,6 @@ nix run ../network-renderer-nixos#render-dry-config -- --debug ./output-control-
 
 ## Notes / limitations
 
-- Today, the model chain assumes “one p2p transit link per node pair”. Policy-driven dedicated “L2 lanes” are planned upstream
-  (derived in the forwarding-model and bound via inventory in the control-plane-model). Until that exists, examples model a single
-  transit segment per canonical stage adjacency.
+- Most examples use a single transit segment per canonical stage adjacency.
+- If you enable `transit.dedicatedLanes = true` (see `examples/multi-wan-dedicated-lanes`), policy intent can derive multiple parallel
+  transit p2p links ("dedicated L2 lanes"). These lane link names must be bound explicitly in `inventory.nix`.
