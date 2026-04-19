@@ -30,6 +30,9 @@ These examples are meant to be consumed by:
 - `single-wan`
   - Minimal single-site, single-uplink topology.
 
+- `single-wan-bgp`
+  - Like `single-wan`, but inventory selects iBGP control-plane (`policy-rr`).
+
 - `multi-wan`
   - Two sites, each with multiple uplinks (demonstrates multi-uplink intent + policy constraints).
 
