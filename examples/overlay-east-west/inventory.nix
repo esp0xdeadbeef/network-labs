@@ -1,4 +1,30 @@
 {
+  controlPlane = {
+    sites = {
+      "enterprise-a" = {
+        "site-a" = {
+          overlays = {
+            "east-west" = {
+              provider = "nebula";
+              addr4 = "100.64.100.1/32";
+            };
+          };
+        };
+      };
+
+      "enterprise-b" = {
+        "site-b" = {
+          overlays = {
+            "east-west" = {
+              provider = "nebula";
+              addr4 = "100.64.100.2/32";
+            };
+          };
+        };
+      };
+    };
+  };
+
   deployment = {
     hosts = {
       lab-host = {

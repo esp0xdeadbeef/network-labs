@@ -1,4 +1,19 @@
 {
+  controlPlane = {
+    sites = {
+      esp0xdeadbeef = {
+        "site-a" = {
+          overlays = {
+            nebula = {
+              provider = "nebula";
+              addr4 = "100.64.200.1/32";
+            };
+          };
+        };
+      };
+    };
+  };
+
   deployment = {
     hosts = {
       lab-host = {
