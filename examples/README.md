@@ -36,6 +36,9 @@ These examples are meant to be consumed by:
 - `single-wan-vlan-trunk-lanes`
   - Like `single-wan`, but realizes lane links as VLANs on a single host trunk uplink.
 
+- `single-wan-ipv6-pd`
+  - Like `single-wan`, but inventory enables IPv6 prefix-delegation planning (PD) and per-tenant IPv6 modes.
+
 - `multi-wan`
   - Two sites, each with multiple uplinks (demonstrates multi-uplink intent + policy constraints).
 
