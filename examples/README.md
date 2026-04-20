@@ -42,6 +42,9 @@ These examples are meant to be consumed by:
 - `single-wan-vlan-trunk-lanes`
   - Like `single-wan`, but realizes lane links as VLANs on a single host trunk uplink.
 
+- `single-wan-direct-transit`
+  - Like `single-wan`, but realizes transit links via `attach.kind = "direct"` (no explicit host bridges).
+
 - `single-wan-ipv6-pd`
   - Like `single-wan`, but inventory enables IPv6 prefix-delegation planning (PD) and per-tenant IPv6 modes.
 
