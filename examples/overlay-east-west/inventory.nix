@@ -6,7 +6,11 @@
           overlays = {
             "east-west" = {
               provider = "nebula";
-              addr4 = "100.64.100.1/32";
+              nodes = {
+                "s-router-core" = {
+                  addr4 = "100.64.100.1/32";
+                };
+              };
             };
           };
         };
@@ -17,7 +21,11 @@
           overlays = {
             "east-west" = {
               provider = "nebula";
-              addr4 = "100.64.100.2/32";
+              nodes = {
+                "s-router-core" = {
+                  addr4 = "100.64.100.2/32";
+                };
+              };
             };
           };
         };
