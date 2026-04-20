@@ -6,7 +6,13 @@
           overlays = {
             nebula = {
               provider = "nebula";
-              addr4 = "100.64.200.1/32";
+              ipam = {
+                ipv4 = {
+                  prefix = "100.64.200.0/24";
+                  perNodePrefixLength = 32;
+                  offsetStart = 1;
+                };
+              };
             };
           };
         };

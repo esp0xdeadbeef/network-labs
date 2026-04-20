@@ -33,6 +33,12 @@ These examples are meant to be consumed by:
 - `single-wan-bgp`
   - Like `single-wan`, but inventory selects iBGP control-plane (`policy-rr`).
 
+- `single-wan-uplink-ebgp`
+  - Like `single-wan-bgp`, but inventory also declares an explicit eBGP uplink peer.
+
+- `single-wan-uplink-static-egress`
+  - Like `single-wan`, but inventory declares explicit static uplink egress routes.
+
 - `single-wan-vlan-trunk-lanes`
   - Like `single-wan`, but realizes lane links as VLANs on a single host trunk uplink.
 
@@ -72,11 +78,24 @@ The control-plane model then requires inventory bindings for every derived lane 
 Overlays are defined in `intent.nix` under `transport.overlays` (semantic overlay names like `"nebula"` or `"east-west"`).
 
 If you want the control-plane output to include explicit overlay provisioning hints (which termination nodes must be
-provisioned + which overlay IP they should use), set:
+provisioned + which overlay IP(s) they should use), set one of:
+
+- Deterministic per-site IPAM (best for single-site overlays):
+  - `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.ipam.ipv4.prefix = "<cidr>"`
+  - optional: `.ipam.ipv4.offsetStart` (default: 10)
+  - optional: `.ipam.ipv4.perNodePrefixLength` (default: 32)
+  - and/or `.ipam.ipv6.*` equivalents
+
+- Explicit per-node addresses (best for multi-site overlays where a per-site allocator would collide):
+  - `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.nodes.<nodeName>.addr4 = "<cidr>"`
+  - `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.nodes.<nodeName>.addr6 = "<cidr>"`
+
+Optional overlay metadata:
 
 - `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.provider` (optional)
-- `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.addr4` / `.addr6` (optional)
+- `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.nebula = { ... }` (optional; opaque)
 
-Then CPM emits:
+Then CPM emits (renderer-consumable):
 
-- `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>`
+- `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>.terminateOn`
+- `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>.nodes.<nodeName>.addr4/addr6`
