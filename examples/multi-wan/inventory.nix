@@ -6,6 +6,7 @@
           uplink0 = {
             parent = "eno1";
             bridge = "br-uplink0";
+            upstream = "isp-a";
             ipv4 = {
               method = "dhcp";
             };
@@ -17,6 +18,7 @@
           uplink1 = {
             parent = "eno2";
             bridge = "br-uplink1";
+            upstream = "isp-b";
             ipv4 = {
               method = "dhcp";
             };
