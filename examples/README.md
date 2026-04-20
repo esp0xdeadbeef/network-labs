@@ -63,3 +63,17 @@ The forwarding model replaces the single downstream-selector<->policy and policy
 segments with multiple p2p links ("lanes") derived from policy.
 
 The control-plane model then requires inventory bindings for every derived lane link name (missing bindings hard-fail).
+
+## Overlay provisioning (Nebula, etc.)
+
+Overlays are defined in `intent.nix` under `transport.overlays` (semantic overlay names like `"nebula"` or `"east-west"`).
+
+If you want the control-plane output to include explicit overlay provisioning hints (which termination nodes must be
+provisioned + which overlay IP they should use), set:
+
+- `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.provider` (optional)
+- `inventory.controlPlane.sites.<enterprise>.<site>.overlays.<overlayName>.addr4` / `.addr6` (optional)
+
+Then CPM emits:
+
+- `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>`
