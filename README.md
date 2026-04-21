@@ -6,11 +6,16 @@ Each example directory contains:
 
 - `intent.nix` - logical network intent (architecture, policy, overlays, uplinks)
 - `inventory.nix` - realization inventory (hosts, ports, bridges/VLANs/subifs, runtime targets)
+- optional `inventory-clab.nix` - containerlab-specific realization wrapper
+- optional `inventory-nixos.nix` - NixOS-renderer-specific realization wrapper
 
 The core contract is separation:
 
 `intent.nix` defines *what the network means*.
 `inventory.nix` defines *how that meaning is realized on a specific platform*.
+
+Renderer-specific wrappers exist for cases where the semantic lab is shared but one renderer needs
+additional consumer-side binding. That binding must stay in inventory space, not intent space.
 
 ## Examples
 
@@ -53,3 +58,6 @@ nix run github:esp0xdeadbeef/network-renderer-nixos#render-dry-config -- --debug
   - downstream-selector <-> policy (one lane per access unit)
   - policy <-> upstream-selector (one lane per access unit and allowed uplink)
   These lane link names must be bound explicitly in `inventory.nix`.
+
+- If an example is intended to be cross-renderer, keep `intent.nix` shared and add renderer wrappers
+  instead of forking the semantic intent.
