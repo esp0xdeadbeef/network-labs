@@ -5,6 +5,17 @@ Each example is a pair:
 - `intent.nix`: the logical network intent
 - `inventory.nix`: the realization inventory for a lab host
 
+Many examples also carry optional renderer wrappers:
+
+- `inventory-clab.nix`: containerlab-specific realization additions
+- `inventory-nixos.nix`: NixOS-renderer-specific realization additions
+
+The rule is:
+
+- keep semantic meaning in `intent.nix`
+- keep generic realization in `inventory.nix`
+- keep renderer-consumer bindings in renderer-specific inventory wrappers
+
 These examples are meant to be consumed by:
 
 - `network-control-plane-model` (to build `output-control-plane-model.json`)
@@ -57,6 +68,15 @@ These examples are meant to be consumed by:
 - `multi-enterprise`
   - Multiple enterprises and sites (demonstrates multi-enterprise scoping without changing layers).
 
+- `dual-wan-branch-overlay`
+  - Two enterprises with asymmetric WANs: HQ has dual uplinks plus a DMZ Nebula lighthouse, branch has one WAN plus policy-controlled east-west overlay reachability.
+  - Cross-renderer conformance example.
+  - `inventory-nixos.nix` adds the explicit host WAN-group binding required by the strict NixOS renderer.
+
+- `dual-wan-branch-overlay-bgp`
+  - Same topology as `dual-wan-branch-overlay`, but both sites enable iBGP control-plane (`policy-rr`).
+  - Cross-renderer conformance example.
+
 - `priority-stability`
   - Focused on relation ordering / priority determinism.
 
@@ -102,3 +122,11 @@ Then CPM emits (renderer-consumable):
 
 - `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>.terminateOn`
 - `control_plane_model.data.<enterprise>.<site>.overlays.<overlayName>.nodes.<nodeName>.addr4/addr6`
+
+## Cross-renderer rule
+
+If a lab should pass both renderers:
+
+- `intent.nix` must stay shared
+- `inventory.nix` should hold generic realization
+- renderer-only requirements such as host uplink selection must live in `inventory-<renderer>.nix`
