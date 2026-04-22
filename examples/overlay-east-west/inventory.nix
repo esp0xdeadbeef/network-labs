@@ -82,6 +82,7 @@
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-core-upstream-selector";
             attach = {
               kind = "bridge";
               bridge = "br-site-a-core-upstream";
@@ -121,6 +122,7 @@
         ports = {
           core = {
             link = "p2p-s-router-core-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-upstream-selector-core";
             attach = {
               kind = "bridge";
               bridge = "br-site-a-core-upstream";
@@ -132,6 +134,7 @@
 
           policy-access-east-west = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-east-west";
+            adapterName = "adp-enterprise-a-site-a-s-router-upstream-selector-policy-access-east-west";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-east-west";
             interface.name = "ens4";
@@ -155,6 +158,7 @@
         ports = {
           upstream-access-east-west = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-east-west";
+            adapterName = "adp-enterprise-a-site-a-s-router-policy-upstream-access-east-west";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-east-west";
             interface.name = "ens3";
@@ -162,6 +166,7 @@
 
           downstream-access = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            adapterName = "adp-enterprise-a-site-a-s-router-policy-downstream-access";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access";
             interface.name = "ens4";
@@ -185,6 +190,7 @@
         ports = {
           policy-access = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            adapterName = "adp-enterprise-a-site-a-s-router-downstream-selector-policy-access";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access";
             interface.name = "ens3";
@@ -192,6 +198,7 @@
 
           access = {
             link = "p2p-s-router-access-s-router-downstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-downstream-selector-access";
             attach = {
               kind = "bridge";
               bridge = "br-site-a-downstream-access";
@@ -219,6 +226,7 @@
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-s-router-downstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-access-transit-downstream-selector";
             attach = {
               kind = "bridge";
               bridge = "br-site-a-downstream-access";
@@ -264,6 +272,7 @@
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-core-upstream-selector";
             attach = {
               kind = "bridge";
               bridge = "br-site-b-core-upstream";
@@ -303,6 +312,7 @@
         ports = {
           core = {
             link = "p2p-s-router-core-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-upstream-selector-core";
             attach = {
               kind = "bridge";
               bridge = "br-site-b-core-upstream";
@@ -314,6 +324,7 @@
 
           policy-access-east-west = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-east-west";
+            adapterName = "adp-enterprise-b-site-b-s-router-upstream-selector-policy-access-east-west";
             attach.kind = "bridge";
             attach.bridge = "br-site-b-policy-upstream-access-east-west";
             interface.name = "ens14";
@@ -337,6 +348,7 @@
         ports = {
           upstream-access-east-west = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access--uplink-east-west";
+            adapterName = "adp-enterprise-b-site-b-s-router-policy-upstream-access-east-west";
             attach.kind = "bridge";
             attach.bridge = "br-site-b-policy-upstream-access-east-west";
             interface.name = "ens13";
@@ -344,6 +356,7 @@
 
           downstream-access = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            adapterName = "adp-enterprise-b-site-b-s-router-policy-downstream-access";
             attach.kind = "bridge";
             attach.bridge = "br-site-b-downstream-policy-access";
             interface.name = "ens14";
@@ -367,6 +380,7 @@
         ports = {
           policy-access = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access";
+            adapterName = "adp-enterprise-b-site-b-s-router-downstream-selector-policy-access";
             attach.kind = "bridge";
             attach.bridge = "br-site-b-downstream-policy-access";
             interface.name = "ens13";
@@ -374,6 +388,7 @@
 
           access = {
             link = "p2p-s-router-access-s-router-downstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-downstream-selector-access";
             attach = {
               kind = "bridge";
               bridge = "br-site-b-downstream-access";
@@ -401,6 +416,7 @@
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-s-router-downstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-access-transit-downstream-selector";
             attach = {
               kind = "bridge";
               bridge = "br-site-b-downstream-access";

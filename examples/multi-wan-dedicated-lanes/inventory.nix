@@ -53,6 +53,7 @@
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-isp-a-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-isp-a-upstream-selector";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-core-isp-a-upstream";
             interface.name = "ens3";
@@ -79,6 +80,7 @@
         ports = {
           upstream-selector = {
             link = "p2p-s-router-core-isp-b-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-isp-b-upstream-selector";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-core-isp-b-upstream";
             interface.name = "ens3";
@@ -105,6 +107,7 @@
         ports = {
           core-isp-a = {
             link = "p2p-s-router-core-isp-a-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-isp-a";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-core-isp-a-upstream";
             interface.name = "ens3";
@@ -112,6 +115,7 @@
 
           core-isp-b = {
             link = "p2p-s-router-core-isp-b-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-isp-b";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-core-isp-b-upstream";
             interface.name = "ens4";
@@ -119,6 +123,7 @@
 
           policy-access-adm-isp-a = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-adm--uplink-isp-a";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-adm-isp-a";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-adm-isp-a";
             interface.name = "ens5";
@@ -126,6 +131,7 @@
 
           policy-access-adm-isp-b = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-adm--uplink-isp-b";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-adm-isp-b";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-adm-isp-b";
             interface.name = "ens6";
@@ -133,6 +139,7 @@
 
           policy-access-mgmt-isp-a = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-mgmt-isp-a";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-isp-a";
             interface.name = "ens7";
@@ -140,6 +147,7 @@
 
           policy-access-mgmt-isp-b = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-mgmt-isp-b";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
             interface.name = "ens8";
@@ -158,6 +166,7 @@
         ports = {
           upstream-access-adm-isp-a = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-adm--uplink-isp-a";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-adm-isp-a";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-adm-isp-a";
             interface.name = "ens3";
@@ -165,6 +174,7 @@
 
           upstream-access-adm-isp-b = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-adm--uplink-isp-b";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-adm-isp-b";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-adm-isp-b";
             interface.name = "ens4";
@@ -172,6 +182,7 @@
 
           upstream-access-mgmt-isp-a = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-mgmt-isp-a";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-isp-a";
             interface.name = "ens5";
@@ -179,6 +190,7 @@
 
           upstream-access-mgmt-isp-b = {
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-mgmt-isp-b";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
             interface.name = "ens6";
@@ -186,6 +198,7 @@
 
           downstream-access-adm = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-adm";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-downstream-access-adm";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-adm";
             interface.name = "ens7";
@@ -193,6 +206,7 @@
 
           downstream-access-mgmt = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-mgmt";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-downstream-access-mgmt";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-mgmt";
             interface.name = "ens8";
@@ -211,6 +225,7 @@
         ports = {
           policy-access-adm = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-adm";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-policy-access-adm";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-adm";
             interface.name = "ens3";
@@ -218,6 +233,7 @@
 
           policy-access-mgmt = {
             link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-mgmt";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-policy-access-mgmt";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-policy-access-mgmt";
             interface.name = "ens4";
@@ -225,6 +241,7 @@
 
           access-adm = {
             link = "p2p-s-router-access-adm-s-router-downstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-access-adm";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-adm";
             interface.name = "ens5";
@@ -232,6 +249,7 @@
 
           access-mgmt = {
             link = "p2p-s-router-access-mgmt-s-router-downstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-access-mgmt";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-mgmt";
             interface.name = "ens6";
@@ -250,6 +268,7 @@
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-adm-s-router-downstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-access-adm-transit-downstream-selector";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-adm";
             interface.name = "ens3";
@@ -282,6 +301,7 @@
         ports = {
           transit-downstream-selector = {
             link = "p2p-s-router-access-mgmt-s-router-downstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-access-mgmt-transit-downstream-selector";
             attach.kind = "bridge";
             attach.bridge = "br-site-a-downstream-mgmt";
             interface.name = "ens3";
