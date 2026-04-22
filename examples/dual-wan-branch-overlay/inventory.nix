@@ -511,6 +511,7 @@
         containers.default.runtimeName = "default";
         ports.transit-downstream-selector = {
           link = "p2p-s-router-access-admin-s-router-downstream-selector";
+          adapterName = "adp-enterprisea-site-a-s-router-access-admin-transit-downstream-selector";
           attach = {
             kind = "bridge";
             bridge = "br-site-a-downstream-admin";
@@ -544,6 +545,7 @@
         containers.default.runtimeName = "default";
         ports.transit-downstream-selector = {
           link = "p2p-s-router-access-client-s-router-downstream-selector";
+          adapterName = "adp-enterprisea-site-a-s-router-access-client-transit-downstream-selector";
           attach = {
             kind = "bridge";
             bridge = "br-site-a-downstream-client";
@@ -577,6 +579,7 @@
         containers.default.runtimeName = "default";
         ports.transit-downstream-selector = {
           link = "p2p-s-router-access-mgmt-s-router-downstream-selector";
+          adapterName = "adp-enterprisea-site-a-s-router-access-mgmt-transit-downstream-selector";
           attach = {
             kind = "bridge";
             bridge = "br-site-a-downstream-mgmt";
@@ -610,6 +613,7 @@
         containers.default.runtimeName = "default";
         ports.transit-downstream-selector = {
           link = "p2p-s-router-access-dmz-s-router-downstream-selector";
+          adapterName = "adp-enterprisea-site-a-s-router-access-dmz-transit-downstream-selector";
           attach = {
             kind = "bridge";
             bridge = "br-site-a-downstream-dmz";
@@ -779,6 +783,7 @@
         containers.default.runtimeName = "default";
         ports.transit-downstream-selector = {
           link = "p2p-b-router-access-branch-b-router-downstream-selector";
+          adapterName = "adp-enterpriseb-site-b-b-router-access-branch-transit-downstream-selector";
           attach = {
             kind = "bridge";
             bridge = "br-site-b-downstream-branch";
