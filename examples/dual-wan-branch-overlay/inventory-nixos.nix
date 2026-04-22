@@ -1,5 +1,5 @@
 let
-  base = import ./inventory.nix;
+  base = import ./inventory-base.nix;
 in
 base
 // {

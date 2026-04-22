@@ -1,5 +1,5 @@
 let
-  base = import ../dual-wan-branch-overlay/inventory.nix;
+  base = import ../dual-wan-branch-overlay/inventory-base.nix;
 in
 base // {
   controlPlane =

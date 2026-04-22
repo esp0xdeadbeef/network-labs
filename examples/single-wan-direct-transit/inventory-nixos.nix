@@ -1,1 +1,1 @@
-import ./inventory.nix
+import ./inventory-base.nix

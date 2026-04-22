@@ -1,1 +1,1 @@
-import ../_shared-inventory-clab.nix { inventory = ./inventory.nix; }
+import ../_shared-inventory-clab.nix { inventory = ./inventory-base.nix; }
