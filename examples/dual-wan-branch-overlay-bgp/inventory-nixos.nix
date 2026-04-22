@@ -1,5 +1,5 @@
 let
-  base = import ./inventory.nix;
+  base = import ./inventory-base.nix;
   nixosBase = import ../dual-wan-branch-overlay/inventory-nixos.nix;
 in
 base
