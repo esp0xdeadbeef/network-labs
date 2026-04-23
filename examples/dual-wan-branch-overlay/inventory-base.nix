@@ -5,9 +5,16 @@
         "site-a" = {
           overlays.east-west = {
             provider = "nebula";
-            nodes.s-router-core-isp-b = {
-              addr4 = "100.96.10.1/32";
-              addr6 = "fd42:dead:beef:ee::1/128";
+            nodes = {
+              s-router-core-isp-b = {
+                addr4 = "100.96.10.1/32";
+                addr6 = "fd42:dead:beef:ee::1/128";
+              };
+
+              nebula-core = {
+                addr4 = "100.96.10.10/32";
+                addr6 = "fd42:dead:beef:ee::10/128";
+              };
             };
             nebula = {
               role = "core-client";
@@ -24,9 +31,16 @@
         "site-b" = {
           overlays.east-west = {
             provider = "nebula";
-            nodes.b-router-core = {
-              addr4 = "100.96.10.2/32";
-              addr6 = "fd42:dead:beef:ee::2/128";
+            nodes = {
+              b-router-core = {
+                addr4 = "100.96.10.2/32";
+                addr6 = "fd42:dead:beef:ee::2/128";
+              };
+
+              branch-node01 = {
+                addr4 = "100.96.10.20/32";
+                addr6 = "fd42:dead:beef:ee::20/128";
+              };
             };
             nebula = {
               role = "core-client";
