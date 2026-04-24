@@ -5,20 +5,24 @@
         "site-a" = {
           overlays.east-west = {
             provider = "nebula";
-            nodes = {
-              s-router-core-isp-b = {
-                addr4 = "100.96.10.1/32";
-                addr6 = "fd42:dead:beef:ee::1/128";
-              };
+            ipam = {
+              ipv4.prefix = "100.96.10.0/24";
+              ipv6.prefix = "fd42:dead:beef:ee::/64";
+              nodes = {
+                s-router-core-isp-b = {
+                  addr4 = "100.96.10.1/32";
+                  addr6 = "fd42:dead:beef:ee::1/128";
+                };
 
-              nebula-core = {
-                addr4 = "100.96.10.10/32";
-                addr6 = "fd42:dead:beef:ee::10/128";
-              };
+                nebula-core = {
+                  addr4 = "100.96.10.10/32";
+                  addr6 = "fd42:dead:beef:ee::10/128";
+                };
 
-              hetzner-nebula-prodtest-01 = {
-                addr4 = "100.96.10.254/32";
-                addr6 = "fd42:dead:beef:ee::254/128";
+                hetzner-nebula-prodtest-01 = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
               };
             };
             nebula = {
@@ -38,20 +42,24 @@
         "site-b" = {
           overlays.east-west = {
             provider = "nebula";
-            nodes = {
-              b-router-core = {
-                addr4 = "100.96.10.2/32";
-                addr6 = "fd42:dead:beef:ee::2/128";
-              };
+            ipam = {
+              ipv4.prefix = "100.96.10.0/24";
+              ipv6.prefix = "fd42:dead:beef:ee::/64";
+              nodes = {
+                b-router-core = {
+                  addr4 = "100.96.10.2/32";
+                  addr6 = "fd42:dead:beef:ee::2/128";
+                };
 
-              branch-node01 = {
-                addr4 = "100.96.10.20/32";
-                addr6 = "fd42:dead:beef:ee::20/128";
-              };
+                branch-node01 = {
+                  addr4 = "100.96.10.20/32";
+                  addr6 = "fd42:dead:beef:ee::20/128";
+                };
 
-              hetzner-nebula-prodtest-01 = {
-                addr4 = "100.96.10.254/32";
-                addr6 = "fd42:dead:beef:ee::254/128";
+                hetzner-nebula-prodtest-01 = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
               };
             };
             nebula = {
