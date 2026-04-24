@@ -19,7 +19,7 @@
             nebula = {
               role = "core-client";
               lighthouse = {
-                endpoint = "nebula01";
+                endpoint = "46.224.173.254";
                 port = 4242;
               };
             };
@@ -45,7 +45,7 @@
             nebula = {
               role = "core-client";
               lighthouse = {
-                endpoint = "nebula01";
+                endpoint = "46.224.173.254";
                 port = 4242;
               };
             };
