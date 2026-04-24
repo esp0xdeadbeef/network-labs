@@ -15,11 +15,18 @@
                 addr4 = "100.96.10.10/32";
                 addr6 = "fd42:dead:beef:ee::10/128";
               };
+
+              hetzner-nebula-prodtest-01 = {
+                addr4 = "100.96.10.254/32";
+                addr6 = "fd42:dead:beef:ee::254/128";
+              };
             };
             nebula = {
               role = "core-client";
               lighthouse = {
+                node = "hetzner-nebula-prodtest-01";
                 endpoint = "46.224.173.254";
+                endpoint6 = "2a01:4f8:c013:628b::1";
                 port = 4242;
               };
             };
@@ -41,11 +48,18 @@
                 addr4 = "100.96.10.20/32";
                 addr6 = "fd42:dead:beef:ee::20/128";
               };
+
+              hetzner-nebula-prodtest-01 = {
+                addr4 = "100.96.10.254/32";
+                addr6 = "fd42:dead:beef:ee::254/128";
+              };
             };
             nebula = {
               role = "core-client";
               lighthouse = {
+                node = "hetzner-nebula-prodtest-01";
                 endpoint = "46.224.173.254";
+                endpoint6 = "2a01:4f8:c013:628b::1";
                 port = 4242;
               };
             };
