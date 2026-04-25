@@ -15,7 +15,7 @@ base
               wanGroupToUplink = {
                 "enterpriseA::site-a::s-router-core-isp-a" = "uplink0";
                 "enterpriseA::site-a::s-router-core-isp-b" = "uplink1";
-                "enterpriseB::site-b::b-router-core" = "uplink1";
+                "enterpriseB::site-b::b-router-core-wan" = "uplink1";
               };
             };
         };
