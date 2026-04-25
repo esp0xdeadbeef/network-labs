@@ -9,7 +9,7 @@
               ipv4.prefix = "100.96.10.0/24";
               ipv6.prefix = "fd42:dead:beef:ee::/64";
               nodes = {
-                s-router-core-isp-b = {
+                s-router-core-nebula = {
                   addr4 = "100.96.10.1/32";
                   addr6 = "fd42:dead:beef:ee::1/128";
                 };
@@ -46,7 +46,7 @@
               ipv4.prefix = "100.96.10.0/24";
               ipv6.prefix = "fd42:dead:beef:ee::/64";
               nodes = {
-                b-router-core = {
+                b-router-core-nebula = {
                   addr4 = "100.96.10.2/32";
                   addr6 = "fd42:dead:beef:ee::2/128";
                 };
@@ -96,11 +96,28 @@
             ipv4.method = "dhcp";
             ipv6.method = "slaac";
           };
+
+          east-west-site-a = {
+            parent = "eno3";
+            bridge = "br-site-a-core-nebula-east-west";
+            upstream = "east-west";
+            ipv4.method = "dhcp";
+            ipv6.method = "slaac";
+          };
+
+          east-west-site-b = {
+            parent = "eno4";
+            bridge = "br-site-b-core-nebula-east-west";
+            upstream = "east-west";
+            ipv4.method = "dhcp";
+            ipv6.method = "slaac";
+          };
         };
 
         bridgeNetworks = {
           br-site-a-core-isp-a-upstream = { };
           br-site-a-core-isp-b-upstream = { };
+          br-site-a-core-nebula-upstream = { };
 
           br-site-a-policy-upstream-access-admin-isp-a = { };
           br-site-a-policy-upstream-access-admin-isp-b = { };
@@ -124,7 +141,8 @@
           br-site-a-downstream-mgmt = { };
           br-site-a-downstream-dmz = { };
 
-          br-site-b-core-upstream = { };
+          br-site-b-core-wan-upstream = { };
+          br-site-b-core-nebula-upstream = { };
           br-site-b-policy-upstream-access-branch-wan = { };
           br-site-b-policy-upstream-access-branch-east-west = { };
           br-site-b-downstream-policy-access-branch = { };
@@ -200,6 +218,38 @@
         };
       };
 
+      enterpriseA-site-a-s-router-core-nebula = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterpriseA";
+          site = "site-a";
+          name = "s-router-core-nebula";
+        };
+        containers.default.runtimeName = "default";
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprisea-site-a-s-router-core-nebula-upstream-selector";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens3";
+          };
+
+          east-west = {
+            uplink = "east-west";
+            external = true;
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-east-west";
+            };
+            interface.name = "ens4";
+          };
+        };
+      };
+
       enterpriseA-site-a-s-router-upstream-selector = {
         host = "lab-host";
         platform = "linux";
@@ -228,6 +278,16 @@
               bridge = "br-site-a-core-isp-b-upstream";
             };
             interface.name = "ens4";
+          };
+
+          core-nebula = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprisea-site-a-s-router-upstream-selector-core-nebula";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens18";
           };
 
           policy-admin-east-west = {
@@ -672,22 +732,22 @@
         };
       };
 
-      enterpriseB-site-b-b-router-core = {
+      enterpriseB-site-b-b-router-core-wan = {
         host = "lab-host";
         platform = "linux";
         logicalNode = {
           enterprise = "enterpriseB";
           site = "site-b";
-          name = "b-router-core";
+          name = "b-router-core-wan";
         };
         containers.default.runtimeName = "default";
         ports = {
           upstream-selector = {
-            link = "p2p-b-router-core-b-router-upstream-selector";
-            adapterName = "adp-enterpriseb-site-b-b-router-core-upstream-selector";
+            link = "p2p-b-router-core-wan-b-router-upstream-selector";
+            adapterName = "adp-enterpriseb-site-b-b-router-core-wan-upstream-selector";
             attach = {
               kind = "bridge";
-              bridge = "br-site-b-core-upstream";
+              bridge = "br-site-b-core-wan-upstream";
             };
             interface.name = "ens3";
           };
@@ -704,6 +764,38 @@
         };
       };
 
+      enterpriseB-site-b-b-router-core-nebula = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterpriseB";
+          site = "site-b";
+          name = "b-router-core-nebula";
+        };
+        containers.default.runtimeName = "default";
+        ports = {
+          upstream-selector = {
+            link = "p2p-b-router-core-nebula-b-router-upstream-selector";
+            adapterName = "adp-enterpriseb-site-b-b-router-core-nebula-upstream-selector";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-upstream";
+            };
+            interface.name = "ens3";
+          };
+
+          east-west = {
+            uplink = "east-west";
+            external = true;
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-east-west";
+            };
+            interface.name = "ens4";
+          };
+        };
+      };
+
       enterpriseB-site-b-b-router-upstream-selector = {
         host = "lab-host";
         platform = "linux";
@@ -714,14 +806,24 @@
         };
         containers.default.runtimeName = "default";
         ports = {
-          core = {
-            link = "p2p-b-router-core-b-router-upstream-selector";
-            adapterName = "adp-enterpriseb-site-b-b-router-upstream-selector-core";
+          core-wan = {
+            link = "p2p-b-router-core-wan-b-router-upstream-selector";
+            adapterName = "adp-enterpriseb-site-b-b-router-upstream-selector-core-wan";
             attach = {
               kind = "bridge";
-              bridge = "br-site-b-core-upstream";
+              bridge = "br-site-b-core-wan-upstream";
             };
             interface.name = "ens3";
+          };
+
+          core-nebula = {
+            link = "p2p-b-router-core-nebula-b-router-upstream-selector";
+            adapterName = "adp-enterpriseb-site-b-b-router-upstream-selector-core-nebula";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-upstream";
+            };
+            interface.name = "ens6";
           };
 
           policy-branch-east-west = {
