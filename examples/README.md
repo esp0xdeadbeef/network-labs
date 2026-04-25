@@ -1,3 +1,18 @@
+# TL;DR
+
+  intent.nix
+
+  - architecture and policy only
+  - sites, tenants, services, relations, overlays, terminateOn
+
+  inventory.nix
+
+  - realization only
+  - where runtime nodes live
+  - provider-specific provisioning inputs
+  - host/container placement
+  - static vs BGP specifics
+
 # network-labs examples
 
 Each example is a pair:
