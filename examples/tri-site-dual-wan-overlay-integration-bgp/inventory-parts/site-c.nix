@@ -196,12 +196,12 @@
                               ipv4.prefix = "100.96.20.0/24";
                               ipv6.prefix = "fd42:dead:beef:ec::/64";
                               nodes = {
-                                s-router-core-isp-b = {
+                                s-router-core-nebula = {
                                   addr4 = "100.96.20.1/32";
                                   addr6 = "fd42:dead:beef:ec::1/128";
                                 };
 
-                                c-router-core = {
+                                c-router-nebula-core = {
                                   addr4 = "100.96.20.2/32";
                                   addr6 = "fd42:dead:beef:ec::2/128";
                                 };
@@ -250,12 +250,12 @@
                         ipv4.prefix = "100.96.20.0/24";
                         ipv6.prefix = "fd42:dead:beef:ec::/64";
                         nodes = {
-                          c-router-core = {
+                          c-router-nebula-core = {
                             addr4 = "100.96.20.2/32";
                             addr6 = "fd42:dead:beef:ec::2/128";
                           };
 
-                          s-router-core-isp-b = {
+                          s-router-core-nebula = {
                             addr4 = "100.96.20.1/32";
                             addr6 = "fd42:dead:beef:ec::1/128";
                           };
@@ -286,6 +286,22 @@
                         };
                       };
                       runtimeNodes = {
+                        c-router-nebula-core = {
+                          groups = [
+                            "lab"
+                            "site-c"
+                            "core"
+                          ];
+                          service = {
+                            name = "nebula-runtime";
+                            interface = "nebula1";
+                          };
+                          container = {
+                            targetContainer = "c-router-nebula-core";
+                            profile = "core-router-nebula";
+                          };
+                        };
+
                         nas-node01 = {
                           groups = [
                             "lab"
@@ -330,6 +346,7 @@
                 host.bridgeNetworks
                 // {
                   br-site-c-core-upstream = { };
+                  br-site-c-nebula-core-upstream = { };
 
                   br-site-c-policy-upstream-access-mgmt-wan = { };
                   br-site-c-policy-upstream-access-mgmt-site-c-storage = { };
@@ -393,6 +410,41 @@
                     bridge = "br-uplink1";
                   };
                   interface.name = "wan";
+                };
+              };
+            };
+
+            esp0xdeadbeef-site-c-c-router-nebula-core = {
+              host = "s-router-test";
+              platform = "nixos-container";
+
+              logicalNode = {
+                enterprise = "esp0xdeadbeef";
+                site = "site-c";
+                name = "c-router-nebula-core";
+              };
+
+              containers.default.runtimeName = "c-router-nebula-core";
+
+              ports = {
+                upstream-selector = {
+                  link = "p2p-c-router-nebula-core-c-router-upstream-selector";
+                  adapterName = "${"p2p-c-router-nebula-core-c-router-upstream-selector"}-upstream-selector";
+                  attach = {
+                    kind = "bridge";
+                    bridge = "br-site-c-nebula-core-upstream";
+                  };
+                  interface.name = "upstream";
+                };
+
+                site-c-storage = {
+                  uplink = "site-c-storage";
+                  external = true;
+                  attach = {
+                    kind = "bridge";
+                    bridge = "br-uplink1";
+                  };
+                  interface.name = "site-c-storage";
                 };
               };
             };
@@ -1027,6 +1079,16 @@
                     bridge = "br-site-c-core-upstream";
                   };
                   interface.name = "core";
+                };
+
+                core-nebula = {
+                  link = "p2p-c-router-nebula-core-c-router-upstream-selector";
+                  adapterName = "${"p2p-c-router-nebula-core-c-router-upstream-selector"}-core-nebula";
+                  attach = {
+                    kind = "bridge";
+                    bridge = "br-site-c-nebula-core-upstream";
+                  };
+                  interface.name = "core-nebula";
                 };
 
                 policy-mgmt-wan = {
