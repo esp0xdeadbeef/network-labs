@@ -8,13 +8,13 @@ let
               ipv4 = "10.10.0.0/24";
               ipv6 = "fd42:dead:beef:1000::/118";
             };
-      
+
             loopback = {
               ipv4 = "10.19.0.0/24";
               ipv6 = "fd42:dead:beef:1900::/118";
             };
           };
-      
+
           ownership = {
             prefixes = [
               {
@@ -37,11 +37,11 @@ let
               }
             ];
           };
-      
+
           communicationContract = {
             trafficTypes = [ ];
             services = [ ];
-      
+
             relations = [
               {
                 id = "allow-mgmt-internal";
@@ -61,7 +61,7 @@ let
                 trafficType = "any";
                 action = "allow";
               }
-      
+
               {
                 id = "allow-tenants-to-uplinks";
                 priority = 100;
@@ -84,7 +84,7 @@ let
                 action = "allow";
               }
             ];
-      
+
             interfaceTags = {
               tenant-mgmt = "mgmt";
               tenant-admin = "admin";
@@ -93,12 +93,12 @@ let
               external-isp-b = "isp-b";
             };
           };
-      
+
           topology = {
             nodes = {
               s-router-core-isp-a = {
                 role = "core";
-      
+
                 uplinks = {
                   isp-a = {
                     ipv4 = [ "0.0.0.0/0" ];
@@ -106,10 +106,10 @@ let
                   };
                 };
               };
-      
+
               s-router-core-isp-b = {
                 role = "core";
-      
+
                 uplinks = {
                   isp-b = {
                     ipv4 = [ "0.0.0.0/0" ];
@@ -117,19 +117,19 @@ let
                   };
                 };
               };
-      
+
               s-router-upstream-selector = {
                 role = "upstream-selector";
               };
-      
+
               s-router-policy-only = {
                 role = "policy";
               };
-      
+
               s-router-downstream-selector = {
                 role = "downstream-selector";
               };
-      
+
               s-router-access-mgmt = {
                 role = "access";
                 attachments = [
@@ -139,7 +139,7 @@ let
                   }
                 ];
               };
-      
+
               s-router-access-admin = {
                 role = "access";
                 attachments = [
@@ -149,7 +149,7 @@ let
                   }
                 ];
               };
-      
+
               s-router-access-client = {
                 role = "access";
                 attachments = [
@@ -160,7 +160,7 @@ let
                 ];
               };
             };
-      
+
             links = [
               [
                 "s-router-core-isp-a"
@@ -488,13 +488,13 @@ base
         {
           name = "east-west";
           peerSite = "espbranch.site-b";
-          terminateOn = "s-router-core-isp-b";
+          terminateOn = "s-router-core-nebula";
           mustTraverse = [ "policy" ];
         }
         {
           name = "site-c-storage";
           peerSite = "esp0xdeadbeef.site-c";
-          terminateOn = "s-router-core-isp-b";
+          terminateOn = "s-router-core-nebula";
           mustTraverse = [ "policy" ];
         }
       ];
@@ -505,6 +505,22 @@ base
           nodes =
             siteA.topology.nodes
             // {
+              s-router-core-nebula = {
+                role = "core";
+
+                uplinks = {
+                  east-west = {
+                    ipv4 = [ "0.0.0.0/0" ];
+                    ipv6 = [ "::/0" ];
+                  };
+
+                  site-c-storage = {
+                    ipv4 = [ "0.0.0.0/0" ];
+                    ipv6 = [ "::/0" ];
+                  };
+                };
+              };
+
               s-router-access-dmz = {
                 role = "access";
                 attachments = [
@@ -529,6 +545,10 @@ base
           links =
             siteA.topology.links
             ++ [
+              [
+                "s-router-core-nebula"
+                "s-router-upstream-selector"
+              ]
               [
                 "s-router-downstream-selector"
                 "s-router-access-client2"
@@ -753,14 +773,25 @@ base
       {
         name = "east-west";
         peerSite = "esp0xdeadbeef.site-a";
-        terminateOn = "b-router-core";
+        terminateOn = "b-router-core-nebula";
         mustTraverse = [ "policy" ];
       }
     ];
 
     topology = {
       nodes = {
-        b-router-core = {
+        b-router-core-nebula = {
+          role = "core";
+
+          uplinks = {
+            east-west = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        b-router-core-simulated-isp = {
           role = "core";
 
           uplinks = {
@@ -798,7 +829,11 @@ base
 
       links = [
         [
-          "b-router-core"
+          "b-router-core-nebula"
+          "b-router-upstream-selector"
+        ]
+        [
+          "b-router-core-simulated-isp"
           "b-router-upstream-selector"
         ]
         [
@@ -1219,7 +1254,7 @@ base
       {
         name = "site-c-storage";
         peerSite = "esp0xdeadbeef.site-a";
-        terminateOn = "c-router-core";
+        terminateOn = "c-router-nebula-core";
         mustTraverse = [ "policy" ];
       }
     ];
@@ -1231,6 +1266,17 @@ base
 
           uplinks = {
             wan = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        c-router-nebula-core = {
+          role = "core";
+
+          uplinks = {
+            site-c-storage = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -1299,6 +1345,10 @@ base
       links = [
         [
           "c-router-core"
+          "c-router-upstream-selector"
+        ]
+        [
+          "c-router-nebula-core"
           "c-router-upstream-selector"
         ]
         [
