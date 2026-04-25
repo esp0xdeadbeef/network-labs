@@ -34,10 +34,18 @@
               method = "slaac";
             };
           };
+
+          nebula = {
+            parent = "eno2";
+            bridge = "br-site-a-core-nebula-uplink";
+            ipv4.method = "dhcp";
+            ipv6.method = "slaac";
+          };
         };
 
         bridgeNetworks = {
-          br-site-a-core-upstream = { };
+          br-site-a-core-wan-upstream = { };
+          br-site-a-core-nebula-upstream = { };
           br-site-a-policy-upstream-access-client-wan = { };
           br-site-a-policy-upstream-access-admin-nebula = { };
 
@@ -74,7 +82,7 @@
             adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-wan-upstream-selector";
             attach = {
               kind = "bridge";
-              bridge = "br-site-a-core-upstream";
+              bridge = "br-site-a-core-wan-upstream";
             };
             interface = {
               name = "ens3";
@@ -91,6 +99,38 @@
             interface = {
               name = "ens4";
             };
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-s-router-core-nebula = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          site = "site-a";
+          name = "s-router-core-nebula";
+        };
+        containers.default.runtimeName = "default";
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-nebula-upstream-selector";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens3";
+          };
+
+          nebula = {
+            uplink = "nebula";
+            external = true;
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-uplink";
+            };
+            interface.name = "ens4";
           };
         };
       };
@@ -114,11 +154,21 @@
             adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-wan";
             attach = {
               kind = "bridge";
-              bridge = "br-site-a-core-upstream";
+              bridge = "br-site-a-core-wan-upstream";
             };
             interface = {
               name = "ens3";
             };
+          };
+
+          core-nebula = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-nebula";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens6";
           };
 
           policy-access-client-wan = {
