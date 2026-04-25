@@ -51,17 +51,27 @@
       {
         name = "east-west";
         peerSite = "enterprise-b.site-b";
-        terminateOn = "s-router-core";
+        terminateOn = "s-router-core-nebula";
         mustTraverse = [ "policy" ];
       }
     ];
 
     topology = {
       nodes = {
-        s-router-core = {
+        s-router-core-wan = {
           role = "core";
           uplinks = {
             isp = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        s-router-core-nebula = {
+          role = "core";
+          uplinks = {
+            east-west = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -93,7 +103,11 @@
 
       links = [
         [
-          "s-router-core"
+          "s-router-core-wan"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-core-nebula"
           "s-router-upstream-selector"
         ]
         [
@@ -164,17 +178,27 @@
       {
         name = "east-west";
         peerSite = "enterprise-a.site-a";
-        terminateOn = "s-router-core";
+        terminateOn = "s-router-core-nebula";
         mustTraverse = [ "policy" ];
       }
     ];
 
     topology = {
       nodes = {
-        s-router-core = {
+        s-router-core-wan = {
           role = "core";
           uplinks = {
             isp = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        s-router-core-nebula = {
+          role = "core";
+          uplinks = {
+            east-west = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -206,7 +230,11 @@
 
       links = [
         [
-          "s-router-core"
+          "s-router-core-wan"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-core-nebula"
           "s-router-upstream-selector"
         ]
         [
