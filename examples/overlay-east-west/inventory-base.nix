@@ -7,7 +7,7 @@
             "east-west" = {
               provider = "nebula";
               nodes = {
-                "s-router-core" = {
+                "s-router-core-nebula" = {
                   addr4 = "100.64.100.1/32";
                 };
               };
@@ -22,7 +22,7 @@
             "east-west" = {
               provider = "nebula";
               nodes = {
-                "s-router-core" = {
+                "s-router-core-nebula" = {
                   addr4 = "100.64.100.2/32";
                 };
               };
@@ -47,15 +47,31 @@
               method = "slaac";
             };
           };
+
+          east-west-site-a = {
+            parent = "eno2";
+            bridge = "br-site-a-core-nebula-east-west";
+            ipv4.method = "dhcp";
+            ipv6.method = "slaac";
+          };
+
+          east-west-site-b = {
+            parent = "eno3";
+            bridge = "br-site-b-core-nebula-east-west";
+            ipv4.method = "dhcp";
+            ipv6.method = "slaac";
+          };
         };
 
         bridgeNetworks = {
-          br-site-a-core-upstream = { };
+          br-site-a-core-wan-upstream = { };
+          br-site-a-core-nebula-upstream = { };
           br-site-a-policy-upstream-access-east-west = { };
           br-site-a-downstream-policy-access = { };
           br-site-a-downstream-access = { };
 
-          br-site-b-core-upstream = { };
+          br-site-b-core-wan-upstream = { };
+          br-site-b-core-nebula-upstream = { };
           br-site-b-policy-upstream-access-east-west = { };
           br-site-b-downstream-policy-access = { };
           br-site-b-downstream-access = { };
@@ -66,13 +82,13 @@
 
   realization = {
     nodes = {
-      enterprise-a-site-a-s-router-core = {
+      enterprise-a-site-a-s-router-core-wan = {
         host = "lab-host";
         platform = "linux";
         logicalNode = {
           enterprise = "enterprise-a";
           site = "site-a";
-          name = "s-router-core";
+          name = "s-router-core-wan";
         };
         containers = {
           default = {
@@ -81,11 +97,11 @@
         };
         ports = {
           upstream-selector = {
-            link = "p2p-s-router-core-s-router-upstream-selector";
-            adapterName = "adp-enterprise-a-site-a-s-router-core-upstream-selector";
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-core-wan-upstream-selector";
             attach = {
               kind = "bridge";
-              bridge = "br-site-a-core-upstream";
+              bridge = "br-site-a-core-wan-upstream";
             };
             interface = {
               name = "ens3";
@@ -106,6 +122,38 @@
         };
       };
 
+      enterprise-a-site-a-s-router-core-nebula = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterprise-a";
+          site = "site-a";
+          name = "s-router-core-nebula";
+        };
+        containers.default.runtimeName = "default";
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-core-nebula-upstream-selector";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens3";
+          };
+
+          east-west = {
+            uplink = "east-west";
+            external = true;
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-east-west";
+            };
+            interface.name = "ens4";
+          };
+        };
+      };
+
       enterprise-a-site-a-s-router-upstream-selector = {
         host = "lab-host";
         platform = "linux";
@@ -120,16 +168,26 @@
           };
         };
         ports = {
-          core = {
-            link = "p2p-s-router-core-s-router-upstream-selector";
-            adapterName = "adp-enterprise-a-site-a-s-router-upstream-selector-core";
+          core-wan = {
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-upstream-selector-core-wan";
             attach = {
               kind = "bridge";
-              bridge = "br-site-a-core-upstream";
+              bridge = "br-site-a-core-wan-upstream";
             };
             interface = {
               name = "ens3";
             };
+          };
+
+          core-nebula = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprise-a-site-a-s-router-upstream-selector-core-nebula";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-a-core-nebula-upstream";
+            };
+            interface.name = "ens5";
           };
 
           policy-access-east-west = {
@@ -256,13 +314,13 @@
         };
       };
 
-      enterprise-b-site-b-s-router-core = {
+      enterprise-b-site-b-s-router-core-wan = {
         host = "lab-host";
         platform = "linux";
         logicalNode = {
           enterprise = "enterprise-b";
           site = "site-b";
-          name = "s-router-core";
+          name = "s-router-core-wan";
         };
         containers = {
           default = {
@@ -271,11 +329,11 @@
         };
         ports = {
           upstream-selector = {
-            link = "p2p-s-router-core-s-router-upstream-selector";
-            adapterName = "adp-enterprise-b-site-b-s-router-core-upstream-selector";
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-core-wan-upstream-selector";
             attach = {
               kind = "bridge";
-              bridge = "br-site-b-core-upstream";
+              bridge = "br-site-b-core-wan-upstream";
             };
             interface = {
               name = "ens13";
@@ -296,6 +354,38 @@
         };
       };
 
+      enterprise-b-site-b-s-router-core-nebula = {
+        host = "lab-host";
+        platform = "linux";
+        logicalNode = {
+          enterprise = "enterprise-b";
+          site = "site-b";
+          name = "s-router-core-nebula";
+        };
+        containers.default.runtimeName = "default";
+        ports = {
+          upstream-selector = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-core-nebula-upstream-selector";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-upstream";
+            };
+            interface.name = "ens13";
+          };
+
+          east-west = {
+            uplink = "east-west";
+            external = true;
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-east-west";
+            };
+            interface.name = "ens14";
+          };
+        };
+      };
+
       enterprise-b-site-b-s-router-upstream-selector = {
         host = "lab-host";
         platform = "linux";
@@ -310,16 +400,26 @@
           };
         };
         ports = {
-          core = {
-            link = "p2p-s-router-core-s-router-upstream-selector";
-            adapterName = "adp-enterprise-b-site-b-s-router-upstream-selector-core";
+          core-wan = {
+            link = "p2p-s-router-core-wan-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-upstream-selector-core-wan";
             attach = {
               kind = "bridge";
-              bridge = "br-site-b-core-upstream";
+              bridge = "br-site-b-core-wan-upstream";
             };
             interface = {
               name = "ens13";
             };
+          };
+
+          core-nebula = {
+            link = "p2p-s-router-core-nebula-s-router-upstream-selector";
+            adapterName = "adp-enterprise-b-site-b-s-router-upstream-selector-core-nebula";
+            attach = {
+              kind = "bridge";
+              bridge = "br-site-b-core-nebula-upstream";
+            };
+            interface.name = "ens15";
           };
 
           policy-access-east-west = {
