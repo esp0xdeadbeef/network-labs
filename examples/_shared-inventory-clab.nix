@@ -2,16 +2,6 @@
 let
   base = import inventory;
 
-  # CLAB VM examples should not depend on host-specific physical uplink parents
-  # like eno1/eno2 or vlan-backed host wiring. Keep the logical uplink/bridge
-  # shape intact, but strip the concrete parent so examples remain runnable in
-  # the generic VM while still modeling VLAN/trunk structure in the inventory.
-  normalizeHost = host:
-    host
-    // {
-      uplinks = builtins.mapAttrs (_: uplink: builtins.removeAttrs uplink [ "parent" ]) (host.uplinks or { });
-    };
-
   baseDeployment = base.deployment or { };
   baseContainerlab = base.containerlab or { };
 in
@@ -20,7 +10,7 @@ base
   deployment =
     baseDeployment
     // {
-      hosts = builtins.mapAttrs (_: normalizeHost) (baseDeployment.hosts or { });
+      hosts = baseDeployment.hosts or { };
     };
 
   # Containerlab/VM lab convenience settings.
