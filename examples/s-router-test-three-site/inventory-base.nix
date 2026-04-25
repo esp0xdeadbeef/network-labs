@@ -227,25 +227,11 @@ base
                   };
                 };
                 runtimeNodes = {
-                  branch-node01 = {
+                  b-router-core = {
                     groups = [
                       "lab"
                       "branch"
-                    ];
-                    service = {
-                      name = "nebula-runtime";
-                      interface = "nebula1";
-                    };
-                    container = {
-                      hostBridge = "branch";
-                      profile = "branch-web";
-                    };
-                  };
-
-                  hostile-node01 = {
-                    groups = [
-                      "lab"
-                      "hostile"
+                      "core"
                     ];
                     unsafeRoutes = [
                       { route = "0.0.0.0/1"; }
@@ -258,8 +244,8 @@ base
                       interface = "nebula1";
                     };
                     container = {
-                      hostBridge = "hostile";
-                      profile = "hostile-exit";
+                      targetContainer = "b-router-core";
+                      profile = "core-router-nebula";
                     };
                   };
                 };
