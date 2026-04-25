@@ -132,7 +132,7 @@
     transport.overlays = [
       {
         name = "nebula";
-        terminateOn = "s-router-core-wan";
+        terminateOn = "s-router-core-nebula";
         mustTraverse = [ "policy" ];
         ingressSubject = {
           kind = "tenant";
@@ -147,6 +147,16 @@
           role = "core";
           uplinks = {
             wan = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        s-router-core-nebula = {
+          role = "core";
+          uplinks = {
+            nebula = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
@@ -199,6 +209,10 @@
       links = [
         [
           "s-router-core-wan"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-core-nebula"
           "s-router-upstream-selector"
         ]
         [
