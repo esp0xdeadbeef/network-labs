@@ -1672,7 +1672,7 @@ base
 
             ipv6Ra.tenant-hostile = {
               interface = "tenant-hostile";
-              prefixes = [ "fd42:dead:feed:70::/64" ];
+              prefixes = [ "2a01:4f8:1c17:b337::/64" ];
               rdnss = hostileAccessDns.advertised.rdnss;
               dnssl = [ "lan." ];
             };
