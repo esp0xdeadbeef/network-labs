@@ -1112,6 +1112,7 @@ base
         esp0xdeadbeef-site-a-s-router-access-client =
           siteANodes.esp0xdeadbeef-site-a-s-router-access-client
           // {
+            externalValidation.delegatedIPv6Prefix = true;
             services.dns = policyDerivedDns siteANodes.esp0xdeadbeef-site-a-s-router-access-client.services.dns;
             advertisements =
               overrideAdvertisedRouterSelf
@@ -1259,6 +1260,8 @@ base
               dnssl = [ "lan." ];
             };
           };
+
+          externalValidation.delegatedIPv6Prefix = true;
         };
 
         esp0xdeadbeef-site-a-s-router-downstream-selector =
