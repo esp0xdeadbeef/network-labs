@@ -586,6 +586,7 @@ base
         name = "hostile";
         ipv4 = "10.70.10.0/24";
         ipv6 = "fd42:dead:feed:70::/64";
+        ra6Prefixes = [ "2a01:4f8:1c17:b337::/64" ];
       }
     ];
 

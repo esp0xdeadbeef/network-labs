@@ -1011,10 +1011,22 @@ base
                       "core"
                     ];
                     unsafeRoutes = [
-                      { route = "0.0.0.0/1"; }
-                      { route = "128.0.0.0/1"; }
-                      { route = "::/1"; }
-                      { route = "8000::/1"; }
+                      {
+                        route = "0.0.0.0/1";
+                        install = true;
+                      }
+                      {
+                        route = "128.0.0.0/1";
+                        install = true;
+                      }
+                      {
+                        route = "::/1";
+                        install = true;
+                      }
+                      {
+                        route = "8000::/1";
+                        install = true;
+                      }
                     ];
                     service = {
                       name = "nebula-runtime";
