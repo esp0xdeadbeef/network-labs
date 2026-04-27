@@ -1,565 +1,476 @@
-let
-  base =
-    (
-      {
-        esp0xdeadbeef.site-a = {
-          pools = {
-            p2p = {
-              ipv4 = "10.10.0.0/24";
-              ipv6 = "fd42:dead:beef:1000::/118";
-            };
-
-            loopback = {
-              ipv4 = "10.19.0.0/24";
-              ipv6 = "fd42:dead:beef:1900::/118";
-            };
-          };
-
-          ownership = {
-            prefixes = [
-              {
-                kind = "tenant";
-                name = "mgmt";
-                ipv4 = "10.20.10.0/24";
-                ipv6 = "fd42:dead:beef:10::/64";
-              }
-              {
-                kind = "tenant";
-                name = "admin";
-                ipv4 = "10.20.15.0/24";
-                ipv6 = "fd42:dead:beef:15::/64";
-              }
-              {
-                kind = "tenant";
-                name = "client";
-                ipv4 = "10.20.20.0/24";
-                ipv6 = "fd42:dead:beef:20::/64";
-              }
-            ];
-          };
-
-          communicationContract = {
-            trafficTypes = [ ];
-            services = [ ];
-
-            relations = [
-              {
-                id = "allow-mgmt-internal";
-                priority = 10;
-                from = {
-                  kind = "tenant-set";
-                  members = [ "mgmt" ];
-                };
-                to = {
-                  kind = "tenant-set";
-                  members = [
-                    "mgmt"
-                    "admin"
-                    "client"
-                  ];
-                };
-                trafficType = "any";
-                action = "allow";
-              }
-
-              {
-                id = "allow-tenants-to-uplinks";
-                priority = 100;
-                from = {
-                  kind = "tenant-set";
-                  members = [
-                    "mgmt"
-                    "admin"
-                    "client"
-                  ];
-                };
-                to = {
-                  kind = "external";
-                  uplinks = [
-                    "isp-a"
-                    "isp-b"
-                  ];
-                };
-                trafficType = "any";
-                action = "allow";
-              }
-            ];
-
-            interfaceTags = {
-              tenant-mgmt = "mgmt";
-              tenant-admin = "admin";
-              tenant-client = "client";
-              external-isp-a = "isp-a";
-              external-isp-b = "isp-b";
-            };
-          };
-
-          topology = {
-            nodes = {
-              s-router-core-isp-a = {
-                role = "core";
-
-                uplinks = {
-                  isp-a = {
-                    ipv4 = [ "0.0.0.0/0" ];
-                    ipv6 = [ "::/0" ];
-                  };
-                };
-              };
-
-              s-router-core-isp-b = {
-                role = "core";
-
-                uplinks = {
-                  isp-b = {
-                    ipv4 = [ "0.0.0.0/0" ];
-                    ipv6 = [ "::/0" ];
-                  };
-                };
-              };
-
-              s-router-upstream-selector = {
-                role = "upstream-selector";
-              };
-
-              s-router-policy-only = {
-                role = "policy";
-              };
-
-              s-router-downstream-selector = {
-                role = "downstream-selector";
-              };
-
-              s-router-access-mgmt = {
-                role = "access";
-                attachments = [
-                  {
-                    kind = "tenant";
-                    name = "mgmt";
-                  }
-                ];
-              };
-
-              s-router-access-admin = {
-                role = "access";
-                attachments = [
-                  {
-                    kind = "tenant";
-                    name = "admin";
-                  }
-                ];
-              };
-
-              s-router-access-client = {
-                role = "access";
-                attachments = [
-                  {
-                    kind = "tenant";
-                    name = "client";
-                  }
-                ];
-              };
-            };
-
-            links = [
-              [
-                "s-router-core-isp-a"
-                "s-router-upstream-selector"
-              ]
-              [
-                "s-router-core-isp-b"
-                "s-router-upstream-selector"
-              ]
-              [
-                "s-router-upstream-selector"
-                "s-router-policy-only"
-              ]
-              [
-                "s-router-policy-only"
-                "s-router-downstream-selector"
-              ]
-              [
-                "s-router-downstream-selector"
-                "s-router-access-client"
-              ]
-              [
-                "s-router-downstream-selector"
-                "s-router-access-admin"
-              ]
-              [
-                "s-router-downstream-selector"
-                "s-router-access-mgmt"
-              ]
-            ];
-          };
-        };
-      }
-    );
-
-  siteA = base.esp0xdeadbeef.site-a;
-in
-base
-// {
-  esp0xdeadbeef.site-a =
-    siteA
-    // {
-      ownership = {
-        prefixes =
-          siteA.ownership.prefixes
-          ++ [
-            {
-              kind = "tenant";
-              name = "client2";
-              ipv4 = "10.20.40.0/24";
-              ipv6 = "fd42:dead:beef:40::/64";
-            }
-            {
-              kind = "tenant";
-              name = "dmz";
-              ipv4 = "10.20.30.0/24";
-              ipv6 = "fd42:dead:beef:30::/64";
-            }
-          ];
-
-        endpoints = [
-          {
-            kind = "host";
-            name = "nebula01";
-            tenant = "dmz";
-          }
-        ];
+{
+  esp0xdeadbeef.site-a = {
+    pools = {
+      p2p = {
+        ipv4 = "10.10.0.0/24";
+        ipv6 = "fd42:dead:beef:1000::/118";
       };
 
-      communicationContract = {
-        trafficTypes = [
-          {
-            name = "dns";
-            match = [
-              {
-                proto = "udp";
-                dports = [ 53 ];
-                family = "any";
-              }
-              {
-                proto = "tcp";
-                dports = [ 53 ];
-                family = "any";
-              }
-            ];
-          }
-
-          {
-            name = "nebula";
-            match = [
-              {
-                proto = "tcp";
-                dports = [ 4242 ];
-                family = "any";
-              }
-              {
-                proto = "udp";
-                dports = [ 4242 ];
-                family = "any";
-              }
-            ];
-          }
-        ];
-
-        services = [
-          {
-            name = "site-dns-mgmt";
-            trafficType = "dns";
-            providers = [ "site-dns-mgmt" ];
-          }
-
-          {
-            name = "dmz-nebula";
-            trafficType = "nebula";
-            providers = [ "nebula01" ];
-          }
-        ];
-
-        relations = [
-          {
-            id = "allow-mgmt-internal";
-            priority = 10;
-            from = {
-              kind = "tenant-set";
-              members = [ "mgmt" ];
-            };
-            to = {
-              kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-                "dmz"
-              ];
-            };
-            trafficType = "any";
-            action = "allow";
-          }
-
-          {
-            id = "allow-sitea-tenants-to-mgmt-dns";
-            priority = 15;
-            from = {
-              kind = "tenant-set";
-              members = [
-                "admin"
-                "client"
-                "client2"
-                "dmz"
-              ];
-            };
-            to = {
-              kind = "service";
-              name = "site-dns-mgmt";
-            };
-            trafficType = "dns";
-            action = "allow";
-          }
-
-          {
-            id = "allow-mgmt-dns-to-uplinks";
-            priority = 16;
-            from = {
-              kind = "tenant-set";
-              members = [ "mgmt" ];
-            };
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "dns";
-            action = "allow";
-          }
-
-          {
-            id = "deny-sitea-dns-to-uplinks";
-            priority = 20;
-            from = {
-              kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-              ];
-            };
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "dns";
-            action = "deny";
-          }
-
-          {
-            id = "allow-tenants-to-uplinks";
-            priority = 100;
-            from = {
-              kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-              ];
-            };
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "any";
-            action = "allow";
-          }
-
-          {
-            id = "allow-core-tenants-to-east-west";
-            priority = 110;
-            from = {
-              kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-              ];
-            };
-            to = {
-              kind = "external";
-              name = "east-west";
-            };
-            trafficType = "any";
-            action = "allow";
-          }
-
-          {
-            id = "allow-east-west-to-sitea-mgmt-dns";
-            priority = 115;
-            from = {
-              kind = "external";
-              name = "east-west";
-            };
-            to = {
-              kind = "service";
-              name = "site-dns-mgmt";
-            };
-            trafficType = "dns";
-            action = "allow";
-          }
-
-          {
-            id = "allow-sitea-mgmt-to-sitec-storage";
-            priority = 116;
-            from = {
-              kind = "tenant-set";
-              members = [ "mgmt" ];
-            };
-            to = {
-              kind = "external";
-              name = "site-c-storage";
-            };
-            trafficType = "any";
-            action = "allow";
-          }
-
-          {
-            id = "allow-sitec-storage-to-sitea-mgmt";
-            priority = 117;
-            from = {
-              kind = "external";
-              name = "site-c-storage";
-            };
-            to = {
-              kind = "tenant-set";
-              members = [ "mgmt" ];
-            };
-            trafficType = "any";
-            action = "allow";
-          }
-
-          {
-            id = "allow-wan-to-dmz-nebula";
-            priority = 120;
-            from = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            to = {
-              kind = "service";
-              name = "dmz-nebula";
-            };
-            trafficType = "nebula";
-            action = "allow";
-          }
-        ];
-
-        interfaceTags = {
-          tenant-mgmt = "mgmt";
-          tenant-admin = "admin";
-          tenant-client = "client";
-          tenant-client2 = "client2";
-          tenant-dmz = "dmz";
-          external-isp-a = "isp-a";
-          external-isp-b = "isp-b";
-          external-east-west = "east-west";
-          external-site-c-storage = "site-c-storage";
-          service-site-dns-mgmt = "site-dns-mgmt";
-          service-dmz-nebula = "dmz-nebula";
-        };
+      loopback = {
+        ipv4 = "10.19.0.0/24";
+        ipv6 = "fd42:dead:beef:1900::/118";
       };
+    };
 
-      transport.overlays = [
+    ownership = {
+      prefixes = [
         {
-          name = "east-west";
-          peerSite = "espbranch.site-b";
-          terminateOn = "s-router-core-nebula";
-          mustTraverse = [ "policy" ];
+          kind = "tenant";
+          name = "mgmt";
+          ipv4 = "10.20.10.0/24";
+          ipv6 = "fd42:dead:beef:10::/64";
         }
         {
-          name = "site-c-storage";
-          peerSite = "esp0xdeadbeef.site-c";
-          terminateOn = "s-router-core-nebula";
-          mustTraverse = [ "policy" ];
+          kind = "tenant";
+          name = "admin";
+          ipv4 = "10.20.15.0/24";
+          ipv6 = "fd42:dead:beef:15::/64";
+        }
+        {
+          kind = "tenant";
+          name = "client";
+          ipv4 = "10.20.20.0/24";
+          ipv6 = "fd42:dead:beef:20::/64";
+        }
+        {
+          kind = "tenant";
+          name = "client2";
+          ipv4 = "10.20.40.0/24";
+          ipv6 = "fd42:dead:beef:40::/64";
+        }
+        {
+          kind = "tenant";
+          name = "dmz";
+          ipv4 = "10.20.30.0/24";
+          ipv6 = "fd42:dead:beef:30::/64";
         }
       ];
 
-      topology =
-        siteA.topology
-        // {
-          nodes =
-            siteA.topology.nodes
-            // {
-              s-router-core-nebula = {
-                role = "core";
+      endpoints = [
+        {
+          kind = "host";
+          name = "nebula01";
+          tenant = "dmz";
+        }
+      ];
+    };
 
-                uplinks = {
-                  east-west = {
-                    ipv4 = [ "0.0.0.0/0" ];
-                    ipv6 = [ "::/0" ];
-                  };
+    communicationContract = {
+      trafficTypes = [
+        {
+          name = "dns";
+          match = [
+            {
+              proto = "udp";
+              dports = [ 53 ];
+              family = "any";
+            }
+            {
+              proto = "tcp";
+              dports = [ 53 ];
+              family = "any";
+            }
+          ];
+        }
 
-                  site-c-storage = {
-                    ipv4 = [ "0.0.0.0/0" ];
-                    ipv6 = [ "::/0" ];
-                  };
-                };
-              };
+        {
+          name = "nebula";
+          match = [
+            {
+              proto = "tcp";
+              dports = [ 4242 ];
+              family = "any";
+            }
+            {
+              proto = "udp";
+              dports = [ 4242 ];
+              family = "any";
+            }
+          ];
+        }
+      ];
 
-              s-router-access-dmz = {
-                role = "access";
-                attachments = [
-                  {
-                    kind = "tenant";
-                    name = "dmz";
-                  }
-                ];
-              };
+      services = [
+        {
+          name = "site-dns-mgmt";
+          trafficType = "dns";
+          providers = [ "site-dns-mgmt" ];
+        }
 
-              s-router-access-client2 = {
-                role = "access";
-                attachments = [
-                  {
-                    kind = "tenant";
-                    name = "client2";
-                  }
-                ];
-              };
+        {
+          name = "dmz-nebula";
+          trafficType = "nebula";
+          providers = [ "nebula01" ];
+        }
+      ];
+
+      relations = [
+        {
+          id = "allow-mgmt-internal";
+          priority = 10;
+          from = {
+            kind = "tenant-set";
+            members = [ "mgmt" ];
+          };
+          to = {
+            kind = "tenant-set";
+            members = [
+              "mgmt"
+              "admin"
+              "client"
+              "client2"
+              "dmz"
+            ];
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+
+        {
+          id = "allow-sitea-tenants-to-mgmt-dns";
+          priority = 15;
+          from = {
+            kind = "tenant-set";
+            members = [
+              "admin"
+              "client"
+              "client2"
+              "dmz"
+            ];
+          };
+          to = {
+            kind = "service";
+            name = "site-dns-mgmt";
+          };
+          trafficType = "dns";
+          action = "allow";
+        }
+
+        {
+          id = "allow-mgmt-dns-to-uplinks";
+          priority = 16;
+          from = {
+            kind = "tenant-set";
+            members = [ "mgmt" ];
+          };
+          to = {
+            kind = "external";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
+          };
+          trafficType = "dns";
+          action = "allow";
+        }
+
+        {
+          id = "deny-sitea-dns-to-uplinks";
+          priority = 20;
+          from = {
+            kind = "tenant-set";
+            members = [
+              "mgmt"
+              "admin"
+              "client"
+              "client2"
+            ];
+          };
+          to = {
+            kind = "external";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
+          };
+          trafficType = "dns";
+          action = "deny";
+        }
+
+        {
+          id = "allow-tenants-to-uplinks";
+          priority = 100;
+          from = {
+            kind = "tenant-set";
+            members = [
+              "mgmt"
+              "admin"
+              "client"
+              "client2"
+            ];
+          };
+          to = {
+            kind = "external";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+
+        {
+          id = "allow-core-tenants-to-east-west";
+          priority = 110;
+          from = {
+            kind = "tenant-set";
+            members = [
+              "mgmt"
+              "admin"
+              "client"
+              "client2"
+            ];
+          };
+          to = {
+            kind = "external";
+            name = "east-west";
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+
+        {
+          id = "allow-east-west-to-sitea-mgmt-dns";
+          priority = 115;
+          from = {
+            kind = "external";
+            name = "east-west";
+          };
+          to = {
+            kind = "service";
+            name = "site-dns-mgmt";
+          };
+          trafficType = "dns";
+          action = "allow";
+        }
+
+        {
+          id = "allow-sitea-mgmt-to-sitec-storage";
+          priority = 116;
+          from = {
+            kind = "tenant-set";
+            members = [ "mgmt" ];
+          };
+          to = {
+            kind = "external";
+            name = "site-c-storage";
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+
+        {
+          id = "allow-sitec-storage-to-sitea-mgmt";
+          priority = 117;
+          from = {
+            kind = "external";
+            name = "site-c-storage";
+          };
+          to = {
+            kind = "tenant-set";
+            members = [ "mgmt" ];
+          };
+          trafficType = "any";
+          action = "allow";
+        }
+
+        {
+          id = "allow-wan-to-dmz-nebula";
+          priority = 120;
+          from = {
+            kind = "external";
+            uplinks = [
+              "isp-a"
+              "isp-b"
+            ];
+          };
+          to = {
+            kind = "service";
+            name = "dmz-nebula";
+          };
+          trafficType = "nebula";
+          action = "allow";
+        }
+      ];
+
+      interfaceTags = {
+        tenant-mgmt = "mgmt";
+        tenant-admin = "admin";
+        tenant-client = "client";
+        tenant-client2 = "client2";
+        tenant-dmz = "dmz";
+        external-isp-a = "isp-a";
+        external-isp-b = "isp-b";
+        external-east-west = "east-west";
+        external-site-c-storage = "site-c-storage";
+        service-site-dns-mgmt = "site-dns-mgmt";
+        service-dmz-nebula = "dmz-nebula";
+      };
+    };
+
+    transport.overlays = [
+      {
+        name = "east-west";
+        peerSite = "espbranch.site-b";
+        terminateOn = "s-router-core-nebula";
+        mustTraverse = [ "policy" ];
+      }
+      {
+        name = "site-c-storage";
+        peerSite = "esp0xdeadbeef.site-c";
+        terminateOn = "s-router-core-nebula";
+        mustTraverse = [ "policy" ];
+      }
+    ];
+
+    topology = {
+      nodes = {
+        s-router-core-isp-a = {
+          role = "core";
+
+          uplinks = {
+            isp-a = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        s-router-core-isp-b = {
+          role = "core";
+
+          uplinks = {
+            isp-b = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+        };
+
+        s-router-core-nebula = {
+          role = "core";
+
+          uplinks = {
+            east-west = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
             };
 
-          links =
-            siteA.topology.links
-            ++ [
-              [
-                "s-router-core-nebula"
-                "s-router-upstream-selector"
-              ]
-              [
-                "s-router-downstream-selector"
-                "s-router-access-client2"
-              ]
-              [
-                "s-router-downstream-selector"
-                "s-router-access-dmz"
-              ]
-            ];
+            site-c-storage = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
         };
+
+        s-router-upstream-selector = {
+          role = "upstream-selector";
+        };
+
+        s-router-policy-only = {
+          role = "policy";
+        };
+
+        s-router-downstream-selector = {
+          role = "downstream-selector";
+        };
+
+        s-router-access-mgmt = {
+          role = "access";
+          attachments = [
+            {
+              kind = "tenant";
+              name = "mgmt";
+            }
+          ];
+        };
+
+        s-router-access-admin = {
+          role = "access";
+          attachments = [
+            {
+              kind = "tenant";
+              name = "admin";
+            }
+          ];
+        };
+
+        s-router-access-client = {
+          role = "access";
+          attachments = [
+            {
+              kind = "tenant";
+              name = "client";
+            }
+          ];
+        };
+
+        s-router-access-client2 = {
+          role = "access";
+          attachments = [
+            {
+              kind = "tenant";
+              name = "client2";
+            }
+          ];
+        };
+
+        s-router-access-dmz = {
+          role = "access";
+          attachments = [
+            {
+              kind = "tenant";
+              name = "dmz";
+            }
+          ];
+        };
+      };
+
+      links = [
+        [
+          "s-router-core-isp-a"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-core-isp-b"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-upstream-selector"
+          "s-router-policy-only"
+        ]
+        [
+          "s-router-policy-only"
+          "s-router-downstream-selector"
+        ]
+        [
+          "s-router-downstream-selector"
+          "s-router-access-client"
+        ]
+        [
+          "s-router-downstream-selector"
+          "s-router-access-admin"
+        ]
+        [
+          "s-router-downstream-selector"
+          "s-router-access-mgmt"
+        ]
+        [
+          "s-router-core-nebula"
+          "s-router-upstream-selector"
+        ]
+        [
+          "s-router-downstream-selector"
+          "s-router-access-client2"
+        ]
+        [
+          "s-router-downstream-selector"
+          "s-router-access-dmz"
+        ]
+      ];
     };
+  };
 
   espbranch.site-b = {
     pools = {
@@ -653,6 +564,7 @@ base
           ];
         }
       ];
+
       services = [ ];
 
       relations = [
