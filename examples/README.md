@@ -5,9 +5,10 @@
   - architecture and policy only
   - sites, tenants, services, relations, overlays, terminateOn
 
-  inventory.nix
+  inventory-clab.nix
+  inventory-nixos.nix
 
-  - realization only
+  - renderer realization only
   - where runtime nodes live
   - provider-specific provisioning inputs
   - host/container placement
@@ -15,21 +16,17 @@
 
 # network-labs examples
 
-Each example is a pair:
+Each example contains:
 
 - `intent.nix`: the logical network intent
-- `inventory.nix`: the realization inventory for a lab host
-
-Many examples also carry optional renderer wrappers:
-
-- `inventory-clab.nix`: containerlab-specific realization additions
-- `inventory-nixos.nix`: NixOS-renderer-specific realization additions
+- `inventory-clab.nix`: the Containerlab realization inventory
+- `inventory-nixos.nix`: the NixOS-renderer realization inventory
 
 The rule is:
 
 - keep semantic meaning in `intent.nix`
-- keep generic realization in `inventory.nix`
-- keep renderer-consumer bindings in renderer-specific inventory wrappers
+- keep renderer-specific realization in `inventory-<renderer>.nix`
+- keep renderer-consumer bindings out of semantic intent
 
 These examples are meant to be consumed by:
 
@@ -143,5 +140,5 @@ Then CPM emits (renderer-consumable):
 If a lab should pass both renderers:
 
 - `intent.nix` must stay shared
-- `inventory.nix` should hold generic realization
-- renderer-only requirements such as host uplink selection must live in `inventory-<renderer>.nix`
+- each renderer must have its own full standalone `inventory-<renderer>.nix`
+- renderer-only requirements such as host uplink selection must live in that renderer inventory

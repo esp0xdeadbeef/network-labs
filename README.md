@@ -5,17 +5,16 @@ This repository contains runnable lab inputs for the network toolchain.
 Each example directory contains:
 
 - `intent.nix` - logical network intent (architecture, policy, overlays, uplinks)
-- `inventory.nix` - realization inventory (hosts, ports, bridges/VLANs/subifs, runtime targets)
-- optional `inventory-clab.nix` - containerlab-specific realization wrapper
-- optional `inventory-nixos.nix` - NixOS-renderer-specific realization wrapper
+- `inventory-clab.nix` - Containerlab realization inventory
+- `inventory-nixos.nix` - NixOS-renderer realization inventory
 
 The core contract is separation:
 
 `intent.nix` defines *what the network means*.
-`inventory.nix` defines *how that meaning is realized on a specific platform*.
+`inventory-<renderer>.nix` defines *how that meaning is realized on a specific platform*.
 
-Renderer-specific wrappers exist for cases where the semantic lab is shared but one renderer needs
-additional consumer-side binding. That binding must stay in inventory space, not intent space.
+Renderer-specific realization files exist because the semantic lab is shared while each renderer may
+need different consumer-side bindings. That binding must stay in inventory space, not intent space.
 
 ## Examples
 
@@ -31,7 +30,7 @@ From `network-labs/`:
 LABS_DIR="$(pwd)"
 nix run github:esp0xdeadbeef/network-control-plane-model#compile-and-build-control-plane-model -- \
   "$LABS_DIR/examples/single-wan/intent.nix" \
-  "$LABS_DIR/examples/single-wan/inventory.nix" \
+  "$LABS_DIR/examples/single-wan/inventory-nixos.nix" \
   "$LABS_DIR/output-control-plane-model.json"
 ```
 
@@ -57,7 +56,7 @@ nix run github:esp0xdeadbeef/network-renderer-nixos#render-dry-config -- --debug
 - Policy intent can derive multiple parallel transit p2p links ("dedicated lanes") between:
   - downstream-selector <-> policy (one lane per access unit)
   - policy <-> upstream-selector (one lane per access unit and allowed uplink)
-  These lane link names must be bound explicitly in `inventory.nix`.
+  These lane link names must be bound explicitly in `inventory-<renderer>.nix`.
 
-- If an example is intended to be cross-renderer, keep `intent.nix` shared and add renderer wrappers
+- Cross-renderer examples keep `intent.nix` shared and carry full standalone renderer inventory files
   instead of forking the semantic intent.
