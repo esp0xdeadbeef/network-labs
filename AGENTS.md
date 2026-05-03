@@ -69,7 +69,7 @@ Before deleting or renaming anything:
 
 ## Files that may be removed after inlining
 
-These legacy/helper files MUST be removed after their content has been folded into the final self-contained examples:
+These transitional helper files MUST be removed after their content has been folded into the final self-contained examples:
 
 * `inventory-base.nix`
 * `inventory.nix`
