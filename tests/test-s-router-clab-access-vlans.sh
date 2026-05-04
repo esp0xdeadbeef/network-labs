@@ -2,8 +2,8 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-inventory="${repo_root}/examples/s-router-test-three-site/inventory-clab.nix"
-nixos_inventory="${repo_root}/examples/s-router-test-three-site/inventory-nixos.nix"
+inventory="${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-clab.nix"
+nixos_inventory="${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-nixos.nix"
 
 nix eval --impure --json --expr "import ${inventory}" \
   | jq -e '

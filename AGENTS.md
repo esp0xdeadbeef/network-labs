@@ -120,7 +120,8 @@ No example may import:
 * local helper files or directories such as `inventory-parts/`, `profiles/`
 * local per-folder reference files used only to assemble the expected full files
 
-Generated examples may use standalone `builtins.fromJSON` payloads to avoid manual composition, but examples intended for human maintenance should stay in readable Nix attrsets.
+Generated examples must still be readable Nix attrsets. Do not use `builtins.fromJSON`
+payloads to compress example or lab files; compact ordinary Nix formatting is fine.
 
 ## Commit message
 

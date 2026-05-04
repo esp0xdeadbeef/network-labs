@@ -1,0 +1,1 @@
+import ./inventory-nixos.nix

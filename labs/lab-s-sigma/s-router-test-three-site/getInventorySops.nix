@@ -1,0 +1,29 @@
+{
+  runtimeFacts = {
+    publicEndpoint = {
+      ipv4Secret = "hetzner-public-ipv4";
+      ipv6Secret = "hetzner-public-ipv6";
+      macSecret = "hetzner-primary-interface-mac";
+    };
+
+    delegatedPrefixes = {
+      branchHostile = "access-node-ipv6-prefix-espbranch-site-b-b-router-access-hostile";
+      siteCClient = "access-node-ipv6-prefix-esp0xdeadbeef-site-c-c-router-access-client";
+    };
+
+    overlayClients = {
+      hetznerLighthouse = {
+        addr4Secret = "nebula-hetzner-lighthouse-ipv4";
+        addr6Secret = "nebula-hetzner-lighthouse-ipv6";
+      };
+    };
+
+    prefixPostfixes = {
+      siteCClientPublic = "site-c-client-public-prefix-postfix";
+    };
+
+    resolverForwarders = {
+      publicDnsForwarders = "runtime-public-dns-forwarders";
+    };
+  };
+}

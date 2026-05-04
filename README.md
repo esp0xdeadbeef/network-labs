@@ -16,6 +16,38 @@ The core contract is separation:
 Renderer-specific realization files exist because the semantic lab is shared while each renderer may
 need different consumer-side bindings. That binding must stay in inventory space, not intent space.
 
+## Modeling Contract
+
+The compiler and forwarding model own the canonical staged fabric:
+
+```text
+access -> downstream-selector -> policy -> upstream-selector -> core
+```
+
+Do not draw that chain by hand in new lab `intent.nix` files. Intent should
+describe the network meaning:
+
+- sites, tenants, services, traffic types, and communication relations
+- uplink and overlay domains as semantic external domains
+- route ownership/export authority
+- policy exceptions, such as which access class may use an overlay path
+- stage cardinality only when the default shape is not enough
+
+The pipeline derives the staged topology, dedicated lanes, and p2p link names
+from that semantic input. Inventory still has to bind those derived p2p links
+to concrete realization facts such as bridges, VLANs, direct links, container
+interfaces, or host attachments. That is not duplication: intent declares
+meaning, while inventory declares how the derived links are realized.
+
+Model a roaming overlay client as overlay membership plus policy/service
+reachability. Do not model it as a fake fabric p2p node unless it exports routes
+or owns prefixes. If it exports routes, model the route ownership explicitly so
+the forwarding and control-plane stages can validate the authority.
+
+Concrete runtime facts such as real public addresses, delegated prefixes,
+deployment MACs, and private overlay client addresses belong in SOPS/runtime
+inventory for prod-like labs, not in plain intent.
+
 ## Examples
 
 See `examples/README.md` for what each example is trying to demonstrate.
