@@ -628,10 +628,10 @@
               "fd42:dead:beef:15::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.15.1"
@@ -709,10 +709,10 @@
               "fd42:dead:beef:20::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.20.1"
@@ -790,10 +790,10 @@
               "fd42:dead:beef:40::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.40.1"
@@ -875,10 +875,10 @@
               "fd42:dead:beef:30::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.30.1"
@@ -956,10 +956,10 @@
               "fd42:dead:beef:10::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.10.1"
@@ -1037,10 +1037,10 @@
               "fd42:dead:beef:50::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.20.50.1"
@@ -1823,10 +1823,10 @@
               "fd42:dead:cafe:20::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.90.20.1"
@@ -1908,10 +1908,10 @@
               "fd42:dead:cafe:10::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "1.1.1.1"
+              "9.9.9.9"
+              "2606:4700:4700::1111"
+              "2620:fe::fe"
             ];
             listen = [
               "10.90.10.1"
