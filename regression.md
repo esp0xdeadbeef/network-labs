@@ -42,15 +42,33 @@ blobs, or shared example fragments.
   downstream delegation. Both NixOS and CLAB inventories bind the derived
   `client-b` p2p lanes, and the regression test compiles both inventories
   through CPM.
+- `tests/test-s-router-client-bridge-contract.sh` now rejects
+  `s-router-test-clients` bridge bindings that have no matching router-side
+  access bridge in the NixOS lab inventory. The guard caught the stale local
+  site-C endpoint bridges and passes after removing those bindings from the
+  NixOS lab inventory.
 
 ## Still Broken
 
 - No current `network-labs` test failure is verified after the standalone
   compact Nix conversion. This repo still needs downstream compiler validation
   before the moved lab can be considered production evidence.
+- The prod-like s-sigma lab still uses one shared `inventory-clab.nix` alongside
+  the NixOS inventory. That does not give Containerlab its own explicit lab
+  target. The next change must add a dedicated CLAB validation input for
+  `s-router-clab` while keeping the current NixOS/Hetzner shape for
+  `s-router-test`: site-a and site-b remain local `s-router-test` style sites,
+  site-c remains the Hetzner/external validation site, and `s-router-clab`
+  becomes its own modeled CLAB site/lab inventory instead of sharing hidden
+  assumptions with the NixOS inventory.
 
 ## Next Concrete Debugging Target
 
+- Add focused `network-labs` tests that compile both prod-like lab targets at
+  the same time: the current `s-router-test-three-site` NixOS/Hetzner lab and
+  the new dedicated `s-router-clab` CLAB lab. The tests must fail if
+  `s-router-clab` is only an alias for the NixOS inventory or if either lab
+  drops site-a/site-b/site-c coverage.
 - After `network-labs` tests pass, continue down the locked chain in order:
   `network-compiler`, `network-forwarding-model`,
   `network-control-plane-model`, `network-renderer-containerlab-linux-backend`,

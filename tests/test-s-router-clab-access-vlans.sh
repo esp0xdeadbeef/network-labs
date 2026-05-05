@@ -47,22 +47,8 @@ nix eval --impure --json --expr "import ${inventory}" \
 
 nix eval --impure --json --expr "import ${nixos_inventory}" \
   | jq -e '
-      def client_fixture_vlans:
-        {
-          "site-c-mgmt": 358,
-          "home-users": 359,
-          printer: 360,
-          nas: 361
-        };
-
       .deployment.hosts["s-router-test-clients"].bridgeNetworks as $bridges
-      | client_fixture_vlans
-      | to_entries
-      | all(
-          $bridges[.key].mode == "vlan"
-          and $bridges[.key].parent == "eth0"
-          and $bridges[.key].vlan == .value
-        )
+      | all(["site-c-mgmt", "home-users", "printer", "nas"][]; $bridges[.] == null)
     ' >/dev/null
 
 echo "PASS s-router-clab-access-vlans"
