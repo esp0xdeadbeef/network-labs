@@ -3,6 +3,8 @@
     publicEndpoint = {
       ipv4Secret = "hetzner-public-ipv4";
       ipv6Secret = "hetzner-public-ipv6";
+      lighthouseIpv4Secret = "hetzner-lighthouse-public-ipv4";
+      nebulaCoreIpv4Secret = "hetzner-public-ipv4";
       macSecret = "hetzner-primary-interface-mac";
     };
 
