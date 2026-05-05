@@ -1945,7 +1945,7 @@
               routes = {
                 ipv4 = [
                   {
-                    prefix = "runtime-default-ipv4";
+                    prefix = "0.0.0.0/0";
                     via = "172.31.254.1";
                   }
                 ];
@@ -2042,7 +2042,7 @@
                 ipv4 = [
                   {
                     metric = 5000;
-                    prefix = "runtime-default-ipv4";
+                    prefix = "0.0.0.0/0";
                     via = "172.31.254.1";
                   }
                 ];
