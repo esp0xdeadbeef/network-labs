@@ -49,4 +49,18 @@ if [[ "${status}" -ne 0 ]]; then
   exit "${status}"
 fi
 
+nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
+  let
+    resolved = import ${lab_dir}/getResolvedInventory.nix;
+    values = builtins.toJSON resolved;
+    has = needle: builtins.match \".*\${needle}.*\" values != null;
+  in
+    if has \"runtime-public-dns-\" then
+      throw \"lab-sigma getResolvedInventory still contains runtime-public-dns-* placeholders; resolve them through getInventorySops before compiler/rendering\"
+    else if !(has \"1.1.1.1\" && has \"9.9.9.9\" && has \"2606:4700:4700::1111\" && has \"2620:fe::fe\") then
+      throw \"lab-sigma getResolvedInventory must inject public DNS forwarder addresses from getInventorySops\"
+    else
+      true
+" >/dev/null
+
 echo "PASS lab-sigma-runtime-contract"
