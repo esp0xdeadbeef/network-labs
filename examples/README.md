@@ -89,6 +89,14 @@ These examples are meant to be consumed by:
   - Same topology as `dual-wan-branch-overlay`, but both sites enable iBGP control-plane (`policy-rr`).
   - Cross-renderer conformance example.
 
+- `s-router-public-overlay-service`
+  - Focused prod-like fixture for public ingress to an overlay-facing DMZ service.
+  - Keeps the service provider, overlay lighthouse, and runtime addresses in inventory.
+
+- `s-router-overlay-dns-lane-policy`
+  - Focused prod-like fixture for DNS lane preservation, hostile east-west DNS, and overlay return-route checks.
+  - Keeps runtime/SOPS-like realization facts in inventory; intent only declares policy and ownership.
+
 - `priority-stability`
   - Focused on relation ordering / priority determinism.
 
