@@ -30,6 +30,12 @@ blobs, or shared example fragments.
   `tests/test-lab-runtime-secret-boundary.sh` now rejects overlay unsafe route
   policy in plain lab files; route export policy must come from CPM/model
   contracts.
+- The stale `nebula-core` runtime node was removed from the s-sigma lab and the
+  matching reusable overlay DNS example. The only materialized Nebula runtime
+  nodes now correspond to modeled topology nodes or the explicit lighthouse.
+  `tests/test-nebula-runtime-node-intent-contract.sh` rejects any future
+  `runtimeNodes` entry that is not a topology node or the overlay lighthouse,
+  preventing renderers from creating extra unvalidated Nebula containers.
 - `examples/ipv6-pd-downstream-delegation` covers a provider /48, a normal
   `client-a` /64 access tenant, and a `client-b` access router that keeps its
   access-link /64 while receiving a named runtime IPv6 routed prefix for a /52
