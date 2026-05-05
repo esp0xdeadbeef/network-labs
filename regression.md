@@ -20,6 +20,10 @@ blobs, or shared example fragments.
   facts in plain lab files. The guard passes for the current lab state.
 - Lab runtime staging entrypoints exist for `getCompilerInput`, `getInventory`,
   `getInventorySops`, and `getResolvedInventory`.
+- `getResolvedInventory` now resolves the lab DNS forwarder placeholders from
+  `getInventorySops` before compiler/rendering. The runtime contract test fails
+  if `runtime-public-dns-*` strings survive into the resolved inventory or if
+  the public resolver forwarders are not injected.
 - `runtimeNodes.*.unsafeRoutes` was removed from the s-sigma lab inventories.
   `tests/test-lab-runtime-secret-boundary.sh` now rejects overlay unsafe route
   policy in plain lab files; route export policy must come from CPM/model
