@@ -1,5 +1,7 @@
+{ renderer ? "nixos" }:
+
 let
-  inventory = import ./getInventory.nix;
+  inventory = import ./getInventory.nix { inherit renderer; };
   inventorySops = import ./getInventorySops.nix;
   publicDnsForwarders = inventorySops.runtimeFacts.resolverForwarders.publicDnsForwarders;
   placeholderValues = {

@@ -23,7 +23,9 @@ blobs, or shared example fragments.
 - `getResolvedInventory` now resolves the lab DNS forwarder placeholders from
   `getInventorySops` before compiler/rendering. The runtime contract test fails
   if `runtime-public-dns-*` strings survive into the resolved inventory or if
-  the public resolver forwarders are not injected.
+  the public resolver forwarders are not injected. The resolved inventory
+  entrypoint is renderer-selectable so NixOS and CLAB consume the same
+  SOPS/runtime resolution boundary.
 - `runtimeNodes.*.unsafeRoutes` was removed from the s-sigma lab inventories.
   `tests/test-lab-runtime-secret-boundary.sh` now rejects overlay unsafe route
   policy in plain lab files; route export policy must come from CPM/model
