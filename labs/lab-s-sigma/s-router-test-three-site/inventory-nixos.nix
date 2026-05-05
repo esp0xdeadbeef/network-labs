@@ -459,11 +459,6 @@
             parent = "eth0";
             vlan = 304;
           };
-          home-users = {
-            mode = "vlan";
-            parent = "eth0";
-            vlan = 359;
-          };
           hostile = {
             mode = "vlan";
             parent = "eth0";
@@ -473,21 +468,6 @@
             mode = "vlan";
             parent = "eth0";
             vlan = 300;
-          };
-          nas = {
-            mode = "vlan";
-            parent = "eth0";
-            vlan = 361;
-          };
-          printer = {
-            mode = "vlan";
-            parent = "eth0";
-            vlan = 360;
-          };
-          site-c-mgmt = {
-            mode = "vlan";
-            parent = "eth0";
-            vlan = 358;
           };
           streaming = {
             mode = "vlan";
