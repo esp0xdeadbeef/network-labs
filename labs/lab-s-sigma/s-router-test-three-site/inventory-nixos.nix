@@ -65,6 +65,9 @@
                     interface = "nebula1";
                     name = "nebula-runtime";
                   };
+                  relay = {
+                    relays = [ "c-router-nebula-core" ];
+                  };
                 };
               };
             };
@@ -137,6 +140,9 @@
                   service = {
                     interface = "nebula1";
                     name = "nebula-runtime";
+                  };
+                  relay = {
+                    amRelay = true;
                   };
                 };
               };
@@ -226,6 +232,9 @@
                   service = {
                     interface = "nebula1";
                     name = "nebula-runtime";
+                  };
+                  relay = {
+                    relays = [ "c-router-nebula-core" ];
                   };
                 };
               };
