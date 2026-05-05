@@ -1,6 +1,6 @@
 # network-labs Regression State
 
-Last updated: 2026-05-04.
+Last updated: 2026-05-05.
 
 This file records current verified state only. `README.md` and `AGENTS.md` are
 leading: examples and labs must stay standalone model inputs. Do not solve LOC
@@ -24,9 +24,12 @@ blobs, or shared example fragments.
   `tests/test-lab-runtime-secret-boundary.sh` now rejects overlay unsafe route
   policy in plain lab files; route export policy must come from CPM/model
   contracts.
-- `examples/ipv6-pd-downstream-delegation` covers a provider /48 with normal
-  /64 client behavior and a downstream delegated /52 receiver for both NixOS and
-  CLAB inventories.
+- `examples/ipv6-pd-downstream-delegation` covers a provider /48, a normal
+  `client-a` /64 access tenant, and a `client-b` access router that keeps its
+  access-link /64 while receiving a named runtime IPv6 routed prefix for a /52
+  downstream delegation. Both NixOS and CLAB inventories bind the derived
+  `client-b` p2p lanes, and the regression test compiles both inventories
+  through CPM.
 
 ## Still Broken
 

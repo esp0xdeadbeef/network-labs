@@ -9,7 +9,7 @@
           service-site-dns = "site-dns";
           tenant-admin = "admin";
           tenant-client-b = "client-b";
-          tenant-client = "client";
+          tenant-client-a = "client-a";
           tenant-mgmt = "mgmt";
         };
         relations = [
@@ -26,7 +26,7 @@
               members = [
                 "mgmt"
                 "admin"
-                "client"
+                "client-a"
                 "client-b"
               ];
             };
@@ -39,7 +39,7 @@
               members = [
                 "mgmt"
                 "admin"
-                "client"
+                "client-a"
                 "client-b"
               ];
             };
@@ -55,7 +55,7 @@
               members = [
                 "mgmt"
                 "admin"
-                "client"
+                "client-a"
                 "client-b"
               ];
             };
@@ -74,7 +74,7 @@
               members = [
                 "mgmt"
                 "admin"
-                "client"
+                "client-a"
                 "client-b"
               ];
             };
@@ -236,13 +236,20 @@
             ipv4 = "10.20.20.0/24";
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
-            name = "client";
+            name = "client-a";
           }
           {
             ipv4 = "10.20.30.0/24";
-            ipv6 = "2001:db8:30::/52";
+            ipv6 = "fd42:dead:beef:30::/64";
             kind = "tenant";
             name = "client-b";
+            routedPrefixes = [
+              {
+                allocation = "runtime";
+                family = "ipv6";
+                name = "client-b-downstream-public";
+              }
+            ];
           }
         ];
       };
@@ -272,7 +279,11 @@
           ]
           [
             "s-router-downstream-selector"
-            "s-router-access-client"
+            "s-router-access-client-a"
+          ]
+          [
+            "s-router-downstream-selector"
+            "s-router-access-client-b"
           ]
           [
             "s-router-downstream-selector"
@@ -293,11 +304,20 @@
             ];
             role = "access";
           };
-          s-router-access-client = {
+          s-router-access-client-a = {
             attachments = [
               {
                 kind = "tenant";
-                name = "client";
+                name = "client-a";
+              }
+            ];
+            role = "access";
+          };
+          s-router-access-client-b = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client-b";
               }
             ];
             role = "access";
