@@ -17,10 +17,6 @@
                     addr4 = "100.96.10.254/32";
                     addr6 = "fd42:dead:beef:ee::254/128";
                   };
-                  nebula-core = {
-                    addr4 = "100.96.10.10/32";
-                    addr6 = "fd42:dead:beef:ee::10/128";
-                  };
                   s-router-core-nebula = {
                     addr4 = "100.96.10.1/32";
                     addr6 = "fd42:dead:beef:ee::1/128";
@@ -38,20 +34,6 @@
               };
               provider = "nebula";
               runtimeNodes = {
-                nebula-core = {
-                  container = {
-                    hostBridge = "dmz";
-                    profile = "core-client";
-                  };
-                  groups = [
-                    "lab"
-                    "core"
-                  ];
-                  service = {
-                    interface = "nebula1";
-                    name = "nebula-runtime";
-                  };
-                };
                 s-router-core-nebula = {
                   container = {
                     profile = "core-router-nebula";
