@@ -20,6 +20,13 @@ blobs, or shared example fragments.
   facts in plain lab files. The guard passes for the current lab state.
 - Lab runtime staging entrypoints exist for `getCompilerInput`, `getInventory`,
   `getInventorySops`, and `getResolvedInventory`.
+- `runtimeNodes.*.unsafeRoutes` was removed from the s-sigma lab inventories.
+  `tests/test-lab-runtime-secret-boundary.sh` now rejects overlay unsafe route
+  policy in plain lab files; route export policy must come from CPM/model
+  contracts.
+- `examples/ipv6-pd-downstream-delegation` covers a provider /48 with normal
+  /64 client behavior and a downstream delegated /52 receiver for both NixOS and
+  CLAB inventories.
 
 ## Still Broken
 

@@ -14,7 +14,7 @@ candidate_file="$(mktemp)"
 trap 'rm -f "${suspicious_file}" "${candidate_file}"' EXIT
 
 rg -n \
-  '([0-9]{1,3}\.){3}[0-9]{1,3}|20[0-9a-fA-F]{2}:|2[0-9a-fA-F]{3}:|([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}|ip route|ip rule|iptables|ip6tables|nft |brctl|ip link add.*bridge|macvlan' \
+  '([0-9]{1,3}\.){3}[0-9]{1,3}|20[0-9a-fA-F]{2}:|2[0-9a-fA-F]{3}:|([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}|unsafeRoutes|ip route|ip rule|iptables|ip6tables|nft |brctl|ip link add.*bridge|macvlan' \
   "${labs_dir}" \
   --glob '*.nix' \
   --glob '*.sh' \
@@ -70,7 +70,7 @@ line_has_public_ipv6() {
 line_has_runtime_glue() {
   local line="$1"
 
-  grep -Eq 'ip route|ip rule|iptables|ip6tables|nft |brctl|ip link add.*bridge|macvlan' <<<"${line}"
+  grep -Eq 'unsafeRoutes|ip route|ip rule|iptables|ip6tables|nft |brctl|ip link add.*bridge|macvlan' <<<"${line}"
 }
 
 while IFS= read -r line; do
@@ -88,13 +88,15 @@ FATAL network-labs lab runtime secret boundary failed.
 
 Regression this prevents:
   Real public IPv4/GUA IPv6 values, deployment MACs, overlay client addresses,
-  and local route/firewall/bridge glue leaked into prod-like lab files.
+  overlay unsafe route policy, and local route/firewall/bridge glue leaked into
+  prod-like lab files.
 
 Rule:
   Plain lab files may describe intent and non-secret inventory bindings.
   Real deployment facts must be referenced by secret/runtime keys and supplied by
-  getInventorySops/getResolvedInventory. Raw route/firewall/bridge/macvlan
-  commands do not belong in network-labs lab files.
+  getInventorySops/getResolvedInventory. Overlay unsafe route policy must come
+  from CPM/model route contracts. Raw route/firewall/bridge/macvlan commands do
+  not belong in network-labs lab files.
 
 Allowed:
   - RFC documentation ranges
