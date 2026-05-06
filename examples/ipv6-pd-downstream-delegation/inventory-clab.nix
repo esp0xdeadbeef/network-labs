@@ -150,11 +150,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -193,11 +188,6 @@
               dnssl = [ "lan." ];
               rdnss = [ "router-self" ];
             };
-          };
-        };
-        containers = {
-          default = {
-            runtimeName = "default";
           };
         };
         host = "lab-host";
@@ -240,11 +230,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -285,11 +270,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -312,11 +292,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-core-wan = {
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -350,11 +325,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-downstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -454,11 +424,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-policy = {
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -558,11 +523,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "default";
-          };
-        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";

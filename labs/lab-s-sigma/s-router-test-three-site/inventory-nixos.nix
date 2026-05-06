@@ -543,11 +543,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-admin";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -622,11 +617,6 @@
               prefixes = [ "fd42:dead:beef:20::/64" ];
               rdnss = [ "router-self" ];
             };
-          };
-        };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-client";
           };
         };
         host = "s-router-test";
@@ -705,11 +695,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-client2";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -784,11 +769,6 @@
               prefixes = [ "fd42:dead:beef:30::/64" ];
               rdnss = [ "router-self" ];
             };
-          };
-        };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-dmz";
           };
         };
         host = "s-router-test";
@@ -871,11 +851,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-mgmt";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -952,11 +927,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "s-router-access-streaming";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1009,11 +979,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-core-isp-a = {
-        containers = {
-          default = {
-            runtimeName = "s-router-core-isp-a";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1047,11 +1012,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-core-isp-b = {
-        containers = {
-          default = {
-            runtimeName = "s-router-core-isp-b";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1085,11 +1045,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-core-nebula = {
-        containers = {
-          default = {
-            runtimeName = "s-router-core-nebula";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1123,11 +1078,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-downstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "s-router-downstream-selector";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1271,11 +1221,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-policy = {
-        containers = {
-          default = {
-            runtimeName = "s-router-policy-only";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1507,11 +1452,6 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "s-router-upstream-selector";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1734,11 +1674,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "c-router-access-client";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1819,11 +1754,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "c-router-access-dmz";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1880,11 +1810,6 @@
         };
       };
       esp0xdeadbeef-site-c-c-router-core = {
-        containers = {
-          default = {
-            runtimeName = "c-router-core";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1927,11 +1852,6 @@
         };
       };
       esp0xdeadbeef-site-c-c-router-downstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "c-router-downstream-selector";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1987,11 +1907,6 @@
         };
       };
       esp0xdeadbeef-site-c-c-router-nebula-core = {
-        containers = {
-          default = {
-            runtimeName = "c-router-nebula-core";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2035,11 +1950,6 @@
         };
       };
       esp0xdeadbeef-site-c-c-router-policy = {
-        containers = {
-          default = {
-            runtimeName = "c-router-policy";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2117,11 +2027,6 @@
         };
       };
       esp0xdeadbeef-site-c-c-router-upstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "c-router-upstream-selector";
-          };
-        };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2223,11 +2128,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "b-router-access-branch";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2305,11 +2205,6 @@
             };
           };
         };
-        containers = {
-          default = {
-            runtimeName = "b-router-access-hostile";
-          };
-        };
         externalValidation = {
           delegatedIPv6Prefix = true;
         };
@@ -2367,11 +2262,6 @@
         };
       };
       espbranch-site-b-b-router-core-nebula = {
-        containers = {
-          default = {
-            runtimeName = "b-router-core-nebula";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2405,11 +2295,6 @@
         };
       };
       espbranch-site-b-b-router-core-simulated-isp = {
-        containers = {
-          default = {
-            runtimeName = "b-router-core-simulated-isp";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2443,11 +2328,6 @@
         };
       };
       espbranch-site-b-b-router-downstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "b-router-downstream-selector";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2503,11 +2383,6 @@
         };
       };
       espbranch-site-b-b-router-policy = {
-        containers = {
-          default = {
-            runtimeName = "b-router-policy";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2585,11 +2460,6 @@
         };
       };
       espbranch-site-b-b-router-upstream-selector = {
-        containers = {
-          default = {
-            runtimeName = "b-router-upstream-selector";
-          };
-        };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
