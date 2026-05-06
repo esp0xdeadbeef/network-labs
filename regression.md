@@ -47,6 +47,12 @@ blobs, or shared example fragments.
   access bridge in the NixOS lab inventory. The guard caught the stale local
   site-C endpoint bridges and passes after removing those bindings from the
   NixOS lab inventory.
+- Inventory no longer carries synthetic `containers.default` bindings for every
+  forwarding node. CPM treats `inventory.realization.nodes.*.containers` as
+  realization for containers explicitly declared by the forwarding model, not as
+  a runtime name for the node itself. `tests/test-inventory-no-synthetic-default-containers.sh`
+  rejects those stale NFM-era bindings so the compiler/CPM path cannot confuse a
+  node placement target with a logical container.
 
 ## Still Broken
 
