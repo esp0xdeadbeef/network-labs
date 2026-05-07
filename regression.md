@@ -1,6 +1,6 @@
 # network-labs Regression State
 
-Last updated: 2026-05-05.
+Last updated: 2026-05-06.
 
 This file records current verified state only. `README.md` and `AGENTS.md` are
 leading: examples and labs must stay standalone model inputs. Do not solve LOC
@@ -53,12 +53,20 @@ blobs, or shared example fragments.
   a runtime name for the node itself. `tests/test-inventory-no-synthetic-default-containers.sh`
   rejects those stale NFM-era bindings so the compiler/CPM path cannot confuse a
   node placement target with a logical container.
+- Service provider endpoint realization is explicit for the overlay/DNS examples
+  that expose `dmz-nebula`, `site-dns-mgmt`, or `sitec-dns-mgmt`. The missing
+  CLAB `c-router-lighthouse` endpoint and reusable example `nebula01` /
+  site-DNS endpoint addresses were added to inventory files, then the changed
+  inventories were compiled through the current local CPM checkout and checked
+  with the CPM policy and DNS report jq contracts.
 
 ## Still Broken
 
-- No current `network-labs` test failure is verified after the standalone
-  compact Nix conversion. This repo still needs downstream compiler validation
-  before the moved lab can be considered production evidence.
+- `./tests/test.sh` is currently blocked by its pinned downstream CPM/NFM chain,
+  which still rejects removed synthetic `containers.default` bindings during the
+  IPv6-PD downstream delegation compile path. This is a lock-chain/upstream
+  propagation blocker, not a reason to re-add default containers to
+  `network-labs`.
 - The prod-like s-sigma lab still uses one shared `inventory-clab.nix` alongside
   the NixOS inventory. That does not give Containerlab its own explicit lab
   target. The next change must add a dedicated CLAB validation input for
