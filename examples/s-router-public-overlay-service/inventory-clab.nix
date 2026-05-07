@@ -544,6 +544,10 @@
     };
   };
   endpoints = {
+    c-router-lighthouse = {
+      ipv4 = [ "10.90.10.100" ];
+      ipv6 = [ "fd42:dead:cafe:10::100" ];
+    };
     nebula01 = {
       ipv4 = [ "10.20.30.10" ];
       ipv6 = [ "fd42:dead:beef:30::10" ];
