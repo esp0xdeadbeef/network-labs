@@ -266,7 +266,10 @@
         uplinks = {
           wan = {
             bridge = "br-wan";
-            hostAddresses = [ "172.31.254.1/24" ];
+            hostAddresses = [
+              "172.31.254.1/24"
+              "fd42:dead:cafe:ffff::1/64"
+            ];
             ipv4 = {
               dhcp = true;
               enable = true;
@@ -1837,12 +1840,19 @@
             external = true;
             interface = {
               addr4 = "172.31.254.3/24";
+              addr6 = "fd42:dead:cafe:ffff::3/64";
               name = "wan";
               routes = {
                 ipv4 = [
                   {
                     prefix = "0.0.0.0/0";
                     via = "172.31.254.1";
+                  }
+                ];
+                ipv6 = [
+                  {
+                    prefix = "::/0";
+                    via = "fd42:dead:cafe:ffff::1";
                   }
                 ];
               };
