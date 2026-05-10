@@ -9,8 +9,8 @@
     };
 
     delegatedPrefixes = {
-      branchHostile = "access-node-ipv6-prefix-espbranch-site-b-b-router-access-hostile";
-      siteCClient = "access-node-ipv6-prefix-esp0xdeadbeef-site-c-c-router-access-client";
+      branchHostile = "access-node-ipv6-prefix-espbranch-clab-b-router-access-hostile";
+      hetzClient = "access-node-ipv6-prefix-esp0xdeadbeef-hetz-c-router-access-client";
     };
 
     overlayClients = {
@@ -21,7 +21,7 @@
     };
 
     prefixPostfixes = {
-      siteCClientPublic = "site-c-client-public-prefix-postfix";
+      hetzClientPublic = "hetz-client-public-prefix-postfix";
     };
 
     resolverForwarders = {
