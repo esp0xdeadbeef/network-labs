@@ -3,6 +3,10 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ "${NETWORK_REPO_SWEEP:-0}" != "1" && "${NETWORK_REPO_DIRECT_TEST_OK:-0}" != "1" ]]; then
+  echo "WARN: direct repo tests are partial; set NETWORK_REPO_DIRECT_TEST_OK=1 for intentional focused runs, or run network-codex-agent/scripts/s-router-test-rebuild-loop.sh for the locked full network-* sweep plus live validation." >&2
+fi
+
 "${repo_root}/tests/test-readable-examples-and-labs.sh"
 "${repo_root}/tests/test-lab-sigma-runtime-contract.sh"
 "${repo_root}/tests/test-lab-sigma-hetzner-ipv6-wan-transit.sh"
