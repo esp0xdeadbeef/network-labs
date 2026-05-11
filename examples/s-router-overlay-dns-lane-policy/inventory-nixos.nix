@@ -240,6 +240,14 @@
               ipv6 = {
                 mode = "slaac";
               };
+              routedPrefixes = {
+                site-b-hostile-public = {
+                  delegatedPrefixLength = 64;
+                  perTenantPrefixLength = 64;
+                  slot = 0;
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-espbranch-site-b-b-router-access-hostile";
+                };
+              };
             };
           };
         };
@@ -2224,9 +2232,6 @@
               rdnss = [ "router-self" ];
             };
           };
-        };
-        externalValidation = {
-          delegatedIPv6Prefix = true;
         };
         host = "s-router-test";
         logicalNode = {
