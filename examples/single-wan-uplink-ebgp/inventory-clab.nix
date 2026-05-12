@@ -6,7 +6,7 @@
     sites = { esp0xdeadbeef = { site-a = { routing = { bgp = { asn = 65000; topology = "policy-rr"; }; mode = "bgp"; }; uplinks = { wan = { egress = { bgp = { peerAddr4 = "203.0.113.1/32"; peerAsn = 64512; }; mode = "bgp"; }; }; }; }; }; };
   };
   deployment = {
-    hosts = { lab-host = { bridgeNetworks = { br-site-a-core-upstream = { }; br-site-a-downstream-admin = { }; br-site-a-downstream-client = { }; br-site-a-downstream-mgmt = { }; br-site-a-downstream-policy-access-admin = { }; br-site-a-downstream-policy-access-client = { }; br-site-a-downstream-policy-access-mgmt = { }; br-site-a-policy-upstream-access-admin-wan = { }; br-site-a-policy-upstream-access-client-wan = { }; br-site-a-policy-upstream-access-mgmt-wan = { }; }; uplinks = { uplink0 = { bridge = "br-uplink0"; ipv4 = { method = "dhcp"; }; ipv6 = { method = "slaac"; }; parent = "eth0"; }; }; }; };
+    hosts = { lab-host = { bridgeNetworks = { br-site-a-core-upstream = { }; br-site-a-downstream-admin = { }; br-site-a-downstream-client = { }; br-site-a-downstream-mgmt = { }; br-site-a-downstream-policy-access-admin = { }; br-site-a-downstream-policy-access-client = { }; br-site-a-downstream-policy-access-mgmt = { }; br-site-a-policy-upstream-access-admin-wan = { }; br-site-a-policy-upstream-access-client-wan = { }; br-site-a-policy-upstream-access-mgmt-wan = { }; }; uplinks = { uplink0 = { bridge = "br-uplink0"; ipv4 = { address = "198.18.0.1/24"; method = "dhcp"; }; ipv6 = { method = "slaac"; }; mode = "nat"; parent = "eth0"; }; }; }; };
   };
   endpoints = {
     s-sigma = { ipv4 = [ "10.20.10.10" ]; ipv6 = [ "fd42:dead:beef:10::10" ]; };
