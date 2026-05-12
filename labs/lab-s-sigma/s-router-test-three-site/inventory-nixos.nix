@@ -96,6 +96,7 @@
               runtimeNodes = {
                 c-router-lighthouse = {
                   container = {
+                    host = "s-router-hetzner-anywhere";
                     hostBridge = "dmz";
                     profile = "core-client";
                   };
@@ -111,6 +112,7 @@
                 };
                 c-router-nebula-core = {
                   container = {
+                    host = "s-router-hetzner-anywhere";
                     profile = "core-router-nebula";
                     targetContainer = "c-router-nebula-core";
                   };
