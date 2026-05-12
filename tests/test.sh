@@ -20,4 +20,5 @@ fi
 "${repo_root}/tests/test-lab-runtime-secret-boundary.sh"
 "${repo_root}/tests/test-s-router-client-bridge-contract.sh"
 "${repo_root}/tests/test-s-router-clab-access-vlans.sh"
+"${repo_root}/tests/test-clab-nat-uplink-examples.sh"
 "${repo_root}/tests/test-ipv6-pd-downstream-delegation-example-required.sh"
