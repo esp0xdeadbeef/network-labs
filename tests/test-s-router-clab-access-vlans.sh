@@ -99,7 +99,7 @@ check_inventory "${lab_dir}/inventory-clab.nix" '
 
   def client_fixture_vlans:
     {
-      "site-c-mgmt": 358,
+      "hetz-mgmt": 358,
       "home-users": 359,
       printer: 360,
       nas: 361
@@ -125,7 +125,7 @@ check_inventory "${lab_dir}/inventory-clab.nix" '
 
 check_inventory "${lab_dir}/inventory-nixos.nix" '
   .deployment.hosts["s-router-test-clients"].bridgeNetworks as $bridges
-  | all(["site-c-mgmt", "home-users", "printer", "nas"][]; $bridges[.] == null)
+  | all(["hetz-mgmt", "home-users", "printer", "nas"][]; $bridges[.] == null)
   and has_no_duplicate_host_parent_vlan
   and has_no_bridge_name_vlan_collision
   and all_used_bridges_are_declared

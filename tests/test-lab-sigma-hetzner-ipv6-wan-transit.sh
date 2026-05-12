@@ -9,7 +9,7 @@ let
   inventory = import ${lab_dir}/inventory-nixos.nix;
   host = inventory.deployment.hosts.s-router-hetzner-anywhere;
   nodes = inventory.realization.nodes;
-  core = nodes.esp0xdeadbeef-site-c-c-router-core;
+  core = nodes.esp0xdeadbeef-hetz-c-router-core;
   wan = core.ports.wan.interface;
   hostWan = host.uplinks.wan;
   hasPrefix = prefix: value: builtins.match (prefix + \".*\") value != null;

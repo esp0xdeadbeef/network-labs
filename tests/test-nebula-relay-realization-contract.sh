@@ -10,9 +10,23 @@ check_inventory() {
   nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
   let
     inventory = import ${inventory_path};
-    siteA = inventory.controlPlane.sites.esp0xdeadbeef.site-a.overlays.east-west.runtimeNodes;
-    siteB = inventory.controlPlane.sites.espbranch.site-b.overlays.east-west.runtimeNodes;
-    siteC = inventory.controlPlane.sites.esp0xdeadbeef.site-c.overlays.east-west.runtimeNodes;
+    deadbeefSites = inventory.controlPlane.sites.esp0xdeadbeef;
+    branchSites = inventory.controlPlane.sites.espbranch;
+    siteA =
+      if deadbeefSites ? site-a then
+        deadbeefSites.site-a.overlays.east-west.runtimeNodes
+      else
+        deadbeefSites.nixos.overlays.east-west.runtimeNodes;
+    siteB =
+      if branchSites ? site-b then
+        branchSites.site-b.overlays.east-west.runtimeNodes
+      else
+        branchSites.clab.overlays.east-west.runtimeNodes;
+    siteC =
+      if deadbeefSites ? site-c then
+        deadbeefSites.site-c.overlays.east-west.runtimeNodes
+      else
+        deadbeefSites.hetz.overlays.east-west.runtimeNodes;
     siteARelays = siteA.s-router-core-nebula.relay.relays or [ ];
     siteBRelays = siteB.b-router-core-nebula.relay.relays or [ ];
     siteCAmRelay = siteC.c-router-nebula-core.relay.amRelay or false;
