@@ -35,6 +35,9 @@
                 role = "core-client";
               };
               provider = "nebula";
+              underlayEndpointSourceFiles = {
+                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+              };
               runtimeNodes = {
                 s-router-core-nebula = {
                   container = {
@@ -97,6 +100,9 @@
                 role = "core-client";
               };
               provider = "nebula";
+              underlayEndpointSourceFiles = {
+                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+              };
               runtimeNodes = {
                 c-router-lighthouse = {
                   container = {
@@ -208,6 +214,9 @@
                 role = "core-client";
               };
               provider = "nebula";
+              underlayEndpointSourceFiles = {
+                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+              };
               runtimeNodes = {
                 b-router-core-nebula = {
                   container = {
