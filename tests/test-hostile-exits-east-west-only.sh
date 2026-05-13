@@ -21,6 +21,16 @@ check_intent() {
     echo "${label}: hostile tenant must retain east-west egress" >&2
     exit 1
   }
+
+  if grep -q 'c-router-nebula-core = { role = "core"; uplinks = { east-west = { ipv4 = \[ "0.0.0.0/0" \]; ipv6 = \[ "::/0" \]; }; }; };' "${intent_path}"; then
+    echo "${label}: site-c Nebula core must not model east-west as a public default; site-c public egress belongs on wan" >&2
+    exit 1
+  fi
+
+  grep -q 'b-router-core-nebula = { role = "core"; uplinks = { east-west = { ipv4 = \[ "0.0.0.0/0" \]; ipv6 = \[ "::/0" \]; }; }; };' "${intent_path}" || {
+    echo "${label}: hostile branch must retain east-west as its public-exit lane" >&2
+    exit 1
+  }
 }
 
 check_inventory() {

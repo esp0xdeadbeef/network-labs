@@ -1,6 +1,6 @@
 # network-labs Regression State
 
-Last updated: 2026-05-06.
+Last updated: 2026-05-13.
 
 This file records current verified state only. `README.md` and `AGENTS.md` are
 leading: examples and labs must stay standalone model inputs. Do not solve LOC
@@ -9,6 +9,16 @@ blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
 
+- `s-router-overlay-dns-lane-policy` and the prod-like
+  `labs/lab-s-sigma/s-router-test-three-site` now keep the hostile branch
+  public-exit default on `b-router-core-nebula` east-west, while removing
+  `0.0.0.0/0` and `::/0` from site-C `c-router-nebula-core` east-west. Site-C
+  has its own WAN core for public egress; modeling east-west as a public default
+  made CPM install a delegated public default back into Nebula and matched the
+  live hostile IPv6 loop.
+- `tests/test-hostile-exits-east-west-only.sh` now guards both sides of that
+  contract: hostile keeps east-west as its public-exit lane, and site-C Nebula
+  core must not model east-west as a public default.
 - `examples/s-router-test-three-site` was moved to
   `labs/lab-s-sigma/s-router-test-three-site` so the prod-like s-sigma lab is no
   longer presented as a generic reusable example.
@@ -62,6 +72,13 @@ blobs, or shared example fragments.
 
 ## Still Broken
 
+- The 2026-05-13 fast live refresh
+  `/tmp/s-router-fast-enum-20260513T212251Z/summary/fast.tsv` confirms the
+  currently visible lab is still not production-ready: branch/hostile endpoints
+  have modeled public route candidates but no working DNS or public egress,
+  regular client egress differs by lane, and CLAB is stale/unusable. The first
+  semantic fix remains keeping site-C Nebula east-west from being modeled as a
+  public default while preserving the hostile branch public-exit lane.
 - `./tests/test.sh` is currently blocked by its pinned downstream CPM/NFM chain,
   which still rejects removed synthetic `containers.default` bindings during the
   IPv6-PD downstream delegation compile path. This is a lock-chain/upstream
