@@ -26,7 +26,9 @@
               nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
+                  endpointSourceFile = "/run/secrets/site-c-lighthouse-public-ipv4";
                   endpoint6 = "2001:db8:51::10";
+                  endpoint6SourceFile = "/run/secrets/site-c-lighthouse-public-ipv6";
                   node = "c-router-lighthouse";
                   port = 4242;
                 };
@@ -86,7 +88,9 @@
               nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
+                  endpointSourceFile = "/run/secrets/site-c-lighthouse-public-ipv4";
                   endpoint6 = "2001:db8:51::10";
+                  endpoint6SourceFile = "/run/secrets/site-c-lighthouse-public-ipv6";
                   node = "c-router-lighthouse";
                   port = 4242;
                 };
@@ -193,7 +197,9 @@
               nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
+                  endpointSourceFile = "/run/secrets/site-c-lighthouse-public-ipv4";
                   endpoint6 = "2001:db8:51::10";
+                  endpoint6SourceFile = "/run/secrets/site-c-lighthouse-public-ipv6";
                   node = "c-router-lighthouse";
                   port = 4242;
                 };
