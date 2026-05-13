@@ -257,6 +257,14 @@
               ipv6 = {
                 mode = "slaac";
               };
+              routedPrefixes = {
+                branch-hostile-public = {
+                  delegatedPrefixLength = 64;
+                  perTenantPrefixLength = 64;
+                  slot = 0;
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-espbranch-clab-b-router-access-hostile";
+                };
+              };
             };
           };
         };
