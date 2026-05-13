@@ -74,6 +74,10 @@ common_vlan_checks='
     declared_bridges as $declared
     | used_bridges
     | all(. as $used | any($declared[]; .host == $used.host and .bridge == $used.bridge));
+
+  def no_management_vlan2_in_clab_inventory:
+    vlan_bindings
+    | all(.vlan != 2 and .name != "vlan2");
 '
 
 check_inventory() {
@@ -121,6 +125,7 @@ check_inventory "${lab_dir}/inventory-clab.nix" '
   and has_no_duplicate_host_parent_vlan
   and has_no_bridge_name_vlan_collision
   and all_used_bridges_are_declared
+  and no_management_vlan2_in_clab_inventory
 '
 
 check_inventory "${lab_dir}/inventory-nixos.nix" '
