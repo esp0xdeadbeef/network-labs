@@ -12,6 +12,11 @@ check_intent() {
     exit 1
   fi
 
+  if grep -q 'id = "deny-hostile-dns-to-wan"' "${intent_path}"; then
+    echo "${label}: hostile tenant must not retain stale local WAN DNS policy" >&2
+    exit 1
+  fi
+
   grep -q 'id = "allow-hostile-to-east-west"' "${intent_path}" || {
     echo "${label}: hostile tenant must retain east-west egress" >&2
     exit 1
