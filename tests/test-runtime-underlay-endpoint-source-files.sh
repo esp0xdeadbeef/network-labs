@@ -11,16 +11,18 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
     hasSourceFiles = siteKey: inv:
       let
         sites = inv.controlPlane.sites;
-        lighthouse =
-          sites.espbranch.${siteKey}.overlays.east-west.nebula.lighthouse;
+        overlay = sites.espbranch.${siteKey}.overlays.east-west;
+        lighthouse = overlay.nebula.lighthouse;
+        endpointSourceFiles = overlay.underlayEndpointSourceFiles.ipv4 or [];
       in
         (lighthouse.endpointSourceFile or "") != ""
-        && (lighthouse.endpoint6SourceFile or "") != "";
+        && (lighthouse.endpoint6SourceFile or "") != ""
+        && builtins.elem "/run/secrets/hetzner-public-ipv4" endpointSourceFiles;
   in
     if hasSourceFiles "site-b" inventory && hasSourceFiles "clab" labInventory then
       true
     else
-      throw "runtime underlay endpoint source files are required for live Hetzner lighthouse routes"
+      throw "runtime underlay endpoint source files are required for live Hetzner lighthouse and relay public routes"
 ' >/dev/null
 
 echo "PASS runtime-underlay-endpoint-source-files"
