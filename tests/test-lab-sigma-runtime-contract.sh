@@ -55,11 +55,15 @@ for renderer in nixos clab; do
     resolved = import ${lab_dir}/getResolvedInventory.nix { renderer = \"${renderer}\"; };
     values = builtins.toJSON resolved;
     has = needle: builtins.match \".*\${needle}.*\" values != null;
+    hostilePrefix =
+      resolved.controlPlane.sites.espbranch.clab.tenants.hostile.routedPrefixes.branch-hostile-public or null;
   in
     if has \"runtime-public-dns-\" then
       throw \"lab-sigma getResolvedInventory(${renderer}) still contains runtime-public-dns-* placeholders; resolve them through getInventorySops before compiler/rendering\"
     else if !(has \"1.1.1.1\" && has \"9.9.9.9\" && has \"2606:4700:4700::1111\" && has \"2620:fe::fe\") then
       throw \"lab-sigma getResolvedInventory(${renderer}) must inject public DNS forwarder addresses from getInventorySops\"
+    else if hostilePrefix == null || hostilePrefix.sourceFile != \"/run/secrets/access-node-ipv6-prefix-espbranch-clab-b-router-access-hostile\" then
+      throw \"lab-sigma getResolvedInventory(${renderer}) must realize the hostile runtime IPv6 routed prefix from getInventorySops\"
     else
       true
 " >/dev/null
