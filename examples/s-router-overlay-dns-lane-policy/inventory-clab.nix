@@ -2448,17 +2448,6 @@
             };
             link = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-branch--uplink-east-west";
           };
-          upstream-hostile = {
-            adapterName = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-wan-upstream-hostile";
-            attach = {
-              bridge = "br-site-b-policy-upstream-access-hostile";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-hostile";
-            };
-            link = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-wan";
-          };
           upstream-hostile-east-west = {
             adapterName = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
             attach = {
@@ -2524,17 +2513,6 @@
               name = "pol-branch-ew";
             };
             link = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-branch--uplink-east-west";
-          };
-          policy-hostile = {
-            adapterName = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-wan-policy-hostile";
-            attach = {
-              bridge = "br-site-b-policy-upstream-access-hostile";
-              kind = "bridge";
-            };
-            interface = {
-              name = "policy-hostile";
-            };
-            link = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-wan";
           };
           policy-hostile-east-west = {
             adapterName = "p2p-b-router-policy-b-router-upstream-selector--access-b-router-access-hostile--uplink-east-west-policy-hostile-east-west";

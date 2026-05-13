@@ -18,6 +18,21 @@ check_intent() {
   }
 }
 
+check_inventory() {
+  local inventory_path="$1"
+  local label="$2"
+
+  if grep -q 'b-router-access-hostile--uplink-wan' "${inventory_path}"; then
+    echo "${label}: hostile tenant must not materialize a local WAN lane" >&2
+    exit 1
+  fi
+
+  grep -q 'b-router-access-hostile--uplink-east-west' "${inventory_path}" || {
+    echo "${label}: hostile tenant must retain east-west realization" >&2
+    exit 1
+  }
+}
+
 check_intent \
   "${repo_root}/examples/s-router-overlay-dns-lane-policy/intent.nix" \
   "examples/s-router-overlay-dns-lane-policy"
@@ -25,5 +40,21 @@ check_intent \
 check_intent \
   "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/intent.nix" \
   "labs/lab-s-sigma/s-router-test-three-site"
+
+check_inventory \
+  "${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix" \
+  "examples/s-router-overlay-dns-lane-policy/inventory-nixos"
+
+check_inventory \
+  "${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-clab.nix" \
+  "examples/s-router-overlay-dns-lane-policy/inventory-clab"
+
+check_inventory \
+  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-nixos.nix" \
+  "labs/lab-s-sigma/s-router-test-three-site/inventory-nixos"
+
+check_inventory \
+  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-clab.nix" \
+  "labs/lab-s-sigma/s-router-test-three-site/inventory-clab"
 
 echo "PASS hostile-exits-east-west-only"
