@@ -13,11 +13,14 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
         sites = inv.controlPlane.sites;
         overlay = sites.espbranch.${siteKey}.overlays.east-west;
         lighthouse = overlay.nebula.lighthouse;
-        endpointSourceFiles = overlay.underlayEndpointSourceFiles.ipv4 or [];
+        endpointSourceFiles4 = overlay.underlayEndpointSourceFiles.ipv4 or [];
+        endpointSourceFiles6 = overlay.underlayEndpointSourceFiles.ipv6 or [];
       in
         (lighthouse.endpointSourceFile or "") != ""
         && (lighthouse.endpoint6SourceFile or "") != ""
-        && builtins.elem "/run/secrets/hetzner-public-ipv4" endpointSourceFiles;
+        && builtins.elem lighthouse.endpointSourceFile endpointSourceFiles4
+        && builtins.elem lighthouse.endpoint6SourceFile endpointSourceFiles6
+        && builtins.elem "/run/secrets/hetzner-public-ipv4" endpointSourceFiles4;
   in
     if hasSourceFiles "site-b" inventory && hasSourceFiles "clab" labInventory then
       true
