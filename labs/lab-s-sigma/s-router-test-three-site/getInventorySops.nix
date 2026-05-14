@@ -9,8 +9,8 @@
     };
 
     delegatedPrefixes = {
-      branchHostile = "access-node-ipv6-prefix-espbranch-clab-b-router-access-hostile";
-      hetzClient = "access-node-ipv6-prefix-esp0xdeadbeef-hetz-c-router-access-client";
+      branchHostile = "access-node-ipv6-prefix-esp-clab-clab-router-access-hostile";
+      hetzClient = "access-node-ipv6-prefix-esp-hetz-hetz-router-access-client";
     };
 
     overlayClients = {
