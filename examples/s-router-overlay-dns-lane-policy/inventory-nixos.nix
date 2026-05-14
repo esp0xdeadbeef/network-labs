@@ -36,7 +36,8 @@
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {
                 s-router-core-nebula = {
@@ -101,7 +102,8 @@
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {
                 c-router-lighthouse = {
@@ -213,7 +215,8 @@
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {
                 b-router-core-nebula = {
