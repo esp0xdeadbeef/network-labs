@@ -7,11 +7,14 @@
           external-isp-a = "isp-a";
           external-isp-b = "isp-b";
           service-dmz-nebula = "dmz-nebula";
+          service-nixos-hostile-4444 = "nixos-hostile-4444";
           service-site-dns-mgmt = "site-dns-mgmt";
+          service-cast-control = "cast-control";
+          service-cast-discovery = "cast-discovery";
           tenant-admin = "admin";
           tenant-client = "client";
-          tenant-client2 = "client2";
           tenant-dmz = "dmz";
+          tenant-hostile = "hostile";
           tenant-mgmt = "mgmt";
           tenant-streaming = "streaming";
         };
@@ -20,17 +23,63 @@
             action = "allow";
             from = {
               kind = "tenant-set";
-              members = [ "mgmt" ];
+              members = [ "admin" ];
             };
-            id = "allow-mgmt-internal";
+            id = "allow-admin-to-mgmt";
             priority = 10;
             to = {
               kind = "tenant-set";
+              members = [ "mgmt" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
               members = [
-                "mgmt"
+                "client"
+                "streaming"
+                "dmz"
+                "hostile"
+              ];
+            };
+            id = "deny-production-to-mgmt";
+            priority = 11;
+            to = {
+              kind = "tenant-set";
+              members = [ "mgmt" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
+              members = [ "streaming" ];
+            };
+            id = "deny-streaming-to-client";
+            priority = 12;
+            to = {
+              kind = "tenant-set";
+              members = [ "client" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
+              members = [ "hostile" ];
+            };
+            id = "deny-hostile-to-local-tenants";
+            priority = 13;
+            to = {
+              kind = "tenant-set";
+              members = [
                 "admin"
                 "client"
-                "client2"
+                "streaming"
                 "dmz"
               ];
             };
@@ -43,12 +92,12 @@
               members = [
                 "admin"
                 "client"
-                "client2"
+                "streaming"
                 "dmz"
               ];
             };
-            id = "allow-nixos-tenants-to-mgmt-dns";
-            priority = 15;
+            id = "allow-tenants-to-site-dns";
+            priority = 20;
             to = {
               kind = "service";
               name = "site-dns-mgmt";
@@ -56,13 +105,18 @@
             trafficType = "dns";
           }
           {
-            action = "allow";
+            action = "deny";
             from = {
               kind = "tenant-set";
-              members = [ "mgmt" ];
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+              ];
             };
-            id = "allow-mgmt-dns-to-uplinks";
-            priority = 16;
+            id = "deny-tenant-dns-to-uplinks";
+            priority = 25;
             to = {
               kind = "external";
               uplinks = [
@@ -76,15 +130,10 @@
             action = "deny";
             from = {
               kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-              ];
+              members = [ "hostile" ];
             };
-            id = "deny-nixos-dns-to-uplinks";
-            priority = 20;
+            id = "deny-hostile-to-local-uplinks";
+            priority = 26;
             to = {
               kind = "external";
               uplinks = [
@@ -92,20 +141,61 @@
                 "isp-b"
               ];
             };
-            trafficType = "dns";
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "client" ];
+            };
+            id = "allow-client-to-cast-discovery";
+            priority = 30;
+            to = {
+              kind = "service";
+              name = "cast-discovery";
+            };
+            trafficType = "cast-discovery";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "client" ];
+            };
+            id = "allow-client-to-cast-control";
+            priority = 31;
+            to = {
+              kind = "service";
+              name = "cast-control";
+            };
+            trafficType = "cast-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "hostile" ];
+            };
+            id = "allow-hostile-egress-to-hetz-overlay";
+            priority = 32;
+            to = {
+              kind = "external";
+              name = "east-west";
+            };
+            trafficType = "any";
           }
           {
             action = "allow";
             from = {
               kind = "tenant-set";
               members = [
-                "mgmt"
                 "admin"
                 "client"
-                "client2"
+                "streaming"
               ];
             };
-            id = "allow-tenants-to-uplinks";
+            id = "allow-user-tenants-to-uplinks";
             priority = 100;
             to = {
               kind = "external";
@@ -119,19 +209,31 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [
-                "mgmt"
-                "admin"
-                "client"
-                "client2"
-              ];
-            };
-            id = "allow-core-tenants-to-east-west";
-            priority = 110;
-            to = {
               kind = "external";
               name = "east-west";
+            };
+            id = "allow-hetz-public-4444-to-nixos-hostile";
+            priority = 121;
+            to = {
+              kind = "service";
+              name = "nixos-hostile-4444";
+            };
+            trafficType = "tcp-udp-4444";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "dmz" ];
+            };
+            id = "allow-dmz-to-uplinks";
+            priority = 101;
+            to = {
+              kind = "external";
+              uplinks = [
+                "isp-a"
+                "isp-b"
+              ];
             };
             trafficType = "any";
           }
@@ -141,7 +243,7 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-east-west-to-nixos-mgmt-dns";
+            id = "allow-east-west-to-site-dns";
             priority = 115;
             to = {
               kind = "service";
@@ -169,76 +271,11 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [
-                "client"
-                "client2"
-              ];
-            };
-            id = "allow-nixos-client-to-streaming-chromecast";
-            priority = 18;
-            to = {
-              kind = "tenant-set";
-              members = [ "streaming" ];
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [ "streaming" ];
-            };
-            id = "allow-nixos-streaming-to-mgmt-dns";
-            priority = 19;
-            to = {
-              kind = "service";
-              name = "site-dns-mgmt";
-            };
-            trafficType = "dns";
-          }
-          {
-            action = "deny";
-            from = {
-              kind = "tenant-set";
-              members = [ "streaming" ];
-            };
-            id = "deny-nixos-streaming-dns-to-uplinks";
-            priority = 22;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "dns";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [ "streaming" ];
-            };
-            id = "allow-nixos-streaming-to-uplinks";
-            priority = 103;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
               kind = "external";
               name = "east-west";
             };
-            id = "allow-nixos-nebula-underlay-to-uplinks";
-            priority = 118;
+            id = "allow-nebula-underlay-to-uplinks";
+            priority = 130;
             to = {
               kind = "external";
               uplinks = [
@@ -260,6 +297,21 @@
             providers = [ "nebula01" ];
             trafficType = "nebula";
           }
+          {
+            name = "nixos-hostile-4444";
+            providers = [ "nixos-hostile01" ];
+            trafficType = "tcp-udp-4444";
+          }
+          {
+            name = "cast-control";
+            providers = [ "streaming01" ];
+            trafficType = "cast-control";
+          }
+          {
+            name = "cast-discovery";
+            providers = [ "streaming01" ];
+            trafficType = "cast-discovery";
+          }
         ];
         trafficTypes = [
           {
@@ -280,6 +332,21 @@
           {
             match = [
               {
+                dports = [ 4444 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4444 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "tcp-udp-4444";
+          }
+          {
+            match = [
+              {
                 dports = [ 4242 ];
                 family = "any";
                 proto = "udp";
@@ -292,6 +359,34 @@
             ];
             name = "nebula";
           }
+          {
+            match = [
+              {
+                dports = [
+                  8008
+                  8009
+                ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "cast-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 5353 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 1900 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "cast-discovery";
+          }
         ];
       };
       ownership = {
@@ -300,6 +395,21 @@
             kind = "host";
             name = "nebula01";
             tenant = "dmz";
+          }
+          {
+            kind = "host";
+            name = "nixos-hostile01";
+            tenant = "hostile";
+          }
+          {
+            kind = "host";
+            name = "site-dns-mgmt";
+            tenant = "mgmt";
+          }
+          {
+            kind = "host";
+            name = "streaming01";
+            tenant = "streaming";
           }
         ];
         prefixes = [
@@ -322,12 +432,6 @@
             name = "client";
           }
           {
-            ipv4 = "10.20.40.0/24";
-            ipv6 = "fd42:dead:beef:40::/64";
-            kind = "tenant";
-            name = "client2";
-          }
-          {
             ipv4 = "10.20.30.0/24";
             ipv6 = "fd42:dead:beef:30::/64";
             kind = "tenant";
@@ -338,6 +442,20 @@
             ipv6 = "fd42:dead:beef:50::/64";
             kind = "tenant";
             name = "streaming";
+          }
+          {
+            ipv4 = "10.20.70.0/24";
+            ipv6 = "fd42:dead:beef:70::/64";
+            kind = "tenant";
+            name = "hostile";
+            routedPrefixes = [
+              {
+                allocation = "runtime";
+                family = "ipv6";
+                name = "nixos-hostile-public";
+                prefixPostfix = "4444";
+              }
+            ];
           }
         ];
       };
@@ -355,46 +473,46 @@
         links = [
           [
             "nixos-router-core-isp-a"
-            "nixos-router-up-sel"
+            "nixos-router-upstream"
           ]
           [
             "nixos-router-core-isp-b"
-            "nixos-router-up-sel"
-          ]
-          [
-            "nixos-router-up-sel"
-            "nixos-router-policy"
-          ]
-          [
-            "nixos-router-policy"
-            "nixos-router-down-sel"
-          ]
-          [
-            "nixos-router-down-sel"
-            "nixos-router-access-client"
-          ]
-          [
-            "nixos-router-down-sel"
-            "nixos-router-access-admin"
-          ]
-          [
-            "nixos-router-down-sel"
-            "nixos-router-access-mgmt"
+            "nixos-router-upstream"
           ]
           [
             "nixos-router-core-nebula"
-            "nixos-router-up-sel"
+            "nixos-router-upstream"
           ]
           [
-            "nixos-router-down-sel"
-            "nixos-router-access-client2"
+            "nixos-router-upstream"
+            "nixos-router-policy"
           ]
           [
-            "nixos-router-down-sel"
+            "nixos-router-policy"
+            "nixos-router-downstream"
+          ]
+          [
+            "nixos-router-downstream"
+            "nixos-router-access-admin"
+          ]
+          [
+            "nixos-router-downstream"
+            "nixos-router-access-client"
+          ]
+          [
+            "nixos-router-downstream"
             "nixos-router-access-dmz"
           ]
           [
-            "nixos-router-down-sel"
+            "nixos-router-downstream"
+            "nixos-router-access-hostile"
+          ]
+          [
+            "nixos-router-downstream"
+            "nixos-router-access-mgmt"
+          ]
+          [
+            "nixos-router-downstream"
             "nixos-router-access-streaming"
           ]
         ];
@@ -417,15 +535,6 @@
             ];
             role = "access";
           };
-          nixos-router-access-client2 = {
-            attachments = [
-              {
-                kind = "tenant";
-                name = "client2";
-              }
-            ];
-            role = "access";
-          };
           nixos-router-access-dmz = {
             attachments = [
               {
@@ -440,6 +549,15 @@
               {
                 kind = "tenant";
                 name = "mgmt";
+              }
+            ];
+            role = "access";
+          };
+          nixos-router-access-hostile = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "hostile";
               }
             ];
             role = "access";
@@ -476,23 +594,35 @@
             uplinks = {
               east-west = {
                 ipv4 = [
-                  "10.60.10.0/24"
+                  "10.50.10.0/24"
+                  "10.50.15.0/24"
+                  "10.50.20.0/24"
+                  "10.50.30.0/24"
+                  "10.50.50.0/24"
                   "10.70.10.0/24"
+                  "10.90.10.0/24"
+                  "0.0.0.0/0"
                 ];
                 ipv6 = [
                   "fd42:dead:feed:10::/64"
+                  "fd42:dead:feed:15::/64"
+                  "fd42:dead:feed:20::/64"
+                  "fd42:dead:feed:30::/64"
+                  "fd42:dead:feed:50::/64"
                   "fd42:dead:feed:70::/64"
+                  "fd42:dead:cafe:10::/64"
+                  "::/0"
                 ];
               };
             };
           };
-          nixos-router-down-sel = {
+          nixos-router-downstream = {
             role = "downstream-selector";
           };
           nixos-router-policy = {
             role = "policy";
           };
-          nixos-router-up-sel = {
+          nixos-router-upstream = {
             role = "upstream-selector";
           };
         };
@@ -516,7 +646,11 @@
         interfaceTags = {
           external-east-west = "east-west";
           external-wan = "wan";
+          service-clab-client-4445 = "clab-client-4445";
           service-hetz-dns-dmz = "hetz-dns-dmz";
+          service-hetz-client-4446 = "hetz-client-4446";
+          service-hostile-public-dns = "hostile-public-dns";
+          service-nixos-hostile-4444 = "nixos-hostile-4444";
           tenant-client = "client";
           tenant-dmz = "dmz";
         };
@@ -524,53 +658,11 @@
           {
             action = "allow";
             from = {
-              kind = "external";
-              name = "east-west";
-            };
-            id = "allow-east-west-to-hetz-client";
-            priority = 131;
-            to = {
-              kind = "tenant-set";
-              members = [ "client" ];
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "external";
-              name = "east-west";
-            };
-            id = "allow-east-west-to-hetz-dmz-dns";
-            priority = 128;
-            to = {
-              kind = "service";
-              name = "hetz-dns-dmz";
-            };
-            trafficType = "dns";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "external";
-              name = "east-west";
-            };
-            id = "allow-east-west-to-hetz-dmz-nebula";
-            priority = 132;
-            to = {
-              kind = "tenant-set";
-              members = [ "dmz" ];
-            };
-            trafficType = "nebula";
-          }
-          {
-            action = "allow";
-            from = {
               kind = "tenant-set";
               members = [ "client" ];
             };
             id = "allow-hetz-client-to-dmz-dns";
-            priority = 110;
+            priority = 20;
             to = {
               kind = "service";
               name = "hetz-dns-dmz";
@@ -578,18 +670,18 @@
             trafficType = "dns";
           }
           {
-            action = "allow";
+            action = "deny";
             from = {
               kind = "tenant-set";
               members = [ "client" ];
             };
-            id = "allow-hetz-client-to-east-west";
-            priority = 130;
+            id = "deny-hetz-client-dns-to-wan";
+            priority = 25;
             to = {
               kind = "external";
-              name = "east-west";
+              name = "wan";
             };
-            trafficType = "any";
+            trafficType = "dns";
           }
           {
             action = "allow";
@@ -598,6 +690,20 @@
               members = [ "client" ];
             };
             id = "allow-hetz-client-to-wan";
+            priority = 100;
+            to = {
+              kind = "external";
+              name = "wan";
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "dmz" ];
+            };
+            id = "allow-hetz-dmz-to-wan";
             priority = 101;
             to = {
               kind = "external";
@@ -611,8 +717,8 @@
               kind = "service";
               name = "hetz-dns-dmz";
             };
-            id = "allow-hetz-dmz-dns-to-wan";
-            priority = 111;
+            id = "allow-hetz-dns-service-to-wan";
+            priority = 110;
             to = {
               kind = "external";
               name = "wan";
@@ -622,25 +728,11 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [ "dmz" ];
-            };
-            id = "allow-hetz-dmz-nebula-to-east-west";
-            priority = 129;
-            to = {
               kind = "external";
               name = "east-west";
             };
-            trafficType = "nebula";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [ "dmz" ];
-            };
-            id = "allow-hetz-dmz-to-wan";
-            priority = 100;
+            id = "allow-hostile-overlay-egress-to-wan";
+            priority = 120;
             to = {
               kind = "external";
               name = "wan";
@@ -653,27 +745,41 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
-            id = "allow-hetz-wan-to-dmz-nebula";
-            priority = 128;
+            id = "allow-wan-to-nixos-hostile-4444";
+            priority = 130;
             to = {
               kind = "service";
-              name = "dmz-nebula";
+              name = "nixos-hostile-4444";
             };
-            trafficType = "nebula";
+            trafficType = "tcp-udp-4444";
           }
           {
-            action = "deny";
+            action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [ "client" ];
-            };
-            id = "deny-hetz-client-dns-to-wan";
-            priority = 99;
-            to = {
               kind = "external";
-              name = "wan";
+              uplinks = [ "wan" ];
             };
-            trafficType = "dns";
+            id = "allow-wan-to-clab-client-4445";
+            priority = 131;
+            to = {
+              kind = "service";
+              name = "clab-client-4445";
+            };
+            trafficType = "tcp-udp-4445";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            id = "allow-wan-to-hetz-client-4446";
+            priority = 132;
+            to = {
+              kind = "service";
+              name = "hetz-client-4446";
+            };
+            trafficType = "tcp-udp-4446";
           }
           {
             action = "allow";
@@ -681,23 +787,38 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-hetz-nebula-underlay-to-wan";
+            id = "allow-overlay-to-hostile-public-dns";
             priority = 133;
             to = {
-              kind = "external";
-              uplinks = [ "wan" ];
+              kind = "service";
+              name = "hostile-public-dns";
             };
-            trafficType = "nebula";
+            trafficType = "dns";
           }
         ];
         services = [
           {
-            name = "dmz-nebula";
-            providers = [ "hetz-router-lighthouse" ];
-            trafficType = "nebula";
+            name = "hetz-dns-dmz";
+            providers = [ "hetz-dns-dmz" ];
+            trafficType = "dns";
           }
           {
-            name = "hetz-dns-dmz";
+            name = "nixos-hostile-4444";
+            providers = [ "nixos-hostile01" ];
+            trafficType = "tcp-udp-4444";
+          }
+          {
+            name = "clab-client-4445";
+            providers = [ "clab-client01" ];
+            trafficType = "tcp-udp-4445";
+          }
+          {
+            name = "hetz-client-4446";
+            providers = [ "hetz-client01" ];
+            trafficType = "tcp-udp-4446";
+          }
+          {
+            name = "hostile-public-dns";
             providers = [ "hetz-dns-dmz" ];
             trafficType = "dns";
           }
@@ -733,14 +854,69 @@
             ];
             name = "nebula";
           }
+          {
+            match = [
+              {
+                dports = [ 4444 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4444 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "tcp-udp-4444";
+          }
+          {
+            match = [
+              {
+                dports = [ 4445 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4445 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "tcp-udp-4445";
+          }
+          {
+            match = [
+              {
+                dports = [ 4446 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4446 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "tcp-udp-4446";
+          }
         ];
       };
       ownership = {
         endpoints = [
           {
             kind = "host";
+            name = "hetz-dns-dmz";
+            tenant = "dmz";
+          }
+          {
+            kind = "host";
             name = "hetz-router-lighthouse";
             tenant = "dmz";
+          }
+          {
+            kind = "host";
+            name = "hetz-client01";
+            tenant = "client";
           }
         ];
         prefixes = [
@@ -760,6 +936,7 @@
                 allocation = "runtime";
                 family = "ipv6";
                 name = "hetz-client-public";
+                prefixPostfix = "4446";
               }
             ];
           }
@@ -779,26 +956,26 @@
         links = [
           [
             "hetz-router-core"
-            "hetz-router-up-sel"
+            "hetz-router-upstream"
           ]
           [
             "hetz-router-nebula-core"
-            "hetz-router-up-sel"
+            "hetz-router-upstream"
           ]
           [
-            "hetz-router-up-sel"
+            "hetz-router-upstream"
             "hetz-router-policy"
           ]
           [
             "hetz-router-policy"
-            "hetz-router-down-sel"
+            "hetz-router-downstream"
           ]
           [
-            "hetz-router-down-sel"
+            "hetz-router-downstream"
             "hetz-router-access-dmz"
           ]
           [
-            "hetz-router-down-sel"
+            "hetz-router-downstream"
             "hetz-router-access-client"
           ]
         ];
@@ -830,22 +1007,32 @@
               };
             };
           };
-          hetz-router-down-sel = {
+          hetz-router-downstream = {
             role = "downstream-selector";
           };
           hetz-router-nebula-core = {
             role = "core";
             uplinks = {
               east-west = {
-                ipv4 = [ ];
-                ipv6 = [ ];
+                ipv4 = [
+                  "10.20.70.0/24"
+                  "10.50.20.0/24"
+                  "10.50.70.0/24"
+                  "10.70.10.0/24"
+                ];
+                ipv6 = [
+                  "fd42:dead:beef:70::/64"
+                  "fd42:dead:feed:20::/64"
+                  "fd42:dead:feed:70::/64"
+                  "fd42:dead:feed:7000::/56"
+                ];
               };
             };
           };
           hetz-router-policy = {
             role = "policy";
           };
-          hetz-router-up-sel = {
+          hetz-router-upstream = {
             role = "upstream-selector";
           };
         };
@@ -869,22 +1056,101 @@
         interfaceTags = {
           external-east-west = "east-west";
           external-wan = "wan";
-          service-nixos-mgmt-dns = "nixos-mgmt-dns";
-          tenant-branch = "branch";
+          service-clab-site-dns = "clab-site-dns";
+          service-clab-client-4445 = "clab-client-4445";
+          service-hostile-public-dns = "hostile-public-dns";
+          service-cast-control = "cast-control";
+          service-cast-discovery = "cast-discovery";
+          tenant-admin = "admin";
+          tenant-client = "client";
+          tenant-dmz = "dmz";
           tenant-hostile = "hostile";
+          tenant-mgmt = "mgmt";
+          tenant-streaming = "streaming";
         };
         relations = [
           {
             action = "allow";
             from = {
               kind = "tenant-set";
-              members = [ "branch" ];
+              members = [ "admin" ];
             };
-            id = "allow-branch-dns-to-nixos-mgmt-dns";
-            priority = 89;
+            id = "allow-admin-to-mgmt";
+            priority = 10;
+            to = {
+              kind = "tenant-set";
+              members = [ "mgmt" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
+              members = [
+                "client"
+                "streaming"
+                "dmz"
+                "hostile"
+              ];
+            };
+            id = "deny-production-to-mgmt";
+            priority = 11;
+            to = {
+              kind = "tenant-set";
+              members = [ "mgmt" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
+              members = [ "streaming" ];
+            };
+            id = "deny-streaming-to-client";
+            priority = 12;
+            to = {
+              kind = "tenant-set";
+              members = [ "client" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant-set";
+              members = [ "hostile" ];
+            };
+            id = "deny-hostile-to-local-tenants";
+            priority = 13;
+            to = {
+              kind = "tenant-set";
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+              ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+              ];
+            };
+            id = "allow-normal-tenants-to-clab-dns";
+            priority = 20;
             to = {
               kind = "service";
-              name = "nixos-mgmt-dns";
+              name = "clab-site-dns";
             };
             trafficType = "dns";
           }
@@ -892,10 +1158,15 @@
             action = "deny";
             from = {
               kind = "tenant-set";
-              members = [ "branch" ];
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+              ];
             };
-            id = "deny-branch-dns-to-wan";
-            priority = 90;
+            id = "deny-normal-tenant-dns-to-wan";
+            priority = 25;
             to = {
               kind = "external";
               name = "wan";
@@ -906,9 +1177,42 @@
             action = "allow";
             from = {
               kind = "tenant-set";
-              members = [ "branch" ];
+              members = [ "client" ];
             };
-            id = "allow-branch-to-wan";
+            id = "allow-client-to-cast-discovery";
+            priority = 30;
+            to = {
+              kind = "service";
+              name = "cast-discovery";
+            };
+            trafficType = "cast-discovery";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [ "client" ];
+            };
+            id = "allow-client-to-cast-control";
+            priority = 31;
+            to = {
+              kind = "service";
+              name = "cast-control";
+            };
+            trafficType = "cast-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+              ];
+            };
+            id = "allow-normal-tenants-to-wan";
             priority = 100;
             to = {
               kind = "external";
@@ -917,16 +1221,16 @@
             trafficType = "any";
           }
           {
-            action = "allow";
+            action = "deny";
             from = {
               kind = "tenant-set";
-              members = [ "branch" ];
+              members = [ "hostile" ];
             };
-            id = "allow-branch-to-east-west";
-            priority = 110;
+            id = "deny-hostile-to-local-wan";
+            priority = 101;
             to = {
               kind = "external";
-              name = "east-west";
+              name = "wan";
             };
             trafficType = "any";
           }
@@ -937,10 +1241,10 @@
               members = [ "hostile" ];
             };
             id = "allow-hostile-dns-to-hetz-public-dns";
-            priority = 114;
+            priority = 110;
             to = {
               kind = "service";
-              name = "hetz-public-dns";
+              name = "hostile-public-dns";
             };
             trafficType = "dns";
           }
@@ -950,22 +1254,8 @@
               kind = "tenant-set";
               members = [ "hostile" ];
             };
-            id = "allow-hostile-dns-to-east-west";
-            priority = 115;
-            to = {
-              kind = "external";
-              name = "east-west";
-            };
-            trafficType = "dns";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [ "hostile" ];
-            };
-            id = "allow-hostile-to-east-west";
-            priority = 116;
+            id = "allow-hostile-egress-to-hetz-overlay";
+            priority = 111;
             to = {
               kind = "external";
               name = "east-west";
@@ -978,13 +1268,13 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-east-west-to-branch";
+            id = "allow-hetz-public-4445-to-clab-client";
             priority = 120;
             to = {
-              kind = "tenant-set";
-              members = [ "branch" ];
+              kind = "service";
+              name = "clab-client-4445";
             };
-            trafficType = "any";
+            trafficType = "tcp-udp-4445";
           }
           {
             action = "allow";
@@ -992,39 +1282,40 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-east-west-to-hostile";
-            priority = 121;
-            to = {
-              kind = "tenant-set";
-              members = [ "hostile" ];
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "external";
-              name = "east-west";
-            };
-            id = "allow-clab-nebula-underlay-to-wan";
-            priority = 117;
+            id = "allow-nebula-underlay-to-wan";
+            priority = 130;
             to = {
               kind = "external";
-              uplinks = [ "wan" ];
+              name = "wan";
             };
-            trafficType = "nebula-storage";
+            trafficType = "nebula";
           }
         ];
         services = [
           {
-            name = "hetz-public-dns";
+            name = "clab-site-dns";
+            providers = [ "clab-site-dns" ];
+            trafficType = "dns";
+          }
+          {
+            name = "clab-client-4445";
+            providers = [ "clab-client01" ];
+            trafficType = "tcp-udp-4445";
+          }
+          {
+            name = "hostile-public-dns";
             providers = [ "hetz-dns-dmz" ];
             trafficType = "dns";
           }
           {
-            name = "nixos-mgmt-dns";
-            providers = [ "site-dns-mgmt" ];
-            trafficType = "dns";
+            name = "cast-control";
+            providers = [ "clab-streaming01" ];
+            trafficType = "cast-control";
+          }
+          {
+            name = "cast-discovery";
+            providers = [ "clab-streaming01" ];
+            trafficType = "cast-discovery";
           }
         ];
         trafficTypes = [
@@ -1056,17 +1347,114 @@
                 proto = "udp";
               }
             ];
-            name = "nebula-storage";
+            name = "nebula";
+          }
+          {
+            match = [
+              {
+                dports = [ 4445 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4445 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "tcp-udp-4445";
+          }
+          {
+            match = [
+              {
+                dports = [
+                  8008
+                  8009
+                ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "cast-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 5353 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 1900 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "cast-discovery";
           }
         ];
       };
       ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "clab-site-dns";
+            tenant = "mgmt";
+          }
+          {
+            kind = "host";
+            name = "clab-client01";
+            tenant = "client";
+          }
+          {
+            kind = "host";
+            name = "clab-streaming01";
+            tenant = "streaming";
+          }
+          {
+            kind = "host";
+            name = "hostile-node01";
+            tenant = "hostile";
+          }
+        ];
         prefixes = [
           {
-            ipv4 = "10.60.10.0/24";
+            ipv4 = "10.50.10.0/24";
             ipv6 = "fd42:dead:feed:10::/64";
             kind = "tenant";
-            name = "branch";
+            name = "mgmt";
+          }
+          {
+            ipv4 = "10.50.15.0/24";
+            ipv6 = "fd42:dead:feed:15::/64";
+            kind = "tenant";
+            name = "admin";
+          }
+          {
+            ipv4 = "10.50.20.0/24";
+            ipv6 = "fd42:dead:feed:20::/64";
+            kind = "tenant";
+            name = "client";
+            routedPrefixes = [
+              {
+                allocation = "runtime";
+                family = "ipv6";
+                name = "clab-client-public";
+                prefixPostfix = "4445";
+              }
+            ];
+          }
+          {
+            ipv4 = "10.50.30.0/24";
+            ipv6 = "fd42:dead:feed:30::/64";
+            kind = "tenant";
+            name = "dmz";
+          }
+          {
+            ipv4 = "10.50.50.0/24";
+            ipv6 = "fd42:dead:feed:50::/64";
+            kind = "tenant";
+            name = "streaming";
           }
           {
             ipv4 = "10.70.10.0/24";
@@ -1077,7 +1465,7 @@
               {
                 allocation = "runtime";
                 family = "ipv6";
-                name = "branch-hostile-public";
+                name = "hostile-public";
               }
             ];
           }
@@ -1097,35 +1485,69 @@
         links = [
           [
             "clab-router-core-nebula"
-            "clab-router-up-sel"
+            "clab-router-upstream"
           ]
           [
             "clab-router-core-simulated-isp"
-            "clab-router-up-sel"
+            "clab-router-upstream"
           ]
           [
-            "clab-router-up-sel"
+            "clab-router-upstream"
             "clab-router-policy"
           ]
           [
             "clab-router-policy"
-            "clab-router-down-sel"
+            "clab-router-downstream"
           ]
           [
-            "clab-router-down-sel"
-            "clab-router-access-branch"
+            "clab-router-downstream"
+            "clab-router-access-admin"
           ]
           [
-            "clab-router-down-sel"
+            "clab-router-downstream"
+            "clab-router-access-client"
+          ]
+          [
+            "clab-router-downstream"
+            "clab-router-access-dmz"
+          ]
+          [
+            "clab-router-downstream"
             "clab-router-access-hostile"
+          ]
+          [
+            "clab-router-downstream"
+            "clab-router-access-mgmt"
+          ]
+          [
+            "clab-router-downstream"
+            "clab-router-access-streaming"
           ]
         ];
         nodes = {
-          clab-router-access-branch = {
+          clab-router-access-admin = {
             attachments = [
               {
                 kind = "tenant";
-                name = "branch";
+                name = "admin";
+              }
+            ];
+            role = "access";
+          };
+          clab-router-access-client = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
+            role = "access";
+          };
+          clab-router-access-dmz = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "dmz";
               }
             ];
             role = "access";
@@ -1139,12 +1561,46 @@
             ];
             role = "access";
           };
+          clab-router-access-mgmt = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "mgmt";
+              }
+            ];
+            role = "access";
+          };
+          clab-router-access-streaming = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "streaming";
+              }
+            ];
+            role = "access";
+          };
           clab-router-core-nebula = {
             role = "core";
             uplinks = {
               east-west = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
+                ipv4 = [
+                  "10.20.10.0/24"
+                  "10.20.15.0/24"
+                  "10.20.20.0/24"
+                  "10.20.30.0/24"
+                  "10.20.50.0/24"
+                  "10.90.10.0/24"
+                  "0.0.0.0/0"
+                ];
+                ipv6 = [
+                  "fd42:dead:beef:10::/64"
+                  "fd42:dead:beef:15::/64"
+                  "fd42:dead:beef:20::/64"
+                  "fd42:dead:beef:30::/64"
+                  "fd42:dead:beef:50::/64"
+                  "fd42:dead:cafe:10::/64"
+                  "::/0"
+                ];
               };
             };
           };
@@ -1157,13 +1613,13 @@
               };
             };
           };
-          clab-router-down-sel = {
+          clab-router-downstream = {
             role = "downstream-selector";
           };
           clab-router-policy = {
             role = "policy";
           };
-          clab-router-up-sel = {
+          clab-router-upstream = {
             role = "upstream-selector";
           };
         };
