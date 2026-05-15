@@ -864,6 +864,10 @@ in
       ipv4 = [ "10.50.20.10" ];
       ipv6 = [ "fd42:dead:feed:20::10" ];
     };
+    clab-client02 = {
+      ipv4 = [ "10.50.20.11" ];
+      ipv6 = [ "fd42:dead:feed:20::11" ];
+    };
     clab-site-dns = {
       ipv4 = [ "10.50.10.1" ];
       ipv6 = [ "fd42:dead:feed:10::1" ];

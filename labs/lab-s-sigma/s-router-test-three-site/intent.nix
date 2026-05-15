@@ -1408,6 +1408,11 @@
           }
           {
             kind = "host";
+            name = "clab-client02";
+            tenant = "client";
+          }
+          {
+            kind = "host";
             name = "clab-streaming01";
             tenant = "streaming";
           }
