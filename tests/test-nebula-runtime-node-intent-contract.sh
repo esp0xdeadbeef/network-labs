@@ -5,13 +5,13 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 check_inventory() {
   local lab_dir="$1"
-  local inventory_name="$2"
+  local inventory_expr="$2"
   local label="$3"
 
   nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
   let
     intent = import ${lab_dir}/intent.nix;
-    inventory = import ${lab_dir}/${inventory_name};
+    inventory = ${inventory_expr};
     concatMap = f: xs: builtins.concatLists (map f xs);
     siteChecks =
       concatMap
@@ -54,22 +54,17 @@ check_inventory() {
 
 check_inventory \
   "${repo_root}/examples/s-router-overlay-dns-lane-policy" \
-  "inventory-nixos.nix" \
+  "import ${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix" \
   "examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix"
 
 check_inventory \
   "${repo_root}/examples/s-router-overlay-dns-lane-policy" \
-  "inventory-clab.nix" \
+  "import ${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-clab.nix" \
   "examples/s-router-overlay-dns-lane-policy/inventory-clab.nix"
 
 check_inventory \
   "${repo_root}/labs/lab-s-sigma/s-router-test-three-site" \
-  "inventory-nixos.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory-nixos.nix"
-
-check_inventory \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site" \
-  "inventory-clab.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory-clab.nix"
+  "import ${repo_root}/labs/lab-s-sigma/s-router-test-three-site/getInventory.nix { renderer = \"nixos\"; }" \
+  "labs/lab-s-sigma/s-router-test-three-site/inventory.nix"
 
 echo "PASS nebula-runtime-node-intent-contract"

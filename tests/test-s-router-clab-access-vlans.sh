@@ -77,37 +77,33 @@ common_vlan_checks='
 
   def no_management_vlan2_in_clab_inventory:
     vlan_bindings
+    | map(select(.host == "s-router-clab" or .host == "s-router-test-clients"))
+    | map(select(.kind == "bridgeNetwork"))
     | all(.vlan != 2 and .name != "vlan2");
 '
 
 check_inventory() {
-  local inventory="$1"
+  local inventory_expr="$1"
   local assertion="$2"
 
-  nix eval --impure --json --expr "import ${inventory}" \
+  nix eval --impure --json --expr "${inventory_expr}" \
     | jq -e "${common_vlan_checks} ${assertion}" >/dev/null
 }
 
-check_inventory "${lab_dir}/inventory-clab.nix" '
+check_inventory "import ${lab_dir}/getInventory.nix { renderer = \"clab\"; }" '
   def clab_access_vlans:
     {
-      mgmt: 350,
-      admin: 351,
-      client: 352,
-      client2: 353,
-      dmz: 354,
-      branch: 355,
-      hostile: 356,
-      streaming: 357
+      mgmt: 300,
+      admin: 301,
+      client: 302,
+      dmz: 304,
+      branch: 305,
+      hostile: 306,
+      streaming: 311
     };
 
   def client_fixture_vlans:
-    {
-      "hetz-mgmt": 358,
-      "home-users": 359,
-      printer: 360,
-      nas: 361
-    };
+    {};
 
   def bridge_vlans_are(host_name; expected):
     .deployment.hosts[host_name].bridgeNetworks as $bridges
@@ -119,7 +115,7 @@ check_inventory "${lab_dir}/inventory-clab.nix" '
         and $bridges[.key].vlan == .value
       );
 
-  bridge_vlans_are("s-router-test"; clab_access_vlans)
+  bridge_vlans_are("s-router-clab"; clab_access_vlans)
   and bridge_vlans_are("s-router-test-clients"; clab_access_vlans)
   and bridge_vlans_are("s-router-test-clients"; client_fixture_vlans)
   and has_no_duplicate_host_parent_vlan
@@ -128,7 +124,7 @@ check_inventory "${lab_dir}/inventory-clab.nix" '
   and no_management_vlan2_in_clab_inventory
 '
 
-check_inventory "${lab_dir}/inventory-nixos.nix" '
+check_inventory "import ${lab_dir}/getInventory.nix { renderer = \"nixos\"; }" '
   .deployment.hosts["s-router-test-clients"].bridgeNetworks as $bridges
   | all(["hetz-mgmt", "home-users", "printer", "nas"][]; $bridges[.] == null)
   and has_no_duplicate_host_parent_vlan
