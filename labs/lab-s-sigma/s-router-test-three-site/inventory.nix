@@ -67,7 +67,7 @@ let
           rdnss = [ "router-self" ];
         };
       };
-      host = "s-router-test";
+      host = "s-router-clab";
       logicalNode = {
         enterprise = "esp";
         name = "clab-router-access-${tenant}";
@@ -124,7 +124,7 @@ let
 
   clabAccessNodes = builtins.listToAttrs (
     map (tenant: {
-      name = "esp-clab-clab-router-access-${tenant}";
+      name = "esp-clab-router-access-${tenant}";
       value = clabAccessNode tenant clabAccessTenants.${tenant};
     }) (builtins.attrNames clabAccessTenants)
   );
@@ -373,7 +373,7 @@ in
                   perTenantPrefixLength = 64;
                   prefixPostfixSecret = "nixos-hostile-public-prefix-postfix";
                   slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-nixos-nixos-router-access-hostile";
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
                 };
               };
             };
@@ -470,7 +470,7 @@ in
                   perTenantPrefixLength = 64;
                   prefixPostfixSecret = "hetz-client-public-prefix-postfix";
                   slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-hetz-hetz-router-access-client";
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
                 };
               };
             };
@@ -566,7 +566,7 @@ in
                   perTenantPrefixLength = 64;
                   prefixPostfixSecret = "clab-client-public-prefix-postfix";
                   slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-clab-router-access-client";
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
                 };
               };
             };
@@ -584,7 +584,7 @@ in
                   delegatedPrefixLength = 64;
                   perTenantPrefixLength = 64;
                   slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-clab-router-access-hostile";
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
                 };
               };
             };
@@ -676,6 +676,109 @@ in
           br-nixos-policy-upstream-access-hostile-east-west = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
           br-nixos-policy-upstream-access-streaming-isp-b = { };
+          br-hetz-core-upstream = { };
+          br-hetz-downstream-mgmt = { };
+          br-hetz-downstream-policy-access-mgmt = { };
+          br-hetz-nebula-core-upstream = { };
+          br-hetz-policy-upstream-access-mgmt-wan = { };
+          branch = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 305;
+          };
+          client = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 302;
+          };
+          dmz = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 304;
+          };
+          hostile = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 306;
+          };
+          mgmt = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 300;
+          };
+          streaming = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 311;
+          };
+        };
+        uplinks = {
+          management = {
+            bridge = "vlan2";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = false;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = false;
+              method = "none";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 2;
+          };
+          uplink-isp-a = {
+            bridge = "br-uplink0";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "isp-a";
+            vlan = 4;
+          };
+          uplink-isp-b = {
+            bridge = "br-uplink1";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "isp-b";
+            vlan = 5;
+          };
+        };
+        wanUplink = "uplink-isp-b";
+      };
+      s-router-clab = {
+        bridgeNetworks = {
+          admin = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 301;
+          };
           br-clab-core-nebula-upstream = { };
           br-clab-core-simulated-isp-upstream = { };
           br-clab-downstream-admin = { };
@@ -702,11 +805,6 @@ in
           br-clab-policy-upstream-access-mgmt-east-west = { };
           br-clab-policy-upstream-access-streaming = { };
           br-clab-policy-upstream-access-streaming-east-west = { };
-          br-hetz-core-upstream = { };
-          br-hetz-downstream-mgmt = { };
-          br-hetz-downstream-policy-access-mgmt = { };
-          br-hetz-nebula-core-upstream = { };
-          br-hetz-policy-upstream-access-mgmt-wan = { };
           branch = {
             mode = "vlan";
             parent = "eth0";
@@ -903,7 +1001,7 @@ in
   };
   realization = {
     nodes = {
-      esp-nixos-nixos-router-access-admin = {
+      esp-nixos-router-access-admin = {
         advertisements = {
           dhcp4 = {
             tenant-admin = {
@@ -979,7 +1077,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-access-client = {
+      esp-nixos-router-access-client = {
         advertisements = {
           dhcp4 = {
             tenant-client = {
@@ -1055,7 +1153,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-access-dmz = {
+      esp-nixos-router-access-dmz = {
         advertisements = {
           dhcp4 = {
             tenant-dmz = {
@@ -1135,7 +1233,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-access-hostile = {
+      esp-nixos-router-access-hostile = {
         advertisements = {
           dhcp4 = {
             tenant-hostile = {
@@ -1214,7 +1312,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-access-mgmt = {
+      esp-nixos-router-access-mgmt = {
         advertisements = {
           dhcp4 = {
             tenant-mgmt = {
@@ -1290,7 +1388,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-access-streaming = {
+      esp-nixos-router-access-streaming = {
         advertisements = {
           dhcp4 = {
             tenant-streaming = {
@@ -1366,7 +1464,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-core-isp-a = {
+      esp-nixos-router-core-isp-a = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1399,7 +1497,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-core-isp-b = {
+      esp-nixos-router-core-isp-b = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1432,7 +1530,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-core-nebula = {
+      esp-nixos-router-core-nebula = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1465,7 +1563,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-downstream = {
+      esp-nixos-router-downstream = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1608,7 +1706,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-policy = {
+      esp-nixos-router-policy = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1784,7 +1882,7 @@ in
           };
         };
       };
-      esp-nixos-nixos-router-upstream = {
+      esp-nixos-router-upstream = {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1927,7 +2025,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-access-client = {
+      esp-hetz-router-access-client = {
         advertisements = {
           dhcp4 = {
             tenant-client = {
@@ -2007,7 +2105,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-access-dmz = {
+      esp-hetz-router-access-dmz = {
         advertisements = {
           dhcp4 = {
             tenant-dmz = {
@@ -2087,7 +2185,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-core = {
+      esp-hetz-router-core = {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2136,7 +2234,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-downstream = {
+      esp-hetz-router-downstream = {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2191,7 +2289,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-nebula-core = {
+      esp-hetz-router-nebula-core = {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2234,7 +2332,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-policy = {
+      esp-hetz-router-policy = {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2289,7 +2387,7 @@ in
           };
         };
       };
-      esp-hetz-hetz-router-upstream = {
+      esp-hetz-router-upstream = {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2345,8 +2443,8 @@ in
         };
       };
     } // clabAccessNodes // {
-      esp-clab-clab-router-core-nebula = {
-        host = "s-router-test";
+      esp-clab-router-core-nebula = {
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
           name = "clab-router-core-nebula";
@@ -2378,8 +2476,8 @@ in
           };
         };
       };
-      esp-clab-clab-router-core-simulated-isp = {
-        host = "s-router-test";
+      esp-clab-router-core-simulated-isp = {
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
           name = "clab-router-core-simulated-isp";
@@ -2411,8 +2509,8 @@ in
           };
         };
       };
-      esp-clab-clab-router-downstream = {
-        host = "s-router-test";
+      esp-clab-router-downstream = {
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
           name = "clab-router-downstream";
@@ -2421,8 +2519,8 @@ in
         platform = "nixos-container";
         ports = clabDownstreamAccessPorts // clabDownstreamPolicyPorts;
       };
-      esp-clab-clab-router-policy = {
-        host = "s-router-test";
+      esp-clab-router-policy = {
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
           name = "clab-router-policy";
@@ -2431,8 +2529,8 @@ in
         platform = "nixos-container";
         ports = clabPolicyDownstreamPorts // clabPolicyWanPorts // clabPolicyEastWestPorts;
       };
-      esp-clab-clab-router-upstream = {
-        host = "s-router-test";
+      esp-clab-router-upstream = {
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
           name = "clab-router-upstream";
