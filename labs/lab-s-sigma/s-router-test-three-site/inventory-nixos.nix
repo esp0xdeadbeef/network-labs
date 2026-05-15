@@ -166,14 +166,6 @@
           };
         };
         clab = {
-          ipv6 = {
-            pd = {
-              delegatedPrefixLength = 64;
-              perTenantPrefixLength = 64;
-              sourceFile = "/run/secrets/subnet-ipv6";
-              uplink = "wan";
-            };
-          };
           overlays = {
             east-west = {
               ipam = {
@@ -248,10 +240,28 @@
             mode = "bgp";
           };
           tenants = {
-            branch = {
+            admin = {
               ipv6 = {
-                mode = "static";
-                prefixes = [ "fd42:dead:feed:10::/64" ];
+                mode = "slaac";
+              };
+            };
+            client = {
+              ipv6 = {
+                mode = "slaac";
+              };
+              routedPrefixes = {
+                clab-client-public = {
+                  delegatedPrefixLength = 64;
+                  perTenantPrefixLength = 64;
+                  prefixPostfixSecret = "clab-client-public-prefix-postfix";
+                  slot = 0;
+                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-clab-router-access-client";
+                };
+              };
+            };
+            dmz = {
+              ipv6 = {
+                mode = "slaac";
               };
             };
             hostile = {
@@ -259,12 +269,22 @@
                 mode = "slaac";
               };
               routedPrefixes = {
-                branch-hostile-public = {
+                hostile-public = {
                   delegatedPrefixLength = 64;
                   perTenantPrefixLength = 64;
                   slot = 0;
                   sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-clab-router-access-hostile";
                 };
+              };
+            };
+            mgmt = {
+              ipv6 = {
+                mode = "slaac";
+              };
+            };
+            streaming = {
+              ipv6 = {
+                mode = "slaac";
               };
             };
           };
