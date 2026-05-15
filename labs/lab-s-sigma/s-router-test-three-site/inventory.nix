@@ -998,6 +998,10 @@ in
       ipv4 = [ "10.90.10.1" ];
       ipv6 = [ "fd42:dead:cafe:10::1" ];
     };
+    hetz-client01 = {
+      ipv4 = [ "10.90.20.10" ];
+      ipv6 = [ "fd42:dead:cafe:20::10" ];
+    };
   };
   realization = {
     nodes = {
