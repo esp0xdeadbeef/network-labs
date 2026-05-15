@@ -647,6 +647,7 @@
           external-east-west = "east-west";
           external-wan = "wan";
           service-clab-client-4445 = "clab-client-4445";
+          service-dmz-nebula = "dmz-nebula";
           service-hetz-dns-dmz = "hetz-dns-dmz";
           service-hetz-client-4446 = "hetz-client-4446";
           service-nixos-hostile-4444 = "nixos-hostile-4444";
@@ -744,6 +745,20 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
+            id = "allow-wan-to-dmz-nebula";
+            priority = 125;
+            to = {
+              kind = "service";
+              name = "dmz-nebula";
+            };
+            trafficType = "nebula";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
             id = "allow-wan-to-nixos-hostile-4444";
             priority = 130;
             to = {
@@ -800,6 +815,11 @@
             name = "hetz-dns-dmz";
             providers = [ "hetz-dns-dmz" ];
             trafficType = "dns";
+          }
+          {
+            name = "dmz-nebula";
+            providers = [ "hetz-router-lighthouse" ];
+            trafficType = "nebula";
           }
           {
             name = "nixos-hostile-4444";
