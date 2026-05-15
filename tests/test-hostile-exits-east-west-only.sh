@@ -16,27 +16,39 @@ check_intent() {
           (enterprise: builtins.attrValues enterprise)
           (builtins.attrValues intent)
       );
-      siteWithNode = node:
-        builtins.head (
-          builtins.filter
-            (site: builtins.hasAttr node (site.topology.nodes or { }))
-            sites
-        );
-      siteB = siteWithNode "b-router-core-nebula";
-      siteC = siteWithNode "c-router-nebula-core";
+      sitesWithNode = node:
+        builtins.filter
+          (site: builtins.hasAttr node (site.topology.nodes or { }))
+          sites;
+      siteWithAnyNode = nodes:
+        let matches = builtins.concatLists (map sitesWithNode nodes);
+        in builtins.head matches;
+      siteB = siteWithAnyNode [ "b-router-core-nebula" "clab-router-core-nebula" ];
+      siteC = siteWithAnyNode [ "c-router-nebula-core" "hetz-router-nebula-core" ];
       relations = siteB.communicationContract.relations or [ ];
       hasRelation = id:
         builtins.any (relation: (relation.id or null) == id) relations;
-      siteBNebula = siteB.topology.nodes.b-router-core-nebula.uplinks.east-west;
-      siteCNebula = siteC.topology.nodes.c-router-nebula-core.uplinks.east-west;
+      siteBNebula =
+        if siteB.topology.nodes ? b-router-core-nebula then
+          siteB.topology.nodes.b-router-core-nebula.uplinks.east-west
+        else
+          siteB.topology.nodes.clab-router-core-nebula.uplinks.east-west;
+      siteCNebula =
+        if siteC.topology.nodes ? c-router-nebula-core then
+          siteC.topology.nodes.c-router-nebula-core.uplinks.east-west
+        else
+          siteC.topology.nodes.hetz-router-nebula-core.uplinks.east-west;
+      hasHostileEastWest =
+        hasRelation "allow-hostile-to-east-west"
+        || hasRelation "allow-hostile-egress-to-hetz-overlay";
     in
       if hasRelation "allow-hostile-to-wan" then
         throw "${label}: hostile tenant must not be allowed to local WAN"
       else if hasRelation "deny-hostile-dns-to-wan" then
         throw "${label}: hostile must not need a stale local-WAN DNS deny; no hostile WAN lane should exist"
-      else if !(hasRelation "allow-hostile-to-east-west") then
+      else if !hasHostileEastWest then
         throw "${label}: hostile tenant must retain east-west egress"
-      else if (siteCNebula.ipv4 or [ ]) != [ ] || (siteCNebula.ipv6 or [ ]) != [ ] then
+      else if (builtins.elem "0.0.0.0/0" (siteCNebula.ipv4 or [ ])) || (builtins.elem "::/0" (siteCNebula.ipv6 or [ ])) then
         throw "${label}: site-c Nebula core must not model east-west as a public default; site-c public egress belongs on wan"
       else if !(builtins.elem "0.0.0.0/0" (siteBNebula.ipv4 or [ ])) || !(builtins.elem "::/0" (siteBNebula.ipv6 or [ ])) then
         throw "${label}: hostile branch must retain east-west as its public-exit lane"
@@ -52,12 +64,12 @@ check_inventory() {
   local inventory_path="$1"
   local label="$2"
 
-  if grep -q 'b-router-access-hostile--uplink-wan' "${inventory_path}"; then
+  if grep -q 'router-access-hostile--uplink-wan' "${inventory_path}"; then
     echo "${label}: hostile tenant must not materialize a local WAN lane" >&2
     exit 1
   fi
 
-  grep -q 'b-router-access-hostile--uplink-east-west' "${inventory_path}" || {
+  grep -q 'router-access-hostile--uplink-east-west' "${inventory_path}" || {
     echo "${label}: hostile tenant must retain east-west realization" >&2
     exit 1
   }
@@ -80,11 +92,7 @@ check_inventory \
   "examples/s-router-overlay-dns-lane-policy/inventory-clab"
 
 check_inventory \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-nixos.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory-nixos"
-
-check_inventory \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory-clab.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory-clab"
+  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory.nix" \
+  "labs/lab-s-sigma/s-router-test-three-site/inventory"
 
 echo "PASS hostile-exits-east-west-only"

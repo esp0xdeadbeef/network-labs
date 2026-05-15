@@ -6,7 +6,7 @@ lab_dir="${repo_root}/labs/lab-s-sigma/s-router-test-three-site"
 
 nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
 let
-  inventory = import ${lab_dir}/inventory-nixos.nix;
+  inventory = import ${lab_dir}/getInventory.nix { renderer = \"nixos\"; };
   hosts = inventory.deployment.hosts or { };
   routerBridges = (hosts.s-router-test or { }).bridgeNetworks or { };
   clientBridges = (hosts.s-router-test-clients or { }).bridgeNetworks or { };

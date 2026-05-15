@@ -2385,6 +2385,17 @@ in
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
           };
+          upstream-dmz-east-west = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-upstream-dmz-east-west";
+            attach = {
+              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-dmz-ew";
+            };
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
+          };
         };
       };
       esp-hetz-router-upstream = {
@@ -2439,6 +2450,17 @@ in
               name = "policy-dmz-wan";
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
+          };
+          policy-dmz-east-west = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-policy-dmz-east-west";
+            attach = {
+              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-dmz-ew";
+            };
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
           };
         };
       };

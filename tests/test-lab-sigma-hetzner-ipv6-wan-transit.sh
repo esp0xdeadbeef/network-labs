@@ -6,10 +6,10 @@ lab_dir="${repo_root}/labs/lab-s-sigma/s-router-test-three-site"
 
 nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
 let
-  inventory = import ${lab_dir}/inventory-nixos.nix;
+  inventory = import ${lab_dir}/getInventory.nix { renderer = \"nixos\"; };
   host = inventory.deployment.hosts.s-router-hetzner-anywhere;
   nodes = inventory.realization.nodes;
-  core = nodes.esp0xdeadbeef-hetz-c-router-core;
+  core = nodes.esp-hetz-router-core;
   wan = core.ports.wan.interface;
   hostWan = host.uplinks.wan;
   hasPrefix = prefix: value: builtins.match (prefix + \".*\") value != null;
