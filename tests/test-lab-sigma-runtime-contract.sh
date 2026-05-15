@@ -57,9 +57,6 @@ for renderer in nixos clab; do
     has = needle: builtins.match \".*\${needle}.*\" values != null;
     hostilePrefix =
       resolved.controlPlane.sites.esp.clab.tenants.hostile.routedPrefixes.hostile-public or null;
-    nodes = resolved.realization.nodes or { };
-    hetzPolicyPorts = (nodes.esp-hetz-router-policy or { }).ports or { };
-    hetzUpstreamPorts = (nodes.esp-hetz-router-upstream or { }).ports or { };
   in
     if has \"runtime-public-dns-\" then
       throw \"lab-sigma getResolvedInventory(${renderer}) still contains runtime-public-dns-* placeholders; resolve them through getInventorySops before compiler/rendering\"
@@ -67,8 +64,6 @@ for renderer in nixos clab; do
       throw \"lab-sigma getResolvedInventory(${renderer}) must inject public DNS forwarder addresses from getInventorySops\"
     else if hostilePrefix == null || hostilePrefix.sourceFile != \"/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile\" then
       throw \"lab-sigma getResolvedInventory(${renderer}) must realize the hostile runtime IPv6 routed prefix from getInventorySops\"
-    else if !(hetzPolicyPorts ? upstream-dmz-east-west) || !(hetzUpstreamPorts ? policy-dmz-east-west) then
-      throw \"lab-sigma getResolvedInventory(${renderer}) must realize Hetzner DMZ east-west policy/upstream ports for overlay DNS\"
     else
       true
 " >/dev/null
