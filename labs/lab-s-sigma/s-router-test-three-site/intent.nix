@@ -649,7 +649,6 @@
           service-clab-client-4445 = "clab-client-4445";
           service-hetz-dns-dmz = "hetz-dns-dmz";
           service-hetz-client-4446 = "hetz-client-4446";
-          service-hostile-public-dns = "hostile-public-dns";
           service-nixos-hostile-4444 = "nixos-hostile-4444";
           tenant-client = "client";
           tenant-dmz = "dmz";
@@ -1058,7 +1057,6 @@
           external-wan = "wan";
           service-clab-site-dns = "clab-site-dns";
           service-clab-client-4445 = "clab-client-4445";
-          service-hostile-public-dns = "hostile-public-dns";
           service-cast-control = "cast-control";
           service-cast-discovery = "cast-discovery";
           tenant-admin = "admin";
@@ -1243,8 +1241,8 @@
             id = "allow-hostile-dns-to-hetz-public-dns";
             priority = 110;
             to = {
-              kind = "service";
-              name = "hostile-public-dns";
+              kind = "external";
+              name = "east-west";
             };
             trafficType = "dns";
           }
@@ -1301,11 +1299,6 @@
             name = "clab-client-4445";
             providers = [ "clab-client01" ];
             trafficType = "tcp-udp-4445";
-          }
-          {
-            name = "hostile-public-dns";
-            providers = [ "hetz-dns-dmz" ];
-            trafficType = "dns";
           }
           {
             name = "cast-control";
