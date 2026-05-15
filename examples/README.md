@@ -52,6 +52,7 @@ These examples are meant to be consumed by:
 
 - `single-wan`
   - Minimal single-site, single-uplink topology.
+  - Includes explicit WAN service ingress for TCP/8443 to `web01` as a public port-forward example.
 
 - `single-wan-bgp`
   - Like `single-wan`, but inventory selects iBGP control-plane (`policy-rr`).
