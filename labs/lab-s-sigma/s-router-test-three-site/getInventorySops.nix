@@ -9,7 +9,8 @@
     };
 
     delegatedPrefixes = {
-      branchHostile = "access-node-ipv6-prefix-esp-clab-clab-router-access-hostile";
+      clabClient = "access-node-ipv6-prefix-esp-clab-clab-router-access-client";
+      clabHostile = "access-node-ipv6-prefix-esp-clab-clab-router-access-hostile";
       hetzClient = "access-node-ipv6-prefix-esp-hetz-hetz-router-access-client";
     };
 
@@ -21,6 +22,7 @@
     };
 
     prefixPostfixes = {
+      clabClientPublic = "clab-client-public-prefix-postfix";
       hetzClientPublic = "hetz-client-public-prefix-postfix";
     };
 
