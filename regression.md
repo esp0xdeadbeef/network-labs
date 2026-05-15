@@ -1,6 +1,6 @@
 # network-labs Regression State
 
-Last updated: 2026-05-13.
+Last updated: 2026-05-16.
 
 This file records current verified state only. `README.md` and `AGENTS.md` are
 leading: examples and labs must stay standalone model inputs. Do not solve LOC
@@ -8,6 +8,8 @@ failures by introducing helper imports, parent-relative imports, generated JSON
 blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
+
+- state=fixed-but-only-locally-tested | target=s-sigma-hetz-dmz-nebula-intent-service | evidence=2026-05-15 live Hetzner validation showed public UDP 4242 was being DNATed toward `10.90.10.100:4242`, but `esp.hetz` intent only defined `trafficType = "nebula"` and the `east-west` overlay termination. It did not define a Hetz `dmz-nebula` service or `allow-wan-to-dmz-nebula` relation. `labs/lab-s-sigma/s-router-test-three-site/intent.nix` now models `dmz-nebula` with provider `hetz-router-lighthouse` and allows WAN `trafficType = "nebula"` to that service; `nix-instantiate --parse intent.nix`, `nix-instantiate --eval --strict getCompilerInput.nix`, and `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-lab-sigma-nebula-public-endpoints.sh` pass. | reason=Public Nebula 4242 on the Hetz DMZ/lighthouse path is semantic policy and must be present in network-labs intent, not invented by NixOS runtime glue, renderer inference, or ad hoc nftables hotpatches.
 
 - state=runtime-checks | `s-router-overlay-dns-lane-policy` and the prod-like
   `labs/lab-s-sigma/s-router-test-three-site` now keep the hostile branch
@@ -73,12 +75,15 @@ blobs, or shared example fragments.
 ## Still Broken
 
 - state=runtime-checks | The 2026-05-13 fast live refresh
-  `/tmp/s-router-fast-enum-20260513T212251Z/summary/fast.tsv` confirms the
-  currently visible lab is still not production-ready: branch/hostile endpoints
-  have modeled public route candidates but no working DNS or public egress,
-  regular client egress differs by lane, and CLAB is stale/unusable. The first
-  semantic fix remains keeping site-C Nebula east-west from being modeled as a
-  public default while preserving the hostile branch public-exit lane.
+  `/tmp/s-router-fast-enum-20260513T212251Z/summary/fast.tsv` confirmed that
+  the then-visible lab was not production-ready: branch/hostile endpoints had
+  modeled public route candidates but no working DNS or public egress, regular
+  client egress differed by lane, and CLAB was stale/unusable. The source-model
+  guard for the first semantic fix now passes:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-hostile-exits-east-west-only.sh`
+  confirms hostile keeps east-west as its public-exit lane while site-C Nebula
+  core does not model east-west as a public default. Full live rebuild/runtime
+  validation is still pending before this can be called production-ready.
 - state=runtime-checks | `./tests/test.sh` is currently blocked by its pinned downstream CPM/NFM chain,
   which still rejects removed synthetic `containers.default` bindings during the
   IPv6-PD downstream delegation compile path. This is a lock-chain/upstream
