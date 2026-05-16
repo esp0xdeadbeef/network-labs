@@ -972,6 +972,18 @@
         };
       };
       topology = {
+        hostNatIngress = {
+          enabled = true;
+          targetNode = "hetz-router-core";
+          uplink = "wan";
+          hostReservedPorts = [
+            {
+              dports = [ 22 ];
+              name = "ssh";
+              proto = "tcp";
+            }
+          ];
+        };
         links = [
           [
             "hetz-router-core"
