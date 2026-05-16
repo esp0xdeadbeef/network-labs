@@ -757,6 +757,20 @@
             action = "allow";
             from = {
               kind = "external";
+              name = "east-west";
+            };
+            id = "allow-east-west-underlay-to-dmz-nebula";
+            priority = 126;
+            to = {
+              kind = "service";
+              name = "dmz-nebula";
+            };
+            trafficType = "nebula";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
               uplinks = [ "wan" ];
             };
             id = "allow-wan-to-nixos-hostile-4444";
