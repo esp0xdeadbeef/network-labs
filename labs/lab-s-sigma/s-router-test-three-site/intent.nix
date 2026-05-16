@@ -735,7 +735,7 @@
             priority = 120;
             to = {
               kind = "external";
-              name = "wan";
+              uplinks = [ "wan" ];
             };
             trafficType = "any";
           }
@@ -1304,7 +1304,7 @@
             priority = 130;
             to = {
               kind = "external";
-              name = "wan";
+              uplinks = [ "wan" ];
             };
             trafficType = "nebula";
           }
