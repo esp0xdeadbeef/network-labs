@@ -1925,6 +1925,28 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
           };
+          upstream-mgmt-isp-a = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-upstream-mgmt-isp-a";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-mgmt-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-mgmt-a";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a";
+          };
+          upstream-mgmt-isp-b = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b-upstream-mgmt-isp-b";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-mgmt-b";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b";
+          };
           upstream-streaming-isp-a = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a-upstream-streaming-isp-a";
             attach = {
@@ -2067,6 +2089,28 @@ in
               name = "pol-hostile-ew";
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
+          };
+          policy-mgmt-isp-a = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-policy-mgmt-isp-a";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-mgmt-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-mgmt-a";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a";
+          };
+          policy-mgmt-isp-b = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b-policy-mgmt-isp-b";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-mgmt-b";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b";
           };
           policy-streaming-isp-a = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";

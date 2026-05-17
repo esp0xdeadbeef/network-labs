@@ -90,11 +90,20 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       builtins.all
         (forwarders: forwarders == [ \"10.20.10.1\" \"fd42:dead:beef:10::1\" ])
         normalDnsForwarders;
+    policyPorts = nodes.esp-nixos-router-policy.ports;
+    upstreamPorts = nodes.esp-nixos-router-upstream.ports;
+    hasMgmtWanPorts =
+      (policyPorts.upstream-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
+      && (policyPorts.upstream-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\"
+      && (upstreamPorts.policy-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
+      && (upstreamPorts.policy-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\";
   in
     if !hasRelation then
       throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
     else if !allNormalUseSiteDns then
       throw \"normal s-router-test nixos access DNS forwarders must point at modeled site-dns-mgmt, not public resolvers; only the service provider should egress to public DNS\"
+    else if !hasMgmtWanPorts then
+      throw \"s-router-test nixos inventory must explicitly realize site-dns-mgmt policy/upstream WAN lanes for isp-a and isp-b\"
     else
       true
 " >/dev/null
