@@ -92,11 +92,15 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
         normalDnsForwarders;
     policyPorts = nodes.esp-nixos-router-policy.ports;
     upstreamPorts = nodes.esp-nixos-router-upstream.ports;
+    hostBridges = inventory.deployment.hosts.s-router-test.bridgeNetworks;
     hasMgmtWanPorts =
       (policyPorts.upstream-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
       && (policyPorts.upstream-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\"
       && (upstreamPorts.policy-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
       && (upstreamPorts.policy-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\";
+    hasMgmtWanBridges =
+      builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-a\" hostBridges
+      && builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-b\" hostBridges;
   in
     if !hasRelation then
       throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
@@ -104,6 +108,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       throw \"normal s-router-test nixos access DNS forwarders must point at modeled site-dns-mgmt, not public resolvers; only the service provider should egress to public DNS\"
     else if !hasMgmtWanPorts then
       throw \"s-router-test nixos inventory must explicitly realize site-dns-mgmt policy/upstream WAN lanes for isp-a and isp-b\"
+    else if !hasMgmtWanBridges then
+      throw \"s-router-test nixos deployment host must declare bridge networks for site-dns-mgmt policy/upstream WAN lanes\"
     else
       true
 " >/dev/null

@@ -745,6 +745,8 @@ in
           br-nixos-policy-upstream-access-dmz-isp-a = { };
           br-nixos-policy-upstream-access-dmz-isp-b = { };
           br-nixos-policy-upstream-access-hostile-east-west = { };
+          br-nixos-policy-upstream-access-mgmt-isp-a = { };
+          br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
           br-nixos-policy-upstream-access-streaming-isp-b = { };
           br-hetz-core-upstream = { };
