@@ -22,24 +22,6 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [
-                "admin"
-                "client"
-                "streaming"
-                "dmz"
-                "hostile"
-                "mgmt"
-              ];
-            };
-            id = "allow-site-tenant-icmp-anywhere";
-            priority = 5;
-            to = "any";
-            trafficType = "icmp";
-          }
-          {
-            action = "allow";
-            from = {
               kind = "external";
               uplinks = [
                 "isp-a"
@@ -727,20 +709,6 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [
-                "client"
-                "dmz"
-              ];
-            };
-            id = "allow-hetz-tenant-icmp-anywhere";
-            priority = 5;
-            to = "any";
-            trafficType = "icmp";
-          }
-          {
-            action = "allow";
-            from = {
               kind = "external";
               uplinks = [ "wan" ];
             };
@@ -1227,24 +1195,6 @@
           tenant-streaming = "streaming";
         };
         relations = [
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [
-                "admin"
-                "client"
-                "streaming"
-                "dmz"
-                "hostile"
-                "mgmt"
-              ];
-            };
-            id = "allow-clab-tenant-icmp-anywhere";
-            priority = 5;
-            to = "any";
-            trafficType = "icmp";
-          }
           {
             action = "allow";
             from = {
