@@ -69,4 +69,34 @@ for renderer in nixos clab; do
 " >/dev/null
 done
 
+nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
+  let
+    inventory = import ${lab_dir}/inventory.nix;
+    nodes = inventory.realization.nodes;
+    site = import ${lab_dir}/intent.nix;
+    nixosRelations = site.esp.nixos.communicationContract.relations;
+    hasRelation =
+      builtins.any
+        (relation:
+          (relation.id or null) == \"allow-site-dns-service-to-uplinks\"
+          && (relation.from.kind or null) == \"service\"
+          && (relation.from.name or null) == \"site-dns-mgmt\")
+        nixosRelations;
+    normalDnsForwarders =
+      builtins.map
+        (name: nodes.\"esp-nixos-router-access-\${name}\".services.dns.forwarders or [ ])
+        [ \"admin\" \"client\" \"dmz\" \"streaming\" ];
+    allNormalUseSiteDns =
+      builtins.all
+        (forwarders: forwarders == [ \"10.20.10.1\" \"fd42:dead:beef:10::1\" ])
+        normalDnsForwarders;
+  in
+    if !hasRelation then
+      throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
+    else if !allNormalUseSiteDns then
+      throw \"normal s-router-test nixos access DNS forwarders must point at modeled site-dns-mgmt, not public resolvers; only the service provider should egress to public DNS\"
+    else
+      true
+" >/dev/null
+
 echo "PASS lab-sigma-runtime-contract"

@@ -1140,10 +1140,8 @@ in
               "fd42:dead:beef:15::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "10.20.10.1"
+              "fd42:dead:beef:10::1"
             ];
             listen = [
               "10.20.15.1"
@@ -1216,10 +1214,8 @@ in
               "fd42:dead:beef:20::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "10.20.10.1"
+              "fd42:dead:beef:10::1"
             ];
             listen = [
               "10.20.20.1"
@@ -1296,10 +1292,8 @@ in
               "fd42:dead:beef:30::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "10.20.10.1"
+              "fd42:dead:beef:10::1"
             ];
             listen = [
               "10.20.30.1"
@@ -1527,10 +1521,8 @@ in
               "fd42:dead:beef:50::/64"
             ];
             forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
+              "10.20.10.1"
+              "fd42:dead:beef:10::1"
             ];
             listen = [
               "10.20.50.1"
