@@ -105,6 +105,23 @@
             trafficType = "dns";
           }
           {
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "site-dns-mgmt";
+            };
+            id = "allow-site-dns-service-to-uplinks";
+            priority = 24;
+            to = {
+              kind = "external";
+              uplinks = [
+                "isp-a"
+                "isp-b"
+              ];
+            };
+            trafficType = "dns";
+          }
+          {
             action = "deny";
             from = {
               kind = "tenant-set";
