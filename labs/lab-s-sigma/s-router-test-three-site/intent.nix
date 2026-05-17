@@ -23,6 +23,49 @@
             action = "allow";
             from = {
               kind = "tenant-set";
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+                "hostile"
+                "mgmt"
+              ];
+            };
+            id = "allow-site-tenant-icmp-anywhere";
+            priority = 5;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [
+                "isp-a"
+                "isp-b"
+              ];
+            };
+            id = "allow-site-wan-icmp-anywhere";
+            priority = 6;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "east-west";
+            };
+            id = "allow-site-overlay-icmp-anywhere";
+            priority = 7;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
               members = [ "admin" ];
             };
             id = "allow-admin-to-mgmt";
@@ -331,6 +374,15 @@
           }
         ];
         trafficTypes = [
+          {
+            match = [
+              {
+                family = "any";
+                proto = "icmp";
+              }
+            ];
+            name = "icmp";
+          }
           {
             match = [
               {
@@ -676,6 +728,42 @@
             action = "allow";
             from = {
               kind = "tenant-set";
+              members = [
+                "client"
+                "dmz"
+              ];
+            };
+            id = "allow-hetz-tenant-icmp-anywhere";
+            priority = 5;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            id = "allow-hetz-wan-icmp-anywhere";
+            priority = 6;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "east-west";
+            };
+            id = "allow-hetz-overlay-icmp-anywhere";
+            priority = 7;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
               members = [ "client" ];
             };
             id = "allow-hetz-client-to-dmz-dns";
@@ -874,6 +962,15 @@
           }
         ];
         trafficTypes = [
+          {
+            match = [
+              {
+                family = "any";
+                proto = "icmp";
+              }
+            ];
+            name = "icmp";
+          }
           {
             match = [
               {
@@ -1134,6 +1231,46 @@
             action = "allow";
             from = {
               kind = "tenant-set";
+              members = [
+                "admin"
+                "client"
+                "streaming"
+                "dmz"
+                "hostile"
+                "mgmt"
+              ];
+            };
+            id = "allow-clab-tenant-icmp-anywhere";
+            priority = 5;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "wan";
+            };
+            id = "allow-clab-wan-icmp-anywhere";
+            priority = 6;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "east-west";
+            };
+            id = "allow-clab-overlay-icmp-anywhere";
+            priority = 7;
+            to = "any";
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
               members = [ "admin" ];
             };
             id = "allow-admin-to-mgmt";
@@ -1375,6 +1512,15 @@
           }
         ];
         trafficTypes = [
+          {
+            match = [
+              {
+                family = "any";
+                proto = "icmp";
+              }
+            ];
+            name = "icmp";
+          }
           {
             match = [
               {
