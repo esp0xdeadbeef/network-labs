@@ -328,6 +328,20 @@ in
                   port = 4242;
                 };
                 role = "core-client";
+                runtimeNodes = {
+                  nixos-router-core-nebula = {
+                    unsafeRoutes = [
+                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
+                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
+                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
+                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
+                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                    ];
+                  };
+                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
@@ -410,6 +424,37 @@ in
                   port = 4242;
                 };
                 role = "core-client";
+                runtimeNodes = {
+                  hetz-router-lighthouse = {
+                    unsafeRoutes = [ ];
+                  };
+                  hetz-router-nebula-core = {
+                    unsafeRoutes = [
+                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
+                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
+                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                      {
+                        route = "fd42:dead:feed:70::/64";
+                        via6 = "fd42:dead:beef:ee::2";
+                        install = true;
+                        routeSourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
+                      }
+                    ];
+                  };
+                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
@@ -515,6 +560,32 @@ in
                   port = 4242;
                 };
                 role = "core-client";
+                runtimeNodes = {
+                  clab-router-core-nebula = {
+                    unsafeRoutes = [
+                      { route = "0.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
+                      { route = "128.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
+                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
+                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
+                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
+                      { route = "::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      { route = "8000::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
+                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                    ];
+                  };
+                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
