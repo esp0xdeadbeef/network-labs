@@ -1,13 +1,13 @@
 {
   esp = {
-    nixos = {
+    home = {
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
           external-isp-a = "isp-a";
           external-isp-b = "isp-b";
           service-dmz-nebula = "dmz-nebula";
-          service-nixos-hostile-4444 = "nixos-hostile-4444";
+          service-home-hostile-4444 = "home-hostile-4444";
           service-site-dns-mgmt = "site-dns-mgmt";
           service-cast-control = "cast-control";
           service-cast-discovery = "cast-discovery";
@@ -219,7 +219,7 @@
               kind = "tenant-set";
               members = [ "hostile" ];
             };
-            id = "allow-hostile-egress-to-hetz-overlay";
+            id = "allow-hostile-egress-to-edge-overlay";
             priority = 32;
             to = {
               kind = "external";
@@ -254,11 +254,11 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-hetz-public-4444-to-nixos-hostile";
+            id = "allow-edge-public-4444-to-home-hostile";
             priority = 121;
             to = {
               kind = "service";
-              name = "nixos-hostile-4444";
+              name = "home-hostile-4444";
             };
             trafficType = "tcp-udp-4444";
           }
@@ -340,8 +340,8 @@
             trafficType = "nebula";
           }
           {
-            name = "nixos-hostile-4444";
-            providers = [ "nixos-hostile01" ];
+            name = "home-hostile-4444";
+            providers = [ "home-hostile01" ];
             trafficType = "tcp-udp-4444";
           }
           {
@@ -449,7 +449,7 @@
           }
           {
             kind = "host";
-            name = "nixos-hostile01";
+            name = "home-hostile01";
             tenant = "hostile";
           }
           {
@@ -503,7 +503,7 @@
               {
                 allocation = "runtime";
                 family = "ipv6";
-                name = "nixos-hostile-public";
+                name = "home-hostile-public";
                 prefixPostfix = "4444";
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
@@ -700,24 +700,24 @@
             mustTraverse = [ "policy" ];
             name = "east-west";
             peerSites = [
-              "esp.clab"
-              "esp.hetz"
+              "esp.lab"
+              "esp.edge"
             ];
             terminateOn = "home-example-router-core-nebula";
           }
         ];
       };
     };
-    hetz = {
+    edge = {
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
           external-wan = "wan";
-          service-clab-client-4445 = "clab-client-4445";
+          service-lab-client-4445 = "lab-client-4445";
           service-dmz-nebula = "dmz-nebula";
-          service-hetz-dns-dmz = "hetz-dns-dmz";
-          service-hetz-client-4446 = "hetz-client-4446";
-          service-nixos-hostile-4444 = "nixos-hostile-4444";
+          service-edge-dns-dmz = "edge-dns-dmz";
+          service-edge-client-4446 = "edge-client-4446";
+          service-home-hostile-4444 = "home-hostile-4444";
           tenant-client = "client";
           tenant-dmz = "dmz";
         };
@@ -728,7 +728,7 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
-            id = "allow-hetz-wan-icmp-anywhere";
+            id = "allow-edge-wan-icmp-anywhere";
             priority = 6;
             to = "any";
             trafficType = "icmp";
@@ -739,7 +739,7 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-hetz-overlay-icmp-anywhere";
+            id = "allow-edge-overlay-icmp-anywhere";
             priority = 7;
             to = "any";
             trafficType = "icmp";
@@ -750,11 +750,11 @@
               kind = "tenant-set";
               members = [ "client" ];
             };
-            id = "allow-hetz-client-to-dmz-dns";
+            id = "allow-edge-client-to-dmz-dns";
             priority = 20;
             to = {
               kind = "service";
-              name = "hetz-dns-dmz";
+              name = "edge-dns-dmz";
             };
             trafficType = "dns";
           }
@@ -764,7 +764,7 @@
               kind = "tenant-set";
               members = [ "client" ];
             };
-            id = "deny-hetz-client-dns-to-wan";
+            id = "deny-edge-client-dns-to-wan";
             priority = 25;
             to = {
               kind = "external";
@@ -778,7 +778,7 @@
               kind = "tenant-set";
               members = [ "client" ];
             };
-            id = "allow-hetz-client-to-wan";
+            id = "allow-edge-client-to-wan";
             priority = 100;
             to = {
               kind = "external";
@@ -792,7 +792,7 @@
               kind = "tenant-set";
               members = [ "dmz" ];
             };
-            id = "allow-hetz-dmz-to-wan";
+            id = "allow-edge-dmz-to-wan";
             priority = 101;
             to = {
               kind = "external";
@@ -804,9 +804,9 @@
             action = "allow";
             from = {
               kind = "service";
-              name = "hetz-dns-dmz";
+              name = "edge-dns-dmz";
             };
-            id = "allow-hetz-dns-service-to-east-west";
+            id = "allow-edge-dns-service-to-east-west";
             priority = 109;
             to = {
               kind = "external";
@@ -818,9 +818,9 @@
             action = "allow";
             from = {
               kind = "service";
-              name = "hetz-dns-dmz";
+              name = "edge-dns-dmz";
             };
-            id = "allow-hetz-dns-service-to-wan";
+            id = "allow-edge-dns-service-to-wan";
             priority = 110;
             to = {
               kind = "external";
@@ -876,11 +876,11 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
-            id = "allow-wan-to-nixos-hostile-4444";
+            id = "allow-wan-to-home-hostile-4444";
             priority = 130;
             to = {
               kind = "service";
-              name = "nixos-hostile-4444";
+              name = "home-hostile-4444";
             };
             trafficType = "tcp-udp-4444";
           }
@@ -890,11 +890,11 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
-            id = "allow-wan-to-clab-client-4445";
+            id = "allow-wan-to-lab-client-4445";
             priority = 131;
             to = {
               kind = "service";
-              name = "clab-client-4445";
+              name = "lab-client-4445";
             };
             trafficType = "tcp-udp-4445";
           }
@@ -904,11 +904,11 @@
               kind = "external";
               uplinks = [ "wan" ];
             };
-            id = "allow-wan-to-hetz-client-4446";
+            id = "allow-wan-to-edge-client-4446";
             priority = 132;
             to = {
               kind = "service";
-              name = "hetz-client-4446";
+              name = "edge-client-4446";
             };
             trafficType = "tcp-udp-4446";
           }
@@ -929,8 +929,8 @@
         ];
         services = [
           {
-            name = "hetz-dns-dmz";
-            providers = [ "hetz-dns-dmz" ];
+            name = "edge-dns-dmz";
+            providers = [ "edge-dns-dmz" ];
             trafficType = "dns";
           }
           {
@@ -939,23 +939,23 @@
             trafficType = "nebula";
           }
           {
-            name = "nixos-hostile-4444";
-            providers = [ "nixos-hostile01" ];
+            name = "home-hostile-4444";
+            providers = [ "home-hostile01" ];
             trafficType = "tcp-udp-4444";
           }
           {
-            name = "clab-client-4445";
-            providers = [ "clab-client01" ];
+            name = "lab-client-4445";
+            providers = [ "lab-client01" ];
             trafficType = "tcp-udp-4445";
           }
           {
-            name = "hetz-client-4446";
-            providers = [ "hetz-client01" ];
+            name = "edge-client-4446";
+            providers = [ "edge-client01" ];
             trafficType = "tcp-udp-4446";
           }
           {
             name = "hostile-public-dns";
-            providers = [ "hetz-dns-dmz" ];
+            providers = [ "edge-dns-dmz" ];
             trafficType = "dns";
           }
         ];
@@ -1050,7 +1050,7 @@
         endpoints = [
           {
             kind = "host";
-            name = "hetz-dns-dmz";
+            name = "edge-dns-dmz";
             tenant = "dmz";
           }
           {
@@ -1060,7 +1060,7 @@
           }
           {
             kind = "host";
-            name = "hetz-client01";
+            name = "edge-client01";
             tenant = "client";
           }
         ];
@@ -1080,7 +1080,7 @@
               {
                 allocation = "runtime";
                 family = "ipv6";
-                name = "hetz-client-public";
+                name = "edge-client-public";
                 prefixPostfix = "4446";
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
@@ -1216,21 +1216,21 @@
             mustTraverse = [ "policy" ];
             name = "east-west";
             peerSites = [
-              "esp.nixos"
-              "esp.clab"
+              "esp.home"
+              "esp.lab"
             ];
             terminateOn = "edge-example-router-nebula-core";
           }
         ];
       };
     };
-    clab = {
+    lab = {
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
           external-wan = "wan";
-          service-clab-site-dns = "clab-site-dns";
-          service-clab-client-4445 = "clab-client-4445";
+          service-lab-site-dns = "lab-site-dns";
+          service-lab-client-4445 = "lab-client-4445";
           service-cast-control = "cast-control";
           service-cast-discovery = "cast-discovery";
           tenant-admin = "admin";
@@ -1247,7 +1247,7 @@
               kind = "external";
               name = "wan";
             };
-            id = "allow-clab-wan-icmp-anywhere";
+            id = "allow-lab-wan-icmp-anywhere";
             priority = 6;
             to = "any";
             trafficType = "icmp";
@@ -1258,7 +1258,7 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-clab-overlay-icmp-anywhere";
+            id = "allow-lab-overlay-icmp-anywhere";
             priority = 7;
             to = "any";
             trafficType = "icmp";
@@ -1340,11 +1340,11 @@
                 "dmz"
               ];
             };
-            id = "allow-normal-tenants-to-clab-dns";
+            id = "allow-normal-tenants-to-lab-dns";
             priority = 20;
             to = {
               kind = "service";
-              name = "clab-site-dns";
+              name = "lab-site-dns";
             };
             trafficType = "dns";
           }
@@ -1434,7 +1434,7 @@
               kind = "tenant-set";
               members = [ "hostile" ];
             };
-            id = "allow-hostile-dns-to-hetz-public-dns";
+            id = "allow-hostile-dns-to-edge-public-dns";
             priority = 110;
             to = {
               kind = "external";
@@ -1448,7 +1448,7 @@
               kind = "tenant-set";
               members = [ "hostile" ];
             };
-            id = "allow-hostile-egress-to-hetz-overlay";
+            id = "allow-hostile-egress-to-edge-overlay";
             priority = 111;
             to = {
               kind = "external";
@@ -1462,11 +1462,11 @@
               kind = "external";
               name = "east-west";
             };
-            id = "allow-hetz-public-4445-to-clab-client";
+            id = "allow-edge-public-4445-to-lab-client";
             priority = 120;
             to = {
               kind = "service";
-              name = "clab-client-4445";
+              name = "lab-client-4445";
             };
             trafficType = "tcp-udp-4445";
           }
@@ -1487,23 +1487,23 @@
         ];
         services = [
           {
-            name = "clab-site-dns";
-            providers = [ "clab-site-dns" ];
+            name = "lab-site-dns";
+            providers = [ "lab-site-dns" ];
             trafficType = "dns";
           }
           {
-            name = "clab-client-4445";
-            providers = [ "clab-client01" ];
+            name = "lab-client-4445";
+            providers = [ "lab-client01" ];
             trafficType = "tcp-udp-4445";
           }
           {
             name = "cast-control";
-            providers = [ "clab-streaming01" ];
+            providers = [ "lab-streaming01" ];
             trafficType = "cast-control";
           }
           {
             name = "cast-discovery";
-            providers = [ "clab-streaming01" ];
+            providers = [ "lab-streaming01" ];
             trafficType = "cast-discovery";
           }
         ];
@@ -1596,22 +1596,22 @@
         endpoints = [
           {
             kind = "host";
-            name = "clab-site-dns";
+            name = "lab-site-dns";
             tenant = "mgmt";
           }
           {
             kind = "host";
-            name = "clab-client01";
+            name = "lab-client01";
             tenant = "client";
           }
           {
             kind = "host";
-            name = "clab-client02";
+            name = "lab-client02";
             tenant = "client";
           }
           {
             kind = "host";
-            name = "clab-streaming01";
+            name = "lab-streaming01";
             tenant = "streaming";
           }
           {
@@ -1642,7 +1642,7 @@
               {
                 allocation = "runtime";
                 family = "ipv6";
-                name = "clab-client-public";
+                name = "lab-client-public";
                 prefixPostfix = "4445";
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
@@ -1853,8 +1853,8 @@
             mustTraverse = [ "policy" ];
             name = "east-west";
             peerSites = [
-              "esp.nixos"
-              "esp.hetz"
+              "esp.home"
+              "esp.edge"
             ];
             terminateOn = "lab-example-router-core-nebula";
           }
