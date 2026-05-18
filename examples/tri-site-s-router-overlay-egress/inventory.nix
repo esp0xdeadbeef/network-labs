@@ -67,13 +67,13 @@ let
           rdnss = [ "router-self" ];
         };
       };
-      host = "s-router-clab";
+      host = "s-router-lab";
       logicalNode = {
         enterprise = "esp";
         name = "lab-example-router-access-${tenant}";
-        site = "clab";
+        site = "lab";
       };
-      platform = "nixos-container";
+      platform = "home-container";
       ports = {
         "tenant-${tenant}" = {
           attach = {
@@ -90,7 +90,7 @@ let
         transit-downstream = {
           adapterName = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream-transit-downstream";
           attach = {
-            bridge = "br-clab-downstream-${tenant}";
+            bridge = "br-lab-downstream-${tenant}";
             kind = "bridge";
           };
           interface = {
@@ -139,7 +139,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream-access-${tenant}";
         attach = {
-          bridge = "br-clab-downstream-${tenant}";
+          bridge = "br-lab-downstream-${tenant}";
           kind = "bridge";
         };
         interface = {
@@ -156,7 +156,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-policy-${tenant}";
         attach = {
-          bridge = "br-clab-downstream-policy-access-${tenant}";
+          bridge = "br-lab-downstream-policy-access-${tenant}";
           kind = "bridge";
         };
         interface = {
@@ -173,7 +173,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-downstream-${tenant}";
         attach = {
-          bridge = "br-clab-downstream-policy-access-${tenant}";
+          bridge = "br-lab-downstream-policy-access-${tenant}";
           kind = "bridge";
         };
         interface = {
@@ -190,7 +190,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-upstream-${tenant}";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}";
+          bridge = "br-lab-policy-upstream-access-${tenant}";
           kind = "bridge";
         };
         interface = {
@@ -207,7 +207,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+          bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
           kind = "bridge";
         };
         interface = {
@@ -224,7 +224,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-policy-${tenant}";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}";
+          bridge = "br-lab-policy-upstream-access-${tenant}";
           kind = "bridge";
         };
         interface = {
@@ -241,7 +241,7 @@ let
       value = {
         adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+          bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
           kind = "bridge";
         };
         interface = {
@@ -297,7 +297,7 @@ in
   controlPlane = {
     sites = {
       esp = {
-        nixos = {
+        home = {
           overlays = {
             east-west = {
               nodes = {
@@ -375,7 +375,7 @@ in
             };
           };
         };
-        hetz = {
+        edge = {
           overlays = {
             east-west = {
               nodes = {
@@ -443,7 +443,7 @@ in
                   };
                   groups = [
                     "lab"
-                    "hetz"
+                    "edge"
                     "lighthouse"
                   ];
                   service = {
@@ -459,7 +459,7 @@ in
                   };
                   groups = [
                     "lab"
-                    "hetz"
+                    "edge"
                     "core"
                   ];
                   service = {
@@ -485,7 +485,7 @@ in
             };
           };
         };
-        clab = {
+        lab = {
           overlays = {
             east-west = {
               nodes = {
@@ -616,16 +616,16 @@ in
     hosts = {
       s-router-hetzner-anywhere = {
         bridgeNetworks = {
-          br-hetz-core-upstream = { };
-          br-hetz-downstream-client = { };
-          br-hetz-downstream-dmz = { };
-          br-hetz-downstream-policy-access-client = { };
-          br-hetz-downstream-policy-access-dmz = { };
-          br-hetz-nebula-core-upstream = { };
-          br-hetz-policy-upstream-access-client-east-west = { };
-          br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-east-west = { };
-          br-hetz-policy-upstream-access-dmz-wan = { };
+          br-edge-core-upstream = { };
+          br-edge-downstream-client = { };
+          br-edge-downstream-dmz = { };
+          br-edge-downstream-policy-access-client = { };
+          br-edge-downstream-policy-access-dmz = { };
+          br-edge-nebula-core-upstream = { };
+          br-edge-policy-upstream-access-client-east-west = { };
+          br-edge-policy-upstream-access-client-wan = { };
+          br-edge-policy-upstream-access-dmz-east-west = { };
+          br-edge-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
         };
@@ -661,37 +661,37 @@ in
             parent = "eth0";
             vlan = 301;
           };
-          br-nixos-core-isp-a-upstream = { };
-          br-nixos-core-isp-b-upstream = { };
-          br-nixos-core-nebula-upstream = { };
-          br-nixos-downstream-admin = { };
-          br-nixos-downstream-client = { };
-          br-nixos-downstream-dmz = { };
-          br-nixos-downstream-hostile = { };
-          br-nixos-downstream-mgmt = { };
-          br-nixos-downstream-policy-access-admin = { };
-          br-nixos-downstream-policy-access-client = { };
-          br-nixos-downstream-policy-access-dmz = { };
-          br-nixos-downstream-policy-access-hostile = { };
-          br-nixos-downstream-policy-access-mgmt = { };
-          br-nixos-downstream-policy-access-streaming = { };
-          br-nixos-downstream-streaming = { };
-          br-nixos-policy-upstream-access-admin-isp-a = { };
-          br-nixos-policy-upstream-access-admin-isp-b = { };
-          br-nixos-policy-upstream-access-client-isp-a = { };
-          br-nixos-policy-upstream-access-client-isp-b = { };
-          br-nixos-policy-upstream-access-dmz-isp-a = { };
-          br-nixos-policy-upstream-access-dmz-isp-b = { };
-          br-nixos-policy-upstream-access-hostile-east-west = { };
-          br-nixos-policy-upstream-access-mgmt-isp-a = { };
-          br-nixos-policy-upstream-access-mgmt-isp-b = { };
-          br-nixos-policy-upstream-access-streaming-isp-a = { };
-          br-nixos-policy-upstream-access-streaming-isp-b = { };
-          br-hetz-core-upstream = { };
-          br-hetz-downstream-mgmt = { };
-          br-hetz-downstream-policy-access-mgmt = { };
-          br-hetz-nebula-core-upstream = { };
-          br-hetz-policy-upstream-access-mgmt-wan = { };
+          br-home-core-isp-a-upstream = { };
+          br-home-core-isp-b-upstream = { };
+          br-home-core-nebula-upstream = { };
+          br-home-downstream-admin = { };
+          br-home-downstream-client = { };
+          br-home-downstream-dmz = { };
+          br-home-downstream-hostile = { };
+          br-home-downstream-mgmt = { };
+          br-home-downstream-policy-access-admin = { };
+          br-home-downstream-policy-access-client = { };
+          br-home-downstream-policy-access-dmz = { };
+          br-home-downstream-policy-access-hostile = { };
+          br-home-downstream-policy-access-mgmt = { };
+          br-home-downstream-policy-access-streaming = { };
+          br-home-downstream-streaming = { };
+          br-home-policy-upstream-access-admin-isp-a = { };
+          br-home-policy-upstream-access-admin-isp-b = { };
+          br-home-policy-upstream-access-client-isp-a = { };
+          br-home-policy-upstream-access-client-isp-b = { };
+          br-home-policy-upstream-access-dmz-isp-a = { };
+          br-home-policy-upstream-access-dmz-isp-b = { };
+          br-home-policy-upstream-access-hostile-east-west = { };
+          br-home-policy-upstream-access-mgmt-isp-a = { };
+          br-home-policy-upstream-access-mgmt-isp-b = { };
+          br-home-policy-upstream-access-streaming-isp-a = { };
+          br-home-policy-upstream-access-streaming-isp-b = { };
+          br-edge-core-upstream = { };
+          br-edge-downstream-mgmt = { };
+          br-edge-downstream-policy-access-mgmt = { };
+          br-edge-nebula-core-upstream = { };
+          br-edge-policy-upstream-access-mgmt-wan = { };
           branch = {
             mode = "vlan";
             parent = "eth0";
@@ -783,39 +783,39 @@ in
         };
         wanUplink = "uplink-isp-b";
       };
-      s-router-clab = {
+      s-router-lab = {
         bridgeNetworks = {
           admin = {
             mode = "vlan";
             parent = "eth0";
             vlan = 301;
           };
-          br-clab-core-nebula-upstream = { };
-          br-clab-core-simulated-isp-upstream = { };
-          br-clab-downstream-admin = { };
-          br-clab-downstream-client = { };
-          br-clab-downstream-dmz = { };
-          br-clab-downstream-hostile = { };
-          br-clab-downstream-mgmt = { };
-          br-clab-downstream-streaming = { };
-          br-clab-downstream-policy-access-admin = { };
-          br-clab-downstream-policy-access-client = { };
-          br-clab-downstream-policy-access-dmz = { };
-          br-clab-downstream-policy-access-hostile = { };
-          br-clab-downstream-policy-access-mgmt = { };
-          br-clab-downstream-policy-access-streaming = { };
-          br-clab-policy-upstream-access-admin = { };
-          br-clab-policy-upstream-access-admin-east-west = { };
-          br-clab-policy-upstream-access-client = { };
-          br-clab-policy-upstream-access-client-east-west = { };
-          br-clab-policy-upstream-access-dmz = { };
-          br-clab-policy-upstream-access-dmz-east-west = { };
-          br-clab-policy-upstream-access-hostile = { };
-          br-clab-policy-upstream-access-hostile-east-west = { };
-          br-clab-policy-upstream-access-mgmt = { };
-          br-clab-policy-upstream-access-mgmt-east-west = { };
-          br-clab-policy-upstream-access-streaming = { };
-          br-clab-policy-upstream-access-streaming-east-west = { };
+          br-lab-core-nebula-upstream = { };
+          br-lab-core-simulated-isp-upstream = { };
+          br-lab-downstream-admin = { };
+          br-lab-downstream-client = { };
+          br-lab-downstream-dmz = { };
+          br-lab-downstream-hostile = { };
+          br-lab-downstream-mgmt = { };
+          br-lab-downstream-streaming = { };
+          br-lab-downstream-policy-access-admin = { };
+          br-lab-downstream-policy-access-client = { };
+          br-lab-downstream-policy-access-dmz = { };
+          br-lab-downstream-policy-access-hostile = { };
+          br-lab-downstream-policy-access-mgmt = { };
+          br-lab-downstream-policy-access-streaming = { };
+          br-lab-policy-upstream-access-admin = { };
+          br-lab-policy-upstream-access-admin-east-west = { };
+          br-lab-policy-upstream-access-client = { };
+          br-lab-policy-upstream-access-client-east-west = { };
+          br-lab-policy-upstream-access-dmz = { };
+          br-lab-policy-upstream-access-dmz-east-west = { };
+          br-lab-policy-upstream-access-hostile = { };
+          br-lab-policy-upstream-access-hostile-east-west = { };
+          br-lab-policy-upstream-access-mgmt = { };
+          br-lab-policy-upstream-access-mgmt-east-west = { };
+          br-lab-policy-upstream-access-streaming = { };
+          br-lab-policy-upstream-access-streaming-east-west = { };
           branch = {
             mode = "vlan";
             parent = "eth0";
@@ -969,19 +969,19 @@ in
     };
   };
   endpoints = {
-    clab-client01 = {
+    lab-client01 = {
       ipv4 = [ "10.50.20.10" ];
       ipv6 = [ "fd42:dead:feed:20::10" ];
     };
-    clab-client02 = {
+    lab-client02 = {
       ipv4 = [ "10.50.20.11" ];
       ipv6 = [ "fd42:dead:feed:20::11" ];
     };
-    clab-site-dns = {
+    lab-site-dns = {
       ipv4 = [ "10.50.10.1" ];
       ipv6 = [ "fd42:dead:feed:10::1" ];
     };
-    clab-streaming01 = {
+    lab-streaming01 = {
       ipv4 = [ "10.50.50.10" ];
       ipv6 = [ "fd42:dead:feed:50::10" ];
     };
@@ -993,7 +993,7 @@ in
       ipv4 = [ "10.70.10.10" ];
       ipv6 = [ "fd42:dead:feed:70::10" ];
     };
-    nixos-hostile01 = {
+    home-hostile01 = {
       ipv4 = [ "10.20.70.10" ];
       ipv6 = [ "fd42:dead:beef:70::10" ];
     };
@@ -1005,11 +1005,11 @@ in
       ipv4 = [ "10.20.10.1" ];
       ipv6 = [ "fd42:dead:beef:10::1" ];
     };
-    hetz-dns-dmz = {
+    edge-dns-dmz = {
       ipv4 = [ "10.90.10.1" ];
       ipv6 = [ "fd42:dead:cafe:10::1" ];
     };
-    hetz-client01 = {
+    edge-client01 = {
       ipv4 = [ "10.90.20.10" ];
       ipv6 = [ "fd42:dead:cafe:20::10" ];
     };
@@ -1045,9 +1045,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-admin";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-admin = {
             attach = {
@@ -1064,7 +1064,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-admin-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-admin";
+              bridge = "br-home-downstream-admin";
               kind = "bridge";
             };
             interface = {
@@ -1119,9 +1119,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-client";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-client = {
             attach = {
@@ -1138,7 +1138,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-client-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-client";
+              bridge = "br-home-downstream-client";
               kind = "bridge";
             };
             interface = {
@@ -1193,9 +1193,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-dmz";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-dmz = {
             attach = {
@@ -1212,7 +1212,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-dmz-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-dmz";
+              bridge = "br-home-downstream-dmz";
               kind = "bridge";
             };
             interface = {
@@ -1274,9 +1274,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-hostile";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-hostile = {
             attach = {
@@ -1293,7 +1293,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-hostile-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-hostile";
+              bridge = "br-home-downstream-hostile";
               kind = "bridge";
             };
             interface = {
@@ -1350,9 +1350,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-mgmt";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-mgmt = {
             attach = {
@@ -1369,7 +1369,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-mgmt-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-mgmt";
+              bridge = "br-home-downstream-mgmt";
               kind = "bridge";
             };
             interface = {
@@ -1426,9 +1426,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-access-streaming";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-streaming = {
             attach = {
@@ -1445,7 +1445,7 @@ in
           transit-downstream = {
             adapterName = "p2p-home-example-router-access-streaming-home-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-nixos-downstream-streaming";
+              bridge = "br-home-downstream-streaming";
               kind = "bridge";
             };
             interface = {
@@ -1476,9 +1476,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-core-isp-a";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           isp-a = {
             attach = {
@@ -1494,7 +1494,7 @@ in
           upstream = {
             adapterName = "p2p-home-example-router-core-isp-a-home-example-router-upstream-upstream";
             attach = {
-              bridge = "br-nixos-core-isp-a-upstream";
+              bridge = "br-home-core-isp-a-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1509,9 +1509,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-core-isp-b";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           isp-b = {
             attach = {
@@ -1527,7 +1527,7 @@ in
           upstream = {
             adapterName = "p2p-home-example-router-core-isp-b-home-example-router-upstream-upstream";
             attach = {
-              bridge = "br-nixos-core-isp-b-upstream";
+              bridge = "br-home-core-isp-b-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1542,9 +1542,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-core-nebula";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           east-west = {
             attach = {
@@ -1560,7 +1560,7 @@ in
           upstream = {
             adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-upstream";
             attach = {
-              bridge = "br-nixos-core-nebula-upstream";
+              bridge = "br-home-core-nebula-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1575,14 +1575,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-downstream";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           access-admin = {
             adapterName = "p2p-home-example-router-access-admin-home-example-router-downstream-access-admin";
             attach = {
-              bridge = "br-nixos-downstream-admin";
+              bridge = "br-home-downstream-admin";
               kind = "bridge";
             };
             interface = {
@@ -1593,7 +1593,7 @@ in
           access-client = {
             adapterName = "p2p-home-example-router-access-client-home-example-router-downstream-access-client";
             attach = {
-              bridge = "br-nixos-downstream-client";
+              bridge = "br-home-downstream-client";
               kind = "bridge";
             };
             interface = {
@@ -1604,7 +1604,7 @@ in
           access-dmz = {
             adapterName = "p2p-home-example-router-access-dmz-home-example-router-downstream-access-dmz";
             attach = {
-              bridge = "br-nixos-downstream-dmz";
+              bridge = "br-home-downstream-dmz";
               kind = "bridge";
             };
             interface = {
@@ -1615,7 +1615,7 @@ in
           access-hostile = {
             adapterName = "p2p-home-example-router-access-hostile-home-example-router-downstream-access-hostile";
             attach = {
-              bridge = "br-nixos-downstream-hostile";
+              bridge = "br-home-downstream-hostile";
               kind = "bridge";
             };
             interface = {
@@ -1626,7 +1626,7 @@ in
           access-mgmt = {
             adapterName = "p2p-home-example-router-access-mgmt-home-example-router-downstream-access-mgmt";
             attach = {
-              bridge = "br-nixos-downstream-mgmt";
+              bridge = "br-home-downstream-mgmt";
               kind = "bridge";
             };
             interface = {
@@ -1637,7 +1637,7 @@ in
           access-streaming = {
             adapterName = "p2p-home-example-router-access-streaming-home-example-router-downstream-access-streaming";
             attach = {
-              bridge = "br-nixos-downstream-streaming";
+              bridge = "br-home-downstream-streaming";
               kind = "bridge";
             };
             interface = {
@@ -1648,7 +1648,7 @@ in
           policy-admin = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-admin-policy-admin";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-admin";
+              bridge = "br-home-downstream-policy-access-admin";
               kind = "bridge";
             };
             interface = {
@@ -1659,7 +1659,7 @@ in
           policy-client = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-client-policy-client";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-client";
+              bridge = "br-home-downstream-policy-access-client";
               kind = "bridge";
             };
             interface = {
@@ -1670,7 +1670,7 @@ in
           policy-dmz = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-dmz-policy-dmz";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-dmz";
+              bridge = "br-home-downstream-policy-access-dmz";
               kind = "bridge";
             };
             interface = {
@@ -1681,7 +1681,7 @@ in
           policy-hostile = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-hostile-policy-hostile";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-hostile";
+              bridge = "br-home-downstream-policy-access-hostile";
               kind = "bridge";
             };
             interface = {
@@ -1692,7 +1692,7 @@ in
           policy-mgmt = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-mgmt-policy-mgmt";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-mgmt";
+              bridge = "br-home-downstream-policy-access-mgmt";
               kind = "bridge";
             };
             interface = {
@@ -1703,7 +1703,7 @@ in
           policy-streaming = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-streaming-policy-streaming";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-streaming";
+              bridge = "br-home-downstream-policy-access-streaming";
               kind = "bridge";
             };
             interface = {
@@ -1718,14 +1718,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-policy";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           downstream-admin = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-admin-downstream-admin";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-admin";
+              bridge = "br-home-downstream-policy-access-admin";
               kind = "bridge";
             };
             interface = {
@@ -1736,7 +1736,7 @@ in
           downstream-client = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-client-downstream-client";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-client";
+              bridge = "br-home-downstream-policy-access-client";
               kind = "bridge";
             };
             interface = {
@@ -1747,7 +1747,7 @@ in
           downstream-dmz = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-dmz-downstream-dmz";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-dmz";
+              bridge = "br-home-downstream-policy-access-dmz";
               kind = "bridge";
             };
             interface = {
@@ -1758,7 +1758,7 @@ in
           downstream-hostile = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-hostile-downstream-hostile";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-hostile";
+              bridge = "br-home-downstream-policy-access-hostile";
               kind = "bridge";
             };
             interface = {
@@ -1769,7 +1769,7 @@ in
           downstream-mgmt = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-mgmt-downstream-mgmt";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-mgmt";
+              bridge = "br-home-downstream-policy-access-mgmt";
               kind = "bridge";
             };
             interface = {
@@ -1780,7 +1780,7 @@ in
           downstream-streaming = {
             adapterName = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-streaming-downstream-streaming";
             attach = {
-              bridge = "br-nixos-downstream-policy-access-streaming";
+              bridge = "br-home-downstream-policy-access-streaming";
               kind = "bridge";
             };
             interface = {
@@ -1791,7 +1791,7 @@ in
           upstream-admin-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-a-upstream-admin-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-admin-isp-a";
+              bridge = "br-home-policy-upstream-access-admin-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1802,7 +1802,7 @@ in
           upstream-admin-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-b-upstream-admin-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-admin-isp-b";
+              bridge = "br-home-policy-upstream-access-admin-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1813,7 +1813,7 @@ in
           upstream-client-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-client--uplink-isp-a-upstream-client-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-client-isp-a";
+              bridge = "br-home-policy-upstream-access-client-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1824,7 +1824,7 @@ in
           upstream-client-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-client--uplink-isp-b-upstream-client-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-client-isp-b";
+              bridge = "br-home-policy-upstream-access-client-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1835,7 +1835,7 @@ in
           upstream-dmz-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+              bridge = "br-home-policy-upstream-access-dmz-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1846,7 +1846,7 @@ in
           upstream-dmz-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-dmz--uplink-isp-b-upstream-dmz-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
+              bridge = "br-home-policy-upstream-access-dmz-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1857,7 +1857,7 @@ in
           upstream-hostile-east-west = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-hostile-east-west";
+              bridge = "br-home-policy-upstream-access-hostile-east-west";
               kind = "bridge";
             };
             interface = {
@@ -1868,7 +1868,7 @@ in
           upstream-mgmt-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-mgmt--uplink-isp-a-upstream-mgmt-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-mgmt-isp-a";
+              bridge = "br-home-policy-upstream-access-mgmt-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1879,7 +1879,7 @@ in
           upstream-mgmt-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-mgmt--uplink-isp-b-upstream-mgmt-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
+              bridge = "br-home-policy-upstream-access-mgmt-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1890,7 +1890,7 @@ in
           upstream-streaming-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-streaming--uplink-isp-a-upstream-streaming-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-streaming-isp-a";
+              bridge = "br-home-policy-upstream-access-streaming-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1901,7 +1901,7 @@ in
           upstream-streaming-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-streaming--uplink-isp-b-upstream-streaming-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-streaming-isp-b";
+              bridge = "br-home-policy-upstream-access-streaming-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1916,14 +1916,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "home-example-router-upstream";
-          site = "nixos";
+          site = "home";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           core-isp-a = {
             adapterName = "p2p-home-example-router-core-isp-a-home-example-router-upstream-core-isp-a";
             attach = {
-              bridge = "br-nixos-core-isp-a-upstream";
+              bridge = "br-home-core-isp-a-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1934,7 +1934,7 @@ in
           core-isp-b = {
             adapterName = "p2p-home-example-router-core-isp-b-home-example-router-upstream-core-isp-b";
             attach = {
-              bridge = "br-nixos-core-isp-b-upstream";
+              bridge = "br-home-core-isp-b-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1945,7 +1945,7 @@ in
           core-nebula = {
             adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-core-nebula";
             attach = {
-              bridge = "br-nixos-core-nebula-upstream";
+              bridge = "br-home-core-nebula-upstream";
               kind = "bridge";
             };
             interface = {
@@ -1956,7 +1956,7 @@ in
           policy-admin-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-a-policy-admin-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-admin-isp-a";
+              bridge = "br-home-policy-upstream-access-admin-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1967,7 +1967,7 @@ in
           policy-admin-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-b-policy-admin-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-admin-isp-b";
+              bridge = "br-home-policy-upstream-access-admin-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -1978,7 +1978,7 @@ in
           policy-client-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-client--uplink-isp-a-policy-client-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-client-isp-a";
+              bridge = "br-home-policy-upstream-access-client-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -1989,7 +1989,7 @@ in
           policy-client-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-client--uplink-isp-b-policy-client-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-client-isp-b";
+              bridge = "br-home-policy-upstream-access-client-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -2000,7 +2000,7 @@ in
           policy-dmz-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+              bridge = "br-home-policy-upstream-access-dmz-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -2011,7 +2011,7 @@ in
           policy-dmz-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-dmz--uplink-isp-b-policy-dmz-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
+              bridge = "br-home-policy-upstream-access-dmz-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -2022,7 +2022,7 @@ in
           policy-hostile-east-west = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-hostile--uplink-east-west-policy-hostile-east-west";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-hostile-east-west";
+              bridge = "br-home-policy-upstream-access-hostile-east-west";
               kind = "bridge";
             };
             interface = {
@@ -2033,7 +2033,7 @@ in
           policy-mgmt-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-mgmt--uplink-isp-a-policy-mgmt-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-mgmt-isp-a";
+              bridge = "br-home-policy-upstream-access-mgmt-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -2044,7 +2044,7 @@ in
           policy-mgmt-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-mgmt--uplink-isp-b-policy-mgmt-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
+              bridge = "br-home-policy-upstream-access-mgmt-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -2055,7 +2055,7 @@ in
           policy-streaming-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-streaming-isp-a";
+              bridge = "br-home-policy-upstream-access-streaming-isp-a";
               kind = "bridge";
             };
             interface = {
@@ -2066,7 +2066,7 @@ in
           policy-streaming-isp-b = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-streaming--uplink-isp-b-policy-streaming-isp-b";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-streaming-isp-b";
+              bridge = "br-home-policy-upstream-access-streaming-isp-b";
               kind = "bridge";
             };
             interface = {
@@ -2105,9 +2105,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-access-client";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-client = {
             attach = {
@@ -2124,7 +2124,7 @@ in
           transit-downstream = {
             adapterName = "p2p-edge-example-router-access-client-edge-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-hetz-downstream-client";
+              bridge = "br-edge-downstream-client";
               kind = "bridge";
             };
             interface = {
@@ -2185,9 +2185,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-access-dmz";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           tenant-dmz = {
             attach = {
@@ -2204,7 +2204,7 @@ in
           transit-downstream = {
             adapterName = "p2p-edge-example-router-access-dmz-edge-example-router-downstream-transit-downstream";
             attach = {
-              bridge = "br-hetz-downstream-dmz";
+              bridge = "br-edge-downstream-dmz";
               kind = "bridge";
             };
             interface = {
@@ -2241,14 +2241,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-core";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           upstream = {
             adapterName = "p2p-edge-example-router-core-edge-example-router-upstream-upstream";
             attach = {
-              bridge = "br-hetz-core-upstream";
+              bridge = "br-edge-core-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2290,14 +2290,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-downstream";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           access-client = {
             adapterName = "p2p-edge-example-router-access-client-edge-example-router-downstream-access-client";
             attach = {
-              bridge = "br-hetz-downstream-client";
+              bridge = "br-edge-downstream-client";
               kind = "bridge";
             };
             interface = {
@@ -2308,7 +2308,7 @@ in
           access-dmz = {
             adapterName = "p2p-edge-example-router-access-dmz-edge-example-router-downstream-access-dmz";
             attach = {
-              bridge = "br-hetz-downstream-dmz";
+              bridge = "br-edge-downstream-dmz";
               kind = "bridge";
             };
             interface = {
@@ -2319,7 +2319,7 @@ in
           policy-client = {
             adapterName = "p2p-edge-example-router-downstream-edge-example-router-policy--access-edge-example-router-access-client-policy-client";
             attach = {
-              bridge = "br-hetz-downstream-policy-access-client";
+              bridge = "br-edge-downstream-policy-access-client";
               kind = "bridge";
             };
             interface = {
@@ -2330,7 +2330,7 @@ in
           policy-dmz = {
             adapterName = "p2p-edge-example-router-downstream-edge-example-router-policy--access-edge-example-router-access-dmz-policy-dmz";
             attach = {
-              bridge = "br-hetz-downstream-policy-access-dmz";
+              bridge = "br-edge-downstream-policy-access-dmz";
               kind = "bridge";
             };
             interface = {
@@ -2345,9 +2345,9 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-nebula-core";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           east-west = {
             attach = {
@@ -2373,7 +2373,7 @@ in
           upstream = {
             adapterName = "p2p-edge-example-router-nebula-core-edge-example-router-upstream-upstream";
             attach = {
-              bridge = "br-hetz-nebula-core-upstream";
+              bridge = "br-edge-nebula-core-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2388,14 +2388,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-policy";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           downstream-client = {
             adapterName = "p2p-edge-example-router-downstream-edge-example-router-policy--access-edge-example-router-access-client-downstream-client";
             attach = {
-              bridge = "br-hetz-downstream-policy-access-client";
+              bridge = "br-edge-downstream-policy-access-client";
               kind = "bridge";
             };
             interface = {
@@ -2406,7 +2406,7 @@ in
           downstream-dmz = {
             adapterName = "p2p-edge-example-router-downstream-edge-example-router-policy--access-edge-example-router-access-dmz-downstream-dmz";
             attach = {
-              bridge = "br-hetz-downstream-policy-access-dmz";
+              bridge = "br-edge-downstream-policy-access-dmz";
               kind = "bridge";
             };
             interface = {
@@ -2417,7 +2417,7 @@ in
           upstream-client-wan = {
             adapterName = "p2p-edge-example-router-policy-edge-example-router-upstream--access-edge-example-router-access-client--uplink-wan-upstream-client-wan";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-client-wan";
+              bridge = "br-edge-policy-upstream-access-client-wan";
               kind = "bridge";
             };
             interface = {
@@ -2428,7 +2428,7 @@ in
           upstream-dmz-wan = {
             adapterName = "p2p-edge-example-router-policy-edge-example-router-upstream--access-edge-example-router-access-dmz--uplink-wan-upstream-dmz-wan";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-dmz-wan";
+              bridge = "br-edge-policy-upstream-access-dmz-wan";
               kind = "bridge";
             };
             interface = {
@@ -2443,14 +2443,14 @@ in
         logicalNode = {
           enterprise = "esp";
           name = "edge-example-router-upstream";
-          site = "hetz";
+          site = "edge";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           core = {
             adapterName = "p2p-edge-example-router-core-edge-example-router-upstream-core";
             attach = {
-              bridge = "br-hetz-core-upstream";
+              bridge = "br-edge-core-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2461,7 +2461,7 @@ in
           core-nebula = {
             adapterName = "p2p-edge-example-router-nebula-core-edge-example-router-upstream-core-nebula";
             attach = {
-              bridge = "br-hetz-nebula-core-upstream";
+              bridge = "br-edge-nebula-core-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2472,7 +2472,7 @@ in
           policy-client-wan = {
             adapterName = "p2p-edge-example-router-policy-edge-example-router-upstream--access-edge-example-router-access-client--uplink-wan-policy-client-wan";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-client-wan";
+              bridge = "br-edge-policy-upstream-access-client-wan";
               kind = "bridge";
             };
             interface = {
@@ -2483,7 +2483,7 @@ in
           policy-dmz-wan = {
             adapterName = "p2p-edge-example-router-policy-edge-example-router-upstream--access-edge-example-router-access-dmz--uplink-wan-policy-dmz-wan";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-dmz-wan";
+              bridge = "br-edge-policy-upstream-access-dmz-wan";
               kind = "bridge";
             };
             interface = {
@@ -2495,13 +2495,13 @@ in
       };
     } // clabAccessNodes // {
       esp-lab-example-router-core-nebula = {
-        host = "s-router-clab";
+        host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
           name = "lab-example-router-core-nebula";
-          site = "clab";
+          site = "lab";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           east-west = {
             attach = {
@@ -2517,7 +2517,7 @@ in
           upstream = {
             adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-upstream";
             attach = {
-              bridge = "br-clab-core-nebula-upstream";
+              bridge = "br-lab-core-nebula-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2528,18 +2528,18 @@ in
         };
       };
       esp-lab-example-router-core-simulated-isp = {
-        host = "s-router-clab";
+        host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
           name = "lab-example-router-core-simulated-isp";
-          site = "clab";
+          site = "lab";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           upstream = {
             adapterName = "p2p-lab-example-router-core-simulated-isp-lab-example-router-upstream-upstream";
             attach = {
-              bridge = "br-clab-core-simulated-isp-upstream";
+              bridge = "br-lab-core-simulated-isp-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2561,38 +2561,38 @@ in
         };
       };
       esp-lab-example-router-downstream = {
-        host = "s-router-clab";
+        host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
           name = "lab-example-router-downstream";
-          site = "clab";
+          site = "lab";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = clabDownstreamAccessPorts // clabDownstreamPolicyPorts;
       };
       esp-lab-example-router-policy = {
-        host = "s-router-clab";
+        host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
           name = "lab-example-router-policy";
-          site = "clab";
+          site = "lab";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = clabPolicyDownstreamPorts // clabPolicyWanPorts // clabPolicyEastWestPorts;
       };
       esp-lab-example-router-upstream = {
-        host = "s-router-clab";
+        host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
           name = "lab-example-router-upstream";
-          site = "clab";
+          site = "lab";
         };
-        platform = "nixos-container";
+        platform = "home-container";
         ports = {
           core-nebula = {
             adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-core-nebula";
             attach = {
-              bridge = "br-clab-core-nebula-upstream";
+              bridge = "br-lab-core-nebula-upstream";
               kind = "bridge";
             };
             interface = {
@@ -2603,7 +2603,7 @@ in
           core-simulated-isp = {
             adapterName = "p2p-lab-example-router-core-simulated-isp-lab-example-router-upstream-core-simulated-isp";
             attach = {
-              bridge = "br-clab-core-simulated-isp-upstream";
+              bridge = "br-lab-core-simulated-isp-upstream";
               kind = "bridge";
             };
             interface = {

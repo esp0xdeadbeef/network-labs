@@ -44,7 +44,8 @@ check_intent() {
           siteC.topology.nodes.hetz-router-nebula-core.uplinks.east-west;
       hasHostileEastWest =
         hasRelation "allow-hostile-to-east-west"
-        || hasRelation "allow-hostile-egress-to-hetz-overlay";
+        || hasRelation "allow-hostile-egress-to-hetz-overlay"
+        || hasRelation "allow-hostile-egress-to-edge-overlay";
     in
       if hasRelation "allow-hostile-to-wan" then
         throw "${label}: hostile tenant must not be allowed to local WAN"
