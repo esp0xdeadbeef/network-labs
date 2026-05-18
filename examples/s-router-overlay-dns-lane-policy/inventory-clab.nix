@@ -5,13 +5,6 @@
         forwarding = {
           disable_eth0 = false;
         };
-        wan_firewall = {
-          masquerade = {
-            ipv4 = true;
-            ipv6 = true;
-            oifnames = [ "eth2" ];
-          };
-        };
       };
       downstream-selector = {
         forwarding = {
@@ -147,14 +140,6 @@
       };
       espbranch = {
         site-b = {
-          ipv6 = {
-            pd = {
-              delegatedPrefixLength = 64;
-              perTenantPrefixLength = 64;
-              sourceFile = "/run/secrets/subnet-ipv6";
-              uplink = "wan";
-            };
-          };
           overlays = {
             east-west = {
               nodes = {
@@ -478,10 +463,6 @@
               domain = "lan.";
               id = "admin";
               interface = "tenant-admin";
-              pool = {
-                end = "10.20.15.200";
-                start = "10.20.15.100";
-              };
               router = "10.20.15.1";
               subnet = "10.20.15.0/24";
             };
@@ -554,10 +535,6 @@
               domain = "lan.";
               id = "client";
               interface = "tenant-client";
-              pool = {
-                end = "10.20.20.200";
-                start = "10.20.20.100";
-              };
               router = "10.20.20.1";
               subnet = "10.20.20.0/24";
             };
@@ -630,10 +607,6 @@
               domain = "lan.";
               id = "client2";
               interface = "tenant-client2";
-              pool = {
-                end = "10.20.40.200";
-                start = "10.20.40.100";
-              };
               router = "10.20.40.1";
               subnet = "10.20.40.0/24";
             };
@@ -706,10 +679,6 @@
               domain = "lan.";
               id = "dmz";
               interface = "tenant-dmz";
-              pool = {
-                end = "10.20.30.200";
-                start = "10.20.30.100";
-              };
               router = "10.20.30.1";
               subnet = "10.20.30.0/24";
             };
@@ -786,10 +755,6 @@
               domain = "lan.";
               id = "mgmt";
               interface = "tenant-mgmt";
-              pool = {
-                end = "10.20.10.200";
-                start = "10.20.10.100";
-              };
               router = "10.20.10.1";
               subnet = "10.20.10.0/24";
             };
@@ -862,10 +827,6 @@
               domain = "lan.";
               id = "streaming";
               interface = "tenant-streaming";
-              pool = {
-                end = "10.20.50.200";
-                start = "10.20.50.100";
-              };
               router = "10.20.50.1";
               subnet = "10.20.50.0/24";
             };
@@ -1609,10 +1570,6 @@
               domain = "lan.";
               id = "client";
               interface = "tenant-client";
-              pool = {
-                end = "10.90.20.200";
-                start = "10.90.20.100";
-              };
               router = "10.90.20.1";
               subnet = "10.90.20.0/24";
             };
@@ -1689,10 +1646,6 @@
               domain = "lan.";
               id = "dmz";
               interface = "tenant-dmz";
-              pool = {
-                end = "10.90.10.200";
-                start = "10.90.10.100";
-              };
               router = "10.90.10.1";
               subnet = "10.90.10.0/24";
             };
@@ -2044,10 +1997,6 @@
               domain = "lan.";
               id = "branch";
               interface = "tenant-branch";
-              pool = {
-                end = "10.60.10.200";
-                start = "10.60.10.100";
-              };
               router = "10.60.10.1";
               subnet = "10.60.10.0/24";
             };
@@ -2122,10 +2071,6 @@
               domain = "lan.";
               id = "hostile";
               interface = "tenant-hostile";
-              pool = {
-                end = "10.70.10.200";
-                start = "10.70.10.100";
-              };
               router = "10.70.10.1";
               subnet = "10.70.10.0/24";
             };

@@ -23,6 +23,14 @@ EXAMPLE_DIR="${example_dir}" nix eval --impure --expr '
     siteIntent = intent.esp0xdeadbeef.site-a;
     nixosSite = nixosInventory.controlPlane.sites.esp0xdeadbeef.site-a;
     clabSite = clabInventory.controlPlane.sites.esp0xdeadbeef.site-a;
+    intentPdOk =
+      siteIntent.ipv6.pd.delegatedPrefixLength == 48
+      && siteIntent.ipv6.pd.perTenantPrefixLength == 64
+      && siteIntent.ipv6.pd.uplink == "wan"
+      && siteIntent.ipv6.tenants.client-a.mode == "dhcpv6"
+      && siteIntent.ipv6.tenants.client-b.mode == "slaac"
+      && siteIntent.ipv6.tenants.mgmt.mode == "static"
+      && siteIntent.ipv6.tenants.mgmt.prefixes == [ "2001:db8:10::/64" ];
     hasClientBPrefix =
       builtins.any
         (prefix:
@@ -39,22 +47,20 @@ EXAMPLE_DIR="${example_dir}" nix eval --impure --expr '
             (prefix.routedPrefixes or [ ]))
         siteIntent.ownership.prefixes;
     inventoryOk = site:
-      site.ipv6.pd.delegatedPrefixLength == 48
-      && site.ipv6.pd.perTenantPrefixLength == 64
-      && site.tenants.client-a.ipv6.mode == "dhcpv6"
-      && site.tenants.client-b.ipv6.mode == "slaac";
+      !(site ? ipv6)
+      && !((site.tenants.client-b or { }) ? routedPrefixes);
   in
-    hasClientBPrefix && inventoryOk nixosSite && inventoryOk clabSite
+    intentPdOk && hasClientBPrefix && inventoryOk nixosSite && inventoryOk clabSite
 ' >/dev/null || {
   cat >&2 <<'EOF'
 FAIL IPv6 PD downstream-delegation example is malformed.
 
 Expected:
-  - provider-facing PD length /48
+  - provider-facing PD length /48 in intent
   - client-a receives normal /64 behavior
   - client-b keeps an access-link /64 and owns a named runtime IPv6 routed
     prefix that delegates a /52 downstream
-  - both NixOS and CLAB inventories carry the same non-secret control-plane facts
+  - NixOS and CLAB inventories do not repeat IPv6 PD or routed-prefix semantics
 EOF
   exit 1
 }

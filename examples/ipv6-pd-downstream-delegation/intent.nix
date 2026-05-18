@@ -257,6 +257,22 @@
           }
         ];
       };
+      ipv6 = {
+        pd = {
+          delegatedPrefixLength = 48;
+          perTenantPrefixLength = 64;
+          uplink = "wan";
+        };
+        tenants = {
+          admin.mode = "slaac";
+          client-a.mode = "dhcpv6";
+          client-b.mode = "slaac";
+          mgmt = {
+            mode = "static";
+            prefixes = [ "2001:db8:10::/64" ];
+          };
+        };
+      };
       pools = {
         loopback = {
           ipv4 = "10.19.0.0/24";

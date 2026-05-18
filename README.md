@@ -11,10 +11,11 @@ Each example directory contains:
 The core contract is separation:
 
 `intent.nix` defines *what the network means*.
-`inventory-<renderer>.nix` defines *how that meaning is realized on a specific platform*.
+`inventory-<renderer>.nix` defines *which concrete platform facts realize it*.
 
-Renderer-specific realization files exist because the semantic lab is shared while each renderer may
-need different consumer-side bindings. That binding must stay in inventory space, not intent space.
+Renderer-specific realization files exist because the semantic lab is shared while
+each renderer may need different consumer-side bindings. Those bindings must stay
+in inventory space, not intent space.
 
 ## Modeling Contract
 
@@ -29,29 +30,37 @@ describe the network meaning:
 
 - sites, tenants, services, traffic types, and communication relations
 - uplink and overlay domains as semantic external domains
+- WAN/public-egress meaning, including when host IPv4 reachability implies NAT
 - route ownership/export authority
 - policy exceptions, such as which access class may use an overlay path
 - stage cardinality only when the default shape is not enough
 
 The pipeline derives the staged topology, dedicated lanes, and p2p link names
 from that semantic input. Inventory still has to bind those derived p2p links
-to concrete realization facts such as bridges, VLANs, direct links, container
-interfaces, or host attachments. That is not duplication: intent declares
-meaning, while inventory declares how the derived links are realized.
+to concrete realization facts such as bridge names, VLAN tags, MTUs, direct
+links, container interfaces, host attachments, endpoint bindings, and SOPS-backed
+credentials or runtime values. That is not duplication: intent declares meaning,
+while inventory declares how the derived links are realized.
+
+WAN inventory must not decide whether a router performs NAT or public egress.
+If a router only has host IPv4 reachability, the need to NAT is forwarding
+intent and belongs in the model pipeline. Inventory may provide the concrete WAN
+interface, address source, gateway, bridge, VLAN, MTU, and credential/secret
+bindings that let the renderer realize that modeled behavior.
 
 Model a roaming overlay client as overlay membership plus policy/service
 reachability. Do not model it as a fake fabric p2p node unless it exports routes
 or owns prefixes. If it exports routes, model the route ownership explicitly so
 the forwarding and control-plane stages can validate the authority.
 
-Concrete runtime values such as real public addresses, deployment MACs, and
-private overlay client addresses belong in SOPS/runtime inventory for prod-like
-labs, not in plain intent. The semantic routed-prefix contract still belongs in
-intent: which tenant receives a runtime public prefix, its delegated and
-per-tenant prefix lengths, slot, postfix, NAT/public-egress meaning, and the
-runtime source file that downstream renderers watch. Inventory may provide the
-runtime value behind that source file, but it must not decide the routed prefix
-or route shape.
+Concrete runtime values such as real public addresses, deployment MACs, device
+login material, and private overlay client addresses belong in SOPS/runtime
+inventory for prod-like labs, not in plain intent. The semantic routed-prefix
+contract still belongs in intent: which tenant receives a runtime public prefix,
+its delegated and per-tenant prefix lengths, slot, postfix, public-egress
+meaning, and the runtime source file that downstream renderers watch. Inventory
+may provide the runtime value behind that source file, but it must not decide
+the routed prefix, NAT requirement, or route shape.
 
 ## Examples
 
