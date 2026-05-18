@@ -98,6 +98,10 @@ These examples are meant to be consumed by:
   - Focused prod-like fixture for DNS lane preservation, hostile east-west DNS, and overlay return-route checks.
   - Keeps runtime/SOPS-like realization facts in inventory; intent only declares policy and ownership.
 
+- `tri-site-s-router-overlay-egress`
+  - Full three-site `s-router-test` policy copied into examples with example-scoped router names.
+  - Models hostile egress over east-west toward the hosted edge site, plus runtime IPv6 routed-prefix requests and public service entries.
+
 - `priority-stability`
   - Focused on relation ordering / priority determinism.
 

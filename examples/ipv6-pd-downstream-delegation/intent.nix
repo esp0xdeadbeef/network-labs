@@ -248,6 +248,10 @@
                 allocation = "runtime";
                 family = "ipv6";
                 name = "client-b-downstream-public";
+                delegatedPrefixLength = 48;
+                perTenantPrefixLength = 52;
+                slot = 1;
+                sourceFile = "/run/s88-ipv6-pd/wan.prefix";
               }
             ];
           }

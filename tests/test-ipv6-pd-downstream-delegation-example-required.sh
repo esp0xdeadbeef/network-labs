@@ -32,17 +32,17 @@ EXAMPLE_DIR="${example_dir}" nix eval --impure --expr '
             (routed:
               (routed.name or null) == "client-b-downstream-public"
               && (routed.family or null) == "ipv6"
-              && (routed.allocation or null) == "runtime")
+              && (routed.allocation or null) == "runtime"
+              && (routed.delegatedPrefixLength or null) == 48
+              && (routed.perTenantPrefixLength or null) == 52
+              && (routed.sourceFile or null) == "/run/s88-ipv6-pd/wan.prefix")
             (prefix.routedPrefixes or [ ]))
         siteIntent.ownership.prefixes;
     inventoryOk = site:
       site.ipv6.pd.delegatedPrefixLength == 48
       && site.ipv6.pd.perTenantPrefixLength == 64
       && site.tenants.client-a.ipv6.mode == "dhcpv6"
-      && site.tenants.client-b.ipv6.mode == "slaac"
-      && site.tenants.client-b.routedPrefixes.client-b-downstream-public.delegatedPrefixLength == 48
-      && site.tenants.client-b.routedPrefixes.client-b-downstream-public.perTenantPrefixLength == 52
-      && site.tenants.client-b.routedPrefixes.client-b-downstream-public.sourceFile == "/run/s88-ipv6-pd/wan.prefix";
+      && site.tenants.client-b.ipv6.mode == "slaac";
   in
     hasClientBPrefix && inventoryOk nixosSite && inventoryOk clabSite
 ' >/dev/null || {
@@ -54,7 +54,7 @@ Expected:
   - client-a receives normal /64 behavior
   - client-b keeps an access-link /64 and owns a named runtime IPv6 routed
     prefix that delegates a /52 downstream
-  - both NixOS and CLAB inventories carry the same control-plane facts
+  - both NixOS and CLAB inventories carry the same non-secret control-plane facts
 EOF
   exit 1
 }

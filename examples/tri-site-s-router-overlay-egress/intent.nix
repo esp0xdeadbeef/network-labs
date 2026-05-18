@@ -508,7 +508,7 @@
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
                 slot = 0;
-                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-home-example-router-access-hostile";
               }
             ];
           }
@@ -539,52 +539,52 @@
       topology = {
         links = [
           [
-            "nixos-router-core-isp-a"
-            "nixos-router-upstream"
+            "home-example-router-core-isp-a"
+            "home-example-router-upstream"
           ]
           [
-            "nixos-router-core-isp-b"
-            "nixos-router-upstream"
+            "home-example-router-core-isp-b"
+            "home-example-router-upstream"
           ]
           [
-            "nixos-router-core-nebula"
-            "nixos-router-upstream"
+            "home-example-router-core-nebula"
+            "home-example-router-upstream"
           ]
           [
-            "nixos-router-upstream"
-            "nixos-router-policy"
+            "home-example-router-upstream"
+            "home-example-router-policy"
           ]
           [
-            "nixos-router-policy"
-            "nixos-router-downstream"
+            "home-example-router-policy"
+            "home-example-router-downstream"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-admin"
+            "home-example-router-downstream"
+            "home-example-router-access-admin"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-client"
+            "home-example-router-downstream"
+            "home-example-router-access-client"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-dmz"
+            "home-example-router-downstream"
+            "home-example-router-access-dmz"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-hostile"
+            "home-example-router-downstream"
+            "home-example-router-access-hostile"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-mgmt"
+            "home-example-router-downstream"
+            "home-example-router-access-mgmt"
           ]
           [
-            "nixos-router-downstream"
-            "nixos-router-access-streaming"
+            "home-example-router-downstream"
+            "home-example-router-access-streaming"
           ]
         ];
         nodes = {
-          nixos-router-access-admin = {
+          home-example-router-access-admin = {
             attachments = [
               {
                 kind = "tenant";
@@ -593,7 +593,7 @@
             ];
             role = "access";
           };
-          nixos-router-access-client = {
+          home-example-router-access-client = {
             attachments = [
               {
                 kind = "tenant";
@@ -602,7 +602,7 @@
             ];
             role = "access";
           };
-          nixos-router-access-dmz = {
+          home-example-router-access-dmz = {
             attachments = [
               {
                 kind = "tenant";
@@ -611,7 +611,7 @@
             ];
             role = "access";
           };
-          nixos-router-access-mgmt = {
+          home-example-router-access-mgmt = {
             attachments = [
               {
                 kind = "tenant";
@@ -620,7 +620,7 @@
             ];
             role = "access";
           };
-          nixos-router-access-hostile = {
+          home-example-router-access-hostile = {
             attachments = [
               {
                 kind = "tenant";
@@ -629,7 +629,7 @@
             ];
             role = "access";
           };
-          nixos-router-access-streaming = {
+          home-example-router-access-streaming = {
             attachments = [
               {
                 kind = "tenant";
@@ -638,7 +638,7 @@
             ];
             role = "access";
           };
-          nixos-router-core-isp-a = {
+          home-example-router-core-isp-a = {
             role = "core";
             uplinks = {
               isp-a = {
@@ -647,7 +647,7 @@
               };
             };
           };
-          nixos-router-core-isp-b = {
+          home-example-router-core-isp-b = {
             role = "core";
             uplinks = {
               isp-b = {
@@ -656,7 +656,7 @@
               };
             };
           };
-          nixos-router-core-nebula = {
+          home-example-router-core-nebula = {
             role = "core";
             uplinks = {
               east-west = {
@@ -683,13 +683,13 @@
               };
             };
           };
-          nixos-router-downstream = {
+          home-example-router-downstream = {
             role = "downstream-selector";
           };
-          nixos-router-policy = {
+          home-example-router-policy = {
             role = "policy";
           };
-          nixos-router-upstream = {
+          home-example-router-upstream = {
             role = "upstream-selector";
           };
         };
@@ -703,7 +703,7 @@
               "esp.clab"
               "esp.hetz"
             ];
-            terminateOn = "nixos-router-core-nebula";
+            terminateOn = "home-example-router-core-nebula";
           }
         ];
       };
@@ -921,7 +921,7 @@
           }
           {
             name = "dmz-nebula";
-            providers = [ "hetz-router-lighthouse" ];
+            providers = [ "edge-example-router-lighthouse" ];
             trafficType = "nebula";
           }
           {
@@ -1041,7 +1041,7 @@
           }
           {
             kind = "host";
-            name = "hetz-router-lighthouse";
+            name = "edge-example-router-lighthouse";
             tenant = "dmz";
           }
           {
@@ -1071,7 +1071,7 @@
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
                 slot = 0;
-                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-edge-example-router-access-client";
               }
             ];
           }
@@ -1102,7 +1102,7 @@
       topology = {
         hostNatIngress = {
           enabled = true;
-          targetNode = "hetz-router-core";
+          targetNode = "edge-example-router-core";
           uplink = "wan";
           hostReservedPorts = [
             {
@@ -1114,32 +1114,32 @@
         };
         links = [
           [
-            "hetz-router-core"
-            "hetz-router-upstream"
+            "edge-example-router-core"
+            "edge-example-router-upstream"
           ]
           [
-            "hetz-router-nebula-core"
-            "hetz-router-upstream"
+            "edge-example-router-nebula-core"
+            "edge-example-router-upstream"
           ]
           [
-            "hetz-router-upstream"
-            "hetz-router-policy"
+            "edge-example-router-upstream"
+            "edge-example-router-policy"
           ]
           [
-            "hetz-router-policy"
-            "hetz-router-downstream"
+            "edge-example-router-policy"
+            "edge-example-router-downstream"
           ]
           [
-            "hetz-router-downstream"
-            "hetz-router-access-dmz"
+            "edge-example-router-downstream"
+            "edge-example-router-access-dmz"
           ]
           [
-            "hetz-router-downstream"
-            "hetz-router-access-client"
+            "edge-example-router-downstream"
+            "edge-example-router-access-client"
           ]
         ];
         nodes = {
-          hetz-router-access-client = {
+          edge-example-router-access-client = {
             attachments = [
               {
                 kind = "tenant";
@@ -1148,7 +1148,7 @@
             ];
             role = "access";
           };
-          hetz-router-access-dmz = {
+          edge-example-router-access-dmz = {
             attachments = [
               {
                 kind = "tenant";
@@ -1157,7 +1157,7 @@
             ];
             role = "access";
           };
-          hetz-router-core = {
+          edge-example-router-core = {
             role = "core";
             uplinks = {
               wan = {
@@ -1166,10 +1166,10 @@
               };
             };
           };
-          hetz-router-downstream = {
+          edge-example-router-downstream = {
             role = "downstream-selector";
           };
-          hetz-router-nebula-core = {
+          edge-example-router-nebula-core = {
             role = "core";
             uplinks = {
               east-west = {
@@ -1188,10 +1188,10 @@
               };
             };
           };
-          hetz-router-policy = {
+          edge-example-router-policy = {
             role = "policy";
           };
-          hetz-router-upstream = {
+          edge-example-router-upstream = {
             role = "upstream-selector";
           };
         };
@@ -1205,7 +1205,7 @@
               "esp.nixos"
               "esp.clab"
             ];
-            terminateOn = "hetz-router-nebula-core";
+            terminateOn = "edge-example-router-nebula-core";
           }
         ];
       };
@@ -1633,7 +1633,7 @@
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
                 slot = 0;
-                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-lab-example-router-access-client";
               }
             ];
           }
@@ -1662,7 +1662,7 @@
                 delegatedPrefixLength = 64;
                 perTenantPrefixLength = 64;
                 slot = 0;
-                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-lab-example-router-access-hostile";
               }
             ];
           }
@@ -1693,48 +1693,48 @@
       topology = {
         links = [
           [
-            "clab-router-core-nebula"
-            "clab-router-upstream"
+            "lab-example-router-core-nebula"
+            "lab-example-router-upstream"
           ]
           [
-            "clab-router-core-simulated-isp"
-            "clab-router-upstream"
+            "lab-example-router-core-simulated-isp"
+            "lab-example-router-upstream"
           ]
           [
-            "clab-router-upstream"
-            "clab-router-policy"
+            "lab-example-router-upstream"
+            "lab-example-router-policy"
           ]
           [
-            "clab-router-policy"
-            "clab-router-downstream"
+            "lab-example-router-policy"
+            "lab-example-router-downstream"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-admin"
+            "lab-example-router-downstream"
+            "lab-example-router-access-admin"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-client"
+            "lab-example-router-downstream"
+            "lab-example-router-access-client"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-dmz"
+            "lab-example-router-downstream"
+            "lab-example-router-access-dmz"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-hostile"
+            "lab-example-router-downstream"
+            "lab-example-router-access-hostile"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-mgmt"
+            "lab-example-router-downstream"
+            "lab-example-router-access-mgmt"
           ]
           [
-            "clab-router-downstream"
-            "clab-router-access-streaming"
+            "lab-example-router-downstream"
+            "lab-example-router-access-streaming"
           ]
         ];
         nodes = {
-          clab-router-access-admin = {
+          lab-example-router-access-admin = {
             attachments = [
               {
                 kind = "tenant";
@@ -1743,7 +1743,7 @@
             ];
             role = "access";
           };
-          clab-router-access-client = {
+          lab-example-router-access-client = {
             attachments = [
               {
                 kind = "tenant";
@@ -1752,7 +1752,7 @@
             ];
             role = "access";
           };
-          clab-router-access-dmz = {
+          lab-example-router-access-dmz = {
             attachments = [
               {
                 kind = "tenant";
@@ -1761,7 +1761,7 @@
             ];
             role = "access";
           };
-          clab-router-access-hostile = {
+          lab-example-router-access-hostile = {
             attachments = [
               {
                 kind = "tenant";
@@ -1770,7 +1770,7 @@
             ];
             role = "access";
           };
-          clab-router-access-mgmt = {
+          lab-example-router-access-mgmt = {
             attachments = [
               {
                 kind = "tenant";
@@ -1779,7 +1779,7 @@
             ];
             role = "access";
           };
-          clab-router-access-streaming = {
+          lab-example-router-access-streaming = {
             attachments = [
               {
                 kind = "tenant";
@@ -1788,7 +1788,7 @@
             ];
             role = "access";
           };
-          clab-router-core-nebula = {
+          lab-example-router-core-nebula = {
             role = "core";
             uplinks = {
               east-west = {
@@ -1813,7 +1813,7 @@
               };
             };
           };
-          clab-router-core-simulated-isp = {
+          lab-example-router-core-simulated-isp = {
             role = "core";
             uplinks = {
               wan = {
@@ -1822,13 +1822,13 @@
               };
             };
           };
-          clab-router-downstream = {
+          lab-example-router-downstream = {
             role = "downstream-selector";
           };
-          clab-router-policy = {
+          lab-example-router-policy = {
             role = "policy";
           };
-          clab-router-upstream = {
+          lab-example-router-upstream = {
             role = "upstream-selector";
           };
         };
@@ -1842,7 +1842,7 @@
               "esp.nixos"
               "esp.hetz"
             ];
-            terminateOn = "clab-router-core-nebula";
+            terminateOn = "lab-example-router-core-nebula";
           }
         ];
       };

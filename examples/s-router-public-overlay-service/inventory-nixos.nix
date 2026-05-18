@@ -5,14 +5,7 @@
         site-a = {
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   c-router-lighthouse = {
                     addr4 = "100.96.10.254/32";
                     addr6 = "fd42:dead:beef:ee::254/128";
@@ -25,9 +18,7 @@
                     addr4 = "100.96.10.1/32";
                     addr6 = "fd42:dead:beef:ee::1/128";
                   };
-                };
-              };
-              nebula = {
+                }; nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";
@@ -80,14 +71,7 @@
         site-c = {
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   c-router-lighthouse = {
                     addr4 = "100.96.10.254/32";
                     addr6 = "fd42:dead:beef:ee::254/128";
@@ -96,9 +80,7 @@
                     addr4 = "100.96.10.3/32";
                     addr6 = "fd42:dead:beef:ee::3/128";
                   };
-                };
-              };
-              nebula = {
+                }; nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";
@@ -151,15 +133,6 @@
           };
           tenants = {
             client = {
-              routedPrefixes = {
-                site-c-client-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  prefixPostfixSecret = "site-c-client-public-prefix-postfix";
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp0xdeadbeef-site-c-c-router-access-client";
-                };
-              };
             };
           };
         };
@@ -176,14 +149,7 @@
           };
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   b-router-core-nebula = {
                     addr4 = "100.96.10.2/32";
                     addr6 = "fd42:dead:beef:ee::2/128";
@@ -200,9 +166,7 @@
                     addr4 = "100.96.10.30/32";
                     addr6 = "fd42:dead:beef:ee::30/128";
                   };
-                };
-              };
-              nebula = {
+                }; nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";
@@ -248,14 +212,6 @@
             hostile = {
               ipv6 = {
                 mode = "slaac";
-              };
-              routedPrefixes = {
-                site-b-hostile-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-espbranch-site-b-b-router-access-hostile";
-                };
               };
             };
           };

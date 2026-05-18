@@ -23,19 +23,23 @@ check_intent() {
       siteWithAnyNode = nodes:
         let matches = builtins.concatLists (map sitesWithNode nodes);
         in builtins.head matches;
-      siteB = siteWithAnyNode [ "b-router-core-nebula" "clab-router-core-nebula" ];
-      siteC = siteWithAnyNode [ "c-router-nebula-core" "hetz-router-nebula-core" ];
+      siteB = siteWithAnyNode [ "b-router-core-nebula" "clab-router-core-nebula" "lab-example-router-core-nebula" ];
+      siteC = siteWithAnyNode [ "c-router-nebula-core" "hetz-router-nebula-core" "edge-example-router-nebula-core" ];
       relations = siteB.communicationContract.relations or [ ];
       hasRelation = id:
         builtins.any (relation: (relation.id or null) == id) relations;
       siteBNebula =
         if siteB.topology.nodes ? b-router-core-nebula then
           siteB.topology.nodes.b-router-core-nebula.uplinks.east-west
+        else if siteB.topology.nodes ? lab-example-router-core-nebula then
+          siteB.topology.nodes.lab-example-router-core-nebula.uplinks.east-west
         else
           siteB.topology.nodes.clab-router-core-nebula.uplinks.east-west;
       siteCNebula =
         if siteC.topology.nodes ? c-router-nebula-core then
           siteC.topology.nodes.c-router-nebula-core.uplinks.east-west
+        else if siteC.topology.nodes ? edge-example-router-nebula-core then
+          siteC.topology.nodes.edge-example-router-nebula-core.uplinks.east-west
         else
           siteC.topology.nodes.hetz-router-nebula-core.uplinks.east-west;
       hasHostileEastWest =
@@ -83,6 +87,10 @@ check_intent \
   "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/intent.nix" \
   "labs/lab-s-sigma/s-router-test-three-site"
 
+check_intent \
+  "${repo_root}/examples/tri-site-s-router-overlay-egress/intent.nix" \
+  "examples/tri-site-s-router-overlay-egress"
+
 check_inventory \
   "${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix" \
   "examples/s-router-overlay-dns-lane-policy/inventory-nixos"
@@ -94,5 +102,9 @@ check_inventory \
 check_inventory \
   "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory.nix" \
   "labs/lab-s-sigma/s-router-test-three-site/inventory"
+
+check_inventory \
+  "${repo_root}/examples/tri-site-s-router-overlay-egress/inventory.nix" \
+  "examples/tri-site-s-router-overlay-egress/inventory"
 
 echo "PASS hostile-exits-east-west-only"

@@ -13,6 +13,8 @@ fi
 "${repo_root}/tests/test-hostile-exits-east-west-only.sh"
 "${repo_root}/tests/test-lab-sigma-nebula-public-endpoints.sh"
 "${repo_root}/tests/test-overlay-underlay-service-reachability-examples.sh"
+"${repo_root}/tests/test-overlay-pools-live-in-intent.sh"
+"${repo_root}/tests/test-runtime-routed-prefixes-live-in-intent.sh"
 "${repo_root}/tests/test-nebula-relay-realization-contract.sh"
 "${repo_root}/tests/test-nebula-runtime-node-intent-contract.sh"
 "${repo_root}/tests/test-modeling-contract-docs.sh"
