@@ -66,14 +66,7 @@
               ipv6 = {
                 mode = "slaac";
               };
-              routedPrefixes = {
-                client-b-downstream-public = {
-                  delegatedPrefixLength = 48;
-                  perTenantPrefixLength = 52;
-                  slot = 1;
-                  sourceFile = "/run/s88-ipv6-pd/wan.prefix";
-                };
-              };
+              routedPrefixes.client-b-downstream-public = { };
             };
             mgmt = {
               ipv6 = {

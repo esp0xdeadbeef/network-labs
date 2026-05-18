@@ -300,14 +300,7 @@ in
         nixos = {
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   hetz-router-lighthouse = {
                     addr4 = "100.96.10.254/32";
                     addr6 = "fd42:dead:beef:ee::254/128";
@@ -316,7 +309,6 @@ in
                     addr4 = "100.96.10.1/32";
                     addr6 = "fd42:dead:beef:ee::1/128";
                   };
-                };
               };
               nebula = {
                 lighthouse = {
@@ -328,20 +320,6 @@ in
                   port = 4242;
                 };
                 role = "core-client";
-                runtimeNodes = {
-                  nixos-router-core-nebula = {
-                    unsafeRoutes = [
-                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                    ];
-                  };
-                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
@@ -381,29 +359,13 @@ in
               ipv6 = {
                 mode = "slaac";
               };
-              routedPrefixes = {
-                nixos-hostile-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  prefixPostfixSecret = "nixos-hostile-public-prefix-postfix";
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
-                };
-              };
             };
           };
         };
         hetz = {
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   hetz-router-lighthouse = {
                     addr4 = "100.96.10.254/32";
                     addr6 = "fd42:dead:beef:ee::254/128";
@@ -412,7 +374,6 @@ in
                     addr4 = "100.96.10.3/32";
                     addr6 = "fd42:dead:beef:ee::3/128";
                   };
-                };
               };
               nebula = {
                 lighthouse = {
@@ -424,37 +385,6 @@ in
                   port = 4242;
                 };
                 role = "core-client";
-                runtimeNodes = {
-                  hetz-router-lighthouse = {
-                    unsafeRoutes = [ ];
-                  };
-                  hetz-router-nebula-core = {
-                    unsafeRoutes = [
-                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                      {
-                        route = "fd42:dead:feed:70::/64";
-                        via6 = "fd42:dead:beef:ee::2";
-                        install = true;
-                        routeSourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
-                      }
-                    ];
-                  };
-                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
@@ -509,29 +439,13 @@ in
           };
           tenants = {
             client = {
-              routedPrefixes = {
-                hetz-client-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  prefixPostfixSecret = "hetz-client-public-prefix-postfix";
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
-                };
-              };
             };
           };
         };
         clab = {
           overlays = {
             east-west = {
-              ipam = {
-                ipv4 = {
-                  prefix = "100.96.10.0/24";
-                };
-                ipv6 = {
-                  prefix = "fd42:dead:beef:ee::/64";
-                };
-                nodes = {
+              nodes = {
                   clab-router-core-nebula = {
                     addr4 = "100.96.10.2/32";
                     addr6 = "fd42:dead:beef:ee::2/128";
@@ -548,7 +462,6 @@ in
                     addr4 = "100.96.10.30/32";
                     addr6 = "fd42:dead:beef:ee::30/128";
                   };
-                };
               };
               nebula = {
                 lighthouse = {
@@ -560,32 +473,6 @@ in
                   port = 4242;
                 };
                 role = "core-client";
-                runtimeNodes = {
-                  clab-router-core-nebula = {
-                    unsafeRoutes = [
-                      { route = "0.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
-                      { route = "128.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "8000::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                    ];
-                  };
-                };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
@@ -631,15 +518,6 @@ in
               ipv6 = {
                 mode = "slaac";
               };
-              routedPrefixes = {
-                clab-client-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  prefixPostfixSecret = "clab-client-public-prefix-postfix";
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
-                };
-              };
             };
             dmz = {
               ipv6 = {
@@ -649,14 +527,6 @@ in
             hostile = {
               ipv6 = {
                 mode = "slaac";
-              };
-              routedPrefixes = {
-                hostile-public = {
-                  delegatedPrefixLength = 64;
-                  perTenantPrefixLength = 64;
-                  slot = 0;
-                  sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
-                };
               };
             };
             mgmt = {

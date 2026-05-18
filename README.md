@@ -44,9 +44,14 @@ reachability. Do not model it as a fake fabric p2p node unless it exports routes
 or owns prefixes. If it exports routes, model the route ownership explicitly so
 the forwarding and control-plane stages can validate the authority.
 
-Concrete runtime facts such as real public addresses, delegated prefixes,
-deployment MACs, and private overlay client addresses belong in SOPS/runtime
-inventory for prod-like labs, not in plain intent.
+Concrete runtime values such as real public addresses, deployment MACs, and
+private overlay client addresses belong in SOPS/runtime inventory for prod-like
+labs, not in plain intent. The semantic routed-prefix contract still belongs in
+intent: which tenant receives a runtime public prefix, its delegated and
+per-tenant prefix lengths, slot, postfix, NAT/public-egress meaning, and the
+runtime source file that downstream renderers watch. Inventory may provide the
+runtime value behind that source file, but it must not decide the routed prefix
+or route shape.
 
 ## Examples
 

@@ -22,7 +22,13 @@
         {
           path = base;
           intent = base + "/intent.nix";
-          inventory = if lib.pathExists (base + "/inventory-nixos.nix") then base + "/inventory-nixos.nix" else null;
+          inventory =
+            if lib.pathExists (base + "/inventory-nixos.nix") then
+              base + "/inventory-nixos.nix"
+            else if lib.pathExists (base + "/inventory.nix") then
+              base + "/inventory.nix"
+            else
+              null;
         };
 
       labs = lib.listToAttrs (

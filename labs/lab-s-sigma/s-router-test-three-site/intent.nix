@@ -505,12 +505,28 @@
                 family = "ipv6";
                 name = "nixos-hostile-public";
                 prefixPostfix = "4444";
+                delegatedPrefixLength = 64;
+                perTenantPrefixLength = 64;
+                slot = 0;
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
               }
             ];
           }
         ];
       };
       pools = {
+        overlay = {
+          ipv4 = {
+            offsetStart = 10;
+            perNodePrefixLength = 32;
+            prefix = "100.96.10.0/24";
+          };
+          ipv6 = {
+            offsetStart = 10;
+            perNodePrefixLength = 128;
+            prefix = "fd42:dead:beef:ee::/64";
+          };
+        };
         loopback = {
           ipv4 = "10.19.0.0/24";
           ipv6 = "fd42:dead:beef:1900::/118";
@@ -1052,12 +1068,28 @@
                 family = "ipv6";
                 name = "hetz-client-public";
                 prefixPostfix = "4446";
+                delegatedPrefixLength = 64;
+                perTenantPrefixLength = 64;
+                slot = 0;
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
               }
             ];
           }
         ];
       };
       pools = {
+        overlay = {
+          ipv4 = {
+            offsetStart = 10;
+            perNodePrefixLength = 32;
+            prefix = "100.96.10.0/24";
+          };
+          ipv6 = {
+            offsetStart = 10;
+            perNodePrefixLength = 128;
+            prefix = "fd42:dead:beef:ee::/64";
+          };
+        };
         loopback = {
           ipv4 = "10.89.0.0/24";
           ipv6 = "fd42:dead:cafe:1900::/118";
@@ -1598,6 +1630,10 @@
                 family = "ipv6";
                 name = "clab-client-public";
                 prefixPostfix = "4445";
+                delegatedPrefixLength = 64;
+                perTenantPrefixLength = 64;
+                slot = 0;
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
               }
             ];
           }
@@ -1623,12 +1659,28 @@
                 allocation = "runtime";
                 family = "ipv6";
                 name = "hostile-public";
+                delegatedPrefixLength = 64;
+                perTenantPrefixLength = 64;
+                slot = 0;
+                sourceFile = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
               }
             ];
           }
         ];
       };
       pools = {
+        overlay = {
+          ipv4 = {
+            offsetStart = 10;
+            perNodePrefixLength = 32;
+            prefix = "100.96.10.0/24";
+          };
+          ipv6 = {
+            offsetStart = 10;
+            perNodePrefixLength = 128;
+            prefix = "fd42:dead:beef:ee::/64";
+          };
+        };
         loopback = {
           ipv4 = "10.59.0.0/24";
           ipv6 = "fd42:dead:feed:1900::/118";
