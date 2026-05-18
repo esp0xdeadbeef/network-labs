@@ -1,41 +1,11 @@
 let
   clabAccessTenants = {
-    admin = {
-      ipv4Prefix = "10.50.15.0/24";
-      ipv4Router = "10.50.15.1";
-      ipv6Prefix = "fd42:dead:feed:15::/64";
-      ipv6Router = "fd42:dead:feed:15::1";
-    };
-    client = {
-      ipv4Prefix = "10.50.20.0/24";
-      ipv4Router = "10.50.20.1";
-      ipv6Prefix = "fd42:dead:feed:20::/64";
-      ipv6Router = "fd42:dead:feed:20::1";
-    };
-    dmz = {
-      ipv4Prefix = "10.50.30.0/24";
-      ipv4Router = "10.50.30.1";
-      ipv6Prefix = "fd42:dead:feed:30::/64";
-      ipv6Router = "fd42:dead:feed:30::1";
-    };
-    hostile = {
-      ipv4Prefix = "10.70.10.0/24";
-      ipv4Router = "10.70.10.1";
-      ipv6Prefix = "fd42:dead:feed:70::/64";
-      ipv6Router = "fd42:dead:feed:70::1";
-    };
-    mgmt = {
-      ipv4Prefix = "10.50.10.0/24";
-      ipv4Router = "10.50.10.1";
-      ipv6Prefix = "fd42:dead:feed:10::/64";
-      ipv6Router = "fd42:dead:feed:10::1";
-    };
-    streaming = {
-      ipv4Prefix = "10.50.50.0/24";
-      ipv4Router = "10.50.50.1";
-      ipv6Prefix = "fd42:dead:feed:50::/64";
-      ipv6Router = "fd42:dead:feed:50::1";
-    };
+    admin = { };
+    client = { };
+    dmz = { };
+    hostile = { };
+    mgmt = { };
+    streaming = { };
   };
 
   clabAccessNode =
@@ -45,19 +15,9 @@ let
         dhcp4."tenant-${tenant}" = {
           dnsServers = [ "router-self" ];
           domain = "lan.";
-          id = tenant;
-          interface = "tenant-${tenant}";
-          pool = {
-            end = builtins.replaceStrings [ ".0/24" ] [ ".200" ] spec.ipv4Prefix;
-            start = builtins.replaceStrings [ ".0/24" ] [ ".100" ] spec.ipv4Prefix;
-          };
-          router = spec.ipv4Router;
-          subnet = spec.ipv4Prefix;
         };
         ipv6Ra."tenant-${tenant}" = {
           dnssl = [ "lan." ];
-          interface = "tenant-${tenant}";
-          prefixes = [ spec.ipv6Prefix ];
           rdnss = [ "router-self" ];
         };
       };
@@ -75,8 +35,6 @@ let
             kind = "bridge";
           };
           interface = {
-            addr4 = "${spec.ipv4Router}/24";
-            addr6 = "${spec.ipv6Router}/64";
             name = "tenant-${tenant}";
           };
           logicalInterface = "tenant-${tenant}";
@@ -99,17 +57,9 @@ let
             dnsServers = [ "router-self" ];
             rdnss = [ "router-self" ];
           };
-          allowFrom = [
-            spec.ipv4Prefix
-            spec.ipv6Prefix
-          ];
           forwarders = [
             "10.20.10.1"
             "fd42:dead:beef:10::1"
-          ];
-          listen = [
-            spec.ipv4Router
-            spec.ipv6Router
           ];
         };
       };
@@ -251,13 +201,6 @@ in
       core = {
         forwarding = {
           disable_eth0 = false;
-        };
-        wan_firewall = {
-          masquerade = {
-            ipv4 = true;
-            ipv6 = true;
-            oifnames = [ "eth2" ];
-          };
         };
       };
       downstream = {
@@ -947,21 +890,11 @@ in
             tenant-admin = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "admin";
-              interface = "tenant-admin";
-              pool = {
-                end = "10.20.15.200";
-                start = "10.20.15.100";
-              };
-              router = "10.20.15.1";
-              subnet = "10.20.15.0/24";
             };
           };
           ipv6Ra = {
             tenant-admin = {
               dnssl = [ "lan." ];
-              interface = "tenant-admin";
-              prefixes = [ "fd42:dead:beef:15::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -980,8 +913,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.15.1/24";
-              addr6 = "fd42:dead:beef:15::1/64";
               name = "tenant-admin";
             };
             logicalInterface = "tenant-admin";
@@ -1000,17 +931,9 @@ in
         };
         services = {
           dns = {
-            allowFrom = [
-              "10.20.15.0/24"
-              "fd42:dead:beef:15::/64"
-            ];
             forwarders = [
               "10.20.10.1"
               "fd42:dead:beef:10::1"
-            ];
-            listen = [
-              "10.20.15.1"
-              "fd42:dead:beef:15::1"
             ];
           };
         };
@@ -1021,21 +944,11 @@ in
             tenant-client = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "client";
-              interface = "tenant-client";
-              pool = {
-                end = "10.20.20.200";
-                start = "10.20.20.100";
-              };
-              router = "10.20.20.1";
-              subnet = "10.20.20.0/24";
             };
           };
           ipv6Ra = {
             tenant-client = {
               dnssl = [ "lan." ];
-              interface = "tenant-client";
-              prefixes = [ "fd42:dead:beef:20::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -1054,8 +967,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.20.1/24";
-              addr6 = "fd42:dead:beef:20::1/64";
               name = "tenant-client";
             };
             logicalInterface = "tenant-client";
@@ -1074,17 +985,9 @@ in
         };
         services = {
           dns = {
-            allowFrom = [
-              "10.20.20.0/24"
-              "fd42:dead:beef:20::/64"
-            ];
             forwarders = [
               "10.20.10.1"
               "fd42:dead:beef:10::1"
-            ];
-            listen = [
-              "10.20.20.1"
-              "fd42:dead:beef:20::1"
             ];
           };
         };
@@ -1095,21 +998,11 @@ in
             tenant-dmz = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "dmz";
-              interface = "tenant-dmz";
-              pool = {
-                end = "10.20.30.200";
-                start = "10.20.30.100";
-              };
-              router = "10.20.30.1";
-              subnet = "10.20.30.0/24";
             };
           };
           ipv6Ra = {
             tenant-dmz = {
               dnssl = [ "lan." ];
-              interface = "tenant-dmz";
-              prefixes = [ "fd42:dead:beef:30::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -1128,8 +1021,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.30.1/24";
-              addr6 = "fd42:dead:beef:30::1/64";
               name = "tenant-dmz";
             };
             logicalInterface = "tenant-dmz";
@@ -1152,17 +1043,9 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            allowFrom = [
-              "10.20.30.0/24"
-              "fd42:dead:beef:30::/64"
-            ];
             forwarders = [
               "10.20.10.1"
               "fd42:dead:beef:10::1"
-            ];
-            listen = [
-              "10.20.30.1"
-              "fd42:dead:beef:30::1"
             ];
           };
         };
@@ -1173,21 +1056,11 @@ in
             tenant-hostile = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "hostile";
-              interface = "tenant-hostile";
-              pool = {
-                end = "10.20.70.200";
-                start = "10.20.70.100";
-              };
-              router = "10.20.70.1";
-              subnet = "10.20.70.0/24";
             };
           };
           ipv6Ra = {
             tenant-hostile = {
               dnssl = [ "lan." ];
-              interface = "tenant-hostile";
-              prefixes = [ "fd42:dead:beef:70::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -1206,8 +1079,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.70.1/24";
-              addr6 = "fd42:dead:beef:70::1/64";
               name = "tenant-hostile";
             };
             logicalInterface = "tenant-hostile";
@@ -1226,19 +1097,11 @@ in
         };
         services = {
           dns = {
-            allowFrom = [
-              "10.20.70.0/24"
-              "fd42:dead:beef:70::/64"
-            ];
             forwarders = [
               "runtime-public-dns-ipv4-primary"
               "runtime-public-dns-ipv4-secondary"
               "runtime-public-dns-ipv6-primary"
               "runtime-public-dns-ipv6-secondary"
-            ];
-            listen = [
-              "10.20.70.1"
-              "fd42:dead:beef:70::1"
             ];
           };
         };
@@ -1249,21 +1112,11 @@ in
             tenant-mgmt = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "mgmt";
-              interface = "tenant-mgmt";
-              pool = {
-                end = "10.20.10.200";
-                start = "10.20.10.100";
-              };
-              router = "10.20.10.1";
-              subnet = "10.20.10.0/24";
             };
           };
           ipv6Ra = {
             tenant-mgmt = {
               dnssl = [ "lan." ];
-              interface = "tenant-mgmt";
-              prefixes = [ "fd42:dead:beef:10::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -1282,8 +1135,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.10.1/24";
-              addr6 = "fd42:dead:beef:10::1/64";
               name = "tenant-mgmt";
             };
             logicalInterface = "tenant-mgmt";
@@ -1302,19 +1153,11 @@ in
         };
         services = {
           dns = {
-            allowFrom = [
-              "10.20.10.0/24"
-              "fd42:dead:beef:10::/64"
-            ];
             forwarders = [
               "runtime-public-dns-ipv4-primary"
               "runtime-public-dns-ipv4-secondary"
               "runtime-public-dns-ipv6-primary"
               "runtime-public-dns-ipv6-secondary"
-            ];
-            listen = [
-              "10.20.10.1"
-              "fd42:dead:beef:10::1"
             ];
           };
         };
@@ -1325,21 +1168,11 @@ in
             tenant-streaming = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "streaming";
-              interface = "tenant-streaming";
-              pool = {
-                end = "10.20.50.200";
-                start = "10.20.50.100";
-              };
-              router = "10.20.50.1";
-              subnet = "10.20.50.0/24";
             };
           };
           ipv6Ra = {
             tenant-streaming = {
               dnssl = [ "lan." ];
-              interface = "tenant-streaming";
-              prefixes = [ "fd42:dead:beef:50::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -1358,8 +1191,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.20.50.1/24";
-              addr6 = "fd42:dead:beef:50::1/64";
               name = "tenant-streaming";
             };
             logicalInterface = "tenant-streaming";
@@ -1378,17 +1209,9 @@ in
         };
         services = {
           dns = {
-            allowFrom = [
-              "10.20.50.0/24"
-              "fd42:dead:beef:50::/64"
-            ];
             forwarders = [
               "10.20.10.1"
               "fd42:dead:beef:10::1"
-            ];
-            listen = [
-              "10.20.50.1"
-              "fd42:dead:beef:50::1"
             ];
           };
         };
@@ -2004,21 +1827,11 @@ in
             tenant-client = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "client";
-              interface = "tenant-client";
-              pool = {
-                end = "10.90.20.200";
-                start = "10.90.20.100";
-              };
-              router = "10.90.20.1";
-              subnet = "10.90.20.0/24";
             };
           };
           ipv6Ra = {
             tenant-client = {
               dnssl = [ "lan." ];
-              interface = "tenant-client";
-              prefixes = [ "fd42:dead:cafe:20::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -2037,8 +1850,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.90.20.1/24";
-              addr6 = "fd42:dead:cafe:20::1/64";
               name = "tenant-client";
             };
             logicalInterface = "tenant-client";
@@ -2061,19 +1872,11 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            allowFrom = [
-              "10.90.20.0/24"
-              "fd42:dead:cafe:20::/64"
-            ];
             forwarders = [
               "runtime-public-dns-ipv4-primary"
               "runtime-public-dns-ipv4-secondary"
               "runtime-public-dns-ipv6-primary"
               "runtime-public-dns-ipv6-secondary"
-            ];
-            listen = [
-              "10.90.20.1"
-              "fd42:dead:cafe:20::1"
             ];
           };
         };
@@ -2084,21 +1887,11 @@ in
             tenant-dmz = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              id = "dmz";
-              interface = "tenant-dmz";
-              pool = {
-                end = "10.90.10.200";
-                start = "10.90.10.100";
-              };
-              router = "10.90.10.1";
-              subnet = "10.90.10.0/24";
             };
           };
           ipv6Ra = {
             tenant-dmz = {
               dnssl = [ "lan." ];
-              interface = "tenant-dmz";
-              prefixes = [ "fd42:dead:cafe:10::/64" ];
               rdnss = [ "router-self" ];
             };
           };
@@ -2117,8 +1910,6 @@ in
               kind = "bridge";
             };
             interface = {
-              addr4 = "10.90.10.1/24";
-              addr6 = "fd42:dead:cafe:10::1/64";
               name = "tenant-dmz";
             };
             logicalInterface = "tenant-dmz";
@@ -2141,19 +1932,11 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            allowFrom = [
-              "10.90.10.0/24"
-              "fd42:dead:cafe:10::/64"
-            ];
             forwarders = [
               "runtime-public-dns-ipv4-primary"
               "runtime-public-dns-ipv4-secondary"
               "runtime-public-dns-ipv6-primary"
               "runtime-public-dns-ipv6-secondary"
-            ];
-            listen = [
-              "10.90.10.1"
-              "fd42:dead:cafe:10::1"
             ];
           };
         };

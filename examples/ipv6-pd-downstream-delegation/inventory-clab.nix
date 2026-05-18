@@ -5,13 +5,6 @@
         forwarding = {
           disable_eth0 = false;
         };
-        wan_firewall = {
-          masquerade = {
-            ipv4 = true;
-            ipv6 = true;
-            oifnames = [ "eth2" ];
-          };
-        };
       };
       downstream-selector = {
         forwarding = {
@@ -44,13 +37,6 @@
     sites = {
       esp0xdeadbeef = {
         site-a = {
-          ipv6 = {
-            pd = {
-              delegatedPrefixLength = 48;
-              perTenantPrefixLength = 64;
-              uplink = "wan";
-            };
-          };
           tenants = {
             admin = {
               ipv6 = {
@@ -66,7 +52,6 @@
               ipv6 = {
                 mode = "slaac";
               };
-              routedPrefixes.client-b-downstream-public = { };
             };
             mgmt = {
               ipv6 = {
@@ -130,10 +115,6 @@
             tenant-admin = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              pool = {
-                end = "10.20.15.200";
-                start = "10.20.15.100";
-              };
             };
           };
           ipv6Ra = {
@@ -170,10 +151,6 @@
             tenant-client-a = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              pool = {
-                end = "10.20.20.200";
-                start = "10.20.20.100";
-              };
             };
           };
           ipv6Ra = {
@@ -210,10 +187,6 @@
             tenant-client-b = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              pool = {
-                end = "10.20.30.200";
-                start = "10.20.30.100";
-              };
             };
           };
           ipv6Ra = {
@@ -250,10 +223,6 @@
             tenant-mgmt = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
-              pool = {
-                end = "10.20.10.200";
-                start = "10.20.10.100";
-              };
             };
           };
           ipv6Ra = {

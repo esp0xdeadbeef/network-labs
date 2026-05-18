@@ -15,6 +15,7 @@ fi
 "${repo_root}/tests/test-overlay-underlay-service-reachability-examples.sh"
 "${repo_root}/tests/test-overlay-pools-live-in-intent.sh"
 "${repo_root}/tests/test-runtime-routed-prefixes-live-in-intent.sh"
+"${repo_root}/tests/test-inventory-model-boundary.sh"
 "${repo_root}/tests/test-nebula-relay-realization-contract.sh"
 "${repo_root}/tests/test-nebula-runtime-node-intent-contract.sh"
 "${repo_root}/tests/test-modeling-contract-docs.sh"
