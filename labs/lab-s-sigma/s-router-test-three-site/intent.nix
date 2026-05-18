@@ -806,6 +806,20 @@
               kind = "service";
               name = "hetz-dns-dmz";
             };
+            id = "allow-hetz-dns-service-to-east-west";
+            priority = 109;
+            to = {
+              kind = "external";
+              name = "east-west";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "hetz-dns-dmz";
+            };
             id = "allow-hetz-dns-service-to-wan";
             priority = 110;
             to = {
