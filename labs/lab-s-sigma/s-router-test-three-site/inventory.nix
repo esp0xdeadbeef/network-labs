@@ -7,9 +7,6 @@ let
       ipv6Router = "fd42:dead:feed:15::1";
     };
     client = {
-      externalValidation = {
-        delegatedIPv6Prefix = true;
-      };
       ipv4Prefix = "10.50.20.0/24";
       ipv4Router = "10.50.20.1";
       ipv6Prefix = "fd42:dead:feed:20::/64";
@@ -22,9 +19,6 @@ let
       ipv6Router = "fd42:dead:feed:30::1";
     };
     hostile = {
-      externalValidation = {
-        delegatedIPv6Prefix = true;
-      };
       ipv4Prefix = "10.70.10.0/24";
       ipv4Router = "10.70.10.1";
       ipv6Prefix = "fd42:dead:feed:70::/64";
@@ -119,8 +113,7 @@ let
           ];
         };
       };
-    }
-    // (spec.externalValidation or { });
+    };
 
   clabAccessNodes = builtins.listToAttrs (
     map (tenant: {
@@ -1198,9 +1191,6 @@ in
               rdnss = [ "router-self" ];
             };
           };
-        };
-        externalValidation = {
-          delegatedIPv6Prefix = true;
         };
         host = "s-router-test";
         logicalNode = {
@@ -2368,6 +2358,17 @@ in
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
           };
+          upstream-dmz-east-west = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-upstream-dmz-east-west";
+            attach = {
+              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-dmz-ew";
+            };
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
+          };
         };
       };
       esp-hetz-router-upstream = {
@@ -2422,6 +2423,17 @@ in
               name = "policy-dmz-wan";
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
+          };
+          policy-dmz-east-west = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-policy-dmz-east-west";
+            attach = {
+              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-dmz-ew";
+            };
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
           };
         };
       };
