@@ -46,4 +46,12 @@ check_inventory \
   "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-bgp/inventory-nixos.nix" \
   "tri-site-dual-wan-overlay-integration-bgp nixos"
 
-echo "PASS tri-site-bgp-overlay-realization"
+check_inventory \
+  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-static/inventory-clab.nix" \
+  "tri-site-dual-wan-overlay-integration-static clab"
+
+check_inventory \
+  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-static/inventory-nixos.nix" \
+  "tri-site-dual-wan-overlay-integration-static nixos"
+
+echo "PASS tri-site-overlay-realization"
