@@ -57,10 +57,6 @@ let
             dnsServers = [ "router-self" ];
             rdnss = [ "router-self" ];
           };
-          forwarders = [
-            "10.20.10.1"
-            "fd42:dead:beef:10::1"
-          ];
         };
       };
     };
@@ -930,12 +926,7 @@ in
           };
         };
         services = {
-          dns = {
-            forwarders = [
-              "10.20.10.1"
-              "fd42:dead:beef:10::1"
-            ];
-          };
+          dns = { };
         };
       };
       esp-nixos-router-access-client = {
@@ -984,12 +975,7 @@ in
           };
         };
         services = {
-          dns = {
-            forwarders = [
-              "10.20.10.1"
-              "fd42:dead:beef:10::1"
-            ];
-          };
+          dns = { };
         };
       };
       esp-nixos-router-access-dmz = {
@@ -1043,10 +1029,6 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            forwarders = [
-              "10.20.10.1"
-              "fd42:dead:beef:10::1"
-            ];
           };
         };
       };
@@ -1096,14 +1078,7 @@ in
           };
         };
         services = {
-          dns = {
-            forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
-            ];
-          };
+          dns = { };
         };
       };
       esp-nixos-router-access-mgmt = {
@@ -1152,14 +1127,7 @@ in
           };
         };
         services = {
-          dns = {
-            forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
-            ];
-          };
+          dns = { };
         };
       };
       esp-nixos-router-access-streaming = {
@@ -1208,12 +1176,7 @@ in
           };
         };
         services = {
-          dns = {
-            forwarders = [
-              "10.20.10.1"
-              "fd42:dead:beef:10::1"
-            ];
-          };
+          dns = { };
         };
       };
       esp-nixos-router-core-isp-a = {
@@ -1872,12 +1835,6 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
-            ];
           };
         };
       };
@@ -1932,12 +1889,6 @@ in
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
             };
-            forwarders = [
-              "runtime-public-dns-ipv4-primary"
-              "runtime-public-dns-ipv4-secondary"
-              "runtime-public-dns-ipv6-primary"
-              "runtime-public-dns-ipv6-secondary"
-            ];
           };
         };
       };

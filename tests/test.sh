@@ -9,6 +9,7 @@ fi
 
 "${repo_root}/tests/test-readable-examples-and-labs.sh"
 "${repo_root}/tests/test-lab-sigma-runtime-contract.sh"
+"${repo_root}/tests/test-lab-sigma-dns-intent-to-cpm.sh"
 "${repo_root}/tests/test-lab-sigma-hetzner-ipv6-wan-transit.sh"
 "${repo_root}/tests/test-hostile-exits-east-west-only.sh"
 "${repo_root}/tests/test-lab-sigma-nebula-public-endpoints.sh"
