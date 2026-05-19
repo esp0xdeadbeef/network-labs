@@ -60,7 +60,12 @@ jq -e '
       | index("10.20.10.1") != null
         and index("fd42:dead:beef:10::1") != null)
   )
-  and ($targets | all((.value.services.dns.forwarders // []) | all(public_resolver | not)))
+  and (
+    normal_access
+    | all(. as $name
+      | ($site.runtimeTargets[$name].services.dns.forwarders // [])
+      | all(public_resolver | not))
+  )
 ' "${output_json}" >/dev/null || {
   echo "FAIL lab-sigma-dns-intent-to-cpm: DNS lookup policy must be derived by CPM from intent/NFM, prefer modeled service DNS before core/local fallback, and avoid inventory/public resolver forwarders" >&2
   exit 1

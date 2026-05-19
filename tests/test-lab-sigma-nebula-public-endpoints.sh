@@ -15,6 +15,7 @@ let
   hetzOverlay = sites.hetz.overlays.east-west;
   nixosOverlay = sites.nixos.overlays.east-west;
   clabOverlay = sites.clab.overlays.east-west;
+  relayService = hetzOverlay.runtimeNodes.hetz-router-nebula-core.service or { };
   findService = name:
     builtins.filter (svc: (svc.name or null) == name) services;
   findWanNebula = builtins.filter
@@ -46,6 +47,15 @@ in
     throw \"lab-sigma Hetz DMZ lighthouse must not be the core relay/client node\"
   else if !((hetzOverlay.runtimeNodes.hetz-router-nebula-core.relay.amRelay or false)) then
     throw \"lab-sigma Hetz overlay core must be the modeled Nebula relay/client node\"
+  else if (relayService.port or null) != 4243 then
+    throw \"lab-sigma Hetz overlay core relay must listen on its own explicit public runtime port\"
+  else if (relayService.publicEndpoints or [ ]) != [
+    {
+      endpointSourceFile = \"/run/secrets/hetzner-public-ipv4\";
+      port = 4243;
+    }
+  ] then
+    throw \"lab-sigma Hetz overlay core relay must expose an explicit SOPS-backed public runtime endpoint\"
   else if !hasRuntimeClient hetzOverlay \"hetz-router-nebula-core\" then
     throw \"lab-sigma Hetz overlay core must have its own runtime client profile targeted at hetz-router-nebula-core\"
   else if !hasRuntimeClient nixosOverlay \"nixos-router-core-nebula\" then
