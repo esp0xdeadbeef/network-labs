@@ -354,6 +354,13 @@ in
                   service = {
                     interface = "nebula1";
                     name = "nebula-runtime";
+                    port = 4243;
+                    publicEndpoints = [
+                      {
+                        endpointSourceFile = "/run/secrets/hetzner-public-ipv4";
+                        port = 4243;
+                      }
+                    ];
                   };
                   relay = {
                     amRelay = true;
