@@ -76,6 +76,8 @@ blobs, or shared example fragments.
 
 ## Still Broken
 
+- state=still-broken | target=s-sigma-hetz-nebula-underlay-return-routes | evidence=2026-05-19 `scripts/s-router-full-lab-rebuild-loop.sh` reached live validation after green local builds, Hetzner deploy, CLAB rebuild, and Nebula profile sync, but site-C DNS over overlay still timed out at `dig -b 10.20.70.0 @10.90.10.1 example.com A`. Live Hetzner route lookups showed `hetz-router-policy` table 2001 selected `10.80.0.6 dev downstr-client` for `10.80.0.10 from 10.90.10.100 iif downstream-dmz`; temporary route fixes to `10.80.0.10/31 via 10.80.0.15` and `10.80.0.10/31 via 10.80.0.9` made `hetz-router-nebula-core` ping the lighthouse overlay IP `100.96.10.254`. | reason=The lab intent is now far enough through the pipeline to expose an upstream p2p route specificity bug: NFM/CPM must carry concrete underlay endpoint return routes so policy tables select the east-west lane, instead of relying on ambiguous p2p aggregates or local NixOS route hotpatches.
+
 - state=runtime-checks | The 2026-05-13 fast live refresh
   `/tmp/s-router-fast-enum-20260513T212251Z/summary/fast.tsv` confirmed that
   the then-visible lab was not production-ready: branch/hostile endpoints had
