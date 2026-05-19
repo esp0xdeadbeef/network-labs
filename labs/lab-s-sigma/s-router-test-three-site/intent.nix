@@ -327,6 +327,23 @@
             };
             trafficType = "nebula";
           }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "east-west";
+            };
+            id = "allow-nebula-runtime-underlay-to-uplinks";
+            priority = 131;
+            to = {
+              kind = "external";
+              uplinks = [
+                "isp-a"
+                "isp-b"
+              ];
+            };
+            trafficType = "nebula-runtime";
+          }
         ];
         services = [
           {
@@ -409,6 +426,16 @@
               }
             ];
             name = "nebula";
+          }
+          {
+            match = [
+              {
+                dports = [ 4243 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "nebula-runtime";
           }
           {
             match = [
