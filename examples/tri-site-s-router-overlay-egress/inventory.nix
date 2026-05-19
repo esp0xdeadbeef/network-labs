@@ -400,6 +400,7 @@ in
                   ];
                   service = {
                     interface = "nebula1";
+                    listenHost = "172.31.254.4";
                     name = "nebula-runtime";
                     port = 4243;
                     publicEndpoints = [
