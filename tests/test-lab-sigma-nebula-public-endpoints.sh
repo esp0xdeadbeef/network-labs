@@ -9,9 +9,12 @@ let
   intent = import ${lab_dir}/intent.nix;
   inventory = import ${lab_dir}/getInventory.nix { renderer = \"nixos\"; };
   hetz = intent.esp.hetz.communicationContract;
+  nixos = intent.esp.nixos.communicationContract;
   sites = inventory.controlPlane.sites.esp;
   services = hetz.services or [ ];
   relations = hetz.relations or [ ];
+  nixosRelations = nixos.relations or [ ];
+  nixosTrafficTypes = nixos.trafficTypes or [ ];
   hetzOverlay = sites.hetz.overlays.east-west;
   nixosOverlay = sites.nixos.overlays.east-west;
   clabOverlay = sites.clab.overlays.east-west;
@@ -28,6 +31,28 @@ let
       && (rel.to.kind or null) == \"service\"
       && (rel.to.name or null) == \"dmz-nebula\")
     relations;
+  findNixosRuntimeRelayUnderlay = builtins.filter
+    (rel:
+      (rel.id or null) == \"allow-nebula-runtime-underlay-to-uplinks\"
+      && (rel.action or null) == \"allow\"
+      && (rel.trafficType or null) == \"nebula-runtime\"
+      && (rel.from.kind or null) == \"external\"
+      && (rel.from.name or null) == \"east-west\"
+      && (rel.to.kind or null) == \"external\"
+      && builtins.elem \"isp-a\" (rel.to.uplinks or [ ])
+      && builtins.elem \"isp-b\" (rel.to.uplinks or [ ]))
+    nixosRelations;
+  findNixosRuntimeTrafficType = builtins.filter
+    (trafficType:
+      (trafficType.name or null) == \"nebula-runtime\"
+      && (trafficType.match or [ ]) == [
+        {
+          dports = [ 4243 ];
+          family = \"any\";
+          proto = \"udp\";
+        }
+      ])
+    nixosTrafficTypes;
   dmzNebula = findService \"dmz-nebula\";
   hasRuntimeClient = overlay: nodeName:
     let
@@ -64,6 +89,10 @@ in
     throw \"lab-sigma CLAB overlay core must have its own runtime client profile targeted at clab-router-core-nebula\"
   else if findWanNebula == [ ] then
     throw \"lab-sigma Hetz intent missing allow-wan-to-dmz-nebula relation for trafficType nebula on WAN\"
+  else if findNixosRuntimeTrafficType == [ ] then
+    throw \"lab-sigma NixOS intent missing nebula-runtime traffic type for the explicit relay public endpoint UDP/4243\"
+  else if findNixosRuntimeRelayUnderlay == [ ] then
+    throw \"lab-sigma NixOS intent must explicitly allow east-west underlay to uplinks for nebula-runtime UDP/4243\"
   else
     true
 " >/dev/null
