@@ -19,6 +19,7 @@ fi
 "${repo_root}/tests/test-inventory-model-boundary.sh"
 "${repo_root}/tests/test-nebula-relay-realization-contract.sh"
 "${repo_root}/tests/test-nebula-runtime-node-intent-contract.sh"
+"${repo_root}/tests/test-tri-site-bgp-overlay-realization.sh"
 "${repo_root}/tests/test-modeling-contract-docs.sh"
 "${repo_root}/tests/test-lab-intent-derived-topology-contract.sh"
 "${repo_root}/tests/test-lab-inventory-derived-p2p-bindings-contract.sh"
