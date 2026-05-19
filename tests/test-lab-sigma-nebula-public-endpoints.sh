@@ -74,6 +74,8 @@ in
     throw \"lab-sigma Hetz overlay core must be the modeled Nebula relay/client node\"
   else if (relayService.port or null) != 4243 then
     throw \"lab-sigma Hetz overlay core relay must listen on its own explicit public runtime port\"
+  else if (relayService.listenHost or null) != \"172.31.254.4\" then
+    throw \"lab-sigma Hetz overlay core relay must bind the modeled public-ingress service address so UDP replies preserve the public relay lane\"
   else if (relayService.publicEndpoints or [ ]) != [
     {
       endpointSourceFile = \"/run/secrets/hetzner-public-ipv4\";
