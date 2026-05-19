@@ -19,8 +19,12 @@ check_inventory() {
           throw \"${label}: missing overlay realization for \${site.enterprise}.\${site.name} \${overlay} \${node}\"
         else if !(entry ? addr4) || !(entry ? addr6) then
           throw \"${label}: overlay node \${node} must carry addr4 and addr6\"
+        else if !(builtins.match \"100[.]96[.]10[.][0-9]+/32\" entry.addr4 != null) then
+          throw \"${label}: overlay node \${node} addr4 must stay inside the modeled 100.96.10.0/24 pool\"
         else if !(builtins.match \".*/32\" entry.addr4 != null) then
           throw \"${label}: overlay node \${node} addr4 must be a concrete /32\"
+        else if !(builtins.match \"fd42:dead:beef:ee::[0-9]+/128\" entry.addr6 != null) then
+          throw \"${label}: overlay node \${node} addr6 must stay inside the modeled fd42:dead:beef:ee:: pool\"
         else if !(builtins.match \".*/128\" entry.addr6 != null) then
           throw \"${label}: overlay node \${node} addr6 must be a concrete /128\"
         else
