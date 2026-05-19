@@ -74,19 +74,10 @@ line_has_runtime_glue() {
   grep -Eq 'unsafeRoutes|ip route|ip rule|iptables|ip6tables|nft |brctl|ip link add.*bridge|macvlan' <<<"${line}"
 }
 
-line_is_public_dns_forwarder_declaration() {
-  local line="$1"
-
-  grep -Eq 'publicDnsForwarders = \[ "1\.1\.1\.1" "9\.9\.9\.9" "2606:4700:4700::1111" "2620:fe::fe" \];' <<<"${line}"
-}
-
 while IFS= read -r line; do
   [[ -z "${line}" ]] && continue
   content="${line#*:}"
   content="${content#*:}"
-  if line_is_public_dns_forwarder_declaration "${content}"; then
-    continue
-  fi
   if line_has_runtime_glue "${content}" || line_has_public_ipv4 "${content}" || line_has_public_ipv6 "${content}"; then
     printf '%s\n' "${line}" >>"${suspicious_file}"
   fi

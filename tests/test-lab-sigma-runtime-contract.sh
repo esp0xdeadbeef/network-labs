@@ -55,13 +55,19 @@ for renderer in nixos clab; do
     resolved = import ${lab_dir}/getResolvedInventory.nix { renderer = \"${renderer}\"; };
     values = builtins.toJSON resolved;
     has = needle: builtins.match \".*\${needle}.*\" values != null;
+    nodes = resolved.realization.nodes or { };
+    dnsForwarderNodes =
+      builtins.filter
+        (nodeName:
+          builtins.hasAttr \"forwarders\" (((nodes.\${nodeName} or { }).services or { }).dns or { }))
+        (builtins.attrNames nodes);
     hostilePrefix =
       resolved.controlPlane.sites.esp.clab.tenants.hostile.routedPrefixes.hostile-public or null;
   in
     if has \"runtime-public-dns-\" then
       throw \"lab-sigma getResolvedInventory(${renderer}) still contains runtime-public-dns-* placeholders; resolve them through getInventorySops before compiler/rendering\"
-    else if !(has \"1.1.1.1\" && has \"9.9.9.9\" && has \"2606:4700:4700::1111\" && has \"2620:fe::fe\") then
-      throw \"lab-sigma getResolvedInventory(${renderer}) must inject public DNS forwarder addresses from getInventorySops\"
+    else if dnsForwarderNodes != [ ] then
+      throw \"lab-sigma getResolvedInventory(${renderer}) must not define services.dns.forwarders in inventory; DNS resolver policy belongs in intent/NFM, inventory may only choose service realization technology\"
     else if hostilePrefix == null || hostilePrefix.sourceFile != \"/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile\" then
       throw \"lab-sigma getResolvedInventory(${renderer}) must realize the hostile runtime IPv6 routed prefix from getInventorySops\"
     else
@@ -82,14 +88,11 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
           && (relation.from.kind or null) == \"service\"
           && (relation.from.name or null) == \"site-dns-mgmt\")
         nixosRelations;
-    normalDnsForwarders =
-      builtins.map
-        (name: nodes.\"esp-nixos-router-access-\${name}\".services.dns.forwarders or [ ])
-        [ \"admin\" \"client\" \"dmz\" \"streaming\" ];
-    allNormalUseSiteDns =
-      builtins.all
-        (forwarders: forwarders == [ \"10.20.10.1\" \"fd42:dead:beef:10::1\" ])
-        normalDnsForwarders;
+    dnsForwarderNodes =
+      builtins.filter
+        (nodeName:
+          builtins.hasAttr \"forwarders\" (((nodes.\${nodeName} or { }).services or { }).dns or { }))
+        (builtins.attrNames nodes);
     policyPorts = nodes.esp-nixos-router-policy.ports;
     upstreamPorts = nodes.esp-nixos-router-upstream.ports;
     hostBridges = inventory.deployment.hosts.s-router-test.bridgeNetworks;
@@ -104,8 +107,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
   in
     if !hasRelation then
       throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
-    else if !allNormalUseSiteDns then
-      throw \"normal s-router-test nixos access DNS forwarders must point at modeled site-dns-mgmt, not public resolvers; only the service provider should egress to public DNS\"
+    else if dnsForwarderNodes != [ ] then
+      throw \"s-router-test inventory must not define services.dns.forwarders; DNS lookup path and resolver policy belong in intent/NFM, inventory may only realize service technology and physical/runtime facts\"
     else if !hasMgmtWanPorts then
       throw \"s-router-test nixos inventory must explicitly realize site-dns-mgmt policy/upstream WAN lanes for isp-a and isp-b\"
     else if !hasMgmtWanBridges then

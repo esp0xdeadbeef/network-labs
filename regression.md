@@ -72,6 +72,8 @@ blobs, or shared example fragments.
   inventories were compiled through the current local CPM checkout and checked
   with the CPM policy and DNS report jq contracts.
 
+- state=implemented-but-not-yet-live-validated | target=s-sigma-dns-policy-not-in-inventory | evidence=2026-05-19 `labs/lab-s-sigma/s-router-test-three-site/intent.nix` models DNS services and relations such as `site-dns-mgmt`, `hetz-dns-dmz`, `clab-site-dns`, tenant-to-DNS allows, DNS-to-uplink allows, and tenant-DNS-to-WAN denies. `inventory.nix` no longer carries `services.dns.forwarders`, and `getResolvedInventory.nix` no longer injects `runtime-public-dns-*` placeholders from `getInventorySops.nix`. | reason=DNS policy is intent. Inventory may choose realization technology such as unbound/BIND/vendor DNS feature, host placement, interfaces, bridges, VLANs, MTU, and SOPS/runtime endpoint facts, but it must not decide resolver forwarder policy, tenant DNS behavior, leak prevention, or DNS route preference. NFM should derive access reachability to visible tenant/service DNS paths, preferring other tenant/site paths before core fallback.
+
 ## Still Broken
 
 - state=runtime-checks | The 2026-05-13 fast live refresh
