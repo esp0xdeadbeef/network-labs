@@ -265,23 +265,6 @@
           {
             action = "allow";
             from = {
-              kind = "tenant-set";
-              members = [ "dmz" ];
-            };
-            id = "allow-dmz-to-uplinks";
-            priority = 101;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
               kind = "external";
               name = "east-west";
             };
@@ -807,20 +790,6 @@
             };
             id = "allow-hetz-client-to-wan";
             priority = 100;
-            to = {
-              kind = "external";
-              name = "wan";
-            };
-            trafficType = "any";
-          }
-          {
-            action = "allow";
-            from = {
-              kind = "tenant-set";
-              members = [ "dmz" ];
-            };
-            id = "allow-hetz-dmz-to-wan";
-            priority = 101;
             to = {
               kind = "external";
               name = "wan";
@@ -1430,7 +1399,6 @@
                 "admin"
                 "client"
                 "streaming"
-                "dmz"
               ];
             };
             id = "allow-normal-tenants-to-wan";
