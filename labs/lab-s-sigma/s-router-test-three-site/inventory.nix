@@ -69,7 +69,7 @@ let
   );
 
   clabAccessTenantNames = builtins.attrNames clabAccessTenants;
-  clabWanTenants = [ "admin" "client" "dmz" "streaming" ];
+  clabWanTenants = [ "admin" "client" "streaming" ];
   clabEastWestTenants = [ "hostile" ];
 
   clabDownstreamAccessPorts = builtins.listToAttrs (
@@ -552,8 +552,6 @@ in
           br-nixos-policy-upstream-access-admin-isp-b = { };
           br-nixos-policy-upstream-access-client-isp-a = { };
           br-nixos-policy-upstream-access-client-isp-b = { };
-          br-nixos-policy-upstream-access-dmz-isp-a = { };
-          br-nixos-policy-upstream-access-dmz-isp-b = { };
           br-nixos-policy-upstream-access-hostile-east-west = { };
           br-nixos-policy-upstream-access-mgmt-isp-a = { };
           br-nixos-policy-upstream-access-mgmt-isp-b = { };
@@ -1548,28 +1546,6 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
           };
-          upstream-dmz-isp-a = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-dmz-a";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
-          };
-          upstream-dmz-isp-b = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-upstream-dmz-isp-b";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-dmz-b";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
-          };
           upstream-hostile-east-west = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
             attach = {
@@ -1712,28 +1688,6 @@ in
               name = "pol-client-b";
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
-          };
-          policy-dmz-isp-a = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-dmz-a";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
-          };
-          policy-dmz-isp-b = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-policy-dmz-isp-b";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-dmz-b";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
           };
           policy-hostile-east-west = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-policy-hostile-east-west";
