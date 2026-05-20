@@ -66,10 +66,12 @@ let
     };
 
   clabAccessNodes = builtins.listToAttrs (
-    map (tenant: {
-      name = "esp-lab-example-router-access-${tenant}";
-      value = clabAccessNode tenant clabAccessTenants.${tenant};
-    }) (builtins.attrNames clabAccessTenants)
+    map
+      (tenant: {
+        name = "esp-lab-example-router-access-${tenant}";
+        value = clabAccessNode tenant clabAccessTenants.${tenant};
+      })
+      (builtins.attrNames clabAccessTenants)
   );
 
   clabAccessTenantNames = builtins.attrNames clabAccessTenants;
@@ -77,122 +79,136 @@ let
   clabEastWestTenants = [ "hostile" ];
 
   clabDownstreamAccessPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "access-${tenant}";
-      value = {
-        adapterName = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream-access-${tenant}";
-        attach = {
-          bridge = "br-lab-downstream-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "access-${tenant}";
+        value = {
+          adapterName = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream-access-${tenant}";
+          attach = {
+            bridge = "br-lab-downstream-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "access-${tenant}";
+          };
+          link = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream";
         };
-        interface = {
-          name = "access-${tenant}";
-        };
-        link = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabDownstreamPolicyPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}";
-      value = {
-        adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-policy-${tenant}";
-        attach = {
-          bridge = "br-lab-downstream-policy-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}";
+        value = {
+          adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-policy-${tenant}";
+          attach = {
+            bridge = "br-lab-downstream-policy-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "policy-${tenant}";
+          };
+          link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
         };
-        interface = {
-          name = "policy-${tenant}";
-        };
-        link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabPolicyDownstreamPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "downstream-${tenant}";
-      value = {
-        adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-downstream-${tenant}";
-        attach = {
-          bridge = "br-lab-downstream-policy-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "downstream-${tenant}";
+        value = {
+          adapterName = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}-downstream-${tenant}";
+          attach = {
+            bridge = "br-lab-downstream-policy-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "downstream-${tenant}";
+          };
+          link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
         };
-        interface = {
-          name = "downstream-${tenant}";
-        };
-        link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabPolicyWanPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "upstream-${tenant}";
-      value = {
-        adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-upstream-${tenant}";
-        attach = {
-          bridge = "br-lab-policy-upstream-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "upstream-${tenant}";
+        value = {
+          adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-upstream-${tenant}";
+          attach = {
+            bridge = "br-lab-policy-upstream-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "upstream-${tenant}";
+          };
+          link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
         };
-        interface = {
-          name = "upstream-${tenant}";
-        };
-        link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
-      };
-    }) clabWanTenants
+      })
+      clabWanTenants
   );
 
   clabPolicyEastWestPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "upstream-${tenant}-east-west";
-      value = {
-        adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
-        attach = {
-          bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "upstream-${tenant}-east-west";
+        value = {
+          adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
+          attach = {
+            bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
+            kind = "bridge";
+          };
+          interface = {
+            name = "up-${tenant}-ew";
+          };
+          link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west";
         };
-        interface = {
-          name = "up-${tenant}-ew";
-        };
-        link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west";
-      };
-    }) clabEastWestTenants
+      })
+      clabEastWestTenants
   );
 
   clabUpstreamWanPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}";
-      value = {
-        adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-policy-${tenant}";
-        attach = {
-          bridge = "br-lab-policy-upstream-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}";
+        value = {
+          adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan-policy-${tenant}";
+          attach = {
+            bridge = "br-lab-policy-upstream-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "policy-${tenant}";
+          };
+          link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
         };
-        interface = {
-          name = "policy-${tenant}";
-        };
-        link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
-      };
-    }) clabWanTenants
+      })
+      clabWanTenants
   );
 
   clabUpstreamEastWestPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}-east-west";
-      value = {
-        adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
-        attach = {
-          bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}-east-west";
+        value = {
+          adapterName = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
+          attach = {
+            bridge = "br-lab-policy-upstream-access-${tenant}-east-west";
+            kind = "bridge";
+          };
+          interface = {
+            name = "pol-${tenant}-ew";
+          };
+          link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west";
         };
-        interface = {
-          name = "pol-${tenant}-ew";
-        };
-        link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-east-west";
-      };
-    }) clabEastWestTenants
+      })
+      clabEastWestTenants
   );
 in
 {
@@ -237,15 +253,16 @@ in
           overlays = {
             east-west = {
               nodes = {
-                  edge-example-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  home-example-router-core-nebula = {
-                    addr4 = "100.96.10.1/32";
-                    addr6 = "fd42:dead:beef:ee::1/128";
-                  };
-                }; nebula = {
+                edge-example-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                home-example-router-core-nebula = {
+                  addr4 = "100.96.10.1/32";
+                  addr6 = "fd42:dead:beef:ee::1/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpointSourceFile = "/run/secrets/hetzner-lighthouse-public-ipv4";
@@ -315,15 +332,16 @@ in
           overlays = {
             east-west = {
               nodes = {
-                  edge-example-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  edge-example-router-nebula-core = {
-                    addr4 = "100.96.10.3/32";
-                    addr6 = "fd42:dead:beef:ee::3/128";
-                  };
-                }; nebula = {
+                edge-example-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                edge-example-router-nebula-core = {
+                  addr4 = "100.96.10.3/32";
+                  addr6 = "fd42:dead:beef:ee::3/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpointSourceFile = "/run/secrets/hetzner-lighthouse-public-ipv4";
@@ -425,31 +443,31 @@ in
             mode = "bgp";
           };
           tenants = {
-            client = {
-            };
+            client = { };
           };
         };
         lab = {
           overlays = {
             east-west = {
               nodes = {
-                  lab-example-router-core-nebula = {
-                    addr4 = "100.96.10.2/32";
-                    addr6 = "fd42:dead:beef:ee::2/128";
-                  };
-                  branch-node01 = {
-                    addr4 = "100.96.10.20/32";
-                    addr6 = "fd42:dead:beef:ee::20/128";
-                  };
-                  edge-example-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  hostile-node01 = {
-                    addr4 = "100.96.10.30/32";
-                    addr6 = "fd42:dead:beef:ee::30/128";
-                  };
-                }; nebula = {
+                lab-example-router-core-nebula = {
+                  addr4 = "100.96.10.2/32";
+                  addr6 = "fd42:dead:beef:ee::2/128";
+                };
+                branch-node01 = {
+                  addr4 = "100.96.10.20/32";
+                  addr6 = "fd42:dead:beef:ee::20/128";
+                };
+                edge-example-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                hostile-node01 = {
+                  addr4 = "100.96.10.30/32";
+                  addr6 = "fd42:dead:beef:ee::30/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpointSourceFile = "/run/secrets/hetzner-lighthouse-public-ipv4";

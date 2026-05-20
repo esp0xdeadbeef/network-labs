@@ -62,10 +62,12 @@ let
     };
 
   clabAccessNodes = builtins.listToAttrs (
-    map (tenant: {
-      name = "esp-clab-router-access-${tenant}";
-      value = clabAccessNode tenant clabAccessTenants.${tenant};
-    }) (builtins.attrNames clabAccessTenants)
+    map
+      (tenant: {
+        name = "esp-clab-router-access-${tenant}";
+        value = clabAccessNode tenant clabAccessTenants.${tenant};
+      })
+      (builtins.attrNames clabAccessTenants)
   );
 
   clabAccessTenantNames = builtins.attrNames clabAccessTenants;
@@ -73,122 +75,136 @@ let
   clabEastWestTenants = [ "hostile" ];
 
   clabDownstreamAccessPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "access-${tenant}";
-      value = {
-        adapterName = "p2p-clab-router-access-${tenant}-clab-router-downstream-access-${tenant}";
-        attach = {
-          bridge = "br-clab-downstream-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "access-${tenant}";
+        value = {
+          adapterName = "p2p-clab-router-access-${tenant}-clab-router-downstream-access-${tenant}";
+          attach = {
+            bridge = "br-clab-downstream-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "access-${tenant}";
+          };
+          link = "p2p-clab-router-access-${tenant}-clab-router-downstream";
         };
-        interface = {
-          name = "access-${tenant}";
-        };
-        link = "p2p-clab-router-access-${tenant}-clab-router-downstream";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabDownstreamPolicyPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}";
-      value = {
-        adapterName = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}-policy-${tenant}";
-        attach = {
-          bridge = "br-clab-downstream-policy-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}";
+        value = {
+          adapterName = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}-policy-${tenant}";
+          attach = {
+            bridge = "br-clab-downstream-policy-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "policy-${tenant}";
+          };
+          link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
         };
-        interface = {
-          name = "policy-${tenant}";
-        };
-        link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabPolicyDownstreamPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "downstream-${tenant}";
-      value = {
-        adapterName = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}-downstream-${tenant}";
-        attach = {
-          bridge = "br-clab-downstream-policy-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "downstream-${tenant}";
+        value = {
+          adapterName = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}-downstream-${tenant}";
+          attach = {
+            bridge = "br-clab-downstream-policy-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "downstream-${tenant}";
+          };
+          link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
         };
-        interface = {
-          name = "downstream-${tenant}";
-        };
-        link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
-      };
-    }) clabAccessTenantNames
+      })
+      clabAccessTenantNames
   );
 
   clabPolicyWanPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "upstream-${tenant}";
-      value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan-upstream-${tenant}";
-        attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "upstream-${tenant}";
+        value = {
+          adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan-upstream-${tenant}";
+          attach = {
+            bridge = "br-clab-policy-upstream-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "upstream-${tenant}";
+          };
+          link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
         };
-        interface = {
-          name = "upstream-${tenant}";
-        };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
-      };
-    }) clabWanTenants
+      })
+      clabWanTenants
   );
 
   clabPolicyEastWestPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "upstream-${tenant}-east-west";
-      value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
-        attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "upstream-${tenant}-east-west";
+        value = {
+          adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
+          attach = {
+            bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+            kind = "bridge";
+          };
+          interface = {
+            name = "up-${tenant}-ew";
+          };
+          link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
         };
-        interface = {
-          name = "up-${tenant}-ew";
-        };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
-      };
-    }) clabEastWestTenants
+      })
+      clabEastWestTenants
   );
 
   clabUpstreamWanPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}";
-      value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan-policy-${tenant}";
-        attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}";
+        value = {
+          adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan-policy-${tenant}";
+          attach = {
+            bridge = "br-clab-policy-upstream-access-${tenant}";
+            kind = "bridge";
+          };
+          interface = {
+            name = "policy-${tenant}";
+          };
+          link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
         };
-        interface = {
-          name = "policy-${tenant}";
-        };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
-      };
-    }) clabWanTenants
+      })
+      clabWanTenants
   );
 
   clabUpstreamEastWestPorts = builtins.listToAttrs (
-    map (tenant: {
-      name = "policy-${tenant}-east-west";
-      value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
-        attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
-          kind = "bridge";
+    map
+      (tenant: {
+        name = "policy-${tenant}-east-west";
+        value = {
+          adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
+          attach = {
+            bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+            kind = "bridge";
+          };
+          interface = {
+            name = "pol-${tenant}-ew";
+          };
+          link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
         };
-        interface = {
-          name = "pol-${tenant}-ew";
-        };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
-      };
-    }) clabEastWestTenants
+      })
+      clabEastWestTenants
   );
 in
 {
@@ -233,14 +249,14 @@ in
           overlays = {
             east-west = {
               nodes = {
-                  hetz-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  nixos-router-core-nebula = {
-                    addr4 = "100.96.10.1/32";
-                    addr6 = "fd42:dead:beef:ee::1/128";
-                  };
+                hetz-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                nixos-router-core-nebula = {
+                  addr4 = "100.96.10.1/32";
+                  addr6 = "fd42:dead:beef:ee::1/128";
+                };
               };
               nebula = {
                 lighthouse = {
@@ -298,14 +314,14 @@ in
           overlays = {
             east-west = {
               nodes = {
-                  hetz-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  hetz-router-nebula-core = {
-                    addr4 = "100.96.10.3/32";
-                    addr6 = "fd42:dead:beef:ee::3/128";
-                  };
+                hetz-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                hetz-router-nebula-core = {
+                  addr4 = "100.96.10.3/32";
+                  addr6 = "fd42:dead:beef:ee::3/128";
+                };
               };
               nebula = {
                 lighthouse = {
@@ -378,30 +394,29 @@ in
             mode = "bgp";
           };
           tenants = {
-            client = {
-            };
+            client = { };
           };
         };
         clab = {
           overlays = {
             east-west = {
               nodes = {
-                  clab-router-core-nebula = {
-                    addr4 = "100.96.10.2/32";
-                    addr6 = "fd42:dead:beef:ee::2/128";
-                  };
-                  branch-node01 = {
-                    addr4 = "100.96.10.20/32";
-                    addr6 = "fd42:dead:beef:ee::20/128";
-                  };
-                  hetz-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  hostile-node01 = {
-                    addr4 = "100.96.10.30/32";
-                    addr6 = "fd42:dead:beef:ee::30/128";
-                  };
+                clab-router-core-nebula = {
+                  addr4 = "100.96.10.2/32";
+                  addr6 = "fd42:dead:beef:ee::2/128";
+                };
+                branch-node01 = {
+                  addr4 = "100.96.10.20/32";
+                  addr6 = "fd42:dead:beef:ee::20/128";
+                };
+                hetz-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                hostile-node01 = {
+                  addr4 = "100.96.10.30/32";
+                  addr6 = "fd42:dead:beef:ee::30/128";
+                };
               };
               nebula = {
                 lighthouse = {
