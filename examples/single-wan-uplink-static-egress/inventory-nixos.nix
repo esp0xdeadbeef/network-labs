@@ -1,6 +1,6 @@
 {
   controlPlane = {
-    sites = { esp0xdeadbeef = { site-a = { uplinks = { wan = { egress = { mode = "static"; static = { routes = { ipv4 = [ { prefix = "0.0.0.0/0"; via = "192.0.2.1"; } ]; ipv6 = [ ]; }; }; }; }; }; }; }; };
+    sites = { esp0xdeadbeef = { site-a = { uplinks = { wan = { egress = { mode = "static"; static = { routes = { ipv4 = [{ prefix = "0.0.0.0/0"; via = "192.0.2.1"; }]; ipv6 = [ ]; }; }; }; }; }; }; }; };
   };
   deployment = {
     hosts = { lab-host = { bridgeNetworks = { br-site-a-core-upstream = { }; br-site-a-downstream-admin = { }; br-site-a-downstream-client = { }; br-site-a-downstream-mgmt = { }; br-site-a-downstream-policy-access-admin = { }; br-site-a-downstream-policy-access-client = { }; br-site-a-downstream-policy-access-mgmt = { }; br-site-a-policy-upstream-access-admin-wan = { }; br-site-a-policy-upstream-access-client-wan = { }; br-site-a-policy-upstream-access-mgmt-wan = { }; }; uplinks = { uplink0 = { bridge = "br-uplink0"; ipv4 = { method = "dhcp"; }; ipv6 = { method = "slaac"; }; parent = "eno1"; }; }; }; };

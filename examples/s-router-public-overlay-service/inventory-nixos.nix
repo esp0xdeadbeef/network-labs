@@ -6,19 +6,20 @@
           overlays = {
             east-west = {
               nodes = {
-                  c-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  nebula-core = {
-                    addr4 = "100.96.10.10/32";
-                    addr6 = "fd42:dead:beef:ee::10/128";
-                  };
-                  s-router-core-nebula = {
-                    addr4 = "100.96.10.1/32";
-                    addr6 = "fd42:dead:beef:ee::1/128";
-                  };
-                }; nebula = {
+                c-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                nebula-core = {
+                  addr4 = "100.96.10.10/32";
+                  addr6 = "fd42:dead:beef:ee::10/128";
+                };
+                s-router-core-nebula = {
+                  addr4 = "100.96.10.1/32";
+                  addr6 = "fd42:dead:beef:ee::1/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";
@@ -72,15 +73,16 @@
           overlays = {
             east-west = {
               nodes = {
-                  c-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  c-router-nebula-core = {
-                    addr4 = "100.96.10.3/32";
-                    addr6 = "fd42:dead:beef:ee::3/128";
-                  };
-                }; nebula = {
+                c-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                c-router-nebula-core = {
+                  addr4 = "100.96.10.3/32";
+                  addr6 = "fd42:dead:beef:ee::3/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";
@@ -132,8 +134,7 @@
             mode = "bgp";
           };
           tenants = {
-            client = {
-            };
+            client = { };
           };
         };
       };
@@ -142,23 +143,24 @@
           overlays = {
             east-west = {
               nodes = {
-                  b-router-core-nebula = {
-                    addr4 = "100.96.10.2/32";
-                    addr6 = "fd42:dead:beef:ee::2/128";
-                  };
-                  branch-node01 = {
-                    addr4 = "100.96.10.20/32";
-                    addr6 = "fd42:dead:beef:ee::20/128";
-                  };
-                  c-router-lighthouse = {
-                    addr4 = "100.96.10.254/32";
-                    addr6 = "fd42:dead:beef:ee::254/128";
-                  };
-                  hostile-node01 = {
-                    addr4 = "100.96.10.30/32";
-                    addr6 = "fd42:dead:beef:ee::30/128";
-                  };
-                }; nebula = {
+                b-router-core-nebula = {
+                  addr4 = "100.96.10.2/32";
+                  addr6 = "fd42:dead:beef:ee::2/128";
+                };
+                branch-node01 = {
+                  addr4 = "100.96.10.20/32";
+                  addr6 = "fd42:dead:beef:ee::20/128";
+                };
+                c-router-lighthouse = {
+                  addr4 = "100.96.10.254/32";
+                  addr6 = "fd42:dead:beef:ee::254/128";
+                };
+                hostile-node01 = {
+                  addr4 = "100.96.10.30/32";
+                  addr6 = "fd42:dead:beef:ee::30/128";
+                };
+              };
+              nebula = {
                 lighthouse = {
                   endpoint = "198.51.100.10";
                   endpoint6 = "2001:db8:51::10";

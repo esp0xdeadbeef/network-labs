@@ -32,10 +32,12 @@
         };
 
       labs = lib.listToAttrs (
-        map (name: {
-          name = name;
-          value = mkLab name;
-        }) exampleNames
+        map
+          (name: {
+            name = name;
+            value = mkLab name;
+          })
+          exampleNames
       );
 
     in
