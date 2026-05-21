@@ -652,6 +652,10 @@
             role = "core";
             uplinks = {
               isp-a = {
+                egress.ipv6.translation = {
+                  mode = "nat66";
+                  warning = "NAT66 is intentionally modeled only for explicit simulated or otherwise non-routed IPv6 uplinks; routed public-prefix tenants must stay routed, not masqueraded.";
+                };
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };
@@ -661,6 +665,10 @@
             role = "core";
             uplinks = {
               isp-b = {
+                egress.ipv6.translation = {
+                  mode = "nat66";
+                  warning = "NAT66 is intentionally modeled only for explicit simulated or otherwise non-routed IPv6 uplinks; routed public-prefix tenants must stay routed, not masqueraded.";
+                };
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };
@@ -1826,6 +1834,10 @@
             role = "core";
             uplinks = {
               wan = {
+                egress.ipv6.translation = {
+                  mode = "nat66";
+                  warning = "NAT66 is intentionally modeled only for explicit simulated or otherwise non-routed IPv6 uplinks; routed public-prefix tenants must stay routed, not masqueraded.";
+                };
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };
