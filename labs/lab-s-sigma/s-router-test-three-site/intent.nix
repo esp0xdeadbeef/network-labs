@@ -1374,6 +1374,20 @@
           {
             action = "allow";
             from = {
+              kind = "service";
+              name = "clab-site-dns";
+            };
+            id = "allow-clab-site-dns-service-to-wan";
+            priority = 24;
+            to = {
+              kind = "external";
+              name = "wan";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
               kind = "tenant-set";
               members = [ "client" ];
             };
