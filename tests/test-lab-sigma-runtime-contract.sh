@@ -81,6 +81,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     nodes = inventory.realization.nodes;
     site = import ${lab_dir}/intent.nix;
     nixosRelations = site.esp.nixos.communicationContract.relations;
+    clabRelations = site.esp.clab.communicationContract.relations;
     hasRelation =
       builtins.any
         (relation:
@@ -88,6 +89,17 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
           && (relation.from.kind or null) == \"service\"
           && (relation.from.name or null) == \"site-dns-mgmt\")
         nixosRelations;
+    hasClabDnsWanRelation =
+      builtins.any
+        (relation:
+          (relation.id or null) == \"allow-clab-site-dns-service-to-wan\"
+          && (relation.from.kind or null) == \"service\"
+          && (relation.from.name or null) == \"clab-site-dns\"
+          && (relation.to.kind or null) == \"external\"
+          && (relation.to.name or null) == \"wan\"
+          && (relation.trafficType or null) == \"dns\"
+          && (relation.priority or 999) < 25)
+        clabRelations;
     dnsForwarderNodes =
       builtins.filter
         (nodeName:
@@ -104,15 +116,28 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     hasMgmtWanBridges =
       builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-a\" hostBridges
       && builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-b\" hostBridges;
+    clabPolicyPorts = nodes.esp-clab-router-policy.ports;
+    clabUpstreamPorts = nodes.esp-clab-router-upstream.ports;
+    clabHostBridges = inventory.deployment.hosts.s-router-clab.bridgeNetworks;
+    hasClabMgmtWanPorts =
+      (clabPolicyPorts.upstream-mgmt.link or null) == \"p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-mgmt--uplink-wan\"
+      && (clabUpstreamPorts.policy-mgmt.link or null) == \"p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-mgmt--uplink-wan\";
+    hasClabMgmtWanBridge = builtins.hasAttr \"br-clab-policy-upstream-access-mgmt\" clabHostBridges;
   in
     if !hasRelation then
       throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
+    else if !hasClabDnsWanRelation then
+      throw \"s-router-test clab intent must allow the modeled clab-site-dns service to reach WAN DNS forwarders before tenant DNS-to-wan denies\"
     else if dnsForwarderNodes != [ ] then
       throw \"s-router-test inventory must not define services.dns.forwarders; DNS lookup path and resolver policy belong in intent/NFM, inventory may only realize service technology and physical/runtime facts\"
     else if !hasMgmtWanPorts then
       throw \"s-router-test nixos inventory must explicitly realize site-dns-mgmt policy/upstream WAN lanes for isp-a and isp-b\"
     else if !hasMgmtWanBridges then
       throw \"s-router-test nixos deployment host must declare bridge networks for site-dns-mgmt policy/upstream WAN lanes\"
+    else if !hasClabMgmtWanPorts then
+      throw \"s-router-test clab inventory must explicitly realize clab-site-dns policy/upstream WAN lane\"
+    else if !hasClabMgmtWanBridge then
+      throw \"s-router-test clab deployment host must declare the clab-site-dns policy/upstream WAN bridge\"
     else
       true
 " >/dev/null
