@@ -1385,17 +1385,6 @@ in
         };
         platform = "home-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-uplink1";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              name = "east-west";
-            };
-            uplink = "east-west";
-          };
           upstream = {
             adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-upstream";
             attach = {
@@ -2324,17 +2313,6 @@ in
         };
         platform = "home-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-uplink1";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              name = "east-west";
-            };
-            uplink = "east-west";
-          };
           upstream = {
             adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-upstream";
             attach = {

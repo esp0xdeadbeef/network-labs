@@ -1290,17 +1290,6 @@ in
         };
         platform = "nixos-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-uplink1";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              name = "east-west";
-            };
-            uplink = "east-west";
-          };
           upstream = {
             adapterName = "p2p-nixos-router-core-nebula-nixos-router-upstream-upstream";
             attach = {
@@ -2175,17 +2164,6 @@ in
         };
         platform = "nixos-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-uplink1";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              name = "east-west";
-            };
-            uplink = "east-west";
-          };
           upstream = {
             adapterName = "p2p-clab-router-core-nebula-clab-router-upstream-upstream";
             attach = {

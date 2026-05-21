@@ -78,6 +78,48 @@ check_inventory() {
     echo "${label}: hostile tenant must retain east-west realization" >&2
     exit 1
   }
+
+  LABEL="${label}" INVENTORY_PATH="${inventory_path}" nix eval --impure --expr '
+    let
+      label = builtins.getEnv "LABEL";
+      inventory = import (builtins.getEnv "INVENTORY_PATH");
+      nodes = inventory.realization.nodes or { };
+      coreNebulaNames =
+        builtins.filter
+          (name: builtins.match ".*router-core-nebula" name != null)
+          (builtins.attrNames nodes);
+      badCorePorts =
+        builtins.concatLists (
+          builtins.map
+            (nodeName:
+              let
+                ports = nodes.${nodeName}.ports or { };
+              in
+              builtins.map
+                (portName: "${nodeName}.${portName}")
+                (
+                  builtins.filter
+                    (portName:
+                      let
+                        port = ports.${portName};
+                        bridge = ((port.attach or { }).bridge or "");
+                      in
+                      (port.external or false)
+                      && (port.uplink or null) == "east-west"
+                      && builtins.match "br-uplink.*" bridge != null)
+                    (builtins.attrNames ports)
+                ))
+            coreNebulaNames
+        );
+    in
+      if badCorePorts != [ ] then
+        throw "${label}: core-nebula must not attach east-west directly to host WAN/uplink bridges: ${builtins.toJSON badCorePorts}"
+      else
+        true
+  ' >/dev/null || {
+    echo "${label}: core-nebula external uplink contract failed" >&2
+    exit 1
+  }
 }
 
 check_intent \
