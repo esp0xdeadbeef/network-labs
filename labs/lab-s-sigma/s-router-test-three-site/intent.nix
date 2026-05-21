@@ -413,7 +413,7 @@
           {
             match = [
               {
-                dports = [ 4243 ];
+                dports = [ 443 ];
                 family = "any";
                 proto = "udp";
               }
