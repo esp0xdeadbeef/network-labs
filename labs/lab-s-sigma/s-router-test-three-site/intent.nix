@@ -122,7 +122,7 @@
               ];
             };
             id = "allow-tenants-to-site-dns";
-            priority = 20;
+            priority = 9;
             to = {
               kind = "service";
               name = "site-dns-mgmt";
@@ -1337,7 +1337,7 @@
               ];
             };
             id = "allow-normal-tenants-to-clab-dns";
-            priority = 20;
+            priority = 9;
             to = {
               kind = "service";
               name = "clab-site-dns";
