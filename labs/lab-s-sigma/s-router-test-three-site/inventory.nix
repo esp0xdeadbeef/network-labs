@@ -26,7 +26,24 @@ let
       site = "clab";
     };
     platform = "nixos-container";
-    ports = {
+    ports = (
+      if tenant == "client" then
+        {
+          underlay-core-nebula = {
+            adapterName = "p2p-clab-router-access-client-clab-router-core-nebula-access-client";
+            attach = {
+              bridge = "br-clab-access-client-core-nebula";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-clab-router-access-client-clab-router-core-nebula";
+          };
+        }
+      else
+        { }
+    ) // {
       "tenant-${tenant}" = {
         attach = {
           bridge = tenant;
@@ -499,6 +516,7 @@ in
     hosts = {
       s-router-hetzner-anywhere = {
         bridgeNetworks = {
+          br-hetz-access-client-nebula-core = { };
           br-hetz-core-upstream = { };
           br-hetz-downstream-client = { };
           br-hetz-downstream-dmz = { };
@@ -546,6 +564,7 @@ in
           };
           br-nixos-core-isp-a-upstream = { };
           br-nixos-core-isp-b-upstream = { };
+          br-nixos-core-nebula-access-client = { };
           br-nixos-core-nebula-upstream = { };
           br-nixos-downstream-admin = { };
           br-nixos-downstream-client = { };
@@ -671,6 +690,7 @@ in
             parent = "eth0";
             vlan = 301;
           };
+          br-clab-access-client-core-nebula = { };
           br-clab-core-nebula-upstream = { };
           br-clab-core-simulated-isp-upstream = { };
           br-clab-downstream-admin = { };
@@ -994,6 +1014,17 @@ in
             };
             link = "p2p-nixos-router-access-client-nixos-router-downstream";
           };
+          underlay-core-nebula = {
+            adapterName = "p2p-nixos-router-access-client-nixos-router-core-nebula-access-client";
+            attach = {
+              bridge = "br-nixos-core-nebula-access-client";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-nixos-router-access-client-nixos-router-core-nebula";
+          };
         };
         services = {
           dns = { };
@@ -1275,6 +1306,17 @@ in
         };
         platform = "nixos-container";
         ports = {
+          underlay-access-client = {
+            adapterName = "p2p-nixos-router-access-client-nixos-router-core-nebula-core-nebula";
+            attach = {
+              bridge = "br-nixos-core-nebula-access-client";
+              kind = "bridge";
+            };
+            interface = {
+              name = "access-client";
+            };
+            link = "p2p-nixos-router-access-client-nixos-router-core-nebula";
+          };
           upstream = {
             adapterName = "p2p-nixos-router-core-nebula-nixos-router-upstream-upstream";
             attach = {
@@ -1794,6 +1836,17 @@ in
             };
             link = "p2p-hetz-router-access-client-hetz-router-downstream";
           };
+          underlay-nebula-core = {
+            adapterName = "p2p-hetz-router-access-client-hetz-router-nebula-core-access-client";
+            attach = {
+              bridge = "br-hetz-access-client-nebula-core";
+              kind = "bridge";
+            };
+            interface = {
+              name = "nebula-core";
+            };
+            link = "p2p-hetz-router-access-client-hetz-router-nebula-core";
+          };
         };
         services = {
           dns = {
@@ -1971,6 +2024,17 @@ in
         };
         platform = "nixos-container";
         ports = {
+          underlay-access-client = {
+            adapterName = "p2p-hetz-router-access-client-hetz-router-nebula-core-nebula-core";
+            attach = {
+              bridge = "br-hetz-access-client-nebula-core";
+              kind = "bridge";
+            };
+            interface = {
+              name = "access-client";
+            };
+            link = "p2p-hetz-router-access-client-hetz-router-nebula-core";
+          };
           east-west = {
             attach = {
               bridge = "br-wan";
@@ -2149,6 +2213,17 @@ in
         };
         platform = "nixos-container";
         ports = {
+          underlay-access-client = {
+            adapterName = "p2p-clab-router-access-client-clab-router-core-nebula-core-nebula";
+            attach = {
+              bridge = "br-clab-access-client-core-nebula";
+              kind = "bridge";
+            };
+            interface = {
+              name = "access-client";
+            };
+            link = "p2p-clab-router-access-client-clab-router-core-nebula";
+          };
           upstream = {
             adapterName = "p2p-clab-router-core-nebula-clab-router-upstream-upstream";
             attach = {

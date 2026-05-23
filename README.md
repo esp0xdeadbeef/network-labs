@@ -53,6 +53,33 @@ reachability. Do not model it as a fake fabric p2p node unless it exports routes
 or owns prefixes. If it exports routes, model the route ownership explicitly so
 the forwarding and control-plane stages can validate the authority.
 
+Overlay daemon underlay is separate from overlay payload policy. A site Nebula
+core that needs WAN/bootstrap reachability must not be wired directly to a WAN
+bridge or selector and must not borrow the tenant that uses the overlay payload
+path. Model a dedicated access router and tenant subnet for that WAN-side client
+attachment, for example:
+
+```text
+overlay payload:
+  hostile/client tenant -> access-hostile/client -> downstream -> policy -> core-nebula -> overlay
+
+overlay daemon underlay:
+  core-nebula -> access-client (/24 client subnet) -> downstream -> policy -> upstream -> WAN core
+```
+
+In the s-sigma lab this rule applies to every runtime surface: `esp.nixos`,
+`esp.hetz`, and `esp.clab` each select a real non-overlay-payload access tenant,
+currently `transport.overlays[].underlayAccess = { kind = "tenant"; name = "client"; }`.
+The overlay core may still keep its normal core-to-upstream fabric adjacency for
+modeled overlay payload routes; `underlayAccess` is what selects the daemon
+bootstrap/WAN-side client path and prevents that route from borrowing the
+hostile/overlay payload tenant or a hidden WAN port. The selected access tenant
+does not need to be a special IoT tenant; it just needs to be a normal modeled
+access path that can reach the required WAN external without routing back
+through the overlay being bootstrapped.
+Changing a renderer or a NixOS host file to recover that access path is a layer
+violation; the compiler and forwarding model must derive it from intent.
+
 Concrete runtime values such as real public addresses, deployment MACs, device
 login material, and private overlay client addresses belong in SOPS/runtime
 inventory for prod-like labs, not in plain intent. The semantic routed-prefix
