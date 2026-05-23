@@ -558,6 +558,10 @@
           ]
           [
             "nixos-router-core-nebula"
+            "nixos-router-access-client"
+          ]
+          [
+            "nixos-router-core-nebula"
             "nixos-router-upstream"
           ]
           [
@@ -722,6 +726,14 @@
               "esp.hetz"
             ];
             terminateOn = "nixos-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+            underlayTrafficTypes = [
+              "nebula"
+              "nebula-runtime"
+            ];
           }
         ];
       };
@@ -1137,6 +1149,10 @@
           ]
           [
             "hetz-router-nebula-core"
+            "hetz-router-access-client"
+          ]
+          [
+            "hetz-router-nebula-core"
             "hetz-router-upstream"
           ]
           [
@@ -1224,6 +1240,11 @@
               "esp.clab"
             ];
             terminateOn = "hetz-router-nebula-core";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+            underlayTrafficTypes = [ "nebula" ];
           }
         ];
       };
@@ -1725,6 +1746,10 @@
         links = [
           [
             "clab-router-core-nebula"
+            "clab-router-access-client"
+          ]
+          [
+            "clab-router-core-nebula"
             "clab-router-upstream"
           ]
           [
@@ -1878,6 +1903,11 @@
               "esp.hetz"
             ];
             terminateOn = "clab-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+            underlayTrafficTypes = [ "nebula" ];
           }
         ];
       };
