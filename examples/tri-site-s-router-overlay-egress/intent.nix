@@ -731,6 +731,10 @@
               "esp.edge"
             ];
             terminateOn = "home-example-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
           }
         ];
       };
@@ -1247,6 +1251,10 @@
               "esp.lab"
             ];
             terminateOn = "edge-example-router-nebula-core";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
           }
         ];
       };
@@ -1884,6 +1892,10 @@
               "esp.edge"
             ];
             terminateOn = "lab-example-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
           }
         ];
       };
