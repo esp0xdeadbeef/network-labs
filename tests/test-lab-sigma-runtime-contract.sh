@@ -123,6 +123,14 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       (clabPolicyPorts.upstream-mgmt.link or null) == \"p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-mgmt--uplink-wan\"
       && (clabUpstreamPorts.policy-mgmt.link or null) == \"p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-mgmt--uplink-wan\";
     hasClabMgmtWanBridge = builtins.hasAttr \"br-clab-policy-upstream-access-mgmt\" clabHostBridges;
+    runtimeSites = inventory.controlPlane.sites.esp;
+    routedCoreRuntimeInterfaces = [
+      runtimeSites.nixos.overlays.east-west.runtimeNodes.nixos-router-core-nebula.service.interface
+      runtimeSites.hetz.overlays.east-west.runtimeNodes.hetz-router-nebula-core.service.interface
+      runtimeSites.clab.overlays.east-west.runtimeNodes.clab-router-core-nebula.service.interface
+    ];
+    routedCoreRuntimeInterfacesMatchOverlayFirewall =
+      builtins.all (name: name == \"overlay-west\") routedCoreRuntimeInterfaces;
   in
     if !hasRelation then
       throw \"s-router-test nixos intent must allow the modeled site-dns-mgmt service to reach WAN DNS forwarders before tenant DNS-to-uplink denies\"
@@ -138,6 +146,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       throw \"s-router-test clab inventory must explicitly realize clab-site-dns policy/upstream WAN lane\"
     else if !hasClabMgmtWanBridge then
       throw \"s-router-test clab deployment host must declare the clab-site-dns policy/upstream WAN bridge\"
+    else if !routedCoreRuntimeInterfacesMatchOverlayFirewall then
+      throw \"s-router-test routed core Nebula runtime service interfaces must use overlay-west, matching the rendered overlay firewall interface instead of defaulting to nebula1\"
     else
       true
 " >/dev/null
