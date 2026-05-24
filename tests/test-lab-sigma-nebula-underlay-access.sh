@@ -30,6 +30,17 @@ let
         && (attachment.name or null) == tenant)
       (n.attachments or []);
 
+  hasTenantAttachment = site: node: tenant:
+    let
+      n = (getSite site).topology.nodes.${node} or null;
+    in
+    n != null
+    && builtins.any
+      (attachment:
+        (attachment.kind or null) == "tenant"
+        && (attachment.name or null) == tenant)
+      (n.attachments or []);
+
   hasLink = site: a: b:
     builtins.any
       (link:
@@ -45,10 +56,12 @@ let
   checkSite = site: core: access:
     require "${site}: missing selected client access router for Nebula underlay WAN side"
       (hasAccessNode site access "client")
-    && require "${site}: Nebula underlay must connect to the selected access node"
-      (hasLink site core access)
-    && require "${site}: Nebula core must still keep the normal fabric/core route adjacency"
-      (hasLink site core ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-upstream"))
+    && require "${site}: Nebula core underlay must be a host-like client tenant attachment"
+      (hasTenantAttachment site core "client")
+    && require "${site}: Nebula underlay must not be a p2p link to the selected access router"
+      (! hasLink site core access)
+    && require "${site}: Nebula underlay must not be a direct p2p link to upstream"
+      (! hasLink site core ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-upstream"))
     && require "${site}: selected underlay access must still traverse downstream/policy fabric"
       (hasLink site access ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-downstream"))
     && require "${site}: overlay must select client as explicit underlayAccess"
