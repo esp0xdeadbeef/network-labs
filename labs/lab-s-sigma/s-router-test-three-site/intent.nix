@@ -557,14 +557,6 @@
             "nixos-router-upstream"
           ]
           [
-            "nixos-router-core-nebula"
-            "nixos-router-access-client"
-          ]
-          [
-            "nixos-router-core-nebula"
-            "nixos-router-upstream"
-          ]
-          [
             "nixos-router-upstream"
             "nixos-router-policy"
           ]
@@ -679,6 +671,12 @@
             };
           };
           nixos-router-core-nebula = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "core";
             uplinks = {
               east-west = {
@@ -1148,14 +1146,6 @@
             "hetz-router-upstream"
           ]
           [
-            "hetz-router-nebula-core"
-            "hetz-router-access-client"
-          ]
-          [
-            "hetz-router-nebula-core"
-            "hetz-router-upstream"
-          ]
-          [
             "hetz-router-upstream"
             "hetz-router-policy"
           ]
@@ -1204,6 +1194,12 @@
             role = "downstream-selector";
           };
           hetz-router-nebula-core = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "core";
             uplinks = {
               east-west = {
@@ -1745,14 +1741,6 @@
       topology = {
         links = [
           [
-            "clab-router-core-nebula"
-            "clab-router-access-client"
-          ]
-          [
-            "clab-router-core-nebula"
-            "clab-router-upstream"
-          ]
-          [
             "clab-router-core-simulated-isp"
             "clab-router-upstream"
           ]
@@ -1845,6 +1833,12 @@
             role = "access";
           };
           clab-router-core-nebula = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "core";
             uplinks = {
               east-west = {
