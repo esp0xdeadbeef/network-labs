@@ -275,7 +275,7 @@ in
                     "core"
                   ];
                   service = {
-                    interface = "nebula1";
+                    interface = "overlay-west";
                     name = "nebula-runtime";
                   };
                   relay = {
@@ -361,7 +361,7 @@ in
                     "core"
                   ];
                   service = {
-                    interface = "nebula1";
+                    interface = "overlay-west";
                     listenHost = "172.31.254.4";
                     name = "nebula-runtime";
                     port = 443;
@@ -442,7 +442,7 @@ in
                     "core"
                   ];
                   service = {
-                    interface = "nebula1";
+                    interface = "overlay-west";
                     name = "nebula-runtime";
                   };
                   relay = {
