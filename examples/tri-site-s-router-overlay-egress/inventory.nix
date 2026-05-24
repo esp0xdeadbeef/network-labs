@@ -625,7 +625,6 @@ in
           };
           br-home-core-isp-a-upstream = { };
           br-home-core-isp-b-upstream = { };
-          br-home-core-nebula-upstream = { };
           br-home-downstream-admin = { };
           br-home-downstream-client = { };
           br-home-downstream-dmz = { };
@@ -752,7 +751,6 @@ in
             parent = "eth0";
             vlan = 301;
           };
-          br-lab-core-nebula-upstream = { };
           br-lab-core-simulated-isp-upstream = { };
           br-lab-downstream-admin = { };
           br-lab-downstream-client = { };
@@ -1385,16 +1383,15 @@ in
         };
         platform = "home-container";
         ports = {
-          upstream = {
-            adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-upstream";
+          tenant-client = {
             attach = {
-              bridge = "br-home-core-nebula-upstream";
+              bridge = "client";
               kind = "bridge";
             };
             interface = {
-              name = "upstream";
+              name = "client";
             };
-            link = "p2p-home-example-router-core-nebula-home-example-router-upstream";
+            logicalInterface = "tenant-client";
           };
         };
       };
@@ -1769,17 +1766,6 @@ in
               name = "core-b";
             };
             link = "p2p-home-example-router-core-isp-b-home-example-router-upstream";
-          };
-          core-nebula = {
-            adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-core-nebula";
-            attach = {
-              bridge = "br-home-core-nebula-upstream";
-              kind = "bridge";
-            };
-            interface = {
-              name = "core-nebula";
-            };
-            link = "p2p-home-example-router-core-nebula-home-example-router-upstream";
           };
           policy-admin-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-a-policy-admin-isp-a";
@@ -2313,16 +2299,15 @@ in
         };
         platform = "home-container";
         ports = {
-          upstream = {
-            adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-upstream";
+          tenant-client = {
             attach = {
-              bridge = "br-lab-core-nebula-upstream";
+              bridge = "client";
               kind = "bridge";
             };
             interface = {
-              name = "upstream";
+              name = "client";
             };
-            link = "p2p-lab-example-router-core-nebula-lab-example-router-upstream";
+            logicalInterface = "tenant-client";
           };
         };
       };
@@ -2388,17 +2373,6 @@ in
         };
         platform = "home-container";
         ports = {
-          core-nebula = {
-            adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-core-nebula";
-            attach = {
-              bridge = "br-lab-core-nebula-upstream";
-              kind = "bridge";
-            };
-            interface = {
-              name = "core-nebula";
-            };
-            link = "p2p-lab-example-router-core-nebula-lab-example-router-upstream";
-          };
           core-simulated-isp = {
             adapterName = "p2p-lab-example-router-core-simulated-isp-lab-example-router-upstream-core-simulated-isp";
             attach = {

@@ -574,10 +574,6 @@
             "home-example-router-upstream"
           ]
           [
-            "home-example-router-core-nebula"
-            "home-example-router-upstream"
-          ]
-          [
             "home-example-router-upstream"
             "home-example-router-policy"
           ]
@@ -684,6 +680,12 @@
             };
           };
           home-example-router-core-nebula = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "core";
             uplinks = {
               east-west = {
@@ -1742,10 +1744,6 @@
       topology = {
         links = [
           [
-            "lab-example-router-core-nebula"
-            "lab-example-router-upstream"
-          ]
-          [
             "lab-example-router-core-simulated-isp"
             "lab-example-router-upstream"
           ]
@@ -1838,6 +1836,12 @@
             role = "access";
           };
           lab-example-router-core-nebula = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "core";
             uplinks = {
               east-west = {
