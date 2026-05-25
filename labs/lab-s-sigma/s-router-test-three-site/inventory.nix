@@ -500,6 +500,7 @@ in
       s-router-hetzner-anywhere = {
         bridgeNetworks = {
           br-hetz-core-upstream = { };
+          br-hetz-nebula-core-upstream = { };
           br-hetz-downstream-client = { };
           br-hetz-downstream-dmz = { };
           br-hetz-downstream-policy-access-client = { };
@@ -545,6 +546,7 @@ in
           };
           br-nixos-core-isp-a-upstream = { };
           br-nixos-core-isp-b-upstream = { };
+          br-nixos-core-nebula-upstream = { };
           br-nixos-downstream-admin = { };
           br-nixos-downstream-client = { };
           br-nixos-downstream-dmz = { };
@@ -669,6 +671,7 @@ in
             vlan = 301;
           };
           br-clab-core-simulated-isp-upstream = { };
+          br-clab-core-nebula-upstream = { };
           br-clab-downstream-admin = { };
           br-clab-downstream-client = { };
           br-clab-downstream-dmz = { };
@@ -1281,6 +1284,17 @@ in
             };
             logicalInterface = "tenant-client";
           };
+          upstream = {
+            adapterName = "p2p-nixos-router-core-nebula-nixos-router-upstream-upstream";
+            attach = {
+              bridge = "br-nixos-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "upstream";
+            };
+            link = "p2p-nixos-router-core-nebula-nixos-router-upstream";
+          };
         };
       };
       esp-nixos-router-downstream = {
@@ -1632,6 +1646,17 @@ in
               name = "core-b";
             };
             link = "p2p-nixos-router-core-isp-b-nixos-router-upstream";
+          };
+          core-nebula = {
+            adapterName = "p2p-nixos-router-core-nebula-nixos-router-upstream-core-nebula";
+            attach = {
+              bridge = "br-nixos-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-nixos-router-core-nebula-nixos-router-upstream";
           };
           policy-admin-isp-a = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-a-policy-admin-isp-a";
@@ -1986,6 +2011,17 @@ in
             };
             uplink = "east-west";
           };
+          upstream = {
+            adapterName = "p2p-hetz-router-nebula-core-hetz-router-upstream-upstream";
+            attach = {
+              bridge = "br-hetz-nebula-core-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "upstream";
+            };
+            link = "p2p-hetz-router-nebula-core-hetz-router-upstream";
+          };
         };
       };
       esp-hetz-router-policy = {
@@ -2074,6 +2110,17 @@ in
             };
             link = "p2p-hetz-router-core-hetz-router-upstream";
           };
+          nebula-core = {
+            adapterName = "p2p-hetz-router-nebula-core-hetz-router-upstream-nebula-core";
+            attach = {
+              bridge = "br-hetz-nebula-core-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "nebula-core";
+            };
+            link = "p2p-hetz-router-nebula-core-hetz-router-upstream";
+          };
           policy-client-wan = {
             adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-client--uplink-wan-policy-client-wan";
             attach = {
@@ -2130,6 +2177,17 @@ in
               name = "client";
             };
             logicalInterface = "tenant-client";
+          };
+          upstream = {
+            adapterName = "p2p-clab-router-core-nebula-clab-router-upstream-upstream";
+            attach = {
+              bridge = "br-clab-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "upstream";
+            };
+            link = "p2p-clab-router-core-nebula-clab-router-upstream";
           };
         };
       };
@@ -2205,6 +2263,17 @@ in
               name = "core-isp";
             };
             link = "p2p-clab-router-core-simulated-isp-clab-router-upstream";
+          };
+          core-nebula = {
+            adapterName = "p2p-clab-router-core-nebula-clab-router-upstream-core-nebula";
+            attach = {
+              bridge = "br-clab-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-clab-router-core-nebula-clab-router-upstream";
           };
         }
         // clabUpstreamWanPorts

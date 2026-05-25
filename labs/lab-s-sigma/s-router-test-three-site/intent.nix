@@ -557,6 +557,10 @@
             "nixos-router-upstream"
           ]
           [
+            "nixos-router-core-nebula"
+            "nixos-router-upstream"
+          ]
+          [
             "nixos-router-upstream"
             "nixos-router-policy"
           ]
@@ -1143,6 +1147,10 @@
         links = [
           [
             "hetz-router-core"
+            "hetz-router-upstream"
+          ]
+          [
+            "hetz-router-nebula-core"
             "hetz-router-upstream"
           ]
           [
@@ -1742,6 +1750,10 @@
         links = [
           [
             "clab-router-core-simulated-isp"
+            "clab-router-upstream"
+          ]
+          [
+            "clab-router-core-nebula"
             "clab-router-upstream"
           ]
           [

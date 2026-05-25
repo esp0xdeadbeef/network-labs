@@ -574,6 +574,10 @@
             "home-example-router-upstream"
           ]
           [
+            "home-example-router-core-nebula"
+            "home-example-router-upstream"
+          ]
+          [
             "home-example-router-upstream"
             "home-example-router-policy"
           ]
@@ -1745,6 +1749,10 @@
         links = [
           [
             "lab-example-router-core-simulated-isp"
+            "lab-example-router-upstream"
+          ]
+          [
+            "lab-example-router-core-nebula"
             "lab-example-router-upstream"
           ]
           [

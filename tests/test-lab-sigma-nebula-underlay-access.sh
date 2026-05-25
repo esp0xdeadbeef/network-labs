@@ -60,8 +60,8 @@ let
       (hasTenantAttachment site core "client")
     && require "${site}: Nebula underlay must not be a p2p link to the selected access router"
       (! hasLink site core access)
-    && require "${site}: Nebula underlay must not be a direct p2p link to upstream"
-      (! hasLink site core ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-upstream"))
+    && require "${site}: Nebula payload core must keep the canonical upstream fabric link"
+      (hasLink site core ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-upstream"))
     && require "${site}: selected underlay access must still traverse downstream/policy fabric"
       (hasLink site access ((if site == "hetz" then "hetz" else if site == "clab" then "clab" else "nixos") + "-router-downstream"))
     && require "${site}: overlay must select client as explicit underlayAccess"
@@ -94,13 +94,11 @@ let
   badPortName = name:
     name == "underlay-access-client"
     || name == "underlay-core-nebula"
-    || name == "underlay-nebula-core"
-    || name == "upstream"
-    || name == "core-nebula";
+    || name == "underlay-nebula-core";
 
   badLink = value:
     builtins.isString value
-    && builtins.match ".*p2p-.*(access-client.*core-nebula|core-nebula.*access-client|access-client.*nebula-core|nebula-core.*access-client|core-nebula.*upstream|nebula-core.*upstream).*" value != null;
+    && builtins.match ".*p2p-.*(access-client.*core-nebula|core-nebula.*access-client|access-client.*nebula-core|nebula-core.*access-client).*" value != null;
 
   nodeHasBadLink = nodeName:
     anyName
@@ -110,7 +108,7 @@ let
   nodeHasBadPortName = nodeName: anyName badPortName (portNames nodeName);
 
   badBridge = name:
-    builtins.match ".*(access-client.*core-nebula|core-nebula.*access-client|access-client.*nebula-core|nebula-core.*access-client|core-nebula.*upstream|nebula-core.*upstream).*" name != null;
+    builtins.match ".*(access-client.*core-nebula|core-nebula.*access-client|access-client.*nebula-core|nebula-core.*access-client).*" name != null;
 
   coreClientPortOk = nodeName:
     let
@@ -124,21 +122,36 @@ let
     && (port.attach.bridge or null) == "client"
     && (port.interface.name or null) == "client";
 
-  checkSite = site: hostName: accessNode: coreNode: upstreamNode:
+  payloadPortOk = nodeName: portName: expectedLink: expectedBridge:
+    let
+      port = ((nodes.${nodeName} or { }).ports or { }).${portName} or null;
+    in
+    port != null
+    && (port.link or null) == expectedLink
+    && (port.attach.kind or null) == "bridge"
+    && (port.attach.bridge or null) == expectedBridge
+    && (port.adapterName or null) != null;
+
+  checkSite =
+    site: hostName: accessNode: coreNode: upstreamNode: upstreamPayloadPort: expectedLink: expectedBridge:
     require "${site}: access client must not realize a p2p underlay port to Nebula core"
       (! nodeHasBadPortName accessNode && ! nodeHasBadLink accessNode)
     && require "${site}: Nebula core must be realized as a host-like client tenant attachment"
       (coreClientPortOk coreNode)
-    && require "${site}: Nebula core must not retain p2p underlay or upstream ports"
+    && require "${site}: Nebula core must not retain p2p underlay ports"
       (! nodeHasBadPortName coreNode && ! nodeHasBadLink coreNode)
-    && require "${site}: upstream selector must not retain Nebula-core p2p ports"
+    && require "${site}: upstream selector must not retain Nebula-core underlay p2p ports"
       (! nodeHasBadPortName upstreamNode && ! nodeHasBadLink upstreamNode)
+    && require "${site}: Nebula core must keep a canonical payload link to upstream"
+      (payloadPortOk coreNode "upstream" expectedLink expectedBridge)
+    && require "${site}: upstream selector must keep the matching Nebula payload link"
+      (payloadPortOk upstreamNode upstreamPayloadPort expectedLink expectedBridge)
     && require "${site}: host bridge inventory must not retain stale Nebula-core p2p bridges"
       (! anyName badBridge (bridgeNames hostName));
 in
-  checkSite "nixos" "s-router-test" "esp-nixos-router-access-client" "esp-nixos-router-core-nebula" "esp-nixos-router-upstream"
-  && checkSite "hetz" "s-router-hetzner-anywhere" "esp-hetz-router-access-client" "esp-hetz-router-nebula-core" "esp-hetz-router-upstream"
-  && checkSite "clab" "s-router-clab" "esp-clab-router-access-client" "esp-clab-router-core-nebula" "esp-clab-router-upstream"
+  checkSite "nixos" "s-router-test" "esp-nixos-router-access-client" "esp-nixos-router-core-nebula" "esp-nixos-router-upstream" "core-nebula" "p2p-nixos-router-core-nebula-nixos-router-upstream" "br-nixos-core-nebula-upstream"
+  && checkSite "hetz" "s-router-hetzner-anywhere" "esp-hetz-router-access-client" "esp-hetz-router-nebula-core" "esp-hetz-router-upstream" "nebula-core" "p2p-hetz-router-nebula-core-hetz-router-upstream" "br-hetz-nebula-core-upstream"
+  && checkSite "clab" "s-router-clab" "esp-clab-router-access-client" "esp-clab-router-core-nebula" "esp-clab-router-upstream" "core-nebula" "p2p-clab-router-core-nebula-clab-router-upstream" "br-clab-core-nebula-upstream"
 ' >/dev/null
 
 echo "PASS lab-sigma-nebula-underlay-access"
