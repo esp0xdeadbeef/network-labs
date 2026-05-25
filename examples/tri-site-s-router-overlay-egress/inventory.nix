@@ -625,6 +625,7 @@ in
           };
           br-home-core-isp-a-upstream = { };
           br-home-core-isp-b-upstream = { };
+          br-home-core-nebula-upstream = { };
           br-home-downstream-admin = { };
           br-home-downstream-client = { };
           br-home-downstream-dmz = { };
@@ -752,6 +753,7 @@ in
             vlan = 301;
           };
           br-lab-core-simulated-isp-upstream = { };
+          br-lab-core-nebula-upstream = { };
           br-lab-downstream-admin = { };
           br-lab-downstream-client = { };
           br-lab-downstream-dmz = { };
@@ -1393,6 +1395,17 @@ in
             };
             logicalInterface = "tenant-client";
           };
+          upstream = {
+            adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-upstream";
+            attach = {
+              bridge = "br-home-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "upstream";
+            };
+            link = "p2p-home-example-router-core-nebula-home-example-router-upstream";
+          };
         };
       };
       esp-home-example-router-downstream = {
@@ -1766,6 +1779,17 @@ in
               name = "core-b";
             };
             link = "p2p-home-example-router-core-isp-b-home-example-router-upstream";
+          };
+          core-nebula = {
+            adapterName = "p2p-home-example-router-core-nebula-home-example-router-upstream-core-nebula";
+            attach = {
+              bridge = "br-home-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-home-example-router-core-nebula-home-example-router-upstream";
           };
           policy-admin-isp-a = {
             adapterName = "p2p-home-example-router-policy-home-example-router-upstream--access-home-example-router-access-admin--uplink-isp-a-policy-admin-isp-a";
@@ -2309,6 +2333,17 @@ in
             };
             logicalInterface = "tenant-client";
           };
+          upstream = {
+            adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-upstream";
+            attach = {
+              bridge = "br-lab-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "upstream";
+            };
+            link = "p2p-lab-example-router-core-nebula-lab-example-router-upstream";
+          };
         };
       };
       esp-lab-example-router-core-simulated-isp = {
@@ -2383,6 +2418,17 @@ in
               name = "core-isp";
             };
             link = "p2p-lab-example-router-core-simulated-isp-lab-example-router-upstream";
+          };
+          core-nebula = {
+            adapterName = "p2p-lab-example-router-core-nebula-lab-example-router-upstream-core-nebula";
+            attach = {
+              bridge = "br-lab-core-nebula-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "core-nebula";
+            };
+            link = "p2p-lab-example-router-core-nebula-lab-example-router-upstream";
           };
         } // clabUpstreamWanPorts // clabUpstreamEastWestPorts;
       };
