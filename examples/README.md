@@ -33,6 +33,10 @@ These examples are meant to be consumed by:
 - `network-control-plane-model` (to build `output-control-plane-model.json`)
 - renderers (e.g. `network-renderer-nixos`, `network-renderer-containerlab-linux-backend`)
 
+Examples-only SMT traceability is indexed at `../tests/SMT.md`. Each `LAB-SMT-*`
+row identifies the exact repo-local test script that uses these examples as
+module evidence before FAT.
+
 ## Conventions used here
 
 - Canonical stage order is always:

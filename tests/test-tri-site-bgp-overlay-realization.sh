@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# LAB-SMT-ID: LAB-SMT-022
+# LAB-SMT-SCOPE: examples-only; see tests/SMT.md
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
