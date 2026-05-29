@@ -1,3 +1,6 @@
+# FAT-SRC-INVENTORY-001: USR-VALID-002 / FS-FN-024. This is the controlled
+# s-router FAT inventory source. It realizes the lab intent; examples under
+# network-labs/examples are lower-layer fixtures only.
 let
   clabAccessTenants = {
     admin = { };
@@ -195,6 +198,8 @@ let
   );
 in
 {
+  # FAT-SRC-INVENTORY-CLAB-ROLES: FAT realization coverage for Containerlab
+  # role mapping used by the s-router CLAB mirror.
   containerlab = {
     roles = {
       core = {
@@ -229,6 +234,9 @@ in
       };
     };
   };
+  # FAT-SRC-INVENTORY-CONTROL-PLANE: FAT realization coverage for renderer
+  # control-plane facts, overlays, runtime nodes, provider bindings, and
+  # target-specific routing-service choices.
   controlPlane = {
     sites = {
       esp = {
@@ -495,6 +503,9 @@ in
       };
     };
   };
+  # FAT-SRC-INVENTORY-DEPLOYMENT: FAT realization coverage for harness hosts,
+  # bridge networks, VLAN attachments, management boundaries, and runtime
+  # placement.
   deployment = {
     hosts = {
       s-router-hetzner-anywhere = {
@@ -848,6 +859,8 @@ in
       };
     };
   };
+  # FAT-SRC-INVENTORY-ENDPOINTS: FAT realization coverage for endpoint/client
+  # placement and client validation contexts.
   endpoints = {
     clab-client01 = {
       ipv4 = [ "10.50.20.10" ];
@@ -898,6 +911,9 @@ in
       ipv6 = [ "fd42:dead:cafe:20::10" ];
     };
   };
+  # FAT-SRC-INVENTORY-REALIZATION: FAT realization coverage for concrete nodes,
+  # ports, services, secrets, DHCP/RA, DNS service placement, and provider
+  # runtime facts.
   realization = {
     nodes = {
       esp-nixos-router-access-admin = {

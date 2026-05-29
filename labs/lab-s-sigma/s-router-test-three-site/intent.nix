@@ -1,6 +1,14 @@
+# FAT-SRC-INTENT-001: USR-VALID-002 / FS-FN-024. This is the controlled
+# s-router FAT intent source. Examples under network-labs/examples are
+# lower-layer fixtures only and are not FAT source evidence by themselves.
 {
   esp = {
+    # FAT-SRC-INTENT-NIXOS-SITE: s-router FAT behavior source for the NixOS
+    # site; intent owns behavior and inventory owns realization.
     nixos = {
+      # FAT-SRC-INTENT-NIXOS-COMMS: FAT behavior coverage for DNS policy,
+      # public exposure, internet policy, hostile overlay egress, and leak
+      # prevention for esp.nixos.
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
@@ -450,6 +458,9 @@
           }
         ];
       };
+      # FAT-SRC-INTENT-NIXOS-OWNERSHIP: FAT behavior coverage for tenants,
+      # services, endpoint ownership, routed prefixes, and client/public
+      # address authority for esp.nixos.
       ownership = {
         endpoints = [
           {
@@ -718,6 +729,9 @@
           };
         };
       };
+      # FAT-SRC-INTENT-NIXOS-TRANSPORT: FAT behavior coverage for overlay
+      # membership, underlay access selection, and modeled hostile path
+      # traversal for esp.nixos.
       transport = {
         overlays = [
           {
@@ -740,7 +754,12 @@
         ];
       };
     };
+    # FAT-SRC-INTENT-HETZ-SITE: s-router FAT behavior source for the hosted
+    # edge site; this site carries the provider/public-edge behavior.
     hetz = {
+      # FAT-SRC-INTENT-HETZ-COMMS: FAT behavior coverage for hosted DNS,
+      # public ingress, east-west return paths, internet policy, and leak
+      # prevention for esp.hetz.
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
@@ -1064,6 +1083,9 @@
           }
         ];
       };
+      # FAT-SRC-INTENT-HETZ-OWNERSHIP: FAT behavior coverage for hosted edge
+      # tenants, services, public-entry targets, routed prefixes, and provider
+      # edge address authority for esp.hetz.
       ownership = {
         endpoints = [
           {
@@ -1234,6 +1256,9 @@
           };
         };
       };
+      # FAT-SRC-INTENT-HETZ-TRANSPORT: FAT behavior coverage for hosted edge
+      # overlay membership, lighthouse placement, and east-west transport for
+      # esp.hetz.
       transport = {
         overlays = [
           {
@@ -1253,7 +1278,12 @@
         ];
       };
     };
+    # FAT-SRC-INTENT-CLAB-SITE: s-router FAT behavior source for the
+    # Containerlab mirror site and hostile client egress validation tenant.
     clab = {
+      # FAT-SRC-INTENT-CLAB-COMMS: FAT behavior coverage for CLAB DNS,
+      # hostile overlay egress, normal client public service exposure, internet
+      # policy, and leak prevention for esp.clab.
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
@@ -1634,6 +1664,9 @@
           }
         ];
       };
+      # FAT-SRC-INTENT-CLAB-OWNERSHIP: FAT behavior coverage for CLAB tenants,
+      # services, endpoint ownership, routed prefixes, and hostile/client
+      # address authority for esp.clab.
       ownership = {
         endpoints = [
           {
@@ -1899,6 +1932,9 @@
           };
         };
       };
+      # FAT-SRC-INTENT-CLAB-TRANSPORT: FAT behavior coverage for CLAB overlay
+      # membership, underlay access selection, and modeled hostile path
+      # traversal for esp.clab.
       transport = {
         overlays = [
           {
