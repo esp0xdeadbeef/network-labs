@@ -93,6 +93,12 @@ the routed prefix, NAT requirement, or route shape.
 
 See `examples/README.md` for what each example is trying to demonstrate.
 
+Examples-only SMT traceability lives in `tests/SMT.md`. It maps stable
+`LAB-SMT-*` identifiers to the exact distributed repo tests that prove compiler,
+NFM, CPM, CLAB renderer, NixOS renderer, and Nebula renderer module contracts
+from `network-labs/examples`. It is not FAT evidence and must not reference
+disposable lab paths or live lab loops.
+
 ## Typical pipelines
 
 ### Build a control-plane model (compiler -> forwarding-model -> control-plane-model)

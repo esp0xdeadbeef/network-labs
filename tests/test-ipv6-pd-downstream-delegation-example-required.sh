@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# LAB-SMT-ID: LAB-SMT-012
+# LAB-SMT-SCOPE: examples-only; see tests/SMT.md
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 example_dir="${repo_root}/examples/ipv6-pd-downstream-delegation"
