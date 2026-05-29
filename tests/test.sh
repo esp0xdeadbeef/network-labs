@@ -37,12 +37,14 @@ tests=(
   test-tri-site-bgp-overlay-realization.sh
   test-modeling-contract-docs.sh
   test-smt-traceability-docs.sh
+  test-s-sigma-fat-source-contract-comments.sh
   test-lab-intent-derived-topology-contract.sh
   test-lab-inventory-derived-p2p-bindings-contract.sh
   test-inventory-no-synthetic-default-containers.sh
   test-lab-runtime-secret-boundary.sh
   test-s-router-client-bridge-contract.sh
   test-s-router-clab-access-vlans.sh
+  test-s-router-clab-inventory-interface-names.sh
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
 )

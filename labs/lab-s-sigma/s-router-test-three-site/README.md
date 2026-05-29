@@ -12,6 +12,14 @@ This document describes `intent.nix`. Inventory files should realize addresses,
 hosts, and renderer details, but should not invent policy meaning that is absent
 from the intent.
 
+This directory is the controlled s-router FAT source. Examples under
+`network-labs/examples` are lower-layer fixtures for RaTM, SMT, SIT, and HAT
+proof; they are not FAT source evidence by themselves. `FAT-SOURCE-CONTRACT.md`
+maps the major intent and inventory sections used for FAT provenance.
+That contract is not live FAT evidence. It also records source gaps for the
+missing WireGuard provider scenarios and the missing NixOS/CLAB fake-provider
+or PPPoE-like scenarios that must exist before full FAT promotion is possible.
+
 ## Policy Model
 
 The target is a realistic segmented network, not a flat routed LAN.

@@ -876,7 +876,7 @@
             interface = {
               addr4 = "10.20.50.1/24";
               addr6 = "fd42:dead:beef:50::1/64";
-              name = "tenant-streaming";
+              name = "tenant-stream";
             };
             logicalInterface = "tenant-streaming";
           };
@@ -1081,7 +1081,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens13";
+              name = "access-stream";
             };
             link = "p2p-s-router-access-streaming-s-router-downstream-selector";
           };
@@ -1147,7 +1147,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens14";
+              name = "policy-stream";
             };
             link = "p2p-s-router-downstream-selector-s-router-policy-only--access-s-router-access-streaming";
           };
@@ -1169,7 +1169,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-admin";
+              name = "down-admin";
             };
             link = "p2p-s-router-downstream-selector-s-router-policy-only--access-s-router-access-admin";
           };
@@ -1180,7 +1180,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-s-router-downstream-selector-s-router-policy-only--access-s-router-access-client";
           };
@@ -1191,7 +1191,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client2";
+              name = "down-client2";
             };
             link = "p2p-s-router-downstream-selector-s-router-policy-only--access-s-router-access-client2";
           };
@@ -1224,7 +1224,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens21";
+              name = "down-stream";
             };
             link = "p2p-s-router-downstream-selector-s-router-policy-only--access-s-router-access-streaming";
           };
@@ -1367,7 +1367,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens23";
+              name = "up-stream-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a";
           };
@@ -1378,7 +1378,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens24";
+              name = "up-stream-b";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b";
           };
@@ -1565,7 +1565,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens22";
+              name = "pol-stream-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a";
           };
@@ -1576,7 +1576,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "ens23";
+              name = "pol-stream-b";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b";
           };
@@ -1871,7 +1871,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-c-router-downstream-selector-c-router-policy--access-c-router-access-client";
           };
@@ -1981,7 +1981,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "policy-client-wan";
+              name = "pol-client-wan";
             };
             link = "p2p-c-router-policy-c-router-upstream-selector--access-c-router-access-client--uplink-wan";
           };
@@ -2293,7 +2293,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-branch";
+              name = "down-branch";
             };
             link = "p2p-b-router-downstream-selector-b-router-policy--access-b-router-access-branch";
           };
@@ -2304,7 +2304,7 @@
               kind = "bridge";
             };
             interface = {
-              name = "downstream-hostile";
+              name = "down-hostile";
             };
             link = "p2p-b-router-downstream-selector-b-router-policy--access-b-router-access-hostile";
           };
