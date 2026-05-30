@@ -46,6 +46,8 @@ inventory_markers=(
   FAT-SRC-INVENTORY-CONTROL-PLANE
   FAT-SRC-INVENTORY-DEPLOYMENT
   FAT-SRC-INVENTORY-ENDPOINTS
+  FAT-SRC-INVENTORY-MTU
+  FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS
   FAT-SRC-INVENTORY-REALIZATION
 )
 
@@ -112,5 +114,32 @@ fi
 
 nix-instantiate --parse "${intent}" >/dev/null
 nix-instantiate --parse "${inventory}" >/dev/null
+
+nix eval --impure --raw --expr "
+  let
+    inventory = import ${inventory};
+    expectedForwarders = [ \"192.0.2.53\" \"2001:db8::53\" ];
+    siteHasProviderBootstrapDns = siteName:
+      let
+        dns = inventory.controlPlane.sites.esp.\${siteName}.overlays.east-west.providerBootstrapDns or { };
+      in
+        (dns.forwarders or [ ]) == expectedForwarders;
+  in
+    if siteHasProviderBootstrapDns \"nixos\"
+      && siteHasProviderBootstrapDns \"hetz\"
+      && siteHasProviderBootstrapDns \"clab\"
+    then \"true\"
+    else throw \"s-router FAT source must define providerBootstrapDns.forwarders on nixos, hetz, and clab east-west overlays\"
+" >/dev/null
+
+nix eval --impure --raw --expr "
+  let
+    inventory = import ${inventory};
+    mtu = inventory.realization.nodes.esp-nixos-router-core-isp-a.ports.isp-a.interface.mtu or null;
+  in
+    if mtu == 1492
+    then \"true\"
+    else throw \"s-router FAT source must define explicit MTU realization for esp-nixos-router-core-isp-a isp-a\"
+" >/dev/null
 
 echo "PASS s-sigma-fat-source-contract-comments"
