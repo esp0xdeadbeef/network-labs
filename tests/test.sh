@@ -45,6 +45,7 @@ tests=(
   test-s-router-client-bridge-contract.sh
   test-s-router-clab-access-vlans.sh
   test-s-router-clab-inventory-interface-names.sh
+  test-multi-wan-nixos-wan-group-bindings.sh
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
 )
