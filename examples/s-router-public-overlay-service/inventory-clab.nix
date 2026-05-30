@@ -846,7 +846,7 @@
               dnsServers = [ "router-self" ];
               domain = "lan.";
               id = "streaming";
-              interface = "tenant-streaming";
+              interface = "tenant-stream";
               router = "10.20.50.1";
               subnet = "10.20.50.0/24";
             };
@@ -854,7 +854,7 @@
           ipv6Ra = {
             tenant-streaming = {
               dnssl = [ "lan." ];
-              interface = "tenant-streaming";
+              interface = "tenant-stream";
               prefixes = [ "fd42:dead:beef:50::/64" ];
               rdnss = [ "router-self" ];
             };

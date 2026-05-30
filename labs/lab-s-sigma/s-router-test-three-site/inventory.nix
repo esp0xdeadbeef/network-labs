@@ -36,7 +36,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "tenant-${tenant}";
+          name = clabAccessIfName tenant;
         };
         logicalInterface = "tenant-${tenant}";
       };
@@ -70,6 +70,13 @@ let
   );
 
   clabAccessTenantNames = builtins.attrNames clabAccessTenants;
+  clabRuntimeTenantName = tenant: if tenant == "streaming" then "stream" else tenant;
+  clabAccessIfName = tenant: "tenant-${clabRuntimeTenantName tenant}";
+  clabDownstreamAccessIfName = tenant: "access-${clabRuntimeTenantName tenant}";
+  clabDownstreamPolicyIfName = tenant: "policy-${clabRuntimeTenantName tenant}";
+  clabPolicyDownstreamIfName = tenant: "down-${clabRuntimeTenantName tenant}";
+  clabPolicyWanIfName = tenant: "up-${clabRuntimeTenantName tenant}";
+  clabUpstreamWanIfName = tenant: "pol-${clabRuntimeTenantName tenant}";
   clabWanTenants = [
     "admin"
     "client"
@@ -88,7 +95,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "access-${tenant}";
+          name = clabDownstreamAccessIfName tenant;
         };
         link = "p2p-clab-router-access-${tenant}-clab-router-downstream";
       };
@@ -105,7 +112,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "policy-${tenant}";
+          name = clabDownstreamPolicyIfName tenant;
         };
         link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
       };
@@ -122,7 +129,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "downstream-${tenant}";
+          name = clabPolicyDownstreamIfName tenant;
         };
         link = "p2p-clab-router-downstream-clab-router-policy--access-clab-router-access-${tenant}";
       };
@@ -139,7 +146,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "upstream-${tenant}";
+          name = clabPolicyWanIfName tenant;
         };
         link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
       };
@@ -173,7 +180,7 @@ let
           kind = "bridge";
         };
         interface = {
-          name = "policy-${tenant}";
+          name = clabUpstreamWanIfName tenant;
         };
         link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-wan";
       };
@@ -1195,7 +1202,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "tenant-streaming";
+              name = "tenant-stream";
             };
             logicalInterface = "tenant-streaming";
           };
@@ -1472,7 +1479,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-admin";
+              name = "down-admin";
             };
             link = "p2p-nixos-router-downstream-nixos-router-policy--access-nixos-router-access-admin";
           };
@@ -1483,7 +1490,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-nixos-router-downstream-nixos-router-policy--access-nixos-router-access-client";
           };
@@ -1505,7 +1512,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-hostile";
+              name = "down-hostile";
             };
             link = "p2p-nixos-router-downstream-nixos-router-policy--access-nixos-router-access-hostile";
           };
@@ -2056,7 +2063,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-hetz-router-downstream-hetz-router-policy--access-hetz-router-access-client";
           };
@@ -2144,7 +2151,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "policy-client-wan";
+              name = "pol-client-wan";
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-client--uplink-wan";
           };

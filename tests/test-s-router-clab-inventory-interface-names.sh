@@ -3,36 +3,44 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-examples=(
+inventories=(
   "${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-clab.nix"
+  "${repo_root}/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix"
   "${repo_root}/examples/s-router-public-overlay-service/inventory-clab.nix"
+  "${repo_root}/examples/s-router-public-overlay-service/inventory-nixos.nix"
+  "${repo_root}/examples/tri-site-s-router-overlay-egress/inventory.nix"
+  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory.nix"
 )
 
 status=0
-for inventory in "${examples[@]}"; do
+for inventory in "${inventories[@]}"; do
   if rg -n 'interface = \{[[:space:]]*name = "ens[0-9]+"' "${inventory}" >/dev/null; then
-    printf 'FATAL %s still contains NixOS-style ens* interface realization names.\n' "${inventory#"${repo_root}/"}" >&2
+    printf 'FATAL %s still contains stale ens* interface realization names.\n' "${inventory#"${repo_root}/"}" >&2
     status=1
   fi
   if rg -n 'name = "ens[0-9]+"' "${inventory}" >/dev/null; then
-    printf 'FATAL %s still contains stale ens* names in CLAB inventory.\n' "${inventory#"${repo_root}/"}" >&2
+    printf 'FATAL %s still contains stale ens* runtime names.\n' "${inventory#"${repo_root}/"}" >&2
     status=1
   fi
   invalid_names="$(
-    python3 - "${inventory}" <<'PY'
-import pathlib
-import re
-import sys
-
-text = pathlib.Path(sys.argv[1]).read_text()
-pattern = re.compile(r'interface\s*=\s*\{\s*name\s*=\s*"([^"]+)"', re.S)
-for name in sorted(set(pattern.findall(text))):
-    if len(name) > 15 or re.match(r"^[A-Za-z0-9_.-]{1,15}$", name) is None:
-        print(name)
-PY
+    nix eval --impure --json --expr "import ${inventory}" \
+      | jq -r '
+          paths(scalars) as $p
+          | getpath($p) as $value
+          | select($value | type == "string")
+          | select(
+              (($p | length) >= 2 and $p[-2] == "interface" and $p[-1] == "name")
+              or (($p | index("advertisements")) != null and $p[-1] == "interface")
+            )
+          | select(
+              (($value | length) > 15)
+              or (($value | test("^[A-Za-z0-9_.-]{1,15}$")) | not)
+            )
+          | "\($p | join("."))=\($value)"
+        '
   )"
   if [[ -n "${invalid_names}" ]]; then
-    printf 'FATAL %s contains CLAB interface names that are not valid Linux target names:\n%s\n' \
+    printf 'FATAL %s contains Linux runtime interface names that are not valid target names:\n%s\n' \
       "${inventory#"${repo_root}/"}" "${invalid_names}" >&2
     status=1
   fi
