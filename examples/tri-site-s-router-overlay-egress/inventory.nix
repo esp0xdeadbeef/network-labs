@@ -35,7 +35,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "tenant-${tenant}";
+            name = clabAccessIfName tenant;
           };
           logicalInterface = "tenant-${tenant}";
         };
@@ -75,6 +75,13 @@ let
   );
 
   clabAccessTenantNames = builtins.attrNames clabAccessTenants;
+  clabRuntimeTenantName = tenant: if tenant == "streaming" then "stream" else tenant;
+  clabAccessIfName = tenant: "tenant-${clabRuntimeTenantName tenant}";
+  clabDownstreamAccessIfName = tenant: "access-${clabRuntimeTenantName tenant}";
+  clabDownstreamPolicyIfName = tenant: "policy-${clabRuntimeTenantName tenant}";
+  clabPolicyDownstreamIfName = tenant: "down-${clabRuntimeTenantName tenant}";
+  clabPolicyWanIfName = tenant: "up-${clabRuntimeTenantName tenant}";
+  clabUpstreamWanIfName = tenant: "pol-${clabRuntimeTenantName tenant}";
   clabWanTenants = [ "admin" "client" "dmz" "streaming" ];
   clabEastWestTenants = [ "hostile" ];
 
@@ -89,7 +96,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "access-${tenant}";
+            name = clabDownstreamAccessIfName tenant;
           };
           link = "p2p-lab-example-router-access-${tenant}-lab-example-router-downstream";
         };
@@ -108,7 +115,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "policy-${tenant}";
+            name = clabDownstreamPolicyIfName tenant;
           };
           link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
         };
@@ -127,7 +134,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "downstream-${tenant}";
+            name = clabPolicyDownstreamIfName tenant;
           };
           link = "p2p-lab-example-router-downstream-lab-example-router-policy--access-lab-example-router-access-${tenant}";
         };
@@ -146,7 +153,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "upstream-${tenant}";
+            name = clabPolicyWanIfName tenant;
           };
           link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
         };
@@ -184,7 +191,7 @@ let
             kind = "bridge";
           };
           interface = {
-            name = "policy-${tenant}";
+            name = clabUpstreamWanIfName tenant;
           };
           link = "p2p-lab-example-router-policy-lab-example-router-upstream--access-lab-example-router-access-${tenant}--uplink-wan";
         };
@@ -1285,7 +1292,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "tenant-streaming";
+              name = "tenant-stream";
             };
             logicalInterface = "tenant-streaming";
           };
@@ -1567,7 +1574,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-admin";
+              name = "down-admin";
             };
             link = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-admin";
           };
@@ -1578,7 +1585,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-client";
           };
@@ -1600,7 +1607,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-hostile";
+              name = "down-hostile";
             };
             link = "p2p-home-example-router-downstream-home-example-router-policy--access-home-example-router-access-hostile";
           };
@@ -2191,7 +2198,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "downstream-client";
+              name = "down-client";
             };
             link = "p2p-edge-example-router-downstream-edge-example-router-policy--access-edge-example-router-access-client";
           };
@@ -2279,7 +2286,7 @@ in
               kind = "bridge";
             };
             interface = {
-              name = "policy-client-wan";
+              name = "pol-client-wan";
             };
             link = "p2p-edge-example-router-policy-edge-example-router-upstream--access-edge-example-router-access-client--uplink-wan";
           };
