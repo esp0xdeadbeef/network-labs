@@ -42,6 +42,10 @@ links, container interfaces, host attachments, endpoint bindings, and SOPS-backe
 credentials or runtime values. That is not duplication: intent declares meaning,
 while inventory declares how the derived links are realized.
 
+For the same pinned intent, inventory, and runtime fact inputs, lab model output
+must be deterministic. Any nondeterministic runtime value must enter through an
+explicit inventory/SOPS/runtime source and remain visible as provenance.
+
 WAN inventory must not decide whether a router performs NAT or public egress.
 If a router only has host IPv4 reachability, the need to NAT is forwarding
 intent and belongs in the model pipeline. Inventory may provide the concrete WAN

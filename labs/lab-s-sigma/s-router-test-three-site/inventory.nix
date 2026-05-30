@@ -272,6 +272,15 @@ in
                 role = "core-client";
               };
               provider = "nebula";
+              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # resolver facts are realization data only. They must stay
+              # separate from customer, tenant, hostile, and Unbound DNS.
+              providerBootstrapDns = {
+                forwarders = [
+                  "192.0.2.53"
+                  "2001:db8::53"
+                ];
+              };
               underlayEndpointSourceFiles = {
                 ipv4 = [
                   "/run/secrets/hetzner-lighthouse-public-ipv4"
@@ -340,6 +349,15 @@ in
                 role = "core-client";
               };
               provider = "nebula";
+              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # resolver facts are realization data only. They must stay
+              # separate from customer, tenant, hostile, and Unbound DNS.
+              providerBootstrapDns = {
+                forwarders = [
+                  "192.0.2.53"
+                  "2001:db8::53"
+                ];
+              };
               underlayEndpointSourceFiles = {
                 ipv4 = [
                   "/run/secrets/hetzner-lighthouse-public-ipv4"
@@ -438,6 +456,15 @@ in
                 role = "core-client";
               };
               provider = "nebula";
+              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # resolver facts are realization data only. They must stay
+              # separate from customer, tenant, hostile, and Unbound DNS.
+              providerBootstrapDns = {
+                forwarders = [
+                  "192.0.2.53"
+                  "2001:db8::53"
+                ];
+              };
               underlayEndpointSourceFiles = {
                 ipv4 = [
                   "/run/secrets/hetzner-lighthouse-public-ipv4"
@@ -1239,6 +1266,10 @@ in
             external = true;
             interface = {
               name = "isp-a";
+              # FAT-SRC-INVENTORY-MTU: proves `USR-MODEL-002-FS-001-006-007`
+              # and feeds `USR-MODEL-001-FS-001-020-005`; MTU is an explicit
+              # inventory realization fact, not renderer inference.
+              mtu = 1492;
             };
             uplink = "isp-a";
           };

@@ -49,6 +49,8 @@ Therefore the controlled FAT source must contain separate source scenarios for:
 | `FAT-SRC-INVENTORY-CONTROL-PLANE` | `inventory.nix` | Renderer control-plane facts, overlays, runtime nodes, provider bindings, and routing-service choices. |
 | `FAT-SRC-INVENTORY-DEPLOYMENT` | `inventory.nix` | Harness hosts, bridge networks, VLAN attachments, management boundaries, and runtime placement. |
 | `FAT-SRC-INVENTORY-ENDPOINTS` | `inventory.nix` | Endpoint/client placement and client validation contexts. |
+| `FAT-SRC-INVENTORY-MTU` | `inventory.nix` | Explicit MTU realization fact used to prove inventory MTU acceptance and renderer MTU projection without role/name inference. |
+| `FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS` | `inventory.nix` | Provider-bootstrap resolver facts for overlay startup; these facts are separate from customer, tenant, hostile, and Unbound resolver policy. |
 | `FAT-SRC-INVENTORY-REALIZATION` | `inventory.nix` | Concrete nodes, ports, services, secrets, DHCP/RA, DNS service placement, and provider runtime facts. |
 
 ## GAMP Requirement Link
