@@ -72,9 +72,9 @@ let
     && require "${site}: overlay must select client as explicit underlayAccess"
       ((overlay site).underlayAccess == { kind = "tenant"; name = "client"; });
 in
-  checkSite "nixos" "nixos-router-core-nebula" "nixos-router-access-client" false
+  checkSite "nixos" "nixos-router-core-nebula" "nixos-router-access-client" true
   && checkSite "hetz" "hetz-router-nebula-core" "hetz-router-access-client" true
-  && checkSite "clab" "clab-router-core-nebula" "clab-router-access-client" false
+  && checkSite "clab" "clab-router-core-nebula" "clab-router-access-client" true
 ' >/dev/null
 
 nix-instantiate --eval --strict --json --expr '
@@ -159,18 +159,18 @@ let
       (! nodeHasBadPortName accessNode && ! nodeHasBadLink accessNode)
     && require "${site}: Nebula core must be realized as a host-like client tenant attachment"
       (coreClientPortOk coreNode)
-    && require "${site}: Nebula core must not retain p2p underlay ports"
+    && require "${site}: Nebula core must not retain access-underlay p2p ports"
       (! nodeHasBadPortName coreNode && ! nodeHasBadLink coreNode)
-    && require "${site}: upstream selector must not retain Nebula-core underlay p2p ports"
+    && require "${site}: upstream selector must not retain access-underlay p2p ports"
       (! nodeHasBadPortName upstreamNode && ! nodeHasBadLink upstreamNode)
     && require "${site}: Nebula core payload link realization expectation mismatch"
       (payloadPortsMatchExpectation hostName coreNode upstreamNode upstreamPayloadPort expectedLink expectedBridge expectsPayloadLink)
     && require "${site}: host bridge inventory must not retain stale Nebula-core p2p bridges"
       (! anyName badBridge (bridgeNames hostName));
 in
-  checkSite "nixos" "s-router-test" "esp-nixos-router-access-client" "esp-nixos-router-core-nebula" "esp-nixos-router-upstream" "core-nebula" "p2p-nixos-router-core-nebula-nixos-router-upstream" "br-nixos-core-nebula-upstream" false
+  checkSite "nixos" "s-router-test" "esp-nixos-router-access-client" "esp-nixos-router-core-nebula" "esp-nixos-router-upstream" "core-nebula" "p2p-nixos-router-core-nebula-nixos-router-upstream" "br-nixos-core-nebula-upstream" true
   && checkSite "hetz" "s-router-hetzner-anywhere" "esp-hetz-router-access-client" "esp-hetz-router-nebula-core" "esp-hetz-router-upstream" "nebula-core" "p2p-hetz-router-nebula-core-hetz-router-upstream" "br-hetz-nebula-core-upstream" true
-  && checkSite "clab" "s-router-clab" "esp-clab-router-access-client" "esp-clab-router-core-nebula" "esp-clab-router-upstream" "core-nebula" "p2p-clab-router-core-nebula-clab-router-upstream" "br-clab-core-nebula-upstream" false
+  && checkSite "clab" "s-router-clab" "esp-clab-router-access-client" "esp-clab-router-core-nebula" "esp-clab-router-upstream" "core-nebula" "p2p-clab-router-core-nebula-clab-router-upstream" "br-clab-core-nebula-upstream" true
 ' >/dev/null
 
 echo "PASS lab-sigma-nebula-underlay-access"
