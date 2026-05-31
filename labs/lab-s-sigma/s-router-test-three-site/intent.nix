@@ -1,4 +1,7 @@
 # FAT-SRC-INTENT-001: USR-VALID-002 / FS-FN-024. This is the controlled
+# FAT test is missing all the validation scemes for wireguard
+# Hetzener should emulate both, natted (ipv4 and ipv6) networks, portforwards etc, that you will get from airvpn, NAT66(128 address)
+# Hetzner should also emulate the wireguard overlay (coexisting from the nebula overlay) for /64 reachability and distrubution of slaac and static addresses reachable from WAN
 # s-router FAT intent source. Examples under network-labs/examples are
 # lower-layer fixtures only and are not FAT source evidence by themselves.
 {
@@ -565,10 +568,6 @@
           ]
           [
             "nixos-router-core-isp-b"
-            "nixos-router-upstream"
-          ]
-          [
-            "nixos-router-core-nebula"
             "nixos-router-upstream"
           ]
           [
@@ -1783,10 +1782,6 @@
         links = [
           [
             "clab-router-core-simulated-isp"
-            "clab-router-upstream"
-          ]
-          [
-            "clab-router-core-nebula"
             "clab-router-upstream"
           ]
           [
