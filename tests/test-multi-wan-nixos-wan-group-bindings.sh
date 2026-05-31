@@ -8,7 +8,7 @@ if [[ "${NETWORK_REPO_SWEEP:-0}" != "1" && "${NETWORK_REPO_DIRECT_TEST_OK:-0}" !
   exit 1
 fi
 
-nix eval --impure --expr '
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
   let
     repo = builtins.getEnv "REPO_ROOT";
     expectedMultiWan = {

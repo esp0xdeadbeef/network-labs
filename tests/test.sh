@@ -25,6 +25,7 @@ tests=(
   test-lab-sigma-dns-intent-to-cpm.sh
   test-lab-sigma-public-egress-intent.sh
   test-lab-sigma-hetzner-ipv6-wan-transit.sh
+  test-lab-sigma-wan-vlan-uplink-authority.sh
   test-hostile-exits-east-west-only.sh
   test-lab-sigma-nebula-public-endpoints.sh
   test-lab-sigma-nebula-underlay-access.sh
