@@ -5,7 +5,9 @@ This file indexes Software Module Testing evidence that is spread across the
 
 ## Scope
 
-These rows are examples-only SMT or SMT-to-SIT readiness evidence. They must not
+These rows are examples-only lower-layer evidence. They may support RaTM
+construction review, SMT module evidence, SIT readiness, or HAT host-substrate
+preparation when the row names the exact evidence surface. They must not
 reference disposable FAT lab paths under `labs/`, live runtime state, or the full
 lab rebuild loop. If a script mixes examples with FAT lab fixtures, split it or
 do not tag it here.

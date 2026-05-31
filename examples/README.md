@@ -33,9 +33,10 @@ These examples are meant to be consumed by:
 - `network-control-plane-model` (to build `output-control-plane-model.json`)
 - renderers (e.g. `network-renderer-nixos`, `network-renderer-containerlab-linux-backend`)
 
-Examples-only SMT traceability is indexed at `../tests/SMT.md`. Each `LAB-SMT-*`
-row identifies the exact repo-local test script that uses these examples as
-module evidence before FAT.
+Examples-only lower-layer traceability is indexed at `../tests/SMT.md`. Each
+`LAB-SMT-*` row identifies the exact repo-local test script that uses these
+examples as RaTM construction-review input, SMT module evidence, SIT-readiness
+input, or HAT host-substrate preparation input before FAT.
 
 ## Conventions used here
 
