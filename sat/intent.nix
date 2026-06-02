@@ -1,15 +1,12 @@
-# FAT-SRC-INTENT-001: USR-VALID-002 / FS-FN-024. This is the controlled
-# FAT test is missing all the validation scemes for wireguard
-# Hetzener should emulate both, natted (ipv4 and ipv6) networks, portforwards etc, that you will get from airvpn, NAT66(128 address)
-# Hetzner should also emulate the wireguard overlay (coexisting from the nebula overlay) for /64 reachability and distrubution of slaac and static addresses reachable from WAN
-# s-router FAT intent source. Examples under network-labs/examples are
-# lower-layer fixtures only and are not FAT source evidence by themselves.
+# SAT-SRC-INTENT-001: URS-190 / URS-190-FS-010. This is the controlled
+# s-router SAT intent source. Examples under network-labs/examples are
+# lower-layer fixtures only and are not SAT source evidence by themselves.
 {
   esp = {
-    # FAT-SRC-INTENT-NIXOS-SITE: s-router FAT behavior source for the NixOS
+    # SAT-SRC-INTENT-NIXOS-SITE: s-router SAT behavior source for the NixOS
     # site; intent owns behavior and inventory owns realization.
     nixos = {
-      # FAT-SRC-INTENT-NIXOS-COMMS: FAT behavior coverage for DNS policy,
+      # SAT-SRC-INTENT-NIXOS-COMMS: SAT behavior coverage for DNS policy,
       # public exposure, internet policy, hostile overlay egress, and leak
       # prevention for esp.nixos.
       communicationContract = {
@@ -461,7 +458,7 @@
           }
         ];
       };
-      # FAT-SRC-INTENT-NIXOS-OWNERSHIP: FAT behavior coverage for tenants,
+      # SAT-SRC-INTENT-NIXOS-OWNERSHIP: SAT behavior coverage for tenants,
       # services, endpoint ownership, routed prefixes, and client/public
       # address authority for esp.nixos.
       ownership = {
@@ -732,7 +729,7 @@
           };
         };
       };
-      # FAT-SRC-INTENT-NIXOS-TRANSPORT: FAT behavior coverage for overlay
+      # SAT-SRC-INTENT-NIXOS-TRANSPORT: SAT behavior coverage for overlay
       # membership, underlay access selection, and modeled hostile path
       # traversal for esp.nixos.
       transport = {
@@ -757,21 +754,25 @@
         ];
       };
     };
-    # FAT-SRC-INTENT-HETZ-SITE: s-router FAT behavior source for the hosted
+    # SAT-SRC-INTENT-HETZ-SITE: s-router SAT behavior source for the hosted
     # edge site; this site carries the provider/public-edge behavior.
     hetz = {
-      # FAT-SRC-INTENT-HETZ-COMMS: FAT behavior coverage for hosted DNS,
+      # SAT-SRC-INTENT-HETZ-COMMS: SAT behavior coverage for hosted DNS,
       # public ingress, east-west return paths, internet policy, and leak
       # prevention for esp.hetz.
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
           external-wan = "wan";
+          external-wireguard-128-egress = "wg-host128-egress";
+          external-wireguard-64-routed = "wg-routed64";
           service-clab-client-4445 = "clab-client-4445";
           service-dmz-nebula = "dmz-nebula";
           service-hetz-dns-dmz = "hetz-dns-dmz";
           service-hetz-client-4446 = "hetz-client-4446";
           service-nixos-hostile-4444 = "nixos-hostile-4444";
+          service-wireguard-host128 = "wireguard-host128";
+          service-wireguard-routed64 = "wireguard-routed64";
           tenant-client = "client";
           tenant-dmz = "dmz";
         };
@@ -839,6 +840,62 @@
               name = "wan";
             };
             trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            id = "allow-wan-to-wireguard-host128";
+            priority = 104;
+            to = {
+              kind = "service";
+              name = "wireguard-host128";
+            };
+            trafficType = "wireguard-host128";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            id = "allow-wan-to-wireguard-routed64";
+            priority = 105;
+            to = {
+              kind = "service";
+              name = "wireguard-routed64";
+            };
+            trafficType = "wireguard-routed64";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "wg-host128-egress";
+            };
+            id = "allow-wireguard-host128-provider-egress-to-wan";
+            priority = 106;
+            to = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "wg-routed64";
+            };
+            id = "allow-wireguard-routed64-public-ingress-to-hetz-client";
+            priority = 107;
+            to = {
+              kind = "service";
+              name = "hetz-client-4446";
+            };
+            trafficType = "tcp-udp-4446";
           }
           {
             action = "allow";
@@ -994,6 +1051,16 @@
             trafficType = "tcp-udp-4446";
           }
           {
+            name = "wireguard-host128";
+            providers = [ "hetz-router-core" ];
+            trafficType = "wireguard-host128";
+          }
+          {
+            name = "wireguard-routed64";
+            providers = [ "hetz-router-core" ];
+            trafficType = "wireguard-routed64";
+          }
+          {
             name = "hostile-public-dns";
             providers = [ "hetz-dns-dmz" ];
             trafficType = "dns";
@@ -1042,6 +1109,26 @@
           {
             match = [
               {
+                dports = [ 51820 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "wireguard-host128";
+          }
+          {
+            match = [
+              {
+                dports = [ 51821 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "wireguard-routed64";
+          }
+          {
+            match = [
+              {
                 dports = [ 4444 ];
                 family = "any";
                 proto = "tcp";
@@ -1086,7 +1173,7 @@
           }
         ];
       };
-      # FAT-SRC-INTENT-HETZ-OWNERSHIP: FAT behavior coverage for hosted edge
+      # SAT-SRC-INTENT-HETZ-OWNERSHIP: SAT behavior coverage for hosted edge
       # tenants, services, public-entry targets, routed prefixes, and provider
       # edge address authority for esp.hetz.
       ownership = {
@@ -1259,7 +1346,7 @@
           };
         };
       };
-      # FAT-SRC-INTENT-HETZ-TRANSPORT: FAT behavior coverage for hosted edge
+      # SAT-SRC-INTENT-HETZ-TRANSPORT: SAT behavior coverage for hosted edge
       # overlay membership, lighthouse placement, and east-west transport for
       # esp.hetz.
       transport = {
@@ -1278,13 +1365,40 @@
             };
             underlayTrafficTypes = [ "nebula" ];
           }
+          # SAT-SRC-INTENT-WIREGUARD-PROVIDER-SCENARIOS: Hetz carries the
+          # controlled WireGuard provider SAT behavior surfaces. Inventory
+          # realizes the profile files, interface names, NAT, prefix authority,
+          # public ingress, and route-return facts for each scenario. The /128
+          # and /64 providers are separate daemon surfaces.
+          {
+            mustTraverse = [ "policy" ];
+            name = "wg-host128-egress";
+            peerSites = [ ];
+            terminateOn = "hetz-router-core";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+            underlayTrafficTypes = [ "wireguard-host128" ];
+          }
+          {
+            mustTraverse = [ "policy" ];
+            name = "wg-routed64";
+            peerSites = [ ];
+            terminateOn = "hetz-router-core";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+            underlayTrafficTypes = [ "wireguard-routed64" ];
+          }
         ];
       };
     };
-    # FAT-SRC-INTENT-CLAB-SITE: s-router FAT behavior source for the
+    # SAT-SRC-INTENT-CLAB-SITE: s-router SAT behavior source for the
     # Containerlab mirror site and hostile client egress validation tenant.
     clab = {
-      # FAT-SRC-INTENT-CLAB-COMMS: FAT behavior coverage for CLAB DNS,
+      # SAT-SRC-INTENT-CLAB-COMMS: SAT behavior coverage for CLAB DNS,
       # hostile overlay egress, normal client public service exposure, internet
       # policy, and leak prevention for esp.clab.
       communicationContract = {
@@ -1667,7 +1781,7 @@
           }
         ];
       };
-      # FAT-SRC-INTENT-CLAB-OWNERSHIP: FAT behavior coverage for CLAB tenants,
+      # SAT-SRC-INTENT-CLAB-OWNERSHIP: SAT behavior coverage for CLAB tenants,
       # services, endpoint ownership, routed prefixes, and hostile/client
       # address authority for esp.clab.
       ownership = {
@@ -1935,7 +2049,7 @@
           };
         };
       };
-      # FAT-SRC-INTENT-CLAB-TRANSPORT: FAT behavior coverage for CLAB overlay
+      # SAT-SRC-INTENT-CLAB-TRANSPORT: SAT behavior coverage for CLAB overlay
       # membership, underlay access selection, and modeled hostile path
       # traversal for esp.clab.
       transport = {

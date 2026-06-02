@@ -15,7 +15,7 @@ authority, and communication relations.
 ## Unit
 
 Renderer inventories such as `inventory-nixos.nix`, `inventory-clab.nix`, and
-FAT lab `inventory.nix` bind site intent to concrete hosts, interfaces,
+SAT source `inventory.nix` bind site intent to concrete hosts, interfaces,
 bridges, VLANs, endpoints, secrets, and runtime fact sources.
 
 ## ControlModule
@@ -23,4 +23,3 @@ bridges, VLANs, endpoints, secrets, and runtime fact sources.
 The lab repository has no renderer ControlModules. Its tests validate source
 shape and model contracts before compiler, NFM, CPM, or renderer code consumes
 the sources.
-

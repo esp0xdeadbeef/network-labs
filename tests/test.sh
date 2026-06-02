@@ -38,7 +38,7 @@ tests=(
   test-tri-site-bgp-overlay-realization.sh
   test-modeling-contract-docs.sh
   test-smt-traceability-docs.sh
-  test-s-sigma-fat-source-contract-comments.sh
+  test-s-sigma-sat-source-contract-comments.sh
   test-lab-intent-derived-topology-contract.sh
   test-lab-inventory-derived-p2p-bindings-contract.sh
   test-inventory-no-synthetic-default-containers.sh

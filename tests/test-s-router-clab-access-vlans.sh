@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/labs/lab-s-sigma/s-router-test-three-site"
+lab_dir="${repo_root}/sat"
 
 common_vlan_checks='
   def vlan_bindings:

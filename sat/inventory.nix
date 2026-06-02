@@ -1,7 +1,93 @@
-# FAT-SRC-INVENTORY-001: USR-VALID-002 / FS-FN-024. This is the controlled
-# s-router FAT inventory source. It realizes the lab intent; examples under
+# SAT-SRC-INVENTORY-001: URS-190 / URS-190-FS-010. This is the controlled
+# s-router SAT inventory source. It realizes the lab intent; examples under
 # network-labs/examples are lower-layer fixtures only.
 let
+  intent = import ./intent.nix;
+  satSites = intent.esp;
+  uniqueStrings = list: builtins.attrNames (builtins.listToAttrs (map (value: { name = value; value = true; }) list));
+  stripCidr =
+    value:
+    let
+      matched = builtins.match "([^/]+)(/.*)?" value;
+    in
+      if matched == null then value else builtins.elemAt matched 0;
+  firstMatching =
+    name: pred: list:
+    let
+      matches = builtins.filter pred list;
+    in
+      if matches == [ ] then throw "missing ${name} in SAT provider model source" else builtins.head matches;
+  isIPv6 = value: builtins.match ".*:.*" value != null;
+  siteTenantPrefixes =
+    siteName: family:
+    let
+      prefixes = satSites.${siteName}.ownership.prefixes or [ ];
+    in
+      map (prefix: prefix.${family}) (builtins.filter (prefix: builtins.hasAttr family prefix) prefixes);
+  satProviderNatSourceCidrs = {
+    ipv4 = uniqueStrings (
+      siteTenantPrefixes "nixos" "ipv4"
+      ++ siteTenantPrefixes "clab" "ipv4"
+      ++ siteTenantPrefixes "hetz" "ipv4"
+    );
+    ipv6 = uniqueStrings (
+      siteTenantPrefixes "nixos" "ipv6"
+      ++ siteTenantPrefixes "clab" "ipv6"
+      ++ siteTenantPrefixes "hetz" "ipv6"
+    );
+  };
+  satEndpointAddresses = {
+    clab-client01 = {
+      ipv4 = [ "10.50.20.10" ];
+      ipv6 = [ "fd42:dead:feed:20::10" ];
+    };
+    clab-client02 = {
+      ipv4 = [ "10.50.20.11" ];
+      ipv6 = [ "fd42:dead:feed:20::11" ];
+    };
+    clab-site-dns = {
+      ipv4 = [ "10.50.10.1" ];
+      ipv6 = [ "fd42:dead:feed:10::1" ];
+    };
+    clab-streaming01 = {
+      ipv4 = [ "10.50.50.10" ];
+      ipv6 = [ "fd42:dead:feed:50::10" ];
+    };
+    hetz-router-lighthouse = {
+      ipv4 = [ "10.90.10.100" ];
+      ipv6 = [ "fd42:dead:cafe:10::100" ];
+    };
+    hostile-node01 = {
+      ipv4 = [ "10.70.10.10" ];
+      ipv6 = [ "fd42:dead:feed:70::10" ];
+    };
+    nixos-hostile01 = {
+      ipv4 = [ "10.20.70.10" ];
+      ipv6 = [ "fd42:dead:beef:70::10" ];
+    };
+    nebula01 = {
+      ipv4 = [ "10.20.30.10" ];
+      ipv6 = [ "fd42:dead:beef:30::10" ];
+    };
+    streaming01 = {
+      ipv4 = [ "10.20.50.10" ];
+      ipv6 = [ "fd42:dead:beef:50::10" ];
+    };
+    site-dns-mgmt = {
+      ipv4 = [ "10.20.10.1" ];
+      ipv6 = [ "fd42:dead:beef:10::1" ];
+    };
+    hetz-dns-dmz = {
+      ipv4 = [ "10.90.10.1" ];
+      ipv6 = [ "fd42:dead:cafe:10::1" ];
+    };
+    hetz-client01 = {
+      ipv4 = [ "10.90.20.10" ];
+      ipv6 = [ "fd42:dead:cafe:20::10" ];
+    };
+  };
+  endpointAddress = endpoint: family: builtins.head satEndpointAddresses.${endpoint}.${family};
+
   clabAccessTenants = {
     admin = { };
     client = { };
@@ -84,6 +170,201 @@ let
     "streaming"
   ];
   clabEastWestTenants = [ "hostile" ];
+
+  # SAT-SRC-INVENTORY-WIREGUARD-PROVIDER-CONTRACTS: controlled WireGuard
+  # provider contracts for host-only /128 egress, provider-owned /64 routing,
+  # and public-ingress/port-forward SAT source coverage.
+  wireguardProviderContracts = {
+    hostOnly128Egress = rec {
+      id = "sat-wg-host128-egress";
+      provider = {
+        class = "self-hosted";
+        mode = "egress-only";
+        prefixAuthority = "host-only-128";
+        publicEndpoint = {
+          address = "198.51.100.128";
+          port = 51820;
+          transport = "udp";
+        };
+      };
+      interfaces = {
+        wan = "wan";
+        lan = "wg128-lan";
+        vpn = "wg128";
+      };
+      profile = {
+        mode = "generated-peer";
+        generatedPeer = {
+          privateKeyFile = "/run/secrets/wireguard-sat-host128-private-key";
+          addresses = [
+            "10.66.128.2/32"
+            "2001:db8:128::2/128"
+          ];
+          dns = [ "10.66.128.1" ];
+          mtu = 1420;
+          peers = [
+            {
+              publicKey = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=";
+              endpoint = "198.51.100.128:51820";
+              allowedIPs = [
+                "0.0.0.0/0"
+                "::/0"
+              ];
+              presharedKeyFile = "/run/secrets/wireguard-sat-host128-psk";
+              persistentKeepalive = 25;
+            }
+          ];
+        };
+      };
+      dns.mode = "segmented-provider-bootstrap";
+      runtime = {
+        generatedConfigPath = "/run/network-renderer-wireguard/sat-wg-host128.conf";
+        uuidFile = "/run/network-renderer-wireguard/sat-wg-host128.uuid";
+      };
+      publicIngress = [ ];
+      portForwards = [ ];
+      lan = {
+        ipv4.address = "10.66.128.1/24";
+        ipv6.address = "fd42:dead:ff80:128::1/64";
+      };
+      nat = {
+        ipv4 = {
+          enable = true;
+          sourceCidrs = satProviderNatSourceCidrs.ipv4;
+          toAddress = provider.publicEndpoint.address;
+        };
+        ipv6 = {
+          enable = true;
+          sourceCidrs = satProviderNatSourceCidrs.ipv6;
+          toAddress = stripCidr (firstMatching "host-only /128 generated IPv6 address" isIPv6 profile.generatedPeer.addresses);
+        };
+      };
+      services = {
+        dhcp4 = {
+          enable = true;
+          subnet = "10.66.128.0/24";
+          pool = "10.66.128.100 - 10.66.128.200";
+          gateway = "10.66.128.1";
+          dns = [ "10.66.128.1" ];
+        };
+        ra = {
+          enable = true;
+          prefix = "fd42:dead:ff80:128::/64";
+          rdnss = [ "fd42:dead:ff80:128::1" ];
+        };
+        healthCheck.enable = true;
+      };
+    };
+
+    routed64 = rec {
+      id = "sat-wg-routed64";
+      provider = {
+        class = "self-hosted";
+        mode = "public-ingress";
+        prefixAuthority = "provider-owned-prefix";
+        publicEndpoint = {
+          address = "198.51.100.64";
+          port = 51821;
+          transport = "udp";
+        };
+      };
+      interfaces = {
+        wan = "wan";
+        lan = "wg64-lan";
+        vpn = "wg64";
+      };
+      profile = {
+        mode = "generated-peer";
+        generatedPeer = {
+          privateKeyFile = "/run/secrets/wireguard-sat-routed64-private-key";
+          addresses = [
+            "10.66.64.2/32"
+            "2001:db8:64::2/128"
+          ];
+          dns = [ "10.66.64.1" ];
+          mtu = 1420;
+          peers = [
+            {
+              publicKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=";
+              endpoint = "198.51.100.64:51821";
+              allowedIPs = [
+                "0.0.0.0/0"
+                "::/0"
+              ];
+              presharedKeyFile = "/run/secrets/wireguard-sat-routed64-psk";
+              persistentKeepalive = 25;
+            }
+          ];
+        };
+      };
+      dns.mode = "segmented-provider-bootstrap";
+      runtime = {
+        generatedConfigPath = "/run/network-renderer-wireguard/sat-wg-routed64.conf";
+        uuidFile = "/run/network-renderer-wireguard/sat-wg-routed64.uuid";
+      };
+      publicIngress = [
+        {
+          id = "sat-wg-public-tcp-8447";
+          protocol = "tcp";
+          listenPort = 8447;
+          ingressInterface = "wg64";
+          targetAddress = endpointAddress "hetz-client01" "ipv4";
+          targetPort = 4446;
+          targetInterface = "wg64-lan";
+        }
+      ];
+      portForwards = [
+        {
+          id = "sat-wg-public-udp-51821";
+          protocol = "udp";
+          listenPort = 51822;
+          ingressInterface = "wg64";
+          targetAddress = endpointAddress "hetz-client01" "ipv4";
+          targetPort = 4446;
+          targetInterface = "wg64-lan";
+        }
+      ];
+      lan = {
+        ipv4.address = "10.66.64.1/24";
+        ipv6.address = "fd42:dead:ff80:64::1/64";
+      };
+      routes = {
+        ipv6.providerOwnedPrefixes = [ "2001:db8:64:100::/64" ];
+        returnRoutes = [
+          {
+            destination = "2001:db8:64:100::/64";
+            gateway = "fd42:dead:ff80:64::2";
+            interface = "wg64-lan";
+          }
+        ];
+      };
+      nat = {
+        ipv4 = {
+          enable = true;
+          sourceCidrs = [ "10.66.64.0/24" ];
+        };
+        ipv6 = {
+          enable = false;
+          sourceCidrs = [ ];
+        };
+      };
+      services = {
+        dhcp4 = {
+          enable = true;
+          subnet = "10.66.64.0/24";
+          pool = "10.66.64.100 - 10.66.64.200";
+          gateway = "10.66.64.1";
+          dns = [ "10.66.64.1" ];
+        };
+        ra = {
+          enable = true;
+          prefix = "2001:db8:64:100::/64";
+          rdnss = [ "fd42:dead:ff80:64::1" ];
+        };
+        healthCheck.enable = true;
+      };
+    };
+  };
 
   clabDownstreamAccessPorts = builtins.listToAttrs (
     map (tenant: {
@@ -205,7 +486,7 @@ let
   );
 in
 {
-  # FAT-SRC-INVENTORY-CLAB-ROLES: FAT realization coverage for Containerlab
+  # SAT-SRC-INVENTORY-CLAB-ROLES: SAT realization coverage for Containerlab
   # role mapping used by the s-router CLAB mirror.
   containerlab = {
     roles = {
@@ -241,7 +522,7 @@ in
       };
     };
   };
-  # FAT-SRC-INVENTORY-CONTROL-PLANE: FAT realization coverage for renderer
+  # SAT-SRC-INVENTORY-CONTROL-PLANE: SAT realization coverage for renderer
   # control-plane facts, overlays, runtime nodes, provider bindings, and
   # target-specific routing-service choices.
   controlPlane = {
@@ -272,7 +553,7 @@ in
                 role = "core-client";
               };
               provider = "nebula";
-              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
               # resolver facts are realization data only. They must stay
               # separate from customer, tenant, hostile, and Unbound DNS.
               providerBootstrapDns = {
@@ -349,7 +630,7 @@ in
                 role = "core-client";
               };
               provider = "nebula";
-              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
               # resolver facts are realization data only. They must stay
               # separate from customer, tenant, hostile, and Unbound DNS.
               providerBootstrapDns = {
@@ -411,6 +692,44 @@ in
                 };
               };
             };
+            wg-host128-egress = {
+              nodes = {
+                hetz-router-core = {
+                  addr4 = "10.66.128.2/32";
+                  addr6 = "2001:db8:128::2/128";
+                };
+              };
+              provider = "wireguard";
+              providerBootstrapDns = {
+                forwarders = [
+                  "192.0.2.53"
+                  "2001:db8::53"
+                ];
+              };
+              wireguard = {
+                providerContract = wireguardProviderContracts.hostOnly128Egress;
+                role = "provider-server";
+              };
+            };
+            wg-routed64 = {
+              nodes = {
+                hetz-router-core = {
+                  addr4 = "10.66.64.2/32";
+                  addr6 = "2001:db8:64::2/128";
+                };
+              };
+              provider = "wireguard";
+              providerBootstrapDns = {
+                forwarders = [
+                  "192.0.2.53"
+                  "2001:db8::53"
+                ];
+              };
+              wireguard = {
+                providerContract = wireguardProviderContracts.routed64;
+                role = "provider-server";
+              };
+            };
           };
           routing = {
             bgp = {
@@ -456,7 +775,7 @@ in
                 role = "core-client";
               };
               provider = "nebula";
-              # FAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
+              # SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS: provider bootstrap
               # resolver facts are realization data only. They must stay
               # separate from customer, tenant, hostile, and Unbound DNS.
               providerBootstrapDns = {
@@ -537,7 +856,7 @@ in
       };
     };
   };
-  # FAT-SRC-INVENTORY-DEPLOYMENT: FAT realization coverage for harness hosts,
+  # SAT-SRC-INVENTORY-DEPLOYMENT: SAT realization coverage for harness hosts,
   # bridge networks, VLAN attachments, management boundaries, and runtime
   # placement.
   deployment = {
@@ -893,59 +1212,10 @@ in
       };
     };
   };
-  # FAT-SRC-INVENTORY-ENDPOINTS: FAT realization coverage for endpoint/client
+  # SAT-SRC-INVENTORY-ENDPOINTS: SAT realization coverage for endpoint/client
   # placement and client validation contexts.
-  endpoints = {
-    clab-client01 = {
-      ipv4 = [ "10.50.20.10" ];
-      ipv6 = [ "fd42:dead:feed:20::10" ];
-    };
-    clab-client02 = {
-      ipv4 = [ "10.50.20.11" ];
-      ipv6 = [ "fd42:dead:feed:20::11" ];
-    };
-    clab-site-dns = {
-      ipv4 = [ "10.50.10.1" ];
-      ipv6 = [ "fd42:dead:feed:10::1" ];
-    };
-    clab-streaming01 = {
-      ipv4 = [ "10.50.50.10" ];
-      ipv6 = [ "fd42:dead:feed:50::10" ];
-    };
-    hetz-router-lighthouse = {
-      ipv4 = [ "10.90.10.100" ];
-      ipv6 = [ "fd42:dead:cafe:10::100" ];
-    };
-    hostile-node01 = {
-      ipv4 = [ "10.70.10.10" ];
-      ipv6 = [ "fd42:dead:feed:70::10" ];
-    };
-    nixos-hostile01 = {
-      ipv4 = [ "10.20.70.10" ];
-      ipv6 = [ "fd42:dead:beef:70::10" ];
-    };
-    nebula01 = {
-      ipv4 = [ "10.20.30.10" ];
-      ipv6 = [ "fd42:dead:beef:30::10" ];
-    };
-    streaming01 = {
-      ipv4 = [ "10.20.50.10" ];
-      ipv6 = [ "fd42:dead:beef:50::10" ];
-    };
-    site-dns-mgmt = {
-      ipv4 = [ "10.20.10.1" ];
-      ipv6 = [ "fd42:dead:beef:10::1" ];
-    };
-    hetz-dns-dmz = {
-      ipv4 = [ "10.90.10.1" ];
-      ipv6 = [ "fd42:dead:cafe:10::1" ];
-    };
-    hetz-client01 = {
-      ipv4 = [ "10.90.20.10" ];
-      ipv6 = [ "fd42:dead:cafe:20::10" ];
-    };
-  };
-  # FAT-SRC-INVENTORY-REALIZATION: FAT realization coverage for concrete nodes,
+  endpoints = satEndpointAddresses;
+  # SAT-SRC-INVENTORY-REALIZATION: SAT realization coverage for concrete nodes,
   # ports, services, secrets, DHCP/RA, DNS service placement, and provider
   # runtime facts.
   realization = {
@@ -1005,6 +1275,35 @@ in
             tenant-client = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
+              # SAT-SRC-INVENTORY-STATIC-RESERVATION: controlled static
+              # client reservation source for DHCP and DHCPv6 reservation
+              # projection through CPM and renderers.
+              reservations = [
+                {
+                  name = "nixos-client-fixed-10";
+                  hostname = "nixos-client-fixed-10";
+                  mac = "02:10:20:00:00:10";
+                  namespaceOwner = "tenant-client";
+                  conflictBehavior = "fail-closed";
+                  ipv4.hostOffset = 10;
+                }
+              ];
+            };
+          };
+          dhcpv6 = {
+            tenant-client = {
+              dnsServers = [ "router-self" ];
+              domain = "lan.";
+              reservations = [
+                {
+                  name = "nixos-client-fixed-10";
+                  hostname = "nixos-client-fixed-10";
+                  mac = "02:10:20:00:00:10";
+                  namespaceOwner = "tenant-client";
+                  conflictBehavior = "fail-closed";
+                  ipv6.hostOffset = 16;
+                }
+              ];
             };
           };
           ipv6Ra = {
@@ -1266,9 +1565,9 @@ in
             external = true;
             interface = {
               name = "isp-a";
-              # FAT-SRC-INVENTORY-MTU: proves `USR-MODEL-002-FS-001-006-007`
-              # and feeds `USR-MODEL-001-FS-001-020-005`; MTU is an explicit
-              # inventory realization fact, not renderer inference.
+              # SAT-SRC-INVENTORY-MTU: records explicit MTU source
+              # provenance; MTU is an inventory realization fact, not
+              # renderer inference.
               mtu = 1492;
             };
             uplink = "isp-a";

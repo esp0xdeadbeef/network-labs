@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/labs/lab-s-sigma/s-router-test-three-site"
+lab_dir="${repo_root}/sat"
 
 status=0
 missing_paths=()
@@ -22,9 +22,8 @@ EOF
   printf '  - %s\n' "${missing_paths[@]}" >&2
   cat >&2 <<'EOF'
 
-This red failure may be removed only after network-labs owns the prod-like
-s-router-test-three-site lab as labs/lab-s-sigma/s-router-test-three-site and
-exposes explicit staging entrypoints for:
+This red failure may be removed only after network-labs owns the controlled SAT
+source under sat/ and exposes explicit staging entrypoints for:
 
   - getIntent or getCompilerInput: plain semantic compiler input
   - getInventory: plain non-secret realization facts

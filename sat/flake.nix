@@ -1,5 +1,5 @@
 {
-  description = "s-sigma s-router-test three-site lab staging inputs";
+  description = "controlled network SAT source inputs";
 
   outputs =
     { self }:

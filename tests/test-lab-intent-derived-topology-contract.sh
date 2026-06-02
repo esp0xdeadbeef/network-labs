@@ -12,7 +12,7 @@ fi
 hits_file="$(mktemp)"
 trap 'rm -f "${hits_file}"' EXIT
 
-find "${labs_dir}" -type f -name 'intent.nix' ! -path '*/lab-s-sigma/s-router-test-three-site/intent.nix' -print0 \
+find "${labs_dir}" -type f -name 'intent.nix' -print0 \
   | xargs -0 -r rg -n 'topology\.links|transit\.ordering|p2p-[A-Za-z0-9_-]+-[A-Za-z0-9_-]+' \
   >"${hits_file}" || true
 

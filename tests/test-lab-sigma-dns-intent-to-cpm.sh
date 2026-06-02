@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/labs/lab-s-sigma/s-router-test-three-site"
+lab_dir="${repo_root}/sat"
 cpm_flake="${CPM_FLAKE:-github:esp0xdeadbeef/network-control-plane-model}"
 
 tmp_dir="$(mktemp -d)"

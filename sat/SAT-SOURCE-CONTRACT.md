@@ -1,0 +1,99 @@
+# SAT Source Contract
+
+This directory is the controlled SAT source for the current GAMP network
+baseline:
+
+`network-labs/sat`
+
+Examples under `network-labs/examples` are lower-layer fixtures for RaTM, SMT,
+SIT, and HAT proof. They are not SAT source evidence by themselves.
+
+This document is not SAT evidence. It is source provenance only. A SAT row is
+not proven until locked controlled execution consumes this source and live
+evidence passes from the owning harness contexts.
+
+## Why Provider And Upstream Scenarios Are Mandatory
+
+The acceptance claim is "model once, realize anywhere." A Nebula-only
+controlled source proves only one provider-rendered path. It does not prove
+that the same model contracts can also drive a WireGuard provider renderer, and
+it does not prove the different WireGuard provider modes that change address
+authority, NAT/NAT66, public ingress, DNS leak prevention, and return routing.
+
+Therefore the controlled SAT source must contain separate source scenarios for:
+
+| Scenario ID | Required source scenario | Current source state |
+| --- | --- | --- |
+| `SAT-SCEN-PROVIDER-NEBULA-001` | Nebula provider-rendered path with explicit runtime facts and overlay policy. | Source provenance present; SAT live proof not provided by this document. |
+| `SAT-SCEN-PROVIDER-WG-128-EGRESS-001` | WireGuard provider host-only `/128` egress/NAT with explicit NAT44/NAT66/SNAT, DNS policy, firewall, and no downstream GUA. | `SAT-SRC-GAP-WIREGUARD-128-001`: source gap; SAT blocked. |
+| `SAT-SCEN-PROVIDER-WG-64-ROUTED-001` | WireGuard routed or provider-owned `/64` with explicit prefix authority, return path, no router client GUA, and no NAT66 for routed GUA. | `SAT-SRC-GAP-WIREGUARD-64-001`: source gap; SAT blocked. |
+| `SAT-SCEN-PROVIDER-WG-PORTFWD-001` | WireGuard public-ingress or port-forward with explicit listen address, protocol, listen port, target node, target address, target port, route leg, forward rule, return rule, and NAT/NAPT behavior. | `SAT-SRC-GAP-WIREGUARD-PUBLIC-001`: source gap; SAT blocked. |
+| `SAT-SCEN-EMULATED-ISP-NIXOS-001` | NixOS fake-provider or PPPoE-like upstream-emulation source scenario for `s-router-test`; local substrate uses VLAN `4` as fake-provider upstream/WAN side and VLAN `11` as provider-to-core handoff. | `SAT-SRC-GAP-PPPOE-NIXOS-001`: source gap; SAT blocked. |
+| `SAT-SCEN-EMULATED-ISP-CLAB-001` | CLAB/Linux fake-provider or PPPoE-like upstream-emulation source scenario equivalent to the NixOS scenario; local substrate uses VLAN `4` as fake-provider upstream/WAN side and VLAN `11` as provider-to-core handoff. | `SAT-SRC-GAP-PPPOE-CLAB-001`: source gap; SAT blocked. |
+
+## Source Authority
+
+| Source marker | File | SAT source meaning |
+| --- | --- | --- |
+| `SAT-SRC-INTENT-001` | `intent.nix` | Declares this lab intent as the controlled s-router SAT behavior source. |
+| `SAT-SRC-INTENT-NIXOS-COMMS` | `intent.nix` | NixOS site DNS, public exposure, internet policy, hostile overlay egress, and leak prevention behavior. |
+| `SAT-SRC-INTENT-NIXOS-OWNERSHIP` | `intent.nix` | NixOS site tenants, services, endpoint ownership, routed prefixes, and address authority. |
+| `SAT-SRC-INTENT-NIXOS-TRANSPORT` | `intent.nix` | NixOS site overlay membership, underlay access, and hostile path traversal. |
+| `SAT-SRC-INTENT-HETZ-COMMS` | `intent.nix` | Hetzner hosted edge DNS, public ingress, east-west return paths, internet policy, and leak prevention behavior. |
+| `SAT-SRC-INTENT-HETZ-OWNERSHIP` | `intent.nix` | Hetzner hosted edge tenants, services, public-entry targets, routed prefixes, and provider edge address authority. |
+| `SAT-SRC-INTENT-HETZ-TRANSPORT` | `intent.nix` | Hetzner hosted edge overlay membership, lighthouse placement, and east-west transport behavior. |
+| `SAT-SRC-INTENT-CLAB-COMMS` | `intent.nix` | CLAB site DNS, hostile overlay egress, normal client public service exposure, internet policy, and leak prevention behavior. |
+| `SAT-SRC-INTENT-CLAB-OWNERSHIP` | `intent.nix` | CLAB site tenants, services, endpoint ownership, routed prefixes, and hostile/client address authority. |
+| `SAT-SRC-INTENT-CLAB-TRANSPORT` | `intent.nix` | CLAB site overlay membership, underlay access, and hostile path traversal. |
+| `SAT-SRC-INVENTORY-001` | `inventory.nix` | Declares this lab inventory as the controlled s-router SAT realization source. |
+| `SAT-SRC-INVENTORY-CLAB-ROLES` | `inventory.nix` | Containerlab role mapping for the s-router CLAB mirror. |
+| `SAT-SRC-INVENTORY-CONTROL-PLANE` | `inventory.nix` | Renderer control-plane facts, overlays, runtime nodes, provider bindings, and routing-service choices. |
+| `SAT-SRC-INVENTORY-DEPLOYMENT` | `inventory.nix` | Harness hosts, bridge networks, VLAN attachments, management boundaries, and runtime placement. |
+| `SAT-SRC-INVENTORY-ENDPOINTS` | `inventory.nix` | Endpoint/client placement and client validation contexts. |
+| `SAT-SRC-INVENTORY-MTU` | `inventory.nix` | Explicit MTU realization fact used to prove inventory MTU acceptance and renderer MTU projection without role/name inference. |
+| `SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS` | `inventory.nix` | Provider-bootstrap resolver facts for overlay startup; these facts are separate from customer, tenant, hostile, and Unbound resolver policy. |
+| `SAT-SRC-INVENTORY-STATIC-RESERVATION` | `inventory.nix` | Static DHCP and DHCPv6 client reservation facts for a controlled NixOS client access scope, including client identity, MAC address, host offsets, namespace owner, and fail-closed conflict behavior. |
+| `SAT-SRC-INVENTORY-REALIZATION` | `inventory.nix` | Concrete nodes, ports, services, secrets, DHCP/RA, DNS service placement, and provider runtime facts. |
+
+## GAMP Requirement Link
+
+- `URS-170`: Controlled tests prove production-relevant behavior.
+- `URS-170-FS-010`: SAT evidence without test shortcuts.
+- `URS-170-FS-020`: SAT evidence bound to the current network baseline.
+- `URS-180`: Evidence uses the correct context.
+- `URS-180-FS-010`: Correct evidence context.
+- `URS-190`: Examples and SAT sources are separate.
+- `URS-190-FS-010`: Examples and SAT source separation.
+
+## URS SAT Obligation Matrix
+
+Every URS row must be proven by live SAT evidence for this controlled source.
+No partial source marker, examples sweep, or parser check promotes a SAT row.
+
+| URS ID | SAT proof obligation |
+| --- | --- |
+| `URS-010` | Prove NixOS, CLAB/Linux, Nebula, WireGuard `/128`, WireGuard `/64`, and WireGuard public-ingress source scenarios realize the same model where supported. Current WireGuard source gaps block this row. |
+| `URS-020` | Prove intent carries behavior, inventory/runtime facts carry realization, and no runtime or renderer glue changes network semantics. |
+| `URS-030` | Prove deterministic scoped outputs and provenance from the locked source set. |
+| `URS-040` | Prove missing required behavior, realization, provider, or runtime facts fail at the owning layer before renderer/runtime guessing. |
+| `URS-050` | Prove least-privilege policy ownership, explicit allow/deny behavior, and no renderer/runtime policy invention. |
+| `URS-060` | Prove deterministic client identity and address recalculation from modeled identity and prefix facts. |
+| `URS-070` | Prove IPv4 no-internet, private NAT, routed public IPv4, host-only upstream, and DNS leak-policy behavior from controlled endpoints. |
+| `URS-080` | Prove IPv6 no-internet, ULA+NAT66, routed client GUA, hostile routed GUA over overlay, no raw ULA to WAN, and no NAT66 for routed GUA. |
+| `URS-090` | Prove modeled client address reachability and separate host management reachability from the correct client and management contexts. |
+| `URS-100` | Prove prefix availability, non-delegating `/128`, WAN/test `/64`, routed prefix authority, deterministic child prefixes, and return routing. Current WireGuard `/64` and fake-provider source gaps block full proof. |
+| `URS-110` | Prove client/delegated GUA appears only on clients, not intermediate router hops. |
+| `URS-120` | Prove modeled resolver success, resolver loopback, resolver-service egress, and direct public-DNS denial separately. |
+| `URS-130` | Prove static, BGP, mixed, and scoped routing-style selections through artifacts and live services where applicable. |
+| `URS-140` | Prove hostile overlay egress, DNS service path, direct-DNS denial, route legs, return paths, and firewall counters from hostile contexts. |
+| `URS-150` | Prove controlled secret materialization, runtime secret scope/freshness, and cleanup behavior for overlay/provider/runtime consumers. |
+| `URS-160` | Prove selected persistence, operational records, or explicit ephemeral behavior for DHCP, DHCPv6, DNS, resolver, and related stateful services. |
+| `URS-170` | Prove production-relevant shapes including Nebula, WireGuard `/128`, WireGuard `/64`, WireGuard public ingress, NixOS fake-provider, and CLAB fake-provider; current source gaps block this row. |
+| `URS-180` | Prove each SAT acceptance row records exact source, command, context, artifact, and aggregate validator result. |
+| `URS-190` | Prove this controlled SAT source, not examples-only fixtures, is the source for the locked SAT execution. |
+
+## Validation Rule
+
+SAT evidence is valid only when locked controlled execution consumes this
+source and the live runtime evidence passes from the owning harnesses. Passing
+examples or examples-only compile sweeps cannot promote SAT rows.

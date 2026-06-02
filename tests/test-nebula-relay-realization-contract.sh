@@ -54,7 +54,7 @@ check_inventory \
   "examples/s-router-overlay-dns-lane-policy"
 
 check_inventory \
-  "import ${repo_root}/labs/lab-s-sigma/s-router-test-three-site/getInventory.nix { renderer = \"nixos\"; }" \
-  "labs/lab-s-sigma/s-router-test-three-site"
+  "import ${repo_root}/sat/getInventory.nix { renderer = \"nixos\"; }" \
+  "sat"
 
 echo "PASS nebula-relay-realization-contract"

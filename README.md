@@ -100,22 +100,23 @@ See `examples/README.md` for what each example is trying to demonstrate.
 Examples-only SMT traceability lives in `tests/SMT.md`. It maps stable
 `LAB-SMT-*` identifiers to the exact distributed repo tests that prove compiler,
 NFM, CPM, CLAB renderer, NixOS renderer, and Nebula renderer module contracts
-from `network-labs/examples`. It is not FAT evidence and must not reference
+from `network-labs/examples`. It is not SAT evidence and must not reference
 disposable lab paths or live lab loops.
 
-## Controlled FAT lab source
+## Controlled SAT Source
 
-The controlled s-router FAT source is:
+The controlled SAT source is:
 
-`labs/lab-s-sigma/s-router-test-three-site`
+`sat`
 
 Its `intent.nix`, inventory files, runtime fact joiners, and
-`FAT-SOURCE-CONTRACT.md` are the source provenance for disposable FAT lab
-acceptance. FAT still requires locked full-lab runtime evidence; passing
-examples or examples-only compile sweeps is lower-layer evidence only.
+`SAT-SOURCE-CONTRACT.md` are the source provenance for controlled SAT
+acceptance for the current GAMP network baseline. SAT still requires locked
+runtime evidence from the owning harness contexts; passing examples or
+examples-only compile sweeps is lower-layer evidence only.
 
-`FAT-SOURCE-CONTRACT.md` is not FAT evidence. It also names current source gaps
-that block complete FAT promotion, including missing controlled WireGuard
+`SAT-SOURCE-CONTRACT.md` is not SAT evidence. It also names current source gaps
+that block complete SAT promotion, including missing controlled WireGuard
 provider scenarios and missing NixOS/CLAB fake-provider or PPPoE-like source
 scenarios.
 

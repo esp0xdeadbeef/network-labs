@@ -63,8 +63,8 @@ check_inventory \
   "examples/s-router-overlay-dns-lane-policy/inventory-clab.nix"
 
 check_inventory \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site" \
-  "import ${repo_root}/labs/lab-s-sigma/s-router-test-three-site/getInventory.nix { renderer = \"nixos\"; }" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory.nix"
+  "${repo_root}/sat" \
+  "import ${repo_root}/sat/getInventory.nix { renderer = \"nixos\"; }" \
+  "sat/inventory.nix"
 
 echo "PASS nebula-runtime-node-intent-contract"
