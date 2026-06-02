@@ -148,12 +148,15 @@ nix eval --impure --raw --expr "
     inventory = import ${inventory};
     node = inventory.realization.nodes.esp-nixos-router-access-client;
     dhcp4 = builtins.head node.advertisements.dhcp4.tenant-client.reservations;
+    dhcp6Service = node.advertisements.dhcpv6.tenant-client;
     dhcp6 = builtins.head node.advertisements.dhcpv6.tenant-client.reservations;
   in
     if dhcp4.mac == \"02:10:20:00:00:10\"
       && dhcp4.namespaceOwner == \"tenant-client\"
       && dhcp4.conflictBehavior == \"fail-closed\"
       && dhcp4.ipv4.hostOffset == 10
+      && dhcp6Service.pool.start == \"fd42:dead:beef:20::100\"
+      && dhcp6Service.pool.end == \"fd42:dead:beef:20::1ff\"
       && dhcp6.mac == \"02:10:20:00:00:10\"
       && dhcp6.namespaceOwner == \"tenant-client\"
       && dhcp6.conflictBehavior == \"fail-closed\"
