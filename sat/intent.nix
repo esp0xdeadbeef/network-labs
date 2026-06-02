@@ -1257,6 +1257,44 @@
           ipv6 = "fd42:dead:cafe:1000::/118";
         };
       };
+      overlayAddressPools = {
+        east-west = {
+          ipv4 = {
+            offsetStart = 10;
+            perNodePrefixLength = 32;
+            prefix = "100.96.10.0/24";
+          };
+          ipv6 = {
+            offsetStart = 10;
+            perNodePrefixLength = 128;
+            prefix = "fd42:dead:beef:ee::/64";
+          };
+        };
+        wg-host128-egress = {
+          ipv4 = {
+            offsetStart = 2;
+            perNodePrefixLength = 32;
+            prefix = "10.66.128.0/24";
+          };
+          ipv6 = {
+            offsetStart = 2;
+            perNodePrefixLength = 128;
+            prefix = "2001:db8:128::/64";
+          };
+        };
+        wg-routed64 = {
+          ipv4 = {
+            offsetStart = 2;
+            perNodePrefixLength = 32;
+            prefix = "10.66.64.0/24";
+          };
+          ipv6 = {
+            offsetStart = 2;
+            perNodePrefixLength = 128;
+            prefix = "2001:db8:64::/64";
+          };
+        };
+      };
       topology = {
         hostNatIngress = {
           enabled = true;
