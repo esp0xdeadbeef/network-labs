@@ -35,13 +35,10 @@ Some examples also import files from other example directories:
 * `examples/dual-wan-branch-overlay-bgp/inventory-nixos.nix` imports `examples/dual-wan-branch-overlay/inventory-nixos.nix`
 * `examples/dual-wan-branch-overlay-bgp/intent.nix` imports `examples/dual-wan-branch-overlay/intent.nix`
 
-The `s-router-test-three-site` example has additional split payloads:
+The controlled SAT source is `sat/`, not an example. Do not treat it as an
+example-normalization target.
 
-* `examples/s-router-test-three-site/inventory-static.nix`
-* `examples/s-router-test-three-site/inventory-parts/`
-* `examples/s-router-test-three-site/profiles/`
-
-These files and imports are the known sources of non-self-contained example behavior.
+These example imports are the known sources of non-self-contained example behavior.
 
 ## Normalization rules
 

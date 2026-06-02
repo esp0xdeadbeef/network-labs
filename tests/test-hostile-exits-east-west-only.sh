@@ -127,8 +127,8 @@ check_intent \
   "examples/s-router-overlay-dns-lane-policy"
 
 check_intent \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/intent.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site"
+  "${repo_root}/sat/intent.nix" \
+  "sat"
 
 check_intent \
   "${repo_root}/examples/tri-site-s-router-overlay-egress/intent.nix" \
@@ -143,8 +143,8 @@ check_inventory \
   "examples/s-router-overlay-dns-lane-policy/inventory-clab"
 
 check_inventory \
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory.nix" \
-  "labs/lab-s-sigma/s-router-test-three-site/inventory"
+  "${repo_root}/sat/inventory.nix" \
+  "sat/inventory"
 
 check_inventory \
   "${repo_root}/examples/tri-site-s-router-overlay-egress/inventory.nix" \

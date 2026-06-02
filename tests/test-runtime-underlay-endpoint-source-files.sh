@@ -6,7 +6,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
   let
     inventory = import (builtins.getEnv "REPO_ROOT" + "/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix");
-    labInventory = import (builtins.getEnv "REPO_ROOT" + "/labs/lab-s-sigma/s-router-test-three-site/inventory-nixos.nix");
+    labInventory = import (builtins.getEnv "REPO_ROOT" + "/sat/inventory-nixos.nix");
 
     hasSourceFiles = siteKey: inv:
       let

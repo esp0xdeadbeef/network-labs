@@ -9,7 +9,7 @@ inventories=(
   "${repo_root}/examples/s-router-public-overlay-service/inventory-clab.nix"
   "${repo_root}/examples/s-router-public-overlay-service/inventory-nixos.nix"
   "${repo_root}/examples/tri-site-s-router-overlay-egress/inventory.nix"
-  "${repo_root}/labs/lab-s-sigma/s-router-test-three-site/inventory.nix"
+  "${repo_root}/sat/inventory.nix"
 )
 
 status=0
