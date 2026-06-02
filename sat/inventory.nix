@@ -694,7 +694,7 @@ in
             };
             wg-host128-egress = {
               nodes = {
-                hetz-router-core = {
+                hetz-router-nebula-core = {
                   addr4 = "10.66.128.2/32";
                   addr6 = "2001:db8:128::2/128";
                 };

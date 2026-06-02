@@ -29,6 +29,7 @@ tests=(
   test-hostile-exits-east-west-only.sh
   test-lab-sigma-nebula-public-endpoints.sh
   test-lab-sigma-nebula-underlay-access.sh
+  test-lab-sigma-wireguard-host128-core-split.sh
   test-overlay-underlay-service-reachability-examples.sh
   test-overlay-pools-live-in-intent.sh
   test-runtime-routed-prefixes-live-in-intent.sh

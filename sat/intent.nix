@@ -875,8 +875,22 @@
               kind = "external";
               name = "wg-host128-egress";
             };
-            id = "allow-wireguard-host128-provider-egress-to-wan";
+            id = "allow-wireguard-host128-provider-control-to-wan";
             priority = 106;
+            to = {
+              kind = "external";
+              uplinks = [ "wan" ];
+            };
+            trafficType = "wireguard-host128";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "wg-host128-egress";
+            };
+            id = "allow-wireguard-host128-provider-egress-to-wan";
+            priority = 107;
             to = {
               kind = "external";
               uplinks = [ "wan" ];
@@ -890,7 +904,7 @@
               name = "wg-routed64";
             };
             id = "allow-wireguard-routed64-public-ingress-to-hetz-client";
-            priority = 107;
+            priority = 108;
             to = {
               kind = "service";
               name = "hetz-client-4446";
@@ -1336,6 +1350,10 @@
                   "fd42:dead:feed:7000::/56"
                 ];
               };
+              wg-host128-egress = {
+                ipv4 = [ "10.66.128.2/32" ];
+                ipv6 = [ "2001:db8:128::2/128" ];
+              };
             };
           };
           hetz-router-policy = {
@@ -1374,7 +1392,7 @@
             mustTraverse = [ "policy" ];
             name = "wg-host128-egress";
             peerSites = [ ];
-            terminateOn = "hetz-router-core";
+            terminateOn = "hetz-router-nebula-core";
             underlayAccess = {
               kind = "tenant";
               name = "client";
