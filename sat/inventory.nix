@@ -1294,6 +1294,10 @@ in
             tenant-client = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
+              pool = {
+                start = "fd42:dead:beef:20::100";
+                end = "fd42:dead:beef:20::1ff";
+              };
               reservations = [
                 {
                   name = "nixos-client-fixed-10";
