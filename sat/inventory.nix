@@ -713,7 +713,7 @@ in
             };
             wg-routed64 = {
               nodes = {
-                hetz-router-core = {
+                hetz-router-nebula-core = {
                   addr4 = "10.66.64.2/32";
                   addr6 = "2001:db8:64::2/128";
                 };

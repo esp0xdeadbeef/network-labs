@@ -1354,6 +1354,10 @@
                 ipv4 = [ "10.66.128.2/32" ];
                 ipv6 = [ "2001:db8:128::2/128" ];
               };
+              wg-routed64 = {
+                ipv4 = [ "10.66.64.2/32" ];
+                ipv6 = [ "2001:db8:64::2/128" ];
+              };
             };
           };
           hetz-router-policy = {
@@ -1403,7 +1407,7 @@
             mustTraverse = [ "policy" ];
             name = "wg-routed64";
             peerSites = [ ];
-            terminateOn = "hetz-router-core";
+            terminateOn = "hetz-router-nebula-core";
             underlayAccess = {
               kind = "tenant";
               name = "client";
