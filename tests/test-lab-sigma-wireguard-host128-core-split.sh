@@ -18,17 +18,21 @@ let
   nodes128 = inventory.controlPlane.sites.esp.hetz.overlays.wg-host128-egress.nodes or {};
   nodes64 = inventory.controlPlane.sites.esp.hetz.overlays.wg-routed64.nodes or {};
   uplinks = intent.esp.hetz.topology.nodes.hetz-router-nebula-core.uplinks or {};
+  pools = intent.esp.hetz.overlayAddressPools or {};
 in
   if overlay128.terminateOn == \"hetz-router-nebula-core\"
     && overlay64.terminateOn == \"hetz-router-nebula-core\"
     && builtins.hasAttr \"wg-host128-egress\" uplinks
     && builtins.hasAttr \"wg-routed64\" uplinks
+    && pools.east-west.ipv4.prefix == \"100.96.10.0/24\"
+    && pools.wg-host128-egress.ipv4.prefix == \"10.66.128.0/24\"
+    && pools.wg-routed64.ipv4.prefix == \"10.66.64.0/24\"
     && builtins.hasAttr \"hetz-router-nebula-core\" nodes128
     && builtins.hasAttr \"hetz-router-nebula-core\" nodes64
     && !(builtins.hasAttr \"hetz-router-core\" nodes128)
     && !(builtins.hasAttr \"hetz-router-core\" nodes64)
   then true
-  else throw \"WireGuard provider overlays must terminate on hetz-router-nebula-core and leave WAN egress on hetz-router-core\"
+  else throw \"WireGuard provider overlays must terminate on hetz-router-nebula-core with segmented overlay IPAM and leave WAN egress on hetz-router-core\"
 " >/dev/null
 
 if [[ -d "${compiler_repo}" ]]; then
