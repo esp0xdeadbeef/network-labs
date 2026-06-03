@@ -34,10 +34,27 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     relations = site.communicationContract.relations;
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.lab-host;
+    nixosClientHost = nixos.deployment.hosts.s-router-test-clients;
     clabDhcp = clabHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
     clabPppoe = clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
     nixosPppoe = nixosHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
+    requiredClientBridgeVlans = {
+      admin = 301;
+      branch = 305;
+      client = 302;
+      dmz = 304;
+      hostile = 306;
+      mgmt = 300;
+      streaming = 311;
+    };
+    clientBridgeOk =
+      name:
+      let bridge = nixosClientHost.bridgeNetworks.${name} or { };
+      in
+        (bridge.mode or null) == "vlan"
+        && (bridge.parent or null) == "eth0"
+        && (bridge.vlan or null) == requiredClientBridgeVlans.${name};
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
     require = cond: msg: if cond then true else throw msg;
   in
@@ -131,6 +148,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT NixOS inventory must preserve s-router-nixos management uplink"
     && require (nixos.deployment.hosts.s-router-test-clients.uplinks.management == nixosHost.uplinks.management)
       "HAT NixOS inventory must preserve s-router-test-clients management uplink"
+    && require (builtins.all clientBridgeOk (builtins.attrNames requiredClientBridgeVlans))
+      "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
     && require (!(clabHost.bridgeNetworks ? vlan2))
       "HAT CLAB fixture must not define vlan2 as a fixture bridge"
     && require (!(clabHost.uplinks.uplink-testnet-routed-isp ? mode))
