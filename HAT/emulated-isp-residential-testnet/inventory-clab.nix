@@ -1,8 +1,85 @@
+let
+  generatedRealization = import ./generated-realization-clab.nix;
+  tenantInterfaceFor =
+    logicalName:
+    let
+      matches = pattern: builtins.match pattern logicalName != null;
+    in
+    if matches ".*access-client" then "tenant-client"
+    else if matches ".*access-dmz" then "tenant-dmz"
+    else if matches ".*access-guest" then "tenant-guest"
+    else if matches ".*access-iot" then "tenant-iot"
+    else if matches ".*access-management" then "tenant-management"
+    else if matches ".*access-trusted" then "tenant-trusted"
+    else if matches ".*access-work" then "tenant-work"
+    else if matches ".*provider-handoff-access-a" then "tenant-provider-handoff-a"
+    else if matches ".*provider-handoff-access-b" then "tenant-provider-handoff-b"
+    else null;
+  defaultAdvertisementsFor =
+    tenantInterface:
+    let
+      disabled = {
+        enabled = false;
+      };
+      enabled = {
+        dhcp4.${tenantInterface} = {
+          dnsServers = [ "router-self" ];
+          domain = "lan.";
+        };
+        dhcpv6 = { };
+        ipv6Ra.${tenantInterface} = {
+          dnssl = [ "lan." ];
+          rdnss = [ "router-self" ];
+        };
+      };
+      disabledProvider = {
+        dhcp4.${tenantInterface} = disabled;
+        dhcpv6 = { };
+        ipv6Ra.${tenantInterface} = disabled;
+      };
+    in
+    if builtins.match "tenant-provider-handoff-.*" tenantInterface != null then disabledProvider else enabled;
+  generatedRuntimeNodes =
+    builtins.mapAttrs
+      (_name: node:
+        let
+          logicalName = node.logicalNode.name or "";
+          tenantInterface = tenantInterfaceFor logicalName;
+        in
+        if tenantInterface == null then node else node // { advertisements = defaultAdvertisementsFor tenantInterface; })
+      generatedRealization.nodes;
+  mergeRuntimeNodes =
+    explicitNodes:
+    generatedRuntimeNodes // builtins.mapAttrs
+      (name: explicit:
+        let
+          generated = generatedRuntimeNodes.${name} or { };
+          generatedLinks =
+            map
+              (portName: (generated.ports.${portName}.link or null))
+              (builtins.attrNames (generated.ports or { }));
+          explicitPorts =
+            builtins.listToAttrs (
+              builtins.filter
+                (entry: !(builtins.elem (entry.value.link or null) generatedLinks))
+                (map
+                  (portName: {
+                    name = portName;
+                    value = explicit.ports.${portName};
+                  })
+                  (builtins.attrNames (explicit.ports or { })))
+            );
+        in
+        generated // explicit // {
+          ports = (generated.ports or { }) // explicitPorts;
+        })
+      explicitNodes;
+in
 {
   deployment = {
     hosts = {
       s-router-clab = {
-        bridgeNetworks = {
+        bridgeNetworks = generatedRealization.bridgeNetworks // {
           br-c-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
@@ -113,6 +190,7 @@
               acceptRA = true;
               method = "slaac";
             };
+            parent = "eth0";
             upstream = "isp-a";
           };
           uplink-testnet-routed-isp = {
@@ -141,18 +219,66 @@
             parent = "hat-host-isp";
             upstream = "testnet-host-isp";
           };
+          commercial-vpn = {
+            bridge = "br-clab-uplink-commercial-vpn";
+            ipv4.method = "none";
+            ipv6.method = "none";
+            parent = "hat-commercial-vpn";
+            upstream = "commercial-vpn";
+          };
+          nebula-egress = {
+            bridge = "br-clab-uplink-nebula-egress";
+            ipv4.method = "none";
+            ipv6.method = "none";
+            parent = "hat-nebula-egress";
+            upstream = "nebula-egress";
+          };
+          route-import = {
+            bridge = "br-clab-uplink-route-import";
+            ipv4.method = "none";
+            ipv6.method = "none";
+            parent = "hat-route-import";
+            upstream = "route-import";
+          };
+          wireguard-egress = {
+            bridge = "br-clab-uplink-wireguard-egress";
+            ipv4.method = "none";
+            ipv6.method = "none";
+            parent = "hat-wireguard-egress";
+            upstream = "wireguard-egress";
+          };
+          wireguard-host128 = {
+            bridge = "br-clab-uplink-wireguard-host128";
+            ipv4.method = "none";
+            ipv6 = {
+              address = "2001:db8:128::2/128";
+              method = "static";
+            };
+            parent = "hat-wireguard-host128";
+            upstream = "wireguard-host128";
+          };
         };
         wanGroupToUplink = {
           "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "uplink-isp-a";
           "esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
           "esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" = "uplink-testnet-host-isp";
+          "esp0xdeadbeef::site-a::nixos-core-commercial-vpn" = "commercial-vpn";
+          "esp0xdeadbeef::site-a::nixos-core-nebula" = "nebula-egress";
+          "esp0xdeadbeef::site-a::nixos-core-route-import" = "route-import";
+          "esp0xdeadbeef::site-a::nixos-core-wireguard-remote-egress" = "wireguard-egress";
+          "esp0xdeadbeef::site-a::nixos-core-wireguard-host128" = "wireguard-host128";
+          "esp0xdeadbeef::site-b::clab-core-commercial-vpn" = "commercial-vpn";
+          "esp0xdeadbeef::site-b::clab-core-nebula" = "nebula-egress";
+          "esp0xdeadbeef::site-b::clab-core-route-import" = "route-import";
+          "esp0xdeadbeef::site-b::clab-core-wireguard-remote-egress" = "wireguard-egress";
+          "esp0xdeadbeef::site-b::clab-core-wireguard-host128" = "wireguard-host128";
         };
       };
     };
   };
 
   realization = {
-    nodes = {
+    nodes = mergeRuntimeNodes {
       esp0xdeadbeef-site-a-nixos-access-client = {
         advertisements = {
           dhcp4 = {
