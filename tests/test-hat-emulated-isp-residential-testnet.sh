@@ -39,6 +39,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabPppoe = clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
     nixosPppoe = nixosHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
+    endpointClients = nixosClientHost.hat.endpointClients or { };
     requiredClientBridgeVlans = {
       admin = 301;
       branch = 305;
@@ -55,6 +56,16 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (bridge.mode or null) == "vlan"
         && (bridge.parent or null) == "eth0"
         && (bridge.vlan or null) == requiredClientBridgeVlans.${name};
+    endpointAssignmentIs = name: assignment:
+      (endpointClients.${name}.assignment or null) == assignment;
+    endpointTenantIs = name: tenant:
+      (endpointClients.${name}.tenant or null) == tenant;
+    endpointAddressIs = name: family: address:
+      let endpoint = endpointClients.${name} or { };
+      in builtins.elem address (endpoint.${family} or [ ]);
+    clabEndpointRequired = name:
+      (endpointClients.${name}.required or false)
+      && (endpointClients.${name}.status or null) == "missing-live-evidence";
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
     require = cond: msg: if cond then true else throw msg;
   in
@@ -150,6 +161,40 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT NixOS inventory must preserve s-router-test-clients management uplink"
     && require (builtins.all clientBridgeOk (builtins.attrNames requiredClientBridgeVlans))
       "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
+    && require (endpointAssignmentIs "nixos-client01" "dhcp" && endpointAssignmentIs "nixos-client02" "dhcp")
+      "HAT endpoint inventory must identify DHCP-addressed client fixtures"
+    && require (endpointAssignmentIs "nixos-branch-node01" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify branch static-address client fixture"
+    && require (endpointAddressIs "nixos-branch-node01" "ipv4" "10.60.10.10/24")
+      "HAT endpoint inventory must carry branch static IPv4"
+    && require (endpointAddressIs "nixos-branch-node01" "ipv6" "fd42:dead:feed:10::10/64")
+      "HAT endpoint inventory must carry branch static IPv6"
+    && require (endpointAssignmentIs "nixos-streaming-test" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify streaming static-address client fixture"
+    && require (endpointAddressIs "nixos-streaming-test" "ipv4" "10.20.50.10/24")
+      "HAT endpoint inventory must carry streaming static IPv4"
+    && require (endpointAddressIs "nixos-streaming-test" "ipv6" "fd42:dead:beef:50::10/64")
+      "HAT endpoint inventory must carry streaming static IPv6"
+    && require (endpointAssignmentIs "nixos-emulated-sigma" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify nixos-emulated-sigma static-address client fixture"
+    && require (endpointAddressIs "nixos-emulated-sigma" "ipv4" "10.20.10.50/24")
+      "HAT endpoint inventory must carry nixos-emulated-sigma static IPv4"
+    && require (endpointAddressIs "nixos-emulated-sigma" "ipv6" "fd42:dead:beef:10::50/64")
+      "HAT endpoint inventory must carry nixos-emulated-sigma static IPv6"
+    && require (endpointAssignmentIs "clab-emulated-sigma" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify clab-emulated-sigma static-address client fixture"
+    && require (endpointAddressIs "clab-emulated-sigma" "ipv4" "10.50.10.50/24")
+      "HAT endpoint inventory must carry clab-emulated-sigma static IPv4"
+    && require (endpointAddressIs "clab-emulated-sigma" "ipv6" "fd42:dead:feed:10::50/64")
+      "HAT endpoint inventory must carry clab-emulated-sigma static IPv6"
+    && require (clabEndpointRequired "clab-emulated-sigma")
+      "HAT endpoint inventory must require clab-emulated-sigma evidence"
+    && require (endpointTenantIs "clab-client01" "client" && clabEndpointRequired "clab-client01")
+      "HAT endpoint inventory must require clab-client01 evidence"
+    && require (endpointTenantIs "clab-client02" "client" && clabEndpointRequired "clab-client02")
+      "HAT endpoint inventory must require clab-client02 evidence"
+    && require (endpointTenantIs "clab-streaming01" "streaming" && clabEndpointRequired "clab-streaming01")
+      "HAT endpoint inventory must require clab-streaming01 evidence"
     && require (!(clabHost.bridgeNetworks ? vlan2))
       "HAT CLAB fixture must not define vlan2 as a fixture bridge"
     && require (!(clabHost.uplinks.uplink-testnet-routed-isp ? mode))

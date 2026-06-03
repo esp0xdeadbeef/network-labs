@@ -188,6 +188,82 @@ in
             vlan = 311;
           };
         };
+        hat = {
+          endpointClients = {
+            nixos-admin-test = {
+              assignment = "dhcp";
+              tenant = "admin";
+            };
+            nixos-branch-node01 = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.60.10.1";
+              gateway6 = "fd42:dead:feed:10::1";
+              ipv4 = [ "10.60.10.10/24" ];
+              ipv6 = [ "fd42:dead:feed:10::10/64" ];
+              tenant = "branch";
+            };
+            nixos-client01 = {
+              assignment = "dhcp";
+              tenant = "client";
+            };
+            nixos-client02 = {
+              assignment = "dhcp";
+              tenant = "client";
+            };
+            nixos-hostile-node01 = {
+              assignment = "dhcp";
+              tenant = "hostile";
+            };
+            nixos-mgmt-test = {
+              assignment = "dhcp";
+              tenant = "mgmt";
+            };
+            nixos-streaming-test = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.50.1";
+              gateway6 = "fd42:dead:beef:50::1";
+              ipv4 = [ "10.20.50.10/24" ];
+              ipv6 = [ "fd42:dead:beef:50::10/64" ];
+              tenant = "streaming";
+            };
+            nixos-emulated-sigma = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.10.1";
+              gateway6 = "fd42:dead:beef:10::1";
+              ipv4 = [ "10.20.10.50/24" ];
+              ipv6 = [ "fd42:dead:beef:10::50/64" ];
+              tenant = "mgmt";
+            };
+            clab-client01 = {
+              assignment = "dhcp";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "client";
+            };
+            clab-client02 = {
+              assignment = "dhcp";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "client";
+            };
+            clab-streaming01 = {
+              assignment = "dhcp";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "streaming";
+            };
+            clab-emulated-sigma = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.50.10.1";
+              gateway6 = "fd42:dead:feed:10::1";
+              ipv4 = [ "10.50.10.50/24" ];
+              ipv6 = [ "fd42:dead:feed:10::50/64" ];
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "mgmt";
+            };
+          };
+        };
         uplinks.management = managementUplink;
       };
     };
