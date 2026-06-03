@@ -1,10 +1,29 @@
 # HAT: Residential Emulated ISP Testnet
 
-This HAT preparation fixture models residential ISP handoffs with documentation
-test ranges so CLAB and NixOS renderers can be checked without depending on a
-physical upstream VLAN or live provider.
+This HAT preparation fixture models the first residential provider-access test
+path with documentation test ranges. The first NixOS HAT path must prove:
 
-The shared intent has two emulated ISP shapes:
+```text
+core internet uplink on VLAN 4, with no clients on that network
+  -> upstream selector
+  -> policy
+  -> downstream selector
+  -> fake ISP PPP service on an access network
+  -> core emulated ISP
+  -> upstream selector
+  -> policy
+  -> downstream selector
+  -> client that uses the emulated ISP as upstream
+```
+
+The fake ISP service is not a special CPM topology feature. It is an access-side
+provider service using a selected distribution technology. This fixture uses
+PPPoE for endpoint-specific distribution, but the source contract is not limited
+to DHCP versus PPPoE; another explicit technology such as PPP or xVLAN must
+still be modeled as provider-access distribution, not as a renderer-local
+topology invention.
+
+The shared intent has two provider shapes:
 
 - `testnet-routed-isp`: DHCP-like provider path advertising IPv4
   `203.0.113.0/30` and delegated IPv6 `2001:db8:113::/48`.
@@ -23,5 +42,6 @@ VLAN 11/12 or a loopback PPPoE substitute.
 The CLAB inventory uses the real hardware deployment host `s-router-clab`, so
 the hardware deploy command can render the HAT topology from the locked
 `network-labs` input without NixOS-side local overrides. The NixOS inventory
-uses `lab-host` as its fixture selector and separately exposes management
-uplinks for `s-router-nixos` and `s-router-test-clients`.
+uses `lab-host` as its fixture selector, exposes VLAN 4 as the core internet
+uplink substrate, and separately exposes management uplinks for `s-router-nixos`
+and `s-router-test-clients`.

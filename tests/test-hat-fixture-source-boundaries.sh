@@ -21,6 +21,10 @@ for required in intent.nix inventory-clab.nix inventory-nixos.nix; do
   require_file "${hat_dir}/${required}"
 done
 
+if rg -in 'dhcp(v[46])?|pppoe|xvlan|upstreamEmulation|providerAccess' "${hat_dir}/intent.nix" >&2; then
+  fail "intent.nix must not carry HAT provider-access realization technology or side-channel fields"
+fi
+
 HAT_DIR="${hat_dir}" nix eval --impure --expr '
   let
     root = builtins.getEnv "HAT_DIR";
@@ -31,7 +35,25 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.lab-host;
     clientHost = nixos.deployment.hosts.s-router-test-clients;
+    endpointClients = clientHost.hat.endpointClients or { };
     require = cond: msg: if cond then true else throw msg;
+    stripTenantPrefix = name:
+      let matched = builtins.match "tenant-(.*)" name;
+      in if matched == null then name else builtins.head matched;
+    advertisedDhcpTenants = builtins.concatMap
+      (node:
+        map stripTenantPrefix
+          (builtins.attrNames ((node.advertisements or { }).dhcp4 or { })))
+      (builtins.attrValues (nixos.realization.nodes or { }));
+    dhcpEndpointTenants = map
+      (name: endpointClients.${name}.tenant or null)
+      (builtins.filter
+        (name: (endpointClients.${name}.assignment or null) == "dhcp")
+        (builtins.attrNames endpointClients));
+    allDhcpEndpointsAdvertised =
+      builtins.all
+        (tenant: tenant != null && builtins.elem tenant advertisedDhcpTenants)
+        dhcpEndpointTenants;
     hasRelation = id:
       builtins.any (relation: (relation.id or null) == id)
         site.communicationContract.relations;
@@ -63,6 +85,16 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "intent must not carry HAT endpoint fixture records"
     && require (!(hasInventoryOnlyToken "bridgeNetworks"))
       "intent must not carry host bridge realization records"
+    && require (!(hasInventoryOnlyToken "providerAccess"))
+      "intent must not carry HAT provider-access side-channel metadata"
+    && require (!(hasInventoryOnlyToken "upstreamEmulation"))
+      "intent must not carry legacy upstream emulation side-channel metadata"
+    && require (!(hasInventoryOnlyToken "dhcp"))
+      "intent must not carry DHCP realization technology"
+    && require (!(hasInventoryOnlyToken "pppoe"))
+      "intent must not carry PPPoE realization technology"
+    && require (!(hasInventoryOnlyToken "xvlan"))
+      "intent must not carry xVLAN realization technology"
     && require (!(hasInventoryOnlyToken "accessConcentrator"))
       "intent must not carry PPPoE access-concentrator implementation"
     && require (!(hasInventoryOnlyToken "usernameFile"))
@@ -83,12 +115,24 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "shared intent must bind receiver control service to modeled receiver provider"
     && require ((services.hat-receiver-discovery.providers or [ ]) == [ "nixos-receiver01" ])
       "shared intent must bind receiver discovery service to modeled receiver provider"
-    && require (clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet.harness == "s-router-clab")
+    && require (clabHost.hat.providerAccess.residentialPppoeHostTestnet.harness == "s-router-clab")
       "CLAB inventory must bind PPPoE HAT realization to s-router-clab"
-    && require (nixosHost.hat.upstreamEmulation.residentialPppoeHostTestnet.harness == "s-router-nixos")
+    && require (nixosHost.hat.providerAccess.residentialPppoeHostTestnet.harness == "s-router-nixos")
       "NixOS inventory must bind PPPoE HAT realization to s-router-nixos"
-    && require (clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet.l2Surface.name != nixosHost.hat.upstreamEmulation.residentialPppoeHostTestnet.l2Surface.name)
+    && require (clabHost.hat.providerAccess.residentialPppoeHostTestnet.l2Surface.name != nixosHost.hat.providerAccess.residentialPppoeHostTestnet.l2Surface.name)
       "CLAB and NixOS HAT inventories must use separate PPPoE handoff surfaces"
+    && require (clabHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.mode == "endpoint-specific")
+      "provider access may select endpoint-specific distribution independent of DHCP"
+    && require (nixosHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.endpoint == "nixos-core-testnet-host-isp")
+      "NixOS provider access must target the host-ISP core endpoint"
+    && require ((nixosHost.bridgeNetworks."br-site-a-downstream-client".mode or null) == "vlan")
+      "NixOS HAT router client bridge must bind to the physical client VLAN substrate"
+    && require ((nixosHost.bridgeNetworks."br-site-a-downstream-client".vlan or null) == 302)
+      "NixOS HAT router client bridge must share VLAN 302 with endpoint clients"
+    && require ((clientHost.bridgeNetworks.client.vlan or null) == 302)
+      "HAT endpoint client bridge must remain on VLAN 302"
+    && require allDhcpEndpointsAdvertised
+      "DHCP endpoint fixtures must target only tenants with explicit DHCP advertisements"
     && require (hasEndpointFixture "clab-client01" && hasEndpointFixture "nixos-client01")
       "endpoint fixtures must live in inventory HAT substrate, not shared intent"
     && require (hasEndpointFixture "nixos-printer01" && hasEndpointFixture "nixos-receiver01")
@@ -175,7 +219,7 @@ cmp -s "${tmp_dir}/nixos-model-surface.json" "${tmp_dir}/nixos-no-endpoints-mode
 cat > "${tmp_dir}/inventory-clab-missing-port.nix" <<EOF
 let
   base = import ${hat_dir}/inventory-clab.nix;
-  nodeName = "esp0xdeadbeef-site-a-s-router-core-testnet-host-isp";
+  nodeName = "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp";
   node = base.realization.nodes.\${nodeName};
 in
 base // {

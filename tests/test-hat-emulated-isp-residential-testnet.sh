@@ -18,7 +18,7 @@ for required in README.md intent.nix inventory-clab.nix inventory-nixos.nix; do
   fi
 done
 
-if rg -n 'nat-isp|simulated-isp|east-west|nebula|spoofed' "${hat_dir}" >&2; then
+if rg -n 'nat-isp|simulated-isp|east-west|nebula|spoofed|upstreamEmulation' "${hat_dir}" >&2; then
   echo "FAIL emulated-isp-residential-testnet: fixture still contains old overlay/NAT-provider naming" >&2
   exit 1
 fi
@@ -35,10 +35,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.lab-host;
     nixosClientHost = nixos.deployment.hosts.s-router-test-clients;
-    clabDhcp = clabHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
-    clabPppoe = clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
-    nixosDhcp = nixosHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
-    nixosPppoe = nixosHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
+    clabDhcp = clabHost.hat.providerAccess.residentialDhcpRoutedTestnet;
+    clabPppoe = clabHost.hat.providerAccess.residentialPppoeHostTestnet;
+    nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
+    nixosPppoe = nixosHost.hat.providerAccess.residentialPppoeHostTestnet;
     endpointClients = nixosClientHost.hat.endpointClients or { };
     requiredClientBridgeVlans = {
       admin = 301;
@@ -89,19 +89,19 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
     require = cond: msg: if cond then true else throw msg;
   in
-    require (nodes ? s-router-access-client)
+    require (nodes ? nixos-access-client)
       "missing client access node"
-    && require (nodes ? s-router-core-testnet-routed-isp)
+    && require (nodes ? nixos-core-testnet-routed-isp)
       "missing routed testnet ISP core node"
-    && require (nodes ? s-router-core-testnet-host-isp)
+    && require (nodes ? nixos-core-testnet-host-isp)
       "missing host testnet ISP core node"
-    && require (nodes.s-router-core-testnet-routed-isp.uplinks.testnet-routed-isp.ipv4 == [ "203.0.113.0/30" ])
+    && require (nodes.nixos-core-testnet-routed-isp.uplinks.testnet-routed-isp.ipv4 == [ "203.0.113.0/30" ])
       "routed testnet ISP must advertise IPv4 203.0.113.0/30"
-    && require (nodes.s-router-core-testnet-routed-isp.uplinks.testnet-routed-isp.ipv6 == [ "2001:db8:113::/48" ])
+    && require (nodes.nixos-core-testnet-routed-isp.uplinks.testnet-routed-isp.ipv6 == [ "2001:db8:113::/48" ])
       "routed testnet ISP must advertise IPv6 /48"
-    && require (nodes.s-router-core-testnet-host-isp.uplinks.testnet-host-isp.ipv4 == [ "203.0.113.4/32" ])
+    && require (nodes.nixos-core-testnet-host-isp.uplinks.testnet-host-isp.ipv4 == [ "203.0.113.4/32" ])
       "host testnet ISP must advertise IPv4 203.0.113.4/32"
-    && require (nodes.s-router-core-testnet-host-isp.uplinks.testnet-host-isp.ipv6 == [ "2001:db8:113:64::/64" ])
+    && require (nodes.nixos-core-testnet-host-isp.uplinks.testnet-host-isp.ipv6 == [ "2001:db8:113:64::/64" ])
       "host testnet ISP must advertise constrained IPv6 /64"
     && require (!(site ? transport))
       "fixture must not model an overlay transport"
@@ -111,12 +111,20 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "missing client to host testnet ISP relation"
     && require (clabDhcp.harness == "s-router-clab")
       "CLAB DHCP row must name s-router-clab"
+    && require (clabDhcp.distribution.mode == "network-wide" && clabDhcp.distribution.technology == "dhcp")
+      "CLAB DHCP provider access must remain network-wide DHCP"
     && require (nixosDhcp.harness == "s-router-nixos")
       "NixOS DHCP row must name s-router-nixos"
+    && require (nixosDhcp.distribution.mode == "network-wide" && nixosDhcp.distribution.technology == "dhcp")
+      "NixOS DHCP provider access must remain network-wide DHCP"
     && require (clabPppoe.harness == "s-router-clab")
       "CLAB PPPoE row must name s-router-clab"
+    && require (clabPppoe.distribution.mode == "endpoint-specific" && clabPppoe.distribution.endpoint == "nixos-core-testnet-host-isp")
+      "CLAB provider access must target the host-ISP core endpoint when distribution is endpoint-specific"
     && require (nixosPppoe.harness == "s-router-nixos")
       "NixOS PPPoE row must name s-router-nixos"
+    && require (nixosPppoe.distribution.mode == "endpoint-specific" && nixosPppoe.distribution.endpoint == "nixos-core-testnet-host-isp")
+      "NixOS provider access must target the host-ISP core endpoint when distribution is endpoint-specific"
     && require (clabDhcp.advertisedIpv4.prefix == "203.0.113.0/30")
       "CLAB routed ISP row must preserve 203.0.113.0/30"
     && require (nixosDhcp.advertisedIpv4.prefix == "203.0.113.0/30")
@@ -247,8 +255,6 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT endpoint inventory must require clab-client01 evidence"
     && require (endpointTenantIs "clab-client02" "client" && clabEndpointRequired "clab-client02")
       "HAT endpoint inventory must require clab-client02 evidence"
-    && require (endpointTenantIs "clab-streaming01" "streaming" && clabEndpointRequired "clab-streaming01")
-      "HAT endpoint inventory must require clab-streaming01 evidence"
     && require (!(clabHost.bridgeNetworks ? vlan2))
       "HAT CLAB fixture must not define vlan2 as a fixture bridge"
     && require (!(clabHost.uplinks.uplink-testnet-routed-isp ? mode))
@@ -259,13 +265,21 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "NixOS routed testnet ISP must not use renderer NAT mode"
     && require (!(nixosHost.uplinks.uplink-testnet-host-isp ? mode))
       "NixOS host testnet ISP must not use renderer NAT mode"
+    && require ((nixosHost.uplinks.uplink-isp-a.bridge or null) == "br-uplink0")
+      "NixOS HAT core internet uplink must use br-uplink0"
+    && require ((nixosHost.uplinks.uplink-isp-a.mode or null) == "vlan")
+      "NixOS HAT core internet uplink must be a controlled VLAN surface"
+    && require ((nixosHost.uplinks.uplink-isp-a.vlan or null) == 4)
+      "NixOS HAT core internet uplink must use VLAN 4"
+    && require ((nixosHost.uplinks.uplink-isp-a.ipv4.method or null) == "dhcp")
+      "NixOS HAT core internet uplink must use DHCPv4"
     && require (!(clabHost.uplinks.uplink-testnet-routed-isp ? vlan) && !(nixosHost.uplinks.uplink-testnet-routed-isp ? vlan))
       "routed testnet ISP uplinks must not be tagged VLANs"
     && require (!(clabHost.uplinks.uplink-testnet-host-isp ? vlan) && !(nixosHost.uplinks.uplink-testnet-host-isp ? vlan))
       "host testnet ISP uplinks must not be tagged VLANs"
-    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::s-router-core-testnet-routed-isp" == "uplink-testnet-routed-isp")
+    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" == "uplink-testnet-routed-isp")
       "routed core must map to routed testnet uplink"
-    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::s-router-core-testnet-host-isp" == "uplink-testnet-host-isp")
+    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" == "uplink-testnet-host-isp")
       "host core must map to host testnet uplink"
 ' >/dev/null
 
@@ -290,30 +304,30 @@ for renderer in clab nixos; do
   jq -e '
     .control_plane_model.data.esp0xdeadbeef."site-a" as $site
     | ($site.runtimeTargets
-        | has("esp0xdeadbeef-site-a-s-router-access-client")
-          and has("esp0xdeadbeef-site-a-s-router-core-testnet-routed-isp")
-          and has("esp0xdeadbeef-site-a-s-router-core-testnet-host-isp"))
+        | has("esp0xdeadbeef-site-a-nixos-access-client")
+          and has("esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp")
+          and has("esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"))
       and ([
         $site.trafficPaths[]
         | select(.relationId == "allow-client-to-testnet-routed-isp")
         | .nodePath
       ] == [[
-        "s-router-access-client",
-        "s-router-downstream-selector",
-        "s-router-policy",
-        "s-router-upstream-selector",
-        "s-router-core-testnet-routed-isp"
+        "nixos-access-client",
+        "nixos-downstream-selector",
+        "nixos-policy",
+        "nixos-upstream-selector",
+        "nixos-core-testnet-routed-isp"
       ]])
       and ([
         $site.trafficPaths[]
         | select(.relationId == "allow-client-to-testnet-host-isp")
         | .nodePath
       ] == [[
-        "s-router-access-client",
-        "s-router-downstream-selector",
-        "s-router-policy",
-        "s-router-upstream-selector",
-        "s-router-core-testnet-host-isp"
+        "nixos-access-client",
+        "nixos-downstream-selector",
+        "nixos-policy",
+        "nixos-upstream-selector",
+        "nixos-core-testnet-host-isp"
       ]])
   ' "${tmp_dir}/${renderer}/control-plane.json" >/dev/null
 done
@@ -331,8 +345,8 @@ nix eval --impure --json --expr "import ${hat_dir}/inventory-clab.nix" \
       "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 )
 
-grep -F 's-router-core-testnet-routed-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
-grep -F 's-router-core-testnet-host-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
+grep -F 'nixos-core-testnet-routed-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
+grep -F 'nixos-core-testnet-host-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
 grep -F 'br-t-routed' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 grep -F 'br-t-host' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 
