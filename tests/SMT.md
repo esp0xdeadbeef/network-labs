@@ -6,8 +6,8 @@ This file indexes Software Module Testing evidence that is spread across the
 ## Scope
 
 These rows are examples-only lower-layer evidence. They may support RaTM
-construction review, SMT module evidence, SIT readiness, or HAT host-substrate
-preparation when the row names the exact evidence surface. They must not
+construction review, SMT module evidence, or SIT readiness when the row names
+the exact evidence surface. They must not
 reference controlled SAT source paths under `sat/`, live runtime state, or the
 full lab rebuild loop. If a script mixes examples with SAT source fixtures,
 split it or do not tag it here.
@@ -69,7 +69,7 @@ Rows marked as gaps are not allowed to be hidden inside SAT.
 | URS AREA | EXAMPLES SMT COVERAGE | CURRENT NON-EXAMPLES MODULE COVERAGE | GAP / NEXT TEST |
 | --- | --- | --- | --- |
 | `/128` and VLAN4/VLAN5 WAN-only upstreams | `LAB-SMT-017` covers NixOS VLAN4/VLAN5 host-uplink rendering. | SAT/HAT runtime checks still own live `/128` and WAN `/64` behavior. | Add controlled HAT/fake-provider evidence for VLAN4/VLAN5 `/64` and `/128` upstream behavior before calling SAT eligible. |
-| PPPoE `/48` routed aggregate | No examples-only SMT row exists. | `network-control-plane-model/tests/test-passing-fixtures.sh` contains a `minimal-forwarding-model-pppoe` fixture; `network-codex-agent/GAMP/SMT/SMT-PPPOE-001.nix` defines a controlled fake-provider VM using VLAN `11` for fake PPPoE handoff, VLAN `4` for upstream egress, TEST-NET IPv4 such as `203.0.113.0/24`, and `2001:db8::/32`. | Add a `network-labs/examples` fixture or integrated module fixture for PPPoE-like `/48` routed aggregate behavior; prove explicit child `/64` routing, no intermediate router GUA, ULA NAT66 only where selected, and routed GUA no-NAT66. |
+| PPPoE `/48` routed aggregate | No examples-only SMT row exists. | `network-control-plane-model/tests/test-passing-fixtures.sh` contains a `minimal-forwarding-model-pppoe` fixture; `network-codex-agent/GAMP/SMT/SMT-PPPOE-001.nix` defines a controlled fake-provider VM using an isolated Ethernet PPPoE handoff, TEST-NET IPv4 such as `203.0.113.0/24`, and `2001:db8::/32`. | Add a `network-labs/examples` fixture or integrated module fixture for PPPoE-like `/48` routed aggregate behavior; prove explicit child `/64` routing, no intermediate router GUA, ULA NAT66 only where selected, and routed GUA no-NAT66. |
 | Deterministic PD and unusual prefix lengths | `LAB-SMT-012` and `LAB-SMT-013` cover `delegatedPrefixLength = 48`, routed-prefix `perTenantPrefixLength = 52`, site PD `/48 -> /64`, and NixOS rendering. | Compiler, NFM, and CPM have additional internal module tests for `/56 -> /64`, runtime GUA return routes, and no validation shortcut. | Add CLAB renderer projection coverage for the PD downstream-delegation example. |
 | Explicit ULA+NAT66 | `LAB-SMT-019`, `LAB-SMT-020`, and `LAB-SMT-021` cover renderer and fixture-side NAT66 projection. | CLAB also has synthetic CPM NAT66 coverage in `test-tri-site-core-egress-nat.sh`. | Add or identify a model-layer positive NAT66 examples SMT row so renderer NAT66 proof is backed by compiler/NFM/CPM contract proof. |
 | Routed GUA without NAT66 | `LAB-SMT-003`, `LAB-SMT-004`, `LAB-SMT-018`, and hostile return-route rows cover no-synthesis and renderer no-NAT66 behavior. | Compiler/NFM/CPM internal runtime routed-prefix tests cover source-file routed GUA metadata and return routes. | Keep SAT blocked until live routed-GUA/no-NAT66 counters pass from endpoint contexts. |

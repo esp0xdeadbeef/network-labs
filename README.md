@@ -103,6 +103,25 @@ NFM, CPM, CLAB renderer, NixOS renderer, and Nebula renderer module contracts
 from `network-labs/examples`. It is not SAT evidence and must not reference
 disposable lab paths or live lab loops.
 
+## HAT Fixtures
+
+Host Acceptance Testing preparation fixtures live under `HAT/`. These inputs
+may render through model and renderer stages, but they are not SAT evidence by
+themselves. HAT rows remain blocked until the owning CLAB or NixOS harness runs
+the rendered substrate and records bounded runtime probes.
+
+The emulated-ISP residential testnet fixture is:
+
+`HAT/emulated-isp-residential-testnet`
+
+It uses one shared intent plus separate CLAB and NixOS inventories. The fixture
+models a routed documentation-range provider path with IPv4 `203.0.113.0/30`
+and IPv6 `/48`, plus a constrained provider path with IPv4 `203.0.113.4/32`
+and IPv6 `/64`. NAT64 probe behavior is explicit fixture metadata, not provider
+naming. PPPoE handoff preparation uses split per-harness isolated Ethernet
+bridge surfaces; loopback IP interfaces are not a valid PPPoE substitute, and
+physical VLAN handoffs require an exclusive-run guard.
+
 ## Controlled SAT Source
 
 The controlled SAT source is:
@@ -117,8 +136,9 @@ examples-only compile sweeps is lower-layer evidence only.
 
 `SAT-SOURCE-CONTRACT.md` is not SAT evidence. It also names current source gaps
 that block complete SAT promotion, including missing controlled WireGuard
-provider scenarios and missing NixOS/CLAB fake-provider or PPPoE-like source
-scenarios.
+provider scenarios. NixOS/CLAB emulated-ISP PPPoE behavior is present in
+`sat/intent.nix`, with harness realization bindings in `sat/inventory.nix`, but
+still requires harness-owned HAT/SAT runtime proof before acceptance.
 
 ## Typical pipelines
 

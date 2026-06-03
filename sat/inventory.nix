@@ -366,6 +366,84 @@ let
     };
   };
 
+  # SAT-SRC-INVENTORY-UPSTREAM-EMULATION: realization bindings for the
+  # emulated-ISP scenarios declared in intent.nix. Behavior remains in intent;
+  # these rows bind backend, host, handoff substrate, AC implementation, and
+  # lab-only credential references for the owning harnesses.
+  upstreamEmulationRealization = {
+    pppoeNixos = {
+      scenarioId = intent.esp.nixos.upstreamEmulation.emulatedIsp.scenarioId;
+      gampId = intent.esp.nixos.upstreamEmulation.emulatedIsp.gampId;
+      backend = "nixos";
+      site = "nixos";
+      host = "s-router-test";
+      intentRef = {
+        marker = "SAT-SRC-INTENT-NIXOS-UPSTREAM-EMULATION";
+        customerCoreNode = intent.esp.nixos.upstreamEmulation.emulatedIsp.customer.coreNode;
+        customerCoreInterface = intent.esp.nixos.upstreamEmulation.emulatedIsp.customer.coreInterface;
+      };
+      substrate = {
+        labUplink = {
+          name = "uplink-isp-a";
+          bridge = "br-uplink0";
+          vlan = 4;
+        };
+        ispHandoff = {
+          kind = "isolated-bridge";
+          bridge = "br-nix-pppoe";
+          physical = false;
+        };
+        mtu = 1492;
+      };
+      accessConcentrator = {
+        implementation = "accel-ppp";
+        node = "sat-nixos-pppoe-ac";
+        side = "provider";
+      };
+      credentials = {
+        labOnly = true;
+        usernameFile = "/run/secrets/sat-pppoe-nixos-username";
+        passwordFile = "/run/secrets/sat-pppoe-nixos-password";
+      };
+    };
+
+    pppoeClab = {
+      scenarioId = intent.esp.clab.upstreamEmulation.emulatedIsp.scenarioId;
+      gampId = intent.esp.clab.upstreamEmulation.emulatedIsp.gampId;
+      backend = "clab";
+      site = "clab";
+      host = "s-router-clab";
+      intentRef = {
+        marker = "SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION";
+        customerCoreNode = intent.esp.clab.upstreamEmulation.emulatedIsp.customer.coreNode;
+        customerCoreInterface = intent.esp.clab.upstreamEmulation.emulatedIsp.customer.coreInterface;
+      };
+      substrate = {
+        labUplink = {
+          name = "uplink-isp-a";
+          bridge = "br-uplink0";
+          vlan = 4;
+        };
+        ispHandoff = {
+          kind = "isolated-bridge";
+          bridge = "br-clab-pppoe";
+          physical = false;
+        };
+        mtu = 1492;
+      };
+      accessConcentrator = {
+        implementation = "accel-ppp";
+        node = "sat-clab-pppoe-ac";
+        side = "provider";
+      };
+      credentials = {
+        labOnly = true;
+        usernameFile = "/run/secrets/sat-pppoe-clab-username";
+        passwordFile = "/run/secrets/sat-pppoe-clab-password";
+      };
+    };
+  };
+
   clabDownstreamAccessPorts = builtins.listToAttrs (
     map (tenant: {
       name = "access-${tenant}";
@@ -526,6 +604,9 @@ in
   # control-plane facts, overlays, runtime nodes, provider bindings, and
   # target-specific routing-service choices.
   controlPlane = {
+    upstreamEmulation = {
+      scenarios = upstreamEmulationRealization;
+    };
     sites = {
       esp = {
         nixos = {
@@ -932,6 +1013,10 @@ in
           br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
           br-nixos-policy-upstream-access-streaming-isp-b = { };
+          br-nix-pppoe = {
+            hatPurpose = "residential-pppoe-handoff";
+            isolated = true;
+          };
           br-hetz-core-upstream = { };
           br-hetz-downstream-mgmt = { };
           br-hetz-downstream-policy-access-mgmt = { };
@@ -1060,6 +1145,10 @@ in
           br-clab-policy-upstream-access-mgmt-east-west = { };
           br-clab-policy-upstream-access-streaming = { };
           br-clab-policy-upstream-access-streaming-east-west = { };
+          br-clab-pppoe = {
+            hatPurpose = "residential-pppoe-handoff";
+            isolated = true;
+          };
           branch = {
             mode = "vlan";
             parent = "eth0";

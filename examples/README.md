@@ -35,8 +35,9 @@ These examples are meant to be consumed by:
 
 Examples-only lower-layer traceability is indexed at `../tests/SMT.md`. Each
 `LAB-SMT-*` row identifies the exact repo-local test script that uses these
-examples as RaTM construction-review input, SMT module evidence, SIT-readiness
-input, or HAT host-substrate preparation input before SAT.
+examples as RaTM construction-review input, SMT module evidence, or
+SIT-readiness input before SAT. Host acceptance preparation fixtures belong
+under `../HAT/`.
 
 ## Conventions used here
 
