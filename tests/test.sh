@@ -51,6 +51,7 @@ tests=(
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
   test-hat-emulated-isp-residential-testnet.sh
+  test-hat-fixture-source-boundaries.sh
 )
 
 tmp_dir="$(mktemp -d)"

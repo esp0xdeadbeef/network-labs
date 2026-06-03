@@ -210,6 +210,58 @@ in
               assignment = "dhcp";
               tenant = "client";
             };
+            nixos-printer01 = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.20.1";
+              gateway6 = "fd42:dead:beef:20::1";
+              gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+              ipv4 = [ "10.20.20.60/24" ];
+              ipv6 = [ "fd42:dead:beef:20::60/64" ];
+              serviceSurfaces = {
+                admin = {
+                  gampId = "FS-740-HDS-010-SDS-010-SMS-010";
+                  ports = [ 80 ];
+                  protocol = "tcp";
+                  service = "hat-printer-admin";
+                };
+                ipp = {
+                  gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+                  ports = [ 631 ];
+                  protocol = "tcp";
+                  service = "hat-printer-ipp";
+                };
+              };
+              tenant = "client";
+            };
+            nixos-receiver01 = {
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.20.1";
+              gateway6 = "fd42:dead:beef:20::1";
+              gampId = "FS-750-HDS-010-SDS-010-SMS-010";
+              ipv4 = [ "10.20.20.70/24" ];
+              ipv6 = [ "fd42:dead:beef:20::70/64" ];
+              serviceSurfaces = {
+                control = {
+                  gampId = "FS-760-HDS-010-SDS-010-SMS-010";
+                  ports = [
+                    8008
+                    8009
+                  ];
+                  protocol = "tcp";
+                  service = "hat-receiver-control";
+                };
+                discovery = {
+                  gampId = "FS-760-HDS-010-SDS-010-SMS-010";
+                  ports = [
+                    5353
+                    1900
+                  ];
+                  protocol = "udp";
+                  service = "hat-receiver-discovery";
+                };
+              };
+              tenant = "client";
+            };
             nixos-hostile-node01 = {
               assignment = "dhcp";
               tenant = "hostile";
