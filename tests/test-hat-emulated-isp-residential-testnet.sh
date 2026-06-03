@@ -63,6 +63,26 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     endpointAddressIs = name: family: address:
       let endpoint = endpointClients.${name} or { };
       in builtins.elem address (endpoint.${family} or [ ]);
+    endpointSurfaceHasPort = name: surface: protocol: port:
+      let serviceSurface = ((endpointClients.${name} or { }).serviceSurfaces or { }).${surface} or { };
+      in
+        (serviceSurface.protocol or null) == protocol
+        && builtins.elem port (serviceSurface.ports or [ ]);
+    trafficTypeHasPort = name: proto: port:
+      let
+        matches = builtins.filter (trafficType: (trafficType.name or null) == name)
+          (site.communicationContract.trafficTypes or [ ]);
+        trafficType = if matches == [ ] then { match = [ ]; } else builtins.head matches;
+      in
+        builtins.any
+          (match: (match.proto or null) == proto && builtins.elem port (match.dports or [ ]))
+          (trafficType.match or [ ]);
+    serviceProvidersAre = serviceName: providers:
+      let
+        matches = builtins.filter (service: (service.name or null) == serviceName)
+          (site.communicationContract.services or [ ]);
+      in
+        matches != [ ] && ((builtins.head matches).providers or [ ]) == providers;
     clabEndpointRequired = name:
       (endpointClients.${name}.required or false)
       && (endpointClients.${name}.status or null) == "missing-live-evidence";
@@ -163,6 +183,40 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
     && require (endpointAssignmentIs "nixos-client01" "dhcp" && endpointAssignmentIs "nixos-client02" "dhcp")
       "HAT endpoint inventory must identify DHCP-addressed client fixtures"
+    && require (serviceProvidersAre "hat-printer-ipp" [ "nixos-printer01" ])
+      "HAT intent must model the printer IPP provider"
+    && require (serviceProvidersAre "hat-printer-admin" [ "nixos-printer01" ])
+      "HAT intent must model the printer administration provider"
+    && require (serviceProvidersAre "hat-receiver-control" [ "nixos-receiver01" ])
+      "HAT intent must model the receiver control provider"
+    && require (serviceProvidersAre "hat-receiver-discovery" [ "nixos-receiver01" ])
+      "HAT intent must model the receiver discovery provider"
+    && require (trafficTypeHasPort "ipp" "tcp" 631 && trafficTypeHasPort "printer-admin" "tcp" 80)
+      "HAT intent must model printer traffic types"
+    && require (trafficTypeHasPort "cast-control" "tcp" 8008 && trafficTypeHasPort "cast-control" "tcp" 8009)
+      "HAT intent must model receiver control traffic type"
+    && require (trafficTypeHasPort "cast-discovery" "udp" 5353 && trafficTypeHasPort "cast-discovery" "udp" 1900)
+      "HAT intent must model receiver discovery traffic type"
+    && require (endpointAssignmentIs "nixos-printer01" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify printer shared-service fixture"
+    && require (endpointAddressIs "nixos-printer01" "ipv4" "10.20.20.60/24")
+      "HAT endpoint inventory must carry printer static IPv4"
+    && require (endpointAddressIs "nixos-printer01" "ipv6" "fd42:dead:beef:20::60/64")
+      "HAT endpoint inventory must carry printer static IPv6"
+    && require (endpointSurfaceHasPort "nixos-printer01" "ipp" "tcp" 631)
+      "HAT printer fixture must expose IPP service surface"
+    && require (endpointSurfaceHasPort "nixos-printer01" "admin" "tcp" 80)
+      "HAT printer fixture must expose admin service surface"
+    && require (endpointAssignmentIs "nixos-receiver01" "static-ipv4-or-ipv6-client")
+      "HAT endpoint inventory must identify receiver shared-service fixture"
+    && require (endpointAddressIs "nixos-receiver01" "ipv4" "10.20.20.70/24")
+      "HAT endpoint inventory must carry receiver static IPv4"
+    && require (endpointAddressIs "nixos-receiver01" "ipv6" "fd42:dead:beef:20::70/64")
+      "HAT endpoint inventory must carry receiver static IPv6"
+    && require (endpointSurfaceHasPort "nixos-receiver01" "control" "tcp" 8008 && endpointSurfaceHasPort "nixos-receiver01" "control" "tcp" 8009)
+      "HAT receiver fixture must expose controller service surface"
+    && require (endpointSurfaceHasPort "nixos-receiver01" "discovery" "udp" 5353 && endpointSurfaceHasPort "nixos-receiver01" "discovery" "udp" 1900)
+      "HAT receiver fixture must expose discovery service surface"
     && require (endpointAssignmentIs "nixos-branch-node01" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify branch static-address client fixture"
     && require (endpointAddressIs "nixos-branch-node01" "ipv4" "10.60.10.10/24")

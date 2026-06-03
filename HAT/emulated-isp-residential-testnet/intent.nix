@@ -5,10 +5,84 @@
         interfaceTags = {
           external-testnet-routed-isp = "testnet-routed-isp";
           external-testnet-host-isp = "testnet-host-isp";
+          service-hat-printer-admin = "hat-printer-admin";
+          service-hat-printer-ipp = "hat-printer-ipp";
+          service-hat-receiver-control = "hat-receiver-control";
+          service-hat-receiver-discovery = "hat-receiver-discovery";
           tenant-client = "client";
         };
-        trafficTypes = [ ];
-        services = [ ];
+        trafficTypes = [
+          {
+            match = [
+              {
+                dports = [ 631 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "ipp";
+          }
+          {
+            match = [
+              {
+                dports = [ 80 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "printer-admin";
+          }
+          {
+            match = [
+              {
+                dports = [
+                  8008
+                  8009
+                ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "cast-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 5353 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 1900 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "cast-discovery";
+          }
+        ];
+        services = [
+          {
+            name = "hat-printer-ipp";
+            providers = [ "nixos-printer01" ];
+            trafficType = "ipp";
+          }
+          {
+            name = "hat-printer-admin";
+            providers = [ "nixos-printer01" ];
+            trafficType = "printer-admin";
+          }
+          {
+            name = "hat-receiver-control";
+            providers = [ "nixos-receiver01" ];
+            trafficType = "cast-control";
+          }
+          {
+            name = "hat-receiver-discovery";
+            providers = [ "nixos-receiver01" ];
+            trafficType = "cast-discovery";
+          }
+        ];
         relations = [
           {
             action = "allow";
@@ -42,6 +116,18 @@
       };
 
       ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "nixos-printer01";
+            tenant = "client";
+          }
+          {
+            kind = "host";
+            name = "nixos-receiver01";
+            tenant = "client";
+          }
+        ];
         prefixes = [
           {
             ipv4 = "10.20.20.0/24";
