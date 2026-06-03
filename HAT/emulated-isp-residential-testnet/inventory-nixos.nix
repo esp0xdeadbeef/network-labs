@@ -1,3 +1,23 @@
+let
+  managementUplink = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
 {
   deployment = {
     hosts = {
@@ -93,6 +113,7 @@
           };
         };
         uplinks = {
+          management = managementUplink;
           uplink-testnet-routed-isp = {
             bridge = "br-t-routed";
             ipv4 = {
@@ -124,6 +145,14 @@
           "esp0xdeadbeef::site-a::s-router-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
           "esp0xdeadbeef::site-a::s-router-core-testnet-host-isp" = "uplink-testnet-host-isp";
         };
+      };
+      s-router-nixos = {
+        bridgeNetworks = { };
+        uplinks.management = managementUplink;
+      };
+      s-router-test-clients = {
+        bridgeNetworks = { };
+        uplinks.management = managementUplink;
       };
     };
   };
