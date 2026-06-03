@@ -1,7 +1,7 @@
 {
   deployment = {
     hosts = {
-      lab-host = {
+      s-router-clab = {
         bridgeNetworks = {
           br-c-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
@@ -145,7 +145,7 @@
             };
           };
         };
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-access-client";
@@ -168,7 +168,7 @@
       };
 
       esp0xdeadbeef-site-a-s-router-core-testnet-routed-isp = {
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-core-testnet-routed-isp";
@@ -202,7 +202,7 @@
       };
 
       esp0xdeadbeef-site-a-s-router-core-testnet-host-isp = {
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-core-testnet-host-isp";
@@ -236,7 +236,7 @@
       };
 
       esp0xdeadbeef-site-a-s-router-downstream-selector = {
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-downstream-selector";
@@ -270,7 +270,7 @@
       };
 
       esp0xdeadbeef-site-a-s-router-policy = {
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-policy";
@@ -315,7 +315,7 @@
       };
 
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
-        host = "lab-host";
+        host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
           name = "s-router-upstream-selector";

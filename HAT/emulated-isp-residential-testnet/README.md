@@ -19,3 +19,9 @@ or overlay-provider naming.
 CLAB and NixOS use separate isolated PPPoE Ethernet bridges (`br-c-pppoe` and
 `br-n-pppoe`) so both harnesses can be prepared at the same time without sharing
 VLAN 11/12 or a loopback PPPoE substitute.
+
+The CLAB inventory uses the real hardware deployment host `s-router-clab`, so
+the hardware deploy command can render the HAT topology from the locked
+`network-labs` input without NixOS-side local overrides. The NixOS inventory
+uses `lab-host` as its fixture selector and separately exposes management
+uplinks for `s-router-nixos` and `s-router-test-clients`.
