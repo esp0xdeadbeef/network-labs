@@ -559,6 +559,12 @@
             };
           };
           nixos-core-testnet-host-isp = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-a";
+              }
+            ];
             role = "core";
             uplinks = {
               testnet-host-isp = {
@@ -568,6 +574,12 @@
             };
           };
           nixos-core-testnet-routed-isp = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-b";
+              }
+            ];
             role = "core";
             uplinks = {
               testnet-routed-isp = {
@@ -1058,6 +1070,7 @@
             };
           };
           clab-core-testnet-host-isp = {
+            attachments = [ { kind = "tenant"; name = "provider-handoff-a"; } ];
             role = "core";
             uplinks.testnet-host-isp = {
               ipv4 = [ "203.0.113.4/32" ];
@@ -1065,6 +1078,7 @@
             };
           };
           clab-core-testnet-routed-isp = {
+            attachments = [ { kind = "tenant"; name = "provider-handoff-b"; } ];
             role = "core";
             uplinks.testnet-routed-isp = {
               ipv4 = [ "203.0.113.0/30" ];
