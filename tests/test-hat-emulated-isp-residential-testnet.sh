@@ -32,7 +32,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     site = intent.esp0xdeadbeef.site-a;
     nodes = site.topology.nodes;
     relations = site.communicationContract.relations;
-    clabHost = clab.deployment.hosts.lab-host;
+    clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.lab-host;
     clabDhcp = clabHost.hat.upstreamEmulation.residentialDhcpRoutedTestnet;
     clabPppoe = clabHost.hat.upstreamEmulation.residentialPppoeHostTestnet;
@@ -206,6 +206,7 @@ nix eval --impure --json --expr "import ${hat_dir}/inventory-clab.nix" \
 (
   cd "${tmp_dir}/clab"
   CLABGEN_RENDERER_INVENTORY_JSON="${tmp_dir}/clab/inventory-clab.json" \
+  CLABGEN_DEPLOYMENT_HOST="s-router-clab" \
     nix run "${clab_renderer_flake}#generate-clab-config" -- \
       "${tmp_dir}/clab/control-plane.json" \
       "${tmp_dir}/clab/fabric.clab.yml" \
