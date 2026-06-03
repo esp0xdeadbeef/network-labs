@@ -49,6 +49,7 @@ inventory_markers=(
   SAT-SRC-INVENTORY-MTU
   SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS
   SAT-SRC-INVENTORY-STATIC-RESERVATION
+  SAT-SRC-INVENTORY-UPSTREAM-EMULATION
   SAT-SRC-INVENTORY-REALIZATION
 )
 
@@ -102,12 +103,19 @@ require_text "${contract}" "SAT-SCEN-EMULATED-ISP-CLAB-001"
 require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-128-001"
 require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-64-001"
 require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-PUBLIC-001"
-require_text "${contract}" "SAT-SRC-GAP-PPPOE-NIXOS-001"
-require_text "${contract}" "SAT-SRC-GAP-PPPOE-CLAB-001"
+require_text "${contract}" "Source provenance present in"
+require_text "${contract}" "HAT/SAT live proof not provided"
 require_text "${contract}" "Nebula"
 require_text "${contract}" "WireGuard"
 require_text "${contract}" 'VLAN `4`'
-require_text "${contract}" 'VLAN `11`'
+require_text "${contract}" 'SAT-SRC-INTENT-NIXOS-UPSTREAM-EMULATION'
+require_text "${contract}" 'SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION'
+require_text "${contract}" 'isolated Ethernet PPPoE handoff bridges with `physical = false`'
+require_text "${contract}" 'Physical PPPoE VLAN handoff requires an explicit exclusive-run guard.'
+
+if grep -Fq "SAT-SRC-GAP-PPPOE" "${contract}"; then
+  fail "PPPoE source gaps must not remain once inventory upstream-emulation rows exist"
+fi
 
 if grep -RFl "SAT-SRC-INTENT-001" "${repo_root}/examples" >/dev/null; then
   fail "examples must not carry s-router SAT source markers"

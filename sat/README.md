@@ -17,8 +17,12 @@ This directory is the controlled SAT source. Examples under
 proof; they are not SAT source evidence by themselves. `SAT-SOURCE-CONTRACT.md`
 maps the major intent and inventory sections used for SAT provenance.
 That contract is not live SAT evidence. It also records source gaps for the
-missing WireGuard provider scenarios and the missing NixOS/CLAB fake-provider
-or PPPoE-like scenarios that must exist before full SAT promotion is possible.
+missing WireGuard provider scenarios and records the NixOS/CLAB emulated-ISP
+PPPoE source scenarios. The PPPoE behavior is intent-owned, while inventory
+binds the harness realization facts. Those PPPoE realization facts use
+per-harness isolated Ethernet bridges by default so NixOS and CLAB runs do not
+share physical VLAN handoffs. HAT/SAT runtime proof is still required before
+full SAT promotion is possible.
 
 ## Policy Model
 

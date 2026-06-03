@@ -50,6 +50,7 @@ tests=(
   test-multi-wan-nixos-wan-group-bindings.sh
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
+  test-hat-emulated-isp-residential-testnet.sh
 )
 
 tmp_dir="$(mktemp -d)"
