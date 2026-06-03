@@ -7,6 +7,7 @@
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
           };
+          br-site-a-core-upstream-vlan4-upstream = { };
           br-site-a-core-testnet-routed-isp-upstream = { };
           br-site-a-core-testnet-host-isp-upstream = { };
           br-site-a-downstream-client = { };
@@ -15,7 +16,7 @@
           br-site-a-policy-upstream-access-client-testnet-host-isp = { };
         };
         hat = {
-          upstreamEmulation = {
+          providerAccess = {
             residentialDhcpRoutedTestnet = {
               advertisedIpv4 = {
                 customerAddress = "203.0.113.2";
@@ -30,6 +31,10 @@
               gampId = "FS-800-HDS-010-SDS-010-SMS-010";
               handoff = "dhcp";
               harness = "s-router-clab";
+              distribution = {
+                mode = "network-wide";
+                technology = "dhcp";
+              };
               l2Surface = {
                 kind = "isolated-bridge";
                 name = "br-t-routed";
@@ -67,6 +72,11 @@
               gampId = "FS-800-HDS-010-SDS-010-SMS-010";
               handoff = "pppoe";
               harness = "s-router-clab";
+              distribution = {
+                endpoint = "nixos-core-testnet-host-isp";
+                mode = "endpoint-specific";
+                technology = "pppoe";
+              };
               l2Surface = {
                 kind = "isolated-bridge";
                 name = "br-c-pppoe";
@@ -93,6 +103,18 @@
           };
         };
         uplinks = {
+          uplink-isp-a = {
+            bridge = "br-uplink0";
+            ipv4 = {
+              dhcp = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              method = "slaac";
+            };
+            upstream = "isp-a";
+          };
           uplink-testnet-routed-isp = {
             bridge = "br-t-routed";
             ipv4 = {
@@ -121,8 +143,9 @@
           };
         };
         wanGroupToUplink = {
-          "esp0xdeadbeef::site-a::s-router-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
-          "esp0xdeadbeef::site-a::s-router-core-testnet-host-isp" = "uplink-testnet-host-isp";
+          "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "uplink-isp-a";
+          "esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
+          "esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" = "uplink-testnet-host-isp";
         };
       };
     };
@@ -130,7 +153,7 @@
 
   realization = {
     nodes = {
-      esp0xdeadbeef-site-a-s-router-access-client = {
+      esp0xdeadbeef-site-a-nixos-access-client = {
         advertisements = {
           dhcp4 = {
             tenant-client = {
@@ -148,13 +171,13 @@
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-access-client";
+          name = "nixos-access-client";
           site = "site-a";
         };
         platform = "linux";
         ports = {
           transit-downstream-selector = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-access-client-transit-downstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-client-transit-downstream-selector";
             attach = {
               bridge = "br-site-a-downstream-client";
               kind = "bridge";
@@ -162,16 +185,16 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-access-client-s-router-downstream-selector";
+            link = "p2p-nixos-access-client-nixos-downstream-selector";
           };
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-core-testnet-routed-isp = {
+      esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp = {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-core-testnet-routed-isp";
+          name = "nixos-core-testnet-routed-isp";
           site = "site-a";
         };
         platform = "linux";
@@ -188,7 +211,7 @@
             uplink = "testnet-routed-isp";
           };
           upstream-selector = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-testnet-routed-isp-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp-upstream-selector";
             attach = {
               bridge = "br-site-a-core-testnet-routed-isp-upstream";
               kind = "bridge";
@@ -196,16 +219,51 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-core-testnet-routed-isp-s-router-upstream-selector";
+            link = "p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector";
           };
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-core-testnet-host-isp = {
+      esp0xdeadbeef-site-a-nixos-core-upstream-vlan4 = {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-core-testnet-host-isp";
+          name = "nixos-core-upstream-vlan4";
+          site = "site-a";
+        };
+        platform = "linux";
+        ports = {
+          isp-a = {
+            attach = {
+              bridge = "br-uplink0";
+              kind = "bridge";
+              parentUplink = "uplink-isp-a";
+            };
+            external = true;
+            interface = {
+              name = "ens4";
+            };
+            uplink = "isp-a";
+          };
+          upstream-selector = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-upstream-vlan4-upstream-selector";
+            attach = {
+              bridge = "br-site-a-core-upstream-vlan4-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens3";
+            };
+            link = "p2p-nixos-core-upstream-vlan4-nixos-upstream-selector";
+          };
+        };
+      };
+
+      esp0xdeadbeef-site-a-nixos-core-testnet-host-isp = {
+        host = "s-router-clab";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          name = "nixos-core-testnet-host-isp";
           site = "site-a";
         };
         platform = "linux";
@@ -222,7 +280,7 @@
             uplink = "testnet-host-isp";
           };
           upstream-selector = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-core-testnet-host-isp-upstream-selector";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-host-isp-upstream-selector";
             attach = {
               bridge = "br-site-a-core-testnet-host-isp-upstream";
               kind = "bridge";
@@ -230,22 +288,22 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-core-testnet-host-isp-s-router-upstream-selector";
+            link = "p2p-nixos-core-testnet-host-isp-nixos-upstream-selector";
           };
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-downstream-selector = {
+      esp0xdeadbeef-site-a-nixos-downstream-selector = {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-downstream-selector";
+          name = "nixos-downstream-selector";
           site = "site-a";
         };
         platform = "linux";
         ports = {
           access-client = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-access-client";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-downstream-selector-access-client";
             attach = {
               bridge = "br-site-a-downstream-client";
               kind = "bridge";
@@ -253,10 +311,10 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-access-client-s-router-downstream-selector";
+            link = "p2p-nixos-access-client-nixos-downstream-selector";
           };
           policy-access-client = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-downstream-selector-policy-access-client";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-downstream-selector-policy-access-client";
             attach = {
               bridge = "br-site-a-downstream-policy-access-client";
               kind = "bridge";
@@ -264,22 +322,22 @@
             interface = {
               name = "ens4";
             };
-            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-client";
+            link = "p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-client";
           };
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-policy = {
+      esp0xdeadbeef-site-a-nixos-policy = {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-policy";
+          name = "nixos-policy";
           site = "site-a";
         };
         platform = "linux";
         ports = {
           downstream-access-client = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-downstream-access-client";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-downstream-access-client";
             attach = {
               bridge = "br-site-a-downstream-policy-access-client";
               kind = "bridge";
@@ -287,10 +345,10 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-downstream-selector-s-router-policy--access-s-router-access-client";
+            link = "p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-client";
           };
           upstream-access-client-testnet-routed-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-client-testnet-routed-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-upstream-access-client-testnet-routed-isp";
             attach = {
               bridge = "br-site-a-policy-upstream-access-client-testnet-routed-isp";
               kind = "bridge";
@@ -298,10 +356,10 @@
             interface = {
               name = "ens4";
             };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-client--uplink-testnet-routed-isp";
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-routed-isp";
           };
           upstream-access-client-testnet-host-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-client-testnet-host-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-upstream-access-client-testnet-host-isp";
             attach = {
               bridge = "br-site-a-policy-upstream-access-client-testnet-host-isp";
               kind = "bridge";
@@ -309,22 +367,33 @@
             interface = {
               name = "ens5";
             };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-client--uplink-testnet-host-isp";
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp";
           };
         };
       };
 
-      esp0xdeadbeef-site-a-s-router-upstream-selector = {
+      esp0xdeadbeef-site-a-nixos-upstream-selector = {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
-          name = "s-router-upstream-selector";
+          name = "nixos-upstream-selector";
           site = "site-a";
         };
         platform = "linux";
         ports = {
+          core-upstream-vlan4 = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-core-upstream-vlan4";
+            attach = {
+              bridge = "br-site-a-core-upstream-vlan4-upstream";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens7";
+            };
+            link = "p2p-nixos-core-upstream-vlan4-nixos-upstream-selector";
+          };
           core-testnet-routed-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-testnet-routed-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-core-testnet-routed-isp";
             attach = {
               bridge = "br-site-a-core-testnet-routed-isp-upstream";
               kind = "bridge";
@@ -332,10 +401,10 @@
             interface = {
               name = "ens3";
             };
-            link = "p2p-s-router-core-testnet-routed-isp-s-router-upstream-selector";
+            link = "p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector";
           };
           core-testnet-host-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-core-testnet-host-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-core-testnet-host-isp";
             attach = {
               bridge = "br-site-a-core-testnet-host-isp-upstream";
               kind = "bridge";
@@ -343,10 +412,10 @@
             interface = {
               name = "ens4";
             };
-            link = "p2p-s-router-core-testnet-host-isp-s-router-upstream-selector";
+            link = "p2p-nixos-core-testnet-host-isp-nixos-upstream-selector";
           };
           policy-access-client-testnet-routed-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-client-testnet-routed-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-policy-access-client-testnet-routed-isp";
             attach = {
               bridge = "br-site-a-policy-upstream-access-client-testnet-routed-isp";
               kind = "bridge";
@@ -354,10 +423,10 @@
             interface = {
               name = "ens5";
             };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-client--uplink-testnet-routed-isp";
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-routed-isp";
           };
           policy-access-client-testnet-host-isp = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-client-testnet-host-isp";
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-policy-access-client-testnet-host-isp";
             attach = {
               bridge = "br-site-a-policy-upstream-access-client-testnet-host-isp";
               kind = "bridge";
@@ -365,7 +434,7 @@
             interface = {
               name = "ens6";
             };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-client--uplink-testnet-host-isp";
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp";
           };
         };
       };

@@ -3,15 +3,51 @@
     site-a = {
       communicationContract = {
         interfaceTags = {
-          external-testnet-routed-isp = "testnet-routed-isp";
+          external-isp-a = "isp-a";
           external-testnet-host-isp = "testnet-host-isp";
+          external-testnet-routed-isp = "testnet-routed-isp";
+          external-nebula-egress = "nebula-egress";
+          external-wireguard-egress = "wireguard-egress";
+          external-wireguard-host128 = "wireguard-host128";
+          external-route-import = "route-import";
+          external-commercial-vpn = "commercial-vpn";
           service-hat-printer-admin = "hat-printer-admin";
           service-hat-printer-ipp = "hat-printer-ipp";
           service-hat-receiver-control = "hat-receiver-control";
           service-hat-receiver-discovery = "hat-receiver-discovery";
           tenant-client = "client";
+          tenant-dmz = "dmz";
+          tenant-guest = "guest";
+          tenant-iot = "iot";
+          tenant-management = "management";
+          tenant-provider-handoff-a = "provider-handoff-a";
+          tenant-provider-handoff-b = "provider-handoff-b";
+          tenant-trusted = "trusted";
+          tenant-work = "work";
         };
         trafficTypes = [
+          {
+            match = [
+              {
+                family = "any";
+                proto = "icmp";
+              }
+            ];
+            name = "icmp";
+          }
+          {
+            match = [
+              {
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "overlay-control";
+          }
           {
             match = [
               {
@@ -88,13 +124,27 @@
             action = "allow";
             from = {
               kind = "tenant";
-              name = "client";
+              name = "provider-handoff-a";
             };
-            id = "allow-client-to-testnet-routed-isp";
-            priority = 100;
+            id = "allow-provider-handoff-a-to-isp-a";
+            priority = 80;
             to = {
               kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-to-isp-a";
+            priority = 81;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
             };
             trafficType = "any";
           }
@@ -105,10 +155,97 @@
               name = "client";
             };
             id = "allow-client-to-testnet-host-isp";
-            priority = 110;
+            priority = 100;
             to = {
               kind = "external";
               uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-testnet-routed-isp";
+            priority = 101;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "iot";
+            };
+            id = "allow-iot-underlay-to-nebula-egress";
+            priority = 110;
+            to = {
+              kind = "external";
+              uplinks = [ "nebula-egress" ];
+            };
+            trafficType = "overlay-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "iot";
+            };
+            id = "allow-iot-underlay-to-wireguard-egress";
+            priority = 111;
+            to = {
+              kind = "external";
+              uplinks = [ "wireguard-egress" ];
+            };
+            trafficType = "overlay-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-shared-services";
+            priority = 120;
+            to = {
+              kind = "tenant-set";
+              members = [
+                "trusted"
+                "iot"
+              ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "guest";
+            };
+            id = "allow-guest-to-isp-a";
+            priority = 130;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "work";
+            };
+            id = "allow-work-to-isp-a";
+            priority = 131;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
             };
             trafficType = "any";
           }
@@ -119,13 +256,23 @@
         endpoints = [
           {
             kind = "host";
-            name = "nixos-printer01";
+            name = "nixos-client";
             tenant = "client";
           }
           {
             kind = "host";
+            name = "nixos-printer01";
+            tenant = "trusted";
+          }
+          {
+            kind = "host";
             name = "nixos-receiver01";
-            tenant = "client";
+            tenant = "iot";
+          }
+          {
+            kind = "host";
+            name = "nixos-server01";
+            tenant = "dmz";
           }
         ];
         prefixes = [
@@ -134,6 +281,54 @@
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
             name = "client";
+          }
+          {
+            ipv4 = "10.20.30.0/24";
+            ipv6 = "fd42:dead:beef:30::/64";
+            kind = "tenant";
+            name = "trusted";
+          }
+          {
+            ipv4 = "10.20.40.0/24";
+            ipv6 = "fd42:dead:beef:40::/64";
+            kind = "tenant";
+            name = "guest";
+          }
+          {
+            ipv4 = "10.20.50.0/24";
+            ipv6 = "fd42:dead:beef:50::/64";
+            kind = "tenant";
+            name = "iot";
+          }
+          {
+            ipv4 = "10.20.60.0/24";
+            ipv6 = "fd42:dead:beef:60::/64";
+            kind = "tenant";
+            name = "work";
+          }
+          {
+            ipv4 = "10.20.70.0/24";
+            ipv6 = "fd42:dead:beef:70::/64";
+            kind = "tenant";
+            name = "management";
+          }
+          {
+            ipv4 = "10.20.80.0/24";
+            ipv6 = "fd42:dead:beef:80::/64";
+            kind = "tenant";
+            name = "dmz";
+          }
+          {
+            ipv4 = "10.44.11.0/24";
+            ipv6 = "fd42:dead:beef:4411::/64";
+            kind = "tenant";
+            name = "provider-handoff-a";
+          }
+          {
+            ipv4 = "10.44.12.0/24";
+            ipv6 = "fd42:dead:beef:4412::/64";
+            kind = "tenant";
+            name = "provider-handoff-b";
           }
         ];
       };
@@ -152,28 +347,104 @@
       topology = {
         links = [
           [
-            "s-router-core-testnet-routed-isp"
-            "s-router-upstream-selector"
+            "nixos-core-upstream-vlan4"
+            "nixos-upstream-selector"
           ]
           [
-            "s-router-core-testnet-host-isp"
-            "s-router-upstream-selector"
+            "nixos-core-testnet-host-isp"
+            "nixos-upstream-selector"
           ]
           [
-            "s-router-upstream-selector"
-            "s-router-policy"
+            "nixos-core-testnet-routed-isp"
+            "nixos-upstream-selector"
           ]
           [
-            "s-router-policy"
-            "s-router-downstream-selector"
+            "nixos-core-nebula"
+            "nixos-upstream-selector"
           ]
           [
-            "s-router-downstream-selector"
-            "s-router-access-client"
+            "nixos-core-wireguard-remote-egress"
+            "nixos-upstream-selector"
+          ]
+          [
+            "nixos-core-wireguard-host128"
+            "nixos-upstream-selector"
+          ]
+          [
+            "nixos-core-route-import"
+            "nixos-upstream-selector"
+          ]
+          [
+            "nixos-core-commercial-vpn"
+            "nixos-upstream-selector"
+          ]
+          [
+            "nixos-upstream-selector"
+            "nixos-policy"
+          ]
+          [
+            "nixos-policy"
+            "nixos-downstream-selector"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-provider-handoff-access-a"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-provider-handoff-access-b"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-client"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-iot"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-trusted"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-guest"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-work"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-management"
+          ]
+          [
+            "nixos-downstream-selector"
+            "nixos-access-dmz"
+          ]
+          [
+            "nixos-provider-handoff-access-a"
+            "nixos-core-testnet-host-isp"
+          ]
+          [
+            "nixos-provider-handoff-access-b"
+            "nixos-core-testnet-routed-isp"
+          ]
+          [
+            "nixos-access-iot"
+            "nixos-core-nebula"
+          ]
+          [
+            "nixos-access-iot"
+            "nixos-core-wireguard-remote-egress"
+          ]
+          [
+            "nixos-access-iot"
+            "nixos-core-wireguard-host128"
           ]
         ];
         nodes = {
-          s-router-access-client = {
+          nixos-access-client = {
             attachments = [
               {
                 kind = "tenant";
@@ -182,16 +453,112 @@
             ];
             role = "access";
           };
-          s-router-core-testnet-routed-isp = {
+          nixos-access-dmz = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "dmz";
+              }
+            ];
+            role = "access";
+          };
+          nixos-access-guest = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "guest";
+              }
+            ];
+            role = "access";
+          };
+          nixos-access-iot = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
+            role = "access";
+          };
+          nixos-access-management = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "management";
+              }
+            ];
+            role = "access";
+          };
+          nixos-access-trusted = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "trusted";
+              }
+            ];
+            role = "access";
+          };
+          nixos-access-work = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "work";
+              }
+            ];
+            role = "access";
+          };
+          nixos-provider-handoff-access-a = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-a";
+              }
+            ];
+            role = "access";
+          };
+          nixos-provider-handoff-access-b = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-b";
+              }
+            ];
+            role = "access";
+          };
+          nixos-core-commercial-vpn = {
             role = "core";
             uplinks = {
-              testnet-routed-isp = {
-                ipv4 = [ "203.0.113.0/30" ];
-                ipv6 = [ "2001:db8:113::/48" ];
+              commercial-vpn = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
               };
             };
           };
-          s-router-core-testnet-host-isp = {
+          nixos-core-nebula = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
+            role = "core";
+            uplinks = {
+              nebula-egress = {
+                ipv4 = [ "100.96.44.0/24" ];
+                ipv6 = [ "fd42:dead:beef:9644::/64" ];
+              };
+            };
+          };
+          nixos-core-route-import = {
+            role = "core";
+            uplinks = {
+              route-import = {
+                ipv4 = [ "198.51.100.0/24" ];
+                ipv6 = [ "2001:db8:51::/48" ];
+              };
+            };
+          };
+          nixos-core-testnet-host-isp = {
             role = "core";
             uplinks = {
               testnet-host-isp = {
@@ -200,13 +567,540 @@
               };
             };
           };
-          s-router-downstream-selector = {
+          nixos-core-testnet-routed-isp = {
+            role = "core";
+            uplinks = {
+              testnet-routed-isp = {
+                ipv4 = [ "203.0.113.0/30" ];
+                ipv6 = [ "2001:db8:113::/48" ];
+              };
+            };
+          };
+          nixos-core-upstream-vlan4 = {
+            role = "core";
+            uplinks = {
+              isp-a = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+          nixos-core-wireguard-host128 = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
+            role = "core";
+            uplinks = {
+              wireguard-host128 = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "2001:db8:128::1/128" ];
+              };
+            };
+          };
+          nixos-core-wireguard-remote-egress = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
+            role = "core";
+            uplinks = {
+              wireguard-egress = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+          nixos-downstream-selector = {
             role = "downstream-selector";
           };
-          s-router-policy = {
+          nixos-policy = {
             role = "policy";
           };
-          s-router-upstream-selector = {
+          nixos-upstream-selector = {
+            role = "upstream-selector";
+          };
+        };
+      };
+    };
+    site-b = {
+      communicationContract = {
+        interfaceTags = {
+          external-isp-a = "isp-a";
+          external-testnet-host-isp = "testnet-host-isp";
+          external-testnet-routed-isp = "testnet-routed-isp";
+          external-nebula-egress = "nebula-egress";
+          external-wireguard-egress = "wireguard-egress";
+          external-wireguard-host128 = "wireguard-host128";
+          external-route-import = "route-import";
+          external-commercial-vpn = "commercial-vpn";
+          service-hat-printer-admin = "hat-printer-admin";
+          service-hat-printer-ipp = "hat-printer-ipp";
+          service-hat-receiver-control = "hat-receiver-control";
+          service-hat-receiver-discovery = "hat-receiver-discovery";
+          tenant-client = "client";
+          tenant-dmz = "dmz";
+          tenant-guest = "guest";
+          tenant-iot = "iot";
+          tenant-management = "management";
+          tenant-provider-handoff-a = "provider-handoff-a";
+          tenant-provider-handoff-b = "provider-handoff-b";
+          tenant-trusted = "trusted";
+          tenant-work = "work";
+        };
+        trafficTypes = [
+          {
+            match = [
+              {
+                family = "any";
+                proto = "icmp";
+              }
+            ];
+            name = "icmp";
+          }
+          {
+            match = [
+              {
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "overlay-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 631 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "ipp";
+          }
+          {
+            match = [
+              {
+                dports = [ 80 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "printer-admin";
+          }
+          {
+            match = [
+              {
+                dports = [
+                  8008
+                  8009
+                ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "cast-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 5353 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 1900 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "cast-discovery";
+          }
+        ];
+        services = [
+          {
+            name = "hat-printer-ipp";
+            providers = [ "clab-printer01" ];
+            trafficType = "ipp";
+          }
+          {
+            name = "hat-printer-admin";
+            providers = [ "clab-printer01" ];
+            trafficType = "printer-admin";
+          }
+          {
+            name = "hat-receiver-control";
+            providers = [ "clab-receiver01" ];
+            trafficType = "cast-control";
+          }
+          {
+            name = "hat-receiver-discovery";
+            providers = [ "clab-receiver01" ];
+            trafficType = "cast-discovery";
+          }
+        ];
+        relations = [
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-a";
+            };
+            id = "allow-provider-handoff-a-to-isp-a";
+            priority = 80;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-to-isp-a";
+            priority = 81;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-testnet-host-isp";
+            priority = 100;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-testnet-routed-isp";
+            priority = 101;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "iot";
+            };
+            id = "allow-iot-underlay-to-nebula-egress";
+            priority = 110;
+            to = {
+              kind = "external";
+              uplinks = [ "nebula-egress" ];
+            };
+            trafficType = "overlay-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "iot";
+            };
+            id = "allow-iot-underlay-to-wireguard-egress";
+            priority = 111;
+            to = {
+              kind = "external";
+              uplinks = [ "wireguard-egress" ];
+            };
+            trafficType = "overlay-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-shared-services";
+            priority = 120;
+            to = {
+              kind = "tenant-set";
+              members = [
+                "trusted"
+                "iot"
+              ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "guest";
+            };
+            id = "allow-guest-to-isp-a";
+            priority = 130;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "work";
+            };
+            id = "allow-work-to-isp-a";
+            priority = 131;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-a" ];
+            };
+            trafficType = "any";
+          }
+        ];
+      };
+
+      ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "clab-client";
+            tenant = "client";
+          }
+          {
+            kind = "host";
+            name = "clab-printer01";
+            tenant = "trusted";
+          }
+          {
+            kind = "host";
+            name = "clab-receiver01";
+            tenant = "iot";
+          }
+          {
+            kind = "host";
+            name = "clab-server01";
+            tenant = "dmz";
+          }
+        ];
+        prefixes = [
+          {
+            ipv4 = "10.50.20.0/24";
+            ipv6 = "fd42:dead:feed:20::/64";
+            kind = "tenant";
+            name = "client";
+          }
+          {
+            ipv4 = "10.50.30.0/24";
+            ipv6 = "fd42:dead:feed:30::/64";
+            kind = "tenant";
+            name = "trusted";
+          }
+          {
+            ipv4 = "10.50.40.0/24";
+            ipv6 = "fd42:dead:feed:40::/64";
+            kind = "tenant";
+            name = "guest";
+          }
+          {
+            ipv4 = "10.50.50.0/24";
+            ipv6 = "fd42:dead:feed:50::/64";
+            kind = "tenant";
+            name = "iot";
+          }
+          {
+            ipv4 = "10.50.60.0/24";
+            ipv6 = "fd42:dead:feed:60::/64";
+            kind = "tenant";
+            name = "work";
+          }
+          {
+            ipv4 = "10.50.70.0/24";
+            ipv6 = "fd42:dead:feed:70::/64";
+            kind = "tenant";
+            name = "management";
+          }
+          {
+            ipv4 = "10.50.80.0/24";
+            ipv6 = "fd42:dead:feed:80::/64";
+            kind = "tenant";
+            name = "dmz";
+          }
+          {
+            ipv4 = "10.55.11.0/24";
+            ipv6 = "fd42:dead:feed:5511::/64";
+            kind = "tenant";
+            name = "provider-handoff-a";
+          }
+          {
+            ipv4 = "10.55.12.0/24";
+            ipv6 = "fd42:dead:feed:5512::/64";
+            kind = "tenant";
+            name = "provider-handoff-b";
+          }
+        ];
+      };
+
+      pools = {
+        loopback = {
+          ipv4 = "10.59.44.0/24";
+          ipv6 = "fd42:dead:feed:5944::/118";
+        };
+        p2p = {
+          ipv4 = "10.50.44.0/24";
+          ipv6 = "fd42:dead:feed:5044::/118";
+        };
+      };
+
+      topology = {
+        links = [
+          [ "clab-core-upstream-vlan4" "clab-upstream-selector" ]
+          [ "clab-core-testnet-host-isp" "clab-upstream-selector" ]
+          [ "clab-core-testnet-routed-isp" "clab-upstream-selector" ]
+          [ "clab-core-nebula" "clab-upstream-selector" ]
+          [ "clab-core-wireguard-remote-egress" "clab-upstream-selector" ]
+          [ "clab-core-wireguard-host128" "clab-upstream-selector" ]
+          [ "clab-core-route-import" "clab-upstream-selector" ]
+          [ "clab-core-commercial-vpn" "clab-upstream-selector" ]
+          [ "clab-upstream-selector" "clab-policy" ]
+          [ "clab-policy" "clab-downstream-selector" ]
+          [ "clab-downstream-selector" "clab-provider-handoff-access-a" ]
+          [ "clab-downstream-selector" "clab-provider-handoff-access-b" ]
+          [ "clab-downstream-selector" "clab-access-client" ]
+          [ "clab-downstream-selector" "clab-access-iot" ]
+          [ "clab-downstream-selector" "clab-access-trusted" ]
+          [ "clab-downstream-selector" "clab-access-guest" ]
+          [ "clab-downstream-selector" "clab-access-work" ]
+          [ "clab-downstream-selector" "clab-access-management" ]
+          [ "clab-downstream-selector" "clab-access-dmz" ]
+          [ "clab-provider-handoff-access-a" "clab-core-testnet-host-isp" ]
+          [ "clab-provider-handoff-access-b" "clab-core-testnet-routed-isp" ]
+          [ "clab-access-iot" "clab-core-nebula" ]
+          [ "clab-access-iot" "clab-core-wireguard-remote-egress" ]
+          [ "clab-access-iot" "clab-core-wireguard-host128" ]
+        ];
+        nodes = {
+          clab-access-client = {
+            attachments = [ { kind = "tenant"; name = "client"; } ];
+            role = "access";
+          };
+          clab-access-dmz = {
+            attachments = [ { kind = "tenant"; name = "dmz"; } ];
+            role = "access";
+          };
+          clab-access-guest = {
+            attachments = [ { kind = "tenant"; name = "guest"; } ];
+            role = "access";
+          };
+          clab-access-iot = {
+            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            role = "access";
+          };
+          clab-access-management = {
+            attachments = [ { kind = "tenant"; name = "management"; } ];
+            role = "access";
+          };
+          clab-access-trusted = {
+            attachments = [ { kind = "tenant"; name = "trusted"; } ];
+            role = "access";
+          };
+          clab-access-work = {
+            attachments = [ { kind = "tenant"; name = "work"; } ];
+            role = "access";
+          };
+          clab-provider-handoff-access-a = {
+            attachments = [ { kind = "tenant"; name = "provider-handoff-a"; } ];
+            role = "access";
+          };
+          clab-provider-handoff-access-b = {
+            attachments = [ { kind = "tenant"; name = "provider-handoff-b"; } ];
+            role = "access";
+          };
+          clab-core-commercial-vpn = {
+            role = "core";
+            uplinks.commercial-vpn = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+          clab-core-nebula = {
+            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            role = "core";
+            uplinks.nebula-egress = {
+              ipv4 = [ "100.97.44.0/24" ];
+              ipv6 = [ "fd42:dead:feed:9744::/64" ];
+            };
+          };
+          clab-core-route-import = {
+            role = "core";
+            uplinks.route-import = {
+              ipv4 = [ "198.51.100.0/24" ];
+              ipv6 = [ "2001:db8:51::/48" ];
+            };
+          };
+          clab-core-testnet-host-isp = {
+            role = "core";
+            uplinks.testnet-host-isp = {
+              ipv4 = [ "203.0.113.4/32" ];
+              ipv6 = [ "2001:db8:113:64::/64" ];
+            };
+          };
+          clab-core-testnet-routed-isp = {
+            role = "core";
+            uplinks.testnet-routed-isp = {
+              ipv4 = [ "203.0.113.0/30" ];
+              ipv6 = [ "2001:db8:113::/48" ];
+            };
+          };
+          clab-core-upstream-vlan4 = {
+            role = "core";
+            uplinks.isp-a = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+          clab-core-wireguard-host128 = {
+            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            role = "core";
+            uplinks.wireguard-host128 = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "2001:db8:128::2/128" ];
+            };
+          };
+          clab-core-wireguard-remote-egress = {
+            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            role = "core";
+            uplinks.wireguard-egress = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+          clab-downstream-selector = {
+            role = "downstream-selector";
+          };
+          clab-policy = {
+            role = "policy";
+          };
+          clab-upstream-selector = {
             role = "upstream-selector";
           };
         };
