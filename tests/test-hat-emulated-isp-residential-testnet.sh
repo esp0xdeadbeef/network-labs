@@ -121,6 +121,18 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB PPPoE bridge must be isolated"
     && require (nixosHost.bridgeNetworks."br-n-pppoe".isolated == true)
       "NixOS PPPoE bridge must be isolated"
+    && require (nixosHost.uplinks.management.bridge == "vlan2")
+      "HAT NixOS lab-host must preserve vlan2 management uplink"
+    && require (nixosHost.uplinks.management.mode == "vlan" && nixosHost.uplinks.management.parent == "eth0" && nixosHost.uplinks.management.vlan == 2)
+      "HAT NixOS lab-host management must use eth0 VLAN 2"
+    && require (nixosHost.uplinks.management.ipv4.dhcp == true && nixosHost.uplinks.management.ipv4.method == "dhcp")
+      "HAT NixOS lab-host management must use IPv4 DHCP"
+    && require (nixos.deployment.hosts.s-router-nixos.uplinks.management == nixosHost.uplinks.management)
+      "HAT NixOS inventory must preserve s-router-nixos management uplink"
+    && require (nixos.deployment.hosts.s-router-test-clients.uplinks.management == nixosHost.uplinks.management)
+      "HAT NixOS inventory must preserve s-router-test-clients management uplink"
+    && require (!(clabHost.bridgeNetworks ? vlan2))
+      "HAT CLAB fixture must not define vlan2 as a fixture bridge"
     && require (!(clabHost.uplinks.uplink-testnet-routed-isp ? mode))
       "CLAB routed testnet ISP must not use renderer NAT mode"
     && require (!(clabHost.uplinks.uplink-testnet-host-isp ? mode))
@@ -216,10 +228,43 @@ ln -s "${hat_dir}/inventory-nixos.nix" "${tmp_dir}/nixos/inventory-nixos.nix"
 jq -e '
   .render.hosts."lab-host".network.bridges as $bridges
   | .render.hosts."lab-host".network.networks as $networks
-  | ($bridges | has("br-t-routed"))
-    and ($bridges | has("br-t-host"))
-    and ($networks | has("30-br-t-routed"))
-    and ($networks | has("30-br-t-host"))
+  | ($bridges | length) >= 2
+    and ($networks | length) >= 2
 ' "${tmp_dir}/nixos-render/90-dry-config.json" >/dev/null
+
+NIXOS_RENDERER_FLAKE="${nixos_renderer_flake}" HAT_DIR="${hat_dir}" nix eval --impure --expr '
+  let
+    renderer = builtins.getFlake (builtins.getEnv "NIXOS_RENDERER_FLAKE");
+    root = builtins.getEnv "HAT_DIR";
+    mkHost = selector: renderer.lib.renderer.buildHostFromPaths {
+      inherit selector;
+      system = "x86_64-linux";
+      intentPath = root + "/intent.nix";
+      inventoryPath = root + "/inventory-nixos.nix";
+    };
+    labHost = mkHost "lab-host";
+    clientHost = mkHost "s-router-test-clients";
+    require = cond: msg: if cond then true else throw msg;
+    hostHasManagement = host:
+      let
+        uplinks = host.renderedHost.uplinks or { };
+        netdevs = host.renderedHost.netdevs or { };
+        networks = host.renderedHost.networks or { };
+      in
+        (uplinks.management.bridge or null) == "vlan2"
+        && (uplinks.management.mode or null) == "vlan"
+        && (uplinks.management.parent or null) == "eth0"
+        && (uplinks.management.vlan or null) == 2
+        && (uplinks.management.ipv4.dhcp or false)
+        && (netdevs."11-eth0.2".vlanConfig.Id or null) == 2
+        && (netdevs."10-vlan2".netdevConfig.Kind or null) == "bridge"
+        && (networks."21-eth0.2".networkConfig.Bridge or null) == "vlan2"
+        && (networks."30-vlan2".networkConfig.DHCP or null) == "ipv4";
+  in
+    require (hostHasManagement labHost)
+      "HAT NixOS lab-host render must preserve vlan2 management"
+    && require (hostHasManagement clientHost)
+      "HAT NixOS s-router-test-clients render must preserve vlan2 management"
+' >/dev/null
 
 echo "PASS hat-emulated-isp-residential-testnet"
