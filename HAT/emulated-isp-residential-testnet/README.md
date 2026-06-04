@@ -42,6 +42,6 @@ VLAN 11/12 or a loopback PPPoE substitute.
 The CLAB inventory uses the real hardware deployment host `s-router-clab`, so
 the hardware deploy command can render the HAT topology from the locked
 `network-labs` input without NixOS-side local overrides. The NixOS inventory
-uses `lab-host` as its fixture selector, exposes VLAN 4 as the core internet
+uses `s-router-nixos` as its fixture selector, exposes VLAN 4 as the core internet
 uplink substrate, and separately exposes management uplinks for `s-router-nixos`
 and `s-router-test-clients`.
