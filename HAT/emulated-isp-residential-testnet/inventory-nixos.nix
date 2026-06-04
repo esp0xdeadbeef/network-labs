@@ -33,6 +33,43 @@ let
     else if matches ".*provider-handoff-access-a" then "tenant-provider-handoff-a"
     else if matches ".*provider-handoff-access-b" then "tenant-provider-handoff-b"
     else null;
+  tenantBridgeFor =
+    tenantInterface:
+    {
+      tenant-client = "client";
+      tenant-dmz = "dmz";
+      tenant-guest = "guest";
+      tenant-iot = "iot";
+      tenant-management = "mgmt";
+      tenant-trusted = "trusted";
+      tenant-work = "work";
+    }.${tenantInterface} or null;
+  tenantRuntimeInterfaceFor =
+    tenantInterface:
+    {
+      tenant-management = "tenant-mgmt";
+    }.${tenantInterface} or tenantInterface;
+  tenantPortFor =
+    tenantInterface:
+    let
+      bridge = tenantBridgeFor tenantInterface;
+      runtimeInterface = tenantRuntimeInterfaceFor tenantInterface;
+    in
+    if bridge == null then
+      { }
+    else
+      {
+        ${tenantInterface} = {
+          attach = {
+            inherit bridge;
+            kind = "bridge";
+          };
+          interface = {
+            name = runtimeInterface;
+          };
+          logicalInterface = tenantInterface;
+        };
+      };
   defaultAdvertisementsFor =
     tenantInterface:
     let
@@ -64,7 +101,13 @@ let
           logicalName = node.logicalNode.name or "";
           tenantInterface = tenantInterfaceFor logicalName;
         in
-        if tenantInterface == null then node else node // { advertisements = defaultAdvertisementsFor tenantInterface; })
+        if tenantInterface == null then
+          node
+        else
+          node // {
+            advertisements = defaultAdvertisementsFor tenantInterface;
+            ports = (node.ports or { }) // tenantPortFor tenantInterface;
+          })
       generatedRealization.nodes;
   mergeRuntimeNodes =
     explicitNodes:
@@ -113,6 +156,33 @@ in
           br-site-a-downstream-policy-access-client = { };
           br-site-a-policy-upstream-access-client-testnet-routed-isp = { };
           br-site-a-policy-upstream-access-client-testnet-host-isp = { };
+          client = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 302;
+          };
+          dmz = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 304;
+          };
+          guest = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 306;
+          };
+          iot = { };
+          mgmt = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 300;
+          };
+          trusted = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 301;
+          };
+          work = { };
         };
         hat = {
           providerAccess = {

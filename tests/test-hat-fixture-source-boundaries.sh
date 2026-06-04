@@ -36,6 +36,14 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     nixosHost = nixos.deployment.hosts.lab-host;
     clientHost = nixos.deployment.hosts.s-router-test-clients;
     endpointClients = clientHost.hat.endpointClients or { };
+    accessTenantPortOk = inventory: nodeName: tenantPort: bridgeName:
+      let
+        node = inventory.realization.nodes.${nodeName} or { };
+        port = (node.ports or { }).${tenantPort} or { };
+      in
+        (port.logicalInterface or null) == tenantPort
+        && (port.attach.kind or null) == "bridge"
+        && (port.attach.bridge or null) == bridgeName;
     require = cond: msg: if cond then true else throw msg;
     stripTenantPrefix = name:
       let matched = builtins.match "tenant-(.*)" name;
@@ -125,9 +133,13 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "provider access may select endpoint-specific distribution independent of DHCP"
     && require (nixosHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.endpoint == "nixos-core-testnet-host-isp")
       "NixOS provider access must target the host-ISP core endpoint"
-    && require ((nixosHost.bridgeNetworks."br-site-a-downstream-client".mode or null) == "vlan")
+    && require (accessTenantPortOk nixos "esp0xdeadbeef-site-a-nixos-access-client" "tenant-client" "client")
+      "NixOS HAT access-client must realize tenant-client on the endpoint client bridge"
+    && require (accessTenantPortOk clab "esp0xdeadbeef-site-b-clab-access-client" "tenant-client" "client")
+      "CLAB HAT access-client must realize tenant-client on the endpoint client bridge"
+    && require ((nixosHost.bridgeNetworks.client.mode or null) == "vlan")
       "NixOS HAT router client bridge must bind to the physical client VLAN substrate"
-    && require ((nixosHost.bridgeNetworks."br-site-a-downstream-client".vlan or null) == 302)
+    && require ((nixosHost.bridgeNetworks.client.vlan or null) == 302)
       "NixOS HAT router client bridge must share VLAN 302 with endpoint clients"
     && require ((clientHost.bridgeNetworks.client.vlan or null) == 302)
       "HAT endpoint client bridge must remain on VLAN 302"
@@ -158,6 +170,32 @@ build_cpm() {
 
 build_cpm inventory-clab.nix "${tmp_dir}/clab.json"
 build_cpm inventory-nixos.nix "${tmp_dir}/nixos.json"
+
+jq -e '
+  def has_dhcp4_lease_contract($target):
+    ($target.advertisements.dhcp4 | length) == 1
+    and ($target.advertisements.dhcp4[0].interface == "tenant-client")
+    and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
+    and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
+    and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
+  .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
+  | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
+  | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
+' "${tmp_dir}/nixos.json" >/dev/null \
+  || fail "NixOS inventory must compile access-client DHCPv4 lease-state contracts from explicit tenant ports"
+
+jq -e '
+  def has_dhcp4_lease_contract($target):
+    ($target.advertisements.dhcp4 | length) == 1
+    and ($target.advertisements.dhcp4[0].interface == "tenant-client")
+    and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
+    and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
+    and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
+  .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
+  | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
+  | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
+' "${tmp_dir}/clab.json" >/dev/null \
+  || fail "CLAB inventory must compile access-client DHCPv4 lease-state contracts from explicit tenant ports"
 
 jq -S '
   .control_plane_model.data.esp0xdeadbeef."site-a"

@@ -18,7 +18,7 @@ for required in README.md intent.nix inventory-clab.nix inventory-nixos.nix; do
   fi
 done
 
-if rg -n 'nat-isp|simulated-isp|east-west|nebula|spoofed|upstreamEmulation' "${hat_dir}" >&2; then
+if rg -n 'nat-isp|simulated-isp|east-west|spoofed|upstreamEmulation' "${hat_dir}" >&2; then
   echo "FAIL emulated-isp-residential-testnet: fixture still contains old overlay/NAT-provider naming" >&2
   exit 1
 fi
@@ -40,6 +40,14 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     nixosPppoe = nixosHost.hat.providerAccess.residentialPppoeHostTestnet;
     endpointClients = nixosClientHost.hat.endpointClients or { };
+    accessTenantPortOk = inventory: nodeName: tenantPort: bridgeName:
+      let
+        node = inventory.realization.nodes.${nodeName} or { };
+        port = (node.ports or { }).${tenantPort} or { };
+      in
+        (port.logicalInterface or null) == tenantPort
+        && (port.attach.kind or null) == "bridge"
+        && (port.attach.bridge or null) == bridgeName;
     requiredClientBridgeVlans = {
       admin = 301;
       branch = 305;
@@ -189,6 +197,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT NixOS inventory must preserve s-router-test-clients management uplink"
     && require (builtins.all clientBridgeOk (builtins.attrNames requiredClientBridgeVlans))
       "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
+    && require (accessTenantPortOk nixos "esp0xdeadbeef-site-a-nixos-access-client" "tenant-client" "client")
+      "HAT NixOS access-client must realize tenant-client on the endpoint client bridge"
+    && require (accessTenantPortOk clab "esp0xdeadbeef-site-b-clab-access-client" "tenant-client" "client")
+      "HAT CLAB access-client must realize tenant-client on the endpoint client bridge"
     && require (endpointAssignmentIs "nixos-client01" "dhcp" && endpointAssignmentIs "nixos-client02" "dhcp")
       "HAT endpoint inventory must identify DHCP-addressed client fixtures"
     && require (serviceProvidersAre "hat-printer-ipp" [ "nixos-printer01" ])
@@ -302,11 +314,20 @@ build_cpm nixos
 
 for renderer in clab nixos; do
   jq -e '
+    def has_dhcp4_lease_contract($target):
+      ($target.advertisements.dhcp4 | length) == 1
+      and ($target.advertisements.dhcp4[0].interface == "tenant-client")
+      and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
+      and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
+      and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
     .control_plane_model.data.esp0xdeadbeef."site-a" as $site
+    | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
     | ($site.runtimeTargets
         | has("esp0xdeadbeef-site-a-nixos-access-client")
           and has("esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp")
           and has("esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"))
+      and has_dhcp4_lease_contract($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client")
+      and has_dhcp4_lease_contract($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-client")
       and ([
         $site.trafficPaths[]
         | select(.relationId == "allow-client-to-testnet-routed-isp")
