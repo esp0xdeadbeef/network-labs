@@ -348,20 +348,6 @@
         required = true;
         interface = "management";
         purpose = "hardware-management";
-        addressFamilies = {
-          ipv4 = {
-            method = "dhcp";
-            required = true;
-          };
-          ipv6 = {
-            method = "none";
-            required = false;
-          };
-        };
-        realization = {
-          kind = "inventory-uplink";
-          name = "management";
-        };
       };
 
       topology = {
@@ -1007,20 +993,6 @@
         required = true;
         interface = "management";
         purpose = "hardware-management";
-        addressFamilies = {
-          ipv4 = {
-            method = "dhcp";
-            required = true;
-          };
-          ipv6 = {
-            method = "none";
-            required = false;
-          };
-        };
-        realization = {
-          kind = "inventory-uplink";
-          name = "management";
-        };
       };
 
       topology = {
