@@ -344,6 +344,26 @@
         };
       };
 
+      hostManagement = {
+        required = true;
+        interface = "management";
+        purpose = "hardware-management";
+        addressFamilies = {
+          ipv4 = {
+            method = "dhcp";
+            required = true;
+          };
+          ipv6 = {
+            method = "none";
+            required = false;
+          };
+        };
+        realization = {
+          kind = "inventory-uplink";
+          name = "management";
+        };
+      };
+
       topology = {
         links = [
           [
@@ -980,6 +1000,26 @@
         p2p = {
           ipv4 = "10.50.44.0/24";
           ipv6 = "fd42:dead:feed:5044::/118";
+        };
+      };
+
+      hostManagement = {
+        required = true;
+        interface = "management";
+        purpose = "hardware-management";
+        addressFamilies = {
+          ipv4 = {
+            method = "dhcp";
+            required = true;
+          };
+          ipv6 = {
+            method = "none";
+            required = false;
+          };
+        };
+        realization = {
+          kind = "inventory-uplink";
+          name = "management";
         };
       };
 

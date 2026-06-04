@@ -35,6 +35,18 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.s-router-nixos;
     nixosClientHost = nixos.deployment.hosts.s-router-test-clients;
+    siteHostManagementOk = site:
+      let management = site.hostManagement or { };
+      in
+        (management.required or false)
+        && (management.interface or null) == "management"
+        && (management.purpose or null) == "hardware-management"
+        && (management.addressFamilies.ipv4.method or null) == "dhcp"
+        && (management.addressFamilies.ipv4.required or false)
+        && (management.addressFamilies.ipv6.method or null) == "none"
+        && (management.addressFamilies.ipv6.required or true) == false
+        && (management.realization.kind or null) == "inventory-uplink"
+        && (management.realization.name or null) == "management";
     clabDhcp = clabHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     clabPppoe = clabHost.hat.providerAccess.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
@@ -108,7 +120,11 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
     require = cond: msg: if cond then true else throw msg;
   in
-    require (nodes ? nixos-access-client)
+    require (siteHostManagementOk intent.esp0xdeadbeef.site-a)
+      "site-a intent must declare required hardware management realized by inventory management uplink"
+    && require (siteHostManagementOk intent.esp0xdeadbeef.site-b)
+      "site-b intent must declare required hardware management realized by inventory management uplink"
+    && require (nodes ? nixos-access-client)
       "missing client access node"
     && require (nodes ? nixos-core-testnet-routed-isp)
       "missing routed testnet ISP core node"
@@ -218,6 +234,12 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT NixOS inventory must preserve s-router-nixos management uplink"
     && require (nixos.deployment.hosts.s-router-test-clients.uplinks.management == nixosHost.uplinks.management)
       "HAT NixOS inventory must preserve s-router-test-clients management uplink"
+    && require (clabHost.uplinks.management.bridge == "vlan2")
+      "HAT CLAB s-router-clab must preserve inventory-owned vlan2 management uplink"
+    && require (clabHost.uplinks.management.mode == "vlan" && clabHost.uplinks.management.parent == "eth0" && clabHost.uplinks.management.vlan == 2)
+      "HAT CLAB s-router-clab management must use eth0 VLAN 2"
+    && require (clabHost.uplinks.management.ipv4.dhcp == true && clabHost.uplinks.management.ipv4.method == "dhcp")
+      "HAT CLAB s-router-clab management must use IPv4 DHCP"
     && require (builtins.all clientBridgeOk (builtins.attrNames requiredClientBridgeVlans))
       "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
     && require (accessTenantPortOk nixos "esp0xdeadbeef-site-a-nixos-access-client" "tenant-client" "client")
