@@ -262,6 +262,9 @@ in
           "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "uplink-isp-a";
           "esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
           "esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" = "uplink-testnet-host-isp";
+          "esp0xdeadbeef::site-b::clab-core-upstream-vlan4" = "uplink-isp-a";
+          "esp0xdeadbeef::site-b::clab-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
+          "esp0xdeadbeef::site-b::clab-core-testnet-host-isp" = "uplink-testnet-host-isp";
           "esp0xdeadbeef::site-a::nixos-core-commercial-vpn" = "commercial-vpn";
           "esp0xdeadbeef::site-a::nixos-core-nebula" = "nebula-egress";
           "esp0xdeadbeef::site-a::nixos-core-route-import" = "route-import";
