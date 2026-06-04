@@ -40,13 +40,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       in
         (management.required or false)
         && (management.interface or null) == "management"
-        && (management.purpose or null) == "hardware-management"
-        && (management.addressFamilies.ipv4.method or null) == "dhcp"
-        && (management.addressFamilies.ipv4.required or false)
-        && (management.addressFamilies.ipv6.method or null) == "none"
-        && (management.addressFamilies.ipv6.required or true) == false
-        && (management.realization.kind or null) == "inventory-uplink"
-        && (management.realization.name or null) == "management";
+        && (management.purpose or null) == "hardware-management";
     clabDhcp = clabHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     clabPppoe = clabHost.hat.providerAccess.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
@@ -121,9 +115,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     require = cond: msg: if cond then true else throw msg;
   in
     require (siteHostManagementOk intent.esp0xdeadbeef.site-a)
-      "site-a intent must declare required hardware management realized by inventory management uplink"
+      "site-a intent must declare required hardware management without inventory realization facts"
     && require (siteHostManagementOk intent.esp0xdeadbeef.site-b)
-      "site-b intent must declare required hardware management realized by inventory management uplink"
+      "site-b intent must declare required hardware management without inventory realization facts"
     && require (nodes ? nixos-access-client)
       "missing client access node"
     && require (nodes ? nixos-core-testnet-routed-isp)
