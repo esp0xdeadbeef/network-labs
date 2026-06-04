@@ -49,6 +49,29 @@ let
     {
       tenant-management = "tenant-mgmt";
     }.${tenantInterface} or tenantInterface;
+  pppoeCredentials = {
+    labOnly = true;
+    username = "hat-pppoe";
+    password = "hat-pppoe";
+  };
+  pppoeServerService = interface: providerAddress: customerAddress: {
+    pppoe.server = {
+      inherit interface providerAddress customerAddress;
+      credentials = pppoeCredentials;
+      implementation = "rp-pppoe";
+      maxSessions = 32;
+      mtu = 1492;
+    };
+  };
+  pppoeClientService = interface: runtimeInterface: {
+    pppoe.client = {
+      inherit interface runtimeInterface;
+      credentials = pppoeCredentials;
+      defaultRoute = true;
+      mtu = 1492;
+      usePeerDns = true;
+    };
+  };
   tenantPortFor =
     tenantInterface:
     let
@@ -580,6 +603,7 @@ in
           site = "site-a";
         };
         platform = "linux";
+        services = pppoeClientService "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b" "ppp1";
         ports = {
           testnet-routed-isp = {
             attach = {
@@ -649,6 +673,7 @@ in
           site = "site-a";
         };
         platform = "linux";
+        services = pppoeClientService "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a" "ppp0";
         ports = {
           testnet-host-isp = {
             attach = {
@@ -673,6 +698,20 @@ in
             link = "p2p-nixos-core-testnet-host-isp-nixos-upstream-selector";
           };
         };
+      };
+
+      esp0xdeadbeef-site-a-nixos-provider-handoff-access-a = {
+        services = pppoeServerService
+          "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"
+          "203.0.113.5"
+          "203.0.113.4";
+      };
+
+      esp0xdeadbeef-site-a-nixos-provider-handoff-access-b = {
+        services = pppoeServerService
+          "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"
+          "203.0.113.1"
+          "203.0.113.2";
       };
 
       esp0xdeadbeef-site-a-nixos-downstream-selector = {
@@ -819,6 +858,28 @@ in
             link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp";
           };
         };
+      };
+
+      esp0xdeadbeef-site-b-clab-core-testnet-routed-isp = {
+        services = pppoeClientService "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b" "ppp1";
+      };
+
+      esp0xdeadbeef-site-b-clab-core-testnet-host-isp = {
+        services = pppoeClientService "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a" "ppp0";
+      };
+
+      esp0xdeadbeef-site-b-clab-provider-handoff-access-a = {
+        services = pppoeServerService
+          "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"
+          "203.0.113.5"
+          "203.0.113.4";
+      };
+
+      esp0xdeadbeef-site-b-clab-provider-handoff-access-b = {
+        services = pppoeServerService
+          "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"
+          "203.0.113.1"
+          "203.0.113.2";
       };
     };
   };

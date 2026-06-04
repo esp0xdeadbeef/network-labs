@@ -178,11 +178,29 @@ jq -e '
     and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
     and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
     and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
+  def has_pppoe_client($target; $interface; $runtimeInterface):
+    $target.services.pppoe.client.interface == $interface
+    and $target.services.pppoe.client.runtimeInterface == $runtimeInterface
+    and $target.services.pppoe.client.defaultRoute == true;
+  def has_pppoe_server($target; $interface; $providerAddress; $customerAddress):
+    $target.services.pppoe.server.interface == $interface
+    and $target.services.pppoe.server.providerAddress == $providerAddress
+    and $target.services.pppoe.server.customerAddress == $customerAddress;
   .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
   | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
+  | .control_plane_model.data.esp0xdeadbeef."site-a" as $site
+  | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
   | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
+    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "ppp0")
+    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "ppp1")
+    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
+    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
+    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-host-isp"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "ppp0")
+    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
+    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
+    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
 ' "${tmp_dir}/nixos.json" >/dev/null \
-  || fail "NixOS inventory must compile access-client DHCPv4 lease-state contracts from explicit tenant ports"
+  || fail "NixOS inventory must compile access DHCPv4 and provider PPPoE runtime service contracts"
 
 jq -e '
   def has_dhcp4_lease_contract($target):
@@ -191,11 +209,29 @@ jq -e '
     and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
     and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
     and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
+  def has_pppoe_client($target; $interface; $runtimeInterface):
+    $target.services.pppoe.client.interface == $interface
+    and $target.services.pppoe.client.runtimeInterface == $runtimeInterface
+    and $target.services.pppoe.client.defaultRoute == true;
+  def has_pppoe_server($target; $interface; $providerAddress; $customerAddress):
+    $target.services.pppoe.server.interface == $interface
+    and $target.services.pppoe.server.providerAddress == $providerAddress
+    and $target.services.pppoe.server.customerAddress == $customerAddress;
   .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
   | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
+  | .control_plane_model.data.esp0xdeadbeef."site-a" as $site
+  | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
   | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
+    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "ppp0")
+    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "ppp1")
+    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
+    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
+    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-host-isp"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "ppp0")
+    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
+    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
+    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
 ' "${tmp_dir}/clab.json" >/dev/null \
-  || fail "CLAB inventory must compile access-client DHCPv4 lease-state contracts from explicit tenant ports"
+  || fail "CLAB inventory must compile access DHCPv4 and provider PPPoE runtime service contracts"
 
 jq -S '
   .control_plane_model.data.esp0xdeadbeef."site-a"
