@@ -33,9 +33,20 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     nixos = import (root + "/inventory-nixos.nix");
     site = intent.esp0xdeadbeef.site-a;
     clabHost = clab.deployment.hosts.s-router-clab;
-    nixosHost = nixos.deployment.hosts.lab-host;
+    nixosHost = nixos.deployment.hosts.s-router-nixos;
     clientHost = nixos.deployment.hosts.s-router-test-clients;
     endpointClients = clientHost.hat.endpointClients or { };
+    nodeHostIs = inventory: nodeName: expectedHost:
+      ((inventory.realization.nodes.${nodeName} or { }).host or null) == expectedHost;
+    allLogicalPlacementsMatch = inventory: siteName: namePattern: expectedHost:
+      builtins.all
+        (node:
+          let logicalNode = node.logicalNode or { };
+          in
+            (logicalNode.site or null) != siteName
+            || builtins.match namePattern (logicalNode.name or "") == null
+            || (node.host or null) == expectedHost)
+        (builtins.attrValues (inventory.realization.nodes or { }));
     accessTenantPortOk = inventory: nodeName: tenantPort: bridgeName:
       let
         node = inventory.realization.nodes.${nodeName} or { };
@@ -131,8 +142,22 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB and NixOS HAT inventories must use separate PPPoE handoff surfaces"
     && require (clabHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.mode == "endpoint-specific")
       "provider access may select endpoint-specific distribution independent of DHCP"
+    && require (clabHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.endpoint == "clab-core-testnet-host-isp")
+      "CLAB provider access must target the CLAB host-ISP core endpoint"
     && require (nixosHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.endpoint == "nixos-core-testnet-host-isp")
       "NixOS provider access must target the host-ISP core endpoint"
+    && require (nodeHostIs nixos "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp" "s-router-nixos")
+      "NixOS inventory must place site-a/nixos host-ISP core on s-router-nixos"
+    && require (nodeHostIs clab "esp0xdeadbeef-site-b-clab-core-testnet-host-isp" "s-router-clab")
+      "CLAB inventory must place site-b/clab host-ISP core on s-router-clab"
+    && require (allLogicalPlacementsMatch nixos "site-a" "nixos-.*" "s-router-nixos")
+      "NixOS inventory must place every site-a/nixos runtime node on s-router-nixos"
+    && require (allLogicalPlacementsMatch nixos "site-b" "clab-.*" "s-router-clab")
+      "NixOS inventory must keep every site-b/clab runtime node assigned to s-router-clab"
+    && require (allLogicalPlacementsMatch clab "site-a" "nixos-.*" "s-router-nixos")
+      "CLAB inventory must keep every site-a/nixos runtime node assigned to s-router-nixos"
+    && require (allLogicalPlacementsMatch clab "site-b" "clab-.*" "s-router-clab")
+      "CLAB inventory must place every site-b/clab runtime node on s-router-clab"
     && require (accessTenantPortOk nixos "esp0xdeadbeef-site-a-nixos-access-client" "tenant-client" "client")
       "NixOS HAT access-client must realize tenant-client on the endpoint client bridge"
     && require (accessTenantPortOk clab "esp0xdeadbeef-site-b-clab-access-client" "tenant-client" "client")
@@ -293,7 +318,7 @@ cmp -s "${tmp_dir}/nixos-model-surface.json" "${tmp_dir}/nixos-no-endpoints-mode
 cat > "${tmp_dir}/inventory-clab-missing-port.nix" <<EOF
 let
   base = import ${hat_dir}/inventory-clab.nix;
-  nodeName = "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp";
+  nodeName = "esp0xdeadbeef-site-b-clab-core-testnet-host-isp";
   node = base.realization.nodes.\${nodeName};
 in
 base // {

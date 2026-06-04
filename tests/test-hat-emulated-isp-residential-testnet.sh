@@ -33,13 +33,24 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     nodes = site.topology.nodes;
     relations = site.communicationContract.relations;
     clabHost = clab.deployment.hosts.s-router-clab;
-    nixosHost = nixos.deployment.hosts.lab-host;
+    nixosHost = nixos.deployment.hosts.s-router-nixos;
     nixosClientHost = nixos.deployment.hosts.s-router-test-clients;
     clabDhcp = clabHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     clabPppoe = clabHost.hat.providerAccess.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     nixosPppoe = nixosHost.hat.providerAccess.residentialPppoeHostTestnet;
     endpointClients = nixosClientHost.hat.endpointClients or { };
+    nodeHostIs = inventory: nodeName: expectedHost:
+      ((inventory.realization.nodes.${nodeName} or { }).host or null) == expectedHost;
+    allLogicalPlacementsMatch = inventory: siteName: namePattern: expectedHost:
+      builtins.all
+        (node:
+          let logicalNode = node.logicalNode or { };
+          in
+            (logicalNode.site or null) != siteName
+            || builtins.match namePattern (logicalNode.name or "") == null
+            || (node.host or null) == expectedHost)
+        (builtins.attrValues (inventory.realization.nodes or { }));
     accessTenantPortOk = inventory: nodeName: tenantPort: bridgeName:
       let
         node = inventory.realization.nodes.${nodeName} or { };
@@ -127,8 +138,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "NixOS DHCP provider access must remain network-wide DHCP"
     && require (clabPppoe.harness == "s-router-clab")
       "CLAB PPPoE row must name s-router-clab"
-    && require (clabPppoe.distribution.mode == "endpoint-specific" && clabPppoe.distribution.endpoint == "nixos-core-testnet-host-isp")
-      "CLAB provider access must target the host-ISP core endpoint when distribution is endpoint-specific"
+    && require (clabPppoe.distribution.mode == "endpoint-specific" && clabPppoe.distribution.endpoint == "clab-core-testnet-host-isp")
+      "CLAB provider access must target the CLAB host-ISP core endpoint when distribution is endpoint-specific"
     && require (nixosPppoe.harness == "s-router-nixos")
       "NixOS PPPoE row must name s-router-nixos"
     && require (nixosPppoe.distribution.mode == "endpoint-specific" && nixosPppoe.distribution.endpoint == "nixos-core-testnet-host-isp")
@@ -181,16 +192,28 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "PPPoE HAT surfaces must not be physical"
     && require (!(clabPppoe.l2Surface ? vlan) && !(nixosPppoe.l2Surface ? vlan))
       "PPPoE HAT surfaces must not be tagged VLANs"
+    && require (nodeHostIs nixos "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp" "s-router-nixos")
+      "NixOS inventory must place site-a/nixos host-ISP core on s-router-nixos"
+    && require (nodeHostIs clab "esp0xdeadbeef-site-b-clab-core-testnet-host-isp" "s-router-clab")
+      "CLAB inventory must place site-b/clab host-ISP core on s-router-clab"
+    && require (allLogicalPlacementsMatch nixos "site-a" "nixos-.*" "s-router-nixos")
+      "NixOS inventory must place every site-a/nixos runtime node on s-router-nixos"
+    && require (allLogicalPlacementsMatch nixos "site-b" "clab-.*" "s-router-clab")
+      "NixOS inventory must keep every site-b/clab runtime node assigned to s-router-clab"
+    && require (allLogicalPlacementsMatch clab "site-a" "nixos-.*" "s-router-nixos")
+      "CLAB inventory must keep every site-a/nixos runtime node assigned to s-router-nixos"
+    && require (allLogicalPlacementsMatch clab "site-b" "clab-.*" "s-router-clab")
+      "CLAB inventory must place every site-b/clab runtime node on s-router-clab"
     && require (clabHost.bridgeNetworks."br-c-pppoe".isolated == true)
       "CLAB PPPoE bridge must be isolated"
     && require (nixosHost.bridgeNetworks."br-n-pppoe".isolated == true)
       "NixOS PPPoE bridge must be isolated"
     && require (nixosHost.uplinks.management.bridge == "vlan2")
-      "HAT NixOS lab-host must preserve vlan2 management uplink"
+      "HAT NixOS s-router-nixos must preserve vlan2 management uplink"
     && require (nixosHost.uplinks.management.mode == "vlan" && nixosHost.uplinks.management.parent == "eth0" && nixosHost.uplinks.management.vlan == 2)
-      "HAT NixOS lab-host management must use eth0 VLAN 2"
+      "HAT NixOS s-router-nixos management must use eth0 VLAN 2"
     && require (nixosHost.uplinks.management.ipv4.dhcp == true && nixosHost.uplinks.management.ipv4.method == "dhcp")
-      "HAT NixOS lab-host management must use IPv4 DHCP"
+      "HAT NixOS s-router-nixos management must use IPv4 DHCP"
     && require (nixos.deployment.hosts.s-router-nixos.uplinks.management == nixosHost.uplinks.management)
       "HAT NixOS inventory must preserve s-router-nixos management uplink"
     && require (nixos.deployment.hosts.s-router-test-clients.uplinks.management == nixosHost.uplinks.management)
@@ -289,10 +312,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "routed testnet ISP uplinks must not be tagged VLANs"
     && require (!(clabHost.uplinks.uplink-testnet-host-isp ? vlan) && !(nixosHost.uplinks.uplink-testnet-host-isp ? vlan))
       "host testnet ISP uplinks must not be tagged VLANs"
-    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" == "uplink-testnet-routed-isp")
-      "routed core must map to routed testnet uplink"
-    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" == "uplink-testnet-host-isp")
-      "host core must map to host testnet uplink"
+    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-b::clab-core-testnet-routed-isp" == "uplink-testnet-routed-isp")
+      "CLAB routed core must map to routed testnet uplink"
+    && require (clabHost.wanGroupToUplink."esp0xdeadbeef::site-b::clab-core-testnet-host-isp" == "uplink-testnet-host-isp")
+      "CLAB host core must map to host testnet uplink"
 ' >/dev/null
 
 build_cpm() {
@@ -382,8 +405,12 @@ nix eval --impure --json --expr "import ${hat_dir}/inventory-clab.nix" \
       "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 )
 
-grep -F 'nixos-core-testnet-routed-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
-grep -F 'nixos-core-testnet-host-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
+grep -F 'clab-core-testnet-routed-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
+grep -F 'clab-core-testnet-host-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
+if grep -F 'nixos-core-testnet' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null; then
+  echo "FAIL emulated-isp-residential-testnet: CLAB render included site-a/nixos nodes" >&2
+  exit 1
+fi
 grep -F 'br-t-routed' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 grep -F 'br-t-host' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
 
@@ -396,8 +423,8 @@ ln -s "${hat_dir}/inventory-nixos.nix" "${tmp_dir}/nixos/inventory-nixos.nix"
 )
 
 jq -e '
-  .render.hosts."lab-host".network.bridges as $bridges
-  | .render.hosts."lab-host".network.networks as $networks
+  .render.hosts."s-router-nixos".network.bridges as $bridges
+  | .render.hosts."s-router-nixos".network.networks as $networks
   | ($bridges | length) >= 2
     and ($networks | length) >= 2
 ' "${tmp_dir}/nixos-render/90-dry-config.json" >/dev/null
@@ -412,7 +439,7 @@ NIXOS_RENDERER_FLAKE="${nixos_renderer_flake}" HAT_DIR="${hat_dir}" nix eval --i
       intentPath = root + "/intent.nix";
       inventoryPath = root + "/inventory-nixos.nix";
     };
-    labHost = mkHost "lab-host";
+    labHost = mkHost "s-router-nixos";
     clientHost = mkHost "s-router-test-clients";
     require = cond: msg: if cond then true else throw msg;
     hostHasManagement = host:
@@ -432,7 +459,7 @@ NIXOS_RENDERER_FLAKE="${nixos_renderer_flake}" HAT_DIR="${hat_dir}" nix eval --i
         && (networks."30-vlan2".networkConfig.DHCP or null) == "ipv4";
   in
     require (hostHasManagement labHost)
-      "HAT NixOS lab-host render must preserve vlan2 management"
+      "HAT NixOS s-router-nixos render must preserve vlan2 management"
     && require (hostHasManagement clientHost)
       "HAT NixOS s-router-test-clients render must preserve vlan2 management"
 ' >/dev/null
