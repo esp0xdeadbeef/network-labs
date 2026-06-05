@@ -135,6 +135,24 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (tenant: builtins.elem tenant (tenantAttachments nodes right))
         (tenantAttachments nodes left);
     roleOf = nodes: nodeName: (nodes.${nodeName} or { }).role or null;
+    attachmentsOf = nodes: nodeName: (nodes.${nodeName} or { }).attachments or [ ];
+    uplinksOf = nodes: nodeName: (nodes.${nodeName} or { }).uplinks or { };
+    accessTenantOnly = nodes: nodeName: tenant:
+      roleOf nodes nodeName == "access"
+      && attachmentsOf nodes nodeName == [ { kind = "tenant"; name = tenant; } ]
+      && uplinksOf nodes nodeName == { };
+    providerCoreOnly = nodes: nodeName: tenant: uplink:
+      roleOf nodes nodeName == "core"
+      && attachmentsOf nodes nodeName == [ { kind = "tenant"; name = tenant; } ]
+      && builtins.attrNames (uplinksOf nodes nodeName) == [ uplink ];
+    upstreamCoreOnly = nodes: nodeName: uplink:
+      roleOf nodes nodeName == "core"
+      && attachmentsOf nodes nodeName == [ ]
+      && builtins.attrNames (uplinksOf nodes nodeName) == [ uplink ];
+    coreMapsToUplink = host: siteName: coreNode: uplink:
+      (host.wanGroupToUplink."esp0xdeadbeef::${siteName}::${coreNode}" or null) == uplink;
+    nodeDoesNotMapToUplink = host: siteName: nodeName:
+      !(host.wanGroupToUplink ? "esp0xdeadbeef::${siteName}::${nodeName}");
     stageLinkAllowed = nodes: link:
       let
         left = builtins.elemAt link 0;
@@ -219,6 +237,30 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       [ "clab-access-iot" "clab-core-wireguard-host128" ]
     ])
       "site-b HAT source must allow only HDS access-space/core attachment links"
+    && require (upstreamCoreOnly nodes "nixos-core-upstream-vlan4" "isp-a")
+      "site-a VLAN4 upstream surface must be a core uplink without tenant/client attachment"
+    && require (upstreamCoreOnly clabNodes "clab-core-upstream-vlan4" "isp-a")
+      "site-b VLAN4 upstream surface must be a core uplink without tenant/client attachment"
+    && require (accessTenantOnly nodes "nixos-access-client" "client")
+      "site-a ordinary client surface must remain tenant access without uplink/core classification"
+    && require (accessTenantOnly clabNodes "clab-access-client" "client")
+      "site-b ordinary client surface must remain tenant access without uplink/core classification"
+    && require (accessTenantOnly nodes "nixos-provider-handoff-access-a" "provider-handoff-a")
+      "site-a provider handoff A must remain access-side provider distribution"
+    && require (accessTenantOnly nodes "nixos-provider-handoff-access-b" "provider-handoff-b")
+      "site-a provider handoff B must remain access-side provider distribution"
+    && require (accessTenantOnly clabNodes "clab-provider-handoff-access-a" "provider-handoff-a")
+      "site-b provider handoff A must remain access-side provider distribution"
+    && require (accessTenantOnly clabNodes "clab-provider-handoff-access-b" "provider-handoff-b")
+      "site-b provider handoff B must remain access-side provider distribution"
+    && require (providerCoreOnly nodes "nixos-core-testnet-host-isp" "provider-handoff-a" "testnet-host-isp")
+      "site-a host ISP core must carry provider handoff attachment and testnet uplink only"
+    && require (providerCoreOnly nodes "nixos-core-testnet-routed-isp" "provider-handoff-b" "testnet-routed-isp")
+      "site-a routed ISP core must carry provider handoff attachment and testnet uplink only"
+    && require (providerCoreOnly clabNodes "clab-core-testnet-host-isp" "provider-handoff-a" "testnet-host-isp")
+      "site-b host ISP core must carry provider handoff attachment and testnet uplink only"
+    && require (providerCoreOnly clabNodes "clab-core-testnet-routed-isp" "provider-handoff-b" "testnet-routed-isp")
+      "site-b routed ISP core must carry provider handoff attachment and testnet uplink only"
     && require (clabDhcp.harness == "s-router-clab")
       "CLAB DHCP row must name s-router-clab"
     && require (clabDhcp.distribution.mode == "network-wide" && clabDhcp.distribution.technology == "dhcp")
@@ -315,6 +357,22 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT CLAB s-router-clab management must use eth0 VLAN 2"
     && require (clabHost.uplinks.management.ipv4.dhcp == true && clabHost.uplinks.management.ipv4.method == "dhcp")
       "HAT CLAB s-router-clab management must use IPv4 DHCP"
+    && require (coreMapsToUplink nixosHost "site-a" "nixos-core-upstream-vlan4" "uplink-isp-a")
+      "HAT NixOS VLAN4 core must map to uplink-isp-a"
+    && require (coreMapsToUplink clabHost "site-b" "clab-core-upstream-vlan4" "uplink-isp-a")
+      "HAT CLAB VLAN4 core must map to uplink-isp-a"
+    && require (nodeDoesNotMapToUplink nixosHost "site-a" "nixos-access-client")
+      "HAT NixOS ordinary client access must not map as a WAN/uplink core"
+    && require (nodeDoesNotMapToUplink clabHost "site-b" "clab-access-client")
+      "HAT CLAB ordinary client access must not map as a WAN/uplink core"
+    && require (nodeDoesNotMapToUplink nixosHost "site-a" "nixos-provider-handoff-access-a")
+      "HAT NixOS provider handoff access A must not map as a WAN/uplink core"
+    && require (nodeDoesNotMapToUplink nixosHost "site-a" "nixos-provider-handoff-access-b")
+      "HAT NixOS provider handoff access B must not map as a WAN/uplink core"
+    && require (nodeDoesNotMapToUplink clabHost "site-b" "clab-provider-handoff-access-a")
+      "HAT CLAB provider handoff access A must not map as a WAN/uplink core"
+    && require (nodeDoesNotMapToUplink clabHost "site-b" "clab-provider-handoff-access-b")
+      "HAT CLAB provider handoff access B must not map as a WAN/uplink core"
     && require (builtins.all clientBridgeOk (builtins.attrNames requiredClientBridgeVlans))
       "HAT s-router-test-clients must expose tenant bridge VLANs required by endpoint containers"
     && require (accessTenantPortOk nixos "esp0xdeadbeef-site-a-nixos-access-client" "tenant-client" "client")
