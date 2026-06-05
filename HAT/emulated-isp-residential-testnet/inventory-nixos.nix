@@ -570,7 +570,27 @@
               gateway6 = "fd42:dead:beef:20::1";
               ipv4 = [ "10.20.20.60/24" ];
               ipv6 = [ "fd42:dead:beef:20::60/64" ];
+              fixtureAuthority = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-030";
+                mayGrantManagementAccess = false;
+                mayInferPolicy = false;
+                policyAuthority = "intent-communication-contract";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-030";
+                kind = "persistent-service-state";
+                paths = [ "/var/lib/cups" ];
+                required = true;
+                service = "cups";
+              };
+              serviceState = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-020";
+                required = true;
+                service = "cups";
+                systemdUnit = "cups.service";
+                targetState = "running";
+              };
               serviceSurfaces = {
                 admin = {
                   gampId = "FS-740-HDS-010-SDS-010-SMS-010";
@@ -586,6 +606,12 @@
                 };
               };
               tenant = "client";
+              vm = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+                kind = "nixos-vm";
+                role = "cups-printer";
+                service = "cups";
+              };
             };
             nixos-receiver01 = {
               addressDelivery = "endpoint-configured";
