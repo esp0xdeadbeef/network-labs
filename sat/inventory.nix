@@ -638,8 +638,421 @@ let
       };
     }) clabEastWestTenants
   );
+
+  secretPolicyNeutral = {
+    createsRouteAuthority = false;
+    createsFirewallPolicy = false;
+    createsDnsPolicy = false;
+    createsPublicIngress = false;
+    createsTenantReachability = false;
+    createsTrustBoundary = false;
+    createsNetworkBehavior = false;
+  };
+
+  satSecretSourceSpecs = [
+    {
+      id = "sat-secret-pppoe-nixos-username";
+      credentialClass = "provider-credential";
+      site = "nixos";
+      tenant = null;
+      host = "s-router-test";
+      consumer = {
+        kind = "service";
+        node = "esp-nixos-router-core-isp-a";
+        name = "pppoe.client";
+      };
+      purpose = "pppoe-username";
+      lifecycle = "lab-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "sat-pppoe-nixos-username";
+      runtimePath = "/run/secrets/sat-pppoe-nixos-username";
+      sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeNixos.credentials.usernameFile";
+    }
+    {
+      id = "sat-secret-pppoe-nixos-password";
+      credentialClass = "provider-credential";
+      site = "nixos";
+      tenant = null;
+      host = "s-router-test";
+      consumer = {
+        kind = "service";
+        node = "esp-nixos-router-core-isp-a";
+        name = "pppoe.client";
+      };
+      purpose = "pppoe-password";
+      lifecycle = "lab-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "sat-pppoe-nixos-password";
+      runtimePath = "/run/secrets/sat-pppoe-nixos-password";
+      sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeNixos.credentials.passwordFile";
+    }
+    {
+      id = "sat-secret-pppoe-clab-username";
+      credentialClass = "provider-credential";
+      site = "clab";
+      tenant = null;
+      host = "s-router-clab";
+      consumer = {
+        kind = "service";
+        node = "esp-clab-router-core-simulated-isp";
+        name = "pppoe.client";
+      };
+      purpose = "pppoe-username";
+      lifecycle = "lab-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "sat-pppoe-clab-username";
+      runtimePath = "/run/secrets/sat-pppoe-clab-username";
+      sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeClab.credentials.usernameFile";
+    }
+    {
+      id = "sat-secret-pppoe-clab-password";
+      credentialClass = "provider-credential";
+      site = "clab";
+      tenant = null;
+      host = "s-router-clab";
+      consumer = {
+        kind = "service";
+        node = "esp-clab-router-core-simulated-isp";
+        name = "pppoe.client";
+      };
+      purpose = "pppoe-password";
+      lifecycle = "lab-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "sat-pppoe-clab-password";
+      runtimePath = "/run/secrets/sat-pppoe-clab-password";
+      sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeClab.credentials.passwordFile";
+    }
+    {
+      id = "sat-secret-wireguard-host128-private-key";
+      credentialClass = "wireguard-credential";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "provider-contract";
+        node = "hetz-router-nebula-core";
+        name = "wireguard.hostOnly128Egress";
+      };
+      purpose = "wireguard-private-key";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "wireguard-sat-host128-private-key";
+      runtimePath = "/run/secrets/wireguard-sat-host128-private-key";
+      sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-host128-egress.wireguard.providerContract.profile.generatedPeer.privateKeyFile";
+    }
+    {
+      id = "sat-secret-wireguard-host128-psk";
+      credentialClass = "wireguard-credential";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "provider-contract";
+        node = "hetz-router-nebula-core";
+        name = "wireguard.hostOnly128Egress";
+      };
+      purpose = "wireguard-preshared-key";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "wireguard-sat-host128-psk";
+      runtimePath = "/run/secrets/wireguard-sat-host128-psk";
+      sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-host128-egress.wireguard.providerContract.profile.generatedPeer.peers[0].presharedKeyFile";
+    }
+    {
+      id = "sat-secret-wireguard-routed64-private-key";
+      credentialClass = "wireguard-credential";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "provider-contract";
+        node = "hetz-router-nebula-core";
+        name = "wireguard.routed64";
+      };
+      purpose = "wireguard-private-key";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "wireguard-sat-routed64-private-key";
+      runtimePath = "/run/secrets/wireguard-sat-routed64-private-key";
+      sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-routed64.wireguard.providerContract.profile.generatedPeer.privateKeyFile";
+    }
+    {
+      id = "sat-secret-wireguard-routed64-psk";
+      credentialClass = "wireguard-credential";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "provider-contract";
+        node = "hetz-router-nebula-core";
+        name = "wireguard.routed64";
+      };
+      purpose = "wireguard-preshared-key";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+      sourceName = "wireguard-sat-routed64-psk";
+      runtimePath = "/run/secrets/wireguard-sat-routed64-psk";
+      sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-routed64.wireguard.providerContract.profile.generatedPeer.peers[0].presharedKeyFile";
+    }
+    {
+      id = "sat-secret-hetzner-public-ipv4";
+      credentialClass = "deployment-runtime-fact";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "runtime-fact";
+        node = "hetz-router-nebula-core";
+        name = "public-endpoint-ipv4";
+      };
+      purpose = "public-endpoint-ipv4";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "hetzner-public-ipv4";
+      runtimePath = "/run/secrets/hetzner-public-ipv4";
+      sourceFieldPath = "runtime.publicEndpoint.ipv4Secret";
+    }
+    {
+      id = "sat-secret-hetzner-public-ipv6";
+      credentialClass = "deployment-runtime-fact";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "runtime-fact";
+        node = "hetz-router-nebula-core";
+        name = "public-endpoint-ipv6";
+      };
+      purpose = "public-endpoint-ipv6";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "hetzner-public-ipv6";
+      runtimePath = "/run/secrets/hetzner-public-ipv6";
+      sourceFieldPath = "runtime.publicEndpoint.ipv6Secret";
+    }
+    {
+      id = "sat-secret-hetzner-lighthouse-public-ipv4";
+      credentialClass = "overlay-runtime-fact";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "overlay";
+        node = "hetz-router-lighthouse";
+        name = "nebula-lighthouse-endpoint";
+      };
+      purpose = "nebula-lighthouse-endpoint-ipv4";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "hetzner-lighthouse-public-ipv4";
+      runtimePath = "/run/secrets/hetzner-lighthouse-public-ipv4";
+      sourceFieldPath = "runtime.publicEndpoint.lighthouseIpv4Secret";
+    }
+    {
+      id = "sat-secret-hetzner-primary-interface-mac";
+      credentialClass = "deployment-runtime-fact";
+      site = "hetz";
+      tenant = null;
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "runtime-fact";
+        node = "hetz-router-nebula-core";
+        name = "primary-interface-mac";
+      };
+      purpose = "deployment-interface-identity";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "protected-inventory";
+      sourceName = "hetzner-primary-interface-mac";
+      runtimePath = "/run/secrets/hetzner-primary-interface-mac";
+      sourceFieldPath = "runtime.publicEndpoint.macSecret";
+    }
+    {
+      id = "sat-secret-nebula-lighthouse-ipv4";
+      credentialClass = "overlay-runtime-fact";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "overlay";
+        node = "hetz-router-lighthouse";
+        name = "nebula-overlay-client-ipv4";
+      };
+      purpose = "nebula-overlay-client-address-ipv4";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "nebula-hetzner-lighthouse-ipv4";
+      runtimePath = "/run/secrets/nebula-hetzner-lighthouse-ipv4";
+      sourceFieldPath = "runtime.overlayClients.hetznerLighthouse.addr4Secret";
+    }
+    {
+      id = "sat-secret-nebula-lighthouse-ipv6";
+      credentialClass = "overlay-runtime-fact";
+      site = "hetz";
+      tenant = "dmz";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "overlay";
+        node = "hetz-router-lighthouse";
+        name = "nebula-overlay-client-ipv6";
+      };
+      purpose = "nebula-overlay-client-address-ipv6";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "nebula-hetzner-lighthouse-ipv6";
+      runtimePath = "/run/secrets/nebula-hetzner-lighthouse-ipv6";
+      sourceFieldPath = "runtime.overlayClients.hetznerLighthouse.addr6Secret";
+    }
+    {
+      id = "sat-secret-nixos-hostile-public-prefix";
+      credentialClass = "deployment-runtime-fact";
+      site = "nixos";
+      tenant = "hostile";
+      host = "s-router-test";
+      consumer = {
+        kind = "tenant-runtime-prefix";
+        node = "esp-nixos-router-access-hostile";
+        name = "hostile-public";
+      };
+      purpose = "tenant-routed-prefix";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "access-node-ipv6-prefix-esp-nixos-router-access-hostile";
+      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
+      sourceFieldPath = "intent.esp.nixos.ownership.prefixes.hostile-public.sourceFile";
+    }
+    {
+      id = "sat-secret-clab-client-public-prefix";
+      credentialClass = "deployment-runtime-fact";
+      site = "clab";
+      tenant = "client";
+      host = "s-router-clab";
+      consumer = {
+        kind = "tenant-runtime-prefix";
+        node = "esp-clab-router-access-client";
+        name = "clab-client-public";
+      };
+      purpose = "tenant-routed-prefix";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "access-node-ipv6-prefix-esp-clab-router-access-client";
+      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
+      sourceFieldPath = "controlPlane.sites.esp.clab.tenants.client.routedPrefixes.clab-client-public.sourceFile";
+    }
+    {
+      id = "sat-secret-clab-hostile-public-prefix";
+      credentialClass = "deployment-runtime-fact";
+      site = "clab";
+      tenant = "hostile";
+      host = "s-router-clab";
+      consumer = {
+        kind = "tenant-runtime-prefix";
+        node = "esp-clab-router-access-hostile";
+        name = "hostile-public";
+      };
+      purpose = "tenant-routed-prefix";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "access-node-ipv6-prefix-esp-clab-router-access-hostile";
+      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
+      sourceFieldPath = "controlPlane.sites.esp.clab.tenants.hostile.routedPrefixes.hostile-public.sourceFile";
+    }
+    {
+      id = "sat-secret-hetz-client-public-prefix";
+      credentialClass = "deployment-runtime-fact";
+      site = "hetz";
+      tenant = "client";
+      host = "s-router-hetzner-anywhere";
+      consumer = {
+        kind = "tenant-runtime-prefix";
+        node = "esp-hetz-router-access-client";
+        name = "hetz-client-public";
+      };
+      purpose = "tenant-routed-prefix";
+      lifecycle = "deployment-runtime";
+      required = true;
+      sourceClass = "runtime-fact";
+      sourceName = "access-node-ipv6-prefix-esp-hetz-router-access-client";
+      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
+      sourceFieldPath = "controlPlane.sites.esp.hetz.tenants.client.routedPrefixes.hetz-client-public.sourceFile";
+    }
+  ];
+
+  satSecretDeclarations = map (spec: {
+    inherit (spec) id credentialClass site tenant host consumer purpose lifecycle;
+    required = spec.required;
+    requiredness = if spec.required then "mandatory" else "optional";
+    material = "reference-only";
+    plaintextMaterial = false;
+    sourceSelected = false;
+    policyAuthority = secretPolicyNeutral;
+    gampIds = [
+      "FS-810-HDS-010-SDS-010-SMS-010"
+      "FS-810-HDS-010-SDS-010-SMS-020"
+      "FS-810-HDS-010-SDS-010-SMS-030"
+    ];
+  }) satSecretSourceSpecs;
+
+  satSecretSources = map (spec: {
+    id = "${spec.id}-source";
+    declarationId = spec.id;
+    sourceClass = spec.sourceClass;
+    reference = {
+      name = spec.sourceName;
+      runtimePath = spec.runtimePath;
+      sourceFieldPath = spec.sourceFieldPath;
+    };
+    lifecycle = spec.lifecycle;
+    materialAccess = "not-supplied-by-source-record";
+    plaintextMaterial = false;
+    providerNeutral = true;
+    fixedSecretManagerRequired = false;
+    gampIds = [
+      "FS-820-HDS-010-SDS-010-SMS-010"
+      "FS-820-HDS-010-SDS-010-SMS-020"
+    ];
+  }) satSecretSourceSpecs;
+
+  satSecretSourceBindings = map (spec: {
+    id = "${spec.id}-binding";
+    declarationId = spec.id;
+    sourceId = "${spec.id}-source";
+    sourceClass = spec.sourceClass;
+    bindingKind = "declaration-source";
+    sourceFieldPath = spec.sourceFieldPath;
+    policyAuthority = secretPolicyNeutral;
+    gampIds = [
+      "FS-820-HDS-010-SDS-010-SMS-010"
+      "FS-820-HDS-010-SDS-010-SMS-020"
+      "FS-820-HDS-010-SDS-010-SMS-030"
+    ];
+  }) satSecretSourceSpecs;
 in
 {
+  # SAT-SRC-INVENTORY-SECRET-DECLARATIONS: FS-810 source construction for
+  # reference-only secret declarations. These records carry metadata only; they
+  # do not select sources, expose plaintext material, or create network policy.
+  secretDeclarations = satSecretDeclarations;
+  # SAT-SRC-INVENTORY-SECRET-SOURCE-BINDINGS: FS-820 source construction for
+  # provider-neutral declaration-to-source bindings.
+  secretSources = satSecretSources;
+  sourceBindings = satSecretSourceBindings;
   # SAT-SRC-INVENTORY-CLAB-ROLES: SAT realization coverage for Containerlab
   # role mapping used by the s-router CLAB mirror.
   containerlab = {
