@@ -60,6 +60,7 @@ tests=(
   test-ipv6-pd-downstream-delegation-example-required.sh
   test-hat-emulated-isp-residential-testnet.sh
   test-hat-fixture-source-boundaries.sh
+  test-hat-upstream-inventory-realization-boundary.sh
 )
 
 tmp_dir="$(mktemp -d)"
