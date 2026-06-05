@@ -77,6 +77,33 @@ nix eval --impure --json --expr "{
         and $row.credentials.labOnly == true
         and ($row.credentials.usernameFile | test("^/run/secrets/sat-pppoe-"))
         and ($row.credentials.passwordFile | test("^/run/secrets/sat-pppoe-"));
+      def runtime_contract_ok($fixture; $row; $inventory):
+        $row.runtime as $runtime
+        | $inventory.realization.nodes[$runtime.providerRuntimeNode] as $provider
+        | $inventory.realization.nodes[$runtime.customerRuntimeNode] as $customer
+        | $provider != null
+        and $customer != null
+        and $row.accessConcentrator.node == $runtime.providerRuntimeNode
+        and $runtime.servicePlacement.server.node == $runtime.providerRuntimeNode
+        and $runtime.servicePlacement.client.node == $runtime.customerRuntimeNode
+        and $runtime.servicePlacement.server.service == "pppoe.server"
+        and $runtime.servicePlacement.client.service == "pppoe.client"
+        and $provider.host == $row.host
+        and $customer.host == $row.host
+        and $provider.logicalNode.name == $runtime.providerLogicalNode
+        and $customer.logicalNode.name == $fixture.customer.coreNode
+        and $runtime.providerRuntimeNode != $runtime.customerRuntimeNode
+        and $runtime.handoff.bridge == $row.substrate.ispHandoff.bridge
+        and ($runtime.handoff.link | test("^sat-pppoe-.*-handoff$"))
+        and $runtime.handoff.providerPort == "pppoe-server"
+        and $runtime.handoff.providerInterface == "pppoe-server"
+        and $runtime.handoff.customerPort == "pppoe-wan"
+        and $runtime.handoff.customerInterface == $fixture.customer.coreInterface
+        and $runtime.servicePlacement.server.interface == $runtime.handoff.providerInterface
+        and $runtime.servicePlacement.client.interface == $runtime.handoff.customerInterface
+        and $runtime.servicePlacement.client.runtimeInterface == "ppp0"
+        and $runtime.servicePlacement.client.defaultRoute == true
+        and $runtime.servicePlacement.client.usePeerDns == true;
       ([side_channel_path] == [])
       and ([intent_technology_string] == [])
       and fixture_ok($nixosFixture)
@@ -96,11 +123,17 @@ nix eval --impure --json --expr "{
       and $realization.pppoeNixos.host == "s-router-test"
       and $realization.pppoeNixos.fixtureRef.customerCoreNode == $nixosFixture.customer.coreNode
       and $realization.pppoeNixos.substrate.ispHandoff.bridge == "br-nix-pppoe"
+      and $realization.pppoeNixos.runtime.customerRuntimeNode == "esp-nixos-router-core-isp-a"
+      and $realization.pppoeNixos.runtime.providerRuntimeNode == "esp-nixos-router-upstream"
       and $realization.pppoeClab.scenarioId == $clabFixture.scenarioId
       and $realization.pppoeClab.backend == "clab"
       and $realization.pppoeClab.host == "s-router-clab"
       and $realization.pppoeClab.fixtureRef.customerCoreNode == $clabFixture.customer.coreNode
       and $realization.pppoeClab.substrate.ispHandoff.bridge == "br-clab-pppoe"
+      and $realization.pppoeClab.runtime.customerRuntimeNode == "esp-clab-router-core-simulated-isp"
+      and $realization.pppoeClab.runtime.providerRuntimeNode == "esp-clab-router-upstream"
+      and runtime_contract_ok($nixosFixture; $realization.pppoeNixos; .inventory)
+      and runtime_contract_ok($clabFixture; $realization.pppoeClab; .inventory)
       and $realization.pppoeNixos.substrate.ispHandoff.bridge != $realization.pppoeClab.substrate.ispHandoff.bridge
       and .inventory.deployment.hosts."s-router-test".bridgeNetworks."br-nix-pppoe".isolated == true
       and .inventory.deployment.hosts."s-router-clab".bridgeNetworks."br-clab-pppoe".isolated == true
