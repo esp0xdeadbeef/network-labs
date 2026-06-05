@@ -41,6 +41,7 @@ tests=(
   test-smt-traceability-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
   test-fs650-fs690-profile-matrices.sh
+  test-fs690-support-view-provenance-non-authority.sh
   test-s-sigma-pppoe-upstream-emulation-source.sh
   test-s-sigma-site-role-map.sh
   test-s-sigma-site-role-map-provider-ingress-overlay.sh
