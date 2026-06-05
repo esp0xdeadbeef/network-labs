@@ -40,6 +40,14 @@ tests=(
   test-modeling-contract-docs.sh
   test-smt-traceability-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
+  test-s-sigma-pppoe-upstream-emulation-source.sh
+  test-s-sigma-site-role-map.sh
+  test-s-sigma-site-role-map-provider-ingress-overlay.sh
+  test-s-sigma-site-role-map-management-access-membership.sh
+  test-s-sigma-site-evidence-name-map.sh
+  test-s-sigma-public-ingress-fixture-table.sh
+  test-s-sigma-public-ingress-denied-variants.sh
+  test-s-sigma-public-ingress-provider-emulation-boundary.sh
   test-lab-intent-derived-topology-contract.sh
   test-lab-inventory-derived-p2p-bindings-contract.sh
   test-inventory-no-synthetic-default-containers.sh

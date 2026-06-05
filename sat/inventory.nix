@@ -3,6 +3,7 @@
 # network-labs/examples are lower-layer fixtures only.
 let
   intent = import ./intent.nix;
+  providerAccessFixtureTable = import ./provider-access-fixture-table.nix;
   satSites = intent.esp;
   uniqueStrings = list: builtins.attrNames (builtins.listToAttrs (map (value: { name = value; value = true; }) list));
   stripCidr =
@@ -36,6 +37,19 @@ let
       ++ siteTenantPrefixes "hetz" "ipv6"
     );
   };
+  satDeniedResolverCidrs = [
+    "1.1.1.1/32"
+    "2606:4700:4700::1111/128"
+  ];
+  withDeniedResolverCidrs = dns: dns // { deniedResolverCidrs = satDeniedResolverCidrs; };
+  withDeniedResolverNode =
+    node:
+    node
+    // {
+      services = (node.services or { }) // {
+        dns = withDeniedResolverCidrs (node.services.dns or { });
+      };
+    };
   satEndpointAddresses = {
     clab-client01 = {
       ipv4 = [ "10.50.20.10" ];
@@ -139,7 +153,7 @@ let
       };
     };
     services = {
-      dns = {
+      dns = withDeniedResolverCidrs {
         advertised = {
           dnsServers = [ "router-self" ];
           rdnss = [ "router-self" ];
@@ -367,20 +381,20 @@ let
   };
 
   # SAT-SRC-INVENTORY-UPSTREAM-EMULATION: realization bindings for the
-  # emulated-ISP scenarios declared in intent.nix. Behavior remains in intent;
-  # these rows bind backend, host, handoff substrate, AC implementation, and
+  # emulated-ISP scenarios declared in the provider-access fixture table.
+  # These rows bind backend, host, handoff substrate, AC implementation, and
   # lab-only credential references for the owning harnesses.
-  upstreamEmulationRealization = {
+  providerAccessRealization = {
     pppoeNixos = {
-      scenarioId = intent.esp.nixos.upstreamEmulation.emulatedIsp.scenarioId;
-      gampId = intent.esp.nixos.upstreamEmulation.emulatedIsp.gampId;
+      scenarioId = providerAccessFixtureTable.pppoeNixos.scenarioId;
+      gampId = providerAccessFixtureTable.pppoeNixos.gampId;
       backend = "nixos";
       site = "nixos";
       host = "s-router-test";
-      intentRef = {
-        marker = "SAT-SRC-INTENT-NIXOS-UPSTREAM-EMULATION";
-        customerCoreNode = intent.esp.nixos.upstreamEmulation.emulatedIsp.customer.coreNode;
-        customerCoreInterface = intent.esp.nixos.upstreamEmulation.emulatedIsp.customer.coreInterface;
+      fixtureRef = {
+        marker = "SAT-SRC-INVENTORY-UPSTREAM-EMULATION";
+        customerCoreNode = providerAccessFixtureTable.pppoeNixos.customer.coreNode;
+        customerCoreInterface = providerAccessFixtureTable.pppoeNixos.customer.coreInterface;
       };
       substrate = {
         labUplink = {
@@ -408,15 +422,15 @@ let
     };
 
     pppoeClab = {
-      scenarioId = intent.esp.clab.upstreamEmulation.emulatedIsp.scenarioId;
-      gampId = intent.esp.clab.upstreamEmulation.emulatedIsp.gampId;
+      scenarioId = providerAccessFixtureTable.pppoeClab.scenarioId;
+      gampId = providerAccessFixtureTable.pppoeClab.gampId;
       backend = "clab";
       site = "clab";
       host = "s-router-clab";
-      intentRef = {
-        marker = "SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION";
-        customerCoreNode = intent.esp.clab.upstreamEmulation.emulatedIsp.customer.coreNode;
-        customerCoreInterface = intent.esp.clab.upstreamEmulation.emulatedIsp.customer.coreInterface;
+      fixtureRef = {
+        marker = "SAT-SRC-INVENTORY-UPSTREAM-EMULATION";
+        customerCoreNode = providerAccessFixtureTable.pppoeClab.customer.coreNode;
+        customerCoreInterface = providerAccessFixtureTable.pppoeClab.customer.coreInterface;
       };
       substrate = {
         labUplink = {
@@ -604,8 +618,8 @@ in
   # control-plane facts, overlays, runtime nodes, provider bindings, and
   # target-specific routing-service choices.
   controlPlane = {
-    upstreamEmulation = {
-      scenarios = upstreamEmulationRealization;
+    providerAccess = {
+      scenarios = providerAccessRealization;
     };
     sites = {
       esp = {
@@ -1355,7 +1369,7 @@ in
           };
         };
         services = {
-          dns = { };
+          dns = withDeniedResolverCidrs { };
         };
       };
       esp-nixos-router-access-client = {
@@ -1437,7 +1451,7 @@ in
           };
         };
         services = {
-          dns = { };
+          dns = withDeniedResolverCidrs { };
         };
       };
       esp-nixos-router-access-dmz = {
@@ -1486,7 +1500,7 @@ in
           };
         };
         services = {
-          dns = {
+          dns = withDeniedResolverCidrs {
             advertised = {
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
@@ -1540,7 +1554,7 @@ in
           };
         };
         services = {
-          dns = { };
+          dns = withDeniedResolverCidrs { };
         };
       };
       esp-nixos-router-access-mgmt = {
@@ -1589,7 +1603,7 @@ in
           };
         };
         services = {
-          dns = { };
+          dns = withDeniedResolverCidrs { };
         };
       };
       esp-nixos-router-access-streaming = {
@@ -1638,10 +1652,10 @@ in
           };
         };
         services = {
-          dns = { };
+          dns = withDeniedResolverCidrs { };
         };
       };
-      esp-nixos-router-core-isp-a = {
+      esp-nixos-router-core-isp-a = withDeniedResolverNode {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1678,7 +1692,7 @@ in
           };
         };
       };
-      esp-nixos-router-core-isp-b = {
+      esp-nixos-router-core-isp-b = withDeniedResolverNode {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1711,7 +1725,7 @@ in
           };
         };
       };
-      esp-nixos-router-core-nebula = {
+      esp-nixos-router-core-nebula = withDeniedResolverNode {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -2251,7 +2265,7 @@ in
           };
         };
         services = {
-          dns = {
+          dns = withDeniedResolverCidrs {
             advertised = {
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
@@ -2305,7 +2319,7 @@ in
           };
         };
         services = {
-          dns = {
+          dns = withDeniedResolverCidrs {
             advertised = {
               dnsServers = [ "router-self" ];
               rdnss = [ "router-self" ];
@@ -2313,7 +2327,7 @@ in
           };
         };
       };
-      esp-hetz-router-core = {
+      esp-hetz-router-core = withDeniedResolverNode {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2417,7 +2431,7 @@ in
           };
         };
       };
-      esp-hetz-router-nebula-core = {
+      esp-hetz-router-nebula-core = withDeniedResolverNode {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2605,7 +2619,7 @@ in
     }
     // clabAccessNodes
     // {
-      esp-clab-router-core-nebula = {
+      esp-clab-router-core-nebula = withDeniedResolverNode {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
@@ -2637,7 +2651,7 @@ in
           };
         };
       };
-      esp-clab-router-core-simulated-isp = {
+      esp-clab-router-core-simulated-isp = withDeniedResolverNode {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";

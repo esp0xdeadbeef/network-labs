@@ -76,6 +76,34 @@
           work = { };
         };
         hat = {
+          endpointClients = {
+            clab-client01 = {
+              assignment = "dhcp";
+              owningSubstrate = "clab";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "client";
+            };
+            clab-client02 = {
+              assignment = "dhcp";
+              owningSubstrate = "clab";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "client";
+            };
+            clab-emulated-sigma = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.50.10.1";
+              gateway6 = "fd42:dead:feed:10::1";
+              ipv4 = [ "10.50.10.50/24" ];
+              ipv6 = [ "fd42:dead:feed:10::50/64" ];
+              owningSubstrate = "clab";
+              required = true;
+              status = "missing-live-evidence";
+              tenant = "mgmt";
+            };
+          };
           providerAccess = {
             residentialDhcpRoutedTestnet = {
               advertisedIpv4 = {
@@ -161,6 +189,11 @@
               ];
             };
           };
+          requiredEndpointClients = [
+            "clab-client01"
+            "clab-client02"
+            "clab-emulated-sigma"
+          ];
         };
         uplinks = {
           commercial-vpn = {

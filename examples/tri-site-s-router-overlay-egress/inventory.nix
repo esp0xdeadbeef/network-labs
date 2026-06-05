@@ -1,4 +1,20 @@
 let
+  publicResolverCidrs = [
+    "1.1.1.1/32"
+    "1.0.0.1/32"
+    "2606:4700:4700::1111/128"
+    "2606:4700:4700::1001/128"
+  ];
+  withDeniedResolverCidrs =
+    node:
+    node
+    // {
+      services = (node.services or { }) // {
+        dns = (node.services.dns or { }) // {
+          deniedResolverCidrs = publicResolverCidrs;
+        };
+      };
+    };
   clabAccessTenants = {
     admin = { };
     client = { };
@@ -61,6 +77,7 @@ let
             "10.20.10.1"
             "fd42:dead:beef:10::1"
           ];
+          deniedResolverCidrs = publicResolverCidrs;
         };
       };
     };
@@ -1036,6 +1053,7 @@ in
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
@@ -1090,6 +1108,7 @@ in
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
@@ -1148,6 +1167,7 @@ in
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
@@ -1204,6 +1224,7 @@ in
               "2606:4700:4700::1111"
               "2606:4700:4700::1001"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
@@ -1260,6 +1281,7 @@ in
               "2606:4700:4700::1111"
               "2606:4700:4700::1001"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
@@ -1314,10 +1336,11 @@ in
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
-      esp-home-example-router-core-isp-a = {
+      esp-home-example-router-core-isp-a = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1350,7 +1373,7 @@ in
           };
         };
       };
-      esp-home-example-router-core-isp-b = {
+      esp-home-example-router-core-isp-b = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1383,7 +1406,7 @@ in
           };
         };
       };
-      esp-home-example-router-core-nebula = {
+      esp-home-example-router-core-nebula = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp";
@@ -1921,7 +1944,7 @@ in
           };
         };
       };
-      esp-edge-example-router-access-client = {
+      esp-edge-example-router-access-client = withDeniedResolverCidrs {
         advertisements = {
           dhcp4 = {
             tenant-client = {
@@ -2032,10 +2055,11 @@ in
               "2606:4700:4700::1111"
               "2606:4700:4700::1001"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
           };
         };
       };
-      esp-edge-example-router-core = {
+      esp-edge-example-router-core = withDeniedResolverCidrs {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2139,7 +2163,7 @@ in
           };
         };
       };
-      esp-edge-example-router-nebula-core = {
+      esp-edge-example-router-nebula-core = withDeniedResolverCidrs {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp";
@@ -2315,7 +2339,7 @@ in
         };
       };
     } // clabAccessNodes // {
-      esp-lab-example-router-core-nebula = {
+      esp-lab-example-router-core-nebula = withDeniedResolverCidrs {
         host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";
@@ -2347,7 +2371,7 @@ in
           };
         };
       };
-      esp-lab-example-router-core-simulated-isp = {
+      esp-lab-example-router-core-simulated-isp = withDeniedResolverCidrs {
         host = "s-router-lab";
         logicalNode = {
           enterprise = "esp";

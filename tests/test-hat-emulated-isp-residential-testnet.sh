@@ -45,7 +45,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabPppoe = clabHost.hat.providerAccess.residentialPppoeHostTestnet;
     nixosDhcp = nixosHost.hat.providerAccess.residentialDhcpRoutedTestnet;
     nixosPppoe = nixosHost.hat.providerAccess.residentialPppoeHostTestnet;
-    endpointClients = nixosClientHost.hat.endpointClients or { };
+    clabEndpointClients = clabHost.hat.endpointClients or { };
+    nixosEndpointClients = nixosClientHost.hat.endpointClients or { };
+    endpointClients = nixosEndpointClients // clabEndpointClients;
     nodeHostIs = inventory: nodeName: expectedHost:
       ((inventory.realization.nodes.${nodeName} or { }).host or null) == expectedHost;
     allLogicalPlacementsMatch = inventory: siteName: namePattern: expectedHost:
@@ -83,6 +85,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         && (bridge.vlan or null) == requiredClientBridgeVlans.${name};
     endpointAssignmentIs = name: assignment:
       (endpointClients.${name}.assignment or null) == assignment;
+    endpointSubstrateIs = name: substrate:
+      (endpointClients.${name}.owningSubstrate or null) == substrate;
+    endpointDeliveryIs = name: delivery:
+      (endpointClients.${name}.addressDelivery or null) == delivery;
     endpointTenantIs = name: tenant:
       (endpointClients.${name}.tenant or null) == tenant;
     endpointAddressIs = name: family: address:
@@ -111,6 +117,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabEndpointRequired = name:
       (endpointClients.${name}.required or false)
       && (endpointClients.${name}.status or null) == "missing-live-evidence";
+    requiredEndpointClientsPresent = host: clients:
+      builtins.all
+        (name: builtins.hasAttr name clients)
+        ((host.hat or { }).requiredEndpointClients or [ ]);
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
     require = cond: msg: if cond then true else throw msg;
   in
@@ -240,8 +250,18 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT NixOS access-client must realize tenant-client on the endpoint client bridge"
     && require (accessTenantPortOk clab "esp0xdeadbeef-site-b-clab-access-client" "tenant-client" "client")
       "HAT CLAB access-client must realize tenant-client on the endpoint client bridge"
+    && require (requiredEndpointClientsPresent clabHost clabEndpointClients)
+      "HAT CLAB inventory required endpoint list must resolve in CLAB endpoint fixtures"
+    && require (requiredEndpointClientsPresent nixosClientHost nixosEndpointClients)
+      "HAT NixOS inventory required endpoint list must resolve in NixOS endpoint fixtures"
+    && require (!(nixosEndpointClients ? clab-client01) && !(nixosEndpointClients ? clab-client02) && !(nixosEndpointClients ? clab-emulated-sigma))
+      "HAT NixOS endpoint source must not carry CLAB endpoint fixtures"
+    && require (!(clabEndpointClients ? nixos-client01) && !(clabEndpointClients ? nixos-emulated-sigma) && !(clabEndpointClients ? nixos-printer01))
+      "HAT CLAB endpoint source must not carry NixOS endpoint fixtures"
     && require (endpointAssignmentIs "nixos-client01" "dhcp" && endpointAssignmentIs "nixos-client02" "dhcp")
       "HAT endpoint inventory must identify DHCP-addressed client fixtures"
+    && require (endpointSubstrateIs "nixos-client01" "nixos" && endpointSubstrateIs "nixos-client02" "nixos")
+      "HAT NixOS DHCP endpoint records must declare NixOS owning substrate"
     && require (serviceProvidersAre "hat-printer-ipp" [ "nixos-printer01" ])
       "HAT intent must model the printer IPP provider"
     && require (serviceProvidersAre "hat-printer-admin" [ "nixos-printer01" ])
@@ -258,6 +278,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT intent must model receiver discovery traffic type"
     && require (endpointAssignmentIs "nixos-printer01" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify printer shared-service fixture"
+    && require (endpointSubstrateIs "nixos-printer01" "nixos" && endpointDeliveryIs "nixos-printer01" "endpoint-configured")
+      "HAT printer static fixture must declare NixOS substrate and endpoint-configured delivery"
     && require (endpointAddressIs "nixos-printer01" "ipv4" "10.20.20.60/24")
       "HAT endpoint inventory must carry printer static IPv4"
     && require (endpointAddressIs "nixos-printer01" "ipv6" "fd42:dead:beef:20::60/64")
@@ -268,6 +290,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT printer fixture must expose admin service surface"
     && require (endpointAssignmentIs "nixos-receiver01" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify receiver shared-service fixture"
+    && require (endpointSubstrateIs "nixos-receiver01" "nixos" && endpointDeliveryIs "nixos-receiver01" "endpoint-configured")
+      "HAT receiver static fixture must declare NixOS substrate and endpoint-configured delivery"
     && require (endpointAddressIs "nixos-receiver01" "ipv4" "10.20.20.70/24")
       "HAT endpoint inventory must carry receiver static IPv4"
     && require (endpointAddressIs "nixos-receiver01" "ipv6" "fd42:dead:beef:20::70/64")
@@ -278,33 +302,41 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT receiver fixture must expose discovery service surface"
     && require (endpointAssignmentIs "nixos-branch-node01" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify branch static-address client fixture"
+    && require (endpointSubstrateIs "nixos-branch-node01" "nixos" && endpointDeliveryIs "nixos-branch-node01" "endpoint-configured")
+      "HAT branch static fixture must declare NixOS substrate and endpoint-configured delivery"
     && require (endpointAddressIs "nixos-branch-node01" "ipv4" "10.60.10.10/24")
       "HAT endpoint inventory must carry branch static IPv4"
     && require (endpointAddressIs "nixos-branch-node01" "ipv6" "fd42:dead:feed:10::10/64")
       "HAT endpoint inventory must carry branch static IPv6"
     && require (endpointAssignmentIs "nixos-streaming-test" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify streaming static-address client fixture"
+    && require (endpointSubstrateIs "nixos-streaming-test" "nixos" && endpointDeliveryIs "nixos-streaming-test" "endpoint-configured")
+      "HAT streaming static fixture must declare NixOS substrate and endpoint-configured delivery"
     && require (endpointAddressIs "nixos-streaming-test" "ipv4" "10.20.50.10/24")
       "HAT endpoint inventory must carry streaming static IPv4"
     && require (endpointAddressIs "nixos-streaming-test" "ipv6" "fd42:dead:beef:50::10/64")
       "HAT endpoint inventory must carry streaming static IPv6"
     && require (endpointAssignmentIs "nixos-emulated-sigma" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify nixos-emulated-sigma static-address client fixture"
+    && require (endpointSubstrateIs "nixos-emulated-sigma" "nixos" && endpointDeliveryIs "nixos-emulated-sigma" "endpoint-configured")
+      "HAT nixos-emulated-sigma static fixture must declare NixOS substrate and endpoint-configured delivery"
     && require (endpointAddressIs "nixos-emulated-sigma" "ipv4" "10.20.10.50/24")
       "HAT endpoint inventory must carry nixos-emulated-sigma static IPv4"
     && require (endpointAddressIs "nixos-emulated-sigma" "ipv6" "fd42:dead:beef:10::50/64")
       "HAT endpoint inventory must carry nixos-emulated-sigma static IPv6"
     && require (endpointAssignmentIs "clab-emulated-sigma" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify clab-emulated-sigma static-address client fixture"
+    && require (endpointSubstrateIs "clab-emulated-sigma" "clab" && endpointDeliveryIs "clab-emulated-sigma" "endpoint-configured")
+      "HAT clab-emulated-sigma static fixture must declare CLAB substrate and endpoint-configured delivery"
     && require (endpointAddressIs "clab-emulated-sigma" "ipv4" "10.50.10.50/24")
       "HAT endpoint inventory must carry clab-emulated-sigma static IPv4"
     && require (endpointAddressIs "clab-emulated-sigma" "ipv6" "fd42:dead:feed:10::50/64")
       "HAT endpoint inventory must carry clab-emulated-sigma static IPv6"
     && require (clabEndpointRequired "clab-emulated-sigma")
       "HAT endpoint inventory must require clab-emulated-sigma evidence"
-    && require (endpointTenantIs "clab-client01" "client" && clabEndpointRequired "clab-client01")
+    && require (endpointTenantIs "clab-client01" "client" && endpointSubstrateIs "clab-client01" "clab" && clabEndpointRequired "clab-client01")
       "HAT endpoint inventory must require clab-client01 evidence"
-    && require (endpointTenantIs "clab-client02" "client" && clabEndpointRequired "clab-client02")
+    && require (endpointTenantIs "clab-client02" "client" && endpointSubstrateIs "clab-client02" "clab" && clabEndpointRequired "clab-client02")
       "HAT endpoint inventory must require clab-client02 evidence"
     && require (!(clabHost.bridgeNetworks ? vlan2))
       "HAT CLAB fixture must not define vlan2 as a fixture bridge"

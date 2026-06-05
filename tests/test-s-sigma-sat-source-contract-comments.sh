@@ -5,6 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lab_dir="${repo_root}/sat"
 intent="${lab_dir}/intent.nix"
 inventory="${lab_dir}/inventory.nix"
+provider_table="${lab_dir}/provider-access-fixture-table.nix"
 contract="${lab_dir}/SAT-SOURCE-CONTRACT.md"
 
 fail() {
@@ -25,6 +26,7 @@ require_text() {
 
 require_file "${intent}"
 require_file "${inventory}"
+require_file "${provider_table}"
 require_file "${contract}"
 
 intent_markers=(
@@ -108,10 +110,16 @@ require_text "${contract}" "HAT/SAT live proof not provided"
 require_text "${contract}" "Nebula"
 require_text "${contract}" "WireGuard"
 require_text "${contract}" 'VLAN `4`'
+require_text "${contract}" 'provider-access-fixture-table.nix'
 require_text "${contract}" 'SAT-SRC-INTENT-NIXOS-UPSTREAM-EMULATION'
 require_text "${contract}" 'SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION'
+require_text "${contract}" 'retired from `intent.nix`'
+require_text "${contract}" 'intent.nix` shall not carry `upstreamEmulation`'
 require_text "${contract}" 'isolated Ethernet PPPoE handoff bridges with `physical = false`'
 require_text "${contract}" 'Physical PPPoE VLAN handoff requires an explicit exclusive-run guard.'
+require_text "${provider_table}" 'SAT-SCEN-EMULATED-ISP-NIXOS-001'
+require_text "${provider_table}" 'SAT-SCEN-EMULATED-ISP-CLAB-001'
+require_text "${provider_table}" 'FS-800-HDS-010-SDS-010-SMS-010'
 
 if grep -Fq "SAT-SRC-GAP-PPPOE" "${contract}"; then
   fail "PPPoE source gaps must not remain once inventory upstream-emulation rows exist"
@@ -123,6 +131,18 @@ fi
 
 nix-instantiate --parse "${intent}" >/dev/null
 nix-instantiate --parse "${inventory}" >/dev/null
+nix-instantiate --parse "${provider_table}" >/dev/null
+
+nix eval --impure --raw --expr "
+  let
+    intent = import ${intent};
+    encoded = builtins.toJSON intent;
+  in
+    if builtins.match \".*upstreamEmulation.*\" encoded == null
+      && builtins.match \".*providerAccess.*\" encoded == null
+    then \"true\"
+    else throw \"s-router SAT intent must not carry upstreamEmulation/providerAccess side-channel fields\"
+" >/dev/null
 
 nix eval --impure --raw --expr "
   let

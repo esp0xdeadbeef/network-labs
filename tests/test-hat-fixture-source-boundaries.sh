@@ -35,7 +35,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.s-router-nixos;
     clientHost = nixos.deployment.hosts.s-router-test-clients;
-    endpointClients = clientHost.hat.endpointClients or { };
+    clabEndpointClients = clabHost.hat.endpointClients or { };
+    nixosEndpointClients = clientHost.hat.endpointClients or { };
+    endpointClients = nixosEndpointClients // clabEndpointClients;
     nodeHostIs = inventory: nodeName: expectedHost:
       ((inventory.realization.nodes.${nodeName} or { }).host or null) == expectedHost;
     allLogicalPlacementsMatch = inventory: siteName: namePattern: expectedHost:
@@ -85,9 +87,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (site.communicationContract.services or [ ])
     );
     hasEndpointFixture = name:
-      builtins.hasAttr name (clientHost.hat.endpointClients or { });
+      builtins.hasAttr name endpointClients;
     endpointServiceSurface = endpoint: surface:
-      ((clientHost.hat.endpointClients.${endpoint} or { }).serviceSurfaces or { }).${surface} or null;
+      ((endpointClients.${endpoint} or { }).serviceSurfaces or { }).${surface} or null;
     trafficTypeHasPort = name: proto: port:
       builtins.any
         (match: (match.proto or null) == proto && builtins.elem port (match.dports or [ ]))
@@ -170,8 +172,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT endpoint client bridge must remain on VLAN 302"
     && require allDhcpEndpointsAdvertised
       "DHCP endpoint fixtures must target only tenants with explicit DHCP advertisements"
-    && require (hasEndpointFixture "clab-client01" && hasEndpointFixture "nixos-client01")
-      "endpoint fixtures must live in inventory HAT substrate, not shared intent"
+    && require (builtins.hasAttr "clab-client01" clabEndpointClients && builtins.hasAttr "nixos-client01" nixosEndpointClients)
+      "endpoint fixtures must live in their owning inventory HAT substrate, not shared intent"
+    && require (!(builtins.hasAttr "clab-client01" nixosEndpointClients) && !(builtins.hasAttr "nixos-client01" clabEndpointClients))
+      "CLAB and NixOS endpoint fixtures must not be cross-loaded into the wrong inventory"
     && require (hasEndpointFixture "nixos-printer01" && hasEndpointFixture "nixos-receiver01")
       "shared-service endpoint fixtures must live in inventory HAT substrate"
     && require ((endpointServiceSurface "nixos-printer01" "ipp").service == "hat-printer-ipp")
