@@ -64,6 +64,10 @@ tests=(
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
   test-fs730-printer-cups-source.sh
+  test-fs770-common-intent-field-presence.sh
+  test-fs770-realization-fact-classification.sh
+  test-fs770-realization-fact-binding.sh
+  test-fs770-realization-mutation-rejection.sh
   test-hat-printer-receiver-policy-source.sh
   test-hat-emulated-isp-residential-testnet.sh
   test-hat-fixture-source-boundaries.sh
