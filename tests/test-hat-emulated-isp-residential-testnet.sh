@@ -30,7 +30,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clab = import (root + "/inventory-clab.nix");
     nixos = import (root + "/inventory-nixos.nix");
     site = intent.esp0xdeadbeef.site-a;
+    clabSite = intent.esp0xdeadbeef.site-b;
     nodes = site.topology.nodes;
+    clabNodes = clabSite.topology.nodes;
     relations = site.communicationContract.relations;
     clabHost = clab.deployment.hosts.s-router-clab;
     nixosHost = nixos.deployment.hosts.s-router-nixos;
@@ -122,6 +124,51 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (name: builtins.hasAttr name clients)
         ((host.hat or { }).requiredEndpointClients or [ ]);
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
+    tenantAttachments = nodes: nodeName:
+      builtins.map
+        (attachment: attachment.name or "")
+        (builtins.filter
+          (attachment: (attachment.kind or null) == "tenant")
+          ((nodes.${nodeName} or { }).attachments or [ ]));
+    shareTenantAttachment = nodes: left: right:
+      builtins.any
+        (tenant: builtins.elem tenant (tenantAttachments nodes right))
+        (tenantAttachments nodes left);
+    roleOf = nodes: nodeName: (nodes.${nodeName} or { }).role or null;
+    stageLinkAllowed = nodes: link:
+      let
+        left = builtins.elemAt link 0;
+        right = builtins.elemAt link 1;
+        leftRole = roleOf nodes left;
+        rightRole = roleOf nodes right;
+        rolePairIs = a: b:
+          (leftRole == a && rightRole == b) || (leftRole == b && rightRole == a);
+      in
+        rolePairIs "core" "upstream-selector"
+        || rolePairIs "upstream-selector" "policy"
+        || rolePairIs "policy" "downstream-selector"
+        || rolePairIs "downstream-selector" "access"
+        || (rolePairIs "access" "core" && shareTenantAttachment nodes left right);
+    invalidStageLinks = nodes: links:
+      builtins.filter (link: !(stageLinkAllowed nodes link)) links;
+    accessCoreLinks = nodes: links:
+      builtins.filter
+        (link:
+          let
+            left = builtins.elemAt link 0;
+            right = builtins.elemAt link 1;
+          in
+            ((roleOf nodes left) == "access" && (roleOf nodes right) == "core")
+            || ((roleOf nodes left) == "core" && (roleOf nodes right) == "access"))
+        links;
+    syntheticInvalidStageLinks = nodes: prefix: [
+      [ "${prefix}-downstream-selector" "${prefix}-core-upstream-vlan4" ]
+      [ "${prefix}-downstream-selector" "${prefix}-upstream-selector" ]
+      [ "${prefix}-core-upstream-vlan4" "${prefix}-policy" ]
+      [ "${prefix}-access-client" "${prefix}-policy" ]
+      [ "${prefix}-access-client" "${prefix}-upstream-selector" ]
+      [ "${prefix}-access-client" "${prefix}-core-upstream-vlan4" ]
+    ];
     require = cond: msg: if cond then true else throw msg;
   in
     require (siteHostManagementOk intent.esp0xdeadbeef.site-a)
@@ -148,6 +195,30 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "missing client to routed testnet ISP relation"
     && require (hasRelation "allow-client-to-testnet-host-isp")
       "missing client to host testnet ISP relation"
+    && require (invalidStageLinks nodes site.topology.links == [ ])
+      "site-a HAT source must reject selector-bypassing or unscoped canonical stage links"
+    && require (invalidStageLinks clabNodes clabSite.topology.links == [ ])
+      "site-b HAT source must reject selector-bypassing or unscoped canonical stage links"
+    && require (invalidStageLinks nodes (syntheticInvalidStageLinks nodes "nixos") == syntheticInvalidStageLinks nodes "nixos")
+      "site-a HAT stage-link validation must reject downstream-selector-to-core, downstream-selector-to-upstream-selector, core-to-policy, access-to-policy, selector-bypassing, and unscoped direct core/access links"
+    && require (invalidStageLinks clabNodes (syntheticInvalidStageLinks clabNodes "clab") == syntheticInvalidStageLinks clabNodes "clab")
+      "site-b HAT stage-link validation must reject downstream-selector-to-core, downstream-selector-to-upstream-selector, core-to-policy, access-to-policy, selector-bypassing, and unscoped direct core/access links"
+    && require (accessCoreLinks nodes site.topology.links == [
+      [ "nixos-provider-handoff-access-a" "nixos-core-testnet-host-isp" ]
+      [ "nixos-provider-handoff-access-b" "nixos-core-testnet-routed-isp" ]
+      [ "nixos-access-iot" "nixos-core-nebula" ]
+      [ "nixos-access-iot" "nixos-core-wireguard-remote-egress" ]
+      [ "nixos-access-iot" "nixos-core-wireguard-host128" ]
+    ])
+      "site-a HAT source must allow only HDS access-space/core attachment links"
+    && require (accessCoreLinks clabNodes clabSite.topology.links == [
+      [ "clab-provider-handoff-access-a" "clab-core-testnet-host-isp" ]
+      [ "clab-provider-handoff-access-b" "clab-core-testnet-routed-isp" ]
+      [ "clab-access-iot" "clab-core-nebula" ]
+      [ "clab-access-iot" "clab-core-wireguard-remote-egress" ]
+      [ "clab-access-iot" "clab-core-wireguard-host128" ]
+    ])
+      "site-b HAT source must allow only HDS access-space/core attachment links"
     && require (clabDhcp.harness == "s-router-clab")
       "CLAB DHCP row must name s-router-clab"
     && require (clabDhcp.distribution.mode == "network-wide" && clabDhcp.distribution.technology == "dhcp")
