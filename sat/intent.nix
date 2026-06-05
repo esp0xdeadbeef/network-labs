@@ -125,6 +125,26 @@
           inventorySources = [ "inventory.nix" ];
           runtimeSources = [ "runtime fact summaries only when supplied" ];
           fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          fieldProvenance = {
+            sites = { source = "profileIdentity.profileId"; sourceClass = "modeled"; };
+            scopes = { source = "scopeManifest.tenants"; sourceClass = "modeled"; };
+            accessSpaces = { source = "accessSpaces"; sourceClass = "modeled"; };
+            attachmentPoints = { source = "accessSpaces.*.attachment"; sourceClass = "modeled"; };
+            localNames = { source = "tenantAccessMatrix.*.operatorName"; sourceClass = "modeled"; };
+            sharedServices = { source = "sharedServiceMatrix"; sourceClass = "modeled"; };
+            internetPaths = { source = "tenantAccessMatrix.*.internetMode"; sourceClass = "modeled"; };
+            dnsPaths = { source = "tenantAccessMatrix.*.resolver"; sourceClass = "modeled"; };
+            managementPaths = { source = "tenantAccessMatrix.*.managementExcluded"; sourceClass = "modeled"; };
+            publicIngressPaths = { source = "surfaces.publicIngressCapability"; sourceClass = "modeled"; };
+            deniedPaths = { source = "tenantAccessMatrix.*.deniedLateralPaths"; sourceClass = "modeled"; };
+            troubleshootingChecks = { source = "tenantAccessMatrix.*.negativeProbes"; sourceClass = "modeled"; };
+          };
+          consumerDiagnostics = {
+            mode = "read-only-derived-view";
+            emits = [ "missing-source-field" "conflicting-source-field" "unknown-support-field" ];
+            permittedSideEffects = [ "diagnostic-report" ];
+            prohibitedAuthority = [ "policy" "route" "dns" "publicIngress" "managementAccess" "addressAssignment" "runtimeBinding" ];
+          };
           createsAuthority = false;
         };
       };
@@ -994,6 +1014,26 @@
           inventorySources = [ "inventory.nix" ];
           runtimeSources = [ "runtime fact summaries only when supplied" ];
           fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          fieldProvenance = {
+            sites = { source = "profileIdentity.profileId"; sourceClass = "modeled"; };
+            scopes = { source = "scopeManifest.tenants"; sourceClass = "modeled"; };
+            accessSpaces = { source = "accessSpaces"; sourceClass = "modeled"; };
+            attachmentPoints = { source = "accessSpaces.*.attachment"; sourceClass = "modeled"; };
+            localNames = { source = "tenantAccessMatrix.*.operatorName"; sourceClass = "modeled"; };
+            sharedServices = { source = "sharedServiceMatrix"; sourceClass = "modeled"; };
+            internetPaths = { source = "tenantAccessMatrix.*.internetMode"; sourceClass = "modeled"; };
+            dnsPaths = { source = "tenantAccessMatrix.*.resolver"; sourceClass = "modeled"; };
+            managementPaths = { source = "tenantAccessMatrix.*.managementExcluded"; sourceClass = "modeled"; };
+            publicIngressPaths = { source = "surfaces.publicIngressCapability"; sourceClass = "modeled"; };
+            deniedPaths = { source = "tenantAccessMatrix.*.deniedLateralPaths"; sourceClass = "modeled"; };
+            troubleshootingChecks = { source = "tenantAccessMatrix.*.negativeProbes"; sourceClass = "modeled"; };
+          };
+          consumerDiagnostics = {
+            mode = "read-only-derived-view";
+            emits = [ "missing-source-field" "conflicting-source-field" "unknown-support-field" ];
+            permittedSideEffects = [ "diagnostic-report" ];
+            prohibitedAuthority = [ "policy" "route" "dns" "publicIngress" "managementAccess" "addressAssignment" "runtimeBinding" ];
+          };
           createsAuthority = false;
         };
       };
@@ -1868,6 +1908,26 @@
           inventorySources = [ "inventory.nix" ];
           runtimeSources = [ "runtime fact summaries only when supplied" ];
           fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          fieldProvenance = {
+            sites = { source = "profileIdentity.profileId"; sourceClass = "modeled"; };
+            scopes = { source = "scopeManifest.tenants"; sourceClass = "modeled"; };
+            accessSpaces = { source = "accessSpaces"; sourceClass = "modeled"; };
+            attachmentPoints = { source = "accessSpaces.*.attachment"; sourceClass = "modeled"; };
+            localNames = { source = "tenantAccessMatrix.*.operatorName"; sourceClass = "modeled"; };
+            sharedServices = { source = "sharedServiceMatrix"; sourceClass = "modeled"; };
+            internetPaths = { source = "tenantAccessMatrix.*.internetMode"; sourceClass = "modeled"; };
+            dnsPaths = { source = "tenantAccessMatrix.*.resolver"; sourceClass = "modeled"; };
+            managementPaths = { source = "tenantAccessMatrix.*.managementExcluded"; sourceClass = "modeled"; };
+            publicIngressPaths = { source = "surfaces.publicIngressCapability"; sourceClass = "modeled"; };
+            deniedPaths = { source = "tenantAccessMatrix.*.deniedLateralPaths"; sourceClass = "modeled"; };
+            troubleshootingChecks = { source = "tenantAccessMatrix.*.negativeProbes"; sourceClass = "modeled"; };
+          };
+          consumerDiagnostics = {
+            mode = "read-only-derived-view";
+            emits = [ "missing-source-field" "conflicting-source-field" "unknown-support-field" ];
+            permittedSideEffects = [ "diagnostic-report" ];
+            prohibitedAuthority = [ "policy" "route" "dns" "publicIngress" "managementAccess" "addressAssignment" "runtimeBinding" ];
+          };
           createsAuthority = false;
         };
       };
