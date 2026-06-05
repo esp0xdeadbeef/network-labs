@@ -60,6 +60,10 @@ jq -e '
   def required_realization_exclusions:
     [ "host", "interface", "vlan", "secret", "runtimeBinding" ];
 
+  def row_by($rows; $key; $value):
+    [ $rows[] | select(.[$key] == $value) ] as $matches
+    | if ($matches | length) == 1 then $matches[0] else error("expected one matching row") end;
+
   def profile_ok($site_name; $site):
     ($site.profileManifest // null) as $manifest
     | ($manifest != null)
@@ -127,6 +131,18 @@ jq -e '
       and ((.deniedByDesign // []) | length > 0)
       and has_nonempty("managementBoundary")
     ))
+    and (($manifest.tenantAccessMatrix // []) as $tenant_rows
+      | ($manifest.sharedServiceMatrix // []) as $service_rows
+      | all($tenant_rows[]; . as $tenant
+        | all(($tenant.discoveryExports // [])[]; . as $service_name
+          | any($service_rows[];
+            .service == $service_name
+            and ((.requesterScopes // []) | index($tenant.scope)) != null
+            and .discovery.protocol != "none"
+          )
+        )
+      )
+    )
     and (($manifest.operatorSupportViewSource.fields // []) | sort == (required_support_fields | sort))
     and ($manifest.operatorSupportViewSource.createsAuthority == false)
     and (([
@@ -143,6 +159,10 @@ jq -e '
   .esp as $esp
   | ($esp | keys | sort) == [ "clab", "hetz", "nixos" ]
   and ($esp | to_entries | all(profile_ok(.key; .value)))
+  and (row_by($esp.nixos.profileManifest.tenantAccessMatrix; "scope"; "client").discoveryExports == [ "cast-discovery" ])
+  and (row_by($esp.nixos.profileManifest.tenantAccessMatrix; "scope"; "streaming").discoveryExports == [ ])
+  and (row_by($esp.clab.profileManifest.tenantAccessMatrix; "scope"; "client").discoveryExports == [ "cast-discovery" ])
+  and (row_by($esp.clab.profileManifest.tenantAccessMatrix; "scope"; "streaming").discoveryExports == [ ])
 ' "${tmp_dir}/intent.json" >/dev/null \
   || fail "sat/intent.nix profileManifest rows are missing required FS-650..FS-690 source fields"
 
