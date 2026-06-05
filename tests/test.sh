@@ -49,6 +49,7 @@ tests=(
   test-s-sigma-public-ingress-fixture-table.sh
   test-s-sigma-public-ingress-denied-variants.sh
   test-s-sigma-public-ingress-provider-emulation-boundary.sh
+  test-public-ingress-source-tuple-authority.sh
   test-lab-intent-derived-topology-contract.sh
   test-lab-inventory-derived-p2p-bindings-contract.sh
   test-inventory-no-synthetic-default-containers.sh
