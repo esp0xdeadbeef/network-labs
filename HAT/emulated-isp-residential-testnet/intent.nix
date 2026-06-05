@@ -11,6 +11,7 @@
           external-wireguard-host128 = "wireguard-host128";
           external-route-import = "route-import";
           external-commercial-vpn = "commercial-vpn";
+          service-hat-site-dns = "hat-site-dns";
           service-hat-printer-admin = "hat-printer-admin";
           service-hat-printer-ipp = "hat-printer-ipp";
           service-hat-receiver-control = "hat-receiver-control";
@@ -47,6 +48,21 @@
               }
             ];
             name = "overlay-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "dns";
           }
           {
             match = [
@@ -99,6 +115,11 @@
         ];
         services = [
           {
+            name = "hat-site-dns";
+            providers = [ "nixos-site-dns-client" ];
+            trafficType = "dns";
+          }
+          {
             name = "hat-printer-ipp";
             providers = [ "nixos-printer01" ];
             trafficType = "ipp";
@@ -130,7 +151,10 @@
             responderScope = "trusted";
             discovery = {
               allowed = true;
-              protocols = [ "mdns" "dns-sd" ];
+              protocols = [
+                "mdns"
+                "dns-sd"
+              ];
               transport = {
                 proto = "udp";
                 port = 5353;
@@ -214,7 +238,10 @@
                 kind = "multicast-flooding";
                 from = "trusted";
                 to = "any";
-                protocols = [ "mdns" "dns-sd" ];
+                protocols = [
+                  "mdns"
+                  "dns-sd"
+                ];
                 reason = "selected-discovery-does-not-authorize-broad-flooding";
               }
               {
@@ -235,7 +262,11 @@
             receiverScope = "iot";
             discovery = {
               allowed = true;
-              selectedProtocols = [ "mdns" "ssdp" "dial" ];
+              selectedProtocols = [
+                "mdns"
+                "ssdp"
+                "dial"
+              ];
               transports = [
                 {
                   protocol = "mdns";
@@ -335,13 +366,65 @@
                 kind = "multicast-flooding";
                 from = "trusted";
                 to = "any";
-                protocols = [ "mdns" "ssdp" "dial" ];
+                protocols = [
+                  "mdns"
+                  "ssdp"
+                  "dial"
+                ];
                 reason = "selected-receiver-discovery-does-not-authorize-broad-flooding";
               }
             ];
           }
         ];
         relations = [
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-hat-site-dns";
+            priority = 70;
+            to = {
+              kind = "service";
+              name = "hat-site-dns";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "hat-site-dns";
+            };
+            id = "allow-hat-site-dns-service-to-client-uplinks";
+            priority = 71;
+            to = {
+              kind = "external";
+              uplinks = [
+                "testnet-host-isp"
+                "testnet-routed-isp"
+              ];
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "deny-client-dns-to-uplinks";
+            priority = 72;
+            to = {
+              kind = "external";
+              uplinks = [
+                "testnet-host-isp"
+                "testnet-routed-isp"
+              ];
+            };
+            trafficType = "dns";
+          }
           {
             action = "allow";
             from = {
@@ -479,6 +562,11 @@
           {
             kind = "host";
             name = "nixos-client";
+            tenant = "client";
+          }
+          {
+            kind = "host";
+            name = "nixos-site-dns-client";
             tenant = "client";
           }
           {
@@ -878,6 +966,7 @@
           external-wireguard-host128 = "wireguard-host128";
           external-route-import = "route-import";
           external-commercial-vpn = "commercial-vpn";
+          service-hat-site-dns = "hat-site-dns";
           service-hat-printer-admin = "hat-printer-admin";
           service-hat-printer-ipp = "hat-printer-ipp";
           service-hat-receiver-control = "hat-receiver-control";
@@ -914,6 +1003,21 @@
               }
             ];
             name = "overlay-control";
+          }
+          {
+            match = [
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "dns";
           }
           {
             match = [
@@ -966,6 +1070,11 @@
         ];
         services = [
           {
+            name = "hat-site-dns";
+            providers = [ "clab-site-dns-client" ];
+            trafficType = "dns";
+          }
+          {
             name = "hat-printer-ipp";
             providers = [ "clab-printer01" ];
             trafficType = "ipp";
@@ -997,7 +1106,10 @@
             responderScope = "trusted";
             discovery = {
               allowed = true;
-              protocols = [ "mdns" "dns-sd" ];
+              protocols = [
+                "mdns"
+                "dns-sd"
+              ];
               transport = {
                 proto = "udp";
                 port = 5353;
@@ -1081,7 +1193,10 @@
                 kind = "multicast-flooding";
                 from = "trusted";
                 to = "any";
-                protocols = [ "mdns" "dns-sd" ];
+                protocols = [
+                  "mdns"
+                  "dns-sd"
+                ];
                 reason = "selected-discovery-does-not-authorize-broad-flooding";
               }
               {
@@ -1102,7 +1217,11 @@
             receiverScope = "iot";
             discovery = {
               allowed = true;
-              selectedProtocols = [ "mdns" "ssdp" "dial" ];
+              selectedProtocols = [
+                "mdns"
+                "ssdp"
+                "dial"
+              ];
               transports = [
                 {
                   protocol = "mdns";
@@ -1202,13 +1321,65 @@
                 kind = "multicast-flooding";
                 from = "trusted";
                 to = "any";
-                protocols = [ "mdns" "ssdp" "dial" ];
+                protocols = [
+                  "mdns"
+                  "ssdp"
+                  "dial"
+                ];
                 reason = "selected-receiver-discovery-does-not-authorize-broad-flooding";
               }
             ];
           }
         ];
         relations = [
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-hat-site-dns";
+            priority = 70;
+            to = {
+              kind = "service";
+              name = "hat-site-dns";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "hat-site-dns";
+            };
+            id = "allow-hat-site-dns-service-to-client-uplinks";
+            priority = 71;
+            to = {
+              kind = "external";
+              uplinks = [
+                "testnet-host-isp"
+                "testnet-routed-isp"
+              ];
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "deny-client-dns-to-uplinks";
+            priority = 72;
+            to = {
+              kind = "external";
+              uplinks = [
+                "testnet-host-isp"
+                "testnet-routed-isp"
+              ];
+            };
+            trafficType = "dns";
+          }
           {
             action = "allow";
             from = {
@@ -1350,6 +1521,11 @@
           }
           {
             kind = "host";
+            name = "clab-site-dns-client";
+            tenant = "client";
+          }
+          {
+            kind = "host";
             name = "clab-printer01";
             tenant = "trusted";
           }
@@ -1441,66 +1617,183 @@
 
       topology = {
         links = [
-          [ "clab-core-upstream-vlan4" "clab-upstream-selector" ]
-          [ "clab-core-testnet-host-isp" "clab-upstream-selector" ]
-          [ "clab-core-testnet-routed-isp" "clab-upstream-selector" ]
-          [ "clab-core-nebula" "clab-upstream-selector" ]
-          [ "clab-core-wireguard-remote-egress" "clab-upstream-selector" ]
-          [ "clab-core-wireguard-host128" "clab-upstream-selector" ]
-          [ "clab-core-route-import" "clab-upstream-selector" ]
-          [ "clab-core-commercial-vpn" "clab-upstream-selector" ]
-          [ "clab-upstream-selector" "clab-policy" ]
-          [ "clab-policy" "clab-downstream-selector" ]
-          [ "clab-downstream-selector" "clab-provider-handoff-access-a" ]
-          [ "clab-downstream-selector" "clab-provider-handoff-access-b" ]
-          [ "clab-downstream-selector" "clab-access-client" ]
-          [ "clab-downstream-selector" "clab-access-iot" ]
-          [ "clab-downstream-selector" "clab-access-trusted" ]
-          [ "clab-downstream-selector" "clab-access-guest" ]
-          [ "clab-downstream-selector" "clab-access-work" ]
-          [ "clab-downstream-selector" "clab-access-management" ]
-          [ "clab-downstream-selector" "clab-access-dmz" ]
-          [ "clab-provider-handoff-access-a" "clab-core-testnet-host-isp" ]
-          [ "clab-provider-handoff-access-b" "clab-core-testnet-routed-isp" ]
-          [ "clab-access-iot" "clab-core-nebula" ]
-          [ "clab-access-iot" "clab-core-wireguard-remote-egress" ]
-          [ "clab-access-iot" "clab-core-wireguard-host128" ]
+          [
+            "clab-core-upstream-vlan4"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-testnet-host-isp"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-testnet-routed-isp"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-nebula"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-wireguard-remote-egress"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-wireguard-host128"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-route-import"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-commercial-vpn"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-upstream-selector"
+            "clab-policy"
+          ]
+          [
+            "clab-policy"
+            "clab-downstream-selector"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-provider-handoff-access-a"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-provider-handoff-access-b"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-client"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-iot"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-trusted"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-guest"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-work"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-management"
+          ]
+          [
+            "clab-downstream-selector"
+            "clab-access-dmz"
+          ]
+          [
+            "clab-provider-handoff-access-a"
+            "clab-core-testnet-host-isp"
+          ]
+          [
+            "clab-provider-handoff-access-b"
+            "clab-core-testnet-routed-isp"
+          ]
+          [
+            "clab-access-iot"
+            "clab-core-nebula"
+          ]
+          [
+            "clab-access-iot"
+            "clab-core-wireguard-remote-egress"
+          ]
+          [
+            "clab-access-iot"
+            "clab-core-wireguard-host128"
+          ]
         ];
         nodes = {
           clab-access-client = {
-            attachments = [ { kind = "tenant"; name = "client"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
             role = "access";
           };
           clab-access-dmz = {
-            attachments = [ { kind = "tenant"; name = "dmz"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "dmz";
+              }
+            ];
             role = "access";
           };
           clab-access-guest = {
-            attachments = [ { kind = "tenant"; name = "guest"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "guest";
+              }
+            ];
             role = "access";
           };
           clab-access-iot = {
-            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
             role = "access";
           };
           clab-access-management = {
-            attachments = [ { kind = "tenant"; name = "management"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "management";
+              }
+            ];
             role = "access";
           };
           clab-access-trusted = {
-            attachments = [ { kind = "tenant"; name = "trusted"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "trusted";
+              }
+            ];
             role = "access";
           };
           clab-access-work = {
-            attachments = [ { kind = "tenant"; name = "work"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "work";
+              }
+            ];
             role = "access";
           };
           clab-provider-handoff-access-a = {
-            attachments = [ { kind = "tenant"; name = "provider-handoff-a"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-a";
+              }
+            ];
             role = "access";
           };
           clab-provider-handoff-access-b = {
-            attachments = [ { kind = "tenant"; name = "provider-handoff-b"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-b";
+              }
+            ];
             role = "access";
           };
           clab-core-commercial-vpn = {
@@ -1511,7 +1804,12 @@
             };
           };
           clab-core-nebula = {
-            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
             role = "core";
             uplinks.nebula-egress = {
               ipv4 = [ "100.97.44.0/24" ];
@@ -1526,7 +1824,12 @@
             };
           };
           clab-core-testnet-host-isp = {
-            attachments = [ { kind = "tenant"; name = "provider-handoff-a"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-a";
+              }
+            ];
             role = "core";
             uplinks.testnet-host-isp = {
               ipv4 = [ "203.0.113.4/32" ];
@@ -1534,7 +1837,12 @@
             };
           };
           clab-core-testnet-routed-isp = {
-            attachments = [ { kind = "tenant"; name = "provider-handoff-b"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "provider-handoff-b";
+              }
+            ];
             role = "core";
             uplinks.testnet-routed-isp = {
               ipv4 = [ "203.0.113.0/30" ];
@@ -1549,7 +1857,12 @@
             };
           };
           clab-core-wireguard-host128 = {
-            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
             role = "core";
             uplinks.wireguard-host128 = {
               ipv4 = [ "0.0.0.0/0" ];
@@ -1557,7 +1870,12 @@
             };
           };
           clab-core-wireguard-remote-egress = {
-            attachments = [ { kind = "tenant"; name = "iot"; } ];
+            attachments = [
+              {
+                kind = "tenant";
+                name = "iot";
+              }
+            ];
             role = "core";
             uplinks.wireguard-egress = {
               ipv4 = [ "0.0.0.0/0" ];
