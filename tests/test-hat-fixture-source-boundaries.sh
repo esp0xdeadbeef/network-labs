@@ -90,6 +90,19 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       builtins.hasAttr name endpointClients;
     endpointServiceSurface = endpoint: surface:
       ((endpointClients.${endpoint} or { }).serviceSurfaces or { }).${surface} or null;
+    endpointHasPersistenceAndManagementBoundary = name:
+      let
+        endpoint = endpointClients.${name} or { };
+        persistence = endpoint.persistenceExpectation or { };
+        management = endpoint.managementBoundary or { };
+      in
+        (endpoint ? persistenceExpectation)
+        && (persistence ? kind)
+        && (persistence ? required)
+        && (endpoint ? managementBoundary)
+        && (management.fixturePlacementCreatesManagementAccess or null) == false
+        && (management ? mode);
+    endpointNames = builtins.attrNames endpointClients;
     trafficTypeHasPort = name: proto: port:
       builtins.any
         (match: (match.proto or null) == proto && builtins.elem port (match.dports or [ ]))
@@ -178,6 +191,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB and NixOS endpoint fixtures must not be cross-loaded into the wrong inventory"
     && require (hasEndpointFixture "nixos-printer01" && hasEndpointFixture "nixos-receiver01")
       "shared-service endpoint fixtures must live in inventory HAT substrate"
+    && require (builtins.all endpointHasPersistenceAndManagementBoundary endpointNames)
+      "HAT endpoint client fixtures must declare persistenceExpectation and managementBoundary without fixture-created management access"
     && require ((endpointServiceSurface "nixos-printer01" "ipp").service == "hat-printer-ipp")
       "printer IPP fixture surface must bind to modeled service"
     && require ((endpointServiceSurface "nixos-printer01" "admin").service == "hat-printer-admin")
