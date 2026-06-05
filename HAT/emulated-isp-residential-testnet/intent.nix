@@ -119,6 +119,228 @@
             trafficType = "cast-discovery";
           }
         ];
+        sharedServicePolicyAtoms = [
+          {
+            id = "fs740-printer-discovery-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-010";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            provider = "nixos-printer01";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            discovery = {
+              allowed = true;
+              protocols = [ "mdns" "dns-sd" ];
+              transport = {
+                proto = "udp";
+                port = 5353;
+                scope = "link-local-multicast";
+              };
+              records = [
+                {
+                  kind = "bonjour-dns-sd";
+                  serviceType = "_ipp._tcp";
+                  instance = "hat-printer";
+                  targetService = "hat-printer-ipp";
+                  payloadPort = 631;
+                }
+              ];
+              decision = "discovery-only";
+              doesNotAuthorize = [
+                "print-payload"
+                "printer-admin"
+                "reverse-discovery"
+                "multicast-flooding"
+                "client-lateral"
+              ];
+            };
+          }
+          {
+            id = "fs740-printer-print-payload-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-020";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            payload = {
+              allowed = true;
+              protocol = "ipp";
+              transport = "tcp";
+              ports = [ 631 ];
+              direction = "requester-to-printer";
+              returnBehavior = "established-return-only";
+              independentFromDiscovery = true;
+            };
+          }
+          {
+            id = "fs740-printer-admin-denial-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-030";
+            service = "hat-printer-admin";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            administration = {
+              service = "hat-printer-admin";
+              transport = "tcp";
+              ports = [ 80 ];
+              allowedScopes = [ ];
+              deniedScopes = [
+                "guest"
+                "iot"
+                "work"
+                "client"
+                "management"
+              ];
+              independentFromDiscovery = true;
+              independentFromPayload = true;
+            };
+          }
+          {
+            id = "fs740-printer-reverse-multicast-lateral-denial";
+            sms = "FS-740-HDS-010-SDS-010-SMS-040";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            deniedPaths = [
+              {
+                kind = "reverse-discovery";
+                from = "trusted";
+                to = "trusted";
+                direction = "printer-to-requester";
+                reason = "printer-discovery-does-not-authorize-reverse-discovery";
+              }
+              {
+                kind = "multicast-flooding";
+                from = "trusted";
+                to = "any";
+                protocols = [ "mdns" "dns-sd" ];
+                reason = "selected-discovery-does-not-authorize-broad-flooding";
+              }
+              {
+                kind = "unrelated-client-lateral";
+                from = "guest";
+                to = "trusted";
+                reason = "printer-service-policy-does-not-authorize-unrelated-client-access";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-discovery-policy";
+            sms = "FS-760-HDS-010-SDS-010-SMS-010";
+            service = "hat-receiver-discovery";
+            serviceClass = "media-receiver";
+            provider = "nixos-receiver01";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            discovery = {
+              allowed = true;
+              selectedProtocols = [ "mdns" "ssdp" "dial" ];
+              transports = [
+                {
+                  protocol = "mdns";
+                  proto = "udp";
+                  port = 5353;
+                  record = "_googlecast._tcp";
+                }
+                {
+                  protocol = "ssdp";
+                  proto = "udp";
+                  port = 1900;
+                  record = "urn:dial-multiscreen-org:service:dial:1";
+                }
+                {
+                  protocol = "dial";
+                  proto = "tcp";
+                  service = "hat-receiver-control";
+                }
+              ];
+              decision = "discovery-only";
+              doesNotAuthorize = [
+                "controller-payload"
+                "reverse-initiation"
+                "guest-to-trusted"
+                "media-to-management"
+                "multicast-flooding"
+              ];
+            };
+          }
+          {
+            id = "fs760-receiver-controller-payload-policy";
+            sms = "FS-760-HDS-010-SDS-010-SMS-020";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            payload = {
+              allowed = true;
+              protocol = "cast-control";
+              transport = "tcp";
+              ports = [
+                8008
+                8009
+              ];
+              direction = "controller-to-receiver";
+              returnBehavior = "established-return-only";
+              independentFromDiscovery = true;
+            };
+          }
+          {
+            id = "fs760-receiver-reverse-initiation-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-030";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "receiver-to-controller-initiation";
+                from = "iot";
+                to = "trusted";
+                reason = "payload-return-does-not-authorize-new-receiver-initiated-sessions";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-tenant-management-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-040";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "guest-to-trusted";
+                from = "guest";
+                to = "trusted";
+                reason = "receiver-policy-does-not-authorize-guest-to-trusted-reachability";
+              }
+              {
+                kind = "media-to-management";
+                from = "iot";
+                to = "management";
+                reason = "receiver-policy-does-not-authorize-management-reachability";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-multicast-flooding-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-050";
+            service = "hat-receiver-discovery";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "multicast-flooding";
+                from = "trusted";
+                to = "any";
+                protocols = [ "mdns" "ssdp" "dial" ];
+                reason = "selected-receiver-discovery-does-not-authorize-broad-flooding";
+              }
+            ];
+          }
+        ];
         relations = [
           {
             action = "allow";
@@ -762,6 +984,228 @@
             name = "hat-receiver-discovery";
             providers = [ "clab-receiver01" ];
             trafficType = "cast-discovery";
+          }
+        ];
+        sharedServicePolicyAtoms = [
+          {
+            id = "fs740-printer-discovery-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-010";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            provider = "clab-printer01";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            discovery = {
+              allowed = true;
+              protocols = [ "mdns" "dns-sd" ];
+              transport = {
+                proto = "udp";
+                port = 5353;
+                scope = "link-local-multicast";
+              };
+              records = [
+                {
+                  kind = "bonjour-dns-sd";
+                  serviceType = "_ipp._tcp";
+                  instance = "hat-printer";
+                  targetService = "hat-printer-ipp";
+                  payloadPort = 631;
+                }
+              ];
+              decision = "discovery-only";
+              doesNotAuthorize = [
+                "print-payload"
+                "printer-admin"
+                "reverse-discovery"
+                "multicast-flooding"
+                "client-lateral"
+              ];
+            };
+          }
+          {
+            id = "fs740-printer-print-payload-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-020";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            payload = {
+              allowed = true;
+              protocol = "ipp";
+              transport = "tcp";
+              ports = [ 631 ];
+              direction = "requester-to-printer";
+              returnBehavior = "established-return-only";
+              independentFromDiscovery = true;
+            };
+          }
+          {
+            id = "fs740-printer-admin-denial-policy";
+            sms = "FS-740-HDS-010-SDS-010-SMS-030";
+            service = "hat-printer-admin";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            administration = {
+              service = "hat-printer-admin";
+              transport = "tcp";
+              ports = [ 80 ];
+              allowedScopes = [ ];
+              deniedScopes = [
+                "guest"
+                "iot"
+                "work"
+                "client"
+                "management"
+              ];
+              independentFromDiscovery = true;
+              independentFromPayload = true;
+            };
+          }
+          {
+            id = "fs740-printer-reverse-multicast-lateral-denial";
+            sms = "FS-740-HDS-010-SDS-010-SMS-040";
+            service = "hat-printer-ipp";
+            serviceClass = "printer";
+            requesterScopes = [ "trusted" ];
+            responderScope = "trusted";
+            deniedPaths = [
+              {
+                kind = "reverse-discovery";
+                from = "trusted";
+                to = "trusted";
+                direction = "printer-to-requester";
+                reason = "printer-discovery-does-not-authorize-reverse-discovery";
+              }
+              {
+                kind = "multicast-flooding";
+                from = "trusted";
+                to = "any";
+                protocols = [ "mdns" "dns-sd" ];
+                reason = "selected-discovery-does-not-authorize-broad-flooding";
+              }
+              {
+                kind = "unrelated-client-lateral";
+                from = "guest";
+                to = "trusted";
+                reason = "printer-service-policy-does-not-authorize-unrelated-client-access";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-discovery-policy";
+            sms = "FS-760-HDS-010-SDS-010-SMS-010";
+            service = "hat-receiver-discovery";
+            serviceClass = "media-receiver";
+            provider = "clab-receiver01";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            discovery = {
+              allowed = true;
+              selectedProtocols = [ "mdns" "ssdp" "dial" ];
+              transports = [
+                {
+                  protocol = "mdns";
+                  proto = "udp";
+                  port = 5353;
+                  record = "_googlecast._tcp";
+                }
+                {
+                  protocol = "ssdp";
+                  proto = "udp";
+                  port = 1900;
+                  record = "urn:dial-multiscreen-org:service:dial:1";
+                }
+                {
+                  protocol = "dial";
+                  proto = "tcp";
+                  service = "hat-receiver-control";
+                }
+              ];
+              decision = "discovery-only";
+              doesNotAuthorize = [
+                "controller-payload"
+                "reverse-initiation"
+                "guest-to-trusted"
+                "media-to-management"
+                "multicast-flooding"
+              ];
+            };
+          }
+          {
+            id = "fs760-receiver-controller-payload-policy";
+            sms = "FS-760-HDS-010-SDS-010-SMS-020";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            payload = {
+              allowed = true;
+              protocol = "cast-control";
+              transport = "tcp";
+              ports = [
+                8008
+                8009
+              ];
+              direction = "controller-to-receiver";
+              returnBehavior = "established-return-only";
+              independentFromDiscovery = true;
+            };
+          }
+          {
+            id = "fs760-receiver-reverse-initiation-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-030";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "receiver-to-controller-initiation";
+                from = "iot";
+                to = "trusted";
+                reason = "payload-return-does-not-authorize-new-receiver-initiated-sessions";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-tenant-management-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-040";
+            service = "hat-receiver-control";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "guest-to-trusted";
+                from = "guest";
+                to = "trusted";
+                reason = "receiver-policy-does-not-authorize-guest-to-trusted-reachability";
+              }
+              {
+                kind = "media-to-management";
+                from = "iot";
+                to = "management";
+                reason = "receiver-policy-does-not-authorize-management-reachability";
+              }
+            ];
+          }
+          {
+            id = "fs760-receiver-multicast-flooding-denial";
+            sms = "FS-760-HDS-010-SDS-010-SMS-050";
+            service = "hat-receiver-discovery";
+            serviceClass = "media-receiver";
+            controllerScopes = [ "trusted" ];
+            receiverScope = "iot";
+            deniedPaths = [
+              {
+                kind = "multicast-flooding";
+                from = "trusted";
+                to = "any";
+                protocols = [ "mdns" "ssdp" "dial" ];
+                reason = "selected-receiver-discovery-does-not-authorize-broad-flooding";
+              }
+            ];
           }
         ];
         relations = [

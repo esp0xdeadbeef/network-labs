@@ -63,6 +63,7 @@ tests=(
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
   test-fs730-printer-cups-source.sh
+  test-hat-printer-receiver-policy-source.sh
   test-hat-emulated-isp-residential-testnet.sh
   test-hat-fixture-source-boundaries.sh
   test-hat-upstream-inventory-realization-boundary.sh
