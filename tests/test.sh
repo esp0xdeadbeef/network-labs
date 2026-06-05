@@ -40,6 +40,7 @@ tests=(
   test-modeling-contract-docs.sh
   test-smt-traceability-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
+  test-fs200-shared-service-source-matrix.sh
   test-fs650-fs690-profile-matrices.sh
   test-fs690-support-view-provenance-non-authority.sh
   test-s-sigma-pppoe-upstream-emulation-source.sh
