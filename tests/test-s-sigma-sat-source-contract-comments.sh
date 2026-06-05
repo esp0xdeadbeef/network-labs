@@ -186,6 +186,7 @@ nix eval --impure --raw --expr "
     if dhcp4.mac == \"02:10:20:00:00:10\"
       && dhcp4.macSource.sourceClass == \"public-synthetic-lab\"
       && dhcp4.macSource.purpose == \"static-dhcp-reservation\"
+      && dhcp4.macSource.accepted == true
       && dhcp4.macSource.disposable == true
       && dhcp4.namespaceOwner == \"tenant-client\"
       && dhcp4.conflictBehavior == \"fail-closed\"
@@ -195,6 +196,7 @@ nix eval --impure --raw --expr "
       && dhcp6.mac == \"02:10:20:00:00:10\"
       && dhcp6.macSource.sourceClass == \"public-synthetic-lab\"
       && dhcp6.macSource.purpose == \"dhcpv6-reservation\"
+      && dhcp6.macSource.accepted == true
       && dhcp6.macSource.disposable == true
       && dhcp6.namespaceOwner == \"tenant-client\"
       && dhcp6.conflictBehavior == \"fail-closed\"
