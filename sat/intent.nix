@@ -6,6 +6,128 @@
     # SAT-SRC-INTENT-NIXOS-SITE: s-router SAT behavior source for the NixOS
     # site; intent owns behavior and inventory owns realization.
     nixos = {
+      # SAT-SRC-PROFILE-MANIFEST-NIXOS: FS-650..FS-690 source/profile
+      # manifest evidence. This is source data only; inventory and renderers
+      # still own concrete host, interface, VLAN, secret, and runtime facts.
+      profileManifest = {
+        sourceClass = "intent-profile-manifest";
+        profileIdentity = {
+          profileId = "esp.nixos";
+          deploymentType = "residential-home-server";
+          sitePurpose = "default segmented NixOS home/server site";
+          inferredFromRealization = false;
+        };
+        surfaces = {
+          provider = [ "isp-a" "isp-b" ];
+          management = {
+            scope = "mgmt";
+            source = "tenant-access-policy";
+          };
+          overlayOrInterSite = [ "east-west" ];
+          publicIngressCapability = {
+            enabled = true;
+            services = [ "nixos-hostile-4444" "dmz-nebula" ];
+          };
+          realizationFieldsExcluded = [ "host" "interface" "vlan" "secret" "runtimeBinding" ];
+        };
+        scopeManifest = {
+          tenants = [ "mgmt" "admin" "client" "dmz" "streaming" "hostile" ];
+          services = [ "site-dns-mgmt" "dmz-nebula" "nixos-hostile-4444" "cast-control" "cast-discovery" ];
+          accessSpaces = [ "mgmt" "admin" "client" "dmz" "streaming" "hostile" ];
+          explicitOmissions = [ ];
+          renames = [ ];
+          mergedBaselineScopes = [ ];
+        };
+        internetProviderProfile = {
+          defaultInternetMode = "dual-uplink-private-egress";
+          providers = [ "isp-a" "isp-b" ];
+          roleColocation = [ ];
+        };
+        accessSpaces = {
+          mgmt = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-mgmt"; };
+            clientIdentityRules = [ "managed-infrastructure-client" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.10.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:10::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "management-only";
+            onboarding = "controlled-admin";
+            revocation = "remove-managed-client";
+          };
+          admin = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-admin"; };
+            clientIdentityRules = [ "admin-client" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.15.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:15::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "deny-production-to-management-except-admin-policy";
+            onboarding = "controlled-admin";
+            revocation = "remove-admin-client";
+          };
+          client = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-client"; };
+            clientIdentityRules = [ "normal-user-client" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.20.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:20::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "cast-requester";
+            clientIsolation = "no-management-lateral";
+            onboarding = "normal-client";
+            revocation = "remove-client";
+          };
+          dmz = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-dmz"; };
+            clientIdentityRules = [ "service-host" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.30.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:30::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "public-service-only";
+            onboarding = "controlled-service";
+            revocation = "remove-service-host";
+          };
+          streaming = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-streaming"; };
+            clientIdentityRules = [ "media-device" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.50.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:50::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "cast-responder";
+            clientIsolation = "no-reverse-client-initiation";
+            onboarding = "controlled-device";
+            revocation = "remove-media-device";
+          };
+          hostile = {
+            attachment = { method = "tenant-access"; sourceNode = "nixos-router-access-hostile"; };
+            clientIdentityRules = [ "hostile-test-client" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.20.70.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:beef:70::/64"; };
+            resolverAdvertisement = "router-self";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "deny-local-production-and-uplink";
+            onboarding = "test-client";
+            revocation = "remove-test-client";
+          };
+        };
+        tenantAccessMatrix = [
+          { scope = "mgmt"; purpose = "infrastructure-management"; clientClasses = [ "managed-infrastructure-client" ]; internetMode = "resolver-mediated"; resolver = "site-dns-mgmt"; discoveryExports = [ ]; allowedServices = [ "site-dns-mgmt" ]; deniedLateralPaths = [ "production-to-mgmt" ]; managementExcluded = false; negativeProbes = [ "production-to-mgmt" ]; operatorName = "Management"; }
+          { scope = "admin"; purpose = "administrative-client"; clientClasses = [ "admin-client" ]; internetMode = "dual-uplink"; resolver = "site-dns-mgmt"; discoveryExports = [ ]; allowedServices = [ "site-dns-mgmt" ]; deniedLateralPaths = [ ]; managementExcluded = false; negativeProbes = [ "direct-public-dns" ]; operatorName = "Admin"; }
+          { scope = "client"; purpose = "normal-client"; clientClasses = [ "user-client" ]; internetMode = "dual-uplink"; resolver = "site-dns-mgmt"; discoveryExports = [ "cast-discovery" ]; allowedServices = [ "site-dns-mgmt" "cast-discovery" "cast-control" ]; deniedLateralPaths = [ "client-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "client-to-mgmt" "direct-public-dns" ]; operatorName = "Client"; }
+          { scope = "dmz"; purpose = "public-service"; clientClasses = [ "service-host" ]; internetMode = "dual-uplink"; resolver = "site-dns-mgmt"; discoveryExports = [ ]; allowedServices = [ "site-dns-mgmt" "dmz-nebula" ]; deniedLateralPaths = [ "dmz-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "dmz-to-mgmt" "direct-public-dns" ]; operatorName = "DMZ"; }
+          { scope = "streaming"; purpose = "media-device"; clientClasses = [ "media-device" ]; internetMode = "dual-uplink"; resolver = "site-dns-mgmt"; discoveryExports = [ "cast-discovery" ]; allowedServices = [ "site-dns-mgmt" "cast-discovery" "cast-control" ]; deniedLateralPaths = [ "streaming-to-client" "streaming-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "streaming-to-client" "streaming-to-mgmt" "direct-public-dns" ]; operatorName = "Streaming"; }
+          { scope = "hostile"; purpose = "hostile-overlay-egress-test"; clientClasses = [ "hostile-test-client" ]; internetMode = "east-west-only"; resolver = "none-local"; discoveryExports = [ ]; allowedServices = [ "nixos-hostile-4444" ]; deniedLateralPaths = [ "hostile-to-local-tenants" "hostile-to-local-uplinks" ]; managementExcluded = true; negativeProbes = [ "hostile-to-local-tenants" "hostile-to-local-uplinks" ]; operatorName = "Hostile"; }
+        ];
+        sharedServiceMatrix = [
+          { requesterScopes = [ "admin" "client" "streaming" "dmz" ]; responderScope = "mgmt"; serviceClass = "dns"; service = "site-dns-mgmt"; discovery = { protocol = "none"; direction = "not-discovered"; }; payload = { protocol = "dns"; ports = [ 53 ]; direction = "requester-to-responder"; returnBehavior = "stateful-return"; }; exposure = "site-local"; authenticationBoundary = "resolver-policy"; cloudDependency = "none"; deniedByDesign = [ "direct-public-dns" ]; managementBoundary = "not-management-authority"; }
+          { requesterScopes = [ "client" ]; responderScope = "streaming"; serviceClass = "media-receiver"; service = "cast-discovery"; discovery = { protocol = "mdns-ssdp"; direction = "client-to-streaming"; }; payload = { protocol = "udp"; ports = [ 5353 1900 ]; direction = "requester-to-responder"; returnBehavior = "discovery-response-only"; }; exposure = "site-local"; authenticationBoundary = "device-pairing"; cloudDependency = "none"; deniedByDesign = [ "streaming-reverse-initiation" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "client" ]; responderScope = "streaming"; serviceClass = "media-control"; service = "cast-control"; discovery = { protocol = "none"; direction = "not-discovered"; }; payload = { protocol = "tcp"; ports = [ 8008 8009 ]; direction = "client-to-streaming"; returnBehavior = "stateful-return"; }; exposure = "site-local"; authenticationBoundary = "device-pairing"; cloudDependency = "none"; deniedByDesign = [ "streaming-reverse-initiation" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-wan" ]; responderScope = "dmz"; serviceClass = "overlay-control"; service = "dmz-nebula"; discovery = { protocol = "none"; direction = "public-entry"; }; payload = { protocol = "nebula"; ports = [ 4242 ]; direction = "wan-to-dmz"; returnBehavior = "stateful-return"; }; exposure = "public-ingress"; authenticationBoundary = "overlay-keys"; cloudDependency = "none"; deniedByDesign = [ "payload-policy-bypass" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-east-west" ]; responderScope = "hostile"; serviceClass = "public-test-entry"; service = "nixos-hostile-4444"; discovery = { protocol = "none"; direction = "public-entry"; }; payload = { protocol = "tcp-udp"; ports = [ 4444 ]; direction = "external-to-hostile"; returnBehavior = "stateful-return"; }; exposure = "public-ingress"; authenticationBoundary = "service-local"; cloudDependency = "none"; deniedByDesign = [ "hostile-to-local-tenants" ]; managementBoundary = "no-administration"; }
+        ];
+        operatorSupportViewSource = {
+          modeledSources = [ "profileIdentity" "surfaces" "scopeManifest" "accessSpaces" "tenantAccessMatrix" "sharedServiceMatrix" "communicationContract" "ownership" "transport" ];
+          inventorySources = [ "inventory.nix" ];
+          runtimeSources = [ "runtime fact summaries only when supplied" ];
+          fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          createsAuthority = false;
+        };
+      };
       # SAT-SRC-INTENT-NIXOS-COMMS: SAT behavior coverage for DNS policy,
       # public exposure, internet policy, hostile overlay egress, and leak
       # prevention for esp.nixos.
@@ -757,6 +879,80 @@
     # SAT-SRC-INTENT-HETZ-SITE: s-router SAT behavior source for the hosted
     # edge site; this site carries the provider/public-edge behavior.
     hetz = {
+      # SAT-SRC-PROFILE-MANIFEST-HETZ: FS-650..FS-690 source/profile
+      # manifest evidence for the hosted edge profile.
+      profileManifest = {
+        sourceClass = "intent-profile-manifest";
+        profileIdentity = {
+          profileId = "esp.hetz";
+          deploymentType = "hosted-edge";
+          sitePurpose = "hosted public edge, overlay lighthouse, and provider scenario site";
+          inferredFromRealization = false;
+        };
+        surfaces = {
+          provider = [ "wan" "wg-host128-egress" "wg-routed64" ];
+          management = { scope = "dmz"; source = "controlled-hosted-edge-policy"; };
+          overlayOrInterSite = [ "east-west" "wg-host128-egress" "wg-routed64" ];
+          publicIngressCapability = {
+            enabled = true;
+            services = [ "nixos-hostile-4444" "clab-client-4445" "hetz-client-4446" "wireguard-host128" "wireguard-routed64" "dmz-nebula" ];
+          };
+          realizationFieldsExcluded = [ "host" "interface" "vlan" "secret" "runtimeBinding" ];
+        };
+        scopeManifest = {
+          tenants = [ "dmz" "client" ];
+          services = [ "hetz-dns-dmz" "dmz-nebula" "nixos-hostile-4444" "clab-client-4445" "hetz-client-4446" "wireguard-host128" "wireguard-routed64" "hostile-public-dns" ];
+          accessSpaces = [ "dmz" "client" ];
+          explicitOmissions = [ "mgmt" "admin" "streaming" "hostile" ];
+          renames = [ ];
+          mergedBaselineScopes = [ ];
+        };
+        internetProviderProfile = {
+          defaultInternetMode = "hosted-wan-plus-provider-overlays";
+          providers = [ "wan" "wg-host128-egress" "wg-routed64" ];
+          roleColocation = [ { roles = [ "provider-edge" "public-ingress" ]; node = "hetz-router-core"; reason = "hosted edge profile"; } ];
+        };
+        accessSpaces = {
+          dmz = {
+            attachment = { method = "tenant-access"; sourceNode = "hetz-router-access-dmz"; };
+            clientIdentityRules = [ "hosted-service" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.90.10.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:cafe:10::/64"; };
+            resolverAdvertisement = "hetz-dns-dmz";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "public-edge-service-only";
+            onboarding = "controlled-hosted-service";
+            revocation = "remove-hosted-service";
+          };
+          client = {
+            attachment = { method = "tenant-access"; sourceNode = "hetz-router-access-client"; };
+            clientIdentityRules = [ "hosted-client" ];
+            addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.90.20.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:cafe:20::/64"; };
+            resolverAdvertisement = "hetz-dns-dmz";
+            localServiceDiscovery = "disabled";
+            clientIsolation = "public-ingress-target-only";
+            onboarding = "controlled-hosted-client";
+            revocation = "remove-hosted-client";
+          };
+        };
+        tenantAccessMatrix = [
+          { scope = "dmz"; purpose = "hosted-edge-services"; clientClasses = [ "hosted-service" ]; internetMode = "wan-and-east-west"; resolver = "hetz-dns-dmz"; discoveryExports = [ ]; allowedServices = [ "hetz-dns-dmz" "dmz-nebula" "wireguard-host128" "wireguard-routed64" ]; deniedLateralPaths = [ "dmz-to-management" ]; managementExcluded = true; negativeProbes = [ "direct-public-dns" "dmz-to-management" ]; operatorName = "Hetz DMZ"; }
+          { scope = "client"; purpose = "hosted-client-public-target"; clientClasses = [ "hosted-client" ]; internetMode = "wan-and-provider-overlays"; resolver = "hetz-dns-dmz"; discoveryExports = [ ]; allowedServices = [ "hetz-dns-dmz" "hetz-client-4446" ]; deniedLateralPaths = [ "client-to-management" ]; managementExcluded = true; negativeProbes = [ "direct-public-dns" "client-to-management" ]; operatorName = "Hetz Client"; }
+        ];
+        sharedServiceMatrix = [
+          { requesterScopes = [ "client" ]; responderScope = "dmz"; serviceClass = "dns"; service = "hetz-dns-dmz"; discovery = { protocol = "none"; direction = "not-discovered"; }; payload = { protocol = "dns"; ports = [ 53 ]; direction = "requester-to-responder"; returnBehavior = "stateful-return"; }; exposure = "site-local"; authenticationBoundary = "resolver-policy"; cloudDependency = "none"; deniedByDesign = [ "direct-public-dns" ]; managementBoundary = "not-management-authority"; }
+          { requesterScopes = [ "external-wan" "external-east-west" ]; responderScope = "dmz"; serviceClass = "overlay-control"; service = "dmz-nebula"; discovery = { protocol = "none"; direction = "public-entry"; }; payload = { protocol = "nebula"; ports = [ 4242 ]; direction = "external-to-dmz"; returnBehavior = "stateful-return"; }; exposure = "public-ingress"; authenticationBoundary = "overlay-keys"; cloudDependency = "none"; deniedByDesign = [ "payload-policy-bypass" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-wan" ]; responderScope = "client"; serviceClass = "public-test-entry"; service = "hetz-client-4446"; discovery = { protocol = "none"; direction = "public-entry"; }; payload = { protocol = "tcp-udp"; ports = [ 4446 ]; direction = "external-to-client"; returnBehavior = "stateful-return"; }; exposure = "public-ingress"; authenticationBoundary = "service-local"; cloudDependency = "none"; deniedByDesign = [ "client-management-access" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-wan" ]; responderScope = "client"; serviceClass = "wireguard-provider"; service = "wireguard-host128"; discovery = { protocol = "none"; direction = "provider-entry"; }; payload = { protocol = "udp"; ports = [ 51820 ]; direction = "wan-to-provider"; returnBehavior = "stateful-return"; }; exposure = "provider-control"; authenticationBoundary = "wireguard-keys"; cloudDependency = "none"; deniedByDesign = [ "downstream-gua-export" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-wan" ]; responderScope = "client"; serviceClass = "wireguard-provider"; service = "wireguard-routed64"; discovery = { protocol = "none"; direction = "provider-entry"; }; payload = { protocol = "udp"; ports = [ 51821 ]; direction = "wan-to-provider"; returnBehavior = "stateful-return"; }; exposure = "provider-control"; authenticationBoundary = "wireguard-keys"; cloudDependency = "none"; deniedByDesign = [ "nat66-for-routed-gua" ]; managementBoundary = "no-administration"; }
+        ];
+        operatorSupportViewSource = {
+          modeledSources = [ "profileIdentity" "surfaces" "scopeManifest" "accessSpaces" "tenantAccessMatrix" "sharedServiceMatrix" "communicationContract" "ownership" "transport" ];
+          inventorySources = [ "inventory.nix" ];
+          runtimeSources = [ "runtime fact summaries only when supplied" ];
+          fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          createsAuthority = false;
+        };
+      };
       # SAT-SRC-INTENT-HETZ-COMMS: SAT behavior coverage for hosted DNS,
       # public ingress, east-west return paths, internet policy, and leak
       # prevention for esp.hetz.
@@ -1458,6 +1654,69 @@
     # SAT-SRC-INTENT-CLAB-SITE: s-router SAT behavior source for the
     # Containerlab mirror site and hostile client egress validation tenant.
     clab = {
+      # SAT-SRC-PROFILE-MANIFEST-CLAB: FS-650..FS-690 source/profile
+      # manifest evidence for the Containerlab mirror profile.
+      profileManifest = {
+        sourceClass = "intent-profile-manifest";
+        profileIdentity = {
+          profileId = "esp.clab";
+          deploymentType = "containerlab-mirror";
+          sitePurpose = "CLAB mirror for segmentation, hostile egress, and client public-service checks";
+          inferredFromRealization = false;
+        };
+        surfaces = {
+          provider = [ "wan" ];
+          management = { scope = "mgmt"; source = "tenant-access-policy"; };
+          overlayOrInterSite = [ "east-west" ];
+          publicIngressCapability = {
+            enabled = true;
+            services = [ "clab-client-4445" ];
+          };
+          realizationFieldsExcluded = [ "host" "interface" "vlan" "secret" "runtimeBinding" ];
+        };
+        scopeManifest = {
+          tenants = [ "mgmt" "admin" "client" "dmz" "streaming" "hostile" ];
+          services = [ "clab-site-dns" "clab-client-4445" "cast-control" "cast-discovery" ];
+          accessSpaces = [ "mgmt" "admin" "client" "dmz" "streaming" "hostile" ];
+          explicitOmissions = [ ];
+          renames = [ ];
+          mergedBaselineScopes = [ ];
+        };
+        internetProviderProfile = {
+          defaultInternetMode = "simulated-wan-plus-east-west-hostile-egress";
+          providers = [ "wan" "east-west" ];
+          roleColocation = [ ];
+        };
+        accessSpaces = {
+          mgmt = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-mgmt"; }; clientIdentityRules = [ "managed-infrastructure-client" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.50.10.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:10::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "disabled"; clientIsolation = "management-only"; onboarding = "controlled-admin"; revocation = "remove-managed-client"; };
+          admin = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-admin"; }; clientIdentityRules = [ "admin-client" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.50.15.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:15::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "disabled"; clientIsolation = "deny-production-to-management-except-admin-policy"; onboarding = "controlled-admin"; revocation = "remove-admin-client"; };
+          client = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-client"; }; clientIdentityRules = [ "normal-user-client" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.50.20.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:20::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "cast-requester"; clientIsolation = "no-management-lateral"; onboarding = "normal-client"; revocation = "remove-client"; };
+          dmz = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-dmz"; }; clientIdentityRules = [ "service-host" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.50.30.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:30::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "disabled"; clientIsolation = "public-service-only"; onboarding = "controlled-service"; revocation = "remove-service-host"; };
+          streaming = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-streaming"; }; clientIdentityRules = [ "media-device" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.50.50.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:50::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "cast-responder"; clientIsolation = "no-reverse-client-initiation"; onboarding = "controlled-device"; revocation = "remove-media-device"; };
+          hostile = { attachment = { method = "tenant-access"; sourceNode = "clab-router-access-hostile"; }; clientIdentityRules = [ "hostile-test-client" ]; addressAssignment = { ipv4.mode = "dhcp"; ipv4.servedPrefix = "10.70.10.0/24"; ipv6.mode = "dhcpv6-or-ra"; ipv6.servedPrefix = "fd42:dead:feed:70::/64"; }; resolverAdvertisement = "router-self"; localServiceDiscovery = "disabled"; clientIsolation = "deny-local-production-and-uplink"; onboarding = "test-client"; revocation = "remove-test-client"; };
+        };
+        tenantAccessMatrix = [
+          { scope = "mgmt"; purpose = "infrastructure-management"; clientClasses = [ "managed-infrastructure-client" ]; internetMode = "resolver-mediated"; resolver = "clab-site-dns"; discoveryExports = [ ]; allowedServices = [ "clab-site-dns" ]; deniedLateralPaths = [ "production-to-mgmt" ]; managementExcluded = false; negativeProbes = [ "production-to-mgmt" ]; operatorName = "CLAB Management"; }
+          { scope = "admin"; purpose = "administrative-client"; clientClasses = [ "admin-client" ]; internetMode = "wan"; resolver = "clab-site-dns"; discoveryExports = [ ]; allowedServices = [ "clab-site-dns" ]; deniedLateralPaths = [ ]; managementExcluded = false; negativeProbes = [ "direct-public-dns" ]; operatorName = "CLAB Admin"; }
+          { scope = "client"; purpose = "normal-client-public-target"; clientClasses = [ "user-client" ]; internetMode = "wan"; resolver = "clab-site-dns"; discoveryExports = [ "cast-discovery" ]; allowedServices = [ "clab-site-dns" "cast-discovery" "cast-control" "clab-client-4445" ]; deniedLateralPaths = [ "client-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "client-to-mgmt" "direct-public-dns" ]; operatorName = "CLAB Client"; }
+          { scope = "dmz"; purpose = "service-zone"; clientClasses = [ "service-host" ]; internetMode = "wan"; resolver = "clab-site-dns"; discoveryExports = [ ]; allowedServices = [ "clab-site-dns" ]; deniedLateralPaths = [ "dmz-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "dmz-to-mgmt" "direct-public-dns" ]; operatorName = "CLAB DMZ"; }
+          { scope = "streaming"; purpose = "media-device"; clientClasses = [ "media-device" ]; internetMode = "wan"; resolver = "clab-site-dns"; discoveryExports = [ "cast-discovery" ]; allowedServices = [ "clab-site-dns" "cast-discovery" "cast-control" ]; deniedLateralPaths = [ "streaming-to-client" "streaming-to-mgmt" ]; managementExcluded = true; negativeProbes = [ "streaming-to-client" "streaming-to-mgmt" "direct-public-dns" ]; operatorName = "CLAB Streaming"; }
+          { scope = "hostile"; purpose = "hostile-overlay-egress-test"; clientClasses = [ "hostile-test-client" ]; internetMode = "east-west-only"; resolver = "hostile-public-dns"; discoveryExports = [ ]; allowedServices = [ ]; deniedLateralPaths = [ "hostile-to-local-tenants" "hostile-to-local-wan" ]; managementExcluded = true; negativeProbes = [ "hostile-to-local-tenants" "hostile-to-local-wan" ]; operatorName = "CLAB Hostile"; }
+        ];
+        sharedServiceMatrix = [
+          { requesterScopes = [ "admin" "client" "streaming" "dmz" ]; responderScope = "mgmt"; serviceClass = "dns"; service = "clab-site-dns"; discovery = { protocol = "none"; direction = "not-discovered"; }; payload = { protocol = "dns"; ports = [ 53 ]; direction = "requester-to-responder"; returnBehavior = "stateful-return"; }; exposure = "site-local"; authenticationBoundary = "resolver-policy"; cloudDependency = "none"; deniedByDesign = [ "direct-public-dns" ]; managementBoundary = "not-management-authority"; }
+          { requesterScopes = [ "client" ]; responderScope = "streaming"; serviceClass = "media-receiver"; service = "cast-discovery"; discovery = { protocol = "mdns-ssdp"; direction = "client-to-streaming"; }; payload = { protocol = "udp"; ports = [ 5353 1900 ]; direction = "requester-to-responder"; returnBehavior = "discovery-response-only"; }; exposure = "site-local"; authenticationBoundary = "device-pairing"; cloudDependency = "none"; deniedByDesign = [ "streaming-reverse-initiation" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "client" ]; responderScope = "streaming"; serviceClass = "media-control"; service = "cast-control"; discovery = { protocol = "none"; direction = "not-discovered"; }; payload = { protocol = "tcp"; ports = [ 8008 8009 ]; direction = "client-to-streaming"; returnBehavior = "stateful-return"; }; exposure = "site-local"; authenticationBoundary = "device-pairing"; cloudDependency = "none"; deniedByDesign = [ "streaming-reverse-initiation" ]; managementBoundary = "no-administration"; }
+          { requesterScopes = [ "external-east-west" ]; responderScope = "client"; serviceClass = "public-test-entry"; service = "clab-client-4445"; discovery = { protocol = "none"; direction = "public-entry"; }; payload = { protocol = "tcp-udp"; ports = [ 4445 ]; direction = "external-to-client"; returnBehavior = "stateful-return"; }; exposure = "public-ingress"; authenticationBoundary = "service-local"; cloudDependency = "none"; deniedByDesign = [ "client-management-access" ]; managementBoundary = "no-administration"; }
+        ];
+        operatorSupportViewSource = {
+          modeledSources = [ "profileIdentity" "surfaces" "scopeManifest" "accessSpaces" "tenantAccessMatrix" "sharedServiceMatrix" "communicationContract" "ownership" "transport" ];
+          inventorySources = [ "inventory.nix" ];
+          runtimeSources = [ "runtime fact summaries only when supplied" ];
+          fields = [ "sites" "scopes" "accessSpaces" "attachmentPoints" "localNames" "sharedServices" "internetPaths" "dnsPaths" "managementPaths" "publicIngressPaths" "deniedPaths" "troubleshootingChecks" ];
+          createsAuthority = false;
+        };
+      };
       # SAT-SRC-INTENT-CLAB-COMMS: SAT behavior coverage for CLAB DNS,
       # hostile overlay egress, normal client public service exposure, internet
       # policy, and leak prevention for esp.clab.
