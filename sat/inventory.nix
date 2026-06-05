@@ -1861,6 +1861,11 @@ in
                   name = "nixos-client-fixed-10";
                   hostname = "nixos-client-fixed-10";
                   mac = "02:10:20:00:00:10";
+                  macSource = {
+                    disposable = true;
+                    purpose = "static-dhcp-reservation";
+                    sourceClass = "public-synthetic-lab";
+                  };
                   namespaceOwner = "tenant-client";
                   conflictBehavior = "fail-closed";
                   ipv4.hostOffset = 10;
@@ -1881,6 +1886,11 @@ in
                   name = "nixos-client-fixed-10";
                   hostname = "nixos-client-fixed-10";
                   mac = "02:10:20:00:00:10";
+                  macSource = {
+                    disposable = true;
+                    purpose = "dhcpv6-reservation";
+                    sourceClass = "public-synthetic-lab";
+                  };
                   namespaceOwner = "tenant-client";
                   conflictBehavior = "fail-closed";
                   ipv6.hostOffset = 16;

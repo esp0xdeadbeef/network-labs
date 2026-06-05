@@ -184,17 +184,23 @@ nix eval --impure --raw --expr "
     dhcp6 = builtins.head node.advertisements.dhcpv6.tenant-client.reservations;
   in
     if dhcp4.mac == \"02:10:20:00:00:10\"
+      && dhcp4.macSource.sourceClass == \"public-synthetic-lab\"
+      && dhcp4.macSource.purpose == \"static-dhcp-reservation\"
+      && dhcp4.macSource.disposable == true
       && dhcp4.namespaceOwner == \"tenant-client\"
       && dhcp4.conflictBehavior == \"fail-closed\"
       && dhcp4.ipv4.hostOffset == 10
       && dhcp6Service.pool.start == \"fd42:dead:beef:20::100\"
       && dhcp6Service.pool.end == \"fd42:dead:beef:20::1ff\"
       && dhcp6.mac == \"02:10:20:00:00:10\"
+      && dhcp6.macSource.sourceClass == \"public-synthetic-lab\"
+      && dhcp6.macSource.purpose == \"dhcpv6-reservation\"
+      && dhcp6.macSource.disposable == true
       && dhcp6.namespaceOwner == \"tenant-client\"
       && dhcp6.conflictBehavior == \"fail-closed\"
       && dhcp6.ipv6.hostOffset == 16
     then \"true\"
-    else throw \"s-router SAT source must define controlled DHCP and DHCPv6 static reservations for esp-nixos-router-access-client\"
+    else throw \"s-router SAT source must define controlled DHCP and DHCPv6 static reservations with accepted FS-720 MAC source classification for esp-nixos-router-access-client\"
 " >/dev/null
 
 echo "PASS s-sigma-sat-source-contract-comments"
