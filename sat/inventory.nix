@@ -1862,6 +1862,7 @@ in
                   hostname = "nixos-client-fixed-10";
                   mac = "02:10:20:00:00:10";
                   macSource = {
+                    accepted = true;
                     disposable = true;
                     purpose = "static-dhcp-reservation";
                     sourceClass = "public-synthetic-lab";
@@ -1887,6 +1888,7 @@ in
                   hostname = "nixos-client-fixed-10";
                   mac = "02:10:20:00:00:10";
                   macSource = {
+                    accepted = true;
                     disposable = true;
                     purpose = "dhcpv6-reservation";
                     sourceClass = "public-synthetic-lab";
