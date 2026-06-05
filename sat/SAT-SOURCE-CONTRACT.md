@@ -47,6 +47,7 @@ Therefore the controlled SAT source must contain separate source scenarios for:
 | `SAT-SRC-INTENT-CLAB-OWNERSHIP` | `intent.nix` | CLAB site tenants, services, endpoint ownership, routed prefixes, and hostile/client address authority. |
 | `SAT-SRC-INTENT-CLAB-TRANSPORT` | `intent.nix` | CLAB site overlay membership, underlay access, and hostile path traversal. |
 | `SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION` | retired from `intent.nix` | Retired source slot. CLAB emulated-ISP fixture detail moved to `provider-access-fixture-table.nix`; normal CLAB site behavior remains in `intent.nix` without an `upstreamEmulation` side channel. |
+| `SAT-SRC-MGMT-CORE-HOST-AUTHORITY` | `management-core-host-authority.nix` | Source-side management-plane and core-boundary host exception authority tuples: source scope, target host or role, protocol, port, authentication boundary, recovery mode, target address, attachment surface, traffic class, and explicit denial of forwarding/service side effects. |
 | `SAT-SRC-INVENTORY-001` | `inventory.nix` | Declares this lab inventory as the controlled s-router SAT realization source. |
 | `SAT-SRC-INVENTORY-CLAB-ROLES` | `inventory.nix` | Containerlab role mapping for the s-router CLAB mirror. |
 | `SAT-SRC-INVENTORY-CONTROL-PLANE` | `inventory.nix` | Renderer control-plane facts, overlays, runtime nodes, provider bindings, and routing-service choices. |

@@ -45,6 +45,7 @@ tests=(
   test-s-sigma-site-role-map.sh
   test-s-sigma-site-role-map-provider-ingress-overlay.sh
   test-s-sigma-site-role-map-management-access-membership.sh
+  test-management-core-host-authority-source.sh
   test-s-sigma-site-evidence-name-map.sh
   test-s-sigma-public-ingress-fixture-table.sh
   test-s-sigma-public-ingress-denied-variants.sh
