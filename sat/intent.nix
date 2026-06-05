@@ -391,6 +391,28 @@
               name = "nixos-hostile-4444";
             };
             trafficType = "tcp-udp-4444";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "nixos-hostile-4444";
+              targetEndpoint = "nixos-hostile01";
+              targetPort = 4444;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "provider-napt";
+              translationMode = "provider-port-forward";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "tcp";
+                  publicPort = 4444;
+                }
+                {
+                  protocol = "udp";
+                  publicPort = 4444;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -422,6 +444,28 @@
               name = "dmz-nebula";
             };
             trafficType = "nebula";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "wan";
+              targetService = "dmz-nebula";
+              targetEndpoint = "nebula01";
+              targetPort = 4242;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "preserve-source";
+              translationMode = "none";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "udp";
+                  publicPort = 4242;
+                }
+                {
+                  protocol = "tcp";
+                  publicPort = 4242;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1162,6 +1206,28 @@
               name = "dmz-nebula";
             };
             trafficType = "nebula";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "dmz-nebula";
+              targetEndpoint = "hetz-router-lighthouse";
+              targetPort = 4242;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "preserve-source";
+              translationMode = "none";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "udp";
+                  publicPort = 4242;
+                }
+                {
+                  protocol = "tcp";
+                  publicPort = 4242;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1176,6 +1242,28 @@
               name = "dmz-nebula";
             };
             trafficType = "nebula";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "dmz-nebula";
+              targetEndpoint = "hetz-router-lighthouse";
+              targetPort = 4242;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "preserve-source";
+              translationMode = "none";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "udp";
+                  publicPort = 4242;
+                }
+                {
+                  protocol = "tcp";
+                  publicPort = 4242;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1190,6 +1278,28 @@
               name = "nixos-hostile-4444";
             };
             trafficType = "tcp-udp-4444";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "nixos-hostile-4444";
+              targetEndpoint = "nixos-hostile01";
+              targetPort = 4444;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "provider-napt";
+              translationMode = "provider-port-forward";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "tcp";
+                  publicPort = 4444;
+                }
+                {
+                  protocol = "udp";
+                  publicPort = 4444;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1204,6 +1314,28 @@
               name = "clab-client-4445";
             };
             trafficType = "tcp-udp-4445";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "clab-client-4445";
+              targetEndpoint = "clab-client01";
+              targetPort = 4445;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "provider-napt";
+              translationMode = "provider-port-forward";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "tcp";
+                  publicPort = 4445;
+                }
+                {
+                  protocol = "udp";
+                  publicPort = 4445;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1218,6 +1350,28 @@
               name = "hetz-client-4446";
             };
             trafficType = "tcp-udp-4446";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "hetz-client-4446";
+              targetEndpoint = "hetz-client01";
+              targetPort = 4446;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "provider-napt";
+              translationMode = "provider-port-forward";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "tcp";
+                  publicPort = 4446;
+                }
+                {
+                  protocol = "udp";
+                  publicPort = 4446;
+                }
+              ];
+            };
           }
           {
             action = "allow";
@@ -1977,6 +2131,28 @@
               name = "clab-client-4445";
             };
             trafficType = "tcp-udp-4445";
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "hetz-wan";
+              targetService = "clab-client-4445";
+              targetEndpoint = "clab-client01";
+              targetPort = 4445;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "provider-napt";
+              translationMode = "provider-port-forward";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "tcp";
+                  publicPort = 4445;
+                }
+                {
+                  protocol = "udp";
+                  publicPort = 4445;
+                }
+              ];
+            };
           }
           {
             action = "allow";
