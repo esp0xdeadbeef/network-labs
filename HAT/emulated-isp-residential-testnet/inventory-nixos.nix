@@ -539,17 +539,41 @@
               gateway6 = "fd42:dead:feed:10::1";
               ipv4 = [ "10.60.10.10/24" ];
               ipv6 = [ "fd42:dead:feed:10::10/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               tenant = "branch";
             };
             nixos-client01 = {
               assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               tenant = "client";
             };
             nixos-client02 = {
               assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               tenant = "client";
             };
             nixos-emulated-sigma = {
@@ -559,7 +583,15 @@
               gateway6 = "fd42:dead:beef:10::1";
               ipv4 = [ "10.20.10.50/24" ];
               ipv6 = [ "fd42:dead:beef:10::50/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               tenant = "mgmt";
             };
             nixos-printer01 = {
@@ -575,6 +607,10 @@
                 mayGrantManagementAccess = false;
                 mayInferPolicy = false;
                 policyAuthority = "intent-communication-contract";
+              };
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "declared-service-surfaces-only";
               };
               owningSubstrate = "nixos";
               persistenceExpectation = {
@@ -621,7 +657,15 @@
               gateway6 = "fd42:dead:beef:20::1";
               ipv4 = [ "10.20.20.70/24" ];
               ipv6 = [ "fd42:dead:beef:20::70/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               serviceSurfaces = {
                 control = {
                   gampId = "FS-760-HDS-010-SDS-010-SMS-010";
@@ -645,7 +689,15 @@
               gateway6 = "fd42:dead:beef:50::1";
               ipv4 = [ "10.20.50.10/24" ];
               ipv6 = [ "fd42:dead:beef:50::10/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               tenant = "streaming";
             };
           };

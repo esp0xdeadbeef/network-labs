@@ -79,14 +79,30 @@
           endpointClients = {
             clab-client01 = {
               assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               required = true;
               status = "missing-live-evidence";
               tenant = "client";
             };
             clab-client02 = {
               assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               required = true;
               status = "missing-live-evidence";
               tenant = "client";
@@ -98,7 +114,15 @@
               gateway6 = "fd42:dead:feed:10::1";
               ipv4 = [ "10.50.10.50/24" ];
               ipv6 = [ "fd42:dead:feed:10::50/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
               owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
               required = true;
               status = "missing-live-evidence";
               tenant = "mgmt";
