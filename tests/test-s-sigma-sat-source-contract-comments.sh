@@ -37,6 +37,7 @@ intent_markers=(
   SAT-SRC-INTENT-HETZ-COMMS
   SAT-SRC-INTENT-HETZ-OWNERSHIP
   SAT-SRC-INTENT-HETZ-TRANSPORT
+  SAT-SRC-INTENT-WIREGUARD-PROVIDER-SCENARIOS
   SAT-SRC-INTENT-CLAB-COMMS
   SAT-SRC-INTENT-CLAB-OWNERSHIP
   SAT-SRC-INTENT-CLAB-TRANSPORT
@@ -50,6 +51,7 @@ inventory_markers=(
   SAT-SRC-INVENTORY-ENDPOINTS
   SAT-SRC-INVENTORY-MTU
   SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS
+  SAT-SRC-INVENTORY-WIREGUARD-PROVIDER-CONTRACTS
   SAT-SRC-INVENTORY-STATIC-RESERVATION
   SAT-SRC-INVENTORY-UPSTREAM-EMULATION
   SAT-SRC-INVENTORY-SECRET-DECLARATIONS
@@ -104,9 +106,9 @@ require_text "${contract}" "SAT-SCEN-PROVIDER-WG-64-ROUTED-001"
 require_text "${contract}" "SAT-SCEN-PROVIDER-WG-PORTFWD-001"
 require_text "${contract}" "SAT-SCEN-EMULATED-ISP-NIXOS-001"
 require_text "${contract}" "SAT-SCEN-EMULATED-ISP-CLAB-001"
-require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-128-001"
-require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-64-001"
-require_text "${contract}" "SAT-SRC-GAP-WIREGUARD-PUBLIC-001"
+require_text "${contract}" "WireGuard provider-profile realization authority"
+require_text "${contract}" "SAT-SRC-INVENTORY-WIREGUARD-PROVIDER-CONTRACTS"
+require_text "${contract}" "SAT-SRC-INTENT-WIREGUARD-PROVIDER-SCENARIOS"
 require_text "${contract}" "Source provenance present in"
 require_text "${contract}" "HAT/SAT live proof not provided"
 require_text "${contract}" "Nebula"
@@ -127,6 +129,10 @@ require_text "${provider_table}" 'FS-800-HDS-010-SDS-010-SMS-010'
 
 if grep -Fq "SAT-SRC-GAP-PPPOE" "${contract}"; then
   fail "PPPoE source gaps must not remain once inventory upstream-emulation rows exist"
+fi
+
+if grep -Fq "SAT-SRC-GAP-WIREGUARD" "${contract}"; then
+  fail "WireGuard source gaps must not remain once inventory provider contracts exist"
 fi
 
 if grep -RFl "SAT-SRC-INTENT-001" "${repo_root}/examples" >/dev/null; then
@@ -163,6 +169,70 @@ nix eval --impure --raw --expr "
       && siteHasProviderBootstrapDns \"clab\"
     then \"true\"
     else throw \"s-router SAT source must define providerBootstrapDns.forwarders on nixos, hetz, and clab east-west overlays\"
+" >/dev/null
+
+nix eval --impure --raw --expr "
+  let
+    intent = import ${intent};
+    inventory = import ${inventory};
+    require = cond: msg: if cond then true else throw msg;
+    relationById = relations: id:
+      let
+        matches = builtins.filter (relation: relation.id == id) relations;
+      in
+        if matches == [ ] then throw \"missing relation \${id}\" else builtins.head matches;
+    overlayByName = overlays: name:
+      let
+        matches = builtins.filter (overlay: overlay.name == name) overlays;
+      in
+        if matches == [ ] then throw \"missing overlay \${name}\" else builtins.head matches;
+    wgHost = inventory.controlPlane.sites.esp.hetz.overlays.wg-host128-egress.wireguard.providerContract;
+    wgRouted = inventory.controlPlane.sites.esp.hetz.overlays.wg-routed64.wireguard.providerContract;
+    hetzRelations = intent.esp.hetz.communicationContract.relations;
+    hostRelation = relationById hetzRelations \"allow-wan-to-wireguard-host128\";
+    routedRelation = relationById hetzRelations \"allow-wan-to-wireguard-routed64\";
+    routedIngressRelation = relationById hetzRelations \"allow-wireguard-routed64-public-ingress-to-hetz-client\";
+    hostOverlay = overlayByName intent.esp.hetz.transport.overlays \"wg-host128-egress\";
+    routedOverlay = overlayByName intent.esp.hetz.transport.overlays \"wg-routed64\";
+    encodedHetzIntent = builtins.toJSON intent.esp.hetz;
+    routedPublicIngress = builtins.head wgRouted.publicIngress;
+    routedForward = builtins.head wgRouted.portForwards;
+    routedReturn = builtins.head wgRouted.routes.returnRoutes;
+  in
+    if require (builtins.match \".*prefixAuthority.*\" encodedHetzIntent == null)
+      \"WireGuard provider-profile prefix authority must not move into intent tuple authority\"
+      && require (builtins.match \".*providerContract.*\" encodedHetzIntent == null)
+        \"WireGuard provider contracts must stay in inventory realization authority\"
+      && require (hostOverlay.underlayTrafficTypes == [ \"wireguard-host128\" ])
+        \"intent must authorize the host-only WireGuard provider overlay traffic tuple\"
+      && require (routedOverlay.underlayTrafficTypes == [ \"wireguard-routed64\" ])
+        \"intent must authorize the routed64 WireGuard provider overlay traffic tuple\"
+      && require (hostRelation.to.kind == \"service\" && hostRelation.to.name == \"wireguard-host128\" && hostRelation.trafficType == \"wireguard-host128\")
+        \"intent must authorize WireGuard host-only provider-control service traffic\"
+      && require (routedRelation.to.kind == \"service\" && routedRelation.to.name == \"wireguard-routed64\" && routedRelation.trafficType == \"wireguard-routed64\")
+        \"intent must authorize WireGuard routed64 provider-control service traffic\"
+      && require (routedIngressRelation.to.kind == \"service\" && routedIngressRelation.to.name == \"hetz-client-4446\" && routedIngressRelation.trafficType == \"tcp-udp-4446\")
+        \"intent must authorize the WireGuard routed64 public-ingress target tuple\"
+      && require (wgHost.provider.prefixAuthority == \"host-only-128\")
+        \"inventory must carry WireGuard host-only /128 prefix authority\"
+      && require (wgHost.nat.ipv4.enable == true && wgHost.nat.ipv6.enable == true)
+        \"inventory must carry WireGuard host-only NAT44/NAT66 realization authority\"
+      && require (builtins.elem \"2001:db8:128::2/128\" wgHost.profile.generatedPeer.addresses)
+        \"inventory must carry WireGuard host-only generated /128 peer address\"
+      && require (wgRouted.provider.prefixAuthority == \"provider-owned-prefix\")
+        \"inventory must carry WireGuard routed64 provider-owned prefix authority\"
+      && require (wgRouted.nat.ipv4.enable == true && wgRouted.nat.ipv6.enable == false)
+        \"inventory must carry WireGuard routed64 no-NAT66 realization authority\"
+      && require (wgRouted.routes.ipv6.providerOwnedPrefixes == [ \"2001:db8:64:100::/64\" ])
+        \"inventory must carry WireGuard routed64 provider-owned /64\"
+      && require (routedReturn.destination == \"2001:db8:64:100::/64\" && routedReturn.interface == \"wg64-lan\")
+        \"inventory must carry WireGuard routed64 return route\"
+      && require (routedPublicIngress.protocol == \"tcp\" && routedPublicIngress.listenPort == 8447 && routedPublicIngress.targetPort == 4446)
+        \"inventory must carry WireGuard routed64 public-ingress realization\"
+      && require (routedForward.protocol == \"udp\" && routedForward.listenPort == 51822 && routedForward.targetPort == 4446)
+        \"inventory must carry WireGuard routed64 port-forward realization\"
+    then \"true\"
+    else \"unreachable\"
 " >/dev/null
 
 nix eval --impure --raw --expr "

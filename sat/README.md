@@ -16,14 +16,17 @@ This directory is the controlled SAT source. Examples under
 `network-labs/examples` are lower-layer fixtures for RaTM, SMT, SIT, and HAT
 proof; they are not SAT source evidence by themselves. `SAT-SOURCE-CONTRACT.md`
 maps the major intent and inventory sections used for SAT provenance.
-That contract is not live SAT evidence. It also records source gaps for the
-missing WireGuard provider scenarios and records the NixOS/CLAB emulated-ISP
-PPPoE source scenarios. PPPoE distribution and probe metadata live in the
-provider-access fixture table, while normal site behavior remains in
-`intent.nix` and inventory binds the harness realization facts. Those PPPoE
-realization facts use per-harness isolated Ethernet bridges by default so NixOS
-and CLAB runs do not share physical VLAN handoffs. HAT/SAT runtime proof is
-still required before full SAT promotion is possible.
+That contract is not live SAT evidence. It records the WireGuard provider
+source scenarios and the NixOS/CLAB emulated-ISP PPPoE source scenarios.
+WireGuard service, traffic, overlay, and policy tuples stay in `intent.nix`;
+the WireGuard provider-profile realization contract stays in `inventory.nix`,
+including prefix authority, NAT, public endpoint, public-ingress or
+port-forward, runtime paths, and return routes. PPPoE distribution and probe
+metadata live in the provider-access fixture table, while normal site behavior
+remains in `intent.nix` and inventory binds the harness realization facts.
+Those PPPoE realization facts use per-harness isolated Ethernet bridges by
+default so NixOS and CLAB runs do not share physical VLAN handoffs. HAT/SAT
+runtime proof is still required before full SAT promotion is possible.
 
 ## Policy Model
 

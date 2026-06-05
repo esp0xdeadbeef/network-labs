@@ -134,12 +134,16 @@ SAT acceptance for the current GAMP network baseline. SAT still requires locked
 runtime evidence from the owning harness contexts; passing examples or
 examples-only compile sweeps is lower-layer evidence only.
 
-`SAT-SOURCE-CONTRACT.md` is not SAT evidence. It also names current source gaps
-that block complete SAT promotion, including missing controlled WireGuard
-provider scenarios. NixOS/CLAB emulated-ISP PPPoE fixture rows are present in
+`SAT-SOURCE-CONTRACT.md` is not SAT evidence. It names the controlled source
+channels for WireGuard provider scenarios: `sat/intent.nix` owns the service,
+traffic, overlay, and policy tuples, while `sat/inventory.nix` owns the
+WireGuard provider-profile realization contract, including prefix authority,
+NAT, public endpoint, public-ingress or port-forward, runtime paths, and return
+routes. NixOS/CLAB emulated-ISP PPPoE fixture rows are present in
 `sat/provider-access-fixture-table.nix`, with normal site behavior remaining in
 `sat/intent.nix` and harness realization bindings in `sat/inventory.nix`, but
-still require harness-owned HAT/SAT runtime proof before acceptance.
+WireGuard, PPPoE, and other SAT rows still require harness-owned HAT/SAT runtime
+proof before acceptance.
 
 ## Typical pipelines
 
