@@ -39,14 +39,20 @@
           br-site-b-p2p-clab-downstream-selector-clab-policy--access-clab-provider-handoff-access-b = { };
           br-site-b-p2p-clab-downstream-selector-clab-provider-handoff-access-a = { };
           br-site-b-p2p-clab-downstream-selector-clab-provider-handoff-access-b = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-host-isp = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-routed-isp = { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-host-isp =
+            { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-routed-isp =
+            { };
           br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-a = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-iot--uplink-nebula-egress = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-iot--uplink-wireguard-egress = { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-iot--uplink-nebula-egress =
+            { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-iot--uplink-wireguard-egress =
+            { };
           br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-a = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-a = { };
-          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a = { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-a =
+            { };
+          br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a =
+            { };
           client = {
             mode = "vlan";
             parent = "eth0";
@@ -379,21 +385,32 @@
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-dmz = { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-guest = { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-iot = { };
-          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-management = { };
+          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-management =
+            { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-trusted = { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-access-work = { };
-          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-provider-handoff-access-a = { };
-          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-provider-handoff-access-b = { };
+          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-provider-handoff-access-a =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-policy--access-nixos-provider-handoff-access-b =
+            { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-provider-handoff-access-a = { };
           stub-nixos-br-site-a-p2p-nixos-downstream-selector-nixos-provider-handoff-access-b = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-routed-isp = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-a = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-iot--uplink-nebula-egress = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-iot--uplink-wireguard-egress = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-a = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-a = { };
-          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a = { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-routed-isp =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-a =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-iot--uplink-nebula-egress =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-iot--uplink-wireguard-egress =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-a =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-a =
+            { };
+          stub-nixos-br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a =
+            { };
           stub-nixos-client = { };
           stub-nixos-dmz = { };
           stub-nixos-guest = { };
@@ -512,6 +529,16 @@
       };
     };
   };
+  endpoints = {
+    clab-site-dns-client = {
+      ipv4 = [ "10.50.20.1" ];
+      ipv6 = [ "fd42:dead:feed:20::1" ];
+    };
+    nixos-site-dns-client = {
+      ipv4 = [ "10.20.20.1" ];
+      ipv6 = [ "fd42:dead:beef:20::1" ];
+    };
+  };
   realization = {
     nodes = {
       esp0xdeadbeef-site-a-nixos-access-client = {
@@ -562,19 +589,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-dmz = {
         advertisements = {
-          dhcp4 = {
-            tenant-dmz = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-dmz.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-dmz = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -609,19 +626,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-guest = {
         advertisements = {
-          dhcp4 = {
-            tenant-guest = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-guest.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-guest = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-guest.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -656,19 +663,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-iot = {
         advertisements = {
-          dhcp4 = {
-            tenant-iot = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-iot.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-iot = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-iot.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -736,19 +733,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-management = {
         advertisements = {
-          dhcp4 = {
-            tenant-management = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-management.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-management = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-management.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -783,19 +770,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-trusted = {
         advertisements = {
-          dhcp4 = {
-            tenant-trusted = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-trusted.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-trusted = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -830,19 +807,9 @@
       };
       esp0xdeadbeef-site-a-nixos-access-work = {
         advertisements = {
-          dhcp4 = {
-            tenant-work = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-work.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-work = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-work.dnssl = [ "lan." ];
         };
         host = "s-router-nixos";
         logicalNode = {
@@ -1996,19 +1963,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-dmz = {
         advertisements = {
-          dhcp4 = {
-            tenant-dmz = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-dmz.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-dmz = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {
@@ -2043,19 +2000,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-guest = {
         advertisements = {
-          dhcp4 = {
-            tenant-guest = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-guest.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-guest = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-guest.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {
@@ -2090,19 +2037,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-iot = {
         advertisements = {
-          dhcp4 = {
-            tenant-iot = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-iot.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-iot = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-iot.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {
@@ -2170,19 +2107,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-management = {
         advertisements = {
-          dhcp4 = {
-            tenant-management = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-management.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-management = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-management.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {
@@ -2217,19 +2144,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-trusted = {
         advertisements = {
-          dhcp4 = {
-            tenant-trusted = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-trusted.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-trusted = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {
@@ -2264,19 +2181,9 @@
       };
       esp0xdeadbeef-site-b-clab-access-work = {
         advertisements = {
-          dhcp4 = {
-            tenant-work = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          };
+          dhcp4.tenant-work.domain = "lan.";
           dhcpv6 = { };
-          ipv6Ra = {
-            tenant-work = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          };
+          ipv6Ra.tenant-work.dnssl = [ "lan." ];
         };
         host = "s-router-clab";
         logicalNode = {

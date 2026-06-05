@@ -195,6 +195,22 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "site-b intent must declare required hardware management without inventory realization facts"
     && require (nodes ? nixos-access-client)
       "missing client access node"
+    && require (trafficTypeHasPort "dns" "udp" 53 && trafficTypeHasPort "dns" "tcp" 53)
+      "site-a HAT source must model DNS traffic explicitly before advertising router-self resolvers"
+    && require (builtins.any
+      (endpoint:
+        (endpoint.name or null) == "nixos-site-dns-client"
+        && (endpoint.tenant or null) == "client")
+      (site.ownership.endpoints or [ ]))
+      "site-a HAT source must assign the DNS service provider to the client tenant"
+    && require (serviceProvidersAre "hat-site-dns" [ "nixos-site-dns-client" ])
+      "site-a HAT source must model hat-site-dns as a NixOS client-access DNS service"
+    && require (hasRelation "allow-client-to-hat-site-dns")
+      "site-a HAT source must allow modeled client DNS requests only through hat-site-dns"
+    && require (hasRelation "allow-hat-site-dns-service-to-client-uplinks")
+      "site-a HAT source must model DNS service recursion authority before inventory advertises router-self"
+    && require (hasRelation "deny-client-dns-to-uplinks")
+      "site-a HAT source must keep direct tenant public DNS blocked when router-self is advertised"
     && require (nodes ? nixos-core-testnet-routed-isp)
       "missing routed testnet ISP core node"
     && require (nodes ? nixos-core-testnet-host-isp)
@@ -221,6 +237,31 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "site-a HAT stage-link validation must reject downstream-selector-to-core, downstream-selector-to-upstream-selector, core-to-policy, access-to-policy, selector-bypassing, and unscoped direct core/access links"
     && require (invalidStageLinks clabNodes (syntheticInvalidStageLinks clabNodes "clab") == syntheticInvalidStageLinks clabNodes "clab")
       "site-b HAT stage-link validation must reject downstream-selector-to-core, downstream-selector-to-upstream-selector, core-to-policy, access-to-policy, selector-bypassing, and unscoped direct core/access links"
+    && require (builtins.any
+      (endpoint:
+        (endpoint.name or null) == "clab-site-dns-client"
+        && (endpoint.tenant or null) == "client")
+      (clabSite.ownership.endpoints or [ ]))
+      "site-b HAT source must assign the DNS service provider to the client tenant"
+    && require (builtins.any
+      (service:
+        (service.name or null) == "hat-site-dns"
+        && (service.trafficType or null) == "dns"
+        && (service.providers or [ ]) == [ "clab-site-dns-client" ])
+      (clabSite.communicationContract.services or [ ]))
+      "site-b HAT source must model hat-site-dns as a CLAB client-access DNS service"
+    && require (builtins.any
+      (relation: (relation.id or null) == "allow-client-to-hat-site-dns")
+      (clabSite.communicationContract.relations or [ ]))
+      "site-b HAT source must allow modeled client DNS requests only through hat-site-dns"
+    && require (builtins.any
+      (relation: (relation.id or null) == "allow-hat-site-dns-service-to-client-uplinks")
+      (clabSite.communicationContract.relations or [ ]))
+      "site-b HAT source must model DNS service recursion authority before inventory advertises router-self"
+    && require (builtins.any
+      (relation: (relation.id or null) == "deny-client-dns-to-uplinks")
+      (clabSite.communicationContract.relations or [ ]))
+      "site-b HAT source must keep direct tenant public DNS blocked when router-self is advertised"
     && require (accessCoreLinks nodes site.topology.links == [
       [ "nixos-provider-handoff-access-a" "nixos-core-testnet-host-isp" ]
       [ "nixos-provider-handoff-access-b" "nixos-core-testnet-routed-isp" ]
@@ -383,6 +424,22 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT CLAB inventory required endpoint list must resolve in CLAB endpoint fixtures"
     && require (requiredEndpointClientsPresent nixosClientHost nixosEndpointClients)
       "HAT NixOS inventory required endpoint list must resolve in NixOS endpoint fixtures"
+    && require ((nixos.endpoints.nixos-site-dns-client.ipv4 or [ ]) == [ "10.20.20.1" ])
+      "inventory-nixos must realize the NixOS HAT DNS service endpoint on the client tenant IPv4 gateway"
+    && require ((nixos.endpoints.nixos-site-dns-client.ipv6 or [ ]) == [ "fd42:dead:beef:20::1" ])
+      "inventory-nixos must realize the NixOS HAT DNS service endpoint on the client tenant IPv6 gateway"
+    && require ((nixos.endpoints.clab-site-dns-client.ipv4 or [ ]) == [ "10.50.20.1" ])
+      "inventory-nixos must carry the CLAB HAT DNS service endpoint fact for shared-source compilation"
+    && require ((nixos.endpoints.clab-site-dns-client.ipv6 or [ ]) == [ "fd42:dead:feed:20::1" ])
+      "inventory-nixos must carry the CLAB HAT DNS service endpoint fact for shared-source compilation"
+    && require ((clab.endpoints.nixos-site-dns-client.ipv4 or [ ]) == [ "10.20.20.1" ])
+      "inventory-clab must carry the NixOS HAT DNS service endpoint fact for shared-source compilation"
+    && require ((clab.endpoints.nixos-site-dns-client.ipv6 or [ ]) == [ "fd42:dead:beef:20::1" ])
+      "inventory-clab must carry the NixOS HAT DNS service endpoint fact for shared-source compilation"
+    && require ((clab.endpoints.clab-site-dns-client.ipv4 or [ ]) == [ "10.50.20.1" ])
+      "inventory-clab must realize the CLAB HAT DNS service endpoint on the client tenant IPv4 gateway"
+    && require ((clab.endpoints.clab-site-dns-client.ipv6 or [ ]) == [ "fd42:dead:feed:20::1" ])
+      "inventory-clab must realize the CLAB HAT DNS service endpoint on the client tenant IPv6 gateway"
     && require (!(nixosEndpointClients ? clab-client01) && !(nixosEndpointClients ? clab-client02) && !(nixosEndpointClients ? clab-emulated-sigma))
       "HAT NixOS endpoint source must not carry CLAB endpoint fixtures"
     && require (!(clabEndpointClients ? nixos-client01) && !(clabEndpointClients ? nixos-emulated-sigma) && !(clabEndpointClients ? nixos-printer01))
