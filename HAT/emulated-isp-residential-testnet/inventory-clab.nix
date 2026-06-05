@@ -1009,8 +1009,8 @@
             client = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
@@ -1069,8 +1069,8 @@
             client = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
@@ -1660,8 +1660,8 @@
             server = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -1723,8 +1723,8 @@
             server = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
@@ -2443,8 +2443,8 @@
             client = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
@@ -2503,8 +2503,8 @@
             client = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
@@ -3094,8 +3094,8 @@
             server = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -3157,8 +3157,8 @@
             server = {
               credentials = {
                 labOnly = true;
-                password = "hat-pppoe";
-                username = "hat-pppoe";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
