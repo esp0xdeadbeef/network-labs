@@ -380,6 +380,66 @@ let
     };
   };
 
+  pppoeRuntimeContracts = {
+    pppoeNixos = {
+      providerRuntimeNode = "esp-nixos-router-upstream";
+      providerLogicalNode = "nixos-router-upstream";
+      customerRuntimeNode = "esp-nixos-router-core-isp-a";
+      handoff = {
+        bridge = "br-nix-pppoe";
+        link = "sat-pppoe-nixos-handoff";
+        providerPort = "pppoe-server";
+        providerInterface = "pppoe-server";
+        customerPort = "pppoe-wan";
+        customerInterface = "pppoe-wan";
+      };
+      servicePlacement = {
+        server = {
+          node = "esp-nixos-router-upstream";
+          service = "pppoe.server";
+          interface = "pppoe-server";
+        };
+        client = {
+          node = "esp-nixos-router-core-isp-a";
+          service = "pppoe.client";
+          interface = "pppoe-wan";
+          runtimeInterface = "ppp0";
+          defaultRoute = true;
+          usePeerDns = true;
+        };
+      };
+    };
+
+    pppoeClab = {
+      providerRuntimeNode = "esp-clab-router-upstream";
+      providerLogicalNode = "clab-router-upstream";
+      customerRuntimeNode = "esp-clab-router-core-simulated-isp";
+      handoff = {
+        bridge = "br-clab-pppoe";
+        link = "sat-pppoe-clab-handoff";
+        providerPort = "pppoe-server";
+        providerInterface = "pppoe-server";
+        customerPort = "pppoe-wan";
+        customerInterface = "pppoe-wan";
+      };
+      servicePlacement = {
+        server = {
+          node = "esp-clab-router-upstream";
+          service = "pppoe.server";
+          interface = "pppoe-server";
+        };
+        client = {
+          node = "esp-clab-router-core-simulated-isp";
+          service = "pppoe.client";
+          interface = "pppoe-wan";
+          runtimeInterface = "ppp0";
+          defaultRoute = true;
+          usePeerDns = true;
+        };
+      };
+    };
+  };
+
   # SAT-SRC-INVENTORY-UPSTREAM-EMULATION: realization bindings for the
   # emulated-ISP scenarios declared in the provider-access fixture table.
   # These rows bind backend, host, handoff substrate, AC implementation, and
@@ -411,9 +471,10 @@ let
       };
       accessConcentrator = {
         implementation = "accel-ppp";
-        node = "sat-nixos-pppoe-ac";
+        node = pppoeRuntimeContracts.pppoeNixos.providerRuntimeNode;
         side = "provider";
       };
+      runtime = pppoeRuntimeContracts.pppoeNixos;
       credentials = {
         labOnly = true;
         usernameFile = "/run/secrets/sat-pppoe-nixos-username";
@@ -447,9 +508,10 @@ let
       };
       accessConcentrator = {
         implementation = "accel-ppp";
-        node = "sat-clab-pppoe-ac";
+        node = pppoeRuntimeContracts.pppoeClab.providerRuntimeNode;
         side = "provider";
       };
+      runtime = pppoeRuntimeContracts.pppoeClab;
       credentials = {
         labOnly = true;
         usernameFile = "/run/secrets/sat-pppoe-clab-username";

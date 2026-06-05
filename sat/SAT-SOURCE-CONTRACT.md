@@ -55,7 +55,7 @@ Therefore the controlled SAT source must contain separate source scenarios for:
 | `SAT-SRC-INVENTORY-MTU` | `inventory.nix` | Explicit MTU realization fact used to prove inventory MTU acceptance and renderer MTU projection without role/name inference. |
 | `SAT-SRC-INVENTORY-PROVIDER-BOOTSTRAP-DNS` | `inventory.nix` | Provider-bootstrap resolver facts for overlay startup; these facts are separate from customer, tenant, hostile, and Unbound resolver policy. |
 | `SAT-SRC-INVENTORY-STATIC-RESERVATION` | `inventory.nix` | Static DHCP and DHCPv6 client reservation facts for a controlled NixOS client access scope, including client identity, MAC address, DHCPv6 service pool, host offsets, namespace owner, and fail-closed conflict behavior. |
-| `SAT-SRC-INVENTORY-UPSTREAM-EMULATION` | `inventory.nix` | NixOS and CLAB emulated-ISP realization bindings for the provider-access fixture rows: backend, host, fake-provider upstream VLAN `4`, distinct isolated Ethernet PPPoE handoff bridges with `physical = false`, provider-side access concentrator, MTU, and lab-only credential references. |
+| `SAT-SRC-INVENTORY-UPSTREAM-EMULATION` | `inventory.nix` | NixOS and CLAB emulated-ISP realization bindings for the provider-access fixture rows: backend, host, fake-provider upstream VLAN `4`, distinct isolated Ethernet PPPoE handoff bridges with `physical = false`, provider runtime node, customer runtime node, paired handoff link/interface, provider-side access concentrator, server/client PPPoE service placement, MTU, and lab-only credential references. |
 | `SAT-SRC-INVENTORY-REALIZATION` | `inventory.nix` | Concrete nodes, ports, services, secrets, DHCP/RA, DNS service placement, and provider runtime facts. |
 
 ## GAMP Requirement Link
