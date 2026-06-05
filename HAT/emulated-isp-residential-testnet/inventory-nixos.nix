@@ -657,6 +657,17 @@
               gateway6 = "fd42:dead:beef:20::1";
               ipv4 = [ "10.20.20.70/24" ];
               ipv6 = [ "fd42:dead:beef:20::70/64" ];
+              fixtureAuthority = {
+                gampId = "FS-750-HDS-010-SDS-010-SMS-030";
+                mayGrantDiscovery = false;
+                mayGrantManagementAccess = false;
+                mayGrantMulticastForwarding = false;
+                mayGrantPayloadAccess = false;
+                mayGrantReverseInitiation = false;
+                mayGrantTenantReachability = false;
+                mayInferPolicy = false;
+                policyAuthority = "intent-communication-contract";
+              };
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
                 mode = "no-general-management";
@@ -668,7 +679,7 @@
               };
               serviceSurfaces = {
                 control = {
-                  gampId = "FS-760-HDS-010-SDS-010-SMS-010";
+                  gampId = "FS-750-HDS-010-SDS-010-SMS-020";
                   ports = [ 8008 8009 ];
                   protocol = "tcp";
                   service = "hat-receiver-control";

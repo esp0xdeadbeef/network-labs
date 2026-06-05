@@ -64,6 +64,7 @@ tests=(
   test-multi-wan-nixos-wan-group-bindings.sh
   test-clab-nat-uplink-examples.sh
   test-ipv6-pd-downstream-delegation-example-required.sh
+  test-fs750-receiver-source.sh
   test-fs730-printer-cups-source.sh
   test-fs770-common-intent-field-presence.sh
   test-fs770-realization-fact-classification.sh
