@@ -128,17 +128,18 @@ The controlled SAT source is:
 
 `sat`
 
-Its `intent.nix`, inventory files, runtime fact joiners, and
-`SAT-SOURCE-CONTRACT.md` are the source provenance for controlled SAT
-acceptance for the current GAMP network baseline. SAT still requires locked
+Its `intent.nix`, inventory files, provider-access fixture table, runtime fact
+joiners, and `SAT-SOURCE-CONTRACT.md` are the source provenance for controlled
+SAT acceptance for the current GAMP network baseline. SAT still requires locked
 runtime evidence from the owning harness contexts; passing examples or
 examples-only compile sweeps is lower-layer evidence only.
 
 `SAT-SOURCE-CONTRACT.md` is not SAT evidence. It also names current source gaps
 that block complete SAT promotion, including missing controlled WireGuard
-provider scenarios. NixOS/CLAB emulated-ISP PPPoE behavior is present in
-`sat/intent.nix`, with harness realization bindings in `sat/inventory.nix`, but
-still requires harness-owned HAT/SAT runtime proof before acceptance.
+provider scenarios. NixOS/CLAB emulated-ISP PPPoE fixture rows are present in
+`sat/provider-access-fixture-table.nix`, with normal site behavior remaining in
+`sat/intent.nix` and harness realization bindings in `sat/inventory.nix`, but
+still require harness-owned HAT/SAT runtime proof before acceptance.
 
 ## Typical pipelines
 

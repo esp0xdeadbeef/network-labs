@@ -6,12 +6,32 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lab_dir="${repo_root}/sat"
 
-nix eval --impure --json --expr "{ intent = import ${lab_dir}/intent.nix; inventory = import ${lab_dir}/inventory.nix; }" \
+nix eval --impure --json --expr "{
+  intent = import ${lab_dir}/intent.nix;
+  inventory = import ${lab_dir}/inventory.nix;
+  providerAccessFixtureTable = import ${lab_dir}/provider-access-fixture-table.nix;
+}" \
   | jq -e '
-    .intent.esp.nixos.upstreamEmulation.emulatedIsp as $nixosIntent
-    | .intent.esp.clab.upstreamEmulation.emulatedIsp as $clabIntent
-    | .inventory.controlPlane.upstreamEmulation.scenarios as $realization
-    | def intent_ok($row):
+    .providerAccessFixtureTable.pppoeNixos as $nixosFixture
+    | .providerAccessFixtureTable.pppoeClab as $clabFixture
+    | .inventory.controlPlane.providerAccess.scenarios as $realization
+    | def side_channel_path:
+        .intent
+        | paths
+        | select(
+          .[-1] == "upstreamEmulation"
+          or .[-1] == "providerAccess"
+          or .[-1] == "failureExpectation"
+          or .[-1] == "probeIntent"
+          or .[-1] == "accessConcentrator"
+          or .[-1] == "credentials"
+        );
+      def intent_technology_string:
+        .intent
+        | ..
+        | strings
+        | select(test("pppoe|wan-dhcp|wan-slaac|access-concentrator|accel-ppp"; "i"));
+      def fixture_ok($row):
         $row.gampId == "FS-800-HDS-010-SDS-010-SMS-010"
         and $row.provider.role == "emulated-isp"
         and $row.provider.handoff == "pppoe"
@@ -57,25 +77,29 @@ nix eval --impure --json --expr "{ intent = import ${lab_dir}/intent.nix; invent
         and $row.credentials.labOnly == true
         and ($row.credentials.usernameFile | test("^/run/secrets/sat-pppoe-"))
         and ($row.credentials.passwordFile | test("^/run/secrets/sat-pppoe-"));
-      intent_ok($nixosIntent)
-      and intent_ok($clabIntent)
-      and $nixosIntent.scenarioId == "SAT-SCEN-EMULATED-ISP-NIXOS-001"
-      and $nixosIntent.customer.site == "nixos"
-      and $nixosIntent.customer.coreNode == "nixos-router-core-isp-a"
-      and $clabIntent.scenarioId == "SAT-SCEN-EMULATED-ISP-CLAB-001"
-      and $clabIntent.customer.site == "clab"
-      and $clabIntent.customer.coreNode == "clab-router-core-simulated-isp"
+      ([side_channel_path] == [])
+      and ([intent_technology_string] == [])
+      and fixture_ok($nixosFixture)
+      and fixture_ok($clabFixture)
+      and $nixosFixture.scenarioId == "SAT-SCEN-EMULATED-ISP-NIXOS-001"
+      and $nixosFixture.customer.site == "nixos"
+      and $nixosFixture.customer.coreNode == "nixos-router-core-isp-a"
+      and .intent.esp.nixos.topology.nodes[$nixosFixture.customer.coreNode].role == "core"
+      and $clabFixture.scenarioId == "SAT-SCEN-EMULATED-ISP-CLAB-001"
+      and $clabFixture.customer.site == "clab"
+      and $clabFixture.customer.coreNode == "clab-router-core-simulated-isp"
+      and .intent.esp.clab.topology.nodes[$clabFixture.customer.coreNode].role == "core"
       and realization_ok($realization.pppoeNixos)
       and realization_ok($realization.pppoeClab)
-      and $realization.pppoeNixos.scenarioId == $nixosIntent.scenarioId
+      and $realization.pppoeNixos.scenarioId == $nixosFixture.scenarioId
       and $realization.pppoeNixos.backend == "nixos"
       and $realization.pppoeNixos.host == "s-router-test"
-      and $realization.pppoeNixos.intentRef.customerCoreNode == $nixosIntent.customer.coreNode
+      and $realization.pppoeNixos.fixtureRef.customerCoreNode == $nixosFixture.customer.coreNode
       and $realization.pppoeNixos.substrate.ispHandoff.bridge == "br-nix-pppoe"
-      and $realization.pppoeClab.scenarioId == $clabIntent.scenarioId
+      and $realization.pppoeClab.scenarioId == $clabFixture.scenarioId
       and $realization.pppoeClab.backend == "clab"
       and $realization.pppoeClab.host == "s-router-clab"
-      and $realization.pppoeClab.intentRef.customerCoreNode == $clabIntent.customer.coreNode
+      and $realization.pppoeClab.fixtureRef.customerCoreNode == $clabFixture.customer.coreNode
       and $realization.pppoeClab.substrate.ispHandoff.bridge == "br-clab-pppoe"
       and $realization.pppoeNixos.substrate.ispHandoff.bridge != $realization.pppoeClab.substrate.ispHandoff.bridge
       and .inventory.deployment.hosts."s-router-test".bridgeNetworks."br-nix-pppoe".isolated == true
@@ -84,4 +108,4 @@ nix eval --impure --json --expr "{ intent = import ${lab_dir}/intent.nix; invent
       and (.inventory.deployment.hosts."s-router-clab".bridgeNetworks."br-clab-pppoe" | has("vlan") | not)
   ' >/dev/null
 
-echo "PASS s-sigma-pppoe-upstream-emulation-source"
+echo "PASS s-sigma-pppoe-upstream-emulation-source-boundary"

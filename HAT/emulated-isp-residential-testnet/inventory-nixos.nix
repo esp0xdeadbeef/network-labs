@@ -522,60 +522,55 @@
           };
         };
         hat = {
+          requiredEndpointClients = [
+            "nixos-branch-node01"
+            "nixos-client01"
+            "nixos-client02"
+            "nixos-emulated-sigma"
+            "nixos-printer01"
+            "nixos-receiver01"
+            "nixos-streaming-test"
+          ];
           endpointClients = {
-            clab-client01 = {
-              assignment = "dhcp";
-              required = true;
-              status = "missing-live-evidence";
-              tenant = "client";
-            };
-            clab-client02 = {
-              assignment = "dhcp";
-              required = true;
-              status = "missing-live-evidence";
-              tenant = "client";
-            };
-            clab-emulated-sigma = {
-              assignment = "static-ipv4-or-ipv6-client";
-              gateway4 = "10.50.10.1";
-              gateway6 = "fd42:dead:feed:10::1";
-              ipv4 = [ "10.50.10.50/24" ];
-              ipv6 = [ "fd42:dead:feed:10::50/64" ];
-              required = true;
-              status = "missing-live-evidence";
-              tenant = "mgmt";
-            };
             nixos-branch-node01 = {
+              addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.60.10.1";
               gateway6 = "fd42:dead:feed:10::1";
               ipv4 = [ "10.60.10.10/24" ];
               ipv6 = [ "fd42:dead:feed:10::10/64" ];
+              owningSubstrate = "nixos";
               tenant = "branch";
             };
             nixos-client01 = {
               assignment = "dhcp";
+              owningSubstrate = "nixos";
               tenant = "client";
             };
             nixos-client02 = {
               assignment = "dhcp";
+              owningSubstrate = "nixos";
               tenant = "client";
             };
             nixos-emulated-sigma = {
+              addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.20.10.1";
               gateway6 = "fd42:dead:beef:10::1";
               ipv4 = [ "10.20.10.50/24" ];
               ipv6 = [ "fd42:dead:beef:10::50/64" ];
+              owningSubstrate = "nixos";
               tenant = "mgmt";
             };
             nixos-printer01 = {
+              addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gampId = "FS-730-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
               ipv4 = [ "10.20.20.60/24" ];
               ipv6 = [ "fd42:dead:beef:20::60/64" ];
+              owningSubstrate = "nixos";
               serviceSurfaces = {
                 admin = {
                   gampId = "FS-740-HDS-010-SDS-010-SMS-010";
@@ -593,12 +588,14 @@
               tenant = "client";
             };
             nixos-receiver01 = {
+              addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gampId = "FS-750-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
               ipv4 = [ "10.20.20.70/24" ];
               ipv6 = [ "fd42:dead:beef:20::70/64" ];
+              owningSubstrate = "nixos";
               serviceSurfaces = {
                 control = {
                   gampId = "FS-760-HDS-010-SDS-010-SMS-010";
@@ -616,11 +613,13 @@
               tenant = "client";
             };
             nixos-streaming-test = {
+              addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.20.50.1";
               gateway6 = "fd42:dead:beef:50::1";
               ipv4 = [ "10.20.50.10/24" ];
               ipv6 = [ "fd42:dead:beef:50::10/64" ];
+              owningSubstrate = "nixos";
               tenant = "streaming";
             };
           };

@@ -1,3 +1,21 @@
+let
+  publicResolverCidrs = [
+    "1.1.1.1/32"
+    "9.9.9.9/32"
+    "2606:4700:4700::1111/128"
+    "2620:fe::fe/128"
+  ];
+  withDeniedResolverCidrs =
+    node:
+    node
+    // {
+      services = (node.services or { }) // {
+        dns = (node.services.dns or { }) // {
+          deniedResolverCidrs = publicResolverCidrs;
+        };
+      };
+    };
+in
 {
   controlPlane = {
     sites = {
@@ -650,6 +668,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.15.1"
               "fd42:dead:beef:15::1"
@@ -722,6 +741,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.20.1"
               "fd42:dead:beef:20::1"
@@ -794,6 +814,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.40.1"
               "fd42:dead:beef:40::1"
@@ -870,6 +891,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.30.1"
               "fd42:dead:beef:30::1"
@@ -942,6 +964,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.10.1"
               "fd42:dead:beef:10::1"
@@ -1014,6 +1037,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.20.50.1"
               "fd42:dead:beef:50::1"
@@ -1021,7 +1045,7 @@
           };
         };
       };
-      esp0xdeadbeef-site-a-s-router-core-isp-a = {
+      esp0xdeadbeef-site-a-s-router-core-isp-a = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1054,7 +1078,7 @@
           };
         };
       };
-      esp0xdeadbeef-site-a-s-router-core-isp-b = {
+      esp0xdeadbeef-site-a-s-router-core-isp-b = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1087,7 +1111,7 @@
           };
         };
       };
-      esp0xdeadbeef-site-a-s-router-core-nebula = {
+      esp0xdeadbeef-site-a-s-router-core-nebula = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1750,6 +1774,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.90.20.1"
               "fd42:dead:cafe:20::1"
@@ -1826,6 +1851,7 @@
               "2606:4700:4700::1111"
               "2620:fe::fe"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.90.10.1"
               "fd42:dead:cafe:10::1"
@@ -1833,7 +1859,7 @@
           };
         };
       };
-      esp0xdeadbeef-site-c-c-router-core = {
+      esp0xdeadbeef-site-c-c-router-core = withDeniedResolverCidrs {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1930,7 +1956,7 @@
           };
         };
       };
-      esp0xdeadbeef-site-c-c-router-nebula-core = {
+      esp0xdeadbeef-site-c-c-router-nebula-core = withDeniedResolverCidrs {
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2194,6 +2220,7 @@
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.60.10.1"
               "fd42:dead:feed:10::1"
@@ -2267,6 +2294,7 @@
               "10.20.10.1"
               "fd42:dead:beef:10::1"
             ];
+            deniedResolverCidrs = publicResolverCidrs;
             listen = [
               "10.70.10.1"
               "fd42:dead:feed:70::1"
@@ -2274,7 +2302,7 @@
           };
         };
       };
-      espbranch-site-b-b-router-core-nebula = {
+      espbranch-site-b-b-router-core-nebula = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2296,7 +2324,7 @@
           };
         };
       };
-      espbranch-site-b-b-router-core-simulated-isp = {
+      espbranch-site-b-b-router-core-simulated-isp = withDeniedResolverCidrs {
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
