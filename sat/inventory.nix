@@ -2119,7 +2119,18 @@ in
                     sourceClass = "public-synthetic-lab";
                   };
                   namespaceOwner = "tenant-client";
+                  requesterScope = "tenant-client";
+                  recordClass = "dhcp4-static-lease-name";
                   conflictBehavior = "fail-closed";
+                  staleRecordBehavior = "fail-closed-deny-answer";
+                  fallbackBehavior = "blocked-no-public-recursion";
+                  deniedClasses = [
+                    "recursive-dns-authority"
+                    "payload-reachability"
+                    "management-reachability"
+                    "public-egress"
+                  ];
+                  leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
                   ipv4.hostOffset = 10;
                 }
               ];
@@ -2145,7 +2156,18 @@ in
                     sourceClass = "public-synthetic-lab";
                   };
                   namespaceOwner = "tenant-client";
+                  requesterScope = "tenant-client";
+                  recordClass = "dhcpv6-static-lease-name";
                   conflictBehavior = "fail-closed";
+                  staleRecordBehavior = "fail-closed-deny-answer";
+                  fallbackBehavior = "blocked-no-public-recursion";
+                  deniedClasses = [
+                    "recursive-dns-authority"
+                    "payload-reachability"
+                    "management-reachability"
+                    "public-egress"
+                  ];
+                  leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
                   ipv6.hostOffset = 16;
                 }
               ];

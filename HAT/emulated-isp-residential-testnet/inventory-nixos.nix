@@ -790,6 +790,21 @@ in
             tenant-client = {
               dnsServers = [ "router-self" ];
               domain = "lan.";
+              namespaceContract = {
+                namespaceOwner = "tenant-client";
+                requesterScope = "tenant-client";
+                recordClass = "dhcp4-lease-name";
+                conflictBehavior = "fail-closed";
+                staleRecordBehavior = "fail-closed-deny-answer";
+                fallbackBehavior = "blocked-no-public-recursion";
+                deniedClasses = [
+                  "recursive-dns-authority"
+                  "payload-reachability"
+                  "management-reachability"
+                  "public-egress"
+                ];
+                leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
+              };
             };
           };
           ipv6Ra = {
