@@ -45,6 +45,7 @@ tests=(
   test-fs690-support-view-provenance-non-authority.sh
   test-fs810-fs820-secret-source-records.sh
   test-s-sigma-pppoe-upstream-emulation-source.sh
+  test-s-sigma-provider-access-source-module-boundary.sh
   test-s-sigma-provider-access-attachments.sh
   test-s-sigma-pppoe-pairing-fallback-rejection.sh
   test-s-sigma-site-role-map.sh
