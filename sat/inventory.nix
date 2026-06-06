@@ -1108,8 +1108,193 @@ let
       "FS-820-HDS-010-SDS-010-SMS-030"
     ];
   }) satSecretSourceSpecs;
+
+  operationalPrivacyContracts = {
+    marker = "SAT-SRC-INVENTORY-OPERATIONAL-PRIVACY";
+    sourceLayer = "network-labs/sat/inventory.nix";
+    defaultHigherDetailEnabled = false;
+    explicitScopedDetailModeRequired = true;
+    allowedDetailSelectionContexts = [
+      "modeled-context"
+      "validation-context"
+    ];
+    metadataSurfaces = [
+      {
+        metadataClass = "dns-query";
+        classification = "sensitive-operational-metadata";
+        retention = "short";
+        access = "operations-and-validation";
+        redaction = "query-label-redacted";
+        detailScope = [ "site" "tenant" "service" ];
+        sourceLocation = "statePolicy.operationalRecords.dnsResolver";
+      }
+      {
+        metadataClass = "client-identity";
+        classification = "sensitive-operational-metadata";
+        retention = "medium";
+        access = "operations-and-validation";
+        redaction = "pseudonymous-client-ref";
+        detailScope = [ "site" "tenant" "host" ];
+        sourceLocation = "statePolicy.operationalRecords.dhcp4Leases";
+      }
+      {
+        metadataClass = "service-discovery";
+        classification = "internal-operational-metadata";
+        retention = "short";
+        access = "operations";
+        redaction = "service-ref";
+        detailScope = [ "site" "tenant" "service" ];
+        sourceLocation = "statePolicy.operationalRecords.dnsService";
+      }
+      {
+        metadataClass = "flow-summary";
+        classification = "sensitive-operational-metadata";
+        retention = "short";
+        access = "operations-and-validation";
+        redaction = "aggregate-flow-ref";
+        detailScope = [ "site" "tenant" "host" "service" ];
+        sourceLocation = "statePolicy.operationalRecords.relatedServices";
+      }
+      {
+        metadataClass = "lease-state";
+        classification = "internal-operational-metadata";
+        retention = "medium";
+        access = "operations-and-validation";
+        redaction = "address-ref";
+        detailScope = [ "site" "tenant" "interface" ];
+        sourceLocation = "statePolicy.operationalRecords.dhcp4Leases";
+      }
+      {
+        metadataClass = "provider-state";
+        classification = "internal-operational-metadata";
+        retention = "medium";
+        access = "operations-and-validation";
+        redaction = "provider-ref";
+        detailScope = [ "site" "provider" "runtime-fact-set" ];
+        sourceLocation = "controlPlane.providerAccess.scenarios";
+      }
+      {
+        metadataClass = "validation-failure-detail";
+        classification = "validation-context-data";
+        retention = "short";
+        access = "validation";
+        redaction = "evidence-ref";
+        detailScope = [ "validation-row" "artifact" "runtime-target" ];
+        sourceLocation = "validation-context";
+      }
+    ];
+    gampIds = [
+      "FS-910-HDS-010-SDS-010"
+      "FS-910-HDS-010-SDS-010-SMS-010"
+      "FS-910-HDS-010-SDS-010-SMS-020"
+      "FS-910-HDS-010-SDS-010-SMS-030"
+    ];
+  };
+
+  failureHandlingContracts = {
+    marker = "SAT-SRC-INVENTORY-FAILURE-HANDLING";
+    sourceLayer = "network-labs/sat/inventory.nix";
+    responseAuthority = {
+      defaultBehavior = "deny-by-default";
+      unmodeledFallbackAuthority = false;
+      createsDnsFallback = false;
+      createsRouteFallback = false;
+      createsPublicIngress = false;
+      createsTenantReachability = false;
+      createsManagementReachability = false;
+      createsEgressAuthority = false;
+    };
+    modeledFailureClasses = [
+      { failureClass = "provider-loss"; response = "fail-closed"; affectedSurface = "provider-access"; sourceLocation = "controlPlane.providerAccess.scenarios"; }
+      { failureClass = "overlay-loss"; response = "degraded-service"; affectedSurface = "overlay"; sourceLocation = "controlPlane.sites.esp.*.overlays"; }
+      { failureClass = "dns-failure"; response = "fail-closed"; affectedSurface = "dns"; sourceLocation = "services.dns"; }
+      { failureClass = "route-withdrawal"; response = "fail-closed"; affectedSurface = "route-authority"; sourceLocation = "intent.esp.*.transport"; }
+      { failureClass = "route-leak"; response = "fail-closed"; affectedSurface = "policy"; sourceLocation = "intent.esp.*.comms"; }
+      { failureClass = "address-conflict"; response = "fail-closed"; affectedSurface = "address-authority"; sourceLocation = "intent.esp.*.ownership"; }
+      { failureClass = "state-loss"; response = "retry"; affectedSurface = "statePolicy"; sourceLocation = "statePolicy.persistence"; }
+      { failureClass = "ingress-conflict"; response = "fail-closed"; affectedSurface = "public-ingress"; sourceLocation = "sat/public-ingress-fixture-table.nix"; }
+      { failureClass = "nat-exhaustion"; response = "degraded-service"; affectedSurface = "translation"; sourceLocation = "controlPlane.providerAccess.scenarios.*.nat.ipv4"; }
+      { failureClass = "nat66-exhaustion"; response = "degraded-service"; affectedSurface = "translation"; sourceLocation = "controlPlane.providerAccess.scenarios.*.nat.ipv6"; }
+      { failureClass = "secret-expiry"; response = "fail-closed"; affectedSurface = "secret-source"; sourceLocation = "secretDeclarations"; }
+    ];
+    gampIds = [
+      "FS-920-HDS-010-SDS-011"
+      "FS-920-HDS-010-SDS-012"
+      "FS-920-HDS-010-SDS-013"
+      "FS-920-HDS-010-SDS-010-SMS-010"
+      "FS-920-HDS-010-SDS-010-SMS-020"
+      "FS-920-HDS-010-SDS-010-SMS-030"
+    ];
+  };
+
+  failureDiagnosticContracts = {
+    marker = "SAT-SRC-INVENTORY-FAILURE-DIAGNOSTICS";
+    sourceLayer = "network-labs/sat/inventory.nix";
+    requiredDiagnosticFields = [
+      "owningLayer"
+      "affectedScope"
+      "input"
+      "reason"
+      "sourceLocation"
+    ];
+    inputStates = [
+      "missing"
+      "stale"
+      "mismatched"
+      "conflicting"
+      "ambiguous"
+    ];
+    valueClasses = [
+      "behavior"
+      "public-inventory"
+      "protected-inventory"
+      "runtime-fact"
+      "target-limitation"
+      "validation-context-data"
+    ];
+    redaction = {
+      preserveCorrelation = true;
+      exposePlaintextSecrets = false;
+      exposeFullPayloads = false;
+      exposeUnboundedDebug = false;
+    };
+    repairRouting = {
+      routeMalformedInputToOwningSourceLayer = true;
+      lowerLayerHeuristicRepairAllowed = false;
+      rendererLocalRepairAllowed = false;
+      scriptLocalRepairAllowed = false;
+    };
+    diagnosticTaxonomy = [
+      { code = "missing-source-input"; owningLayer = "inventory"; valueClass = "public-inventory"; reason = "required source atom missing"; }
+      { code = "protected-source-unavailable"; owningLayer = "inventory"; valueClass = "protected-inventory"; reason = "protected reference missing or inaccessible"; }
+      { code = "runtime-fact-stale"; owningLayer = "inventory"; valueClass = "runtime-fact"; reason = "runtime fact freshness cannot be proven"; }
+      { code = "behavior-conflict"; owningLayer = "intent"; valueClass = "behavior"; reason = "modeled behavior conflicts with another source atom"; }
+      { code = "target-limitation"; owningLayer = "renderer-or-harness"; valueClass = "target-limitation"; reason = "selected target cannot realize explicit source behavior"; }
+      { code = "validation-context-incomplete"; owningLayer = "validation-context"; valueClass = "validation-context-data"; reason = "validation scope or evidence input incomplete"; }
+    ];
+    gampIds = [
+      "FS-930-HDS-010-SDS-011"
+      "FS-930-HDS-010-SDS-012"
+      "FS-930-HDS-010-SDS-013"
+      "FS-930-HDS-010-SDS-010-SMS-010"
+      "FS-930-HDS-010-SDS-010-SMS-020"
+      "FS-930-HDS-010-SDS-010-SMS-030"
+    ];
+  };
 in
 {
+  # SAT-SRC-INVENTORY-OPERATIONAL-PRIVACY: FS-910 controlled source records
+  # for operational metadata classification, retention/access/redaction, and
+  # explicit scoped detail mode.
+  inherit operationalPrivacyContracts;
+  # SAT-SRC-INVENTORY-FAILURE-HANDLING: FS-920 controlled source records for
+  # modeled failure classes, one response per class, and deny-by-default
+  # response authority.
+  inherit failureHandlingContracts;
+  # SAT-SRC-INVENTORY-FAILURE-DIAGNOSTICS: FS-930 controlled source records
+  # for deterministic diagnostics, value redaction, and source-layer repair
+  # routing.
+  inherit failureDiagnosticContracts;
   # SAT-SRC-INVENTORY-SECRET-DECLARATIONS: FS-810 source construction for
   # reference-only secret declarations. These records carry metadata only; they
   # do not select sources, expose plaintext material, or create network policy.
