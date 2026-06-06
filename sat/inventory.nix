@@ -50,6 +50,65 @@ let
         dns = withDeniedResolverCidrs (node.services.dns or { });
       };
     };
+  satNixosPersistentStatePolicy = {
+    persistence = {
+      required = true;
+      root = "/persist/s-router/state";
+      durabilityClass = "restart-persistent";
+      stateLossHandling = "fail-closed-require-persistent-state";
+    };
+    operationalRecords = {
+      required = true;
+      root = "/persist/s-router/records";
+      durabilityClass = "restart-persistent";
+      stateLossHandling = "fail-closed-require-persistent-state";
+    };
+  };
+  satNixosRestartTolerantStatePolicy = {
+    persistence = {
+      required = false;
+      root = "/run/s-router/state";
+      durabilityClass = "restart-tolerant";
+      stateLossHandling = "rebuild-from-modeled-runtime-facts";
+    };
+    operationalRecords = {
+      required = false;
+      root = "/run/s-router/records";
+      durabilityClass = "restart-tolerant";
+      stateLossHandling = "rebuild-from-modeled-runtime-facts";
+    };
+  };
+  satClabRestartTolerantStatePolicy = {
+    persistence = {
+      required = false;
+      root = "/run/s-router-clab/state";
+      durabilityClass = "restart-tolerant";
+      stateLossHandling = "rebuild-from-modeled-runtime-facts";
+    };
+    operationalRecords = {
+      required = false;
+      root = "/run/s-router-clab/records";
+      durabilityClass = "restart-tolerant";
+      stateLossHandling = "rebuild-from-modeled-runtime-facts";
+    };
+  };
+  hasStatefulSurface = node: (node.advertisements or { }) != { } || (node.services or { }) != { };
+  logicalNodeName = node: (node.logicalNode or { }).name or "";
+  isNixosAccessNode = node: builtins.match "nixos-router-access-.*" (logicalNodeName node) != null;
+  isNixosRestartTolerantNode = node: builtins.match "nixos-router-core-isp-.*" (logicalNodeName node) != null;
+  withSatStatePolicy =
+    nodes:
+    builtins.mapAttrs
+      (_: node:
+        if hasStatefulSurface node && (node.host or null) == "s-router-test" && isNixosAccessNode node then
+          node // { statePolicy = satNixosPersistentStatePolicy; }
+        else if hasStatefulSurface node && (node.host or null) == "s-router-test" && isNixosRestartTolerantNode node then
+          node // { statePolicy = satNixosRestartTolerantStatePolicy; }
+        else if hasStatefulSurface node && (node.host or null) == "s-router-clab" then
+          node // { statePolicy = satClabRestartTolerantStatePolicy; }
+        else
+          node)
+      nodes;
   satEndpointAddresses = {
     clab-client01 = {
       ipv4 = [ "10.50.20.10" ];
@@ -1804,7 +1863,7 @@ in
   # ports, services, secrets, DHCP/RA, DNS service placement, and provider
   # runtime facts.
   realization = {
-    nodes = {
+    nodes = withSatStatePolicy {
       esp-nixos-router-access-admin = {
         advertisements = {
           dhcp4 = {

@@ -52,7 +52,7 @@ for renderer in nixos clab; do
   nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
   let
     resolved = import ${lab_dir}/getResolvedInventory.nix { renderer = \"${renderer}\"; };
-    values = builtins.toJSON resolved;
+    values = builtins.toJSON (resolved.controlPlane or { });
     has = needle: builtins.match \".*\${needle}.*\" values != null;
     nodes = resolved.realization.nodes or { };
     dnsForwarderNodes =
