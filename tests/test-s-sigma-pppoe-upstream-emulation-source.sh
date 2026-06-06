@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-800-HDS-010-SDS-010-SMS-010
+# GAMP-ID: FS-800-HDS-010-SDS-011-SMS-010
 # GAMP-SCOPE: software-module-test
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lab_dir="${repo_root}/sat"
+split_gamp_id="FS-800-HDS-010-SDS-011-SMS-010"
+
+fail() {
+  echo "FAIL s-sigma-pppoe-upstream-emulation-source-boundary: $*" >&2
+  exit 1
+}
 
 nix eval --impure --json --expr "{
   intent = import ${lab_dir}/intent.nix;
@@ -31,8 +37,14 @@ nix eval --impure --json --expr "{
         | ..
         | strings
         | select(test("pppoe|wan-dhcp|wan-slaac|access-concentrator|accel-ppp"; "i"));
+      def has_required_field($row; $path):
+        any($row.requiredFields[]; . == $path);
       def fixture_ok($row):
-        $row.gampId == "FS-800-HDS-010-SDS-010-SMS-010"
+        $row.gampId == "FS-800-HDS-010-SDS-011-SMS-010"
+        and has_required_field($row; ["provider", "role"])
+        and has_required_field($row; ["publicFacing", "ipv4", "sessionPrefix"])
+        and has_required_field($row; ["dns", "resolver", "upstreamSource"])
+        and has_required_field($row; ["probeIntent"])
         and $row.provider.role == "emulated-isp"
         and $row.provider.handoff == "pppoe"
         and $row.provider.addressDelivery.ipv4 == "pppoe-session-address"
@@ -140,5 +152,61 @@ nix eval --impure --json --expr "{
       and (.inventory.deployment.hosts."s-router-test".bridgeNetworks."br-nix-pppoe" | has("vlan") | not)
       and (.inventory.deployment.hosts."s-router-clab".bridgeNetworks."br-clab-pppoe" | has("vlan") | not)
   ' >/dev/null
+
+nix eval --impure --raw --expr "
+  let
+    table = import ${lab_dir}/provider-access-fixture-table.nix;
+    require = cond: msg: if cond then true else throw msg;
+    splitGampId = \"${split_gamp_id}\";
+    joinPath = builtins.concatStringsSep \".\";
+    pathPresent = value: path:
+      if path == [ ] then true
+      else
+        let
+          key = builtins.head path;
+          rest = builtins.tail path;
+        in
+          builtins.isAttrs value && builtins.hasAttr key value && pathPresent value.\${key} rest;
+    removePath = value: path:
+      if path == [ ] then value
+      else
+        let
+          key = builtins.head path;
+          rest = builtins.tail path;
+        in
+          if rest == [ ]
+          then builtins.removeAttrs value [ key ]
+          else value // { \${key} = removePath value.\${key} rest; };
+    validateProviderAccessRow = name: row:
+      let
+        requiredPaths = row.requiredFields;
+        missing = builtins.filter (path: !(pathPresent row path)) requiredPaths;
+        firstMissing = if missing == [ ] then null else builtins.head missing;
+      in
+        require (row.gampId == splitGampId)
+          \"\${splitGampId}: provider-access \${name} must carry the split SDS-011/SMS-010 GAMP ID before downstream inference\"
+        && require (row.requiredFields != [ ])
+          \"\${splitGampId}: provider-access \${name} must declare required fields before downstream inference\"
+        && require (missing == [ ])
+          \"\${splitGampId}: provider-access \${name} missing required field \${joinPath firstMissing} before downstream inference\";
+    expectMissingRejected = name: path:
+      let
+        row = removePath table.\${name} path;
+        result = builtins.tryEval (validateProviderAccessRow name row);
+      in
+        require (!result.success)
+          \"\${splitGampId}: missing required provider-access field \${name}.\${joinPath path} was accepted before downstream inference\";
+  in
+    if validateProviderAccessRow \"pppoeNixos\" table.pppoeNixos
+      && validateProviderAccessRow \"pppoeClab\" table.pppoeClab
+      && expectMissingRejected \"pppoeNixos\" [ \"provider\" \"role\" ]
+      && expectMissingRejected \"pppoeNixos\" [ \"publicFacing\" \"ipv4\" \"sessionPrefix\" ]
+      && expectMissingRejected \"pppoeNixos\" [ \"dns\" \"resolver\" \"upstreamSource\" ]
+      && expectMissingRejected \"pppoeClab\" [ \"provider\" \"addressDelivery\" \"ipv6\" ]
+      && expectMissingRejected \"pppoeClab\" [ \"firewall\" \"leakPrevention\" ]
+      && expectMissingRejected \"pppoeClab\" [ \"probeIntent\" ]
+    then \"true\"
+    else throw \"${split_gamp_id}: provider-access required-field validation did not complete\"
+" >/dev/null || fail "split-ID required-field validation failed"
 
 echo "PASS s-sigma-pppoe-upstream-emulation-source-boundary"

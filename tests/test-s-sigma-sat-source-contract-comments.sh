@@ -113,19 +113,23 @@ require_text "${contract}" "Source provenance present in"
 require_text "${contract}" "HAT/SAT live proof not provided"
 require_text "${contract}" "Nebula"
 require_text "${contract}" "WireGuard"
+# shellcheck disable=SC2016
 require_text "${contract}" 'VLAN `4`'
 require_text "${contract}" 'provider-access-fixture-table.nix'
 require_text "${contract}" 'SAT-SRC-INTENT-NIXOS-UPSTREAM-EMULATION'
 require_text "${contract}" 'SAT-SRC-INTENT-CLAB-UPSTREAM-EMULATION'
+# shellcheck disable=SC2016
 require_text "${contract}" 'retired from `intent.nix`'
+# shellcheck disable=SC2016
 require_text "${contract}" 'intent.nix` shall not carry `upstreamEmulation`'
+# shellcheck disable=SC2016
 require_text "${contract}" 'isolated Ethernet PPPoE handoff bridges with `physical = false`'
 require_text "${contract}" 'provider runtime node, customer runtime node, paired handoff link/interface'
 require_text "${contract}" 'server/client PPPoE service placement'
 require_text "${contract}" 'Physical PPPoE VLAN handoff requires an explicit exclusive-run guard.'
 require_text "${provider_table}" 'SAT-SCEN-EMULATED-ISP-NIXOS-001'
 require_text "${provider_table}" 'SAT-SCEN-EMULATED-ISP-CLAB-001'
-require_text "${provider_table}" 'FS-800-HDS-010-SDS-010-SMS-010'
+require_text "${provider_table}" 'FS-800-HDS-010-SDS-011-SMS-010'
 
 if grep -Fq "SAT-SRC-GAP-PPPOE" "${contract}"; then
   fail "PPPoE source gaps must not remain once inventory upstream-emulation rows exist"

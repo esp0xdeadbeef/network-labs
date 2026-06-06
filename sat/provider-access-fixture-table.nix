@@ -1,7 +1,41 @@
+let
+  providerAccessRequiredFields = [
+    [ "scenarioId" ]
+    [ "gampId" ]
+    [ "site" ]
+    [ "provider" "role" ]
+    [ "provider" "handoff" ]
+    [ "provider" "addressDelivery" "ipv4" ]
+    [ "provider" "addressDelivery" "ipv6" ]
+    [ "provider" "addressDelivery" "excluded" ]
+    [ "customer" "site" ]
+    [ "customer" "coreNode" ]
+    [ "customer" "coreInterface" ]
+    [ "publicFacing" "ipv4" "sessionPrefix" ]
+    [ "publicFacing" "ipv4" "providerAddress" ]
+    [ "publicFacing" "ipv4" "customerAddress" ]
+    [ "publicFacing" "ipv4" "snatPrivateTenants" ]
+    [ "publicFacing" "ipv6" "delegatedAggregate" ]
+    [ "publicFacing" "ipv6" "childPrefixLength" ]
+    [ "publicFacing" "ipv6" "nat66" ]
+    [ "firewall" "defaultInbound" ]
+    [ "firewall" "allowEstablishedRelated" ]
+    [ "firewall" "allowPppoeControl" ]
+    [ "firewall" "publicIngress" ]
+    [ "firewall" "leakPrevention" ]
+    [ "dns" "followSource" ]
+    [ "dns" "resolver" "consumer" ]
+    [ "dns" "resolver" "implementationClass" ]
+    [ "dns" "resolver" "upstreamSource" ]
+    [ "failureExpectation" ]
+    [ "probeIntent" ]
+  ];
+in
 {
   pppoeNixos = {
     scenarioId = "SAT-SCEN-EMULATED-ISP-NIXOS-001";
-    gampId = "FS-800-HDS-010-SDS-010-SMS-010";
+    gampId = "FS-800-HDS-010-SDS-011-SMS-010";
+    requiredFields = providerAccessRequiredFields;
     site = "site-nixos";
     provider = {
       role = "emulated-isp";
@@ -68,7 +102,8 @@
 
   pppoeClab = {
     scenarioId = "SAT-SCEN-EMULATED-ISP-CLAB-001";
-    gampId = "FS-800-HDS-010-SDS-010-SMS-010";
+    gampId = "FS-800-HDS-010-SDS-011-SMS-010";
+    requiredFields = providerAccessRequiredFields;
     site = "site-clab";
     provider = {
       role = "emulated-isp";
