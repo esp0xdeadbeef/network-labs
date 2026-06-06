@@ -44,6 +44,7 @@ tests=(
   test-fs650-fs690-profile-matrices.sh
   test-fs690-support-view-provenance-non-authority.sh
   test-fs810-fs820-secret-source-records.sh
+  test-fs860-fs870-sat-state-contract.sh
   test-s-sigma-pppoe-upstream-emulation-source.sh
   test-s-sigma-provider-access-source-module-boundary.sh
   test-s-sigma-provider-access-attachments.sh
