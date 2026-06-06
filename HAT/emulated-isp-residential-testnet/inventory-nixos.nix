@@ -1,5 +1,14 @@
 # Standalone HAT inventory with explicit realization data.
+let
+  protectedPppoeCredentialBindings = import ./protected-pppoe-credential-bindings.nix {
+    consumerNode = "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp";
+    harness = "s-router-nixos";
+    site = "nixos";
+  };
+in
 {
+  inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
+
   deployment = {
     hosts = {
       s-router-clab = {
@@ -330,6 +339,11 @@
                 endpoint = "nixos-core-testnet-host-isp";
                 mode = "endpoint-specific";
                 technology = "pppoe";
+              };
+              credentials = {
+                labOnly = true;
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               gampId = "FS-800-HDS-010-SDS-010-SMS-010";
               handoff = "pppoe";
