@@ -520,6 +520,12 @@ let
     };
   };
 
+  # SAT-SRC-INVENTORY-PROVIDER-ACCESS-ATTACHMENTS: attachment records for
+  # provider and overlay realization technologies. These are ordinary
+  # access-space realization facts, not topology classes or side-channel policy
+  # authority.
+  providerAccessAttachmentRealization = providerAccessFixtureTable.attachments;
+
   clabDownstreamAccessPorts = builtins.listToAttrs (
     map (tenant: {
       name = "access-${tenant}";
@@ -1094,6 +1100,7 @@ in
   # target-specific routing-service choices.
   controlPlane = {
     providerAccess = {
+      attachments = providerAccessAttachmentRealization;
       scenarios = providerAccessRealization;
     };
     sites = {

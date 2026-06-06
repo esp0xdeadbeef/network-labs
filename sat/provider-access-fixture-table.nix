@@ -32,6 +32,133 @@ let
   ];
 in
 {
+  attachments = {
+    pppoeNixos = {
+      scenarioId = "SAT-SCEN-PROVIDER-ATTACH-PPPOE-NIXOS-001";
+      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      technology = "pppoe";
+      sourceClass = "provider-access-realization-fact";
+      realizationAuthority = "inventory";
+      topologyAuthority = false;
+      sideChannelAuthority = false;
+      attachment = {
+        kind = "access-space";
+        site = "nixos";
+        accessSpace = "client";
+        method = "tenant-access";
+        sourceNode = "nixos-router-access-client";
+        runtimeNode = "esp-nixos-router-access-client";
+        logicalInterface = "tenant-client";
+      };
+      realizationRef = {
+        path = "controlPlane.providerAccess.scenarios.pppoeNixos";
+        providerScenarioId = "SAT-SCEN-EMULATED-ISP-NIXOS-001";
+      };
+    };
+
+    dhcpSlaacNixosClient = {
+      scenarioId = "SAT-SCEN-PROVIDER-ATTACH-DHCP-SLAAC-NIXOS-001";
+      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      technology = "dhcp-slaac";
+      sourceClass = "provider-access-realization-fact";
+      realizationAuthority = "inventory";
+      topologyAuthority = false;
+      sideChannelAuthority = false;
+      attachment = {
+        kind = "access-space";
+        site = "nixos";
+        accessSpace = "client";
+        method = "tenant-access";
+        sourceNode = "nixos-router-access-client";
+        runtimeNode = "esp-nixos-router-access-client";
+        logicalInterface = "tenant-client";
+      };
+      realizationRef = {
+        path = "realization.nodes.esp-nixos-router-access-client.advertisements";
+        advertisements = [
+          "dhcp4"
+          "dhcpv6"
+          "ipv6Ra"
+        ];
+      };
+    };
+
+    nebulaNixosUnderlay = {
+      scenarioId = "SAT-SCEN-PROVIDER-ATTACH-NEBULA-NIXOS-001";
+      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      technology = "nebula";
+      sourceClass = "provider-access-realization-fact";
+      realizationAuthority = "inventory";
+      topologyAuthority = false;
+      sideChannelAuthority = false;
+      attachment = {
+        kind = "access-space";
+        site = "nixos";
+        accessSpace = "client";
+        method = "tenant-access";
+        sourceNode = "nixos-router-access-client";
+        runtimeNode = "esp-nixos-router-core-nebula";
+        logicalInterface = "tenant-client";
+      };
+      realizationRef = {
+        path = "controlPlane.sites.esp.nixos.overlays.east-west";
+        provider = "nebula";
+        underlayAccess = {
+          kind = "tenant";
+          name = "client";
+        };
+      };
+    };
+
+    wireguardRemoteEgressHetz = {
+      scenarioId = "SAT-SCEN-PROVIDER-ATTACH-WG-REMOTE-EGRESS-HETZ-001";
+      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      technology = "wireguard-remote-egress";
+      sourceClass = "provider-access-realization-fact";
+      realizationAuthority = "inventory";
+      topologyAuthority = false;
+      sideChannelAuthority = false;
+      attachment = {
+        kind = "access-space";
+        site = "hetz";
+        accessSpace = "client";
+        method = "tenant-access";
+        sourceNode = "hetz-router-access-client";
+        runtimeNode = "esp-hetz-router-nebula-core";
+        logicalInterface = "tenant-client";
+      };
+      realizationRef = {
+        path = "controlPlane.sites.esp.hetz.overlays.wg-routed64";
+        provider = "wireguard";
+        providerContract = "routed64";
+      };
+    };
+
+    wireguardHost128Hetz = {
+      scenarioId = "SAT-SCEN-PROVIDER-ATTACH-WG-HOST128-HETZ-001";
+      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      technology = "wireguard-host-128";
+      sourceClass = "provider-access-realization-fact";
+      realizationAuthority = "inventory";
+      topologyAuthority = false;
+      sideChannelAuthority = false;
+      attachment = {
+        kind = "access-space";
+        site = "hetz";
+        accessSpace = "client";
+        method = "tenant-access";
+        sourceNode = "hetz-router-access-client";
+        runtimeNode = "esp-hetz-router-nebula-core";
+        logicalInterface = "tenant-client";
+      };
+      realizationRef = {
+        path = "controlPlane.sites.esp.hetz.overlays.wg-host128-egress";
+        provider = "wireguard";
+        providerContract = "hostOnly128Egress";
+      };
+    };
+  };
+
   pppoeNixos = {
     scenarioId = "SAT-SCEN-EMULATED-ISP-NIXOS-001";
     gampId = "FS-800-HDS-010-SDS-011-SMS-010";
