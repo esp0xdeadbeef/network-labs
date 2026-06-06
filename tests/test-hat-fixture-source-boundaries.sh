@@ -110,6 +110,89 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     hasInventoryOnlyToken = text:
       let encoded = builtins.toJSON intent;
       in builtins.match (".*" + text + ".*") encoded != null;
+    requiredProtectedBindingIds = [
+      "FS-800-HDS-020-SDS-020"
+      "FS-800-HDS-020-SDS-020-SMS-010"
+    ];
+    hasAllProtectedBindingIds = ids:
+      builtins.all (id: builtins.elem id ids) requiredProtectedBindingIds;
+    policyNeutral = policy:
+      builtins.all
+        (name: (policy.${name} or null) == false)
+        [
+          "createsRouteAuthority"
+          "createsFirewallPolicy"
+          "createsDnsPolicy"
+          "createsPublicIngress"
+          "createsTenantReachability"
+          "createsTrustBoundary"
+          "createsNetworkBehavior"
+        ];
+    oneMatching = rows: pred:
+      builtins.length (builtins.filter pred rows) == 1;
+    protectedCredentialBindingOk = inventory: harness: siteName: consumerNode:
+      let
+        declarations = inventory.secretDeclarations or [ ];
+        sources = inventory.secretSources or [ ];
+        bindings = inventory.sourceBindings or [ ];
+        credentials = inventory.deployment.hosts.${harness}.hat.providerAccess.residentialPppoeHostTestnet.credentials or { };
+        sourceFieldBase = "deployment.hosts.${harness}.hat.providerAccess.residentialPppoeHostTestnet.credentials";
+        validPurpose = purpose: field:
+          let
+            declarationId = "hat-secret-pppoe-${siteName}-${field}";
+            sourceId = "${declarationId}-source";
+            bindingId = "${declarationId}-binding";
+            sourceFieldPath = "${sourceFieldBase}.${field}File";
+            runtimePath = credentials.${field + "File"} or null;
+          in
+            runtimePath == "/run/secrets/hat-pppoe-${field}"
+            && oneMatching declarations (row:
+              (row.id or null) == declarationId
+              && (row.credentialClass or null) == "provider-credential"
+              && (row.site or null) == siteName
+              && row ? tenant
+              && row.tenant == null
+              && (row.host or null) == harness
+              && (row.consumer.kind or null) == "service"
+              && (row.consumer.node or null) == consumerNode
+              && (row.consumer.name or null) == "pppoe.client"
+              && (row.purpose or null) == purpose
+              && (row.lifecycle or null) == "hat-runtime"
+              && (row.required or false)
+              && (row.requiredness or null) == "mandatory"
+              && (row.material or null) == "reference-only"
+              && (row.plaintextMaterial or null) == false
+              && (row.sourceSelected or null) == false
+              && policyNeutral (row.policyAuthority or { })
+              && hasAllProtectedBindingIds (row.gampIds or [ ]))
+            && oneMatching sources (row:
+              (row.id or null) == sourceId
+              && (row.declarationId or null) == declarationId
+              && (row.sourceClass or null) == "deployment-platform-secret-reference"
+              && (row.reference.name or null) == "hat-pppoe-${field}"
+              && (row.reference.runtimePath or null) == runtimePath
+              && (row.reference.sourceFieldPath or null) == sourceFieldPath
+              && (row.lifecycle or null) == "hat-runtime"
+              && (row.materialAccess or null) == "not-supplied-by-source-record"
+              && (row.plaintextMaterial or null) == false
+              && (row.providerNeutral or null) == true
+              && (row.fixedSecretManagerRequired or null) == false
+              && hasAllProtectedBindingIds (row.gampIds or [ ]))
+            && oneMatching bindings (row:
+              (row.id or null) == bindingId
+              && (row.declarationId or null) == declarationId
+              && (row.sourceId or null) == sourceId
+              && (row.sourceClass or null) == "deployment-platform-secret-reference"
+              && (row.bindingKind or null) == "declaration-source"
+              && (row.sourceFieldPath or null) == sourceFieldPath
+              && policyNeutral (row.policyAuthority or { })
+              && hasAllProtectedBindingIds (row.gampIds or [ ]));
+      in
+        builtins.length declarations >= 2
+        && builtins.length sources >= 2
+        && builtins.length bindings >= 2
+        && validPurpose "pppoe-username" "username"
+        && validPurpose "pppoe-password" "password";
   in
     require (hasRelation "allow-client-to-testnet-routed-isp")
       "shared intent must own client-to-routed-ISP behavior"
@@ -161,6 +244,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB provider access must target the CLAB host-ISP core endpoint"
     && require (nixosHost.hat.providerAccess.residentialPppoeHostTestnet.distribution.endpoint == "nixos-core-testnet-host-isp")
       "NixOS provider access must target the host-ISP core endpoint"
+    && require (protectedCredentialBindingOk clab "s-router-clab" "clab" "esp0xdeadbeef-site-b-clab-core-testnet-host-isp")
+      "CLAB HAT inventory must expose protected PPPoE credential declaration/source/binding records"
+    && require (protectedCredentialBindingOk nixos "s-router-nixos" "nixos" "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp")
+      "NixOS HAT inventory must expose protected PPPoE credential declaration/source/binding records"
     && require (nodeHostIs nixos "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp" "s-router-nixos")
       "NixOS inventory must place site-a/nixos host-ISP core on s-router-nixos"
     && require (nodeHostIs clab "esp0xdeadbeef-site-b-clab-core-testnet-host-isp" "s-router-clab")
