@@ -1,3 +1,4 @@
 # Active lab intent.
-# Replace this import with the selected lab intent.
+# Public, non-secret source-of-truth for desired network behavior.
+
 import ../HAT/intent.nix
