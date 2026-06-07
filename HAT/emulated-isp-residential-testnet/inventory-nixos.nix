@@ -5,8 +5,9 @@ let
     harness = "s-router-nixos";
     site = "nixos";
   };
+  selectorFabricLinkRealization = import ./selector-fabric-link-realization.nix;
 in
-{
+selectorFabricLinkRealization {
   inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
 
   deployment = {
