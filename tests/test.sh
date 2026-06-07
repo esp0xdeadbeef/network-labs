@@ -78,6 +78,7 @@ tests=(
   test-fs770-realization-mutation-rejection.sh
   test-hat-printer-receiver-policy-source.sh
   test-hat-emulated-isp-residential-testnet.sh
+  test-hat-selector-fabric-link-realization.sh
   test-hat-fixture-source-boundaries.sh
   test-hat-upstream-inventory-realization-boundary.sh
 )

@@ -5,8 +5,9 @@ let
     harness = "s-router-clab";
     site = "clab";
   };
+  selectorFabricLinkRealization = import ./selector-fabric-link-realization.nix;
 in
-{
+selectorFabricLinkRealization {
   inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
 
   deployment = {
