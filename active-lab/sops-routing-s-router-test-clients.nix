@@ -2,7 +2,7 @@
 
 let
   sharedSopsFile = ./secrets/shared.yaml;
-  hostSopsFile = ./secrets/sops-s-router-clab.yaml;
+  hostSopsFile = ./secrets/sops-s-router-test-clients.yaml;
 in
 {
   # Do not set sops.defaultSopsFile here.
