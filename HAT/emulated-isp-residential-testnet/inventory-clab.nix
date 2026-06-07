@@ -5,10 +5,18 @@ let
     harness = "s-router-clab";
     site = "clab";
   };
+  overlayVpnRuntimeAdapters = import ./overlay-vpn-runtime-adapters.nix;
   selectorFabricLinkRealization = import ./selector-fabric-link-realization.nix;
 in
 selectorFabricLinkRealization {
   inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
+
+  controlPlane = {
+    sites.esp0xdeadbeef = {
+      site-a.overlays = overlayVpnRuntimeAdapters.site-a;
+      site-b.overlays = overlayVpnRuntimeAdapters.site-b;
+    };
+  };
 
   deployment = {
     hosts = {
