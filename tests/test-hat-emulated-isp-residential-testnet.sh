@@ -141,6 +141,21 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       roleOf nodes nodeName == "access"
       && attachmentsOf nodes nodeName == [ { kind = "tenant"; name = tenant; } ]
       && uplinksOf nodes nodeName == { };
+    overlaySource = inventory: siteName: overlayName:
+      ((inventory.controlPlane.sites.esp0xdeadbeef.${siteName}.overlays or { }).${overlayName} or { });
+    overlayRuntimeAdapterOk = inventory: siteName: overlayName: nodeName: expectedProvider: expectedInterface: expectedService:
+      let
+        overlay = overlaySource inventory siteName overlayName;
+        runtimeNode = (overlay.runtimeNodes or { }).${nodeName} or { };
+        service = runtimeNode.service or { };
+      in
+        (overlay.provider or null) == expectedProvider
+        && builtins.hasAttr nodeName (overlay.nodes or { })
+        && service.interface == expectedInterface
+        && service.name == expectedService;
+    sourceHasNoCommercialVpnOverlay = inventory:
+      !builtins.hasAttr "commercial-vpn" (inventory.controlPlane.sites.esp0xdeadbeef.site-a.overlays or { })
+      && !builtins.hasAttr "commercial-vpn" (inventory.controlPlane.sites.esp0xdeadbeef.site-b.overlays or { });
     providerCoreOnly = nodes: nodeName: tenant: uplink:
       roleOf nodes nodeName == "core"
       && attachmentsOf nodes nodeName == [ { kind = "tenant"; name = tenant; } ]
@@ -223,8 +238,22 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "host testnet ISP must advertise IPv4 203.0.113.4/32"
     && require (nodes.nixos-core-testnet-host-isp.uplinks.testnet-host-isp.ipv6 == [ "2001:db8:113:64::/64" ])
       "host testnet ISP must advertise constrained IPv6 /64"
-    && require (!(site ? transport))
-      "fixture must not model an overlay transport"
+    && require (!(site ? transport) && !(clabSite ? transport))
+      "fixture intent must not turn existing HAT p2p underlay links into overlay transport"
+    && require (overlayRuntimeAdapterOk nixos "site-a" "nebula-egress" "nixos-core-nebula" "nebula" "nebula1" "nebula-runtime")
+      "NixOS HAT inventory must declare Nebula runtime adapter service.interface"
+    && require (overlayRuntimeAdapterOk nixos "site-a" "wireguard-egress" "nixos-core-wireguard-remote-egress" "wireguard" "wg-egress" "wireguard-runtime")
+      "NixOS HAT inventory must declare WireGuard egress runtime adapter service.interface"
+    && require (overlayRuntimeAdapterOk nixos "site-a" "wireguard-host128" "nixos-core-wireguard-host128" "wireguard" "wg-host128" "wireguard-runtime")
+      "NixOS HAT inventory must declare WireGuard host128 runtime adapter service.interface"
+    && require (overlayRuntimeAdapterOk clab "site-b" "nebula-egress" "clab-core-nebula" "nebula" "nebula1" "nebula-runtime")
+      "CLAB HAT inventory must declare Nebula runtime adapter service.interface"
+    && require (overlayRuntimeAdapterOk clab "site-b" "wireguard-egress" "clab-core-wireguard-remote-egress" "wireguard" "wg-egress" "wireguard-runtime")
+      "CLAB HAT inventory must declare WireGuard egress runtime adapter service.interface"
+    && require (overlayRuntimeAdapterOk clab "site-b" "wireguard-host128" "clab-core-wireguard-host128" "wireguard" "wg-host128" "wireguard-runtime")
+      "CLAB HAT inventory must declare WireGuard host128 runtime adapter service.interface"
+    && require (sourceHasNoCommercialVpnOverlay nixos && sourceHasNoCommercialVpnOverlay clab)
+      "HAT source must not invent a commercial-vpn overlay runtime adapter without a modeled underlay contract"
     && require (hasRelation "allow-client-to-testnet-routed-isp")
       "missing client to routed testnet ISP relation"
     && require (hasRelation "allow-client-to-testnet-host-isp")
@@ -585,6 +614,16 @@ for renderer in clab nixos; do
       $target.services.pppoe.server.interface == $interface
       and $target.services.pppoe.server.providerAddress == $providerAddress
       and $target.services.pppoe.server.customerAddress == $customerAddress;
+    def p2p_iface($target; $name):
+      ($target.effectiveRuntimeRealization.interfaces[$name].sourceKind == "p2p");
+    def overlay_iface_count($site):
+      [
+        $site.runtimeTargets[]
+        | .effectiveRuntimeRealization.interfaces
+        | to_entries[]
+        | select(.value.sourceKind == "overlay")
+      ]
+      | length;
     .control_plane_model.data.esp0xdeadbeef."site-a" as $site
     | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
     | ($site.runtimeTargets
@@ -601,6 +640,14 @@ for renderer in clab nixos; do
       and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
       and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
       and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
+      and overlay_iface_count($site) == 0
+      and overlay_iface_count($clabSite) == 0
+      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-nebula")
+      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-remote-egress")
+      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-host128")
+      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-nebula")
+      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-wireguard-remote-egress")
+      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-wireguard-host128")
       and ([
         $site.trafficPaths[]
         | select(.relationId == "allow-client-to-testnet-routed-isp")
