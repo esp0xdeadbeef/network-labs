@@ -1,1 +1,1 @@
-import ../HAT/intent.nix
+import ../HAT/emulated-isp-residential-testnet/intent.nix
