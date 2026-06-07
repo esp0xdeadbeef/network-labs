@@ -1,1 +1,3 @@
-import ../HAT/emulated-isp-residential-testnet/intent.nix
+# Active lab intent.
+# Replace this import with the selected lab intent.
+import ../HAT/intent.nix
