@@ -1,15 +1,30 @@
-# Active lab client identities and expected runtime behavior.
-# Keep credentials out of this file; put passwords/PSKs/secrets in ./secrets/*.yaml.
+# Active lab client model.
+#
+# Public-safe file:
+# - describes client roles and expected behavior
+# - does NOT contain real production MACs, circuit IDs, serials, PPPoE passwords,
+#   Wi-Fi PSKs, RADIUS secrets, customer names, or provider account identifiers.
+#
+# Real production identities and credentials are referenced here and stored in SOPS.
 
 {
   clients = {
     client-01 = {
-      mac = "02:00:00:00:10:01";
+      role = "residential-cpe";
       hostname = "client-01";
       vlan = 20;
 
+      identityRef = "clients/client-01/identity";
+      credentialRef = "clients/client-01/credentials";
+
       pppoe = {
-        username = "client-01";
+        enabled = true;
+        usernameRef = "clients/client-01/identity/pppoeUsername";
+        passwordRef = "clients/client-01/credentials/pppoePassword";
+      };
+
+      dhcp = {
+        enabled = true;
       };
 
       expected = {
