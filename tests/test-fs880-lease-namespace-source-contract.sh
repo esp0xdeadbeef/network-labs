@@ -48,10 +48,10 @@ nix eval --impure --raw --expr "
     hatClabDhcp4 =
       hatClab.realization.nodes.esp0xdeadbeef-site-b-clab-access-client.advertisements.dhcp4.tenant-client.namespaceContract;
   in
-    if validRecord \"dhcp4-static-lease-name\" satDhcp4
-      && validRecord \"dhcpv6-static-lease-name\" satDhcp6
-      && validRecord \"dhcp4-static-lease-name\" resolvedDhcp4
-      && validRecord \"dhcpv6-static-lease-name\" resolvedDhcp6
+    if validRecord "dhcp4-lease-name" satDhcp4
+      && validRecord "dhcpv6-lease-name" satDhcp6
+      && validRecord "dhcp4-lease-name" resolvedDhcp4
+      && validRecord "dhcpv6-lease-name" resolvedDhcp6
       && validRecord \"dhcp4-lease-name\" hatNixosDhcp4
       && validRecord \"dhcp4-lease-name\" hatClabNixosDhcp4
       && validRecord \"dhcp4-lease-name\" hatClabDhcp4
