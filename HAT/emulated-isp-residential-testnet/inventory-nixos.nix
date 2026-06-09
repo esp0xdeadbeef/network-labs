@@ -756,53 +756,6 @@ selectorFabricLinkRealization {
               };
               tenant = "streaming";
             };
-            clab-client01 = {
-              assignment = "dhcp";
-              bridge = "client";
-              managementBoundary = {
-                fixturePlacementCreatesManagementAccess = false;
-                mode = "no-general-management";
-              };
-              owningSubstrate = "clab";
-              persistenceExpectation = {
-                kind = "ephemeral-fixture";
-                required = false;
-              };
-              tenant = "client";
-            };
-            clab-client02 = {
-              assignment = "dhcp";
-              bridge = "client";
-              managementBoundary = {
-                fixturePlacementCreatesManagementAccess = false;
-                mode = "no-general-management";
-              };
-              owningSubstrate = "clab";
-              persistenceExpectation = {
-                kind = "ephemeral-fixture";
-                required = false;
-              };
-              tenant = "client";
-            };
-            clab-emulated-sigma = {
-              addressDelivery = "endpoint-configured";
-              assignment = "static-ipv4-or-ipv6-client";
-              bridge = "mgmt";
-              gateway4 = "10.50.10.1";
-              gateway6 = "fd42:dead:feed:10::1";
-              ipv4 = [ "10.50.10.50/24" ];
-              ipv6 = [ "fd42:dead:feed:10::50/64" ];
-              managementBoundary = {
-                fixturePlacementCreatesManagementAccess = false;
-                mode = "no-general-management";
-              };
-              owningSubstrate = "clab";
-              persistenceExpectation = {
-                kind = "ephemeral-fixture";
-                required = false;
-              };
-              tenant = "mgmt";
-            };
           };
         };
         uplinks = {
