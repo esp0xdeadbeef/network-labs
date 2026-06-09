@@ -575,7 +575,7 @@ selectorFabricLinkRealization {
                 requesterScope = "tenant-client";
                 recordClass = "dhcp4-lease-name";
                 conflictBehavior = "fail-closed";
-                staleRecordBehavior = "fail-closed-deny-answer";
+                staleBehavior = "fail-closed-deny-answer";
                 fallbackBehavior = "blocked-no-public-recursion";
                 deniedClasses = [
                   "recursive-dns-authority"
@@ -583,7 +583,7 @@ selectorFabricLinkRealization {
                   "management-reachability"
                   "public-egress"
                 ];
-                leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
+                revocationBehavior = "remove-lease-name-on-client-revocation";
               };
             };
           };
@@ -1963,7 +1963,7 @@ selectorFabricLinkRealization {
                 requesterScope = "tenant-client";
                 recordClass = "dhcp4-lease-name";
                 conflictBehavior = "fail-closed";
-                staleRecordBehavior = "fail-closed-deny-answer";
+                staleBehavior = "fail-closed-deny-answer";
                 fallbackBehavior = "blocked-no-public-recursion";
                 deniedClasses = [
                   "recursive-dns-authority"
@@ -1971,7 +1971,7 @@ selectorFabricLinkRealization {
                   "management-reachability"
                   "public-egress"
                 ];
-                leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
+                revocationBehavior = "remove-lease-name-on-client-revocation";
               };
             };
           };

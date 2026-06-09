@@ -2120,7 +2120,7 @@ in
                   };
                   namespaceOwner = "tenant-client";
                   requesterScope = "tenant-client";
-                  recordClass = "dhcp4-static-lease-name";
+                  recordClass = "dhcp4-lease-name";
                   conflictBehavior = "fail-closed";
                   staleRecordBehavior = "fail-closed-deny-answer";
                   fallbackBehavior = "blocked-no-public-recursion";
@@ -2157,7 +2157,7 @@ in
                   };
                   namespaceOwner = "tenant-client";
                   requesterScope = "tenant-client";
-                  recordClass = "dhcpv6-static-lease-name";
+                  recordClass = "dhcpv6-lease-name";
                   conflictBehavior = "fail-closed";
                   staleRecordBehavior = "fail-closed-deny-answer";
                   fallbackBehavior = "blocked-no-public-recursion";
