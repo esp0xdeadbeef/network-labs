@@ -561,17 +561,17 @@
         {
           name = "nebula-egress";
           terminateOn = "nixos-core-nebula";
-          underlayAccess = "nixos-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
         {
           name = "wireguard-egress";
           terminateOn = "nixos-core-wireguard-remote-egress";
-          underlayAccess = "nixos-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
         {
           name = "wireguard-host128";
           terminateOn = "nixos-core-wireguard-host128";
-          underlayAccess = "nixos-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
       ];
 
@@ -1534,17 +1534,17 @@
         {
           name = "nebula-egress";
           terminateOn = "clab-core-nebula";
-          underlayAccess = "clab-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
         {
           name = "wireguard-egress";
           terminateOn = "clab-core-wireguard-remote-egress";
-          underlayAccess = "clab-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
         {
           name = "wireguard-host128";
           terminateOn = "clab-core-wireguard-host128";
-          underlayAccess = "clab-access-iot";
+          underlayAccess = { kind = "tenant"; name = "iot"; };
         }
       ];
 
