@@ -557,24 +557,6 @@
         ];
       };
 
-      transport.overlays = [
-        {
-          name = "nebula-egress";
-          terminateOn = "nixos-core-nebula";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-        {
-          name = "wireguard-egress";
-          terminateOn = "nixos-core-wireguard-remote-egress";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-        {
-          name = "wireguard-host128";
-          terminateOn = "nixos-core-wireguard-host128";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-      ];
-
       ownership = {
         endpoints = [
           {
@@ -1529,24 +1511,6 @@
           }
         ];
       };
-
-      transport.overlays = [
-        {
-          name = "nebula-egress";
-          terminateOn = "clab-core-nebula";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-        {
-          name = "wireguard-egress";
-          terminateOn = "clab-core-wireguard-remote-egress";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-        {
-          name = "wireguard-host128";
-          terminateOn = "clab-core-wireguard-host128";
-          underlayAccess = { kind = "tenant"; name = "iot"; };
-        }
-      ];
 
       ownership = {
         endpoints = [
