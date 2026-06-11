@@ -145,7 +145,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
             sourceFieldPath = "${sourceFieldBase}.${field}File";
             runtimePath = credentials.${field + "File"} or null;
           in
-            runtimePath == "/run/secrets/hat-pppoe-${field}"
+            runtimePath == "hat-pppoe-${field}"
             && oneMatching declarations (row:
               (row.id or null) == declarationId
               && (row.credentialClass or null) == "provider-credential"

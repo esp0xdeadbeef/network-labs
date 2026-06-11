@@ -33,7 +33,7 @@ let
       };
       purpose = "pppoe-username";
       sourceName = "hat-pppoe-username";
-      runtimePath = "/run/secrets/hat-pppoe-username";
+      runtimePath = "hat-pppoe-username";
       sourceFieldPath = "${sourceFieldBase}.usernameFile";
     }
     {
@@ -47,7 +47,7 @@ let
       };
       purpose = "pppoe-password";
       sourceName = "hat-pppoe-password";
-      runtimePath = "/run/secrets/hat-pppoe-password";
+      runtimePath = "hat-pppoe-password";
       sourceFieldPath = "${sourceFieldBase}.passwordFile";
     }
   ];
