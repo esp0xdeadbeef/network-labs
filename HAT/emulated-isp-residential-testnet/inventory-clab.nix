@@ -212,8 +212,8 @@ selectorFabricLinkRealization {
               };
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               gampId = "FS-800-HDS-010-SDS-010-SMS-010";
               handoff = "pppoe";
@@ -1038,8 +1038,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
@@ -1098,8 +1098,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
@@ -1689,8 +1689,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -1752,8 +1752,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
@@ -2427,8 +2427,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
@@ -2487,8 +2487,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
@@ -3078,8 +3078,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -3141,8 +3141,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "/run/secrets/hat-pppoe-password";
-                usernameFile = "/run/secrets/hat-pppoe-username";
+                passwordFile = "hat-pppoe-password";
+                usernameFile = "hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
