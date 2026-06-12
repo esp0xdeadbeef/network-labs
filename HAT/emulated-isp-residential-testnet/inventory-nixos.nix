@@ -291,6 +291,15 @@ selectorFabricLinkRealization {
           work = { };
         };
         hat = {
+          emulationSubnets = [
+            {
+              subnet = "10.11.0.0/24";
+              vlan = 4;
+              description = "upstream-vlan4 WAN (DHCP from host VLAN4)";
+              hatOnly = true;
+              labScope = "s-router-hat";
+            }
+          ];
           providerAccess = {
             residentialDhcpRoutedTestnet = {
               advertisedIpv4 = {
