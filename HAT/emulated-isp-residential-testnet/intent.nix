@@ -429,6 +429,20 @@
             action = "allow";
             from = {
               kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-printer-admin";
+            priority = 73;
+            to = {
+              kind = "service";
+              name = "hat-printer-admin";
+            };
+            trafficType = "printer-admin";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-a";
@@ -1379,6 +1393,20 @@
               ];
             };
             trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-printer-admin";
+            priority = 73;
+            to = {
+              kind = "service";
+              name = "hat-printer-admin";
+            };
+            trafficType = "printer-admin";
           }
           {
             action = "allow";
