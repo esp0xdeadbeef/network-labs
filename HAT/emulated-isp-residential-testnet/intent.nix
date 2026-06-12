@@ -443,6 +443,48 @@
             action = "allow";
             from = {
               kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-printer-ipp";
+            priority = 74;
+            to = {
+              kind = "service";
+              name = "hat-printer-ipp";
+            };
+            trafficType = "ipp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-receiver-control";
+            priority = 75;
+            to = {
+              kind = "service";
+              name = "hat-receiver-control";
+            };
+            trafficType = "cast-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-receiver-discovery";
+            priority = 76;
+            to = {
+              kind = "service";
+              name = "hat-receiver-discovery";
+            };
+            trafficType = "cast-discovery";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-a";
@@ -1407,6 +1449,48 @@
               name = "hat-printer-admin";
             };
             trafficType = "printer-admin";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-printer-ipp";
+            priority = 74;
+            to = {
+              kind = "service";
+              name = "hat-printer-ipp";
+            };
+            trafficType = "ipp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-receiver-control";
+            priority = 75;
+            to = {
+              kind = "service";
+              name = "hat-receiver-control";
+            };
+            trafficType = "cast-control";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "trusted";
+            };
+            id = "allow-trusted-to-hat-receiver-discovery";
+            priority = 76;
+            to = {
+              kind = "service";
+              name = "hat-receiver-discovery";
+            };
+            trafficType = "cast-discovery";
           }
           {
             action = "allow";
