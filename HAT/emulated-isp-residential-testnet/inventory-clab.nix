@@ -567,8 +567,8 @@ selectorFabricLinkRealization {
       ipv6 = [ "fd42:dead:feed:20::1" ];
     };
     nixos-site-dns-client = {
-      ipv4 = [ "10.20.20.1" ];
-      ipv6 = [ "fd42:dead:beef:20::1" ];
+      ipv4 = [ "10.20.10.1" ];
+      ipv6 = [ "fd42:dead:beef:10::1" ];
     };
   };
   realization = {
