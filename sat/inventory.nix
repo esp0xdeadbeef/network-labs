@@ -1528,20 +1528,6 @@ in
                 ];
               };
               wireguard = {
-                interface = "wg128";
-                privateKeyFile = "/run/secrets/wireguard-sat-host128-private-key";
-                peers = [
-                  {
-                    publicKey = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=";
-                    endpoint = "198.51.100.128:51820";
-                    allowedIPs = [
-                      "0.0.0.0/0"
-                      "::/0"
-                    ];
-                    presharedKeyFile = "/run/secrets/wireguard-sat-host128-psk";
-                    persistentKeepalive = 25;
-                  }
-                ];
                 providerContract = wireguardProviderContracts.hostOnly128Egress;
                 role = "provider-server";
               };
@@ -1561,20 +1547,6 @@ in
                 ];
               };
               wireguard = {
-                interface = "wg64";
-                privateKeyFile = "/run/secrets/wireguard-sat-routed64-private-key";
-                peers = [
-                  {
-                    publicKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=";
-                    endpoint = "198.51.100.64:51821";
-                    allowedIPs = [
-                      "0.0.0.0/0"
-                      "::/0"
-                    ];
-                    presharedKeyFile = "/run/secrets/wireguard-sat-routed64-psk";
-                    persistentKeepalive = 25;
-                  }
-                ];
                 providerContract = wireguardProviderContracts.routed64;
                 role = "provider-server";
               };
