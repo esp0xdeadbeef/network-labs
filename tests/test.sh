@@ -45,6 +45,7 @@ tests=(
   test-fs690-support-view-provenance-non-authority.sh
   test-fs810-fs820-secret-source-records.sh
   test-FS-820-HDS-010-SDS-010-SMS-030-secret-source-policy-boundary.sh
+  test-fs830-hds010-sds010-sms010-controlled-secret-preparation.sh
   test-fs860-fs870-sat-state-contract.sh
   test-fs880-lease-namespace-source-contract.sh
   test-fs910-fs920-fs930-sat-source-contracts.sh
