@@ -1065,7 +1065,7 @@ let
     requiredness = if spec.required then "mandatory" else "optional";
     material = "reference-only";
     plaintextMaterial = false;
-    sourceSelected = false;
+    sourceSelected = true;
     policyAuthority = secretPolicyNeutral;
     gampIds = [
       "FS-810-HDS-010-SDS-010-SMS-010"
@@ -1084,10 +1084,10 @@ let
       sourceFieldPath = spec.sourceFieldPath;
     };
     lifecycle = spec.lifecycle;
-    materialAccess = "not-supplied-by-source-record";
+    materialAccess = "sops-nix-name-mediated";
     plaintextMaterial = false;
     providerNeutral = true;
-    fixedSecretManagerRequired = false;
+    fixedSecretManagerRequired = true;
     gampIds = [
       "FS-820-HDS-010-SDS-010-SMS-010"
       "FS-820-HDS-010-SDS-010-SMS-020"
@@ -1753,6 +1753,8 @@ in
           br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
           br-nixos-policy-upstream-access-streaming-isp-b = { };
+          br-nixos-policy-upstream-access-dmz-isp-a = { };
+          br-nixos-policy-upstream-access-dmz-isp-b = { };
           br-nix-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
