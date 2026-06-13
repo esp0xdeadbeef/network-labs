@@ -126,7 +126,7 @@ jq -e '
       and (.declarationId | type == "string" and length > 0)
       and (.sourceClass as $source_class | allowed_source_classes | index($source_class) != null)
       and (.reference.name | type == "string" and length > 0)
-      and (.reference.runtimePath | test("^/run/secrets/"))
+      and (.reference.runtimePath | type == "string" and length > 0 and (test("^/") | not))
       and (.reference.sourceFieldPath | type == "string" and length > 0)
       and (.materialAccess == "not-supplied-by-source-record")
       and (.plaintextMaterial == false)
