@@ -731,7 +731,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "sat-pppoe-nixos-username";
-      runtimePath = "/run/secrets/sat-pppoe-nixos-username";
+      runtimePath = "sat-pppoe-nixos-username";
       sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeNixos.credentials.usernameFile";
     }
     {
@@ -750,7 +750,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "sat-pppoe-nixos-password";
-      runtimePath = "/run/secrets/sat-pppoe-nixos-password";
+      runtimePath = "sat-pppoe-nixos-password";
       sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeNixos.credentials.passwordFile";
     }
     {
@@ -769,7 +769,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "sat-pppoe-clab-username";
-      runtimePath = "/run/secrets/sat-pppoe-clab-username";
+      runtimePath = "sat-pppoe-clab-username";
       sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeClab.credentials.usernameFile";
     }
     {
@@ -788,7 +788,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "sat-pppoe-clab-password";
-      runtimePath = "/run/secrets/sat-pppoe-clab-password";
+      runtimePath = "sat-pppoe-clab-password";
       sourceFieldPath = "controlPlane.providerAccess.scenarios.pppoeClab.credentials.passwordFile";
     }
     {
@@ -807,7 +807,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "wireguard-sat-host128-private-key";
-      runtimePath = "/run/secrets/wireguard-sat-host128-private-key";
+      runtimePath = "wireguard-sat-host128-private-key";
       sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-host128-egress.wireguard.providerContract.profile.generatedPeer.privateKeyFile";
     }
     {
@@ -826,7 +826,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "wireguard-sat-host128-psk";
-      runtimePath = "/run/secrets/wireguard-sat-host128-psk";
+      runtimePath = "wireguard-sat-host128-psk";
       sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-host128-egress.wireguard.providerContract.profile.generatedPeer.peers[0].presharedKeyFile";
     }
     {
@@ -845,7 +845,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "wireguard-sat-routed64-private-key";
-      runtimePath = "/run/secrets/wireguard-sat-routed64-private-key";
+      runtimePath = "wireguard-sat-routed64-private-key";
       sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-routed64.wireguard.providerContract.profile.generatedPeer.privateKeyFile";
     }
     {
@@ -864,7 +864,7 @@ let
       required = true;
       sourceClass = "deployment-platform-secret-reference";
       sourceName = "wireguard-sat-routed64-psk";
-      runtimePath = "/run/secrets/wireguard-sat-routed64-psk";
+      runtimePath = "wireguard-sat-routed64-psk";
       sourceFieldPath = "controlPlane.sites.esp.hetz.overlays.wg-routed64.wireguard.providerContract.profile.generatedPeer.peers[0].presharedKeyFile";
     }
     {
@@ -883,7 +883,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "hetzner-public-ipv4";
-      runtimePath = "/run/secrets/hetzner-public-ipv4";
+      runtimePath = "hetzner-public-ipv4";
       sourceFieldPath = "runtime.publicEndpoint.ipv4Secret";
     }
     {
@@ -902,7 +902,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "hetzner-public-ipv6";
-      runtimePath = "/run/secrets/hetzner-public-ipv6";
+      runtimePath = "hetzner-public-ipv6";
       sourceFieldPath = "runtime.publicEndpoint.ipv6Secret";
     }
     {
@@ -921,7 +921,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "hetzner-lighthouse-public-ipv4";
-      runtimePath = "/run/secrets/hetzner-lighthouse-public-ipv4";
+      runtimePath = "hetzner-lighthouse-public-ipv4";
       sourceFieldPath = "runtime.publicEndpoint.lighthouseIpv4Secret";
     }
     {
@@ -940,7 +940,7 @@ let
       required = true;
       sourceClass = "protected-inventory";
       sourceName = "hetzner-primary-interface-mac";
-      runtimePath = "/run/secrets/hetzner-primary-interface-mac";
+      runtimePath = "hetzner-primary-interface-mac";
       sourceFieldPath = "runtime.publicEndpoint.macSecret";
     }
     {
@@ -959,7 +959,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "nebula-hetzner-lighthouse-ipv4";
-      runtimePath = "/run/secrets/nebula-hetzner-lighthouse-ipv4";
+      runtimePath = "nebula-hetzner-lighthouse-ipv4";
       sourceFieldPath = "runtime.overlayClients.hetznerLighthouse.addr4Secret";
     }
     {
@@ -978,7 +978,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "nebula-hetzner-lighthouse-ipv6";
-      runtimePath = "/run/secrets/nebula-hetzner-lighthouse-ipv6";
+      runtimePath = "nebula-hetzner-lighthouse-ipv6";
       sourceFieldPath = "runtime.overlayClients.hetznerLighthouse.addr6Secret";
     }
     {
@@ -997,7 +997,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "access-node-ipv6-prefix-esp-nixos-router-access-hostile";
-      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-nixos-router-access-hostile";
+      runtimePath = "access-node-ipv6-prefix-esp-nixos-router-access-hostile";
       sourceFieldPath = "intent.esp.nixos.ownership.prefixes.hostile-public.sourceFile";
     }
     {
@@ -1016,7 +1016,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "access-node-ipv6-prefix-esp-clab-router-access-client";
-      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-client";
+      runtimePath = "access-node-ipv6-prefix-esp-clab-router-access-client";
       sourceFieldPath = "controlPlane.sites.esp.clab.tenants.client.routedPrefixes.clab-client-public.sourceFile";
     }
     {
@@ -1035,7 +1035,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "access-node-ipv6-prefix-esp-clab-router-access-hostile";
-      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-clab-router-access-hostile";
+      runtimePath = "access-node-ipv6-prefix-esp-clab-router-access-hostile";
       sourceFieldPath = "controlPlane.sites.esp.clab.tenants.hostile.routedPrefixes.hostile-public.sourceFile";
     }
     {
@@ -1054,7 +1054,7 @@ let
       required = true;
       sourceClass = "runtime-fact";
       sourceName = "access-node-ipv6-prefix-esp-hetz-router-access-client";
-      runtimePath = "/run/secrets/access-node-ipv6-prefix-esp-hetz-router-access-client";
+      runtimePath = "access-node-ipv6-prefix-esp-hetz-router-access-client";
       sourceFieldPath = "controlPlane.sites.esp.hetz.tenants.client.routedPrefixes.hetz-client-public.sourceFile";
     }
   ];
