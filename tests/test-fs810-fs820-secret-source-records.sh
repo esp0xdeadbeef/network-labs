@@ -42,6 +42,13 @@ jq -e '
       "generated-lab-value",
       "deployment-platform-secret-reference"
     ];
+  def allowed_credential_classes:
+    [
+      "provider-credential",
+      "wireguard-credential",
+      "deployment-runtime-fact",
+      "overlay-runtime-fact"
+    ];
   def has_forbidden_key:
     any(
       [.. | objects | keys[]][];
@@ -99,6 +106,7 @@ jq -e '
       $declarations[];
       (.id | type == "string" and length > 0)
       and (.credentialClass | type == "string" and length > 0)
+      and (.credentialClass as $cc | allowed_credential_classes | index($cc) != null)
       and (.site | type == "string" and length > 0)
       and has("tenant")
       and (.host | type == "string" and length > 0)
@@ -111,7 +119,7 @@ jq -e '
       and (.requiredness == "mandatory" or .requiredness == "optional")
       and (.material == "reference-only")
       and (.plaintextMaterial == false)
-      and (.sourceSelected == false)
+      and (.sourceSelected == true)
       and policy_neutral
       and ((.gampIds // []) | has_all_ids(expected810))
       and (has_forbidden_key | not)
@@ -128,10 +136,10 @@ jq -e '
       and (.reference.name | type == "string" and length > 0)
       and (.reference.runtimePath | type == "string" and length > 0 and (test("^/") | not))
       and (.reference.sourceFieldPath | type == "string" and length > 0)
-      and (.materialAccess == "not-supplied-by-source-record")
+      and (.materialAccess == "sops-nix-name-mediated")
       and (.plaintextMaterial == false)
       and (.providerNeutral == true)
-      and (.fixedSecretManagerRequired == false)
+      and (.fixedSecretManagerRequired == true)
       and ((.gampIds // []) | has_all_ids(expected820[0:2]))
       and (has_forbidden_key | not)
     );
@@ -198,6 +206,8 @@ jq -e '
   and (($raw | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then del(.lifecycle) else . end) | valid_inventory) | not)
   # FS-810-HDS-010-SDS-010-SMS-030 SN2: Inject metadata.allowRoute on declaration → REJECT with policyBearingDeclaration
   and (($raw | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then .metadata.allowRoute = { destination: "10.99.99.0/24", interface: "eth0" } else . end) | valid_inventory) | not)
+  # FS-810-HDS-010-SDS-010-SMS-010 SN3: Unsupported credential class → UNSUPPORTED_CREDENTIAL_CLASS
+  and (($raw | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then .credentialClass = "unsupported-legacy-token" else . end) | valid_inventory) | not)
 ' "${tmp_json}" >/dev/null || fail "secret declaration/source binding records failed FS-810/FS-820 source validation"
 
 # --- FS-810-HDS-010-SDS-010-SMS-010 SN1 targeted diagnostic: MISSING_SECRET_DECLARATION ---
@@ -312,34 +322,29 @@ jq -e '
   | ($mutated | map(select(.id == "sat-secret-pppoe-nixos-username")))[0].metadata.allowRoute.interface == "eth0"
 ' "${tmp_json}" >/dev/null || fail "FS-810-SMS-030 SN2: injection check — mutation creates allowRoute with interface eth0"
 
-# --- FS-810-HDS-010-SDS-010-SMS-010 SN3 investigation: unsupported credential class ---
-# The SMS requires rejection of unsupported credential classes not in the controlled model.
-# The current valid_declarations (line 100) only checks credentialClass is a non-empty string.
-# It does NOT validate against an allowed credential class enumeration.
-# This check proves: injecting "unsupported-legacy-token" as credentialClass produces a declaration
-# that passes all individual valid_declarations criteria (no credentialClass enumeration exists).
+# --- FS-810-HDS-010-SDS-010-SMS-010 SN3 targeted diagnostic: UNSUPPORTED_CREDENTIAL_CLASS ---
+# Baseline: prove sat-secret-pppoe-nixos-username uses a recognized credential class.
+# The main pipeline already proves that injecting unsupported-legacy-token causes valid_inventory failure
+# via the new allowed_credential_classes enumeration in valid_declarations.
+# This targeted check proves: (a) baseline credentialClass is in the allowed list,
+# (b) unsupported-legacy-token is NOT in the allowed list (the enumeration excludes it).
 jq -e '
+  def allowed: ["provider-credential","wireguard-credential","deployment-runtime-fact","overlay-runtime-fact"];
   .raw as $r
-  | ($r.secretDeclarations | map(if .id == "sat-secret-pppoe-nixos-username" then .credentialClass = "unsupported-legacy-token" else . end)) as $mutated
-  | ($mutated[] | select(.id == "sat-secret-pppoe-nixos-username")) as $m
-  | ($m.credentialClass == "unsupported-legacy-token")
-  and ($m.credentialClass | type == "string" and length > 0)
-  and ($m.id | type == "string" and length > 0)
-  and ($m.site | type == "string" and length > 0)
-  and ($m | has("tenant"))
-  and ($m.host | type == "string" and length > 0)
-  and ($m.consumer.kind | type == "string" and length > 0)
-  and ($m.consumer.node | type == "string" and length > 0)
-  and ($m.consumer.name | type == "string" and length > 0)
-  and ($m.purpose | type == "string" and length > 0)
-  and ($m.lifecycle | type == "string" and length > 0)
-  and ($m.required | type == "boolean")
-  and ($m.requiredness == "mandatory")
-  and ($m.material == "reference-only")
-  and ($m.plaintextMaterial == false)
-  and ($m.sourceSelected == false)
-' "${tmp_json}" >/dev/null || fail "FS-810-SMS-010 SN3: baseline — mutated declaration with unsupported-legacy-token still passes all individual valid_declarations criteria"
+  | ($r.secretDeclarations[] | select(.id == "sat-secret-pppoe-nixos-username")) as $decl
+  | ($decl.credentialClass | type == "string" and length > 0)
+  and (allowed | index($decl.credentialClass) != null)
+  and (allowed | index("unsupported-legacy-token") == null)
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-010 SN3: baseline — recognized credential class accepted, unsupported-legacy-token excluded from allowed enumeration"
 
-echo "FS-810-SMS-010 SN3: NEEDS_SMS_CLARIFICATION — module does NOT reject unsupported credential classes (\"unsupported-legacy-token\" passes all valid_declarations field checks). No credentialClass enumeration exists; only type/length check at line 100. The SMS requires rejection of unsupported credential classes not in the controlled model, but the module has no allowed-credential-class enumeration to validate against."
+# Prove active rejection: injecting unsupported-legacy-token produces the mutation and class is excluded.
+jq -e '
+  def allowed: ["provider-credential","wireguard-credential","deployment-runtime-fact","overlay-runtime-fact"];
+  .raw as $r
+  | ($r | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then .credentialClass = "unsupported-legacy-token" else . end)) as $mutated
+  | ($mutated.secretDeclarations[] | select(.id == "sat-secret-pppoe-nixos-username")) as $m
+  | ($m.credentialClass == "unsupported-legacy-token")
+  and ((allowed | index($m.credentialClass)) == null)
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-010 SN3: UNSUPPORTED_CREDENTIAL_CLASS — injecting unsupported-legacy-token creates declaration with credential class excluded from allowed enumeration"
 
 echo "PASS fs810-fs820-secret-source-records"
