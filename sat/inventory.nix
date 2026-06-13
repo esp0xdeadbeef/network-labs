@@ -2836,28 +2836,6 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b";
           };
-          upstream-dmz-isp-a = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-dmz-a";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
-          };
-          upstream-dmz-isp-b = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-upstream-dmz-isp-b";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-dmz-b";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
-          };
         };
       };
       esp-nixos-router-upstream = {
@@ -3000,28 +2978,6 @@ in
               name = "pol-stream-b";
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b";
-          };
-          policy-dmz-isp-a = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-dmz-a";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
-          };
-          policy-dmz-isp-b = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-policy-dmz-isp-b";
-            attach = {
-              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-dmz-b";
-            };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
           };
         };
       };
