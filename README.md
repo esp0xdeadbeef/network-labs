@@ -93,6 +93,36 @@ meaning, and the runtime source file that downstream renderers watch. Inventory
 may provide the runtime value behind that source file, but it must not decide
 the routed prefix, NAT requirement, or route shape.
 
+## Spec Chain
+
+The network-labs repository is owned by the following GAMP trace chain. All fixture data
+requirements originate from the URS, flow through FS, and are refined by HDS → SDS → SMS
+before reaching this repository.
+
+### Primary Chain: Controlled Lab Baseline
+
+| Layer | ID | Description |
+|-------|----|-------------|
+| URS   | L196-235 | Controlled Lab Baseline — acceptance fixture root, site naming, tenant matrix, public ingress, equivalence |
+| FS    | FS-650 – FS-800 | Practical deployments, controlled lab baseline, s-router-test-clients, shared services, public ingress, provider-access fixtures |
+| FS    | FS-770 | Common Intent for Containerlab/Linux and NixOS — same modeled meaning for both lab profiles |
+| FS    | FS-780 | Containerlab/Linux and NixOS Equivalence Matrix |
+| HDS   | Derived per FS item | Hardware design constraints for lab fixtures |
+
+### Pipeline
+
+```
+network-labs (intent + inventory) → network-compiler → NFM → CPM → renderers
+```
+
+Required inputs: `intent.nix` (user intent), `inventory-clab.nix` / `inventory-nixos.nix` (realization inventory).
+Output: deterministic model source consumed by network-compiler.
+
+### Owning Repository
+
+Construction tests: `network-labs/tests/`
+Fixture source: `network-labs/sat/` (controlled SAT), `network-labs/HAT/` (HAT preparation)
+
 ## Examples
 
 See `examples/README.md` for what each example is trying to demonstrate.
