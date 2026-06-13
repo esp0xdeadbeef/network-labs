@@ -54,6 +54,7 @@ jq -e '
         "password",
         "psk",
         "token",
+        "allowRoute",
         "routeAuthority",
         "firewallAuthority",
         "firewallPolicy",
@@ -193,6 +194,10 @@ jq -e '
   ] | .sourceBindings += [
     (.sourceBindings[] | select(.declarationId == "sat-secret-wireguard-host128-private-key")) | .id = "negative-dual-binding" | .sourceId = "negative-dual-source" | .sourceClass = "runtime-fact"
   ] | valid_inventory) | not)
+  # FS-810-HDS-010-SDS-010-SMS-020 SN2: Remove lifecycle from mandatory declaration → REJECT
+  and (($raw | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then del(.lifecycle) else . end) | valid_inventory) | not)
+  # FS-810-HDS-010-SDS-010-SMS-030 SN2: Inject metadata.allowRoute on declaration → REJECT with policyBearingDeclaration
+  and (($raw | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then .metadata.allowRoute = { destination: "10.99.99.0/24", interface: "eth0" } else . end) | valid_inventory) | not)
 ' "${tmp_json}" >/dev/null || fail "secret declaration/source binding records failed FS-810/FS-820 source validation"
 
 # --- FS-810-HDS-010-SDS-010-SMS-010 SN1 targeted diagnostic: MISSING_SECRET_DECLARATION ---
@@ -273,5 +278,68 @@ jq -e '
   and (($r.secretDeclarations | map(if .id == "sat-secret-wireguard-host128-psk" then .psk = "super-secret-key-12345" else . end))[]
         | select(.id == "sat-secret-wireguard-host128-psk") | has("psk"))
 ' "${tmp_json}" >/dev/null || fail "FS-810-SMS-030 SN1: plaintextSecretExposure — baseline has no psk (reference-only), psk injection detected via has_forbidden_key"
+
+# --- FS-810-HDS-010-SDS-010-SMS-020 SN2 targeted diagnostic: missing lifecycle on mandatory ---
+# Baseline: prove sat-secret-pppoe-nixos-username is mandatory AND has lifecycle.
+# Mutation: prove that after removing lifecycle, the declaration lacks it.
+# The main pipeline already proves valid_inventory fails when lifecycle is missing (inline mutation).
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations[] | select(.id == "sat-secret-pppoe-nixos-username")) as $decl
+  | ($decl.requiredness == "mandatory")
+  and ($decl.lifecycle | type == "string" and length > 0)
+  and (($r | .secretDeclarations |= map(if .id == "sat-secret-pppoe-nixos-username" then del(.lifecycle) else . end))
+        | .secretDeclarations[] | select(.id == "sat-secret-pppoe-nixos-username") | has("lifecycle") | not)
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-020 SN2: missing lifecycle — sat-secret-pppoe-nixos-username is mandatory, baseline has lifecycle, mutation removes lifecycle field"
+
+# --- FS-810-HDS-010-SDS-010-SMS-030 SN2 targeted diagnostic: metadata.allowRoute policy ---
+# Prove: (a) baseline declaration has no metadata, (b) injection creates allowRoute with correct fields.
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations[] | select(.id == "sat-secret-pppoe-nixos-username")) as $decl
+  | ($decl | has("metadata") | not)
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-030 SN2: baseline check — sat-secret-pppoe-nixos-username must have no metadata field"
+
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations | map(if .id == "sat-secret-pppoe-nixos-username" then .metadata.allowRoute = { destination: "10.99.99.0/24", interface: "eth0" } else . end)) as $mutated
+  | ($mutated | map(select(.id == "sat-secret-pppoe-nixos-username")))[0].metadata.allowRoute.destination == "10.99.99.0/24"
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-030 SN2: injection check — mutation creates allowRoute with destination 10.99.99.0/24"
+
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations | map(if .id == "sat-secret-pppoe-nixos-username" then .metadata.allowRoute = { destination: "10.99.99.0/24", interface: "eth0" } else . end)) as $mutated
+  | ($mutated | map(select(.id == "sat-secret-pppoe-nixos-username")))[0].metadata.allowRoute.interface == "eth0"
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-030 SN2: injection check — mutation creates allowRoute with interface eth0"
+
+# --- FS-810-HDS-010-SDS-010-SMS-010 SN3 investigation: unsupported credential class ---
+# The SMS requires rejection of unsupported credential classes not in the controlled model.
+# The current valid_declarations (line 100) only checks credentialClass is a non-empty string.
+# It does NOT validate against an allowed credential class enumeration.
+# This check proves: injecting "unsupported-legacy-token" as credentialClass produces a declaration
+# that passes all individual valid_declarations criteria (no credentialClass enumeration exists).
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations | map(if .id == "sat-secret-pppoe-nixos-username" then .credentialClass = "unsupported-legacy-token" else . end)) as $mutated
+  | ($mutated[] | select(.id == "sat-secret-pppoe-nixos-username")) as $m
+  | ($m.credentialClass == "unsupported-legacy-token")
+  and ($m.credentialClass | type == "string" and length > 0)
+  and ($m.id | type == "string" and length > 0)
+  and ($m.site | type == "string" and length > 0)
+  and ($m | has("tenant"))
+  and ($m.host | type == "string" and length > 0)
+  and ($m.consumer.kind | type == "string" and length > 0)
+  and ($m.consumer.node | type == "string" and length > 0)
+  and ($m.consumer.name | type == "string" and length > 0)
+  and ($m.purpose | type == "string" and length > 0)
+  and ($m.lifecycle | type == "string" and length > 0)
+  and ($m.required | type == "boolean")
+  and ($m.requiredness == "mandatory")
+  and ($m.material == "reference-only")
+  and ($m.plaintextMaterial == false)
+  and ($m.sourceSelected == false)
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-010 SN3: baseline — mutated declaration with unsupported-legacy-token still passes all individual valid_declarations criteria"
+
+echo "FS-810-SMS-010 SN3: NEEDS_SMS_CLARIFICATION — module does NOT reject unsupported credential classes (\"unsupported-legacy-token\" passes all valid_declarations field checks). No credentialClass enumeration exists; only type/length check at line 100. The SMS requires rejection of unsupported credential classes not in the controlled model, but the module has no allowed-credential-class enumeration to validate against."
 
 echo "PASS fs810-fs820-secret-source-records"
