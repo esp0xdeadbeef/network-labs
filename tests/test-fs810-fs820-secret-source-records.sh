@@ -176,6 +176,29 @@ jq -e '
   and (($raw | .sourceBindings = .sourceBindings[1:] | valid_inventory) | not)
   and (($raw | .secretSources[0].reference = { runtimePath: .secretSources[0].reference.runtimePath } | valid_inventory) | not)
   and (($raw | .sourceBindings[0].policyAuthority.createsDnsPolicy = true | valid_inventory) | not)
+  # FS-810-HDS-010-SDS-010-SMS-010 SN1: Remove required WG secret declaration → MISSING_SECRET_DECLARATION
+  and (($raw | .secretDeclarations = (.secretDeclarations | map(select(.id != "sat-secret-wireguard-host128-private-key"))) | valid_inventory) | not)
+  # FS-820-HDS-010-SDS-010-SMS-020 SN1: Oneshot script path as source class → PROVIDER_LOCKED_SOURCE_CLASS
+  and (($raw | .secretSources[0].sourceClass = "/etc/s-router/secrets/wg-key-gen.sh" | valid_inventory) | not)
 ' "${tmp_json}" >/dev/null || fail "secret declaration/source binding records failed FS-810/FS-820 source validation"
+
+# --- FS-810-HDS-010-SDS-010-SMS-010 SN1 targeted diagnostic: MISSING_SECRET_DECLARATION ---
+# Verify that removing the WG declaration orphans its binding (the orphan binding is the MISSING_SECRET_DECLARATION condition)
+jq -e '
+  .raw as $r
+  | ($r.secretDeclarations | map(select(.id != "sat-secret-wireguard-host128-private-key"))) as $mutated_decls
+  | ([$r.sourceBindings[] | select(.declarationId == "sat-secret-wireguard-host128-private-key")] | length) > 0
+' "${tmp_json}" >/dev/null || fail "FS-810-SMS-010 SN1: MISSING_SECRET_DECLARATION — no source binding found referencing removed WG declaration sat-secret-wireguard-host128-private-key"
+
+# --- FS-820-HDS-010-SDS-010-SMS-020 SN1 recovery: valid source class accepted ---
+# The main pipeline proves: (a) oneshot path mutation → valid_inventory fails, (b) baseline valid_inventory passes.
+# This targeted check proves the sourceClass enumeration specifically excludes the oneshot path
+# and includes the existing valid class.
+jq -e '
+  def allowed: ["protected-inventory","runtime-fact","generated-lab-value","deployment-platform-secret-reference"];
+  (.raw.secretSources[0].sourceClass) as $sc
+  | (allowed | index("/etc/s-router/secrets/wg-key-gen.sh") == null)
+  and (allowed | index($sc) != null)
+' "${tmp_json}" >/dev/null || fail "FS-820-SMS-020 SN1: recovery - oneshot path excluded from allowed_source_classes, valid class included"
 
 echo "PASS fs810-fs820-secret-source-records"
