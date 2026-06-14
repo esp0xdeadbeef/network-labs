@@ -207,7 +207,7 @@
               service = "hat-printer-admin";
               transport = "tcp";
               ports = [ 80 ];
-              allowedScopes = [ "trusted" ];
+              allowedScopes = [];
               deniedScopes = [
                 "guest"
                 "iot"
@@ -1218,7 +1218,7 @@
               service = "hat-printer-admin";
               transport = "tcp";
               ports = [ 80 ];
-              allowedScopes = [ "trusted" ];
+              allowedScopes = [];
               deniedScopes = [
                 "guest"
                 "iot"

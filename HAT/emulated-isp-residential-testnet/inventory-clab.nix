@@ -567,8 +567,8 @@ selectorFabricLinkRealization {
       ipv6 = [ "fd42:dead:feed:20::1" ];
     };
     nixos-site-dns-client = {
-      ipv4 = [ "10.20.10.1" ];
-      ipv6 = [ "fd42:dead:beef:10::1" ];
+      ipv4 = [ "10.20.20.1" ];
+      ipv6 = [ "fd42:dead:beef:20::1" ];
     };
   };
   realization = {
@@ -584,7 +584,7 @@ selectorFabricLinkRealization {
                 requesterScope = "tenant-client";
                 recordClass = "dhcp4-lease-name";
                 conflictBehavior = "fail-closed";
-                staleBehavior = "fail-closed-deny-answer";
+                staleRecordBehavior = "fail-closed-deny-answer";
                 fallbackBehavior = "blocked-no-public-recursion";
                 deniedClasses = [
                   "recursive-dns-authority"
@@ -592,7 +592,7 @@ selectorFabricLinkRealization {
                   "management-reachability"
                   "public-egress"
                 ];
-                revocationBehavior = "remove-lease-name-on-client-revocation";
+                leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
               };
             };
           };
@@ -1047,8 +1047,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
@@ -1107,8 +1107,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
@@ -1698,8 +1698,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -1761,8 +1761,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
@@ -1972,7 +1972,7 @@ selectorFabricLinkRealization {
                 requesterScope = "tenant-client";
                 recordClass = "dhcp4-lease-name";
                 conflictBehavior = "fail-closed";
-                staleBehavior = "fail-closed-deny-answer";
+                staleRecordBehavior = "fail-closed-deny-answer";
                 fallbackBehavior = "blocked-no-public-recursion";
                 deniedClasses = [
                   "recursive-dns-authority"
@@ -1980,7 +1980,7 @@ selectorFabricLinkRealization {
                   "management-reachability"
                   "public-egress"
                 ];
-                revocationBehavior = "remove-lease-name-on-client-revocation";
+                leaseRevocationBehavior = "remove-lease-name-on-client-revocation";
               };
             };
           };
@@ -2436,8 +2436,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
@@ -2496,8 +2496,8 @@ selectorFabricLinkRealization {
             client = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
               interface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
@@ -3087,8 +3087,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.4";
               implementation = "rp-pppoe";
@@ -3150,8 +3150,8 @@ selectorFabricLinkRealization {
             server = {
               credentials = {
                 labOnly = true;
-                passwordFile = "hat-pppoe-password";
-                usernameFile = "hat-pppoe-username";
+                passwordFile = "/run/secrets/hat-pppoe-password";
+                usernameFile = "/run/secrets/hat-pppoe-username";
               };
               customerAddress = "203.0.113.2";
               implementation = "rp-pppoe";
