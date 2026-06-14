@@ -112,7 +112,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       in builtins.match (".*" + text + ".*") encoded != null;
     requiredProtectedBindingIds = [
       "FS-800-HDS-020-SDS-020"
-      "FS-800-HDS-020-SDS-020-SMS-010"
+      "FS-800-HDS-010-SDS-030-SMS-020"
     ];
     hasAllProtectedBindingIds = ids:
       builtins.all (id: builtins.elem id ids) requiredProtectedBindingIds;
