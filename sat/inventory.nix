@@ -2127,6 +2127,251 @@ in
             vlan = 311;
           };
         };
+        hat = {
+          requiredEndpointClients = [
+            "nixos-branch-node01"
+            "nixos-client01"
+            "nixos-client02"
+            "nixos-emulated-sigma"
+            "nixos-printer01"
+            "nixos-receiver01"
+            "nixos-streaming-test"
+          ];
+          endpointClients = {
+            nixos-branch-node01 = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.60.10.1";
+              gateway6 = "fd42:dead:feed:10::1";
+              ipv4 = [ "10.60.10.10/24" ];
+              ipv6 = [ "fd42:dead:feed:10::10/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "branch";
+            };
+            nixos-client01 = {
+              assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "client";
+            };
+            nixos-client02 = {
+              assignment = "dhcp";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "client";
+            };
+            nixos-emulated-sigma = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.10.1";
+              gateway6 = "fd42:dead:beef:10::1";
+              ipv4 = [ "10.20.10.50/24" ];
+              ipv6 = [ "fd42:dead:beef:10::50/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "mgmt";
+            };
+            nixos-printer01 = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+              gateway4 = "10.20.20.1";
+              gateway6 = "fd42:dead:beef:20::1";
+              ipv4 = [ "10.20.20.60/24" ];
+              ipv6 = [ "fd42:dead:beef:20::60/64" ];
+              fixtureAuthority = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-030";
+                mayGrantManagementAccess = false;
+                mayInferPolicy = false;
+                policyAuthority = "intent-communication-contract";
+              };
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "declared-service-surfaces-only";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-030";
+                kind = "persistent-service-state";
+                paths = [ "/var/lib/cups" ];
+                required = true;
+                service = "cups";
+              };
+              serviceState = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-020";
+                required = true;
+                service = "cups";
+                systemdUnit = "cups.service";
+                targetState = "running";
+              };
+              serviceSurfaces = {
+                admin = {
+                  gampId = "FS-740-HDS-010-SDS-010-SMS-010";
+                  ports = [ 80 ];
+                  protocol = "tcp";
+                  service = "hat-printer-admin";
+                };
+                ipp = {
+                  gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+                  ports = [ 631 ];
+                  protocol = "tcp";
+                  service = "hat-printer-ipp";
+                };
+              };
+              tenant = "client";
+              vm = {
+                gampId = "FS-730-HDS-010-SDS-010-SMS-010";
+                kind = "nixos-vm";
+                role = "cups-printer";
+                service = "cups";
+              };
+            };
+            nixos-receiver01 = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gampId = "FS-750-HDS-010-SDS-010-SMS-010";
+              gateway4 = "10.20.20.1";
+              gateway6 = "fd42:dead:beef:20::1";
+              ipv4 = [ "10.20.20.70/24" ];
+              ipv6 = [ "fd42:dead:beef:20::70/64" ];
+              fixtureAuthority = {
+                gampId = "FS-750-HDS-010-SDS-010-SMS-030";
+                mayGrantDiscovery = false;
+                mayGrantManagementAccess = false;
+                mayGrantMulticastForwarding = false;
+                mayGrantPayloadAccess = false;
+                mayGrantReverseInitiation = false;
+                mayGrantTenantReachability = false;
+                mayInferPolicy = false;
+                policyAuthority = "intent-communication-contract";
+              };
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              serviceSurfaces = {
+                control = {
+                  gampId = "FS-750-HDS-010-SDS-010-SMS-020";
+                  ports = [
+                    8008
+                    8009
+                  ];
+                  protocol = "tcp";
+                  service = "hat-receiver-control";
+                };
+                discovery = {
+                  gampId = "FS-760-HDS-010-SDS-010-SMS-010";
+                  ports = [
+                    5353
+                    1900
+                  ];
+                  protocol = "udp";
+                  service = "hat-receiver-discovery";
+                };
+              };
+              tenant = "client";
+            };
+            nixos-streaming-test = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              gateway4 = "10.20.50.1";
+              gateway6 = "fd42:dead:beef:50::1";
+              ipv4 = [ "10.20.50.10/24" ];
+              ipv6 = [ "fd42:dead:beef:50::10/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "streaming";
+            };
+            clab-client01 = {
+              assignment = "dhcp";
+              bridge = "client";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "client";
+            };
+            clab-client02 = {
+              assignment = "dhcp";
+              bridge = "client";
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "client";
+            };
+            clab-emulated-sigma = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              bridge = "mgmt";
+              gateway4 = "10.50.10.1";
+              gateway6 = "fd42:dead:feed:10::1";
+              ipv4 = [ "10.50.10.50/24" ];
+              ipv6 = [ "fd42:dead:feed:10::50/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "clab";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "mgmt";
+            };
+          };
+        };
         uplinks = {
           management = {
             bridge = "vlan2";
