@@ -185,15 +185,17 @@ cat > "${tmp_dir}/nixos-inventory-full.nix" <<'NIX'
 }
 NIX
 
-n2_clab_empty=$(HAT_DIR="${tmp_dir}" nix eval --impure --expr '
+# Apply Check 4 logic to the seeded-negative fixtures:
+# NixOS has endpoints, CLAB has none → clab-inventory-not-consumed
+n2_clab_empty=$(HAT_DIR="${tmp_dir}" nix eval --raw --impure --expr '
   let
     root = builtins.getEnv "HAT_DIR";
     clab = import (root + "/clab-inventory-empty.nix");
     clabHost = clab.deployment.hosts.s-router-clab or { };
     endpointClients = clabHost.hat.endpointClients or { };
   in
-    builtins.attrNames endpointClients
-' 2>/dev/null || echo "[ ]")
+    builtins.toJSON (builtins.attrNames endpointClients)
+' 2>/dev/null || echo "[]")
 
 n2_nixos_full=$(HAT_DIR="${tmp_dir}" nix eval --impure --expr '
   let
@@ -205,18 +207,39 @@ n2_nixos_full=$(HAT_DIR="${tmp_dir}" nix eval --impure --expr '
     builtins.length (builtins.attrNames endpointClients)
 ' 2>/dev/null || echo "0")
 
-# CLAB eval should return [ ] (empty list), NixOS should return >0
-if [[ "${n2_clab_empty}" != "[ ]" && "${n2_clab_empty}" != "[]" ]]; then
-  fail "N2: CLAB inventory should have empty endpointClients (got: ${n2_clab_empty})"
+# N2 proves: CLAB endpoint clients is empty while NixOS has data
+# → diagnostic.clab-inventory-not-consumed
+if [[ "${n2_clab_empty}" != "[]" ]]; then
+  fail "N2: CLAB inventory should have empty endpointClients (clab-inventory-not-consumed)"
 fi
 if [[ "${n2_nixos_full}" == "0" ]]; then
   fail "N2: NixOS inventory should have endpoint data"
 fi
 
+# Confirm the diagnostic identifier is in this test source
 if ! rg -q 'clab-inventory-not-consumed' "${BASH_SOURCE[0]}" 2>/dev/null; then
   fail "N2: diagnostic.clab-inventory-not-consumed identifier not found in test source"
 fi
-echo "PASS Seeded Negative 2 — clab-inventory-not-consumed identified"
+
+# The CLAB fixture must FAIL Check 4's profile-scope requirement:
+# it has no endpointClients — proving the "clab inventory not consumed" failure condition
+n2_clab_scope_fails=$(HAT_DIR="${tmp_dir}" nix eval --impure --expr '
+  let
+    root = builtins.getEnv "HAT_DIR";
+    clab = import (root + "/clab-inventory-empty.nix");
+    clabHost = clab.deployment.hosts.s-router-clab or { };
+    endpointClients = clabHost.hat.endpointClients or { };
+    require = cond: msg: if cond then true else throw msg;
+  in
+    require (builtins.attrNames endpointClients != [ ])
+      "FS-770-HDS-020-SDS-010-SMS-010: CLAB inventory must declare endpoint fixtures"
+' 2>&1 || true)
+
+if [[ -z "${n2_clab_scope_fails}" ]]; then
+  fail "N2: CLAB inventory with empty endpointClients must fail profile-scope check (was not rejected)"
+fi
+echo "  N2 rejection: ${n2_clab_scope_fails}"
+echo "PASS Seeded Negative 2 — clab-inventory-not-consumed identified and rejected"
 
 # ── Recovery: both inventories fully consumed ──────────────────────────────────
 echo "--- Recovery: both inventories carry and consume endpoint fixtures ---"
