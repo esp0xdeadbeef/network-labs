@@ -61,6 +61,8 @@ tests=(
   test-s-sigma-public-ingress-fixture-table.sh
   test-s-sigma-public-ingress-denied-variants.sh
   test-s-sigma-public-ingress-provider-emulation-boundary.sh
+  test-FS-780-HDS-020-SDS-010-SMS-010-equivalence-row-atomization.sh
+  test-FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.sh
   test-public-ingress-source-tuple-authority.sh
   test-lab-intent-derived-topology-contract.sh
   test-lab-inventory-derived-p2p-bindings-contract.sh
@@ -83,6 +85,10 @@ tests=(
   test-hat-selector-fabric-link-realization.sh
   test-hat-fixture-source-boundaries.sh
   test-hat-upstream-inventory-realization-boundary.sh
+  test-fs750-hds020-sds010-sms010-receiver-service-surfaces.sh
+  test-fs760-hds020-sds010-sms010-receiver-discovery-surface.sh
+  test-fs760-hds030-sds010-sms010-receiver-payload-reverse-surfaces.sh
+  test-fs760-hds040-sds010-sms010-receiver-denied-probe-surfaces.sh
 )
 
 tmp_dir="$(mktemp -d)"
