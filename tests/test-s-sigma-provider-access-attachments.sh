@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-800-HDS-010-SDS-014-SMS-010
+# GAMP-ID: FS-800-HDS-010-SDS-010-SMS-030
 # GAMP-SCOPE: software-module-test
 set -euo pipefail
 
@@ -53,7 +53,7 @@ REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
       let
         current = row name;
       in
-        current.gampId == "FS-800-HDS-010-SDS-014-SMS-010"
+        current.gampId == "FS-800-HDS-010-SDS-010-SMS-030"
         && current.technology == requiredTechnologies.${name}
         && current.sourceClass == "provider-access-realization-fact"
         && current.realizationAuthority == "inventory"

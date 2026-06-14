@@ -35,7 +35,7 @@ in
   attachments = {
     pppoeNixos = {
       scenarioId = "SAT-SCEN-PROVIDER-ATTACH-PPPOE-NIXOS-001";
-      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      gampId = "FS-800-HDS-010-SDS-010-SMS-030";
       technology = "pppoe";
       sourceClass = "provider-access-realization-fact";
       realizationAuthority = "inventory";
@@ -58,7 +58,7 @@ in
 
     dhcpSlaacNixosClient = {
       scenarioId = "SAT-SCEN-PROVIDER-ATTACH-DHCP-SLAAC-NIXOS-001";
-      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      gampId = "FS-800-HDS-010-SDS-010-SMS-030";
       technology = "dhcp-slaac";
       sourceClass = "provider-access-realization-fact";
       realizationAuthority = "inventory";
@@ -85,7 +85,7 @@ in
 
     nebulaNixosUnderlay = {
       scenarioId = "SAT-SCEN-PROVIDER-ATTACH-NEBULA-NIXOS-001";
-      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      gampId = "FS-800-HDS-010-SDS-010-SMS-030";
       technology = "nebula";
       sourceClass = "provider-access-realization-fact";
       realizationAuthority = "inventory";
@@ -112,7 +112,7 @@ in
 
     wireguardRemoteEgressHetz = {
       scenarioId = "SAT-SCEN-PROVIDER-ATTACH-WG-REMOTE-EGRESS-HETZ-001";
-      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      gampId = "FS-800-HDS-010-SDS-010-SMS-030";
       technology = "wireguard-remote-egress";
       sourceClass = "provider-access-realization-fact";
       realizationAuthority = "inventory";
@@ -136,7 +136,7 @@ in
 
     wireguardHost128Hetz = {
       scenarioId = "SAT-SCEN-PROVIDER-ATTACH-WG-HOST128-HETZ-001";
-      gampId = "FS-800-HDS-010-SDS-014-SMS-010";
+      gampId = "FS-800-HDS-010-SDS-010-SMS-030";
       technology = "wireguard-host-128";
       sourceClass = "provider-access-realization-fact";
       realizationAuthority = "inventory";
