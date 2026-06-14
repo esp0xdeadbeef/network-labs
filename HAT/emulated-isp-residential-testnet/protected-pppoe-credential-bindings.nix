@@ -16,7 +16,7 @@ let
 
   gampIds = [
     "FS-800-HDS-020-SDS-020"
-    "FS-800-HDS-020-SDS-020-SMS-010"
+    "FS-800-HDS-010-SDS-030-SMS-020"
   ];
 
   sourceFieldBase = "deployment.hosts.${harness}.hat.providerAccess.residentialPppoeHostTestnet.credentials";
