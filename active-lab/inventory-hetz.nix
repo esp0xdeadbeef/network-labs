@@ -1,1 +1,1 @@
-import ../sat/inventory.nix
+import ../sat/inventory-hetz.nix

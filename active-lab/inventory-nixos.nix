@@ -1,1 +1,1 @@
-import ../sat/inventory-nixos.nix
+import ../HAT/emulated-isp-residential-testnet/inventory-nixos.nix
