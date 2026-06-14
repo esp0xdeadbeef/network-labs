@@ -17,6 +17,25 @@
             action = "allow";
             from = {
               kind = "tenant-set";
+              members = [
+                "mgmt"
+                "admin"
+                "client-a"
+                "client-b"
+              ];
+            };
+            id = "allow-tenants-to-site-dns";
+            priority = 5;
+            to = {
+              kind = "service";
+              name = "site-dns";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant-set";
               members = [ "mgmt" ];
             };
             id = "allow-mgmt-internal";
