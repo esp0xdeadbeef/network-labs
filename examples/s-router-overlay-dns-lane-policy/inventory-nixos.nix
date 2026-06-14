@@ -624,6 +624,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -697,6 +698,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -770,6 +772,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -843,6 +846,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -920,6 +924,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -993,6 +998,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1726,6 +1732,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1803,6 +1810,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-hetzner-anywhere";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2174,6 +2182,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
@@ -2248,6 +2257,7 @@ in
             };
           };
         };
+        services.dns = { };
         host = "s-router-test";
         logicalNode = {
           enterprise = "espbranch";
