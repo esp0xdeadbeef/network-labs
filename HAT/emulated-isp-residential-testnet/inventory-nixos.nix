@@ -832,6 +832,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -869,6 +870,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -906,6 +908,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-guest.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -943,6 +946,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-iot.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1013,6 +1017,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-management.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1050,6 +1055,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1087,6 +1093,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-work.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1891,6 +1898,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -1954,6 +1962,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2206,6 +2215,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2243,6 +2253,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2280,6 +2291,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-guest.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2317,6 +2329,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-iot.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2387,6 +2400,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-management.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2424,6 +2438,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -2461,6 +2476,7 @@ selectorFabricLinkRealization {
           dhcpv6 = { };
           ipv6Ra.tenant-work.dnssl = [ "lan." ];
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -3265,6 +3281,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -3328,6 +3345,7 @@ selectorFabricLinkRealization {
             };
           };
         };
+        services.dns = { };
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
