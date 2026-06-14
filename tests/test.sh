@@ -85,6 +85,11 @@ tests=(
   test-hat-selector-fabric-link-realization.sh
   test-hat-fixture-source-boundaries.sh
   test-hat-upstream-inventory-realization-boundary.sh
+  test-fs700-hds020-sds010-sms010-lab-source-validation-boundary.sh
+  test-fs710-hds020-sds010-sms010-profile-realization-role-boundary.sh
+  test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh
+  test-fs720-hds040-sds010-sms010-runtime-observation-boundary.sh
+  test-fs770-hds020-sds010-sms010-common-source-inventory-split.sh
   test-fs750-hds020-sds010-sms010-receiver-service-surfaces.sh
   test-fs760-hds020-sds010-sms010-receiver-discovery-surface.sh
   test-fs760-hds030-sds010-sms010-receiver-payload-reverse-surfaces.sh
