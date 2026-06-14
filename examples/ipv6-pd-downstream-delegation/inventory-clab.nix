@@ -124,6 +124,7 @@
             };
           };
         };
+        services.dns = { };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -160,6 +161,7 @@
             };
           };
         };
+        services.dns = { };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -196,6 +198,7 @@
             };
           };
         };
+        services.dns = { };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
@@ -232,6 +235,7 @@
             };
           };
         };
+        services.dns = { };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
