@@ -1750,6 +1750,62 @@ in
         };
         wanUplink = "wan";
       };
+      s-router-hetz = {
+        bridgeNetworks = {
+          br-hetz-core-upstream = { };
+          br-hetz-nebula-core-upstream = { };
+          br-hetz-downstream-client = { };
+          br-hetz-downstream-dmz = { };
+          br-hetz-downstream-policy-access-client = { };
+          br-hetz-downstream-policy-access-dmz = { };
+          br-hetz-policy-upstream-access-client-east-west = { };
+          br-hetz-policy-upstream-access-client-wan = { };
+          br-hetz-policy-upstream-access-dmz-east-west = { };
+          br-hetz-policy-upstream-access-dmz-wan = { };
+          client = { };
+          dmz = { };
+        };
+        uplinks = {
+          management = {
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = false;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = false;
+              method = "none";
+            };
+            mode = "native";
+            parent = "eth0";
+          };
+          wan = {
+            bridge = "br-wan";
+            hostAddresses = [
+              "172.31.254.1/24"
+              "fd42:dead:cafe:ffff::1/64"
+            ];
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "native";
+            parent = "eth0";
+          };
+        };
+        wanUplink = "wan";
+      };
       s-router-test = {
         bridgeNetworks = {
           admin = {
