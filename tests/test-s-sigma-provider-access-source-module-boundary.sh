@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # GAMP-ID: FS-800-HDS-010-SDS-012-SMS-010
-# GAMP-ID: FS-800-HDS-010-SDS-013-SMS-010
+# GAMP-ID: FS-800-HDS-010-SDS-010-SMS-020
 # GAMP-SCOPE: software-module-test
 set -euo pipefail
 
@@ -19,7 +19,7 @@ REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
     table = import (root + "/sat/provider-access-fixture-table.nix");
 
     sds012 = "FS-800-HDS-010-SDS-012-SMS-010";
-    sds013 = "FS-800-HDS-010-SDS-013-SMS-010";
+    sds013 = "FS-800-HDS-010-SDS-010-SMS-020";
 
     require = cond: msg: if cond then true else throw msg;
     attachmentNames = builtins.attrNames table.attachments;
