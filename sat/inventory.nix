@@ -1745,7 +1745,7 @@ in
               method = "slaac";
             };
             mode = "native";
-            parent = "eth0";
+            parent = "enp1s0";
           };
         };
         wanUplink = "wan";
@@ -1780,7 +1780,7 @@ in
               method = "none";
             };
             mode = "native";
-            parent = "eth0";
+            parent = "enp1s0";
           };
           wan = {
             bridge = "br-wan";
@@ -1801,7 +1801,7 @@ in
               method = "slaac";
             };
             mode = "native";
-            parent = "eth0";
+            parent = "enp1s0";
           };
         };
         wanUplink = "wan";
