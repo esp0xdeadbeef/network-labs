@@ -1,3 +1,53 @@
+/*
+  LIVE PPPoE EVIDENCE — 2026-06-15 HAT Rebuild (s-router-clab)
+  =============================================================
+
+  PPPoE links are ESTABLISHED at L2/L3 but access→core communication is broken
+  due to firewall/routing realization gaps. The intent relations are correct:
+  client→testnet-host-isp and client→testnet-routed-isp already have
+  trafficType "any" (priorities 100-101). The rendered nftables/routes do not
+  fulfill the intent.
+
+  PPPoE Topology (verified live):
+    Link A (host-isp):
+      provider-handoff-access-a:ppp0  203.0.113.5 ↔ 203.0.113.4  core-testnet-host-isp:ppp0
+    Link B (routed-isp):
+      provider-handoff-access-b:ppp0  203.0.113.1 ↔ 203.0.113.2  core-testnet-routed-isp:ppp1
+
+  Reachability (live probes):
+    testnet-host-isp → provider-handoff-access-a (203.0.113.5):  ✓ 0.080ms
+    testnet-routed-isp → provider-handoff-access-b (203.0.113.1): ✓ 0.082ms
+    provider-handoff-access-a → testnet-host-isp (203.0.113.4):  ✗ 100% loss
+    provider-handoff-access-b → testnet-routed-isp (203.0.113.2): ✗ 100% loss
+    access-client → 203.0.113.4 (through fabric):                 ✗ 100% loss
+    access-client → 8.8.8.8 (egress through ISP):                ✗ 100% loss
+
+  REALIZATION GAP INVENTORY (6 items):
+
+  L1  — downstream-selector ROUTE: no 203.0.113.0/24 → provider-handoff
+  L1b — upstream-selector ROUTE:   no 203.0.113.0/24 → provider-handoff
+  L2a — provider-handoff FORWARD:  missing ens21→ppp0 (access fabric → PPP)
+  L2b — provider-handoff FORWARD:  missing ens20→ens21 (direct return path)
+  L2c — provider-handoff FORWARD:  missing ppp0→ens21 (ISP-default-route return)
+  L3  — ISP INPUT:                 only SSH on ppp0/ppp1 (policy drop otherwise)
+
+  P2P addressing DOES track end-to-end. Every hop has correct point-to-point
+  IPs and kernel routes. Gaps are all in nftables FORWARD/INPUT chains and
+  fabric routing tables.
+
+  ISP default route goes through ppp0 (not ens80), creating asymmetric path:
+  forward via ens20/ens21, return via ppp0. ISP ECMP splits return traffic
+  50/50 between direct (ens20→provider-handoff, blocked by L2b) and indirect
+  (ens21→upstream-selector→downstream, works via ct state established/related).
+
+  WHAT IS ALREADY CORRECT:
+  - ISP FORWARD: ppp0→ens21, ppp0→ens80 with DNS rules (forwarding works)
+  - ISP NAT: masquerade for access subnets on ens80
+  - Provider-handoff FORWARD: if-1520c4ed917e→ppp0 (selector-fabric path)
+  - Intent relations: client→testnet-*isp with trafficType "any" at priorities 100-101
+
+  EVIDENCE: s-router-hat-sat-manager/lanes/LIVE-PPPOE-EVIDENCE.md
+*/
 {
   esp0xdeadbeef = {
     site-a = {
@@ -508,6 +558,62 @@
               uplinks = [ "isp-a" ];
             };
             trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "management";
+            };
+            id = "allow-management-icmp-to-testnet-host-isp";
+            priority = 96;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "management";
+            };
+            id = "allow-management-icmp-to-testnet-routed-isp";
+            priority = 97;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-a";
+            };
+            id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
+            priority = 98;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
+            priority = 99;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "icmp";
           }
           {
             action = "allow";
@@ -1519,6 +1625,62 @@
               uplinks = [ "isp-a" ];
             };
             trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "management";
+            };
+            id = "allow-management-icmp-to-testnet-host-isp";
+            priority = 96;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "management";
+            };
+            id = "allow-management-icmp-to-testnet-routed-isp";
+            priority = 97;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-a";
+            };
+            id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
+            priority = 98;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-host-isp" ];
+            };
+            trafficType = "icmp";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
+            priority = 99;
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-routed-isp" ];
+            };
+            trafficType = "icmp";
           }
           {
             action = "allow";
