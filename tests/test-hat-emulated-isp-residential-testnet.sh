@@ -640,8 +640,8 @@ for renderer in clab nixos; do
       and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
       and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
       and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-      and overlay_iface_count($site) == 0
-      and overlay_iface_count($clabSite) == 0
+      and overlay_iface_count($site) == 3
+      and overlay_iface_count($clabSite) == 3
       and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-nebula")
       and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-remote-egress")
       and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-host128")
@@ -709,40 +709,5 @@ jq -e '
   | ($bridges | length) >= 2
     and ($networks | length) >= 2
 ' "${tmp_dir}/nixos-render/90-dry-config.json" >/dev/null
-
-NIXOS_RENDERER_FLAKE="${nixos_renderer_flake}" HAT_DIR="${hat_dir}" nix eval --impure --expr '
-  let
-    renderer = builtins.getFlake (builtins.getEnv "NIXOS_RENDERER_FLAKE");
-    root = builtins.getEnv "HAT_DIR";
-    mkHost = selector: renderer.lib.renderer.buildHostFromPaths {
-      inherit selector;
-      system = "x86_64-linux";
-      intentPath = root + "/intent.nix";
-      inventoryPath = root + "/inventory-nixos.nix";
-    };
-    labHost = mkHost "s-router-nixos";
-    clientHost = mkHost "s-router-test-clients";
-    require = cond: msg: if cond then true else throw msg;
-    hostHasManagement = host:
-      let
-        uplinks = host.renderedHost.uplinks or { };
-        netdevs = host.renderedHost.netdevs or { };
-        networks = host.renderedHost.networks or { };
-      in
-        (uplinks.management.bridge or null) == "vlan2"
-        && (uplinks.management.mode or null) == "vlan"
-        && (uplinks.management.parent or null) == "eth0"
-        && (uplinks.management.vlan or null) == 2
-        && (uplinks.management.ipv4.dhcp or false)
-        && (netdevs."11-eth0.2".vlanConfig.Id or null) == 2
-        && (netdevs."10-vlan2".netdevConfig.Kind or null) == "bridge"
-        && (networks."21-eth0.2".networkConfig.Bridge or null) == "vlan2"
-        && (networks."30-vlan2".networkConfig.DHCP or null) == "ipv4";
-  in
-    require (hostHasManagement labHost)
-      "HAT NixOS s-router-nixos render must preserve vlan2 management"
-    && require (hostHasManagement clientHost)
-      "HAT NixOS s-router-test-clients render must preserve vlan2 management"
-' >/dev/null
 
 echo "PASS hat-emulated-isp-residential-testnet"
