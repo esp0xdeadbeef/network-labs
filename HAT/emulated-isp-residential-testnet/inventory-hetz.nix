@@ -1,1 +1,0 @@
-import ../../sat/inventory.nix
