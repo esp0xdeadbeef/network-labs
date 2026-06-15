@@ -4057,6 +4057,50 @@ selectorFabricLinkRealization {
             };
             link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-testnet-routed-isp";
           };
+          p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens40";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens41";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens42";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens43";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+          };
         };
       };
     };
