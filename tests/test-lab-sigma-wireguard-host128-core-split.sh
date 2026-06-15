@@ -35,13 +35,9 @@ in
   else throw \"WireGuard provider overlays must terminate on hetz-router-nebula-core with segmented overlay IPAM and leave WAN egress on hetz-router-core\"
 " >/dev/null
 
-if [[ -d "${compiler_repo}" ]]; then
-  (
-    cd "${compiler_repo}"
-    nix run .#compile -- "${lab_dir}/intent.nix" >/dev/null
-  )
-else
-  echo "WARN lab-sigma-wireguard-host128-core-split: compiler repo not present, skipped compile proof" >&2
-fi
+# SMS-020 CMC: Removed downstream compiler invocation (nix run .#compile
+# inside network-compiler repo). Compiler compile-proof validation must
+# live in network-compiler/tests/.
+# The nix eval above preserves pure local data validation of intent/inventory.
 
 echo "PASS lab-sigma-wireguard-host128-core-split"

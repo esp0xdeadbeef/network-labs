@@ -10,7 +10,9 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 lab_dir="${repo_root}/sat"
-cpm_flake="${CPM_FLAKE:-github:esp0xdeadbeef/network-control-plane-model}"
+# SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
+# CPM compile-and-build invocation and jq validation of CPM output
+# are downstream-dependent and must live in network-control-plane-model/tests/.
 
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
@@ -178,21 +180,5 @@ jq -e '
   and (($raw | .failureDiagnosticContracts.requiredDiagnosticFields |= map(select(. != "sourceLocation")) | valid_source) | not)
   and (($raw | .failureDiagnosticContracts.repairRouting.lowerLayerHeuristicRepairAllowed = true | valid_source) | not)
 ' "${source_json}" >/dev/null || fail "controlled SAT source atoms are missing or malformed"
-
-printf 'import %s/getResolvedInventory.nix { renderer = "nixos"; }\n' "${lab_dir}" >"${inventory_nix}"
-
-nix run --show-trace "${cpm_flake}#compile-and-build-control-plane-model" -- \
-  "${lab_dir}/intent.nix" \
-  "${inventory_nix}" \
-  "${cpm_json}" >/dev/null
-
-jq -e '
-  .control_plane_model.version == 1
-  and (.control_plane_model.data.esp.nixos.runtimeTargets | type == "object")
-  and (.control_plane_model.data.esp.clab.runtimeTargets | type == "object")
-  and (.control_plane_model.secretDeclarations | type == "array" and length > 0)
-  and (.control_plane_model.secretSources | type == "array" and length > 0)
-  and (.control_plane_model.sourceBindings | type == "array" and length > 0)
-' "${cpm_json}" >/dev/null || fail "CPM compile did not consume resolved SAT source inventory"
 
 echo "PASS fs910-fs920-fs930-sat-source-contracts"

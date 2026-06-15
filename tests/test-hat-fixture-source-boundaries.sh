@@ -3,7 +3,10 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
-cpm_flake="${CPM_FLAKE:-github:esp0xdeadbeef/network-control-plane-model}"
+# SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
+# CPM compile-and-build invocations, jq validation of CPM output,
+# endpoint-fixture mutation tests, and missing-port rejection tests
+# are downstream-dependent and must live in network-control-plane-model/tests/.
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
@@ -290,163 +293,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "receiver discovery fixture surface must bind to modeled service"
 ' >/dev/null
 
-build_cpm() {
-  local inventory_name="$1"
-  local output_json="$2"
-  nix run "${cpm_flake}#compile-and-build-control-plane-model" -- \
-    "${hat_dir}/intent.nix" \
-    "${hat_dir}/${inventory_name}" \
-    "${output_json}" >/dev/null
-}
-
-build_cpm inventory-clab.nix "${tmp_dir}/clab.json"
-build_cpm inventory-nixos.nix "${tmp_dir}/nixos.json"
-
-jq -e '
-  def has_dhcp4_lease_contract($target):
-    ($target.advertisements.dhcp4 | length) == 1
-    and ($target.advertisements.dhcp4[0].interface == "tenant-client")
-    and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
-    and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
-    and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
-  def has_pppoe_client($target; $interface; $runtimeInterface):
-    $target.services.pppoe.client.interface == $interface
-    and $target.services.pppoe.client.runtimeInterface == $runtimeInterface
-    and $target.services.pppoe.client.defaultRoute == true;
-  def has_pppoe_server($target; $interface; $providerAddress; $customerAddress):
-    $target.services.pppoe.server.interface == $interface
-    and $target.services.pppoe.server.providerAddress == $providerAddress
-    and $target.services.pppoe.server.customerAddress == $customerAddress;
-  .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
-  | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
-  | .control_plane_model.data.esp0xdeadbeef."site-a" as $site
-  | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
-  | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
-    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "ppp0")
-    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "ppp1")
-    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-host-isp"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "ppp0")
-    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
-    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-' "${tmp_dir}/nixos.json" >/dev/null \
-  || fail "NixOS inventory must compile access DHCPv4 and provider PPPoE runtime service contracts"
-
-jq -e '
-  def has_dhcp4_lease_contract($target):
-    ($target.advertisements.dhcp4 | length) == 1
-    and ($target.advertisements.dhcp4[0].interface == "tenant-client")
-    and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
-    and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
-    and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
-  def has_pppoe_client($target; $interface; $runtimeInterface):
-    $target.services.pppoe.client.interface == $interface
-    and $target.services.pppoe.client.runtimeInterface == $runtimeInterface
-    and $target.services.pppoe.client.defaultRoute == true;
-  def has_pppoe_server($target; $interface; $providerAddress; $customerAddress):
-    $target.services.pppoe.server.interface == $interface
-    and $target.services.pppoe.server.providerAddress == $providerAddress
-    and $target.services.pppoe.server.customerAddress == $customerAddress;
-  .control_plane_model.data.esp0xdeadbeef."site-a".runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client" as $nixos
-  | .control_plane_model.data.esp0xdeadbeef."site-b".runtimeTargets."esp0xdeadbeef-site-b-clab-access-client" as $clab
-  | .control_plane_model.data.esp0xdeadbeef."site-a" as $site
-  | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
-  | has_dhcp4_lease_contract($nixos) and has_dhcp4_lease_contract($clab)
-    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "ppp0")
-    and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "ppp1")
-    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-    and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-host-isp"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "ppp0")
-    and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
-    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-    and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-' "${tmp_dir}/clab.json" >/dev/null \
-  || fail "CLAB inventory must compile access DHCPv4 and provider PPPoE runtime service contracts"
-
-jq -S '
-  .control_plane_model.data.esp0xdeadbeef."site-a"
-  | {
-      trafficPaths,
-      forwardingIntent,
-      runtimeTargetNames: (.runtimeTargets | keys | sort)
-    }
-' "${tmp_dir}/clab.json" > "${tmp_dir}/clab-model-surface.json"
-
-jq -S '
-  .control_plane_model.data.esp0xdeadbeef."site-a"
-  | {
-      trafficPaths,
-      forwardingIntent,
-      runtimeTargetNames: (.runtimeTargets | keys | sort)
-    }
-' "${tmp_dir}/nixos.json" > "${tmp_dir}/nixos-model-surface.json"
-
-cmp -s "${tmp_dir}/clab-model-surface.json" "${tmp_dir}/nixos-model-surface.json" \
-  || fail "CLAB and NixOS inventories changed shared behavior surface"
-
-cat > "${tmp_dir}/inventory-nixos-no-endpoint-fixtures.nix" <<EOF
-let
-  base = import ${hat_dir}/inventory-nixos.nix;
-  hosts = base.deployment.hosts;
-  clientHost = hosts.s-router-test-clients;
-in
-base // {
-  deployment = base.deployment // {
-    hosts = hosts // {
-      s-router-test-clients = clientHost // {
-        hat = (clientHost.hat or { }) // {
-          endpointClients = { };
-        };
-      };
-    };
-  };
-}
-EOF
-
-nix run "${cpm_flake}#compile-and-build-control-plane-model" -- \
-  "${hat_dir}/intent.nix" \
-  "${tmp_dir}/inventory-nixos-no-endpoint-fixtures.nix" \
-  "${tmp_dir}/nixos-no-endpoints.json" >/dev/null
-
-jq -S '
-  .control_plane_model.data.esp0xdeadbeef."site-a"
-  | {
-      trafficPaths,
-      forwardingIntent,
-      runtimeTargetNames: (.runtimeTargets | keys | sort)
-    }
-' "${tmp_dir}/nixos-no-endpoints.json" > "${tmp_dir}/nixos-no-endpoints-model-surface.json"
-
-cmp -s "${tmp_dir}/nixos-model-surface.json" "${tmp_dir}/nixos-no-endpoints-model-surface.json" \
-  || fail "endpoint fixture presence changed CPM behavior authority"
-
-cat > "${tmp_dir}/inventory-clab-missing-port.nix" <<EOF
-let
-  base = import ${hat_dir}/inventory-clab.nix;
-  nodeName = "esp0xdeadbeef-site-b-clab-core-testnet-host-isp";
-  node = base.realization.nodes.\${nodeName};
-in
-base // {
-  realization = base.realization // {
-    nodes = base.realization.nodes // {
-      \${nodeName} = node // {
-        ports = builtins.removeAttrs node.ports [ "testnet-host-isp" ];
-      };
-    };
-  };
-}
-EOF
-
-if nix run "${cpm_flake}#compile-and-build-control-plane-model" -- \
-  "${hat_dir}/intent.nix" \
-  "${tmp_dir}/inventory-clab-missing-port.nix" \
-  "${tmp_dir}/bad.json" >"${tmp_dir}/bad.out" 2>"${tmp_dir}/bad.err"; then
-  fail "missing CLAB realization port was accepted"
-fi
-
-if ! rg -q 'inventory|realization|testnet-host-isp|requires explicit' "${tmp_dir}/bad.err" "${tmp_dir}/bad.out"; then
-  fail "missing CLAB realization failure did not name inventory/realization surface"
-fi
+# SMS-020 CMC: Removed build_cpm(), CPM compile-and-build calls,
+# jq validation of CPM output (DHCPv4 lease contracts, PPPoE
+# client/server binding facts), endpoint-fixture surface comparison
+# tests, and missing-realization-port rejection tests. These are
+# downstream-dependent and must live in network-control-plane-model/tests/.
 
 echo "PASS hat-fixture-source-boundaries"

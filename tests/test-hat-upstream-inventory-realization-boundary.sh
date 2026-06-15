@@ -5,7 +5,10 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
-cpm_flake="${CPM_FLAKE:-github:esp0xdeadbeef/network-control-plane-model}"
+# SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
+# CPM compile-and-build invocations and jq validation of CPM output
+# are downstream-dependent and moved to network-control-plane-model/tests/.
+
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
@@ -63,39 +66,9 @@ check_inventory_expr='
 
 HAT_DIR="${hat_dir}" nix eval --impure --expr "${check_inventory_expr}" >/dev/null
 
-nix run "${cpm_flake}#compile-and-build-control-plane-model" -- \
-  "${hat_dir}/intent.nix" \
-  "${hat_dir}/inventory-clab.nix" \
-  "${tmp_dir}/clab.json" >/dev/null
-
-nix run "${cpm_flake}#compile-and-build-control-plane-model" -- \
-  "${hat_dir}/intent.nix" \
-  "${hat_dir}/inventory-nixos.nix" \
-  "${tmp_dir}/nixos.json" >/dev/null
-
-jq -e '
-  def pppoeTargets:
-    [
-      .control_plane_model.data.esp0xdeadbeef
-      | to_entries[].value.runtimeTargets
-      | to_entries[]
-      | select(.value.services.pppoe? != null)
-      | .value.services.pppoe
-    ];
-  def fileCredentialOk($credentials):
-    $credentials.labOnly == true
-    and ($credentials | has("username") | not)
-    and ($credentials | has("password") | not)
-    and $credentials.usernameFile == "/run/secrets/hat-pppoe-username"
-    and $credentials.passwordFile == "/run/secrets/hat-pppoe-password";
-  pppoeTargets as $targets
-  | ($targets | length) > 0
-    and all($targets[];
-      if .client? then fileCredentialOk(.client.credentials)
-      elif .server? then fileCredentialOk(.server.credentials)
-      else false
-      end)
-' "${tmp_dir}/clab.json" "${tmp_dir}/nixos.json" >/dev/null \
-  || fail "CPM output must preserve protected PPPoE credential references without plaintext fallback"
+# SMS-020 CMC: Removed CPM compile-and-build invocations producing
+# clab.json and nixos.json, and the jq validation of PPPoE credential
+# references in CPM output. These validations are downstream-dependent
+# and must live in network-control-plane-model/tests/.
 
 echo "PASS hat-upstream-inventory-realization-boundary"
