@@ -4,6 +4,7 @@
       communicationContract = {
         interfaceTags = {
           external-isp-a = "isp-a";
+          external-isp-b = "isp-b";
           external-testnet-host-isp = "testnet-host-isp";
           external-testnet-routed-isp = "testnet-routed-isp";
           external-nebula-egress = "nebula-egress";
@@ -666,6 +667,62 @@
             };
             trafficType = "any";
           }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-a";
+            };
+            id = "allow-provider-handoff-a-to-isp-b";
+            priority = 82;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-to-isp-b";
+            priority = 83;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "guest";
+            };
+            id = "allow-guest-to-isp-b";
+            priority = 132;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "work";
+            };
+            id = "allow-work-to-isp-b";
+            priority = 133;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
         ];
       };
 
@@ -804,6 +861,10 @@
           ]
           [
             "nixos-core-commercial-vpn"
+            "nixos-upstream-selector"
+          ]
+          [
+            "nixos-core-bgp-uplink-isp-b"
             "nixos-upstream-selector"
           ]
           [
@@ -1025,6 +1086,15 @@
               };
             };
           };
+          nixos-core-bgp-uplink-isp-b = {
+            role = "core";
+            uplinks = {
+              isp-b = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
           nixos-core-wireguard-host128 = {
             attachments = [
               {
@@ -1071,6 +1141,7 @@
       communicationContract = {
         interfaceTags = {
           external-isp-a = "isp-a";
+          external-isp-b = "isp-b";
           external-testnet-host-isp = "testnet-host-isp";
           external-testnet-routed-isp = "testnet-routed-isp";
           external-nebula-egress = "nebula-egress";
@@ -1733,6 +1804,62 @@
             };
             trafficType = "any";
           }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-a";
+            };
+            id = "allow-provider-handoff-a-to-isp-b";
+            priority = 82;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "provider-handoff-b";
+            };
+            id = "allow-provider-handoff-b-to-isp-b";
+            priority = 83;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "guest";
+            };
+            id = "allow-guest-to-isp-b";
+            priority = 132;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "work";
+            };
+            id = "allow-work-to-isp-b";
+            priority = 133;
+            to = {
+              kind = "external";
+              uplinks = [ "isp-b" ];
+            };
+            trafficType = "any";
+          }
         ];
       };
 
@@ -1871,6 +1998,10 @@
           ]
           [
             "clab-core-commercial-vpn"
+            "clab-upstream-selector"
+          ]
+          [
+            "clab-core-bgp-uplink-isp-b"
             "clab-upstream-selector"
           ]
           [
@@ -2076,6 +2207,13 @@
           clab-core-upstream-vlan4 = {
             role = "core";
             uplinks.isp-a = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
+          };
+          clab-core-bgp-uplink-isp-b = {
+            role = "core";
+            uplinks.isp-b = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
             };
