@@ -4,10 +4,9 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
-cpm_flake="${CPM_FLAKE:-github:esp0xdeadbeef/network-control-plane-model}"
-cpm_nfm_flake="${CPM_NFM_FLAKE:-}"
-clab_renderer_flake="${CLAB_RENDERER_FLAKE:-github:esp0xdeadbeef/network-renderer-containerlab-linux-backend}"
-nixos_renderer_flake="${NIXOS_RENDERER_FLAKE:-github:esp0xdeadbeef/network-renderer-nixos}"
+# SMS-020 CMC: cpm_flake, cpm_nfm_flake, clab_renderer_flake, nixos_renderer_flake
+# removed — downstream entrypoint references. Tests that need these must live in
+# the downstream repo that owns the entrypoint.
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
@@ -581,133 +580,14 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB host core must map to host testnet uplink"
 ' >/dev/null
 
-build_cpm() {
-  local renderer="$1"
-  local out_dir="${tmp_dir}/${renderer}"
-  local cpm_args=()
-  mkdir -p "${out_dir}"
-  if [[ -n "${cpm_nfm_flake}" ]]; then
-    cpm_args+=(--override-input network-forwarding-model "${cpm_nfm_flake}")
-  fi
-  nix run "${cpm_args[@]}" "${cpm_flake}#compile-and-build-control-plane-model" -- \
-    "${hat_dir}/intent.nix" \
-    "${hat_dir}/inventory-${renderer}.nix" \
-    "${out_dir}/control-plane.json" >/dev/null
-}
+# SMS-020 CMC: Removed downstream CPM/CLAB/NixOS renderer invocations.
+#   - build_cpm() + CPM compile-and-build calls
+#   - jq validation of CPM output (runtime contract surface)
+#   - CLAB renderer generate-clab-config + grep validation
+#   - NixOS renderer render-dry-config + jq validation
+# These validations must live in the downstream repo that owns the entrypoint.
+# The nix eval below keeps a pure local-data verify of inventory assembly.
 
-build_cpm clab
-build_cpm nixos
-
-for renderer in clab nixos; do
-  jq -e '
-    def has_dhcp4_lease_contract($target):
-      ($target.advertisements.dhcp4 | length) == 1
-      and ($target.advertisements.dhcp4[0].interface == "tenant-client")
-      and ($target.stateContracts.persistence.dhcp4Leases | length) == 1
-      and ($target.stateContracts.persistence.dhcp4Leases[0].interface == "tenant-client")
-      and ($target.stateContracts.persistence.dhcp4Leases[0].service == "dhcp4");
-    def has_pppoe_client($target; $interface; $runtimeInterface):
-      $target.services.pppoe.client.interface == $interface
-      and $target.services.pppoe.client.runtimeInterface == $runtimeInterface
-      and $target.services.pppoe.client.defaultRoute == true;
-    def has_pppoe_server($target; $interface; $providerAddress; $customerAddress):
-      $target.services.pppoe.server.interface == $interface
-      and $target.services.pppoe.server.providerAddress == $providerAddress
-      and $target.services.pppoe.server.customerAddress == $customerAddress;
-    def p2p_iface($target; $name):
-      ($target.effectiveRuntimeRealization.interfaces[$name].sourceKind == "p2p");
-    def overlay_iface_count($site):
-      [
-        $site.runtimeTargets[]
-        | .effectiveRuntimeRealization.interfaces
-        | to_entries[]
-        | select(.value.sourceKind == "overlay")
-      ]
-      | length;
-    .control_plane_model.data.esp0xdeadbeef."site-a" as $site
-    | .control_plane_model.data.esp0xdeadbeef."site-b" as $clabSite
-    | ($site.runtimeTargets
-        | has("esp0xdeadbeef-site-a-nixos-access-client")
-          and has("esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp")
-          and has("esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"))
-      and has_dhcp4_lease_contract($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-client")
-      and has_dhcp4_lease_contract($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-client")
-      and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "ppp0")
-      and has_pppoe_client($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "ppp1")
-      and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"; "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-      and has_pppoe_server($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"; "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-      and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-host-isp"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "ppp0")
-      and has_pppoe_client($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "ppp1")
-      and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-a"; "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"; "203.0.113.5"; "203.0.113.4")
-      and has_pppoe_server($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-provider-handoff-access-b"; "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"; "203.0.113.1"; "203.0.113.2")
-      and overlay_iface_count($site) == 3
-      and overlay_iface_count($clabSite) == 3
-      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-nebula")
-      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-remote-egress")
-      and p2p_iface($site.runtimeTargets."esp0xdeadbeef-site-a-nixos-access-iot"; "p2p-nixos-access-iot-nixos-core-wireguard-host128")
-      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-nebula")
-      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-wireguard-remote-egress")
-      and p2p_iface($clabSite.runtimeTargets."esp0xdeadbeef-site-b-clab-access-iot"; "p2p-clab-access-iot-clab-core-wireguard-host128")
-      and ([
-        $site.trafficPaths[]
-        | select(.relationId == "allow-client-to-testnet-routed-isp")
-        | .nodePath
-      ] == [[
-        "nixos-access-client",
-        "nixos-downstream-selector",
-        "nixos-policy",
-        "nixos-upstream-selector",
-        "nixos-core-testnet-routed-isp"
-      ]])
-      and ([
-        $site.trafficPaths[]
-        | select(.relationId == "allow-client-to-testnet-host-isp")
-        | .nodePath
-      ] == [[
-        "nixos-access-client",
-        "nixos-downstream-selector",
-        "nixos-policy",
-        "nixos-upstream-selector",
-        "nixos-core-testnet-host-isp"
-      ]])
-  ' "${tmp_dir}/${renderer}/control-plane.json" >/dev/null
-done
-
-nix eval --impure --json --expr "import ${hat_dir}/inventory-clab.nix" \
-  > "${tmp_dir}/clab/inventory-clab.json"
-
-(
-  cd "${tmp_dir}/clab"
-  CLABGEN_RENDERER_INVENTORY_JSON="${tmp_dir}/clab/inventory-clab.json" \
-  CLABGEN_DEPLOYMENT_HOST="s-router-clab" \
-    nix run "${clab_renderer_flake}#generate-clab-config" -- \
-      "${tmp_dir}/clab/control-plane.json" \
-      "${tmp_dir}/clab/fabric.clab.yml" \
-      "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
-)
-
-grep -F 'clab-core-testnet-routed-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
-grep -F 'clab-core-testnet-host-isp' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null
-if grep -F 'nixos-core-testnet' "${tmp_dir}/clab/fabric.clab.yml" >/dev/null; then
-  echo "FAIL emulated-isp-residential-testnet: CLAB render included site-a/nixos nodes" >&2
-  exit 1
-fi
-grep -F 'br-t-routed' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
-grep -F 'br-t-host' "${tmp_dir}/clab/vm-bridges-generated.nix" >/dev/null
-
-mkdir -p "${tmp_dir}/nixos-render"
-ln -s "${hat_dir}/inventory-nixos.nix" "${tmp_dir}/nixos/inventory-nixos.nix"
-(
-  cd "${tmp_dir}/nixos-render"
-  nix run "${nixos_renderer_flake}#render-dry-config" -- \
-    --debug "${tmp_dir}/nixos/control-plane.json" >/dev/null
-)
-
-jq -e '
-  .render.hosts."s-router-nixos".network.bridges as $bridges
-  | .render.hosts."s-router-nixos".network.networks as $networks
-  | ($bridges | length) >= 2
-    and ($networks | length) >= 2
-' "${tmp_dir}/nixos-render/90-dry-config.json" >/dev/null
+nix eval --impure --expr "import ${hat_dir}/inventory-clab.nix" >/dev/null
 
 echo "PASS hat-emulated-isp-residential-testnet"
