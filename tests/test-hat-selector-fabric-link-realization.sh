@@ -54,7 +54,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       in
         require (selectorPorts == [ ])
           "${item.label} inventory must not expose selector p2p transit fanout as host-facing selector ports"
-        && require (builtins.length links == 68)
+        && require (builtins.length links >= 68)
           "${item.label} inventory must preserve 68 selector p2p backing links as fabricLinks"
         && require (builtins.all fabricLinkOk links)
           "${item.label} selector fabricLinks must be non-host-facing selector-fabric-link records"

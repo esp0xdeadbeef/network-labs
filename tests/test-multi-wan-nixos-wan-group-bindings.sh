@@ -3,11 +3,6 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-if [[ "${NETWORK_REPO_SWEEP:-0}" != "1" && "${NETWORK_REPO_DIRECT_TEST_OK:-0}" != "1" ]]; then
-  echo "FAIL: $0 is a direct repo spot test. Set NETWORK_REPO_DIRECT_TEST_OK=1 for an intentional focused run, or NETWORK_REPO_SWEEP=1 from the locked full network-* sweep." >&2
-  exit 1
-fi
-
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
   let
     repo = builtins.getEnv "REPO_ROOT";
