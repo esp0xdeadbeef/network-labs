@@ -13,8 +13,28 @@ selectorFabricLinkRealization {
 
   controlPlane = {
     sites.esp0xdeadbeef = {
-      site-a.overlays = overlayVpnRuntimeAdapters.site-a;
-      site-b.overlays = overlayVpnRuntimeAdapters.site-b;
+      site-a = {
+        overlays = overlayVpnRuntimeAdapters.site-a;
+        uplinks.isp-b.egress = {
+          mode = "bgp";
+          bgp = {
+            peerAsn = 65530;
+            peerAddr4 = "198.51.100.1";
+            peerAddr6 = "2001:db8:51::1";
+          };
+        };
+      };
+      site-b = {
+        overlays = overlayVpnRuntimeAdapters.site-b;
+        uplinks.isp-b.egress = {
+          mode = "bgp";
+          bgp = {
+            peerAsn = 65530;
+            peerAddr4 = "198.51.100.1";
+            peerAddr6 = "2001:db8:51::1";
+          };
+        };
+      };
     };
   };
 
@@ -39,6 +59,7 @@ selectorFabricLinkRealization {
           stub-clab-br-site-b-p2p-clab-core-testnet-host-isp-clab-upstream-selector = { };
           stub-clab-br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = { };
           stub-clab-br-site-b-p2p-clab-core-testnet-routed-isp-clab-upstream-selector = { };
+          stub-clab-br-site-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = { };
           stub-clab-br-site-b-p2p-clab-core-upstream-vlan4-clab-upstream-selector = { };
           stub-clab-br-site-b-p2p-clab-core-wireguard-host128-clab-upstream-selector = { };
           stub-clab-br-site-b-p2p-clab-core-wireguard-remote-egress-clab-upstream-selector = { };
@@ -70,6 +91,14 @@ selectorFabricLinkRealization {
           stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-a =
             { };
           stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a =
+            { };
+          stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b =
+            { };
+          stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b =
+            { };
+          stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b =
+            { };
+          stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b =
             { };
           stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp =
             { };
@@ -158,6 +187,19 @@ selectorFabricLinkRealization {
             upstream = "isp-a";
             vlan = 4;
           };
+          uplink-isp-b = {
+            bridge = "stub-clab-br-uplink-bgp";
+            ipv4 = {
+              address = "198.51.100.2/24";
+              method = "static";
+            };
+            ipv6 = {
+              address = "2001:db8:51::2/64";
+              method = "static";
+            };
+            parent = "eth0";
+            upstream = "isp-b";
+          };
           uplink-testnet-host-isp = {
             bridge = "stub-clab-br-t-host";
             ipv4 = {
@@ -242,6 +284,7 @@ selectorFabricLinkRealization {
           br-site-a-p2p-nixos-core-testnet-host-isp-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b = { };
           br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector = { };
+          br-site-a-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-upstream-vlan4-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-wireguard-host128-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-wireguard-remote-egress-nixos-upstream-selector = { };
@@ -269,6 +312,12 @@ selectorFabricLinkRealization {
           br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-a =
             { };
           br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a =
+            { };
+          br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b = { };
+          br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b = { };
+          br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b =
+            { };
+          br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b =
             { };
           br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp =
             { };
@@ -478,6 +527,19 @@ selectorFabricLinkRealization {
             upstream = "isp-a";
             vlan = 4;
           };
+          uplink-isp-b = {
+            bridge = "br-uplink-bgp";
+            ipv4 = {
+              address = "198.51.100.2/24";
+              method = "static";
+            };
+            ipv6 = {
+              address = "2001:db8:51::2/64";
+              method = "static";
+            };
+            parent = "eth0";
+            upstream = "isp-b";
+          };
           uplink-testnet-host-isp = {
             bridge = "br-t-host";
             ipv4 = {
@@ -529,6 +591,7 @@ selectorFabricLinkRealization {
           };
         };
         wanGroupToUplink = {
+          "esp0xdeadbeef::site-a::nixos-core-bgp-uplink-isp-b" = "uplink-isp-b";
           "esp0xdeadbeef::site-a::nixos-core-commercial-vpn" = "commercial-vpn";
           "esp0xdeadbeef::site-a::nixos-core-nebula" = "nebula-egress";
           "esp0xdeadbeef::site-a::nixos-core-route-import" = "route-import";
@@ -1405,6 +1468,40 @@ selectorFabricLinkRealization {
           };
         };
       };
+      esp0xdeadbeef-site-a-nixos-core-bgp-uplink-isp-b = {
+        host = "s-router-nixos";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          name = "nixos-core-bgp-uplink-isp-b";
+          site = "site-a";
+        };
+        platform = "linux";
+        ports = {
+          isp-b = {
+            attach = {
+              bridge = "br-uplink-bgp";
+              kind = "bridge";
+              parentUplink = "uplink-isp-b";
+            };
+            external = true;
+            interface = {
+              name = "ens81";
+            };
+            uplink = "isp-b";
+          };
+          p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-bgp-uplink-isp-b-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens82";
+            };
+            link = "p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+          };
+        };
+      };
       esp0xdeadbeef-site-a-nixos-core-wireguard-host128 = {
         host = "s-router-nixos";
         logicalNode = {
@@ -1898,6 +1995,50 @@ selectorFabricLinkRealization {
             };
             link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a";
           };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens41";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens42";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens43";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens44";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
+          };
           p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
             attach = {
@@ -2169,6 +2310,17 @@ selectorFabricLinkRealization {
             };
             link = "p2p-nixos-core-wireguard-remote-egress-nixos-upstream-selector";
           };
+          p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens27";
+            };
+            link = "p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
+          };
           p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-client--uplink-testnet-host-isp";
             attach = {
@@ -2256,6 +2408,50 @@ selectorFabricLinkRealization {
               name = "ens35";
             };
             link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens41";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-guest--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens42";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-work--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens43";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-a--uplink-isp-b";
+          };
+          p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens44";
+            };
+            link = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-b";
           };
           p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
@@ -2876,6 +3072,40 @@ selectorFabricLinkRealization {
           };
         };
       };
+      esp0xdeadbeef-site-b-clab-core-bgp-uplink-isp-b = {
+        host = "s-router-clab";
+        logicalNode = {
+          enterprise = "esp0xdeadbeef";
+          name = "clab-core-bgp-uplink-isp-b";
+          site = "site-b";
+        };
+        platform = "linux";
+        ports = {
+          isp-b = {
+            attach = {
+              bridge = "stub-clab-br-uplink-bgp";
+              kind = "bridge";
+              parentUplink = "uplink-isp-b";
+            };
+            external = true;
+            interface = {
+              name = "ens81";
+            };
+            uplink = "isp-b";
+          };
+          p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-bgp-uplink-isp-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens82";
+            };
+            link = "p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
+          };
+        };
+      };
       esp0xdeadbeef-site-b-clab-core-wireguard-host128 = {
         host = "s-router-clab";
         logicalNode = {
@@ -3369,6 +3599,50 @@ selectorFabricLinkRealization {
             };
             link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a";
           };
+          p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens41";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-access-guest--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens42";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens43";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-b";
+          };
+          p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens44";
+            };
+            link = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-b";
+          };
           p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
             attach = {
@@ -3639,6 +3913,17 @@ selectorFabricLinkRealization {
               name = "ens27";
             };
             link = "p2p-clab-core-wireguard-remote-egress-clab-upstream-selector";
+          };
+          p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
+            attach = {
+              bridge = "stub-clab-br-site-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens28";
+            };
+            link = "p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
           };
           p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-host-isp = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-access-client--uplink-testnet-host-isp";
