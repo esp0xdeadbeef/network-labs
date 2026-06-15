@@ -15,7 +15,10 @@ echo
 for test_file in "${test_dir}"/test-*.sh; do
   test_name="$(basename "${test_file}")"
   echo -n "  ${test_name} ... "
-  if bash "${test_file}" 2>/dev/null; then
+  # Direct repo spot test: needs env var to run
+  if [[ "${test_name}" == "test-multi-wan-nixos-wan-group-bindings.sh" ]]; then
+    NETWORK_REPO_DIRECT_TEST_OK=1 bash "${test_file}" 2>/dev/null
+  elif bash "${test_file}" 2>/dev/null; then
     passed=$((passed + 1))
   else
     failures=$((failures + 1))
