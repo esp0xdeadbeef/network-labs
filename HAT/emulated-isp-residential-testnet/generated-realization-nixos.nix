@@ -81,6 +81,10 @@
     "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-work--uplink-isp-a" = { };
     "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-a--uplink-isp-a" = { };
     "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a" = { };
+    "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp" = { };
+    "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp" = { };
+    "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp" = { };
+    "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp" = { };
   };
   nodes = {
     "esp0xdeadbeef-site-a-nixos-access-client" = {
@@ -1030,6 +1034,28 @@
           };
           "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a";
         };
+        "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+          "attach" = {
+            "bridge" = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens37";
+          };
+          "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+        };
+        "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-a-nixos-policy-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
+          "attach" = {
+            "bridge" = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens38";
+          };
+          "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
+        };
       };
     };
     "esp0xdeadbeef-site-a-nixos-provider-handoff-access-a" = {
@@ -1292,6 +1318,28 @@
             "name" = "ens35";
           };
           "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-provider-handoff-access-b--uplink-isp-a";
+        };
+        "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+          "attach" = {
+            "bridge" = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens36";
+          };
+          "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-host-isp";
+        };
+        "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-a-nixos-upstream-selector-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
+          "attach" = {
+            "bridge" = "br-site-a-p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens37";
+          };
+          "link" = "p2p-nixos-policy-nixos-upstream-selector--access-nixos-access-management--uplink-testnet-routed-isp";
         };
       };
     };
@@ -2242,6 +2290,28 @@
           };
           "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a";
         };
+        "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+          "attach" = {
+            "bridge" = "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens37";
+          };
+          "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+        };
+        "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-b-clab-policy-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
+          "attach" = {
+            "bridge" = "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens38";
+          };
+          "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
+        };
       };
     };
     "esp0xdeadbeef-site-b-clab-provider-handoff-access-a" = {
@@ -2504,6 +2574,28 @@
             "name" = "ens35";
           };
           "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-provider-handoff-access-b--uplink-isp-a";
+        };
+        "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+          "attach" = {
+            "bridge" = "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens36";
+          };
+          "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-host-isp";
+        };
+        "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp" = {
+          "adapterName" = "adp-esp0xdeadbeef-site-b-clab-upstream-selector-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
+          "attach" = {
+            "bridge" = "br-site-b-p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
+            "kind" = "bridge";
+          };
+          "interface" = {
+            "name" = "ens37";
+          };
+          "link" = "p2p-clab-policy-clab-upstream-selector--access-clab-access-management--uplink-testnet-routed-isp";
         };
       };
     };
