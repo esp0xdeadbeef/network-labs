@@ -8,10 +8,10 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
     inventory = import (builtins.getEnv "REPO_ROOT" + "/examples/s-router-overlay-dns-lane-policy/inventory-nixos.nix");
     labInventory = import (builtins.getEnv "REPO_ROOT" + "/sat/inventory-nixos.nix");
 
-    hasSourceFiles = siteKey: inv:
+    hasSourceFiles = siteKey: enterprise: inv:
       let
         sites = inv.controlPlane.sites;
-        overlay = sites.espbranch.${siteKey}.overlays.east-west;
+        overlay = sites.${enterprise}.${siteKey}.overlays.east-west;
         lighthouse = overlay.nebula.lighthouse;
         endpointSourceFiles4 = overlay.underlayEndpointSourceFiles.ipv4 or [];
         endpointSourceFiles6 = overlay.underlayEndpointSourceFiles.ipv6 or [];
@@ -22,7 +22,7 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
         && builtins.elem lighthouse.endpoint6SourceFile endpointSourceFiles6
         && builtins.elem "/run/secrets/hetzner-public-ipv4" endpointSourceFiles4;
   in
-    if hasSourceFiles "site-b" inventory && hasSourceFiles "clab" labInventory then
+    if hasSourceFiles "site-b" "espbranch" inventory && hasSourceFiles "clab" "esp" labInventory then
       true
     else
       throw "runtime underlay endpoint source files are required for live Hetzner lighthouse and relay public routes"
