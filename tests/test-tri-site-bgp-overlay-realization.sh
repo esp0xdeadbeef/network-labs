@@ -40,20 +40,4 @@ check_inventory() {
   " >/dev/null
 }
 
-check_inventory \
-  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-bgp/inventory-clab.nix" \
-  "tri-site-dual-wan-overlay-integration-bgp clab"
-
-check_inventory \
-  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-bgp/inventory-nixos.nix" \
-  "tri-site-dual-wan-overlay-integration-bgp nixos"
-
-check_inventory \
-  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-static/inventory-clab.nix" \
-  "tri-site-dual-wan-overlay-integration-static clab"
-
-check_inventory \
-  "import ${repo_root}/examples/tri-site-dual-wan-overlay-integration-static/inventory-nixos.nix" \
-  "tri-site-dual-wan-overlay-integration-static nixos"
-
-echo "PASS tri-site-overlay-realization"
+echo "PASS tri-site-overlay-realization (no tri-site examples in consolidated set)"

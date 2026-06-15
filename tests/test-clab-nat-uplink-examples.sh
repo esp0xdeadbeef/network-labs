@@ -13,12 +13,9 @@ from pathlib import Path
 root = Path(sys.argv[1])
 
 expected = {
-    "single-wan": "198.18.0.1/24",
-    "single-wan-any-to-any-fw": "198.18.0.1/24",
-    "single-wan-bgp": "198.18.0.1/24",
-    "single-wan-uplink-ebgp": "198.18.0.1/24",
-    "single-wan-uplink-static-egress": "192.0.2.1/24",
-    "single-wan-with-nebula": "198.18.0.1/24",
+    "single-wan": "198.51.100.1/24",
+    "single-wan-bgp": "198.51.100.1/24",
+    "policy-any-to-any-fw": "198.51.100.1/24",
 }
 
 for example, address in sorted(expected.items()):

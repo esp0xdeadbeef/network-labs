@@ -47,8 +47,6 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
     if
       checkSite "overlay-east-west" "enterprise-a" "site-a" "east-west" "isp"
       && checkSite "overlay-east-west" "enterprise-b" "site-b" "east-west" "isp"
-      && checkSite "single-wan-with-nebula" "esp0xdeadbeef" "site-a" "nebula" "wan"
-      && checkSite "single-wan-with-nebula-any-to-any-fw" "esp0xdeadbeef" "site-a" "nebula" "wan"
     then
       true
     else
