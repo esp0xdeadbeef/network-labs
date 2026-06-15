@@ -13,11 +13,11 @@
   sops.secrets."hat-pppoe-username" = {
     key = "pppoe-username";
     mode = "0400";
-    sopsFile = ../active-lab/secrets/sops-s-router-clab.yaml;
+    sopsFile = builtins.toPath (toString ./.. + "/active-lab/secrets/sops-s-router-clab.yaml");
   };
   sops.secrets."hat-pppoe-password" = {
     key = "pppoe-password";
     mode = "0400";
-    sopsFile = ../active-lab/secrets/sops-s-router-clab.yaml;
+    sopsFile = builtins.toPath (toString ./.. + "/active-lab/secrets/sops-s-router-clab.yaml");
   };
 }

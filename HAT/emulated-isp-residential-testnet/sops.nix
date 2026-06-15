@@ -1,1 +1,1 @@
-import ../sops.nix
+import (./.. + "/sops.nix")
