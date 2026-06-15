@@ -53,6 +53,32 @@ The target is a realistic segmented network, not a flat routed LAN.
 DNS is service-mediated. Tenants use DNS service objects instead of raw WAN DNS
 egress. Broad WAN access appears only after the DNS-specific denies.
 
+## Static and BGP Uplink Policy
+
+SAT SHALL include both static and BGP uplink testing. Uplink type is a
+parameter within the intent, not a separate fixture directory.
+
+### Static Uplink
+
+The intent SHALL declare `uplink.type = "static"` with `static.nextHop`
+and `static.prefix` fields. The CPM SHALL emit static route records with
+the declared next-hop. Runtime evidence at SAT SHALL verify the static
+default route is installed and end-to-end reachability works through the
+static path.
+
+### BGP Uplink
+
+The intent SHALL declare `uplink.type = "bgp"` with `bgp.localAsn`,
+`bgp.peerAddress`, and `bgp.peerAsn` fields. The CPM SHALL emit
+BGP-derived forwarding records including AS-path, next-hop, and prefix
+advertisement scope. Runtime evidence at SAT SHALL verify BGP session
+establishment, route acceptance, and end-to-end reachability through the
+BGP-learned path.
+
+Existing SAT fixtures use static and DHCP uplinks by default. BGP uplink
+SHALL be added as an alternative uplink type on at least one WAN interface,
+with the eBGP peer simulated by the emulated ISP testnet infrastructure.
+
 ## Service-Mediated Flows
 
 The intent uses services for named destinations instead of direct tenant-to-
