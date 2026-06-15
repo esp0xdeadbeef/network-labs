@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # run-all-tests.sh — run all construction tests in network-labs/tests/
 set -euo pipefail
+exec > >(tee "/tmp/network-labs-tests.out")
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 test_dir="${repo_root}/tests"
@@ -24,6 +25,7 @@ done
 
 echo
 echo "=== Results: ${passed} passed, ${failures} failed ==="
+printf 'PASS: %s, FAIL: %s, TOTAL: %s\n' "${passed}" "${failures}" "$((passed + failures))" >&2
 if [ "${failures}" -gt 0 ]; then
   exit 1
 fi
