@@ -242,7 +242,7 @@ let
     "mgmt"
     "streaming"
   ];
-  clabEastWestTenants = [ "hostile" ];
+  clabInterSiteTenants = [ "hostile" ];
 
   # SAT-SRC-INVENTORY-WIREGUARD-PROVIDER-CONTRACTS: controlled WireGuard
   # provider contracts for host-only /128 egress, provider-owned /64 routing,
@@ -472,7 +472,7 @@ let
     pppoeClab = {
       providerRuntimeNode = "esp-clab-router-upstream";
       providerLogicalNode = "clab-router-upstream";
-      customerRuntimeNode = "esp-clab-router-core-simulated-isp";
+      customerRuntimeNode = "esp-clab-router-core-testnet-host-isp";
       handoff = {
         bridge = "br-clab-pppoe";
         link = "sat-pppoe-clab-handoff";
@@ -488,7 +488,7 @@ let
           interface = "pppoe-server";
         };
         client = {
-          node = "esp-clab-router-core-simulated-isp";
+          node = "esp-clab-router-core-testnet-host-isp";
           service = "pppoe.client";
           interface = "pppoe-wan";
           runtimeInterface = "ppp0";
@@ -653,21 +653,21 @@ let
     }) clabWanTenants
   );
 
-  clabPolicyEastWestPorts = builtins.listToAttrs (
+  clabPolicyInterSitePorts = builtins.listToAttrs (
     map (tenant: {
-      name = "upstream-${tenant}-east-west";
+      name = "upstream-${tenant}-inter-site";
       value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-upstream-${tenant}-east-west";
+        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-inter-site-upstream-${tenant}-inter-site";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+          bridge = "br-clab-policy-upstream-access-${tenant}-inter-site";
           kind = "bridge";
         };
         interface = {
           name = "up-${tenant}-ew";
         };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
+        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-inter-site";
       };
-    }) clabEastWestTenants
+    }) clabInterSiteTenants
   );
 
   clabUpstreamWanPorts = builtins.listToAttrs (
@@ -687,21 +687,21 @@ let
     }) clabWanTenants
   );
 
-  clabUpstreamEastWestPorts = builtins.listToAttrs (
+  clabUpstreamInterSitePorts = builtins.listToAttrs (
     map (tenant: {
-      name = "policy-${tenant}-east-west";
+      name = "policy-${tenant}-inter-site";
       value = {
-        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west-policy-${tenant}-east-west";
+        adapterName = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-inter-site-policy-${tenant}-inter-site";
         attach = {
-          bridge = "br-clab-policy-upstream-access-${tenant}-east-west";
+          bridge = "br-clab-policy-upstream-access-${tenant}-inter-site";
           kind = "bridge";
         };
         interface = {
           name = "pol-${tenant}-ew";
         };
-        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-east-west";
+        link = "p2p-clab-router-policy-clab-router-upstream--access-clab-router-access-${tenant}--uplink-inter-site";
       };
-    }) clabEastWestTenants
+    }) clabInterSiteTenants
   );
 
   secretPolicyNeutral = {
@@ -761,7 +761,7 @@ let
       host = "s-router-clab";
       consumer = {
         kind = "service";
-        node = "esp-clab-router-core-simulated-isp";
+        node = "esp-clab-router-core-testnet-host-isp";
         name = "pppoe.client";
       };
       purpose = "pppoe-username";
@@ -780,7 +780,7 @@ let
       host = "s-router-clab";
       consumer = {
         kind = "service";
-        node = "esp-clab-router-core-simulated-isp";
+        node = "esp-clab-router-core-testnet-host-isp";
         name = "pppoe.client";
       };
       purpose = "pppoe-password";
@@ -1351,7 +1351,7 @@ in
       esp = {
         nixos = {
           overlays = {
-            east-west = {
+            inter-site = {
               nodes = {
                 hetz-router-lighthouse = {
                   addr4 = "100.96.10.254/32";
@@ -1428,7 +1428,7 @@ in
         };
         hetz = {
           overlays = {
-            east-west = {
+            inter-site = {
               nodes = {
                 hetz-router-lighthouse = {
                   addr4 = "100.96.10.254/32";
@@ -1593,7 +1593,7 @@ in
         };
         clab = {
           overlays = {
-            east-west = {
+            inter-site = {
               nodes = {
                 clab-router-core-nebula = {
                   addr4 = "100.96.10.2/32";
@@ -1718,9 +1718,9 @@ in
           br-hetz-downstream-dmz = { };
           br-hetz-downstream-policy-access-client = { };
           br-hetz-downstream-policy-access-dmz = { };
-          br-hetz-policy-upstream-access-client-east-west = { };
+          br-hetz-policy-upstream-access-client-inter-site = { };
           br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-east-west = { };
+          br-hetz-policy-upstream-access-dmz-inter-site = { };
           br-hetz-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
@@ -1758,9 +1758,9 @@ in
           br-hetz-downstream-dmz = { };
           br-hetz-downstream-policy-access-client = { };
           br-hetz-downstream-policy-access-dmz = { };
-          br-hetz-policy-upstream-access-client-east-west = { };
+          br-hetz-policy-upstream-access-client-inter-site = { };
           br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-east-west = { };
+          br-hetz-policy-upstream-access-dmz-inter-site = { };
           br-hetz-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
@@ -1832,7 +1832,7 @@ in
           br-nixos-policy-upstream-access-admin-isp-b = { };
           br-nixos-policy-upstream-access-client-isp-a = { };
           br-nixos-policy-upstream-access-client-isp-b = { };
-          br-nixos-policy-upstream-access-hostile-east-west = { };
+          br-nixos-policy-upstream-access-hostile-inter-site = { };
           br-nixos-policy-upstream-access-mgmt-isp-a = { };
           br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
@@ -1968,7 +1968,7 @@ in
             parent = "eth0";
             vlan = 301;
           };
-          br-clab-core-simulated-isp-upstream = { };
+          br-clab-core-testnet-host-isp-upstream = { };
           br-clab-core-nebula-upstream = { };
           br-clab-downstream-admin = { };
           br-clab-downstream-client = { };
@@ -1983,17 +1983,17 @@ in
           br-clab-downstream-policy-access-mgmt = { };
           br-clab-downstream-policy-access-streaming = { };
           br-clab-policy-upstream-access-admin = { };
-          br-clab-policy-upstream-access-admin-east-west = { };
+          br-clab-policy-upstream-access-admin-inter-site = { };
           br-clab-policy-upstream-access-client = { };
-          br-clab-policy-upstream-access-client-east-west = { };
+          br-clab-policy-upstream-access-client-inter-site = { };
           br-clab-policy-upstream-access-dmz = { };
-          br-clab-policy-upstream-access-dmz-east-west = { };
+          br-clab-policy-upstream-access-dmz-inter-site = { };
           br-clab-policy-upstream-access-hostile = { };
-          br-clab-policy-upstream-access-hostile-east-west = { };
+          br-clab-policy-upstream-access-hostile-inter-site = { };
           br-clab-policy-upstream-access-mgmt = { };
-          br-clab-policy-upstream-access-mgmt-east-west = { };
+          br-clab-policy-upstream-access-mgmt-inter-site = { };
           br-clab-policy-upstream-access-streaming = { };
-          br-clab-policy-upstream-access-streaming-east-west = { };
+          br-clab-policy-upstream-access-streaming-inter-site = { };
           br-clab-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
@@ -3133,16 +3133,16 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
           };
-          upstream-hostile-east-west = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
+          upstream-hostile-inter-site = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site-upstream-hostile-inter-site";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-hostile-east-west";
+              bridge = "br-nixos-policy-upstream-access-hostile-inter-site";
               kind = "bridge";
             };
             interface = {
               name = "up-hostile-ew";
             };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site";
           };
           upstream-mgmt-isp-a = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-upstream-mgmt-isp-a";
@@ -3276,16 +3276,16 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
           };
-          policy-hostile-east-west = {
-            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-policy-hostile-east-west";
+          policy-hostile-inter-site = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site-policy-hostile-inter-site";
             attach = {
-              bridge = "br-nixos-policy-upstream-access-hostile-east-west";
+              bridge = "br-nixos-policy-upstream-access-hostile-inter-site";
               kind = "bridge";
             };
             interface = {
               name = "pol-hostile-ew";
             };
-            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site";
           };
           policy-mgmt-isp-a = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-policy-mgmt-isp-a";
@@ -3564,7 +3564,7 @@ in
             };
             logicalInterface = "tenant-client";
           };
-          east-west = {
+          inter-site = {
             attach = {
               bridge = "br-wan";
               kind = "bridge";
@@ -3572,7 +3572,7 @@ in
             external = true;
             interface = {
               addr4 = "172.31.254.2/24";
-              name = "east-west";
+              name = "inter-site";
               routes = {
                 ipv4 = [
                   {
@@ -3583,7 +3583,7 @@ in
                 ];
               };
             };
-            uplink = "east-west";
+            uplink = "inter-site";
           };
           upstream = {
             adapterName = "p2p-hetz-router-nebula-core-hetz-router-upstream-upstream";
@@ -3651,16 +3651,16 @@ in
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
           };
-          upstream-dmz-east-west = {
-            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-upstream-dmz-east-west";
+          upstream-dmz-inter-site = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site-upstream-dmz-inter-site";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              bridge = "br-hetz-policy-upstream-access-dmz-inter-site";
               kind = "bridge";
             };
             interface = {
               name = "up-dmz-ew";
             };
-            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site";
           };
         };
       };
@@ -3717,16 +3717,16 @@ in
             };
             link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
           };
-          policy-dmz-east-west = {
-            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-policy-dmz-east-west";
+          policy-dmz-inter-site = {
+            adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site-policy-dmz-inter-site";
             attach = {
-              bridge = "br-hetz-policy-upstream-access-dmz-east-west";
+              bridge = "br-hetz-policy-upstream-access-dmz-inter-site";
               kind = "bridge";
             };
             interface = {
               name = "pol-dmz-ew";
             };
-            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
+            link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site";
           };
         };
       };
@@ -3765,25 +3765,25 @@ in
           };
         };
       };
-      esp-clab-router-core-simulated-isp = withDeniedResolverNode {
+      esp-clab-router-core-testnet-host-isp = withDeniedResolverNode {
         host = "s-router-clab";
         logicalNode = {
           enterprise = "esp";
-          name = "clab-router-core-simulated-isp";
+          name = "clab-router-core-testnet-host-isp";
           site = "clab";
         };
         platform = "nixos-container";
         ports = {
           upstream = {
-            adapterName = "p2p-clab-router-core-simulated-isp-clab-router-upstream-upstream";
+            adapterName = "p2p-clab-router-core-testnet-host-isp-clab-router-upstream-upstream";
             attach = {
-              bridge = "br-clab-core-simulated-isp-upstream";
+              bridge = "br-clab-core-testnet-host-isp-upstream";
               kind = "bridge";
             };
             interface = {
               name = "upstream";
             };
-            link = "p2p-clab-router-core-simulated-isp-clab-router-upstream";
+            link = "p2p-clab-router-core-testnet-host-isp-clab-router-upstream";
           };
           wan = {
             attach = {
@@ -3816,7 +3816,7 @@ in
           site = "clab";
         };
         platform = "nixos-container";
-        ports = clabPolicyDownstreamPorts // clabPolicyWanPorts // clabPolicyEastWestPorts;
+        ports = clabPolicyDownstreamPorts // clabPolicyWanPorts // clabPolicyInterSitePorts;
       };
       esp-clab-router-upstream = {
         host = "s-router-clab";
@@ -3827,16 +3827,16 @@ in
         };
         platform = "nixos-container";
         ports = {
-          core-simulated-isp = {
-            adapterName = "p2p-clab-router-core-simulated-isp-clab-router-upstream-core-simulated-isp";
+          core-testnet-host-isp = {
+            adapterName = "p2p-clab-router-core-testnet-host-isp-clab-router-upstream-core-testnet-host-isp";
             attach = {
-              bridge = "br-clab-core-simulated-isp-upstream";
+              bridge = "br-clab-core-testnet-host-isp-upstream";
               kind = "bridge";
             };
             interface = {
               name = "core-isp";
             };
-            link = "p2p-clab-router-core-simulated-isp-clab-router-upstream";
+            link = "p2p-clab-router-core-testnet-host-isp-clab-router-upstream";
           };
           core-nebula = {
             adapterName = "p2p-clab-router-core-nebula-clab-router-upstream-core-nebula";
@@ -3851,7 +3851,7 @@ in
           };
         }
         // clabUpstreamWanPorts
-        // clabUpstreamEastWestPorts;
+        // clabUpstreamInterSitePorts;
       };
     };
   };
