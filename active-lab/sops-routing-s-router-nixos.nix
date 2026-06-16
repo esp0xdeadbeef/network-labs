@@ -1,1 +1,1 @@
-import ../HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix
+import ../sat/sops-routing-s-router-nixos.nix

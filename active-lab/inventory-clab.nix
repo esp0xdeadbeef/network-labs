@@ -1,1 +1,1 @@
-import ../HAT/emulated-isp-residential-testnet/inventory-clab.nix
+import ../sat/inventory-clab.nix
