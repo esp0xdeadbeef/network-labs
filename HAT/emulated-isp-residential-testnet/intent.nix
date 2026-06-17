@@ -911,26 +911,6 @@
             "nixos-downstream-selector"
             "nixos-access-dmz"
           ]
-          [
-            "nixos-provider-handoff-access-a"
-            "nixos-core-testnet-host-isp"
-          ]
-          [
-            "nixos-provider-handoff-access-b"
-            "nixos-core-testnet-routed-isp"
-          ]
-          [
-            "nixos-access-iot"
-            "nixos-core-nebula"
-          ]
-          [
-            "nixos-access-iot"
-            "nixos-core-wireguard-remote-egress"
-          ]
-          [
-            "nixos-access-iot"
-            "nixos-core-wireguard-host128"
-          ]
         ];
         nodes = {
           nixos-access-client = {
@@ -2047,26 +2027,6 @@
           [
             "clab-downstream-selector"
             "clab-access-dmz"
-          ]
-          [
-            "clab-provider-handoff-access-a"
-            "clab-core-testnet-host-isp"
-          ]
-          [
-            "clab-provider-handoff-access-b"
-            "clab-core-testnet-routed-isp"
-          ]
-          [
-            "clab-access-iot"
-            "clab-core-nebula"
-          ]
-          [
-            "clab-access-iot"
-            "clab-core-wireguard-remote-egress"
-          ]
-          [
-            "clab-access-iot"
-            "clab-core-wireguard-host128"
           ]
         ];
         nodes = {
