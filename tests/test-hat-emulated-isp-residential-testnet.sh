@@ -123,16 +123,6 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (name: builtins.hasAttr name clients)
         ((host.hat or { }).requiredEndpointClients or [ ]);
     hasRelation = id: builtins.any (relation: (relation.id or "") == id) relations;
-    tenantAttachments = nodes: nodeName:
-      builtins.map
-        (attachment: attachment.name or "")
-        (builtins.filter
-          (attachment: (attachment.kind or null) == "tenant")
-          ((nodes.${nodeName} or { }).attachments or [ ]));
-    shareTenantAttachment = nodes: left: right:
-      builtins.any
-        (tenant: builtins.elem tenant (tenantAttachments nodes right))
-        (tenantAttachments nodes left);
     roleOf = nodes: nodeName: (nodes.${nodeName} or { }).role or null;
     attachmentsOf = nodes: nodeName: (nodes.${nodeName} or { }).attachments or [ ];
     uplinksOf = nodes: nodeName: (nodes.${nodeName} or { }).uplinks or { };
@@ -179,8 +169,7 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         rolePairIs "core" "upstream-selector"
         || rolePairIs "upstream-selector" "policy"
         || rolePairIs "policy" "downstream-selector"
-        || rolePairIs "downstream-selector" "access"
-        || (rolePairIs "access" "core" && shareTenantAttachment nodes left right);
+        || rolePairIs "downstream-selector" "access";
     invalidStageLinks = nodes: links:
       builtins.filter (link: !(stageLinkAllowed nodes link)) links;
     accessCoreLinks = nodes: links:
@@ -290,22 +279,10 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       (relation: (relation.id or null) == "deny-client-dns-to-uplinks")
       (clabSite.communicationContract.relations or [ ]))
       "site-b HAT source must keep direct tenant public DNS blocked when router-self is advertised"
-    && require (accessCoreLinks nodes site.topology.links == [
-      [ "nixos-provider-handoff-access-a" "nixos-core-testnet-host-isp" ]
-      [ "nixos-provider-handoff-access-b" "nixos-core-testnet-routed-isp" ]
-      [ "nixos-access-iot" "nixos-core-nebula" ]
-      [ "nixos-access-iot" "nixos-core-wireguard-remote-egress" ]
-      [ "nixos-access-iot" "nixos-core-wireguard-host128" ]
-    ])
-      "site-a HAT source must allow only HDS access-space/core attachment links"
-    && require (accessCoreLinks clabNodes clabSite.topology.links == [
-      [ "clab-provider-handoff-access-a" "clab-core-testnet-host-isp" ]
-      [ "clab-provider-handoff-access-b" "clab-core-testnet-routed-isp" ]
-      [ "clab-access-iot" "clab-core-nebula" ]
-      [ "clab-access-iot" "clab-core-wireguard-remote-egress" ]
-      [ "clab-access-iot" "clab-core-wireguard-host128" ]
-    ])
-      "site-b HAT source must allow only HDS access-space/core attachment links"
+    && require (accessCoreLinks nodes site.topology.links == [ ])
+      "site-a HAT source must have zero core↔access links (unconditional rejection per SMS-010)"
+    && require (accessCoreLinks clabNodes clabSite.topology.links == [ ])
+      "site-b HAT source must have zero core↔access links (unconditional rejection per SMS-010)"
     && require (upstreamCoreOnly nodes "nixos-core-upstream-vlan4" "isp-a")
       "site-a VLAN4 upstream surface must be a core uplink without tenant/client attachment"
     && require (upstreamCoreOnly clabNodes "clab-core-upstream-vlan4" "isp-a")
