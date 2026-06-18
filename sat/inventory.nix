@@ -1939,7 +1939,38 @@ in
         wanUplink = "uplink-isp-b";
       };
       s-router-nixos = {
-        bridgeNetworks = { };
+        bridgeNetworks = {
+          admin = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 301;
+          };
+          client = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 302;
+          };
+          dmz = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 304;
+          };
+          hostile = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 306;
+          };
+          mgmt = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 300;
+          };
+          streaming = {
+            mode = "vlan";
+            parent = "eth0";
+            vlan = 311;
+          };
+        };
         uplinks = {
           management = {
             bridge = "vlan2";
