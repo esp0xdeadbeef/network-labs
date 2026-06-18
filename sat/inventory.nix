@@ -1945,6 +1945,32 @@ in
             parent = "eth0";
             vlan = 301;
           };
+          br-nixos-core-isp-a-upstream = { };
+          br-nixos-core-isp-b-upstream = { };
+          br-nixos-core-nebula-upstream = { };
+          br-nixos-downstream-admin = { };
+          br-nixos-downstream-client = { };
+          br-nixos-downstream-dmz = { };
+          br-nixos-downstream-hostile = { };
+          br-nixos-downstream-mgmt = { };
+          br-nixos-downstream-policy-access-admin = { };
+          br-nixos-downstream-policy-access-client = { };
+          br-nixos-downstream-policy-access-dmz = { };
+          br-nixos-downstream-policy-access-hostile = { };
+          br-nixos-downstream-policy-access-mgmt = { };
+          br-nixos-downstream-policy-access-streaming = { };
+          br-nixos-downstream-streaming = { };
+          br-nixos-policy-upstream-access-admin-isp-a = { };
+          br-nixos-policy-upstream-access-admin-isp-b = { };
+          br-nixos-policy-upstream-access-client-isp-a = { };
+          br-nixos-policy-upstream-access-client-isp-b = { };
+          br-nixos-policy-upstream-access-dmz-isp-a = { };
+          br-nixos-policy-upstream-access-dmz-isp-b = { };
+          br-nixos-policy-upstream-access-hostile-east-west = { };
+          br-nixos-policy-upstream-access-mgmt-isp-a = { };
+          br-nixos-policy-upstream-access-mgmt-isp-b = { };
+          br-nixos-policy-upstream-access-streaming-isp-a = { };
+          br-nixos-policy-upstream-access-streaming-isp-b = { };
           client = {
             mode = "vlan";
             parent = "eth0";
@@ -1990,7 +2016,46 @@ in
             parent = "eth0";
             vlan = 2;
           };
+          uplink-isp-a = {
+            bridge = "br-uplink0";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "isp-a";
+            vlan = 4;
+          };
+          uplink-isp-b = {
+            bridge = "br-uplink1";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "isp-b";
+            vlan = 5;
+          };
         };
+        wanUplink = "uplink-isp-b";
       };
       s-router-clab = {
         bridgeNetworks = {
