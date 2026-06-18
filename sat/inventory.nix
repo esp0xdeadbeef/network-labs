@@ -509,7 +509,7 @@ let
       gampId = providerAccessFixtureTable.pppoeNixos.gampId;
       backend = "nixos";
       site = "nixos";
-      host = "s-router-test";
+      host = "s-router-nixos";
       fixtureRef = {
         marker = "SAT-SRC-INVENTORY-UPSTREAM-EMULATION";
         customerCoreNode = providerAccessFixtureTable.pppoeNixos.customer.coreNode;
@@ -720,7 +720,7 @@ let
       credentialClass = "provider-credential";
       site = "nixos";
       tenant = null;
-      host = "s-router-test";
+      host = "s-router-nixos";
       consumer = {
         kind = "service";
         node = "esp-nixos-router-core-isp-a";
@@ -739,7 +739,7 @@ let
       credentialClass = "provider-credential";
       site = "nixos";
       tenant = null;
-      host = "s-router-test";
+      host = "s-router-nixos";
       consumer = {
         kind = "service";
         node = "esp-nixos-router-core-isp-a";
@@ -986,7 +986,7 @@ let
       credentialClass = "deployment-runtime-fact";
       site = "nixos";
       tenant = "hostile";
-      host = "s-router-test";
+      host = "s-router-nixos";
       consumer = {
         kind = "tenant-runtime-prefix";
         node = "esp-nixos-router-access-hostile";
@@ -2514,7 +2514,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-admin";
@@ -2630,7 +2630,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-client";
@@ -2679,7 +2679,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-dmz";
@@ -2733,7 +2733,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-hostile";
@@ -2782,7 +2782,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-mgmt";
@@ -2831,7 +2831,7 @@ in
             };
           };
         };
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-access-streaming";
@@ -2866,7 +2866,7 @@ in
         };
       };
       esp-nixos-router-core-isp-a = withDeniedResolverNode {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-core-isp-a";
@@ -2903,7 +2903,7 @@ in
         };
       };
       esp-nixos-router-core-isp-b = withDeniedResolverNode {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-core-isp-b";
@@ -2936,7 +2936,7 @@ in
         };
       };
       esp-nixos-router-core-nebula = withDeniedResolverNode {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-core-nebula";
@@ -2968,7 +2968,7 @@ in
         };
       };
       esp-nixos-router-downstream = {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-downstream";
@@ -3111,7 +3111,7 @@ in
         };
       };
       esp-nixos-router-policy = {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-policy";
@@ -3287,7 +3287,7 @@ in
         };
       };
       esp-nixos-router-upstream = {
-        host = "s-router-test";
+        host = "s-router-nixos";
         logicalNode = {
           enterprise = "esp";
           name = "nixos-router-upstream";
