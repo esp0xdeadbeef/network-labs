@@ -9,6 +9,12 @@ for `network-labs`. Keep changes narrow, source-backed, and testable.
   task explicitly targets examples.
 - `SAT/` is the controlled SAT source, not an example.
 - `HAT/` contains host-acceptance preparation fixtures, not SAT evidence.
+- `SMT/` is for GAMP-layer module-test stubs, row notes, and source-local
+  construction evidence that is not live acceptance.
+- `SIT/` is for GAMP-layer integration-test stubs, row notes, and locked
+  source-to-artifact evidence that is not live acceptance.
+- `templates/on-prem-vlan2-host-adapter/` is the mandatory on-prem host-adapter
+  template for controlled GAMP validation work.
 - `sat/` and `HAT/` paths at the repository root are legacy locations in this
   checkout. Do not reintroduce references to those paths when editing files
   under `GAMP/`.
@@ -102,6 +108,27 @@ For on-prem hosts, everything except Hetzner-hosted surfaces must have
 `eth0.2` configured for DHCP on the host before the live run. Without that,
 the host may be offline and the validation result is not meaningful.
 
+VLAN2 missing from examples is acceptable. VLAN2 missing from controlled
+`GAMP/**` validation surfaces is not acceptable. Any new GAMP validation source
+that needs an on-prem host attachment must either carry an equivalent
+`management` uplink or reference:
+
+```text
+GAMP/templates/on-prem-vlan2-host-adapter/inventory.nix
+```
+
+The template intentionally contains only the management uplink:
+
+- bridge `vlan2`;
+- parent `eth0`;
+- VLAN ID `2`;
+- IPv4 DHCP enabled;
+- IPv6, Router Advertisement, DHCPv6, and DHCPv6-PD disabled.
+
+Do not add ad hoc host bridge, WAN, or access uplinks to SMT/SIT/HAT/SAT
+validation stubs. Start from the template and add only the smallest required
+host adapter in the owning GAMP layer.
+
 Do not promote source, parser, renderer, or fixture checks to live evidence.
 When live testing is impossible in the current turn, leave the row or stub
 blocked with the exact missing harness, host, or command.
@@ -115,6 +142,7 @@ bash ../tests/test-smt-traceability-docs.sh
 bash ../tests/test-hat-traceability-docs.sh
 bash ../tests/test-sit-traceability-docs.sh
 bash ../tests/test-sat-traceability-docs.sh
+bash ../tests/test-gamp-vlan2-host-adapter-template.sh
 ```
 
 For a broader local sweep from the repository root:
@@ -125,6 +153,13 @@ NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test.sh
 
 Only run live HAT/SAT harnesses when the host prerequisites are satisfied and
 the target harness is the owning runtime surface.
+
+The tracked pre-push hook in `../.githooks/pre-push` runs the VLAN2 GAMP guard.
+Enable it in this checkout with:
+
+```bash
+git config core.hooksPath .githooks
+```
 
 ## Commit Message
 
