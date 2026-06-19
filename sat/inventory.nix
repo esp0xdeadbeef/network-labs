@@ -2269,6 +2269,7 @@ in
             };
             nixos-client02 = {
               assignment = "dhcp";
+              bridge = "client";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
                 mode = "no-general-management";
@@ -2283,6 +2284,7 @@ in
             nixos-emulated-sigma = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "mgmt";
               gateway4 = "10.20.10.1";
               gateway6 = "fd42:dead:beef:10::1";
               ipv4 = [ "10.20.10.50/24" ];
@@ -2301,6 +2303,7 @@ in
             nixos-printer01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "client";
               gampId = "FS-730-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
@@ -2356,6 +2359,7 @@ in
             nixos-receiver01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "client";
               gampId = "FS-750-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
@@ -2406,6 +2410,7 @@ in
             nixos-streaming-test = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "streaming";
               gateway4 = "10.20.50.1";
               gateway6 = "fd42:dead:beef:50::1";
               ipv4 = [ "10.20.50.10/24" ];
