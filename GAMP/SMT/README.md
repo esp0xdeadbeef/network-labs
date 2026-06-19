@@ -8,6 +8,33 @@ evidence that belongs inside the controlled GAMP tree. Examples-only SMT rows
 are indexed in `../../tests/SMT.md`; those rows may reference `../examples/`
 fixtures, but they are not live acceptance evidence.
 
+## Hardware-Related SMT Evidence
+
+Hardware-related SMT is not a dry-run bucket. If an SMS concerns host adapters,
+bridges, VLANs, VM interfaces, NixOS renderer output, CLAB host attachment, or
+an `s-router-*` harness, the SMT evidence must include a real executable test
+that uses the controlled source under:
+
+```text
+/home/deadbeef/github/network-labs/GAMP/*
+```
+
+Put the `network-labs` side of that test under `../../tests/`. If the SMS is
+owned by another repository, add the focused implementation test there too, but
+keep a `network-labs/tests/` test or harness that proves the controlled GAMP
+source still exercises the behavior.
+
+Acceptable hardware-related SMT examples include:
+
+- booting a minimal VM with the rendered adapter or route surface;
+- running the smallest relevant `s-router-*` harness path;
+- checking a live CLAB or NixOS fixture after it starts;
+- recording bounded runtime probes from the VM or harness.
+
+Static parsing, `nix-instantiate --parse`, renderer-only JSON inspection, and
+`nix build --dry-run` can be prerequisites, but they must not be the final
+evidence for hardware-related SMT.
+
 ## On-Prem Host Adapter
 
 Any SMT stub that needs an on-prem host attachment must use or reference:

@@ -8,6 +8,35 @@ integration evidence. A SIT row must name the source path, artifact path,
 command, and observed result. It is not HAT or SAT evidence unless the owning
 runtime harness also records live evidence.
 
+## Hardware-Related SIT Evidence
+
+Hardware-related SIT must integrate the controlled source with a real
+execution surface. It must not stop at dry-running config generation.
+
+Use the controlled source root:
+
+```text
+/home/deadbeef/github/network-labs/GAMP/*
+```
+
+Put the `network-labs` integration test under `../../tests/`. If the SMS is
+implemented in another repository, keep the owning repo test there and add a
+`network-labs/tests/` SIT-oriented test or harness that consumes the GAMP source
+and checks the integrated behavior.
+
+For NixOS-renderer or host-network SIT, prefer the smallest real path that can
+exercise the artifact:
+
+- build and boot a minimal VM from the GAMP source;
+- run the smallest relevant `s-router-*` harness such as `s-router-nixos`,
+  `s-router-clab`, or `s-router-test-clients`;
+- collect route, interface, lease, service, firewall, or reachability probes
+  from inside the VM or harness context.
+
+A SIT row may cite dry-run, parse, or render checks as prerequisites, but the
+row remains blocked until the real VM/harness command and observed result are
+recorded.
+
 ## On-Prem Host Adapter
 
 Any SIT stub that needs an on-prem host attachment must use or reference:

@@ -43,6 +43,7 @@ tests=(
   test-sit-traceability-docs.sh
   test-sat-traceability-docs.sh
   test-gamp-vlan2-host-adapter-template.sh
+  test-gamp-worker-hardware-validation-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
   test-fs200-shared-service-source-matrix.sh
   test-fs650-fs690-profile-matrices.sh

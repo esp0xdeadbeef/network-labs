@@ -2,4 +2,5 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-exec "${repo_root}/tests/test-gamp-vlan2-host-adapter-template.sh"
+"${repo_root}/tests/test-gamp-vlan2-host-adapter-template.sh"
+exec "${repo_root}/tests/test-gamp-worker-hardware-validation-docs.sh"
