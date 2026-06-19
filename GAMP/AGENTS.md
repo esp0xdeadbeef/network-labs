@@ -20,6 +20,9 @@ for `network-labs`. Keep changes narrow, source-backed, and testable.
   under `GAMP/`.
 - Validation indexes live in `../tests/SMT.md`, `../tests/SIT.md`,
   `../tests/HAT.md`, and `../tests/SAT.md`.
+- Worker-owned GAMP validation artifacts live under
+  `/home/deadbeef/github/network-labs/GAMP/*`, not directly under
+  `/home/deadbeef/github/network-labs/*`.
 
 Before editing, inspect the live tree instead of trusting stale counts:
 
@@ -98,6 +101,41 @@ own evidence.
 Stub validation files are allowed only as placeholders that keep missing work
 visible. A stub must say what evidence is missing and must not mark a row `OK`.
 
+## Worker Test Placement
+
+Workers must put GAMP-layer validation notes, row stubs, and evidence indexes
+inside the layer directory under `GAMP/`:
+
+```text
+GAMP/SMT/
+GAMP/SIT/
+GAMP/HAT/
+GAMP/SAT/
+```
+
+Executable repo tests that prove those rows belong in `../tests/`. Do not put
+new worker evidence in legacy root-level `SMT/`, `SIT/`, `HAT/`, `SAT/`,
+`sat/`, or ad hoc scratch directories.
+
+If an SMS is specific to another repository, add the owning low-level test in
+that repository as well, but also add a `network-labs/tests/` test or harness
+that consumes the controlled `network-labs/GAMP/*` source. A renderer-specific
+SMS is not proven by the renderer repository alone when the behavior is a lab
+acceptance concern.
+
+For example, when a NixOS renderer SMS uses this lab source, the worker must
+exercise the main `network-labs` GAMP source through a real VM or harness path:
+
+- build and boot a minimal NixOS VM that consumes `GAMP/SAT` or `GAMP/HAT`;
+- or run the smallest relevant `s-router-*` harness such as `s-router-nixos`,
+  `s-router-clab`, or `s-router-test-clients`;
+- then record the exact command, host/VM/harness context, artifact path, and
+  observed runtime result in the GAMP layer row.
+
+Dry-run output, parser success, static grep, renderer JSON, or
+`nix build --dry-run` may be prerequisite evidence, but it is not enough to
+close a hardware-related SMT or SIT row.
+
 ## Live Testing Rule
 
 Live-test every GAMP rule that can be live-tested. Use the smallest practical
@@ -143,6 +181,7 @@ bash ../tests/test-hat-traceability-docs.sh
 bash ../tests/test-sit-traceability-docs.sh
 bash ../tests/test-sat-traceability-docs.sh
 bash ../tests/test-gamp-vlan2-host-adapter-template.sh
+bash ../tests/test-gamp-worker-hardware-validation-docs.sh
 ```
 
 For a broader local sweep from the repository root:
