@@ -39,6 +39,9 @@ tests=(
   test-tri-site-bgp-overlay-realization.sh
   test-modeling-contract-docs.sh
   test-smt-traceability-docs.sh
+  test-hat-traceability-docs.sh
+  test-sit-traceability-docs.sh
+  test-sat-traceability-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
   test-fs200-shared-service-source-matrix.sh
   test-fs650-fs690-profile-matrices.sh
