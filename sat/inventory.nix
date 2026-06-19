@@ -2237,6 +2237,7 @@ in
             nixos-branch-node01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "branch";
               gateway4 = "10.60.10.1";
               gateway6 = "fd42:dead:feed:10::1";
               ipv4 = [ "10.60.10.10/24" ];
@@ -2254,6 +2255,7 @@ in
             };
             nixos-client01 = {
               assignment = "dhcp";
+              bridge = "client";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
                 mode = "no-general-management";
