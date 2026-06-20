@@ -49,9 +49,6 @@ selectorFabricLinkRealization {
           br-site-b-p2p-clab-access-client-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-dmz-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-guest-clab-downstream-selector = { };
-          br-site-b-p2p-clab-access-iot-clab-core-nebula = { };
-          br-site-b-p2p-clab-access-iot-clab-core-wireguard-host128 = { };
-          br-site-b-p2p-clab-access-iot-clab-core-wireguard-remote-egress = { };
           br-site-b-p2p-clab-access-iot-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-management-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-trusted-clab-downstream-selector = { };
@@ -2308,39 +2305,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-access-iot-clab-core-nebula = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-access-iot-p2p-clab-access-iot-clab-core-nebula";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-nebula";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-access-iot-clab-core-nebula";
-          };
-          p2p-clab-access-iot-clab-core-wireguard-host128 = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-access-iot-p2p-clab-access-iot-clab-core-wireguard-host128";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-wireguard-host128";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens21";
-            };
-            link = "p2p-clab-access-iot-clab-core-wireguard-host128";
-          };
-          p2p-clab-access-iot-clab-core-wireguard-remote-egress = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-access-iot-p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens22";
-            };
-            link = "p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-          };
           p2p-clab-access-iot-clab-downstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-access-iot-p2p-clab-access-iot-clab-downstream-selector";
             attach = {
@@ -2530,17 +2494,6 @@ selectorFabricLinkRealization {
               name = "ens80";
             };
             uplink = "nebula-egress";
-          };
-          p2p-clab-access-iot-clab-core-nebula = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-nebula-p2p-clab-access-iot-clab-core-nebula";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-nebula";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-access-iot-clab-core-nebula";
           };
           p2p-clab-core-nebula-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-nebula-p2p-clab-core-nebula-clab-upstream-selector";
@@ -2785,17 +2738,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-access-iot-clab-core-wireguard-host128 = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-wireguard-host128-p2p-clab-access-iot-clab-core-wireguard-host128";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-wireguard-host128";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-access-iot-clab-core-wireguard-host128";
-          };
           p2p-clab-core-wireguard-host128-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-wireguard-host128-p2p-clab-core-wireguard-host128-clab-upstream-selector";
             attach = {
@@ -2829,17 +2771,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-access-iot-clab-core-wireguard-remote-egress = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-wireguard-remote-egress-p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-            attach = {
-              bridge = "br-site-b-p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-access-iot-clab-core-wireguard-remote-egress";
-          };
           p2p-clab-core-wireguard-remote-egress-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-wireguard-remote-egress-p2p-clab-core-wireguard-remote-egress-clab-upstream-selector";
             attach = {
