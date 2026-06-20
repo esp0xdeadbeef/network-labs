@@ -452,7 +452,6 @@ selectorFabricLinkRealization {
           stub-nixos-br-site-a-p2p-nixos-core-commercial-vpn-nixos-upstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-core-nebula-nixos-upstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-core-route-import-nixos-upstream-selector = { };
-          stub-nixos-br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = { };
           stub-nixos-br-site-a-p2p-nixos-core-testnet-host-isp-nixos-upstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b = { };
           stub-nixos-br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector = { };
@@ -1046,17 +1045,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-host-isp-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-            attach = {
-              bridge = "stub-nixos-br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-          };
           p2p-nixos-core-testnet-host-isp-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-host-isp-p2p-nixos-core-testnet-host-isp-nixos-upstream-selector";
             attach = {
@@ -1809,17 +1797,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-            attach = {
-              bridge = "stub-nixos-br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
-          };
           p2p-nixos-downstream-selector-nixos-provider-handoff-access-a = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-a-p2p-nixos-downstream-selector-nixos-provider-handoff-access-a";
             attach = {
