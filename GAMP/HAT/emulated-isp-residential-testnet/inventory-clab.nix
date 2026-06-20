@@ -445,7 +445,6 @@ selectorFabricLinkRealization {
           stub-nixos-br-site-a-p2p-nixos-access-client-nixos-downstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-access-dmz-nixos-downstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-access-guest-nixos-downstream-selector = { };
-          stub-nixos-br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-host128 = { };
           stub-nixos-br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = { };
           stub-nixos-br-site-a-p2p-nixos-access-iot-nixos-downstream-selector = { };
           stub-nixos-br-site-a-p2p-nixos-access-management-nixos-downstream-selector = { };
@@ -803,17 +802,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-access-iot-nixos-core-wireguard-host128 = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-core-wireguard-host128";
-            attach = {
-              bridge = "stub-nixos-br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-host128";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens21";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-wireguard-host128";
-          };
           p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
             attach = {
@@ -1258,17 +1246,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-access-iot-nixos-core-wireguard-host128 = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-wireguard-host128-p2p-nixos-access-iot-nixos-core-wireguard-host128";
-            attach = {
-              bridge = "stub-nixos-br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-host128";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-wireguard-host128";
-          };
           p2p-nixos-core-wireguard-host128-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-wireguard-host128-p2p-nixos-core-wireguard-host128-nixos-upstream-selector";
             attach = {
