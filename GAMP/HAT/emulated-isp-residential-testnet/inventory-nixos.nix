@@ -270,7 +270,6 @@ selectorFabricLinkRealization {
           br-site-a-p2p-nixos-access-client-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-dmz-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-guest-nixos-downstream-selector = { };
-          br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = { };
           br-site-a-p2p-nixos-access-iot-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-management-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-trusted-nixos-downstream-selector = { };
@@ -1032,17 +1031,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-            attach = {
-              bridge = "br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens22";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-          };
           p2p-nixos-access-iot-nixos-downstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-downstream-selector";
             attach = {
@@ -1509,17 +1497,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-wireguard-remote-egress-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-            attach = {
-              bridge = "br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-wireguard-remote-egress";
-          };
           p2p-nixos-core-wireguard-remote-egress-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-wireguard-remote-egress-p2p-nixos-core-wireguard-remote-egress-nixos-upstream-selector";
             attach = {
