@@ -56,9 +56,7 @@ selectorFabricLinkRealization {
           br-site-b-p2p-clab-core-commercial-vpn-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-nebula-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-route-import-clab-upstream-selector = { };
-          br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = { };
           br-site-b-p2p-clab-core-testnet-host-isp-clab-upstream-selector = { };
-          br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = { };
           br-site-b-p2p-clab-core-testnet-routed-isp-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-upstream-vlan4-clab-upstream-selector = { };
@@ -2550,17 +2548,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-host-isp-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-            attach = {
-              bridge = "br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-          };
           p2p-clab-core-testnet-host-isp-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-host-isp-p2p-clab-core-testnet-host-isp-clab-upstream-selector";
             attach = {
@@ -2610,17 +2597,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-routed-isp-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-            attach = {
-              bridge = "br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-          };
           p2p-clab-core-testnet-routed-isp-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-routed-isp-p2p-clab-core-testnet-routed-isp-clab-upstream-selector";
             attach = {
@@ -3313,17 +3289,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-a-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-            attach = {
-              bridge = "br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
-          };
           p2p-clab-downstream-selector-clab-provider-handoff-access-a = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-a-p2p-clab-downstream-selector-clab-provider-handoff-access-a";
             attach = {
@@ -3377,17 +3342,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = {
-            adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-            attach = {
-              bridge = "br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
-          };
           p2p-clab-downstream-selector-clab-provider-handoff-access-b = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-b-p2p-clab-downstream-selector-clab-provider-handoff-access-b";
             attach = {
