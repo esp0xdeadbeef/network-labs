@@ -270,7 +270,6 @@ selectorFabricLinkRealization {
           br-site-a-p2p-nixos-access-client-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-dmz-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-guest-nixos-downstream-selector = { };
-          br-site-a-p2p-nixos-access-iot-nixos-core-nebula = { };
           br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-host128 = { };
           br-site-a-p2p-nixos-access-iot-nixos-core-wireguard-remote-egress = { };
           br-site-a-p2p-nixos-access-iot-nixos-downstream-selector = { };
@@ -1034,17 +1033,6 @@ selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
-          p2p-nixos-access-iot-nixos-core-nebula = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-core-nebula";
-            attach = {
-              bridge = "br-site-a-p2p-nixos-access-iot-nixos-core-nebula";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-nebula";
-          };
           p2p-nixos-access-iot-nixos-core-wireguard-host128 = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-access-iot-p2p-nixos-access-iot-nixos-core-wireguard-host128";
             attach = {
@@ -1256,17 +1244,6 @@ selectorFabricLinkRealization {
               name = "ens80";
             };
             uplink = "nebula-egress";
-          };
-          p2p-nixos-access-iot-nixos-core-nebula = {
-            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-nebula-p2p-nixos-access-iot-nixos-core-nebula";
-            attach = {
-              bridge = "br-site-a-p2p-nixos-access-iot-nixos-core-nebula";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens20";
-            };
-            link = "p2p-nixos-access-iot-nixos-core-nebula";
           };
           p2p-nixos-core-nebula-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-nebula-p2p-nixos-core-nebula-nixos-upstream-selector";
