@@ -1,1 +1,1 @@
-import ../sat/clients.nix
+{ }
