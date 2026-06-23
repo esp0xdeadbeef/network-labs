@@ -643,7 +643,6 @@ selectorFabricLinkRealization {
             "nixos-branch-node01"
             "nixos-client01"
             "nixos-client02"
-            "nixos-emulated-sigma"
             "nixos-printer01"
             "nixos-receiver01"
             "nixos-streaming-test"
@@ -652,6 +651,7 @@ selectorFabricLinkRealization {
             nixos-branch-node01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "client";
               gateway4 = "10.60.10.1";
               gateway6 = "fd42:dead:feed:10::1";
               ipv4 = [ "10.60.10.10/24" ];
@@ -669,6 +669,7 @@ selectorFabricLinkRealization {
             };
             nixos-client01 = {
               assignment = "dhcp";
+              bridge = "client";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
                 mode = "no-general-management";
@@ -682,6 +683,7 @@ selectorFabricLinkRealization {
             };
             nixos-client02 = {
               assignment = "dhcp";
+              bridge = "client";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
                 mode = "no-general-management";
@@ -693,27 +695,10 @@ selectorFabricLinkRealization {
               };
               tenant = "client";
             };
-            nixos-emulated-sigma = {
-              addressDelivery = "endpoint-configured";
-              assignment = "static-ipv4-or-ipv6-client";
-              gateway4 = "10.20.10.1";
-              gateway6 = "fd42:dead:beef:10::1";
-              ipv4 = [ "10.20.10.50/24" ];
-              ipv6 = [ "fd42:dead:beef:10::50/64" ];
-              managementBoundary = {
-                fixturePlacementCreatesManagementAccess = false;
-                mode = "no-general-management";
-              };
-              owningSubstrate = "nixos";
-              persistenceExpectation = {
-                kind = "ephemeral-fixture";
-                required = false;
-              };
-              tenant = "mgmt";
-            };
             nixos-printer01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "client";
               gampId = "FS-730-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
@@ -769,6 +754,7 @@ selectorFabricLinkRealization {
             nixos-receiver01 = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "client";
               gampId = "FS-750-HDS-010-SDS-010-SMS-010";
               gateway4 = "10.20.20.1";
               gateway6 = "fd42:dead:beef:20::1";
@@ -819,6 +805,7 @@ selectorFabricLinkRealization {
             nixos-streaming-test = {
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
+              bridge = "streaming";
               gateway4 = "10.20.50.1";
               gateway6 = "fd42:dead:beef:50::1";
               ipv4 = [ "10.20.50.10/24" ];
@@ -867,6 +854,10 @@ selectorFabricLinkRealization {
     nixos-site-dns-client = {
       ipv4 = [ "10.20.20.1" ];
       ipv6 = [ "fd42:dead:beef:20::1" ];
+    };
+    nixos-emulated-sigma = {
+      ipv4 = [ "10.20.70.50/24" ];
+      ipv6 = [ "fd42:dead:beef:70::50/64" ];
     };
   };
   realization = {
@@ -1301,6 +1292,7 @@ selectorFabricLinkRealization {
                 usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
+              implementation = "rp-pppoe";
               interface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
               mtu = 1492;
               runtimeInterface = "ppp0";
@@ -1350,6 +1342,7 @@ selectorFabricLinkRealization {
                 usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
+              implementation = "rp-pppoe";
               interface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
               mtu = 1492;
               runtimeInterface = "ppp1";
@@ -2795,6 +2788,7 @@ selectorFabricLinkRealization {
                 usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
+              implementation = "rp-pppoe";
               interface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
               mtu = 1492;
               runtimeInterface = "ppp0";
@@ -2844,6 +2838,7 @@ selectorFabricLinkRealization {
                 usernameFile = "/run/secrets/hat-pppoe-username";
               };
               defaultRoute = true;
+              implementation = "rp-pppoe";
               interface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
               mtu = 1492;
               runtimeInterface = "ppp1";

@@ -740,6 +740,11 @@
           }
           {
             kind = "host";
+            name = "nixos-emulated-sigma";
+            tenant = "management";
+          }
+          {
+            kind = "host";
             name = "nixos-printer01";
             tenant = "trusted";
           }
