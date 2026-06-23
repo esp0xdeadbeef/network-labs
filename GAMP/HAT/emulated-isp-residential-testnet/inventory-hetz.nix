@@ -3,9 +3,53 @@
 # network-labs/examples are lower-layer fixtures only.
 let
   intent = import ./intent.nix;
+  hatNixosInventory = import ./inventory-nixos.nix;
+  hatClabInventory = import ./inventory-clab.nix;
+  satCompat = import ./sat-compat.nix;
   providerAccessFixtureTable = import ./provider-access-fixture-table.nix;
   satSites = intent.esp;
   uniqueStrings = list: builtins.attrNames (builtins.listToAttrs (map (value: { name = value; value = true; }) list));
+  mergeHost =
+    left: right:
+    left
+    // right
+    // {
+      bridgeNetworks = (left.bridgeNetworks or { }) // (right.bridgeNetworks or { });
+      uplinks = (right.uplinks or { }) // (left.uplinks or { });
+      hat = (left.hat or { }) // (right.hat or { });
+    };
+  mergeHostSets =
+    left: right:
+    builtins.listToAttrs (
+      map (name: {
+        inherit name;
+        value = mergeHost (left.${name} or { }) (right.${name} or { });
+      }) (uniqueStrings ((builtins.attrNames left) ++ (builtins.attrNames right)))
+    );
+  hatBaseHosts =
+    mergeHostSets (hatNixosInventory.deployment.hosts or { }) (hatClabInventory.deployment.hosts or { })
+    // {
+      s-router-nixos = (hatNixosInventory.deployment.hosts or { }).s-router-nixos or { };
+      s-router-clab = (hatClabInventory.deployment.hosts or { }).s-router-clab or { };
+    };
+  filterAttrs =
+    pred: attrs:
+    builtins.listToAttrs (
+      builtins.filter (entry: pred entry.name entry.value) (
+        map (name: {
+          inherit name;
+          value = attrs.${name};
+        }) (builtins.attrNames attrs)
+      )
+    );
+  hatRealizationNodes =
+    (filterAttrs
+      (name: _: builtins.match "esp0xdeadbeef-site-a-.*" name != null)
+      (hatNixosInventory.realization.nodes or { }))
+    // (filterAttrs
+      (name: _: builtins.match "esp0xdeadbeef-site-b-.*" name != null)
+      (hatClabInventory.realization.nodes or { }));
+  withRuntimeTargetAliases = nodes: satCompat.runtimeTargetAliases nodes;
   stripCidr =
     value:
     let
@@ -796,7 +840,7 @@ let
       credentialClass = "wireguard-credential";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "provider-contract";
         node = "hetz-router-nebula-core";
@@ -815,7 +859,7 @@ let
       credentialClass = "wireguard-credential";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "provider-contract";
         node = "hetz-router-nebula-core";
@@ -834,7 +878,7 @@ let
       credentialClass = "wireguard-credential";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "provider-contract";
         node = "hetz-router-nebula-core";
@@ -853,7 +897,7 @@ let
       credentialClass = "wireguard-credential";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "provider-contract";
         node = "hetz-router-nebula-core";
@@ -872,7 +916,7 @@ let
       credentialClass = "deployment-runtime-fact";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "runtime-fact";
         node = "hetz-router-nebula-core";
@@ -891,7 +935,7 @@ let
       credentialClass = "deployment-runtime-fact";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "runtime-fact";
         node = "hetz-router-nebula-core";
@@ -910,7 +954,7 @@ let
       credentialClass = "overlay-runtime-fact";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "overlay";
         node = "hetz-router-lighthouse";
@@ -929,7 +973,7 @@ let
       credentialClass = "deployment-runtime-fact";
       site = "hetz";
       tenant = null;
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "runtime-fact";
         node = "hetz-router-nebula-core";
@@ -948,7 +992,7 @@ let
       credentialClass = "overlay-runtime-fact";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "overlay";
         node = "hetz-router-lighthouse";
@@ -967,7 +1011,7 @@ let
       credentialClass = "overlay-runtime-fact";
       site = "hetz";
       tenant = "dmz";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "overlay";
         node = "hetz-router-lighthouse";
@@ -1043,7 +1087,7 @@ let
       credentialClass = "deployment-runtime-fact";
       site = "hetz";
       tenant = "client";
-      host = "s-router-hetzner-anywhere";
+      host = "s-router-hetz";
       consumer = {
         kind = "tenant-runtime-prefix";
         node = "esp-hetz-router-access-client";
@@ -1470,7 +1514,7 @@ in
               runtimeNodes = {
                 hetz-router-lighthouse = {
                   container = {
-                    host = "s-router-hetzner-anywhere";
+                    host = "s-router-hetz";
                     hostBridge = "dmz";
                     profile = "core-client";
                   };
@@ -1486,7 +1530,7 @@ in
                 };
                 hetz-router-nebula-core = {
                   container = {
-                    host = "s-router-hetzner-anywhere";
+                    host = "s-router-hetz";
                     profile = "core-router-nebula";
                     targetContainer = "hetz-router-nebula-core";
                   };
@@ -1709,47 +1753,7 @@ in
   # bridge networks, VLAN attachments, management boundaries, and runtime
   # placement.
   deployment = {
-    hosts = {
-      s-router-hetzner-anywhere = {
-        bridgeNetworks = {
-          br-hetz-core-upstream = { };
-          br-hetz-nebula-core-upstream = { };
-          br-hetz-downstream-client = { };
-          br-hetz-downstream-dmz = { };
-          br-hetz-downstream-policy-access-client = { };
-          br-hetz-downstream-policy-access-dmz = { };
-          br-hetz-policy-upstream-access-client-inter-site = { };
-          br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-inter-site = { };
-          br-hetz-policy-upstream-access-dmz-wan = { };
-          client = { };
-          dmz = { };
-        };
-        uplinks = {
-          wan = {
-            bridge = "br-wan";
-            hostAddresses = [
-              "172.31.254.1/24"
-              "fd42:dead:cafe:ffff::1/64"
-            ];
-            ipv4 = {
-              dhcp = true;
-              enable = true;
-              method = "dhcp";
-            };
-            ipv6 = {
-              acceptRA = true;
-              dhcp = false;
-              dhcpv6PD = false;
-              enable = true;
-              method = "slaac";
-            };
-            mode = "native";
-            parent = "enp1s0";
-          };
-        };
-        wanUplink = "wan";
-      };
+    hosts = mergeHostSets hatBaseHosts {
       s-router-hetz = {
         bridgeNetworks = {
           br-hetz-core-upstream = { };
@@ -1767,6 +1771,7 @@ in
         };
         uplinks = {
           management = {
+            bridge = "br-wan";
             ipv4 = {
               dhcp = true;
               enable = true;
@@ -1935,6 +1940,25 @@ in
             upstream = "isp-b";
             vlan = 5;
           };
+          wan = {
+            bridge = "br-uplink1";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "wan";
+            vlan = 5;
+          };
         };
         wanUplink = "uplink-isp-b";
       };
@@ -2084,6 +2108,25 @@ in
             mode = "vlan";
             parent = "eth0";
             upstream = "isp-b";
+            vlan = 5;
+          };
+          wan = {
+            bridge = "br-uplink1";
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "vlan";
+            parent = "eth0";
+            upstream = "wan";
             vlan = 5;
           };
         };
@@ -2397,12 +2440,18 @@ in
   };
   # SAT-SRC-INVENTORY-ENDPOINTS: SAT realization coverage for endpoint/client
   # placement and client validation contexts.
-  endpoints = satEndpointAddresses;
+  endpoints =
+    (hatNixosInventory.endpoints or { })
+    // (hatClabInventory.endpoints or { })
+    // satEndpointAddresses;
   # SAT-SRC-INVENTORY-REALIZATION: SAT realization coverage for concrete nodes,
   # ports, services, secrets, DHCP/RA, DNS service placement, and provider
   # runtime facts.
   realization = {
-    nodes = withSatStatePolicy {
+    fabricLinks =
+      (hatNixosInventory.realization.fabricLinks or { })
+      // (hatClabInventory.realization.fabricLinks or { });
+    nodes = hatRealizationNodes // withRuntimeTargetAliases (withSatStatePolicy {
       esp-nixos-router-access-admin = {
         advertisements = {
           dhcp4 = {
@@ -3348,7 +3397,7 @@ in
             };
           };
         };
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-access-client";
@@ -3402,7 +3451,7 @@ in
             };
           };
         };
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-access-dmz";
@@ -3442,7 +3491,7 @@ in
         };
       };
       esp-hetz-router-core = withDeniedResolverNode {
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-core";
@@ -3491,7 +3540,7 @@ in
         };
       };
       esp-hetz-router-downstream = {
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-downstream";
@@ -3546,7 +3595,7 @@ in
         };
       };
       esp-hetz-router-nebula-core = withDeniedResolverNode {
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-nebula-core";
@@ -3599,7 +3648,7 @@ in
         };
       };
       esp-hetz-router-policy = {
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-policy";
@@ -3665,7 +3714,7 @@ in
         };
       };
       esp-hetz-router-upstream = {
-        host = "s-router-hetzner-anywhere";
+        host = "s-router-hetz";
         logicalNode = {
           enterprise = "esp";
           name = "hetz-router-upstream";
@@ -3853,6 +3902,6 @@ in
         // clabUpstreamWanPorts
         // clabUpstreamInterSitePorts;
       };
-    };
+    });
   };
 }

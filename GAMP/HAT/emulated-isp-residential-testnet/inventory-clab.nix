@@ -7,8 +7,29 @@ let
   };
   overlayVpnRuntimeAdapters = import ./overlay-vpn-runtime-adapters.nix;
   selectorFabricLinkRealization = import ./selector-fabric-link-realization.nix;
+  satCompat = import ./sat-compat.nix;
+  satInventory = satCompat.inventory (import ../../SAT/inventory.nix);
+  withSatEspRuntimeTargets =
+    inventory:
+    let
+      satNodes = satCompat.realizationNodes satInventory;
+      hostsWithSat = satCompat.mergeHostSets satInventory.deployment.hosts inventory.deployment.hosts;
+      hostsWithUplinks = satCompat.withRealizationHostUplinks hostsWithSat satNodes;
+    in
+    inventory
+    // {
+      controlPlane = satCompat.recursiveMerge (satInventory.controlPlane or { }) (inventory.controlPlane or { });
+      deployment = inventory.deployment // {
+        hosts = satCompat.withRealizationHostBridges hostsWithUplinks satNodes;
+      };
+      endpoints = (satInventory.endpoints or { }) // (inventory.endpoints or { });
+      realization = inventory.realization // {
+        fabricLinks = (satInventory.realization.fabricLinks or { }) // (inventory.realization.fabricLinks or { });
+        nodes = satNodes // inventory.realization.nodes;
+      };
+    };
 in
-selectorFabricLinkRealization {
+withSatEspRuntimeTargets (selectorFabricLinkRealization {
   inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
 
   controlPlane = {
@@ -3664,4 +3685,4 @@ selectorFabricLinkRealization {
       };
     };
   };
-}
+})
