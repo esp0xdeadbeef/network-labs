@@ -1,4 +1,10 @@
+let
+  satCompat = import ./sat-compat.nix;
+  satIntent = import ../../SAT/intent.nix;
+  hatCompatibleEsp = satCompat.compatValue satIntent.esp;
+in
 {
+  esp = hatCompatibleEsp;
   esp0xdeadbeef = {
     site-a = {
       communicationContract = {
