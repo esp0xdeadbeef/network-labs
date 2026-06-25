@@ -41,7 +41,7 @@ Runtime SMT must be small by construction. If an SMS only asks for one runtime
 surface, such as "a renderer-input can start one NixOS container" or "one p2p
 next-hop pair is valid", the test must not deploy the full active-lab, HAT, SAT,
 or every `s-router-*` router. Put the row input under
-`../../active-lab/mini-smt/`, declare the maximum runtime target count, and run
+`GAMP/SMT/mini-smt/`, declare the maximum runtime target count, and run
 the real target lifecycle for that mini profile.
 
 For `s-router-nixos`, runtime evidence means the real shutdown/rebuild route for
@@ -50,14 +50,14 @@ final result. Aggregate layer-entry scripts may prove skip-boundary wiring, but
 they are not row-level mini-SMT evidence.
 
 Every mini SMT row must be independently runnable. Declare it in
-`../../active-lab/mini-smt/tests.nix` and make
-`../../tests/run-active-lab-mini-smt.sh <mini-smt-id>` run exactly that row.
+`GAMP/SMT/mini-smt/tests.nix` and make
+`tests/run-active-lab-mini-smt.sh <mini-smt-id>` run exactly that row.
 Renderer rows must have their own focused script, for example
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
 `renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
 
 Rows that start at intent-source must use a row-specific intent file, for
-example `../../active-lab/mini-smt/intents/p2p-next-hop/intent.nix`, declared in
+example `GAMP/SMT/mini-smt/intents/p2p-next-hop/intent.nix`, declared in
 the mini-SMT manifest. Use `active-lab.mkSource { intent = ...; }` in tests so
 SMT/SIT evidence can select the row input without replacing the global
 `active-lab/intent.nix`.

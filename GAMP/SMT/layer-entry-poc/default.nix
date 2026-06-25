@@ -97,8 +97,8 @@ in
   };
 
   source = {
-    intent = ../intent.nix;
-    inventoryNixos = ../inventory-nixos.nix;
+    intent = ../../../active-lab/intent.nix;
+    inventoryNixos = ../../../active-lab/inventory-nixos.nix;
     selector = "s-router-nixos";
   };
 
@@ -109,8 +109,8 @@ in
       downstreamPath = requiredPath;
       suppliedArtifact = {
         kind = "active-lab-intent-and-inventory";
-        intent = ../intent.nix;
-        inventory = ../inventory-nixos.nix;
+        intent = ../../../active-lab/intent.nix;
+        inventory = ../../../active-lab/inventory-nixos.nix;
       };
       expectedPocChecks = [
         "containers-start-shape"

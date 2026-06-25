@@ -125,7 +125,7 @@ Fixture source: `network-labs/sat/` (controlled SAT), `network-labs/HAT/` (HAT p
 
 ## Layer-Entry POC Boundary
 
-`active-lab/layer-entry-poc/` is the source-side boundary and orchestrator for
+`GAMP/SMT/layer-entry-poc/` is the source-side boundary and orchestrator for
 small deterministic POCs that do not need the full HAT/SAT deployment path.
 These checks exist so downstream agents can test one FS/SMS/SMT point at a time
 from a declared input boundary instead of reverse-engineering fixtures inside a
@@ -173,6 +173,17 @@ management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
 uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 `vlan5` and make that input explicit.
 
+Keep the top-level `active-lab/` exposure minimal. `active-lab/default.nix`
+exists only to import the selected `intent.nix` and expose `mkSource` for
+row-local mini-lab intent stubs. `active-lab/intent.nix` points at the current
+default mini runtime CPM input, and `active-lab/inventory-nixos.nix` is an
+explicit provenance stub that points at the `renderer-nixos` mini SMT, its CPM
+fixture, and its focused test. Do not add empty placeholders such as
+`clients.nix`, broad host inventory lookups, legacy renderer inventories, or
+unused sops-routing wrappers under `active-lab/`. The one exception is
+`active-lab/secrets/`: it remains because `GAMP/HAT/sops.nix` owns that SOPS
+source boundary.
+
 Renderer-entry POCs are declared per renderer target. The current targets are
 `nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
 `wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
@@ -188,7 +199,7 @@ input is supplied directly. Direct multi-renderer input coverage lives in
 `nixos-clients`, `clab`, `wireguard`, and `nebula`.
 
 Row-level mini-SMT evidence must not depend on that aggregate renderer script.
-Use `active-lab/mini-smt/tests.nix` plus
+Use `GAMP/SMT/mini-smt/tests.nix` plus
 `tests/run-active-lab-mini-smt.sh <mini-smt-id>` so one SMT can be tested
 independently. Current renderer mini-SMT IDs are `renderer-nixos`,
 `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`,
@@ -210,7 +221,7 @@ Do not use `all`, full active-lab, HAT/SAT, or aggregate renderer-entry scripts
 as proof for one SMT row.
 
 SMT/SIT rows that need intent-source coverage may use row-specific
-`intent.nix` files under `active-lab/mini-smt/intents/<mini-smt-id>/intent.nix`.
+`intent.nix` files under `GAMP/SMT/mini-smt/intents/<mini-smt-id>/intent.nix`.
 Select them with `active-lab.mkSource { intent = ...; }` or inspect the
 manifest source with `tests/run-active-lab-mini-smt.sh --source <mini-smt-id>`.
 Do not rewrite the global `active-lab/intent.nix` to run a specific row.
@@ -232,9 +243,9 @@ These POCs may support SMT or SIT construction evidence. They are not HAT/SAT
 approval evidence and must not be promoted as runtime proof without the owning
 harness running live probes.
 
-Mini runtime profiles live under `active-lab/mini-smt/`. The current
+Mini runtime profiles live under `GAMP/SMT/mini-smt/`. The current
 `active-lab` default is a one-container NixOS renderer-input POC
-(`active-lab/mini-smt/runtime-nixos-cpm.nix`) so the downstream NixOS runtime
+(`GAMP/SMT/mini-smt/runtime-nixos-cpm.nix`) so the downstream NixOS runtime
 can be reboot-tested without also deploying every full-lab router container.
 
 ## Examples

@@ -26,19 +26,25 @@ network-labs-owned renderer-input CPM object for one `poc-router` container on
 shutdown/rebuild route; the point is that the active-lab input is small enough
 to prove only the container-start materialization surface.
 
+The top-level `../../../active-lab/inventory-nixos.nix` is only a provenance
+stub for this `renderer-nixos` mini SMT. It must point at this CPM input, the
+focused test, and the mini-SMT runner. It is not a broad active-lab inventory
+and it must not be empty. Keep unrelated active-lab host inventories or
+placeholder files out of the top level; add row-local sources here instead.
+
 Do not use `vlan2` as test infrastructure. `vlan2` is the runtime
 management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
 uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 `vlan5` and make that input explicit.
 
 Mini SMT/SIT rows may use their own `intent.nix` files. Do not rewrite
-`../intent.nix` for each row. Put row-specific intent sources under
+`../../../active-lab/intent.nix` for each row. Put row-specific intent sources under
 `intents/<mini-smt-id>/intent.nix`, declare them in `tests.nix`, and load them
 with the active-lab source helper:
 
 ```nix
 let
-  activeLab = import ../.;
+  activeLab = import ../../../active-lab;
 in
 activeLab.mkSource {
   intent = ./intents/p2p-next-hop/intent.nix;

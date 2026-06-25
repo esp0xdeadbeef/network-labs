@@ -4,8 +4,8 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-mini_file="${repo_root}/active-lab/mini-smt/default.nix"
-manifest_file="${repo_root}/active-lab/mini-smt/tests.nix"
+mini_file="${repo_root}/GAMP/SMT/mini-smt/default.nix"
+manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 
 fail() {
   echo "FAIL active-lab-mini-smt-p2p-next-hop-only: $*" >&2

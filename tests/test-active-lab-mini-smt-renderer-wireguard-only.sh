@@ -11,7 +11,7 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   rendererRoot = builtins.getEnv "WIREGUARD_RENDERER_ROOT";
   system = builtins.currentSystem;
-  poc = import (repoRoot + "/active-lab/layer-entry-poc");
+  poc = import (repoRoot + "/GAMP/SMT/layer-entry-poc");
   renderer = builtins.getFlake ("path:" + rendererRoot);
   contract = import poc.meta.rendererTargets.wireguard.fixture;
   result = renderer.libBySystem.${system}.renderer.buildWireGuardProviderRenderResult contract;

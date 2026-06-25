@@ -9,7 +9,7 @@ trap 'rm -rf "${tmpdir}"' EXIT
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
-  poc = import (repoRoot + "/active-lab/layer-entry-poc");
+  poc = import (repoRoot + "/GAMP/SMT/layer-entry-poc");
   require = cond: msg: if cond then true else throw msg;
 in
   require (poc.boundaryInputs."renderer-input".entryBoundary == "renderer-input") "renderer mini SMT must start at renderer-input boundary"
@@ -17,7 +17,7 @@ in
 ' >/dev/null
 
 nix eval --impure --json --expr \
-  "import ${repo_root}/active-lab/layer-entry-poc/renderer-input/minimal-clab-cpm.nix" \
+  "import ${repo_root}/GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix" \
   >"${tmpdir}/cpm.json"
 
 nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \
