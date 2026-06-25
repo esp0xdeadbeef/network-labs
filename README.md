@@ -123,6 +123,45 @@ Output: deterministic model source consumed by network-compiler.
 Construction tests: `network-labs/tests/`
 Fixture source: `network-labs/sat/` (controlled SAT), `network-labs/HAT/` (HAT preparation)
 
+## Layer-Entry POC Boundary
+
+`active-lab/layer-entry-poc/` is the source-side boundary and orchestrator for
+small deterministic POCs that do not need the full HAT/SAT deployment path.
+These checks exist so downstream agents can test one FS/SMS/SMT point at a time
+from a declared input boundary instead of reverse-engineering fixtures inside a
+downstream repo.
+
+The default layer-entry rule is:
+
+- skip `network-compiler` when the FS item is about NFM behavior and provide a
+  synthetic compiler-output/NFM-input fixture from `network-labs`;
+- optionally skip NFM when the FS item is about CPM behavior and provide a
+  synthetic forwarding-model/CPM-input fixture from `network-labs`;
+- optionally skip CPM when the FS item is about renderer behavior and provide a
+  synthetic CPM renderer-input fixture from `network-labs`;
+- feed the renderer/NixOS materialization path directly only when the test is
+  explicitly scoped to renderer projection or NixOS config materialization, for
+  example "can normal router runtime surfaces become NixOS container config?";
+- keep HAT and SAT out of this skip model. HAT/SAT approval must still run the
+  complete chain and collect runtime evidence from the correct harness.
+
+Examples of intended use:
+
+- NFM FS item: start from network-labs-owned synthetic compiler output, skip the
+  compiler, and prove NFM can handle the relevant network shape.
+- CPM FS item: start from network-labs-owned synthetic NFM/control-plane input,
+  skip compiler and optionally NFM, and prove CPM handles topology that the
+  ordinary compiler/NFM path might not emit, such as non-following p2p links.
+- Renderer/NixOS materialization FS item: start from network-labs-owned CPM
+  renderer input, skip compiler, NFM, and CPM, and prove the downstream
+  renderer plus NixOS materializer can project container start shape, PPPoE
+  server/client surfaces, p2p links, routes, firewall, DNS, or other runtime
+  surfaces without inventing upstream semantics.
+
+These POCs may support SMT or SIT construction evidence. They are not HAT/SAT
+approval evidence and must not be promoted as runtime proof without the owning
+harness running live probes.
+
 ## Examples
 
 See `examples/README.md` for what each example is trying to demonstrate.
