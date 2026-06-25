@@ -161,6 +161,13 @@ The active-lab input can therefore choose:
 - skip `network-compiler`, `network-forwarding-model`, and
   `network-control-plane-model`, then feed renderer inputs directly.
 
+For runtime SMT work, small does not mean dry-run only. Runtime evidence must
+still use the real harness lifecycle, including the `s-router-nixos` shutdown
+and rebuild path when that is the target. The input must be small: a mini SMT
+should start only the runtime targets declared by that row. Do not point a
+single-row SMT at the full active-lab/HAT/SAT fixture just because the runtime
+host is `s-router-nixos`.
+
 Renderer-entry POCs are declared per renderer target. The current targets are
 `nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
 `wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
@@ -191,6 +198,11 @@ Examples of intended use:
 These POCs may support SMT or SIT construction evidence. They are not HAT/SAT
 approval evidence and must not be promoted as runtime proof without the owning
 harness running live probes.
+
+Mini runtime profiles live under `active-lab/mini-smt/`. The current
+`active-lab` default is a one-container NixOS renderer-input POC
+(`active-lab/mini-smt/runtime-nixos-cpm.nix`) so the downstream NixOS runtime
+can be reboot-tested without also deploying every full-lab router container.
 
 ## Examples
 
