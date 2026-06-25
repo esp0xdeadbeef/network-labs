@@ -76,8 +76,9 @@ if ! env \
           inherit system;
           modules = [ containers.poc-router.config ];
         };
-        compilerSkip = compiler.libBySystem.${system}.layerEntryWarnings {
+        compilerSkipped = compiler.libBySystem.${system}.layerEntryEnvelope {
           entryBoundary = "forwarding-model-input";
+          input = import poc.boundaryInputs."forwarding-model-input".suppliedArtifact.fixture;
         };
         nfmSkipped = nfm.libBySystem.${system}.layerEntryEnvelope {
           entryBoundary = "control-plane-input";
@@ -113,7 +114,12 @@ if ! env \
               "skip-network-compiler-nfm-and-cpm"
             ];
           compiler_skip_warning_comes_from_compiler_contract =
-            builtins.elem "WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER" (warningCodes compilerSkip);
+            compilerSkipped.repo == "network-compiler"
+            && compilerSkipped.repoSkipped
+            && compilerSkipped.inputTreatment == "pass-through"
+            && compilerSkipped.normalizedTo == "nix-attrset"
+            && builtins.elem "WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER" (warningCodes compilerSkipped)
+            && compilerSkipped.input == compilerSkipped.output;
           nfm_skip_warning_comes_from_nfm_contract =
             nfmSkipped.repo == "network-forwarding-model"
             && nfmSkipped.repoSkipped
