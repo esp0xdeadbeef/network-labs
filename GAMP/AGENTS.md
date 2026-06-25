@@ -15,6 +15,10 @@ for `network-labs`. Keep changes narrow, source-backed, and testable.
   source-to-artifact evidence that is not live acceptance.
 - `templates/on-prem-vlan2-host-adapter/` is the mandatory on-prem host-adapter
   template for controlled GAMP validation work.
+- `templates/layer-entry-scenarios/` contains FS-166 placeholder scenario
+  examples for testing below a declared pipeline boundary. The placeholder
+  `FS-TEMPLATE-RENAME-TO-CORRECT-*` IDs must be renamed to the real trace chain
+  before any row is promoted.
 - `sat/` and `HAT/` paths at the repository root are legacy locations in this
   checkout. Do not reintroduce references to those paths when editing files
   under `GAMP/`.
@@ -181,6 +185,8 @@ bash ../tests/test-hat-traceability-docs.sh
 bash ../tests/test-sit-traceability-docs.sh
 bash ../tests/test-sat-traceability-docs.sh
 bash ../tests/test-gamp-vlan2-host-adapter-template.sh
+bash ../tests/test-gamp-layer-entry-scenario-templates.sh
+bash ../tests/test-active-lab-emulated-sms-trace.sh
 bash ../tests/test-gamp-worker-hardware-validation-docs.sh
 ```
 
