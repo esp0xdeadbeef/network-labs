@@ -1,5 +1,6 @@
 let
   pppoeTraceId = "FS-800-HDS-030-SDS-030-SMS-010";
+  reachabilityTraceId = "FS-500-HDS-010-SDS-010-SMS-010";
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
 
   pppoePairResult =
@@ -64,6 +65,30 @@ let
       ok = true;
       diagnostic = null;
     };
+
+  reachabilityDecisionResult =
+    relation:
+    if !(relation ? id) || relation.id != "${reachabilityTraceId}__mini-allow-client-to-testnet" then {
+      ok = false;
+      diagnostic = "reachability-relation-id-missing";
+      decisionClass = null;
+    } else if !(relation ? action) then {
+      ok = false;
+      diagnostic = "reachability-action-missing";
+      decisionClass = null;
+    } else if relation.action == "allow" then {
+      ok = true;
+      diagnostic = null;
+      decisionClass = "allowed";
+    } else if relation.action == "deny" then {
+      ok = true;
+      diagnostic = null;
+      decisionClass = "denied";
+    } else {
+      ok = false;
+      diagnostic = "reachability-action-unsupported";
+      decisionClass = null;
+    };
 in
 {
   meta = {
@@ -74,6 +99,7 @@ in
 
   validators = {
     pppoePair = pppoePairResult;
+    reachabilityDecision = reachabilityDecisionResult;
     p2pRoute = p2pRouteResult;
   };
 
@@ -85,7 +111,7 @@ in
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
       source = {
         kind = "intent-source";
-        intent = ./intents/pppoe-pairing/intent.nix;
+        intent = ../FS-800-HDS-030-SDS-030-SMS-010/intent.nix;
         expectedRelationIds = [
           "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider"
         ];
@@ -135,6 +161,59 @@ in
       ];
     };
 
+    "${reachabilityTraceId}" = {
+      kind = "mini-smt";
+      traceId = reachabilityTraceId;
+      smsAtom = "reachability decision result classification";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-010__mini-allow-client-to-testnet"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        client-edge = {
+          role = "access";
+          tenant = "client";
+        };
+        testnet-edge = {
+          role = "external";
+          external = "testnet";
+        };
+      };
+      reachabilityRelations = [
+        {
+          id = "FS-500-HDS-010-SDS-010-SMS-010__mini-allow-client-to-testnet";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "testnet";
+          };
+          trafficType = "any";
+          expectedDecisionClass = "allowed";
+        }
+      ];
+      testsOnly = [
+        "reachability-decision-class"
+        "deny-not-elevated"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
     "${p2pTraceId}" = {
       kind = "mini-smt";
       traceId = p2pTraceId;
@@ -142,7 +221,7 @@ in
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
       source = {
         kind = "intent-source";
-        intent = ./intents/p2p-next-hop/intent.nix;
+        intent = ../FS-500-HDS-010-SDS-010-SMS-040/intent.nix;
         expectedRelationIds = [
           "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer"
         ];

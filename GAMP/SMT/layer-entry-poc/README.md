@@ -60,6 +60,7 @@ target lifecycle for that surface. Renderer mini-SMT rows are declared in
 `../mini-smt/tests.nix` and are run independently with
 `../../tests/run-active-lab-mini-smt.sh <mini-smt-id>`.
 
-For row-specific SMT/SIT intent-source checks, use
-`../mini-smt/intents/<mini-smt-id>/intent.nix` through `active-lab.mkSource`
-rather than editing the global `../intent.nix`.
+For row-specific SMT/SIT intent-source checks, use the SMT SMS row directory,
+for example `../FS-500-HDS-010-SDS-010-SMS-040/intent.nix`, through
+`active-lab.mkSource` rather than editing the global `../intent.nix`. SIT rows
+should consume those SMS inputs from an SDS-level directory under `../../SIT/`.

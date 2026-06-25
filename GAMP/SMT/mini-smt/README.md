@@ -38,16 +38,16 @@ uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 `vlan5` and make that input explicit.
 
 Mini SMT/SIT rows may use their own `intent.nix` files. Do not rewrite
-`../../../active-lab/intent.nix` for each row. Put row-specific intent sources under
-`intents/<mini-smt-id>/intent.nix`, declare them in `tests.nix`, and load them
-with the active-lab source helper:
+`../../../active-lab/intent.nix` for each row. Put row-specific SMT sources
+under `../FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/`, declare them in `tests.nix`, and
+load them with the active-lab source helper:
 
 ```nix
 let
   activeLab = import ../../../active-lab;
 in
 activeLab.mkSource {
-  intent = ./intents/p2p-next-hop/intent.nix;
+  intent = ../FS-500-HDS-010-SDS-010-SMS-040/intent.nix;
 }
 ```
 
@@ -62,6 +62,7 @@ Current mini-labs:
 | ID | Trace ID | Test | Scope |
 | --- | --- | --- | --- |
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
+| `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` | Two-target reachability decision result classification. |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
@@ -80,6 +81,11 @@ Worked row examples:
   `FS-500-HDS-010-SDS-010-SMS-040`. It uses a row-local `intent.nix` and proves
   only one p2p link, two router endpoints, and one next-hop route atom. It may
   start at most `router-a` and `router-b`.
+- `reachability-decision` is the preferred small proof for
+  `FS-500-HDS-010-SDS-010-SMS-010`. It uses a separate row-local `intent.nix`
+  and proves only structured allow/deny reachability decision classification.
+  The parent `GAMP/SIT/FS-500-HDS-010-SDS-010/default.nix` intentionally
+  declares both this SMS input and the `SMS-040` p2p next-hop input.
 
 When an agent is working one of those rows, inspect the source first and then
 run the exact row id:
@@ -90,6 +96,9 @@ tests/run-active-lab-mini-smt.sh pppoe-pairing
 
 tests/run-active-lab-mini-smt.sh --source p2p-next-hop
 tests/run-active-lab-mini-smt.sh p2p-next-hop
+
+tests/run-active-lab-mini-smt.sh --source reachability-decision
+tests/run-active-lab-mini-smt.sh reachability-decision
 ```
 
 Do not use `all`, the full active-lab fixture, or
@@ -106,6 +115,9 @@ tests/run-active-lab-mini-smt.sh renderer-clab
 `tests/test-active-lab-mini-smt-independent-manifest.sh` enforces that each
 manifest entry is independently runnable, capped at two runtime targets, and
 backed by a mini source fixture rather than a full active-lab/HAT/SAT source.
+`tests/test-gamp-row-directory-layout.sh` additionally enforces full SMS trace
+directories for SMT rows and SDS-level SIT directories with explicit SMS input
+keys.
 
 List rows or run a small selected set:
 
