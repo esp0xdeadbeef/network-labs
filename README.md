@@ -179,10 +179,15 @@ row-local mini-lab intent stubs. `active-lab/intent.nix` points at the current
 default mini runtime CPM input, and `active-lab/inventory-nixos.nix` is an
 explicit provenance stub that points at the `renderer-nixos` mini SMT, its CPM
 fixture, and its focused test. Do not add empty placeholders such as
-`clients.nix`, broad host inventory lookups, legacy renderer inventories, or
-unused sops-routing wrappers under `active-lab/`. The one exception is
-`active-lab/secrets/`: it remains because `GAMP/HAT/sops.nix` owns that SOPS
-source boundary.
+`inventory.nix`, broad host inventory lookups, or catalog directories under
+`active-lab/`. Runtime files that the NixOS harness imports directly, such as
+`clients.nix`, `inventory-clab.nix`, `inventory-hetz.nix`, and
+`sops-routing-*.nix`, must remain explicit stubs to the selected GAMP/runtime
+source. `active-lab/secrets/` is controlled FS/GAMP source material, not
+cleanup residue: `GAMP/HAT/sops.nix` consumes it for protected PPPoE credential
+materialization tied to `FS-800-HDS-020-SDS-020`,
+`FS-800-HDS-010-SDS-030-SMS-020`, and the secret-source policy checks such as
+`FS-820-HDS-010-SDS-010-SMS-030`.
 
 Renderer-entry POCs are declared per renderer target. The current targets are
 `nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
