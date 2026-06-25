@@ -31,7 +31,7 @@ in
       independent = true;
       aggregateOnly = false;
       scope = "compiler/NFM PPPoE pairing contract";
-      maxRuntimeTargets = 1;
+      maxRuntimeTargets = 2;
     };
 
     p2p-next-hop = {
@@ -53,7 +53,7 @@ in
       independent = true;
       aggregateOnly = false;
       scope = "CPM point-to-point next-hop contract";
-      maxRuntimeTargets = 1;
+      maxRuntimeTargets = 2;
     };
 
     renderer-nixos = {

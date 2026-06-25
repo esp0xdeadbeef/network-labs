@@ -58,6 +58,33 @@ Current mini-labs:
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
 
+Worked row examples:
+
+- `pppoe-pairing` is the preferred small proof for
+  `FS-800-HDS-030-SDS-030-SMS-010`. It uses a row-local `intent.nix` and proves
+  only PPPoE provider/customer pairing, fallback rejection, and transport
+  classification. It may start at most `pppoe-client` and `pppoe-server`.
+- `p2p-next-hop` is the preferred small proof for
+  `FS-500-HDS-010-SDS-010-SMS-040`. It uses a row-local `intent.nix` and proves
+  only one p2p link, two router endpoints, and one next-hop route atom. It may
+  start at most `router-a` and `router-b`.
+
+When an agent is working one of those rows, inspect the source first and then
+run the exact row id:
+
+```sh
+tests/run-active-lab-mini-smt.sh --source pppoe-pairing
+tests/run-active-lab-mini-smt.sh pppoe-pairing
+
+tests/run-active-lab-mini-smt.sh --source p2p-next-hop
+tests/run-active-lab-mini-smt.sh p2p-next-hop
+```
+
+Do not use `all`, the full active-lab fixture, or
+`test-active-lab-layer-entry-renderer-input-poc.sh` as proof for either row.
+Those aggregate checks are wiring proof only; they are not row-local SMT
+evidence.
+
 The machine-readable manifest is `tests.nix`. Run one row directly:
 
 ```sh
