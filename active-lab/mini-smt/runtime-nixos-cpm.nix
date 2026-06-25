@@ -1,5 +1,23 @@
 let
   traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
 in
 rec {
   control_plane_model = {
@@ -13,28 +31,17 @@ rec {
     endpoints = { };
 
     deployment.hosts.s-router-nixos = {
-      uplinks.management = {
-        bridge = "vlan2";
-        ipv4 = {
-          dhcp = true;
-          enable = true;
-          method = "dhcp";
-        };
-        ipv6 = {
-          acceptRA = false;
-          dhcp = false;
-          dhcpv6PD = false;
-          enable = false;
-          method = "none";
-        };
-        mode = "vlan";
-        parent = "eth0";
-        vlan = 2;
-      };
+      uplinks.management = managementVlan2;
+      bridgeNetworks = { };
+    };
+
+    deployment.hosts.s-router-clab = {
+      uplinks.management = managementVlan2;
       bridgeNetworks = { };
     };
 
     render.hosts.s-router-nixos.deploymentHost = "s-router-nixos";
+    render.hosts.s-router-clab.deploymentHost = "s-router-clab";
 
     realization.nodes = { };
 
