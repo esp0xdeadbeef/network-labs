@@ -35,6 +35,20 @@ Static parsing, `nix-instantiate --parse`, renderer-only JSON inspection, and
 `nix build --dry-run` can be prerequisites, but they must not be the final
 evidence for hardware-related SMT.
 
+## Mini Runtime SMT Rule
+
+Runtime SMT must be small by construction. If an SMS only asks for one runtime
+surface, such as "a renderer-input can start one NixOS container" or "one p2p
+next-hop pair is valid", the test must not deploy the full active-lab, HAT, SAT,
+or every `s-router-*` router. Put the row input under
+`../../active-lab/mini-smt/`, declare the maximum runtime target count, and run
+the real target lifecycle for that mini profile.
+
+For `s-router-nixos`, runtime evidence means the real shutdown/rebuild route for
+the mini profile, not `nixos-rebuild --target-host` and not a dry-run as the
+final result. Aggregate layer-entry scripts may prove skip-boundary wiring, but
+they are not row-level mini-SMT evidence.
+
 ## On-Prem Host Adapter
 
 Any SMT stub that needs an on-prem host attachment must use or reference:

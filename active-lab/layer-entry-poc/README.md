@@ -51,3 +51,8 @@ keeps the non-renderer boundaries honest by proving:
   containers;
 - compiler+NFM+CPM skip: covered by the renderer-entry harness, which passes
   network-labs-owned renderer inputs directly to the renderers.
+
+For runtime SMT evidence, use a mini runtime profile rather than these aggregate
+layer-entry harnesses. The aggregate scripts prove wiring across boundaries; a
+row-level SMT should prove one small runtime surface and then run the real
+target lifecycle for that surface.
