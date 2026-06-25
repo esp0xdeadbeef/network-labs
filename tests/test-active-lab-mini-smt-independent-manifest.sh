@@ -29,9 +29,21 @@ let
     builtins.all
       (name: manifest.tests.${name}.independent == true && manifest.tests.${name}.aggregateOnly == false)
       names;
+  allHaveSource =
+    builtins.all
+      (name: manifest.tests.${name} ? source && manifest.tests.${name}.source ? kind)
+      names;
+  noHatSatEvidence =
+    builtins.all
+      (name:
+        let levels = manifest.tests.${name}.evidenceLevels or [ ];
+        in !(builtins.elem "HAT" levels) && !(builtins.elem "SAT" levels))
+      names;
 in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
+  && require allHaveSource "every mini SMT must declare an explicit source"
+  && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
   && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-clients, and wireguard"
 ' >/dev/null
 

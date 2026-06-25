@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-trace_id="FS-166-HDS-010-SDS-010-SMS-900__allow-client-to-testnet-host-isp"
+trace_id="FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime"
 original_id="allow-client-to-testnet-host-isp"
 
 fail() {
@@ -20,6 +20,7 @@ nix eval --impure --expr "
       value:
       if builtins.isAttrs value then
         (if value ? id then [ value.id ] else [ ])
+        ++ (if value ? traceId then [ value.traceId ] else [ ])
         ++ builtins.concatLists (map collectIds (builtins.attrValues value))
       else if builtins.isList value then
         builtins.concatLists (map collectIds value)
@@ -30,7 +31,7 @@ nix eval --impure --expr "
       builtins.length (builtins.filter (value: value == needle) ids);
   in
     require (count \"${trace_id}\" >= 1)
-      \"active-lab intent must expose the emulated FS/HDS/SDS/SMS relation ID\"
+      \"active-lab intent must expose the emulated FS/HDS/SDS/SMS trace ID\"
     && require (count \"${original_id}\" == 0)
       \"active-lab intent must not leave the original relation ID alongside the emulated trace marker\"
 " >/dev/null || fail "active-lab intent did not expose ${trace_id}"

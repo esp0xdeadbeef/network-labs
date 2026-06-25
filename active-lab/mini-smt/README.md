@@ -10,6 +10,8 @@ The rule is:
 
 - one trace-chain ID per mini-lab;
 - one behavior under test;
+- one explicit source entry per mini-lab (`intent-source`, `control-plane-input`,
+  or `renderer-input`);
 - one focused script per mini-lab, runnable through
   `tests/run-active-lab-mini-smt.sh <id>`;
 - a declared maximum runtime-target count;
@@ -24,12 +26,32 @@ network-labs-owned renderer-input CPM object for one `poc-router` container on
 shutdown/rebuild route; the point is that the active-lab input is small enough
 to prove only the container-start materialization surface.
 
+Mini SMT/SIT rows may use their own `intent.nix` files. Do not rewrite
+`../intent.nix` for each row. Put row-specific intent sources under
+`intents/<mini-smt-id>/intent.nix`, declare them in `tests.nix`, and load them
+with the active-lab source helper:
+
+```nix
+let
+  activeLab = import ../.;
+in
+activeLab.mkSource {
+  intent = ./intents/p2p-next-hop/intent.nix;
+}
+```
+
+The runner exposes the selected source:
+
+```sh
+tests/run-active-lab-mini-smt.sh --source p2p-next-hop
+```
+
 Current mini-labs:
 
 | ID | Trace ID | Test | Scope |
 | --- | --- | --- | --- |
-| `pppoe-pairing` | `FS-166-HDS-010-SDS-010-SMS-900__mini-pppoe-pairing` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
-| `p2p-next-hop` | `FS-166-HDS-010-SDS-010-SMS-900__mini-p2p-next-hop` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
+| `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
+| `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` | Minimal two-node Containerlab topology from explicit CPM input. |
@@ -46,6 +68,7 @@ List rows or run a small selected set:
 
 ```sh
 tests/run-active-lab-mini-smt.sh --list
+tests/run-active-lab-mini-smt.sh --source pppoe-pairing
 tests/run-active-lab-mini-smt.sh renderer-wireguard renderer-nebula
 ```
 

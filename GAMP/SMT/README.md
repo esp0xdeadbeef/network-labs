@@ -56,6 +56,12 @@ Renderer rows must have their own focused script, for example
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
 `renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
 
+Rows that start at intent-source must use a row-specific intent file, for
+example `../../active-lab/mini-smt/intents/p2p-next-hop/intent.nix`, declared in
+the mini-SMT manifest. Use `active-lab.mkSource { intent = ...; }` in tests so
+SMT/SIT evidence can select the row input without replacing the global
+`active-lab/intent.nix`.
+
 ## On-Prem Host Adapter
 
 Any SMT stub that needs an on-prem host attachment must use or reference:

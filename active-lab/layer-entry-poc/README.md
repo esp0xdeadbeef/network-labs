@@ -58,3 +58,7 @@ row-level SMT should prove one small runtime surface and then run the real
 target lifecycle for that surface. Renderer mini-SMT rows are declared in
 `../mini-smt/tests.nix` and are run independently with
 `../../tests/run-active-lab-mini-smt.sh <mini-smt-id>`.
+
+For row-specific SMT/SIT intent-source checks, use
+`../mini-smt/intents/<mini-smt-id>/intent.nix` through `active-lab.mkSource`
+rather than editing the global `../intent.nix`.

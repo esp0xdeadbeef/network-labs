@@ -1,5 +1,5 @@
 let
-  commonTrace = "FS-166-HDS-010-SDS-010-SMS-900";
+  rendererTrace = "FS-166-HDS-010-SDS-010-SMS-900";
 in
 {
   meta = {
@@ -14,7 +14,18 @@ in
   tests = {
     pppoe-pairing = {
       id = "pppoe-pairing";
-      traceId = "${commonTrace}__mini-pppoe-pairing";
+      traceId = "FS-800-HDS-030-SDS-030-SMS-010";
+      source = {
+        kind = "intent-source";
+        intent = ./intents/pppoe-pairing/intent.nix;
+        expectedRelationIds = [
+          "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = null;
       script = "tests/test-active-lab-mini-smt-pppoe-pairing-only.sh";
       independent = true;
@@ -25,7 +36,18 @@ in
 
     p2p-next-hop = {
       id = "p2p-next-hop";
-      traceId = "${commonTrace}__mini-p2p-next-hop";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-040";
+      source = {
+        kind = "intent-source";
+        intent = ./intents/p2p-next-hop/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = null;
       script = "tests/test-active-lab-mini-smt-p2p-next-hop-only.sh";
       independent = true;
@@ -36,7 +58,15 @@ in
 
     renderer-nixos = {
       id = "renderer-nixos";
-      traceId = "${commonTrace}__active-lab-mini-runtime";
+      traceId = "${rendererTrace}__active-lab-mini-runtime";
+      source = {
+        kind = "renderer-input";
+        cpm = ./runtime-nixos-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = "nixos";
       script = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
       independent = true;
@@ -47,7 +77,15 @@ in
 
     renderer-nixos-clients = {
       id = "renderer-nixos-clients";
-      traceId = "${commonTrace}__mini-renderer-nixos-clients";
+      traceId = "${rendererTrace}__mini-renderer-nixos-clients";
+      source = {
+        kind = "renderer-input";
+        cpm = ../layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = "nixos-clients";
       script = "tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh";
       independent = true;
@@ -58,7 +96,15 @@ in
 
     renderer-clab = {
       id = "renderer-clab";
-      traceId = "${commonTrace}__mini-renderer-clab";
+      traceId = "${rendererTrace}__mini-renderer-clab";
+      source = {
+        kind = "renderer-input";
+        cpm = ../layer-entry-poc/renderer-input/minimal-clab-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = "clab";
       script = "tests/test-active-lab-mini-smt-renderer-clab-only.sh";
       independent = true;
@@ -69,7 +115,15 @@ in
 
     renderer-wireguard = {
       id = "renderer-wireguard";
-      traceId = "${commonTrace}__mini-renderer-wireguard";
+      traceId = "${rendererTrace}__mini-renderer-wireguard";
+      source = {
+        kind = "renderer-input";
+        cpm = ../layer-entry-poc/renderer-input/wireguard-provider-contract.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = "wireguard";
       script = "tests/test-active-lab-mini-smt-renderer-wireguard-only.sh";
       independent = true;
@@ -80,7 +134,15 @@ in
 
     renderer-nebula = {
       id = "renderer-nebula";
-      traceId = "${commonTrace}__mini-renderer-nebula";
+      traceId = "${rendererTrace}__mini-renderer-nebula";
+      source = {
+        kind = "renderer-input";
+        cpm = ../layer-entry-poc/renderer-input/minimal-nebula-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
       rendererTarget = "nebula";
       script = "tests/test-active-lab-mini-smt-renderer-nebula-only.sh";
       independent = true;

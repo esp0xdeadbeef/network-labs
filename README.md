@@ -189,6 +189,12 @@ independently. Current renderer mini-SMT IDs are `renderer-nixos`,
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, and
 `renderer-nebula`.
 
+SMT/SIT rows that need intent-source coverage may use row-specific
+`intent.nix` files under `active-lab/mini-smt/intents/<mini-smt-id>/intent.nix`.
+Select them with `active-lab.mkSource { intent = ...; }` or inspect the
+manifest source with `tests/run-active-lab-mini-smt.sh --source <mini-smt-id>`.
+Do not rewrite the global `active-lab/intent.nix` to run a specific row.
+
 Examples of intended use:
 
 - NFM FS item: start from network-labs-owned synthetic compiler output, skip the

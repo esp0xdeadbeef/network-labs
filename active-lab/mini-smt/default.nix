@@ -83,6 +83,13 @@ in
       traceId = pppoeTraceId;
       smsAtom = "PPPoE provider/customer pairing and fallback rejection";
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ./intents/pppoe-pairing/intent.nix;
+        expectedRelationIds = [
+          "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider"
+        ];
+      };
       maxRuntimeTargets = 2;
       runtimeTargets = {
         pppoe-client = {
@@ -133,6 +140,13 @@ in
       traceId = p2pTraceId;
       smsAtom = "point-to-point next-hop pairing";
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ./intents/p2p-next-hop/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer"
+        ];
+      };
       maxRuntimeTargets = 2;
       runtimeTargets = {
         router-a = {
