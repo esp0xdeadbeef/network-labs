@@ -49,6 +49,13 @@ the mini profile, not `nixos-rebuild --target-host` and not a dry-run as the
 final result. Aggregate layer-entry scripts may prove skip-boundary wiring, but
 they are not row-level mini-SMT evidence.
 
+Every mini SMT row must be independently runnable. Declare it in
+`../../active-lab/mini-smt/tests.nix` and make
+`../../tests/run-active-lab-mini-smt.sh <mini-smt-id>` run exactly that row.
+Renderer rows must have their own focused script, for example
+`renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
+`renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
+
 ## On-Prem Host Adapter
 
 Any SMT stub that needs an on-prem host attachment must use or reference:

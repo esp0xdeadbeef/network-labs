@@ -182,6 +182,13 @@ input is supplied directly. Direct multi-renderer input coverage lives in
 `tests/test-active-lab-layer-entry-renderer-input-poc.sh` for `nixos`,
 `nixos-clients`, `clab`, `wireguard`, and `nebula`.
 
+Row-level mini-SMT evidence must not depend on that aggregate renderer script.
+Use `active-lab/mini-smt/tests.nix` plus
+`tests/run-active-lab-mini-smt.sh <mini-smt-id>` so one SMT can be tested
+independently. Current renderer mini-SMT IDs are `renderer-nixos`,
+`renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, and
+`renderer-nebula`.
+
 Examples of intended use:
 
 - NFM FS item: start from network-labs-owned synthetic compiler output, skip the

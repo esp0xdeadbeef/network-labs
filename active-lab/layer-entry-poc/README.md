@@ -55,4 +55,6 @@ keeps the non-renderer boundaries honest by proving:
 For runtime SMT evidence, use a mini runtime profile rather than these aggregate
 layer-entry harnesses. The aggregate scripts prove wiring across boundaries; a
 row-level SMT should prove one small runtime surface and then run the real
-target lifecycle for that surface.
+target lifecycle for that surface. Renderer mini-SMT rows are declared in
+`../mini-smt/tests.nix` and are run independently with
+`../../tests/run-active-lab-mini-smt.sh <mini-smt-id>`.

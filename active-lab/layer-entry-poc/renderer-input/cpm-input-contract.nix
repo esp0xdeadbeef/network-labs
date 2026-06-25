@@ -4,6 +4,7 @@
   note = "Contract slot for tests that skip compiler, NFM, and CPM and feed the downstream renderer/NixOS materialization path directly.";
   rendererTargets = [
     "nixos"
+    "nixos-clients"
     "clab"
     "wireguard"
     "nebula"
@@ -16,5 +17,6 @@
     "routes"
     "firewall policy"
     "DNS policy"
+    "endpoint containers"
   ];
 }
