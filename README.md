@@ -162,9 +162,9 @@ The active-lab input can therefore choose:
   `network-control-plane-model`, then feed renderer inputs directly.
 
 Renderer-entry POCs are declared per renderer target. The current targets are
-`nixos`, `clab`, `wireguard`, and `nebula`. `network-labs` owns only the input
-fixtures and orchestration; the renderer remains the materializer for its output
-surface.
+`nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
+`wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
+orchestration; the renderer remains the materializer for its output surface.
 
 Examples of intended use:
 
