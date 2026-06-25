@@ -145,6 +145,27 @@ The default layer-entry rule is:
 - keep HAT and SAT out of this skip model. HAT/SAT approval must still run the
   complete chain and collect runtime evidence from the correct harness.
 
+In this POC, "skip" does not mean the repository disappears from the chain. The
+repo still participates as a pass-through/normalization boundary and must emit
+its own warning when its semantic work is not covered:
+
+- `network-compiler`: `WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER`;
+- `network-forwarding-model`: `WARN_LAYER_ENTRY_SKIPS_NFM`;
+- `network-control-plane-model`: `WARN_LAYER_ENTRY_SKIPS_CPM`.
+
+The active-lab input can therefore choose:
+
+- skip `network-compiler` and start from `forwarding-model-input`;
+- skip `network-compiler` plus `network-forwarding-model` and start from
+  `control-plane-input`;
+- skip `network-compiler`, `network-forwarding-model`, and
+  `network-control-plane-model`, then feed renderer inputs directly.
+
+Renderer-entry POCs are declared per renderer target. The current targets are
+`nixos`, `clab`, `wireguard`, and `nebula`. `network-labs` owns only the input
+fixtures and orchestration; the renderer remains the materializer for its output
+surface.
+
 Examples of intended use:
 
 - NFM FS item: start from network-labs-owned synthetic compiler output, skip the
