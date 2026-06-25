@@ -32,6 +32,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     };
     mini = import (repoRoot + \"/active-lab/mini-smt/default.nix\");
     traceId = cpm.control_plane_model.meta.traceId;
+    managementUplink = cpm.deploymentHosts.s-router-nixos.uplinks.management or { };
     layerEntry = cpm.control_plane_model.meta.layerEntry;
     warningCodes = map (warning: warning.code) layerEntry.warnings;
     containerNames = builtins.attrNames (host.renderedHost.containers or { });
@@ -50,6 +51,14 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"active-lab runtime CPM must carry all skipped-stage warnings\"
     && require (containerNames == [ \"poc-router\" ])
       \"active-lab mini runtime must render exactly poc-router\"
+    && require (
+      managementUplink.bridge == \"vlan2\"
+      && managementUplink.mode == \"vlan\"
+      && managementUplink.parent == \"eth0\"
+      && managementUplink.vlan == 2
+      && (managementUplink.ipv4.enable or false)
+    )
+      \"active-lab mini runtime must preserve the VLAN2 management uplink\"
     && require (mini.meta.defaultRule == \"A mini SMT may start only the runtime targets declared by that mini-lab.\")
       \"mini SMT default rule must stay explicit\"
 " >/dev/null || fail "active-lab mini runtime renderer-input contract failed"
