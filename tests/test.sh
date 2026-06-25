@@ -45,6 +45,8 @@ tests=(
   test-gamp-vlan2-host-adapter-template.sh
   test-gamp-layer-entry-scenario-templates.sh
   test-active-lab-emulated-sms-trace.sh
+  test-active-lab-layer-entry-poc-boundary-inputs.sh
+  test-active-lab-layer-entry-renderer-input-poc.sh
   test-gamp-worker-hardware-validation-docs.sh
   test-s-sigma-sat-source-contract-comments.sh
   test-fs200-shared-service-source-matrix.sh
