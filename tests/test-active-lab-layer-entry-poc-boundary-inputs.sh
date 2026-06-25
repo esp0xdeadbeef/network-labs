@@ -120,12 +120,14 @@ nix eval --impure --expr "
       && skipCompilerNfmCpm.expectedRepoWarnings.\"network-control-plane-model\" == \"WARN_LAYER_ENTRY_SKIPS_CPM\"
     )
       \"skip-network-compiler-nfm-and-cpm decision must be explicit\"
-    && require (compilerFixture.pocKind == \"synthetic-compiler-output\")
+    && require (compilerFixture.meta.layerEntryPoc.pocKind == \"synthetic-compiler-output\")
       \"compiler-output fixture must import\"
-    && require (forwardingFixture.pocKind == \"synthetic-forwarding-model-input\")
-      \"forwarding-model-input fixture must import\"
+    && require (forwardingFixture.meta.layerEntryPoc.pocKind == \"synthetic-forwarding-model-input\")
+      \"forwarding-model-input fixture must import as NFM-consumable compiler output\"
     && require (cpmInputFixture.pocKind == \"synthetic-control-plane-input\")
       \"control-plane-input fixture must import\"
+    && require (cpmInputFixture ? forwardingModel && cpmInputFixture ? inventory)
+      \"control-plane-input fixture must carry forwardingModel plus realization inventory\"
     && require (boundaries.\"renderer-input\".suppliedArtifact.kind == \"network-labs-owned-cpm-input\")
       \"renderer-input must be a network-labs-owned CPM input\"
     && require ((import boundaries.\"renderer-input\".suppliedArtifact.fixture) ? control_plane_model)

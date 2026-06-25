@@ -166,6 +166,15 @@ Renderer-entry POCs are declared per renderer target. The current targets are
 `wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
 orchestration; the renderer remains the materializer for its output surface.
 
+The focused construction-cycle harness is
+`tests/test-active-lab-layer-entry-construction-cycles.sh`. It proves the POC
+can skip `network-compiler`, run NFM -> CPM -> NixOS renderer; skip
+`network-compiler` plus `network-forwarding-model`, run CPM -> NixOS renderer;
+and keep compiler/NFM/CPM as warning/pass-through boundaries when renderer
+input is supplied directly. Direct multi-renderer input coverage lives in
+`tests/test-active-lab-layer-entry-renderer-input-poc.sh` for `nixos`,
+`nixos-clients`, `clab`, `wireguard`, and `nebula`.
+
 Examples of intended use:
 
 - NFM FS item: start from network-labs-owned synthetic compiler output, skip the

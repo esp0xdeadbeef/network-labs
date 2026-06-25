@@ -10,9 +10,11 @@ inventing their own inputs:
 - `compiler-output`: consume a network-labs-owned synthetic compiler-output
   fixture;
 - `forwarding-model-input`: consume a network-labs-owned synthetic NFM-input
-  fixture;
+  fixture that is shaped like compiler output and can be consumed by NFM without
+  running `network-compiler`;
 - `control-plane-input`: consume a network-labs-owned synthetic CPM-input
-  fixture;
+  fixture containing precomputed forwarding-model output plus explicit
+  realization inventory, so CPM can run without invoking compiler or NFM;
 - `renderer-input`: consume a network-labs-owned CPM input/contract and pass
   that object directly to the downstream renderer/NixOS materialization path.
 
@@ -39,4 +41,13 @@ Nebula runtime plans.
 POC harnesses should run from `network-labs` and call the downstream APIs for
 the layer under test. Downstream repos execute their normal behavior, but the
 case source and synthetic boundary inputs remain here. A passing check in this
-directory does not prove the skipped layers.
+directory does not prove the skipped layers. `tests/test-active-lab-layer-entry-construction-cycles.sh`
+keeps the non-renderer boundaries honest by proving:
+
+- compiler skip: compiler warns/pass-through, NFM consumes the synthetic input,
+  CPM builds, and the NixOS renderer materializes containers;
+- compiler+NFM skip: compiler and NFM warn/pass-through, CPM consumes the
+  synthetic forwarding+realization input, and the NixOS renderer materializes
+  containers;
+- compiler+NFM+CPM skip: covered by the renderer-entry harness, which passes
+  network-labs-owned renderer inputs directly to the renderers.
