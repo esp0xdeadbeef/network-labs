@@ -5,6 +5,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 nixos_renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-renderer-nixos}"
+access_endpoint_renderer_root="${NETWORK_RENDERER_NIXOS_CLIENTS_ROOT:-${NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_ROOT:-${repo_root}/../network-renderer-access-endpoint-nixos}}"
 clab_renderer_root="${NETWORK_RENDERER_CLAB_ROOT:-${repo_root}/../network-renderer-containerlab-linux-backend}"
 wireguard_renderer_root="${NETWORK_RENDERER_WIREGUARD_ROOT:-${repo_root}/../network-renderer-wireguard}"
 nebula_renderer_root="${NETWORK_RENDERER_NEBULA_ROOT:-${repo_root}/../network-renderer-nebula}"
@@ -19,6 +20,7 @@ fail() {
 }
 
 [[ -d "${nixos_renderer_root}" ]] || fail "missing network-renderer-nixos repo at ${nixos_renderer_root}"
+[[ -d "${access_endpoint_renderer_root}" ]] || fail "missing network-renderer-access-endpoint-nixos repo at ${access_endpoint_renderer_root}"
 [[ -d "${clab_renderer_root}" ]] || fail "missing network-renderer-containerlab-linux-backend repo at ${clab_renderer_root}"
 [[ -d "${wireguard_renderer_root}" ]] || fail "missing network-renderer-wireguard repo at ${wireguard_renderer_root}"
 [[ -d "${nebula_renderer_root}" ]] || fail "missing network-renderer-nebula repo at ${nebula_renderer_root}"
@@ -35,6 +37,7 @@ trap 'rm -f "${result_json}" "${eval_stderr}"; rm -rf "${clab_dir}"' EXIT
 if ! env \
   REPO_ROOT="${repo_root}" \
   NIXOS_RENDERER_ROOT="${nixos_renderer_root}" \
+  ACCESS_ENDPOINT_RENDERER_ROOT="${access_endpoint_renderer_root}" \
   WIREGUARD_RENDERER_ROOT="${wireguard_renderer_root}" \
   NEBULA_RENDERER_ROOT="${nebula_renderer_root}" \
   COMPILER_ROOT="${compiler_root}" \
@@ -46,6 +49,7 @@ if ! env \
       let
         repoRoot = builtins.getEnv "REPO_ROOT";
         nixosRendererRoot = builtins.getEnv "NIXOS_RENDERER_ROOT";
+        accessEndpointRendererRoot = builtins.getEnv "ACCESS_ENDPOINT_RENDERER_ROOT";
         wireguardRendererRoot = builtins.getEnv "WIREGUARD_RENDERER_ROOT";
         nebulaRendererRoot = builtins.getEnv "NEBULA_RENDERER_ROOT";
         compilerRoot = builtins.getEnv "COMPILER_ROOT";
@@ -54,6 +58,7 @@ if ! env \
         poc = import (repoRoot + "/active-lab/layer-entry-poc");
         cpm = import poc.meta.rendererTargets.nixos.fixture;
         nixosRenderer = builtins.getFlake ("path:" + nixosRendererRoot);
+        accessEndpointRenderer = builtins.getFlake ("path:" + accessEndpointRendererRoot);
         wireguardRenderer = builtins.getFlake ("path:" + wireguardRendererRoot);
         nebulaRenderer = builtins.getFlake ("path:" + nebulaRendererRoot);
         compiler = builtins.getFlake ("path:" + compilerRoot);
@@ -96,6 +101,18 @@ if ! env \
         nebulaPlan = nebulaRenderer.libBySystem.${system}.renderer.buildNebulaPlan {
           controlPlane = nebulaCpm;
         };
+        accessEndpointInput = import poc.meta.rendererTargets."nixos-clients".fixture;
+        accessEndpointModule =
+          accessEndpointRenderer.libBySystem.${system}.renderer.hostModule {
+            hostName = "s-router-test-clients";
+            labSource = "active-lab";
+            cpm = accessEndpointInput.controlPlane;
+            controlPlane = accessEndpointInput.controlPlane;
+            rendererInventory = accessEndpointInput.rendererInventory;
+            siteName = "site-a";
+          };
+        accessEndpointResult = accessEndpointModule { config = {}; };
+        accessEndpointContainers = accessEndpointResult.containers or { };
 
         checks = {
           renderer_input_boundary_declared =
@@ -139,8 +156,13 @@ if ! env \
               "clab"
               "nebula"
               "nixos"
+              "nixos-clients"
               "wireguard"
             ];
+          nixos_clients_renderer_materializes_endpoint_container =
+            builtins.attrNames accessEndpointContainers == [ "poc-client" ]
+            && accessEndpointContainers.poc-client.hostBridge == "client"
+            && (accessEndpointContainers.poc-client.autoStart or false) == true;
           wireguard_renderer_materializes_provider_result =
             wireguardResult.targetRenderer == "wireguard-provider"
             && wireguardResult.rendererClass == "provider"

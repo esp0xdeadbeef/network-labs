@@ -62,6 +62,12 @@ let
       fixture = ./renderer-input/minimal-container-cpm.nix;
       expectedSurfaces = [ "container-config" "container-autostart" ];
     };
+    nixos-clients = {
+      rendererRepo = "network-renderer-access-endpoint-nixos";
+      materializer = "nixos-client-container-config";
+      fixture = ./renderer-input/minimal-access-endpoint-cpm.nix;
+      expectedSurfaces = [ "endpoint-container-config" "endpoint-bridge" ];
+    };
     clab = {
       rendererRepo = "network-renderer-containerlab-linux-backend";
       materializer = "containerlab-yaml";
@@ -179,6 +185,7 @@ in
       skippedRepos = skippedReposForBoundary.renderer-input;
       downstreamPath = repositoryPath ++ [
         "network-renderer-nixos"
+        "network-renderer-access-endpoint-nixos"
         "network-renderer-containerlab-linux-backend"
         "network-renderer-wireguard"
         "network-renderer-nebula"
@@ -244,6 +251,7 @@ in
       ];
       downstreamPath = repositoryPath ++ [
         "network-renderer-nixos"
+        "network-renderer-access-endpoint-nixos"
         "network-renderer-containerlab-linux-backend"
         "network-renderer-wireguard"
         "network-renderer-nebula"

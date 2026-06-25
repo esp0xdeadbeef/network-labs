@@ -33,6 +33,7 @@ nix eval --impure --expr "
       \"clab\"
       \"nebula\"
       \"nixos\"
+      \"nixos-clients\"
       \"wireguard\"
     ];
     skippedForBoundary = {
