@@ -4,7 +4,13 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-renderer-nixos}"
+nixos_renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-renderer-nixos}"
+clab_renderer_root="${NETWORK_RENDERER_CLAB_ROOT:-${repo_root}/../network-renderer-containerlab-linux-backend}"
+wireguard_renderer_root="${NETWORK_RENDERER_WIREGUARD_ROOT:-${repo_root}/../network-renderer-wireguard}"
+nebula_renderer_root="${NETWORK_RENDERER_NEBULA_ROOT:-${repo_root}/../network-renderer-nebula}"
+compiler_root="${NETWORK_COMPILER_ROOT:-${repo_root}/../network-compiler}"
+nfm_root="${NETWORK_FORWARDING_MODEL_ROOT:-${repo_root}/../network-forwarding-model}"
+cpm_root="${NETWORK_CONTROL_PLANE_MODEL_ROOT:-${repo_root}/../network-control-plane-model}"
 poc_file="${repo_root}/active-lab/layer-entry-poc/default.nix"
 
 fail() {
@@ -12,27 +18,51 @@ fail() {
   exit 1
 }
 
-[[ -d "${renderer_root}" ]] || fail "missing network-renderer-nixos repo at ${renderer_root}"
+[[ -d "${nixos_renderer_root}" ]] || fail "missing network-renderer-nixos repo at ${nixos_renderer_root}"
+[[ -d "${clab_renderer_root}" ]] || fail "missing network-renderer-containerlab-linux-backend repo at ${clab_renderer_root}"
+[[ -d "${wireguard_renderer_root}" ]] || fail "missing network-renderer-wireguard repo at ${wireguard_renderer_root}"
+[[ -d "${nebula_renderer_root}" ]] || fail "missing network-renderer-nebula repo at ${nebula_renderer_root}"
+[[ -d "${compiler_root}" ]] || fail "missing network-compiler repo at ${compiler_root}"
+[[ -d "${nfm_root}" ]] || fail "missing network-forwarding-model repo at ${nfm_root}"
+[[ -d "${cpm_root}" ]] || fail "missing network-control-plane-model repo at ${cpm_root}"
 [[ -f "${poc_file}" ]] || fail "missing ${poc_file}"
 
 result_json="$(mktemp)"
 eval_stderr="$(mktemp)"
-trap 'rm -f "${result_json}" "${eval_stderr}"' EXIT
+clab_dir="$(mktemp -d)"
+trap 'rm -f "${result_json}" "${eval_stderr}"; rm -rf "${clab_dir}"' EXIT
 
-if ! env REPO_ROOT="${repo_root}" RENDERER_ROOT="${renderer_root}" \
+if ! env \
+  REPO_ROOT="${repo_root}" \
+  NIXOS_RENDERER_ROOT="${nixos_renderer_root}" \
+  WIREGUARD_RENDERER_ROOT="${wireguard_renderer_root}" \
+  NEBULA_RENDERER_ROOT="${nebula_renderer_root}" \
+  COMPILER_ROOT="${compiler_root}" \
+  NFM_ROOT="${nfm_root}" \
+  CPM_ROOT="${cpm_root}" \
   nix eval \
     --extra-experimental-features 'nix-command flakes' \
     --impure --json --expr '
       let
         repoRoot = builtins.getEnv "REPO_ROOT";
-        rendererRoot = builtins.getEnv "RENDERER_ROOT";
+        nixosRendererRoot = builtins.getEnv "NIXOS_RENDERER_ROOT";
+        wireguardRendererRoot = builtins.getEnv "WIREGUARD_RENDERER_ROOT";
+        nebulaRendererRoot = builtins.getEnv "NEBULA_RENDERER_ROOT";
+        compilerRoot = builtins.getEnv "COMPILER_ROOT";
+        nfmRoot = builtins.getEnv "NFM_ROOT";
+        cpmRoot = builtins.getEnv "CPM_ROOT";
         poc = import (repoRoot + "/active-lab/layer-entry-poc");
-        cpm = import poc.boundaryInputs."renderer-input".suppliedArtifact.fixture;
-        renderer = builtins.getFlake ("path:" + rendererRoot);
-        lib = renderer.inputs.nixpkgs.lib;
+        cpm = import poc.meta.rendererTargets.nixos.fixture;
+        nixosRenderer = builtins.getFlake ("path:" + nixosRendererRoot);
+        wireguardRenderer = builtins.getFlake ("path:" + wireguardRendererRoot);
+        nebulaRenderer = builtins.getFlake ("path:" + nebulaRendererRoot);
+        compiler = builtins.getFlake ("path:" + compilerRoot);
+        nfm = builtins.getFlake ("path:" + nfmRoot);
+        cpmRepo = builtins.getFlake ("path:" + cpmRoot);
+        lib = nixosRenderer.inputs.nixpkgs.lib;
         system = builtins.currentSystem;
 
-        host = renderer.libBySystem.${system}.renderer.buildHostFromControlPlane {
+        host = nixosRenderer.libBySystem.${system}.renderer.buildHostFromControlPlane {
           controlPlaneOut = cpm;
           selector = "lab-host";
           inherit system;
@@ -46,6 +76,25 @@ if ! env REPO_ROOT="${repo_root}" RENDERER_ROOT="${renderer_root}" \
           inherit system;
           modules = [ containers.poc-router.config ];
         };
+        compilerSkip = compiler.libBySystem.${system}.layerEntryWarnings {
+          entryBoundary = "forwarding-model-input";
+        };
+        nfmSkipped = nfm.libBySystem.${system}.layerEntryEnvelope {
+          entryBoundary = "control-plane-input";
+          input = import poc.boundaryInputs."control-plane-input".suppliedArtifact.fixture;
+        };
+        cpmSkipped = cpmRepo.libBySystem.${system}.layerEntryEnvelope {
+          entryBoundary = "renderer-input";
+          input = cpm;
+        };
+        warningCodes = payload: map (warning: warning.code) payload.warnings;
+        wireguardContract = import poc.meta.rendererTargets.wireguard.fixture;
+        wireguardResult =
+          wireguardRenderer.libBySystem.${system}.renderer.buildWireGuardProviderRenderResult wireguardContract;
+        nebulaCpm = import poc.meta.rendererTargets.nebula.fixture;
+        nebulaPlan = nebulaRenderer.libBySystem.${system}.renderer.buildNebulaPlan {
+          controlPlane = nebulaCpm;
+        };
 
         checks = {
           renderer_input_boundary_declared =
@@ -57,10 +106,45 @@ if ! env REPO_ROOT="${repo_root}" RENDERER_ROOT="${renderer_root}" \
               "network-forwarding-model"
               "network-control-plane-model"
             ];
+          skip_decision_names_are_declared =
+            builtins.attrNames poc.skipDecisions == [
+              "skip-network-compiler"
+              "skip-network-compiler-and-nfm"
+              "skip-network-compiler-nfm-and-cpm"
+            ];
+          compiler_skip_warning_comes_from_compiler_contract =
+            builtins.elem "WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER" (warningCodes compilerSkip);
+          nfm_skip_warning_comes_from_nfm_contract =
+            nfmSkipped.repo == "network-forwarding-model"
+            && nfmSkipped.repoSkipped
+            && warningCodes nfmSkipped == [ "WARN_LAYER_ENTRY_SKIPS_NFM" ]
+            && nfmSkipped.input == nfmSkipped.output;
+          cpm_skip_warning_comes_from_cpm_contract =
+            cpmSkipped.repo == "network-control-plane-model"
+            && cpmSkipped.repoSkipped
+            && warningCodes cpmSkipped == [ "WARN_LAYER_ENTRY_SKIPS_CPM" ]
+            && cpmSkipped.input == cpmSkipped.output;
           cpm_input_is_supplied_by_network_labs = cpm ? control_plane_model;
           renderer_materializes_container = containerNames == [ "poc-router" ];
           nixos_container_autostart_shape = (containers.poc-router.autoStart or false) == true;
           nixos_container_config_evaluates = evaluated.config.system.build ? toplevel;
+          renderer_targets_are_declared =
+            builtins.attrNames poc.meta.rendererTargets == [
+              "clab"
+              "nebula"
+              "nixos"
+              "wireguard"
+            ];
+          wireguard_renderer_materializes_provider_result =
+            wireguardResult.targetRenderer == "wireguard-provider"
+            && wireguardResult.rendererClass == "provider"
+            && wireguardResult.artifacts.nixosModules ? providerRuntime
+            && wireguardResult.diagnostics == [ ];
+          nebula_renderer_materializes_runtime_plan =
+            builtins.attrNames nebulaPlan.overlays == [ "acme::lab::nebula-layer-entry" ]
+            && builtins.attrNames nebulaPlan.nodes == [ "lab-client-nebula" "lab-lighthouse" ]
+            && nebulaPlan.nodes.lab-client-nebula.relay.relays == [ "100.96.90.1" ]
+            && builtins.length nebulaPlan.nodes.lab-client-nebula.unsafeRoutes == 1;
         };
       in
       {
@@ -73,9 +157,31 @@ if ! env REPO_ROOT="${repo_root}" RENDERER_ROOT="${renderer_root}" \
   fail "nix eval crashed"
 fi
 
-if [[ "$(nix run --no-write-lock-file --extra-experimental-features 'nix-command flakes' "path:${renderer_root}#jq" -- -r '.ok' "${result_json}")" != "true" ]]; then
-  nix run --no-write-lock-file --extra-experimental-features 'nix-command flakes' "path:${renderer_root}#jq" -- -S '.checks' "${result_json}" >&2
+if [[ "$(nix run --no-write-lock-file --extra-experimental-features 'nix-command flakes' "path:${nixos_renderer_root}#jq" -- -r '.ok' "${result_json}")" != "true" ]]; then
+  nix run --no-write-lock-file --extra-experimental-features 'nix-command flakes' "path:${nixos_renderer_root}#jq" -- -S '.checks' "${result_json}" >&2
   fail "renderer-entry POC checks failed"
 fi
+
+nix eval --impure --json --expr \
+  "import ${repo_root}/active-lab/layer-entry-poc/renderer-input/minimal-clab-cpm.nix" \
+  >"${clab_dir}/cpm.json"
+
+nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \
+  "path:${clab_renderer_root}#generate-clab-config" -- \
+  "${clab_dir}/cpm.json" \
+  "${clab_dir}/fabric.clab.yml" \
+  "${clab_dir}/bridges.nix" \
+  >"${clab_dir}/clab.stdout" 2>"${clab_dir}/clab.stderr" \
+  || {
+    cat "${clab_dir}/clab.stderr" >&2
+    fail "CLAB renderer did not accept network-labs renderer-input CPM"
+  }
+
+grep -Fq "acme-lab-edge-a:" "${clab_dir}/fabric.clab.yml" \
+  || fail "CLAB renderer did not materialize edge-a node"
+grep -Fq "acme-lab-edge-b:" "${clab_dir}/fabric.clab.yml" \
+  || fail "CLAB renderer did not materialize edge-b node"
+grep -Fq "clab.link.bridge: br-layer-entry" "${clab_dir}/fabric.clab.yml" \
+  || fail "CLAB renderer did not materialize the explicit p2p bridge"
 
 echo "PASS active-lab-layer-entry-renderer-input-poc"

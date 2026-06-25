@@ -20,12 +20,20 @@ nix eval --impure --expr "
     has = builtins.hasAttr;
     boundaries = poc.boundaryInputs;
     boundaryNames = builtins.attrNames boundaries;
+    rendererTargets = poc.meta.rendererTargets;
+    rendererTargetNames = builtins.attrNames rendererTargets;
     expectedBoundaries = [
       \"intent-source\"
       \"compiler-output\"
       \"forwarding-model-input\"
       \"control-plane-input\"
       \"renderer-input\"
+    ];
+    expectedRendererTargets = [
+      \"clab\"
+      \"nebula\"
+      \"nixos\"
+      \"wireguard\"
     ];
     skippedForBoundary = {
       intent-source = [ ];
@@ -53,6 +61,20 @@ nix eval --impure --expr "
     compilerFixture = import boundaries.\"compiler-output\".suppliedArtifact.fixture;
     forwardingFixture = import boundaries.\"forwarding-model-input\".suppliedArtifact.fixture;
     cpmInputFixture = import boundaries.\"control-plane-input\".suppliedArtifact.fixture;
+    skipCompiler = poc.skipDecisions.\"skip-network-compiler\";
+    skipCompilerNfm = poc.skipDecisions.\"skip-network-compiler-and-nfm\";
+    skipCompilerNfmCpm = poc.skipDecisions.\"skip-network-compiler-nfm-and-cpm\";
+    rendererTargetValid = name:
+      let target = rendererTargets.\${name};
+      in
+        require (target ? rendererRepo)
+          \"renderer target \${name} must declare rendererRepo\"
+        && require (target ? fixture)
+          \"renderer target \${name} must declare network-labs-owned input fixture\"
+        && require (target ? materializer)
+          \"renderer target \${name} must declare materializer\"
+        && require (import target.fixture != null)
+          \"renderer target \${name} fixture must import\";
   in
     require (poc.meta.contract == \"active-lab layer-entry runtime POC\")
       \"POC contract name changed\"
@@ -67,6 +89,36 @@ nix eval --impure --expr "
       \"POC must expose exactly the expected layer-entry boundaries\"
     && require (builtins.all validateBoundary expectedBoundaries)
       \"all POC boundaries must validate\"
+    && require (
+      builtins.all (name: builtins.elem name rendererTargetNames) expectedRendererTargets
+      && builtins.all (name: builtins.elem name expectedRendererTargets) rendererTargetNames
+    )
+      \"POC must expose nixos, clab, wireguard, and nebula renderer targets\"
+    && require (builtins.all rendererTargetValid expectedRendererTargets)
+      \"all renderer target fixtures must validate\"
+    && require (
+      skipCompiler.entryBoundary == \"forwarding-model-input\"
+      && skipCompiler.skippedRepos == [ \"network-compiler\" ]
+      && skipCompiler.expectedRepoWarnings.\"network-compiler\" == \"WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER\"
+    )
+      \"skip-network-compiler decision must be explicit\"
+    && require (
+      skipCompilerNfm.entryBoundary == \"control-plane-input\"
+      && skipCompilerNfm.skippedRepos == [ \"network-compiler\" \"network-forwarding-model\" ]
+      && skipCompilerNfm.expectedRepoWarnings.\"network-forwarding-model\" == \"WARN_LAYER_ENTRY_SKIPS_NFM\"
+    )
+      \"skip-network-compiler-and-nfm decision must be explicit\"
+    && require (
+      skipCompilerNfmCpm.entryBoundary == \"renderer-input\"
+      && skipCompilerNfmCpm.skippedRepos == [
+        \"network-compiler\"
+        \"network-forwarding-model\"
+        \"network-control-plane-model\"
+      ]
+      && skipCompilerNfmCpm.rendererTargets == expectedRendererTargets
+      && skipCompilerNfmCpm.expectedRepoWarnings.\"network-control-plane-model\" == \"WARN_LAYER_ENTRY_SKIPS_CPM\"
+    )
+      \"skip-network-compiler-nfm-and-cpm decision must be explicit\"
     && require (compilerFixture.pocKind == \"synthetic-compiler-output\")
       \"compiler-output fixture must import\"
     && require (forwardingFixture.pocKind == \"synthetic-forwarding-model-input\")
