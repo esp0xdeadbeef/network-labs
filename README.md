@@ -189,6 +189,21 @@ independently. Current renderer mini-SMT IDs are `renderer-nixos`,
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, and
 `renderer-nebula`.
 
+Two preferred small row examples are already wired:
+
+- `tests/run-active-lab-mini-smt.sh pppoe-pairing` for
+  `FS-800-HDS-030-SDS-030-SMS-010`, capped to `pppoe-client` and
+  `pppoe-server`, proving only PPPoE provider/customer pairing, fallback
+  rejection, and transport classification.
+- `tests/run-active-lab-mini-smt.sh p2p-next-hop` for
+  `FS-500-HDS-010-SDS-010-SMS-040`, capped to `router-a` and `router-b`,
+  proving only one p2p link, two router endpoints, and one next-hop route atom.
+
+Inspect the selected row input with
+`tests/run-active-lab-mini-smt.sh --source <mini-smt-id>` before running it.
+Do not use `all`, full active-lab, HAT/SAT, or aggregate renderer-entry scripts
+as proof for one SMT row.
+
 SMT/SIT rows that need intent-source coverage may use row-specific
 `intent.nix` files under `active-lab/mini-smt/intents/<mini-smt-id>/intent.nix`.
 Select them with `active-lab.mkSource { intent = ...; }` or inspect the

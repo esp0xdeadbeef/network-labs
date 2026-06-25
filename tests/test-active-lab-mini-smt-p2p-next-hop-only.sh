@@ -5,6 +5,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 mini_file="${repo_root}/active-lab/mini-smt/default.nix"
+manifest_file="${repo_root}/active-lab/mini-smt/tests.nix"
 
 fail() {
   echo "FAIL active-lab-mini-smt-p2p-next-hop-only: $*" >&2
@@ -12,11 +13,14 @@ fail() {
 }
 
 [[ -f "${mini_file}" ]] || fail "missing ${mini_file}"
+[[ -f "${manifest_file}" ]] || fail "missing ${manifest_file}"
 
 nix eval --impure --expr "
   let
     mini = import ${mini_file};
+    manifest = import ${manifest_file};
     lab = mini.labs.\"FS-500-HDS-010-SDS-010-SMS-040\";
+    entry = manifest.tests.\"p2p-next-hop\";
     route = builtins.head lab.expectedRoutes;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.p2pRoute lab route;
@@ -28,6 +32,20 @@ nix eval --impure --expr "
       \"p2p lab must be a mini SMT\"
     && require (lab.traceId == \"FS-500-HDS-010-SDS-010-SMS-040\")
       \"p2p lab must carry the exact SMS trace\"
+    && require (entry.traceId == lab.traceId)
+      \"p2p manifest must point at the same trace as the mini-lab\"
+    && require (entry.script == \"tests/test-active-lab-mini-smt-p2p-next-hop-only.sh\")
+      \"p2p manifest must point at this focused script\"
+    && require (entry.independent == true && entry.aggregateOnly == false)
+      \"p2p manifest must be independently runnable and not aggregate-only\"
+    && require (entry.source.kind == \"intent-source\")
+      \"p2p manifest must use a row-specific intent source\"
+    && require (entry.source.expectedRelationIds == lab.source.expectedRelationIds)
+      \"p2p manifest must carry the same expected relation id as the mini-lab\"
+    && require (entry.maxRuntimeTargets == lab.maxRuntimeTargets)
+      \"p2p manifest runtime cap must match the mini-lab runtime cap\"
+    && require (entry.rendererTarget == null)
+      \"p2p mini SMT must not be routed through a renderer aggregate target\"
     && require (builtins.attrNames lab.runtimeTargets == [ \"router-a\" \"router-b\" ])
       \"p2p mini SMT may start only router-a and router-b\"
     && require (builtins.attrNames lab.links == [ \"p2p-ab\" ])
