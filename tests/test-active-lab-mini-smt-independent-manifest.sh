@@ -23,6 +23,7 @@ let
     "renderer-nebula"
     "renderer-nixos"
     "renderer-nixos-clients"
+    "renderer-nixos-p2p"
     "renderer-wireguard"
   ];
   allIndependent =
@@ -73,7 +74,7 @@ in
   && require allSingleRelationIntentSources "intent-source mini SMTs must bind exactly one relation id"
   && require allSourcesAreMini "mini SMT sources must come from active-lab/mini-smt or layer-entry renderer-input fixtures"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
-  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-clients, and wireguard"
+  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-p2p, nixos-clients, and wireguard"
 ' >/dev/null
 
 while IFS= read -r id || [[ -n "${id}" ]]; do

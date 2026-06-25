@@ -168,6 +168,11 @@ should start only the runtime targets declared by that row. Do not point a
 single-row SMT at the full active-lab/HAT/SAT fixture just because the runtime
 host is `s-router-nixos`.
 
+Do not use `vlan2` as test infrastructure. `vlan2` is the runtime
+management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
+uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
+`vlan5` and make that input explicit.
+
 Renderer-entry POCs are declared per renderer target. The current targets are
 `nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
 `wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
@@ -186,8 +191,8 @@ Row-level mini-SMT evidence must not depend on that aggregate renderer script.
 Use `active-lab/mini-smt/tests.nix` plus
 `tests/run-active-lab-mini-smt.sh <mini-smt-id>` so one SMT can be tested
 independently. Current renderer mini-SMT IDs are `renderer-nixos`,
-`renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, and
-`renderer-nebula`.
+`renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`,
+`renderer-wireguard`, and `renderer-nebula`.
 
 Two preferred small row examples are already wired:
 
