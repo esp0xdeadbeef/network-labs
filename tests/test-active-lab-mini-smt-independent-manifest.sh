@@ -33,16 +33,45 @@ let
     builtins.all
       (name: manifest.tests.${name} ? source && manifest.tests.${name}.source ? kind)
       names;
+  allSmall =
+    builtins.all
+      (name: manifest.tests.${name}.maxRuntimeTargets <= 2)
+      names;
+  allSingleRelationIntentSources =
+    builtins.all
+      (name:
+        let entry = manifest.tests.${name};
+        in
+          if entry.source.kind == "intent-source" then
+            builtins.length (entry.source.expectedRelationIds or [ ]) == 1
+          else
+            true)
+      names;
   noHatSatEvidence =
     builtins.all
       (name:
         let levels = manifest.tests.${name}.evidenceLevels or [ ];
         in !(builtins.elem "HAT" levels) && !(builtins.elem "SAT" levels))
       names;
+  sourcePathIsMini =
+    source:
+      if source ? intent then
+        builtins.match ".*/active-lab/mini-smt/intents/[^/]+/intent[.]nix" (toString source.intent) != null
+      else if source ? cpm then
+        builtins.match ".*/active-lab/(mini-smt|layer-entry-poc/renderer-input)/.*[.]nix" (toString source.cpm) != null
+      else
+        false;
+  allSourcesAreMini =
+    builtins.all
+      (name: sourcePathIsMini manifest.tests.${name}.source)
+      names;
 in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
   && require allHaveSource "every mini SMT must declare an explicit source"
+  && require allSmall "every mini SMT must stay capped at two runtime targets"
+  && require allSingleRelationIntentSources "intent-source mini SMTs must bind exactly one relation id"
+  && require allSourcesAreMini "mini SMT sources must come from active-lab/mini-smt or layer-entry renderer-input fixtures"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
   && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-clients, and wireguard"
 ' >/dev/null

@@ -91,6 +91,10 @@ The machine-readable manifest is `tests.nix`. Run one row directly:
 tests/run-active-lab-mini-smt.sh renderer-clab
 ```
 
+`tests/test-active-lab-mini-smt-independent-manifest.sh` enforces that each
+manifest entry is independently runnable, capped at two runtime targets, and
+backed by a mini source fixture rather than a full active-lab/HAT/SAT source.
+
 List rows or run a small selected set:
 
 ```sh
