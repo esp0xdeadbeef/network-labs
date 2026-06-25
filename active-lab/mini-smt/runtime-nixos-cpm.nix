@@ -40,8 +40,14 @@ rec {
       bridgeNetworks = { };
     };
 
+    deployment.hosts.s-router-test-clients = {
+      uplinks.management = managementVlan2;
+      bridgeNetworks = { };
+    };
+
     render.hosts.s-router-nixos.deploymentHost = "s-router-nixos";
     render.hosts.s-router-clab.deploymentHost = "s-router-clab";
+    render.hosts.s-router-test-clients.deploymentHost = "s-router-test-clients";
 
     realization.nodes = { };
 
