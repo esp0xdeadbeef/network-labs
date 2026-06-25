@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-manifest_file="${repo_root}/active-lab/mini-smt/tests.nix"
+manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 
 list_ids() {
   nix eval --impure --raw --expr \

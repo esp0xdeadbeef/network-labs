@@ -3,7 +3,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-manifest_file="${repo_root}/active-lab/mini-smt/tests.nix"
+manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 runner="${repo_root}/tests/run-active-lab-mini-smt.sh"
 
 fail() {
@@ -11,8 +11,8 @@ fail() {
   exit 1
 }
 
-nix-instantiate --parse "${repo_root}/active-lab/mini-smt/intents/pppoe-pairing/intent.nix" >/dev/null
-nix-instantiate --parse "${repo_root}/active-lab/mini-smt/intents/p2p-next-hop/intent.nix" >/dev/null
+nix-instantiate --parse "${repo_root}/GAMP/SMT/mini-smt/intents/pppoe-pairing/intent.nix" >/dev/null
+nix-instantiate --parse "${repo_root}/GAMP/SMT/mini-smt/intents/p2p-next-hop/intent.nix" >/dev/null
 
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let

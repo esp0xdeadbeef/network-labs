@@ -1,4 +1,4 @@
-# active-lab layer-entry POC
+# GAMP SMT layer-entry POC
 
 This directory is a source-side POC for small, deterministic layer-entry checks.
 It is not HAT or SAT evidence.
@@ -6,7 +6,8 @@ It is not HAT or SAT evidence.
 The intent is to let downstream repos start from a declared boundary without
 inventing their own inputs:
 
-- `intent-source`: use `../intent.nix` plus `../inventory-nixos.nix`;
+- `intent-source`: use `../../../active-lab/intent.nix` plus the explicit
+  `../../../active-lab/inventory-nixos.nix` mini-SMT provenance stub;
 - `compiler-output`: consume a network-labs-owned synthetic compiler-output
   fixture;
 - `forwarding-model-input`: consume a network-labs-owned synthetic NFM-input

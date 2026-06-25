@@ -1,1 +1,1 @@
-import ./mini-smt/runtime-nixos-cpm.nix
+import ../GAMP/SMT/mini-smt/runtime-nixos-cpm.nix
