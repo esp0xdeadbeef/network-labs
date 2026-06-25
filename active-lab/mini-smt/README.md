@@ -26,6 +26,11 @@ network-labs-owned renderer-input CPM object for one `poc-router` container on
 shutdown/rebuild route; the point is that the active-lab input is small enough
 to prove only the container-start materialization surface.
 
+Do not use `vlan2` as test infrastructure. `vlan2` is the runtime
+management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
+uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
+`vlan5` and make that input explicit.
+
 Mini SMT/SIT rows may use their own `intent.nix` files. Do not rewrite
 `../intent.nix` for each row. Put row-specific intent sources under
 `intents/<mini-smt-id>/intent.nix`, declare them in `tests.nix`, and load them
@@ -53,6 +58,7 @@ Current mini-labs:
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
+| `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` | Minimal two-node Containerlab topology from explicit CPM input. |
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |

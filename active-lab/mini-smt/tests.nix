@@ -75,6 +75,25 @@ in
       maxRuntimeTargets = 1;
     };
 
+    renderer-nixos-p2p = {
+      id = "renderer-nixos-p2p";
+      traceId = "${rendererTrace}__active-lab-mini-runtime-p2p";
+      source = {
+        kind = "renderer-input";
+        cpm = ./runtime-nixos-p2p-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = "nixos";
+      script = "tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "NixOS renderer materializes two p2p-linked runtime containers from explicit CPM input";
+      maxRuntimeTargets = 2;
+    };
+
     renderer-nixos-clients = {
       id = "renderer-nixos-clients";
       traceId = "${rendererTrace}__mini-renderer-nixos-clients";
