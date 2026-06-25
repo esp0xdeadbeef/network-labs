@@ -1,0 +1,65 @@
+{
+  layer = "SMS";
+  traceId = "FS-166-HDS-010-SDS-010-SMS-900";
+  parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
+  purpose = "Renderer-entry mini POC source input templates.";
+  sourceInputs = {
+    renderer-nixos = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+      kind = "renderer-input";
+      rendererTarget = "nixos";
+      sourcePath = "GAMP/SMT/mini-smt/runtime-nixos-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-nixos-p2p = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p";
+      kind = "renderer-input";
+      rendererTarget = "nixos";
+      sourcePath = "GAMP/SMT/mini-smt/runtime-nixos-p2p-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh";
+      maxRuntimeTargets = 2;
+    };
+
+    renderer-nixos-clients = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+      kind = "renderer-input";
+      rendererTarget = "nixos-clients";
+      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-clab = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+      kind = "renderer-input";
+      rendererTarget = "clab";
+      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-clab-only.sh";
+      maxRuntimeTargets = 2;
+    };
+
+    renderer-wireguard = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      kind = "renderer-input";
+      rendererTarget = "wireguard";
+      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/wireguard-provider-contract.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-wireguard-only.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-nebula = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
+      kind = "renderer-input";
+      rendererTarget = "nebula";
+      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-nebula-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-nebula-only.sh";
+      maxRuntimeTargets = 2;
+    };
+  };
+  templateTests = [
+    "tests/test-gamp-sds-sms-template-mapping.sh"
+    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
+  ];
+}

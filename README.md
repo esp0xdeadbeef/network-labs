@@ -235,6 +235,12 @@ under `GAMP/SMT/<FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX>/`. Put the row's selected
 directory `GAMP/SIT/<FS-XXX-HDS-XXX-SDS-XXX>/` and define one or more SMS
 inputs in that row's `default.nix`.
 
+Every mini input in `GAMP/SMT/mini-smt/tests.nix` must also map to template
+inputs under `GAMP/SDS/<FS-XXX-HDS-XXX-SDS-XXX>/` and
+`GAMP/SMS/<FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX>/`. Those SDS/SMS rows are source
+templates for deterministic POC work. SMT/SIT rows remain the evidence-facing
+construction/integration layers.
+
 Select row-local sources with `active-lab.mkSource { intent = ...; }` or
 inspect the manifest source with
 `tests/run-active-lab-mini-smt.sh --source <mini-smt-id>`. Do not rewrite the
