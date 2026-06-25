@@ -112,12 +112,18 @@ The machine-readable manifest is `tests.nix`. Run one row directly:
 tests/run-active-lab-mini-smt.sh renderer-clab
 ```
 
+Every manifest entry carries `rowDirectories.SDS` and `rowDirectories.SMS`.
+Those point to source-template rows in `../../SDS/` and `../../SMS/`. For
+renderer-entry variants, the concrete inputs share
+`FS-166-HDS-010-SDS-010-SMS-900` and are split by `sourceInputs` in that SMS
+row.
+
 `tests/test-active-lab-mini-smt-independent-manifest.sh` enforces that each
 manifest entry is independently runnable, capped at two runtime targets, and
 backed by a mini source fixture rather than a full active-lab/HAT/SAT source.
 `tests/test-gamp-row-directory-layout.sh` additionally enforces full SMS trace
-directories for SMT rows and SDS-level SIT directories with explicit SMS input
-keys.
+directories for SMT/SMS rows and SDS-level SDS/SIT directories with explicit
+SMS input keys.
 
 List rows or run a small selected set:
 

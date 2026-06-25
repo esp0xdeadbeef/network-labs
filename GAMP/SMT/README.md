@@ -68,6 +68,16 @@ mini-SMT manifest. Use `active-lab.mkSource { intent = ...; }` in tests so
 SMT/SIT evidence can select the row input without replacing the global
 `active-lab/intent.nix`.
 
+Every manifest input must also map to source template rows:
+
+```text
+GAMP/SDS/FS-XXX-HDS-XXX-SDS-XXX/
+GAMP/SMS/FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/
+```
+
+SDS/SMS rows are templates for future focused POC tests. SMT/SIT rows remain
+the construction and integration evidence surfaces.
+
 SIT rows are SDS-scoped integration containers:
 
 ```text

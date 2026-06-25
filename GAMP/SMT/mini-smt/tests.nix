@@ -16,6 +16,8 @@ in
       id = "pppoe-pairing";
       traceId = "FS-800-HDS-030-SDS-030-SMS-010";
       rowDirectories = {
+        SDS = ../../SDS/FS-800-HDS-030-SDS-030;
+        SMS = ../../SMS/FS-800-HDS-030-SDS-030-SMS-010;
         SMT = ../FS-800-HDS-030-SDS-030-SMS-010;
         SIT = ../../SIT/FS-800-HDS-030-SDS-030;
       };
@@ -42,6 +44,8 @@ in
       id = "reachability-decision";
       traceId = "FS-500-HDS-010-SDS-010-SMS-010";
       rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-010;
         SMT = ../FS-500-HDS-010-SDS-010-SMS-010;
         SIT = ../../SIT/FS-500-HDS-010-SDS-010;
       };
@@ -68,6 +72,8 @@ in
       id = "p2p-next-hop";
       traceId = "FS-500-HDS-010-SDS-010-SMS-040";
       rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-040;
         SMT = ../FS-500-HDS-010-SDS-010-SMS-040;
         SIT = ../../SIT/FS-500-HDS-010-SDS-010;
       };
@@ -93,6 +99,10 @@ in
     renderer-nixos = {
       id = "renderer-nixos";
       traceId = "${rendererTrace}__active-lab-mini-runtime";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ./runtime-nixos-cpm.nix;
@@ -112,6 +122,10 @@ in
     renderer-nixos-p2p = {
       id = "renderer-nixos-p2p";
       traceId = "${rendererTrace}__active-lab-mini-runtime-p2p";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ./runtime-nixos-p2p-cpm.nix;
@@ -131,6 +145,10 @@ in
     renderer-nixos-clients = {
       id = "renderer-nixos-clients";
       traceId = "${rendererTrace}__mini-renderer-nixos-clients";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ../layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix;
@@ -150,6 +168,10 @@ in
     renderer-clab = {
       id = "renderer-clab";
       traceId = "${rendererTrace}__mini-renderer-clab";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ../layer-entry-poc/renderer-input/minimal-clab-cpm.nix;
@@ -169,6 +191,10 @@ in
     renderer-wireguard = {
       id = "renderer-wireguard";
       traceId = "${rendererTrace}__mini-renderer-wireguard";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ../layer-entry-poc/renderer-input/wireguard-provider-contract.nix;
@@ -188,6 +214,10 @@ in
     renderer-nebula = {
       id = "renderer-nebula";
       traceId = "${rendererTrace}__mini-renderer-nebula";
+      rowDirectories = {
+        SDS = ../../SDS/FS-166-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      };
       source = {
         kind = "renderer-input";
         cpm = ../layer-entry-poc/renderer-input/minimal-nebula-cpm.nix;
