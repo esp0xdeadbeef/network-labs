@@ -15,9 +15,13 @@ in
     pppoe-pairing = {
       id = "pppoe-pairing";
       traceId = "FS-800-HDS-030-SDS-030-SMS-010";
+      rowDirectories = {
+        SMT = ../FS-800-HDS-030-SDS-030-SMS-010;
+        SIT = ../../SIT/FS-800-HDS-030-SDS-030;
+      };
       source = {
         kind = "intent-source";
-        intent = ./intents/pppoe-pairing/intent.nix;
+        intent = ../FS-800-HDS-030-SDS-030-SMS-010/intent.nix;
         expectedRelationIds = [
           "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider"
         ];
@@ -34,12 +38,42 @@ in
       maxRuntimeTargets = 2;
     };
 
+    reachability-decision = {
+      id = "reachability-decision";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-010__mini-allow-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-reachability-decision-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "NFM reachability decision result classification";
+      maxRuntimeTargets = 2;
+    };
+
     p2p-next-hop = {
       id = "p2p-next-hop";
       traceId = "FS-500-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
       source = {
         kind = "intent-source";
-        intent = ./intents/p2p-next-hop/intent.nix;
+        intent = ../FS-500-HDS-010-SDS-010-SMS-040/intent.nix;
         expectedRelationIds = [
           "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer"
         ];

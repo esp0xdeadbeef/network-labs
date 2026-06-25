@@ -37,6 +37,38 @@ A SIT row may cite dry-run, parse, or render checks as prerequisites, but the
 row remains blocked until the real VM/harness command and observed result are
 recorded.
 
+## Row Directory Layout
+
+SIT row directories are SDS-scoped:
+
+```text
+GAMP/SIT/FS-XXX-HDS-XXX-SDS-XXX/
+```
+
+Each row `default.nix` must define one or more SMS inputs with full SMS trace
+ids:
+
+```nix
+{
+  layer = "SIT";
+  traceId = "FS-500-HDS-010-SDS-010";
+  smsInputs = {
+    "FS-500-HDS-010-SDS-010-SMS-010" = {
+      smtRow = ../../SMT/FS-500-HDS-010-SDS-010-SMS-010;
+      sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix";
+    };
+    "FS-500-HDS-010-SDS-010-SMS-040" = {
+      smtRow = ../../SMT/FS-500-HDS-010-SDS-010-SMS-040;
+      sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
+    };
+  };
+}
+```
+
+This mirrors the current validation model: many SIT rows are SDS-level
+integration rows, while some SIT evidence must explicitly test one or more
+SMS-level inputs.
+
 ## On-Prem Host Adapter
 
 Any SIT stub that needs an on-prem host attachment must use or reference:

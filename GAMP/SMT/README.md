@@ -49,18 +49,34 @@ the mini profile, not `nixos-rebuild --target-host` and not a dry-run as the
 final result. Aggregate layer-entry scripts may prove skip-boundary wiring, but
 they are not row-level mini-SMT evidence.
 
-Every mini SMT row must be independently runnable. Declare it in
-`GAMP/SMT/mini-smt/tests.nix` and make
+Every mini SMT row must be independently runnable. Put row-local SMT inputs
+under the full SMS trace directory:
+
+```text
+GAMP/SMT/FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/
+```
+
+Declare the row in `GAMP/SMT/mini-smt/tests.nix` and make
 `tests/run-active-lab-mini-smt.sh <mini-smt-id>` run exactly that row.
 Renderer rows must have their own focused script, for example
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
 `renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
 
 Rows that start at intent-source must use a row-specific intent file, for
-example `GAMP/SMT/mini-smt/intents/p2p-next-hop/intent.nix`, declared in
-the mini-SMT manifest. Use `active-lab.mkSource { intent = ...; }` in tests so
+example `GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix`, declared in the
+mini-SMT manifest. Use `active-lab.mkSource { intent = ...; }` in tests so
 SMT/SIT evidence can select the row input without replacing the global
 `active-lab/intent.nix`.
+
+SIT rows are SDS-scoped integration containers:
+
+```text
+GAMP/SIT/FS-XXX-HDS-XXX-SDS-XXX/
+```
+
+Their `default.nix` must define one or more `smsInputs` keyed by full SMS trace
+ids. This allows one SIT row to integrate multiple SMS atoms without losing the
+SMS-level input provenance.
 
 ## On-Prem Host Adapter
 
