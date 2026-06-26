@@ -3,7 +3,7 @@ set -euo pipefail
 # LAB-HAT-SCOPE: host-substrate-preparation; see HAT/emulated-isp-residential-testnet/README.md
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
+hat_dir="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet"
 # SMS-020 CMC: cpm_flake, cpm_nfm_flake, clab_renderer_flake, nixos_renderer_flake
 # removed — downstream entrypoint references. Tests that need these must live in
 # the downstream repo that owns the entrypoint.
