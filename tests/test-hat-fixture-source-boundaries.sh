@@ -209,8 +209,12 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "intent must not carry HAT provider-access side-channel metadata"
     && require (!(hasInventoryOnlyToken "upstreamEmulation"))
       "intent must not carry legacy upstream emulation side-channel metadata"
-    && require (!(hasInventoryOnlyToken "dhcp"))
-      "intent must not carry DHCP realization technology"
+    && require (!(hasInventoryOnlyToken "dhcpServer")
+              && !(hasInventoryOnlyToken "dhcpRelay")
+              && !(hasInventoryOnlyToken "dhcpRange")
+              && !(hasInventoryOnlyToken "dhcpLease")
+              && !(hasInventoryOnlyToken "dhcpConfig"))
+      "intent must not carry DHCP realization technology (checks targeted tokens only; address-assignment mode 'dhcp' is valid behavior per URS)"
     && require (!(hasInventoryOnlyToken "pppoe"))
       "intent must not carry PPPoE realization technology"
     && require (!(hasInventoryOnlyToken "xvlan"))
