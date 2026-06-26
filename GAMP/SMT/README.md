@@ -24,7 +24,15 @@ owned by another repository, add the focused implementation test there too, but
 keep a `network-labs/tests/` test or harness that proves the controlled GAMP
 source still exercises the behavior.
 
-Acceptable hardware-related SMT examples include:
+## Row-Local Files Only — No Shared Registries
+
+Row-local mini-SMT fixtures live under `GAMP/SMT/<trace>/`. Each trace
+creates its own `intent.nix`, `default.nix`, and a focused test under
+`../../tests/`. **Do NOT edit shared files** — `mini-smt/default.nix`,
+`mini-smt/tests.nix`, `GAMP/SMT/mini-smt/`, `active-lab/intent.nix`,
+or any central registry. Row-local files only. No registration needed.
+
+## Acceptable Hardware-Related SMT Evidence
 
 - booting a minimal VM with the rendered adapter or route surface;
 - running the smallest relevant `s-router-*` harness path;
