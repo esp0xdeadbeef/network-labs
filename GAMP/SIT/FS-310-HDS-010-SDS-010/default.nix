@@ -13,6 +13,6 @@
     sourcePaths = [
       "GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/intent.nix"
     ];
-    observedResult = "focused mini runner verifies policy router relation identity preservation with row-local SMS input";
+    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
   };
 }

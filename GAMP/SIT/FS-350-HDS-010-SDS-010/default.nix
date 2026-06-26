@@ -29,6 +29,6 @@
     };
   };
   evidence = {
-    observedResult = "FS-350 chain: all five SMS traces construction-only; SMS-040 verified OK via NFM test; sibling traces pending individual verification";
+    observedResult = "FS-350 chain: all five SMS traces construction-only, all verified OK (SMS-010/040 previously OK; SMS-020/030/050 flipped NOT_OK→OK 2026-06-27 — stale-status fix). Row-local SMS/SMT template directories created for SMS-020, SMS-030, SMS-050.";
   };
 }

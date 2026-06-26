@@ -8,6 +8,11 @@
       miniSmtIds = [ "pppoe-pairing" ];
       inputKinds = [ "intent-source" ];
     };
+    "FS-800-HDS-030-SDS-030-SMS-040" = {
+      smsRow = ../../SMS/FS-800-HDS-030-SDS-030-SMS-040;
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "construction-only";
+    };
   };
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"
