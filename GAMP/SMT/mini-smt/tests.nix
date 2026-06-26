@@ -96,6 +96,118 @@ in
       maxRuntimeTargets = 2;
     };
 
+    policy-router-relation-identity = {
+      id = "policy-router-relation-identity";
+      traceId = "FS-310-HDS-010-SDS-010-SMS-030";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-010-SDS-010-SMS-030;
+        SMT = ../FS-310-HDS-010-SDS-010-SMS-030;
+        SIT = ../../SIT/FS-310-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-310-HDS-010-SDS-010-SMS-030/intent.nix;
+        expectedRelationIds = [
+          "FS-310-HDS-010-SDS-010-SMS-030__mini-allow-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-policy-router-relation-identity.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM policy router relation identity preservation: one tenant-to-external allow relation through policy router";
+      maxRuntimeTargets = 2;
+    };
+
+    lane-egress-binding = {
+      id = "lane-egress-binding";
+      traceId = "FS-370-HDS-010-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-370-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-370-HDS-010-SDS-010-SMS-050;
+        SMT = ../FS-370-HDS-010-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-370-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-370-HDS-010-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-lane-egress-binding-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM lane egress binding: tenant client to external testnet uplink with correct lane kind and non-null uplink annotation";
+      maxRuntimeTargets = 2;
+    };
+
+    provider-access-default-route = {
+      id = "provider-access-default-route";
+      traceId = "FS-800-HDS-010-SDS-020-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-800-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-800-HDS-010-SDS-020-SMS-040;
+        SMT = ../FS-800-HDS-010-SDS-020-SMS-040;
+        SIT = ../../SIT/FS-800-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-800-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-800-HDS-010-SDS-020-SMS-040__mini-provider-handoff-to-internet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-provider-access-default-route.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM provider-access fabric gateway routing contract";
+      maxRuntimeTargets = 3;
+    };
+
+    dns-resolver-config = {
+      id = "dns-resolver-config";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-540-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-540-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-540-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-540-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-dns-resolver-config-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM per-interface DNS resolver configuration authority: dns.resolver4, dns.resolver6, dns.resolverSource emission";
+      maxRuntimeTargets = 2;
+    };
+
     renderer-nixos = {
       id = "renderer-nixos";
       traceId = "${rendererTrace}__active-lab-mini-runtime";
