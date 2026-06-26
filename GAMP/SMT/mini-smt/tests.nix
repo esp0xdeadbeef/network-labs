@@ -180,6 +180,34 @@ in
       maxRuntimeTargets = 3;
     };
 
+    decision-reason-diagnostic = {
+      id = "decision-reason-diagnostic";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-030";
+      rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-030;
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-030;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-030/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "NFM traffic-path validation reason diagnostic: missing evidence, contract contradiction, valid-path classification";
+      maxRuntimeTargets = 2;
+    };
+
     dns-resolver-config = {
       id = "dns-resolver-config";
       traceId = "FS-540-HDS-010-SDS-010-SMS-020";
@@ -344,6 +372,34 @@ in
       aggregateOnly = false;
       scope = "Nebula renderer materializes one overlay with lighthouse/client nodes from explicit CPM input";
       maxRuntimeTargets = 2;
+    };
+
+    endpoint-harness-consumption = {
+      id = "endpoint-harness-consumption";
+      traceId = "FS-720-HDS-010-SDS-020-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-720-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-720-HDS-010-SDS-020-SMS-020;
+        SMT = ../FS-720-HDS-010-SDS-020-SMS-020;
+        SIT = ../../SIT/FS-720-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-720-HDS-010-SDS-020-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-720-HDS-010-SDS-020-SMS-020__mini-client-harness-consumption"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-endpoint-harness-consumption-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "s-router-test-clients endpoint harness consumption: validates endpoint fixtures from source-classified CPM contracts";
+      maxRuntimeTargets = 3;
     };
   };
 }
