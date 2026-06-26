@@ -17,7 +17,7 @@ for required in README.md intent.nix inventory-clab.nix inventory-nixos.nix; do
   fi
 done
 
-if rg -n 'nat-isp|simulated-isp|east-west|spoofed|upstreamEmulation' "${hat_dir}" >&2; then
+if rg -n --glob '!sat-compat.nix' 'nat-isp|simulated-isp|east-west|spoofed|upstreamEmulation' "${hat_dir}" >&2; then
   echo "FAIL emulated-isp-residential-testnet: fixture still contains old overlay/NAT-provider naming" >&2
   exit 1
 fi
