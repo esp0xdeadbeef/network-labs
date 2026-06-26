@@ -4,6 +4,8 @@ let
   decisionReasonTraceId = "FS-500-HDS-010-SDS-010-SMS-030";
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
+  dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
 
   pppoePairResult =
     pair:
@@ -141,6 +143,22 @@ let
       diagnostic = "unsupported-action";
       reasonType = null;
     };
+
+  dnsResolverConfigResult =
+    relation:
+    if !(relation ? id) || relation.id != "${dnsResolverConfigTraceId}__mini-dns-client-to-testnet" then {
+      ok = false;
+      diagnostic = "dns-resolver-relation-id-missing";
+    } else if !(relation ? action) then {
+      ok = false;
+      diagnostic = "dns-resolver-action-missing";
+    } else if relation.action == "allow" then {
+      ok = true;
+      diagnostic = null;
+    } else {
+      ok = false;
+      diagnostic = "dns-resolver-action-unsupported";
+    };
 in
 {
   meta = {
@@ -155,6 +173,7 @@ in
     p2pRoute = p2pRouteResult;
     laneEgressBinding = laneEgressBindingResult;
     decisionReasonDiagnostic = decisionReasonDiagnosticResult;
+    dnsResolverConfig = dnsResolverConfigResult;
   };
 
   labs = {
@@ -435,6 +454,58 @@ in
         "decision-reason-diagnostic-class"
         "missing-evidence-detection"
         "contract-contradiction-detection"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${dnsResolverConfigTraceId}" = {
+      kind = "mini-smt";
+      traceId = dnsResolverConfigTraceId;
+      smsAtom = "CPM per-interface DNS resolver configuration authority: dns.resolver4, dns.resolver6, dns.resolverSource emission";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        access-dns = {
+          role = "access";
+          tenant = "client";
+        };
+        resolver-node = {
+          role = "core";
+          external = "testnet";
+        };
+      };
+      dnsResolverRelations = [
+        {
+          id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "testnet";
+          };
+          trafficType = "any";
+        }
+      ];
+      testsOnly = [
+        "dns-resolver-relation-id"
+        "dns-resolver-action-class"
       ];
       forbiddenScope = [
         "active-lab/full"
