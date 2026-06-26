@@ -160,44 +160,6 @@ let
       diagnostic = "dns-resolver-action-unsupported";
     };
 
-  internetModeVerificationResult =
-    record:
-    let
-      hasId = record ? id && builtins.isString record.id;
-      hasAction = record ? action && builtins.isString record.action;
-      hasFrom = record ? from && builtins.isAttrs record.from;
-      hasTo = record ? to && builtins.isAttrs record.to;
-      hasExpectedMode = record ? expectedMode && builtins.isString record.expectedMode;
-      hasSourcePrefixes = record ? expectedSourcePrefixes
-        && builtins.isList record.expectedSourcePrefixes
-        && builtins.length record.expectedSourcePrefixes > 0;
-    in
-    if !hasId then {
-      ok = false;
-      diagnostic = "missing-internet-mode-record-id";
-    } else if !hasAction then {
-      ok = false;
-      diagnostic = "missing-internet-mode-action";
-    } else if !hasFrom then {
-      ok = false;
-      diagnostic = "missing-internet-mode-from";
-    } else if !hasTo then {
-      ok = false;
-      diagnostic = "missing-internet-mode-to";
-    } else if !hasExpectedMode then {
-      ok = false;
-      diagnostic = "missing-expected-mode";
-    } else if !hasSourcePrefixes then {
-      ok = false;
-      diagnostic = "missing-expected-source-prefixes";
-    } else if record.action == "allow" && record.expectedMode == "private-nat44" then {
-      ok = true;
-      diagnostic = null;
-    } else {
-      ok = false;
-      diagnostic = "internet-mode-record-unsupported";
-    };
-
   bidirectionalNftResult =
     rule:
     let
