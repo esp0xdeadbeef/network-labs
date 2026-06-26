@@ -514,5 +514,27 @@ in
       scope = "renderer internet mode verification: CPM privateNat44 records with source prefixes and output interfaces from tenant client to WAN external";
       maxRuntimeTargets = 2;
     };
+
+    protected-inventory-boundary = {
+      id = "protected-inventory-boundary";
+      traceId = "FS-050-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-050-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-050-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-050-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-050-HDS-010-SDS-010;
+      };
+      source = null;
+      evidenceLevels = [
+        "SMT"
+      ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = null;
+      independent = false;
+      aggregateOnly = false;
+      scope = "CPM protected-inventory boundary: redacted reference emission, unauthorized consumer rejection, plaintext leak prevention (construction-only, RaTM gap — no dedicated test at CPM HEAD)";
+      maxRuntimeTargets = 0;
+    };
   };
 }
