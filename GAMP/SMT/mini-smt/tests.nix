@@ -402,6 +402,34 @@ in
       maxRuntimeTargets = 3;
     };
 
+    binder-authority-boundary = {
+      id = "binder-authority-boundary";
+      traceId = "FS-030-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-030-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-030-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-030-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-030-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-030-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-030-HDS-010-SDS-010-SMS-020__mini-allow-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-binder-authority-boundary-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM realization binder authority boundary: prevents inventory from creating unauthorized behavior absent from intent";
+      maxRuntimeTargets = 2;
+    };
+
     renderer-layout-preservation = {
       id = "renderer-layout-preservation";
       traceId = "FS-320-HDS-010-SDS-010-SMS-010";
@@ -457,6 +485,34 @@ in
       aggregateOnly = false;
       scope = "one symmetric relation with returnBehavior=symmetric: forward plus reverse nft accept rules, absent returnBehavior → forward only, unrecognized returnBehavior → diagnostic";
       maxRuntimeTargets = 2;
+    };
+
+    ula-nat66-selection = {
+      id = "ula-nat66-selection";
+      traceId = "FS-400-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-400-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-400-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-400-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-400-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-400-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-400-HDS-010-SDS-010-SMS-020__mini-ula-nat66-tenant-to-wan"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = null;
+      independent = true;
+      aggregateOnly = false;
+      scope = "ULA NAT66 selection validation: ULA tenant with internetMode=nat66 and dedicated NAT66 egress prefix";
+      maxRuntimeTargets = 0;
     };
 
     shared-service-exposure-boundary = {
@@ -535,6 +591,55 @@ in
       aggregateOnly = false;
       scope = "CPM protected-inventory boundary: redacted reference emission, unauthorized consumer rejection, plaintext leak prevention (construction-only, RaTM gap — no dedicated test at CPM HEAD)";
       maxRuntimeTargets = 0;
+    };
+
+    management-plane-authority = {
+      id = "management-plane-authority";
+      traceId = "FS-240-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SMT = ../FS-240-HDS-010-SDS-010-SMS-020;
+      };
+      source = {
+        kind = "sat-source";
+        fixture = ../../SAT/management-core-host-authority.nix;
+        siteRoleMap = ../../SAT/site-role-map.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+      ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "tests/test-management-core-host-authority-source.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "SAT source validation: management-plane authority exclusion, core-host exception constraints, seeded negatives for non-management authority reuse";
+      maxRuntimeTargets = 0;
+    };
+
+    service-exposure-classification = {
+      id = "service-exposure-classification";
+      traceId = "FS-190-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-190-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-190-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-190-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-190-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-190-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-service-exposure-classification-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "service exposure classification: one service with explicit exposureClass=shared-local; validates classification record emitted, seeded negatives for missing exposure class and no inference from host placement/address/route";
+      maxRuntimeTargets = 2;
     };
   };
 }
