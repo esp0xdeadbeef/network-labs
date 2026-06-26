@@ -458,5 +458,33 @@ in
       scope = "one symmetric relation with returnBehavior=symmetric: forward plus reverse nft accept rules, absent returnBehavior → forward only, unrecognized returnBehavior → diagnostic";
       maxRuntimeTargets = 2;
     };
+
+    shared-service-exposure-boundary = {
+      id = "shared-service-exposure-boundary";
+      traceId = "FS-200-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-200-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-200-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-200-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-200-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-200-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [
+          "FS-200-HDS-010-SDS-010-SMS-010__mini-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-shared-service-exposure-boundary.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "compiler shared-service exposure boundary: two-node topology exercising full compiler pipeline with one tenant-to-external allow relation";
+      maxRuntimeTargets = 2;
+    };
   };
 }
