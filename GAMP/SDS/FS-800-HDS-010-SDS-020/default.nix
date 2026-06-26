@@ -1,0 +1,17 @@
+{
+  layer = "SDS";
+  traceId = "FS-800-HDS-010-SDS-020";
+  purpose = "Provider-access fabric gateway routing mini POC input grouping.";
+  smsInputs = {
+    "FS-800-HDS-010-SDS-020-SMS-040" = {
+      smsRow = ../../SMS/FS-800-HDS-010-SDS-020-SMS-040;
+      miniSmtIds = [ "provider-access-default-route" ];
+      inputKinds = [ "intent-source" ];
+    };
+  };
+  templateTests = [
+    "tests/test-gamp-sds-sms-template-mapping.sh"
+    "tests/test-active-lab-mini-smt-sds-input-templates.sh"
+    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
+  ];
+}

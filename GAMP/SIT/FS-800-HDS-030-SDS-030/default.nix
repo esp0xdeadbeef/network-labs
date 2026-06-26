@@ -7,6 +7,11 @@
       sourcePath = "GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/intent.nix";
       role = "pppoe-provider-customer-pairing";
     };
+    "FS-800-HDS-030-SDS-030-SMS-040" = {
+      smtRow = ../../SMT/FS-800-HDS-030-SDS-030-SMS-040;
+      role = "hat-script-override-rejection";
+      evidenceBoundary = "construction-only";
+    };
   };
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh pppoe-pairing";
