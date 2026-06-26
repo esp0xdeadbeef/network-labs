@@ -402,20 +402,21 @@ in
       maxRuntimeTargets = 3;
     };
 
-    internet-mode-verification = {
-      id = "internet-mode-verification";
-      traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+    renderer-layout-preservation = {
+      id = "renderer-layout-preservation";
+      traceId = "FS-320-HDS-010-SDS-010-SMS-010";
       rowDirectories = {
-        SDS = ../../SDS/FS-380-HDS-020-SDS-010;
-        SMS = ../../SMS/FS-380-HDS-020-SDS-010-SMS-050;
-        SMT = ../FS-380-HDS-020-SDS-010-SMS-050;
-        SIT = ../../SIT/FS-380-HDS-020-SDS-010;
+        SDS = ../../SDS/FS-320-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-320-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-320-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-320-HDS-010-SDS-010;
       };
       source = {
         kind = "intent-source";
-        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        intent = ../FS-320-HDS-010-SDS-010-SMS-010/intent.nix;
         expectedRelationIds = [
-          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan"
+          "FS-320-HDS-010-SDS-010-SMS-010__mini-client-to-testnet-allow"
+          "FS-320-HDS-010-SDS-010-SMS-010__mini-mgmt-deny-internet"
         ];
       };
       evidenceLevels = [
@@ -423,10 +424,10 @@ in
         "SIT"
       ];
       rendererTarget = null;
-      script = "tests/test-active-lab-mini-smt-internet-mode-verification-only.sh";
+      script = "tests/test-active-lab-mini-smt-renderer-layout-preservation-only.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "renderer internet mode verification: tenant client to WAN external with CPM privateNat44 source prefixes and output interfaces";
+      scope = "renderer layout preservation: two-node co-located topology, access node hosts client+mgmt tenants with distinct allow/deny policy; verifies role identity and policy boundary preservation per SMS-010";
       maxRuntimeTargets = 2;
     };
   };
