@@ -459,6 +459,35 @@ in
       maxRuntimeTargets = 2;
     };
 
+    selector-handoff = {
+      id = "selector-handoff";
+      traceId = "FS-270-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-270-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-270-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-270-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-270-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-270-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-270-HDS-010-SDS-010-SMS-040__mini-selector-handoff-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = null;
+      independent = true;
+      aggregateOnly = false;
+      scope = "selector handoff transport forwarding boundary: one access router with tenant client, one core router with uplink; validates CPM emits only modeled selector forwarding with relation identity";
+      maxRuntimeTargets = 2;
+    };
+
     bidirectional-nft = {
       id = "bidirectional-nft";
       traceId = "FS-180-HDS-010-SDS-010-SMS-040";
