@@ -401,5 +401,33 @@ in
       scope = "s-router-test-clients endpoint harness consumption: validates endpoint fixtures from source-classified CPM contracts";
       maxRuntimeTargets = 3;
     };
+
+    internet-mode-verification = {
+      id = "internet-mode-verification";
+      traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-380-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-380-HDS-020-SDS-010-SMS-050;
+        SMT = ../FS-380-HDS-020-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-380-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-internet-mode-verification-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "renderer internet mode verification: tenant client to WAN external with CPM privateNat44 source prefixes and output interfaces";
+      maxRuntimeTargets = 2;
+    };
   };
 }
