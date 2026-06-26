@@ -1,0 +1,18 @@
+{
+  layer = "SIT";
+  traceId = "FS-310-HDS-010-SDS-010";
+  smsInputs = {
+    "FS-310-HDS-010-SDS-010-SMS-030" = {
+      smtRow = ../../SMT/FS-310-HDS-010-SDS-010-SMS-030;
+      sourcePath = "GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/intent.nix";
+      role = "policy-router-relation-identity";
+    };
+  };
+  evidence = {
+    command = "tests/run-active-lab-mini-smt.sh policy-router-relation-identity";
+    sourcePaths = [
+      "GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/intent.nix"
+    ];
+    observedResult = "focused mini runner verifies policy router relation identity preservation with row-local SMS input";
+  };
+}
