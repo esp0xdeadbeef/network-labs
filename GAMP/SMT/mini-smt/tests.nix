@@ -430,5 +430,33 @@ in
       scope = "renderer layout preservation: two-node co-located topology, access node hosts client+mgmt tenants with distinct allow/deny policy; verifies role identity and policy boundary preservation per SMS-010";
       maxRuntimeTargets = 2;
     };
+
+    bidirectional-nft = {
+      id = "bidirectional-nft";
+      traceId = "FS-180-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-180-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-180-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-180-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-180-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-180-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-bidirectional-nft-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "one symmetric relation with returnBehavior=symmetric: forward plus reverse nft accept rules, absent returnBehavior → forward only, unrecognized returnBehavior → diagnostic";
+      maxRuntimeTargets = 2;
+    };
   };
 }

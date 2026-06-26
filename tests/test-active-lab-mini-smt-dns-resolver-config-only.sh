@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# GAMP-ID: FS-540-HDS-010-SDS-010-SMS-020
+# GAMP-SCOPE: active-lab mini SMT; not HAT/SAT evidence
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+mini_file="${repo_root}/GAMP/SMT/mini-smt/default.nix"
+manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
+
+fail() {
+  echo "FAIL active-lab-mini-smt-dns-resolver-config-only: $*" >&2
+  exit 1
+}
+
+[[ -f "${mini_file}" ]] || fail "missing ${mini_file}"
+[[ -f "${manifest_file}" ]] || fail "missing ${manifest_file}"
+
+nix eval --impure --expr "
+  let
+    mini = import ${mini_file};
+    manifest = import ${manifest_file};
+    lab = mini.labs.\"FS-540-HDS-010-SDS-010-SMS-020\";
+    entry = manifest.tests.\"dns-resolver-config\";
+    relation = builtins.head lab.dnsResolverRelations;
+    require = cond: msg: if cond then true else throw msg;
+    valid = mini.validators.dnsResolverConfig relation;
+  in
+    require (lab.kind == \"mini-smt\")
+      \"dns-resolver lab must be a mini SMT\"
+    && require (lab.traceId == \"FS-540-HDS-010-SDS-010-SMS-020\")
+      \"dns-resolver lab must carry the exact SMS trace\"
+    && require (entry.traceId == lab.traceId)
+      \"dns-resolver manifest must point at the same trace as the mini-lab\"
+    && require (entry.script == \"tests/test-active-lab-mini-smt-dns-resolver-config-only.sh\")
+      \"dns-resolver manifest must point at this focused script\"
+    && require (entry.independent == true && entry.aggregateOnly == false)
+      \"dns-resolver manifest must be independently runnable and not aggregate-only\"
+    && require (entry.source.kind == \"intent-source\")
+      \"dns-resolver manifest must use a row-specific intent source\"
+    && require (entry.source.expectedRelationIds == lab.source.expectedRelationIds)
+      \"dns-resolver manifest must carry the same expected relation id as the mini-lab\"
+    && require (entry.maxRuntimeTargets == lab.maxRuntimeTargets)
+      \"dns-resolver manifest runtime cap must match the mini-lab runtime cap\"
+    && require (entry.rendererTarget == null)
+      \"dns-resolver mini SMT must not be routed through a renderer aggregate target\"
+    && require (builtins.attrNames lab.runtimeTargets == [ \"access-dns\" \"resolver-node\" ])
+      \"dns-resolver mini SMT may start only access-dns and resolver-node\"
+    && require (lab.maxRuntimeTargets == 2)
+      \"dns-resolver mini SMT must stay capped at two runtime targets\"
+    && require (builtins.length lab.dnsResolverRelations == 1)
+      \"dns-resolver mini SMT must test exactly one DNS resolver relation\"
+    && require (lab.testsOnly == [
+      \"dns-resolver-relation-id\"
+      \"dns-resolver-action-class\"
+    ])
+      \"dns-resolver mini SMT must name only the DNS resolver config atom checks\"
+    && require (builtins.elem \"SAT\" lab.forbiddenScope)
+      \"dns-resolver mini SMT must forbid SAT scope\"
+    && require (valid.ok && valid.diagnostic == null)
+      \"valid DNS resolver relation must pass\"
+" >/dev/null || fail "mini SMT DNS resolver config contract failed"
+
+echo "PASS active-lab-mini-smt-dns-resolver-config-only"

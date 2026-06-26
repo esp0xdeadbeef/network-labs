@@ -5,7 +5,7 @@ let
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
-  internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
+  bidirectionalNftTraceId = "FS-180-HDS-010-SDS-010-SMS-040";
 
   pppoePairResult =
     pair:
@@ -159,6 +159,73 @@ let
       ok = false;
       diagnostic = "dns-resolver-action-unsupported";
     };
+
+  internetModeVerificationResult =
+    record:
+    let
+      hasId = record ? id && builtins.isString record.id;
+      hasAction = record ? action && builtins.isString record.action;
+      hasFrom = record ? from && builtins.isAttrs record.from;
+      hasTo = record ? to && builtins.isAttrs record.to;
+      hasExpectedMode = record ? expectedMode && builtins.isString record.expectedMode;
+      hasSourcePrefixes = record ? expectedSourcePrefixes
+        && builtins.isList record.expectedSourcePrefixes
+        && builtins.length record.expectedSourcePrefixes > 0;
+    in
+    if !hasId then {
+      ok = false;
+      diagnostic = "missing-internet-mode-record-id";
+    } else if !hasAction then {
+      ok = false;
+      diagnostic = "missing-internet-mode-action";
+    } else if !hasFrom then {
+      ok = false;
+      diagnostic = "missing-internet-mode-from";
+    } else if !hasTo then {
+      ok = false;
+      diagnostic = "missing-internet-mode-to";
+    } else if !hasExpectedMode then {
+      ok = false;
+      diagnostic = "missing-expected-mode";
+    } else if !hasSourcePrefixes then {
+      ok = false;
+      diagnostic = "missing-expected-source-prefixes";
+    } else if record.action == "allow" && record.expectedMode == "private-nat44" then {
+      ok = true;
+      diagnostic = null;
+    } else {
+      ok = false;
+      diagnostic = "internet-mode-record-unsupported";
+    };
+
+  bidirectionalNftResult =
+    rule:
+    let
+      hasRelationId = rule ? relationId && builtins.isString rule.relationId;
+      hasDirection = rule ? direction && builtins.isString rule.direction;
+      validDirection = hasDirection &&
+        (rule.direction == "relation-forward" || rule.direction == "relation-reverse");
+      isForward = hasDirection && rule.direction == "relation-forward";
+    in
+    if !hasRelationId then {
+      ok = false;
+      diagnostic = "bidirectional-nft-rule-missing-relation-id";
+    } else if !hasDirection then {
+      ok = false;
+      diagnostic = "bidirectional-nft-rule-missing-direction";
+    } else if !validDirection then {
+      ok = false;
+      diagnostic = "bidirectional-nft-rule-invalid-direction";
+    } else if isForward then {
+      ok = true;
+      diagnostic = null;
+      direction = "forward";
+    } else {
+      ok = true;
+      diagnostic = null;
+      direction = "reverse";
+    };
+
 in
 {
   meta = {
@@ -174,6 +241,7 @@ in
     laneEgressBinding = laneEgressBindingResult;
     decisionReasonDiagnostic = decisionReasonDiagnosticResult;
     dnsResolverConfig = dnsResolverConfigResult;
+    bidirectionalNft = bidirectionalNftResult;
   };
 
   labs = {
@@ -506,6 +574,82 @@ in
       testsOnly = [
         "dns-resolver-relation-id"
         "dns-resolver-action-class"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${bidirectionalNftTraceId}" = {
+      kind = "mini-smt";
+      traceId = bidirectionalNftTraceId;
+      smsAtom = "bidirectional nft rule generation from returnBehavior: forward plus reverse nft accept rules for symmetric relations";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-180-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        router-a = {
+          role = "access";
+          tenant = "tenant-a";
+        };
+        router-b = {
+          role = "access";
+          tenant = "tenant-b";
+        };
+      };
+      bidirectionalNftRelations = [
+        {
+          id = "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web";
+          action = "allow";
+          returnBehavior = "symmetric";
+          from = {
+            kind = "tenant";
+            name = "tenant-a";
+          };
+          to = {
+            kind = "tenant";
+            name = "tenant-b";
+          };
+          trafficType = "web";
+          expectedForwardRules = [
+            {
+              relationId = "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web";
+              direction = "relation-forward";
+              source = "tenant-a";
+              destination = "tenant-b";
+              trafficType = "web";
+              protocol = "tcp";
+              port = 443;
+            }
+          ];
+          expectedReverseRules = [
+            {
+              relationId = "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web";
+              direction = "relation-reverse";
+              source = "tenant-b";
+              destination = "tenant-a";
+              trafficType = "web";
+              protocol = "tcp";
+              port = 443;
+            }
+          ];
+        }
+      ];
+      testsOnly = [
+        "symmetric-return-forward-plus-reverse"
+        "absent-return-forward-only"
+        "unrecognized-return-rejected"
       ];
       forbiddenScope = [
         "active-lab/full"
