@@ -5,23 +5,33 @@ preservation: logical role identity, policy boundaries, and co-location rules
 must survive renderer mapping without reinterpretation.
 
 The intent defines a two-node, one-link topology with role co-location on the
-access node (two tenant attachments), exercising layout preservation per SMS
-predicates MR1-MR4 and Seeded Negative SN1.
+access node (two tenant attachments: client + mgmt), exercising layout
+preservation per SMS predicates MR1-MR4 and Seeded Negative SN1.
 
-Run:
+## Row-local files only
+
+- `intent.nix` — mini topology with co-located client+mgmt tenants
+- `default.nix` — metadata
+- Focused test: `tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh`
+
+No shared files (mini-smt/default.nix, mini-smt/tests.nix, tests/test.sh)
+were edited. Row-local files only per GAMP/SMT/README.md shared-file policy.
+
+## Run
 
 ```sh
-tests/run-active-lab-mini-smt.sh --source renderer-layout-preservation
-tests/run-active-lab-mini-smt.sh renderer-layout-preservation
+# Run the focused structural test directly
+bash tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh
 ```
 
-This is construction evidence for the SMS row only (SMT row 128, NOT OK).
-Sibling SMS-020 (bridge link realization) and SMS-030 (runtime interface mapping)
-have independent construction tests OK at SMT rows 129-130.
+## Evidence
 
-Verification scope (per SMS Construction Handoff):
-1. Role co-location: access node hosts both tenant=client and tenant=mgmt;
-   renderer must preserve distinct role identities and policy boundaries.
-2. Compact layout: all roles on a single access node accepted without
-   discarding policy decisions.
-3. Target limitation: renderer emits diagnostic when layout cannot be expressed.
+This is structural construction evidence (10 predicates: node count, link
+topology, role co-location, relation IDs, allow/deny policy boundary,
+ownership prefixes, pool definitions).
+
+Behavioral proof (renderer output with role identity preservation, target
+limitation diagnostics, seeded negative exercise) requires RaTM work:
+validators in mini-smt/default.nix and full compiler→NFM→CPM→renderer
+pipeline per SMS Construction Handoff items 1-3. Route to manager for
+shared infrastructure (mini-smt/default.nix).
