@@ -6,6 +6,7 @@ let
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
   bidirectionalNftTraceId = "FS-180-HDS-010-SDS-010-SMS-040";
+  serviceExposureClassificationTraceId = "FS-190-HDS-010-SDS-010-SMS-010";
   internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
 
   pppoePairResult =
@@ -227,6 +228,27 @@ let
       diagnostic = "internet-mode-record-unsupported";
     };
 
+  serviceExposureClassificationResult =
+    service:
+    let
+      hasName = service ? name && builtins.isString service.name;
+      hasExposureClass = service ? exposureClass && builtins.isString service.exposureClass;
+      hasOwnerScope = service ? ownerScope && builtins.isAttrs service.ownerScope;
+    in
+    if !hasName then {
+      ok = false;
+      diagnostic = "service-exposure-missing-name";
+    } else if !hasExposureClass then {
+      ok = false;
+      diagnostic = "missing-exposure-class";
+    } else if !hasOwnerScope then {
+      ok = false;
+      diagnostic = "service-exposure-missing-owner-scope";
+    } else {
+      ok = true;
+      diagnostic = null;
+    };
+
 in
 {
   meta = {
@@ -244,6 +266,7 @@ in
     dnsResolverConfig = dnsResolverConfigResult;
     bidirectionalNft = bidirectionalNftResult;
     internetModeVerification = internetModeVerificationResult;
+    serviceExposureClassification = serviceExposureClassificationResult;
   };
 
   labs = {
@@ -706,6 +729,56 @@ in
       testsOnly = [
         "internet-mode-nat44-record"
         "internet-mode-source-prefixes"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${serviceExposureClassificationTraceId}" = {
+      kind = "mini-smt";
+      traceId = serviceExposureClassificationTraceId;
+      smsAtom = "service exposure classification: classify every modeled service before renderer reachability; reject inferred exposure";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-190-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        access-node = {
+          role = "access";
+          tenant = "client";
+        };
+        core-node = {
+          role = "core";
+        };
+      };
+      serviceExposureServices = [
+        {
+          name = "web-service";
+          exposureClass = "shared-local";
+          ownerScope = {
+            kind = "tenant";
+            name = "client";
+          };
+          requesterScope = {
+            kind = "tenant";
+            name = "client";
+          };
+          kind = "shared-local";
+        }
+      ];
+      testsOnly = [
+        "service-exposure-classification-present"
+        "missing-exposure-class-diagnostic"
+        "no-inference-from-host-placement"
       ];
       forbiddenScope = [
         "active-lab/full"
