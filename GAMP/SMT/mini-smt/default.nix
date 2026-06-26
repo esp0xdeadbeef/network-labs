@@ -6,6 +6,7 @@ let
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
   bidirectionalNftTraceId = "FS-180-HDS-010-SDS-010-SMS-040";
+  internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
 
   pppoePairResult =
     pair:
@@ -188,6 +189,44 @@ let
       direction = "reverse";
     };
 
+  internetModeVerificationResult =
+    record:
+    let
+      hasId = record ? id && builtins.isString record.id;
+      hasAction = record ? action && builtins.isString record.action;
+      hasFrom = record ? from && builtins.isAttrs record.from;
+      hasTo = record ? to && builtins.isAttrs record.to;
+      hasExpectedMode = record ? expectedMode && builtins.isString record.expectedMode;
+      hasSourcePrefixes = record ? expectedSourcePrefixes
+        && builtins.isList record.expectedSourcePrefixes
+        && builtins.length record.expectedSourcePrefixes > 0;
+    in
+    if !hasId then {
+      ok = false;
+      diagnostic = "missing-internet-mode-record-id";
+    } else if !hasAction then {
+      ok = false;
+      diagnostic = "missing-internet-mode-action";
+    } else if !hasFrom then {
+      ok = false;
+      diagnostic = "missing-internet-mode-from";
+    } else if !hasTo then {
+      ok = false;
+      diagnostic = "missing-internet-mode-to";
+    } else if !hasExpectedMode then {
+      ok = false;
+      diagnostic = "missing-expected-mode";
+    } else if !hasSourcePrefixes then {
+      ok = false;
+      diagnostic = "missing-expected-source-prefixes";
+    } else if record.action == "allow" && record.expectedMode == "private-nat44" then {
+      ok = true;
+      diagnostic = null;
+    } else {
+      ok = false;
+      diagnostic = "internet-mode-record-unsupported";
+    };
+
 in
 {
   meta = {
@@ -204,6 +243,7 @@ in
     decisionReasonDiagnostic = decisionReasonDiagnosticResult;
     dnsResolverConfig = dnsResolverConfigResult;
     bidirectionalNft = bidirectionalNftResult;
+    internetModeVerification = internetModeVerificationResult;
   };
 
   labs = {
@@ -612,6 +652,60 @@ in
         "symmetric-return-forward-plus-reverse"
         "absent-return-forward-only"
         "unrecognized-return-rejected"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${internetModeTraceId}" = {
+      kind = "mini-smt";
+      traceId = internetModeTraceId;
+      smsAtom = "renderer internet mode verification: CPM privateNat44 records with source prefixes and output interfaces";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        client-edge = {
+          role = "access";
+          tenant = "client";
+        };
+        wan-core = {
+          role = "core";
+          uplink = "wan";
+        };
+      };
+      internetModeRecords = [
+        {
+          id = "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "wan";
+          };
+          trafficType = "any";
+          expectedMode = "private-nat44";
+          expectedSourcePrefixes = [ "10.20.20.0/24" ];
+        }
+      ];
+      testsOnly = [
+        "internet-mode-nat44-record"
+        "internet-mode-source-prefixes"
       ];
       forbiddenScope = [
         "active-lab/full"
