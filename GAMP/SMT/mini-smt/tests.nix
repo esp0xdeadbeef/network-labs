@@ -486,5 +486,33 @@ in
       scope = "compiler shared-service exposure boundary: two-node topology exercising full compiler pipeline with one tenant-to-external allow relation";
       maxRuntimeTargets = 2;
     };
+
+    internet-mode-verification = {
+      id = "internet-mode-verification";
+      traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-380-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-380-HDS-020-SDS-010-SMS-050;
+        SMT = ../FS-380-HDS-020-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-380-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-internet-mode-verification-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "renderer internet mode verification: CPM privateNat44 records with source prefixes and output interfaces from tenant client to WAN external";
+      maxRuntimeTargets = 2;
+    };
   };
 }
