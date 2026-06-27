@@ -1,5 +1,20 @@
 let
   traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  layerEntry = {
+    entryBoundary = "renderer-input";
+    skippedUpstreamLayers = [
+      "intent-source"
+      "network-compiler"
+      "network-forwarding-model"
+      "network-control-plane-model"
+    ];
+    warnings = [
+      { code = "WARN_LAYER_ENTRY_SKIPS_NETWORK_LABS_INTENT_SOURCE"; }
+      { code = "WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER"; }
+      { code = "WARN_LAYER_ENTRY_SKIPS_NFM"; }
+      { code = "WARN_LAYER_ENTRY_SKIPS_CPM"; }
+    ];
+  };
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {
@@ -22,7 +37,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      inherit traceId;
+      inherit traceId layerEntry;
       source = "network-labs active-lab mini-SMT renderer-input";
       scope = "one-container NixOS runtime materialization POC; not HAT/SAT approval";
       expectedRuntimeTargets = [ "poc-router" ];

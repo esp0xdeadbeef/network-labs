@@ -1,6 +1,31 @@
-{
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
+rec {
   control_plane_model = {
-    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__allow-client-to-testnet-host-isp";
+    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    deployment.hosts.s-router-clab = {
+      uplinks.management = managementVlan2;
+      bridgeNetworks = { };
+    };
+    render.hosts.s-router-clab.deploymentHost = "s-router-clab";
     data.acme.lab = {
       siteName = "acme.lab";
       runtimeTargets = {
@@ -72,4 +97,6 @@
       ];
     };
   };
+
+  deploymentHosts = control_plane_model.deployment.hosts;
 }

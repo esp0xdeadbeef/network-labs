@@ -13,6 +13,10 @@
     sourcePaths = [
       "GAMP/SMT/mini-smt/runtime-nixos-cpm.nix"
       "GAMP/SMT/mini-smt/runtime-nixos-p2p-cpm.nix"
+      "GAMP/SMT/layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix"
+      "GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix"
+      "GAMP/SMT/layer-entry-poc/renderer-input/wireguard-provider-contract.nix"
+      "GAMP/SMT/layer-entry-poc/renderer-input/minimal-nebula-cpm.nix"
     ];
     observedResult = "renderer mini-SMT entries independently runnable with explicit CPM inputs";
   };

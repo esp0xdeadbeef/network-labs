@@ -1,6 +1,6 @@
 {
   control_plane_model = {
-    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__allow-client-to-testnet-host-isp";
+    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
     data.acme.lab = {
       siteName = "acme.lab";
       domains.tenants = [
