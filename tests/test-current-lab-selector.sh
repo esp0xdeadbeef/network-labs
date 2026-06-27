@@ -96,6 +96,27 @@ in
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p") "renderer SMT active-lab import mismatch"
 ' >/dev/null || fail "SMT renderer selection failed"
 
+"${selector}" SMT renderer-clab >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  require = cond: msg: if cond then true else throw msg;
+in
+  require (current.selection.layer == "SMT") "renderer-clab selector layer mismatch"
+  && require (current.selection.selector == "renderer-clab") "renderer-clab selector id mismatch"
+  && require (current.selection.traceId == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab") "renderer-clab trace mismatch"
+  && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix") "renderer-clab source path mismatch"
+  && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime") "renderer-clab must preserve the global NixOS runtime CPM"
+  && require (inventoryNixos.activeLabInventoryStub.miniSmtId == "renderer-nixos") "renderer-clab must preserve NixOS inventory shim"
+  && require (inventoryNixos.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "renderer-clab must preserve NixOS management metadata"
+  && require (inventoryClab.activeLabInventoryStub.miniSmtId == "renderer-clab") "renderer-clab must preserve CLAB provenance shim"
+  && require (inventoryClab.deploymentHosts ? s-router-clab) "renderer-clab CLAB inventory must expose s-router-clab"
+' >/dev/null || fail "SMT renderer-clab selection failed"
+
 "${selector}" HAT >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let

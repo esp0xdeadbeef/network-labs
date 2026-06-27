@@ -597,6 +597,15 @@ source_kind_for_mini_or_trace() {
   fi
 }
 
+renderer_target_for_mini_or_trace() {
+  local requested="$1"
+  if mini_exists "${requested}"; then
+    mini_attr "${requested}" "if (row.rendererTarget or null) == null then \"\" else row.rendererTarget"
+  else
+    printf '\n'
+  fi
+}
+
 source_path_for_mini_or_trace() {
   local requested="$1"
   if mini_exists "${requested}"; then
@@ -608,11 +617,12 @@ source_path_for_mini_or_trace() {
 
 select_smt() {
   local requested="$1"
-  local trace row_trace source_kind source_path row_dir selected_by
+  local trace row_trace source_kind source_path renderer_target row_dir selected_by
   trace="$(trace_for_mini_or_trace "${requested}")"
   row_trace="${trace%%__*}"
   source_kind="$(source_kind_for_mini_or_trace "${requested}")"
   source_path="$(source_path_for_mini_or_trace "${requested}")"
+  renderer_target="$(renderer_target_for_mini_or_trace "${requested}")"
   if [[ "${source_path}" == "${repo_root}/"* ]]; then
     source_path="${source_path#"${repo_root}/"}"
   fi
@@ -625,10 +635,15 @@ select_smt() {
   }
 
   if [[ "${source_kind}" == "renderer-input" ]]; then
-    write_import "intent.nix" "../${source_path}"
-    write_import "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix"
-    write_import "inventory-clab.nix" "../${row_dir}/inventory-clab.nix"
-    write_import "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix"
+    if [[ "${renderer_target}" == "nixos" ]]; then
+      write_import "intent.nix" "../${source_path}"
+    else
+      write_import "intent.nix" "../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix"
+    fi
+    write_default_nixos_inventory
+    write_default_clab_inventory
+    write_default_inventory_test_clients
+    write_default_clients
   else
     local forwarding_enterprise_json
     forwarding_enterprise_json="$(forwarding_enterprise_json_for_intent "../${row_dir}/intent.nix")"
@@ -636,8 +651,8 @@ select_smt() {
     write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos" "s-router-test-clients"
     write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
     write_smt_inventory_with_management "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-test-clients"
+    write_import "clients.nix" "./inventory-test-clients.nix"
   fi
-  write_import "clients.nix" "./inventory-test-clients.nix"
   write_default_hetz_inventory
   write_default_sops
   write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
