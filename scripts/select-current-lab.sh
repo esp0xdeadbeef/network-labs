@@ -252,12 +252,37 @@ ${forwarding_enterprise_json}
         // (if endpoint ? addr6 then { addr6 = endpoint.addr6; } else { });
       };
     };
+  tenantBridgeFor = enterpriseName: siteName: tenantName:
+    "br-\${sanitize enterpriseName}-\${sanitize siteName}-tenant-\${sanitize tenantName}";
+  portForTenantInterface = enterpriseName: siteName: nodeName: index: interfaceName:
+    let
+      iface = (nodeForSite enterpriseName siteName nodeName).interfaces.\${interfaceName};
+      tenantName = iface.tenant;
+    in
+    {
+      name = interfaceName;
+      value = {
+        logicalInterface = interfaceName;
+        attach = {
+          kind = "bridge";
+          bridge = tenantBridgeFor enterpriseName siteName tenantName;
+        };
+        interface = {
+          name = "t\${toString index}";
+        };
+      };
+    };
   portsForNode = enterpriseName: siteName: nodeName:
     let
       linkPorts = builtins.listToAttrs (
         indexedMap
           (index: linkName: portForLink enterpriseName siteName nodeName index linkName)
           (linkNamesForNode enterpriseName siteName nodeName)
+      );
+      tenantPorts = builtins.listToAttrs (
+        indexedMap
+          (index: interfaceName: portForTenantInterface enterpriseName siteName nodeName index interfaceName)
+          (tenantInterfaceNamesForNode enterpriseName siteName nodeName)
       );
       uplinkPorts = builtins.listToAttrs (
         indexedMap
@@ -273,7 +298,7 @@ ${forwarding_enterprise_json}
           (uplinkNamesForNode enterpriseName siteName nodeName)
       );
     in
-    linkPorts // uplinkPorts;
+    linkPorts // tenantPorts // uplinkPorts;
   tenantInterfaceNamesForNode = enterpriseName: siteName: nodeName:
     let
       interfaces = (nodeForSite enterpriseName siteName nodeName).interfaces or { };
@@ -317,12 +342,30 @@ ${forwarding_enterprise_json}
         dns = { };
       };
   bridgeEntriesForSite = enterpriseName: siteName:
-    builtins.map
-      (linkName: {
-        name = bridgeForLink linkName;
-        value = { };
-      })
-      (builtins.attrNames (linksForSite enterpriseName siteName));
+    let
+      linkBridgeEntries =
+        builtins.map
+          (linkName: {
+            name = bridgeForLink linkName;
+            value = { };
+          })
+          (builtins.attrNames (linksForSite enterpriseName siteName));
+      tenantBridgeEntries =
+        builtins.concatMap
+          (nodeName:
+            builtins.map
+              (interfaceName:
+                let
+                  iface = (nodeForSite enterpriseName siteName nodeName).interfaces.\${interfaceName};
+                in
+                {
+                  name = tenantBridgeFor enterpriseName siteName iface.tenant;
+                  value = { };
+                })
+              (tenantInterfaceNamesForNode enterpriseName siteName nodeName))
+          (builtins.attrNames ((((forwardingEnterprise.\${enterpriseName} or { }).site or { }).\${siteName} or { }).nodes or { }));
+    in
+    linkBridgeEntries ++ tenantBridgeEntries;
   generatedBridgeNetworks =
     builtins.listToAttrs (
       builtins.concatMap
