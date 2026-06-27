@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "dns-resolver-config";
-  traceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  selector = "internet-mode-verification";
+  traceId = "FS-380-HDS-020-SDS-010-SMS-050";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020";
-  sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT dns-resolver-config";
+  sourceRoot = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050";
+  sourcePath = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT internet-mode-verification";
 }
