@@ -6,8 +6,8 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-sat_dir="${repo_root}/sat"
-hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
+sat_dir="${repo_root}/GAMP/SAT"
+hat_dir="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet"
 
 fail() {
   echo "FAIL fs880-lease-namespace-source-contract: $*" >&2

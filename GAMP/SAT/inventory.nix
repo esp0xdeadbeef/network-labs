@@ -1971,6 +1971,10 @@ in
           br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
           br-nixos-policy-upstream-access-streaming-isp-b = { };
+          br-nix-pppoe = {
+            hatPurpose = "residential-pppoe-handoff";
+            isolated = true;
+          };
           client = {
             mode = "vlan";
             parent = "eth0";

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 
 status=0
 missing_paths=()
@@ -23,7 +23,7 @@ EOF
   cat >&2 <<'EOF'
 
 This red failure may be removed only after network-labs owns the controlled SAT
-source under sat/ and exposes explicit staging entrypoints for:
+source under GAMP/SAT/ and exposes explicit staging entrypoints for:
 
   - getIntent or getCompilerInput: plain semantic compiler input
   - getInventory: plain non-secret realization facts

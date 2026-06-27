@@ -11,7 +11,7 @@ export REPO_ROOT="$repo_root"
 
 nix-instantiate --eval --strict --json --expr '
 let
-  intent = import (builtins.getEnv "REPO_ROOT" + "/sat/intent.nix");
+  intent = import (builtins.getEnv "REPO_ROOT" + "/GAMP/SAT/intent.nix");
 
   require = label: cond:
     if cond then true else throw label;
@@ -80,7 +80,7 @@ in
 nix-instantiate --eval --strict --json --expr '
 let
   inventory =
-    import (builtins.getEnv "REPO_ROOT" + "/sat/getResolvedInventory.nix")
+    import (builtins.getEnv "REPO_ROOT" + "/GAMP/SAT/getResolvedInventory.nix")
       { renderer = "nixos"; };
 
   require = label: cond:

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 compiler_repo="${NETWORK_COMPILER_REPO:-/home/deadbeef/github/network-compiler}"
 
 nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "

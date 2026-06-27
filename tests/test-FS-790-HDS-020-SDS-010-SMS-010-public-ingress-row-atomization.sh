@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-sat_dir="${repo_root}/sat"
+sat_dir="${repo_root}/GAMP/SAT"
 
 fail() {
   echo "FAIL FS-790-HDS-020-SDS-010-SMS-010: $*" >&2

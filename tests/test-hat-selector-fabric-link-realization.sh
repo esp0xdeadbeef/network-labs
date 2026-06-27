@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
+hat_dir="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet"
 
 HAT_DIR="${hat_dir}" nix eval --impure --expr '
   let

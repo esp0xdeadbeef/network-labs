@@ -7,7 +7,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 nix eval --impure --expr '
   let
-    satIntent = import '"${repo_root}"'/sat/intent.nix;
+    satIntent = import '"${repo_root}"'/GAMP/SAT/intent.nix;
     require = cond: msg: if cond then true else throw msg;
     hasNonEmptyString = record: name:
       record ? ${name} && builtins.isString record.${name} && record.${name} != "";

@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 split_gamp_id="FS-800-HDS-010-SDS-011-SMS-010"
 
 fail() {
@@ -132,7 +132,7 @@ nix eval --impure --json --expr "{
       and realization_ok($realization.pppoeClab)
       and $realization.pppoeNixos.scenarioId == $nixosFixture.scenarioId
       and $realization.pppoeNixos.backend == "nixos"
-      and $realization.pppoeNixos.host == "s-router-test"
+      and $realization.pppoeNixos.host == "s-router-nixos"
       and $realization.pppoeNixos.fixtureRef.customerCoreNode == $nixosFixture.customer.coreNode
       and $realization.pppoeNixos.substrate.ispHandoff.bridge == "br-nix-pppoe"
       and $realization.pppoeNixos.runtime.customerRuntimeNode == "esp-nixos-router-core-isp-a"
@@ -147,10 +147,10 @@ nix eval --impure --json --expr "{
       and runtime_contract_ok($nixosFixture; $realization.pppoeNixos; .inventory)
       and runtime_contract_ok($clabFixture; $realization.pppoeClab; .inventory)
       and $realization.pppoeNixos.substrate.ispHandoff.bridge != $realization.pppoeClab.substrate.ispHandoff.bridge
-      and .inventory.deployment.hosts."s-router-test".bridgeNetworks."br-nix-pppoe".isolated == true
-      and .inventory.deployment.hosts."s-router-clab".bridgeNetworks."br-clab-pppoe".isolated == true
-      and (.inventory.deployment.hosts."s-router-test".bridgeNetworks."br-nix-pppoe" | has("vlan") | not)
-      and (.inventory.deployment.hosts."s-router-clab".bridgeNetworks."br-clab-pppoe" | has("vlan") | not)
+      and .inventory.deployment.hosts[$realization.pppoeNixos.host].bridgeNetworks[$realization.pppoeNixos.substrate.ispHandoff.bridge].isolated == true
+      and .inventory.deployment.hosts[$realization.pppoeClab.host].bridgeNetworks[$realization.pppoeClab.substrate.ispHandoff.bridge].isolated == true
+      and (.inventory.deployment.hosts[$realization.pppoeNixos.host].bridgeNetworks[$realization.pppoeNixos.substrate.ispHandoff.bridge] | has("vlan") | not)
+      and (.inventory.deployment.hosts[$realization.pppoeClab.host].bridgeNetworks[$realization.pppoeClab.substrate.ispHandoff.bridge] | has("vlan") | not)
   ' >/dev/null
 
 nix eval --impure --raw --expr "

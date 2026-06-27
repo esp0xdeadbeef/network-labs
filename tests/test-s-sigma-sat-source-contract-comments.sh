@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 intent="${lab_dir}/intent.nix"
 inventory="${lab_dir}/inventory.nix"
 provider_table="${lab_dir}/provider-access-fixture-table.nix"

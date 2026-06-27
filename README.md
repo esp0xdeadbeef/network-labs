@@ -121,7 +121,7 @@ Output: deterministic model source consumed by network-compiler.
 ### Owning Repository
 
 Construction tests: `network-labs/tests/`
-Fixture source: `network-labs/sat/` (controlled SAT), `network-labs/HAT/` (HAT preparation)
+Fixture source: `network-labs/GAMP/SAT/` (controlled SAT), `network-labs/GAMP/HAT/` (HAT preparation)
 
 ## Layer-Entry POC Boundary
 
@@ -280,14 +280,14 @@ disposable lab paths or live lab loops.
 
 ## HAT Fixtures
 
-Host Acceptance Testing preparation fixtures live under `HAT/`. These inputs
+Host Acceptance Testing preparation fixtures live under `GAMP/HAT/`. These inputs
 may render through model and renderer stages, but they are not SAT evidence by
 themselves. HAT rows remain blocked until the owning CLAB or NixOS harness runs
 the rendered substrate and records bounded runtime probes.
 
 The emulated-ISP residential testnet fixture is:
 
-`HAT/emulated-isp-residential-testnet`
+`GAMP/HAT/emulated-isp-residential-testnet`
 
 It uses one shared intent plus separate CLAB and NixOS inventories. The fixture
 models a routed documentation-range provider path with IPv4 `203.0.113.0/30`
@@ -301,7 +301,7 @@ physical VLAN handoffs require an exclusive-run guard.
 
 The controlled SAT source is:
 
-`sat`
+`GAMP/SAT`
 
 Its `intent.nix`, inventory files, provider-access fixture table, runtime fact
 joiners, and `SAT-SOURCE-CONTRACT.md` are the source provenance for controlled
@@ -309,14 +309,14 @@ SAT acceptance for the current GAMP network baseline. SAT still requires locked
 runtime evidence from the owning harness contexts; passing examples or
 examples-only compile sweeps is lower-layer evidence only.
 
-`SAT-SOURCE-CONTRACT.md` is not SAT evidence. It names the controlled source
-channels for WireGuard provider scenarios: `sat/intent.nix` owns the service,
-traffic, overlay, and policy tuples, while `sat/inventory.nix` owns the
+`GAMP/SAT/SAT-SOURCE-CONTRACT.md` is not SAT evidence. It names the controlled
+source channels for WireGuard provider scenarios: `GAMP/SAT/intent.nix` owns
+the service, traffic, overlay, and policy tuples, while `GAMP/SAT/inventory.nix` owns the
 WireGuard provider-profile realization contract, including prefix authority,
 NAT, public endpoint, public-ingress or port-forward, runtime paths, and return
 routes. NixOS/CLAB emulated-ISP PPPoE fixture rows are present in
-`sat/provider-access-fixture-table.nix`, with normal site behavior remaining in
-`sat/intent.nix` and harness realization bindings in `sat/inventory.nix`, but
+`GAMP/SAT/provider-access-fixture-table.nix`, with normal site behavior remaining in
+`GAMP/SAT/intent.nix` and harness realization bindings in `GAMP/SAT/inventory.nix`, but
 WireGuard, PPPoE, and other SAT rows still require harness-owned HAT/SAT runtime
 proof before acceptance.
 

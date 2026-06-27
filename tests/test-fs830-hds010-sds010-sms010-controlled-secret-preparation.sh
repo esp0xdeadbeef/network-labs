@@ -12,7 +12,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 tmp_dir="$(mktemp -d)"
 tmp_json="${tmp_dir}/inventory.json"
 jq_lib="${tmp_dir}/validator.jq"
