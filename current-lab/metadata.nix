@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "internet-mode-verification";
-  traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+  selector = "lane-egress-binding";
+  traceId = "FS-370-HDS-010-SDS-010-SMS-050";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050";
-  sourcePath = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT internet-mode-verification";
+  sourceRoot = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050";
+  sourcePath = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT lane-egress-binding";
 }
