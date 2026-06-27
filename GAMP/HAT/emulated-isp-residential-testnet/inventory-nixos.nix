@@ -31,6 +31,10 @@ let
 in
 withSatEspRuntimeTargets (selectorFabricLinkRealization {
   inherit (protectedPppoeCredentialBindings) secretDeclarations secretSources sourceBindings;
+  commonBehaviorSourceBinding = import ./common-behavior-source-binding.nix {
+    inventoryPath = "GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix";
+    profile = "nixos";
+  };
 
   controlPlane = {
     sites.esp0xdeadbeef = {

@@ -2,11 +2,8 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
 
-Status: NOT OK - source stub only.
+Status: OK - focused construction test registered.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Focused construction test: `tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh`.
 
 Title slug: `realization-fact-binding`

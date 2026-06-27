@@ -11,12 +11,12 @@
       nixos = "GAMP/SMT/FS-770-HDS-010-SDS-020-SMS-010/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-770-HDS-010-SDS-020-SMS-010/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "focused-construction";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh";
+    focusedTest = "tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh";
+    observedResult = "PASS: CLAB and NixOS HAT inventories emit a shared commonBehaviorSourceBinding with active seeded negatives for split behavior source and missing binding.";
   };
 }
