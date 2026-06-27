@@ -59,31 +59,31 @@ let
     nixos = {
       rendererRepo = "network-renderer-nixos";
       materializer = "nixos-config";
-      fixture = ./renderer-input/minimal-container-cpm.nix;
+      fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-container-cpm.nix;
       expectedSurfaces = [ "container-config" "container-autostart" ];
     };
     nixos-clients = {
       rendererRepo = "network-renderer-access-endpoint-nixos";
       materializer = "nixos-client-container-config";
-      fixture = ./renderer-input/minimal-access-endpoint-cpm.nix;
+      fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
       expectedSurfaces = [ "endpoint-container-config" "endpoint-bridge" ];
     };
     clab = {
       rendererRepo = "network-renderer-containerlab-linux-backend";
       materializer = "containerlab-yaml";
-      fixture = ./renderer-input/minimal-clab-cpm.nix;
+      fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
       expectedSurfaces = [ "topology-nodes" "p2p-link-bridge" ];
     };
     wireguard = {
       rendererRepo = "network-renderer-wireguard";
       materializer = "wireguard-provider-runtime-module";
-      fixture = ./renderer-input/wireguard-provider-contract.nix;
+      fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix;
       expectedSurfaces = [ "provider-render-result" "provider-runtime-module" ];
     };
     nebula = {
       rendererRepo = "network-renderer-nebula";
       materializer = "nebula-runtime-plan";
-      fixture = ./renderer-input/minimal-nebula-cpm.nix;
+      fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix;
       expectedSurfaces = [ "runtime-plan" "relay-static-map" "unsafe-routes" ];
     };
   };
@@ -193,8 +193,8 @@ in
       rendererTargets = builtins.attrNames rendererTargets;
       suppliedArtifact = {
         kind = "network-labs-owned-cpm-input";
-        fixture = ./renderer-input/minimal-container-cpm.nix;
-        contract = ./renderer-input/cpm-input-contract.nix;
+        fixture = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-container-cpm.nix;
+        contract = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/cpm-input-contract.nix;
       };
       expectedWarnings = [
         "WARN_LAYER_ENTRY_SKIPS_NETWORK_LABS_INTENT_SOURCE"

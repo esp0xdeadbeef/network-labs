@@ -1,0 +1,62 @@
+{
+  layer = "SMT";
+  traceId = "FS-166-HDS-010-SDS-010-SMS-900";
+  smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+  sitRow = ../../SIT/FS-166-HDS-010-SDS-010;
+  purpose = "Renderer-entry mini POC source inputs owned by the FS-166 SMS-900 SMT row.";
+  sourceInputs = {
+    renderer-nixos = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+      kind = "renderer-input";
+      rendererTarget = "nixos";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-nixos-p2p = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p";
+      kind = "renderer-input";
+      rendererTarget = "nixos";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh";
+      maxRuntimeTargets = 2;
+    };
+
+    renderer-nixos-clients = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+      kind = "renderer-input";
+      rendererTarget = "nixos-clients";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-clab = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+      kind = "renderer-input";
+      rendererTarget = "clab";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-clab-only.sh";
+      maxRuntimeTargets = 2;
+    };
+
+    renderer-wireguard = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      kind = "renderer-input";
+      rendererTarget = "wireguard";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-wireguard-only.sh";
+      maxRuntimeTargets = 1;
+    };
+
+    renderer-nebula = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
+      kind = "renderer-input";
+      rendererTarget = "nebula";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix";
+      test = "tests/test-active-lab-mini-smt-renderer-nebula-only.sh";
+      maxRuntimeTargets = 2;
+    };
+  };
+}

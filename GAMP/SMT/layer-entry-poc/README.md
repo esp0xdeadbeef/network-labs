@@ -34,10 +34,10 @@ The explicit skip decisions are:
 - `skip-network-compiler-nfm-and-cpm`: start at `renderer-input`.
 
 Renderer-entry POCs currently target `nixos`, `nixos-clients`, `clab`,
-`wireguard`, and `nebula`. The fixtures in `renderer-input/` are renderer
-inputs only. The renderer owns materializing NixOS config, NixOS client endpoint
-containers, Containerlab topology, WireGuard provider runtime modules, or
-Nebula runtime plans.
+`wireguard`, and `nebula`. The renderer-input fixtures are trace-owned by
+`../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/`. The renderer owns
+materializing NixOS config, NixOS client endpoint containers, Containerlab
+topology, WireGuard provider runtime modules, or Nebula runtime plans.
 
 POC harnesses should run from `network-labs` and call the downstream APIs for
 the layer under test. Downstream repos execute their normal behavior, but the

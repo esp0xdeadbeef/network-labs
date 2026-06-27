@@ -57,25 +57,21 @@ let
   sourcePathIsMini =
     source:
       if source ? intent then
-        builtins.match ".*/GAMP/SMT/mini-smt/intents/[^/]+/intent[.]nix" (toString source.intent) != null
-        || builtins.match ".*/GAMP/SMT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]/intent[.]nix" (toString source.intent) != null
+        builtins.match ".*/GAMP/SMT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]/intent[.]nix" (toString source.intent) != null
       else if source ? cpm then
-        builtins.match ".*/GAMP/SMT/(mini-smt|layer-entry-poc/renderer-input)/.*[.]nix" (toString source.cpm) != null
+        builtins.match ".*/GAMP/SMT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]/.*[.]nix" (toString source.cpm) != null
       else
         false;
-  intentSourceRowsHaveLayerDirs =
+  allRowsHaveLayerDirs =
     builtins.all
       (name:
         let entry = manifest.tests.${name};
         in
-          if entry.source.kind == "intent-source" then
-            entry ? rowDirectories
-            && entry.rowDirectories ? SMT
-            && entry.rowDirectories ? SIT
-            && builtins.match ".*/GAMP/SMT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]" (toString entry.rowDirectories.SMT) != null
-            && builtins.match ".*/GAMP/SIT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]" (toString entry.rowDirectories.SIT) != null
-          else
-            true)
+          entry ? rowDirectories
+          && entry.rowDirectories ? SMT
+          && entry.rowDirectories ? SIT
+          && builtins.match ".*/GAMP/SMT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]" (toString entry.rowDirectories.SMT) != null
+          && builtins.match ".*/GAMP/SIT/FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]" (toString entry.rowDirectories.SIT) != null)
       names;
   allSourcesAreMini =
     builtins.all
@@ -87,8 +83,8 @@ in
   && require allHaveSource "every mini SMT must declare an explicit source"
   && require allSmall "every mini SMT must stay capped at two runtime targets"
   && require allSingleRelationIntentSources "intent-source mini SMTs must bind exactly one relation id"
-  && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs, GAMP/SMT/mini-smt, or layer-entry renderer-input fixtures"
-  && require intentSourceRowsHaveLayerDirs "intent-source mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
+  && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
+  && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
   && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-p2p, nixos-clients, and wireguard"
 ' >/dev/null

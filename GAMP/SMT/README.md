@@ -28,9 +28,10 @@ source still exercises the behavior.
 
 Row-local mini-SMT fixtures live under `GAMP/SMT/<trace>/`. Each trace
 creates its own `intent.nix`, `default.nix`, and a focused test under
-`../../tests/`. **Do NOT edit shared files** — `mini-smt/default.nix`,
-`mini-smt/tests.nix`, `GAMP/SMT/mini-smt/`, `active-lab/intent.nix`,
-or any central registry. Row-local files only. No registration needed.
+`../../tests/`. Shared files such as `mini-smt/default.nix`,
+`mini-smt/tests.nix`, and `active-lab/intent.nix` are runner and shim
+infrastructure only; SMT/SIT source inputs must live under trace-named row
+directories.
 
 ## Acceptable Hardware-Related SMT Evidence
 
@@ -49,7 +50,7 @@ Runtime SMT must be small by construction. If an SMS only asks for one runtime
 surface, such as "a renderer-input can start one NixOS container" or "one p2p
 next-hop pair is valid", the test must not deploy the full active-lab, HAT, SAT,
 or every `s-router-*` router. Put the row input under
-`GAMP/SMT/mini-smt/`, declare the maximum runtime target count, and run
+`GAMP/SMT/FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/`, declare the maximum runtime target count, and run
 the real target lifecycle for that mini profile.
 
 For `s-router-nixos`, runtime evidence means the real shutdown/rebuild route for
@@ -117,12 +118,12 @@ validation surfaces is not allowed.
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` |
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
-| `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
-| `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
-| `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
-| `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` |
-| `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
-| `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
+| `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
+| `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
+| `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
+| `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` |
+| `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
+| `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
 All 9 manifest mini-SMT entries now have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and

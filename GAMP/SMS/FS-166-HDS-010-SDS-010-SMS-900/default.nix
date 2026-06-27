@@ -8,7 +8,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
       kind = "renderer-input";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/mini-smt/runtime-nixos-cpm.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix";
       test = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
       maxRuntimeTargets = 1;
     };
@@ -17,7 +17,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p";
       kind = "renderer-input";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/mini-smt/runtime-nixos-p2p-cpm.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix";
       test = "tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh";
       maxRuntimeTargets = 2;
     };
@@ -26,7 +26,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
       kind = "renderer-input";
       rendererTarget = "nixos-clients";
-      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix";
       test = "tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh";
       maxRuntimeTargets = 1;
     };
@@ -35,7 +35,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
       kind = "renderer-input";
       rendererTarget = "clab";
-      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix";
       test = "tests/test-active-lab-mini-smt-renderer-clab-only.sh";
       maxRuntimeTargets = 2;
     };
@@ -44,7 +44,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
       kind = "renderer-input";
       rendererTarget = "wireguard";
-      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/wireguard-provider-contract.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix";
       test = "tests/test-active-lab-mini-smt-renderer-wireguard-only.sh";
       maxRuntimeTargets = 1;
     };
@@ -53,7 +53,7 @@
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
       kind = "renderer-input";
       rendererTarget = "nebula";
-      sourcePath = "GAMP/SMT/layer-entry-poc/renderer-input/minimal-nebula-cpm.nix";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix";
       test = "tests/test-active-lab-mini-smt-renderer-nebula-only.sh";
       maxRuntimeTargets = 2;
     };

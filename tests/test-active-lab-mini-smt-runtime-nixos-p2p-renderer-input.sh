@@ -5,7 +5,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 nixos_renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-renderer-nixos}"
-cpm_path="${MINI_SMT_CPM_PATH:-${repo_root}/GAMP/SMT/mini-smt/runtime-nixos-p2p-cpm.nix}"
+cpm_path="${MINI_SMT_CPM_PATH:-${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix}"
 
 fail() {
   echo "FAIL active-lab-mini-smt-runtime-nixos-p2p-renderer-input: $*" >&2

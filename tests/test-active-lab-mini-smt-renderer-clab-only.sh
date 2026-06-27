@@ -17,7 +17,7 @@ in
 ' >/dev/null
 
 nix eval --impure --json --expr \
-  "import ${repo_root}/GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix" \
+  "import ${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix" \
   >"${tmpdir}/cpm.json"
 
 nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \

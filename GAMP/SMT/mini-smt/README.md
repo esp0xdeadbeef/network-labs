@@ -1,6 +1,7 @@
 # active-lab mini SMT
 
-This directory contains deliberately small active-lab SMT fixtures. A mini SMT
+This directory contains the deliberately small active-lab SMT runner manifest.
+A mini SMT
 proves one SMS/SMT atom only. It must not pull in the full active-lab, HAT, SAT,
 or a broad `s-router-*` deployment. Runtime SMT evidence still requires a real
 runtime run, but that run must use a live mini profile for exactly the targets
@@ -20,11 +21,12 @@ The rule is:
 - no aggregate-only evidence for an SMT row;
 - seeded negatives must mutate only the atom under test.
 
-`runtime-nixos-cpm.nix` is the current active-lab runtime POC input. It is a
-network-labs-owned renderer-input CPM object for one `poc-router` container on
-`s-router-nixos`. The NixOS runtime acceptance path is still the real
-shutdown/rebuild route; the point is that the active-lab input is small enough
-to prove only the container-start materialization surface.
+`../FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix` is the current
+active-lab runtime POC input. It is a network-labs-owned renderer-input CPM
+object for one `poc-router` container on `s-router-nixos`. The NixOS runtime
+acceptance path is still the real shutdown/rebuild route; the point is that the
+active-lab input is small enough to prove only the container-start
+materialization surface.
 
 The top-level `../../../active-lab/inventory-nixos.nix` is only a provenance
 stub for this `renderer-nixos` mini SMT. It must point at this CPM input, the
@@ -81,7 +83,7 @@ Current `renderer-nixos` source inspection:
 tests/run-active-lab-mini-smt.sh --source renderer-nixos
 ```
 
-resolves `GAMP/SMT/mini-smt/runtime-nixos-cpm.nix`. The focused row test:
+resolves `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix`. The focused row test:
 
 ```sh
 tests/run-active-lab-mini-smt.sh renderer-nixos

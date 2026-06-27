@@ -1,5 +1,5 @@
 let
-  source = ../GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix;
+  source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
   cpm = import source;
 in
 {
