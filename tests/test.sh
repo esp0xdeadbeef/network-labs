@@ -73,6 +73,7 @@ tests=(
   test-s-sigma-provider-access-source-module-boundary.sh
   FS-800-HDS-010-SDS-012-SMS-010-provider-access-non-authority.sh
   test-s-sigma-provider-access-attachments.sh
+  FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh
   test-s-sigma-pppoe-pairing-fallback-rejection.sh
   test-s-sigma-site-role-map.sh
   test-s-sigma-site-role-map-provider-ingress-overlay.sh
