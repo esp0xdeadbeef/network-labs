@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "p2p-next-hop";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-040";
+  selector = "pppoe-pairing";
+  traceId = "FS-800-HDS-030-SDS-030-SMS-010";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT p2p-next-hop";
+  sourceRoot = "GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010";
+  sourcePath = "GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT pppoe-pairing";
 }
