@@ -15,10 +15,11 @@
     };
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh endpoint-harness-consumption";
+    command = null;
     sourcePaths = [
       "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-020/intent.nix"
+      "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-040/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "prepared source inputs only; endpoint-harness-consumption is not registered in GAMP/SMT/mini-smt/tests.nix and no executable focused mini-SMT script exists yet";
   };
 }

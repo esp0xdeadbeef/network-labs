@@ -16,7 +16,7 @@
             };
             to = {
               kind = "external";
-              name = "pppoe-provider";
+              uplinks = [ "pppoe-provider" ];
             };
             trafficType = "any";
             priority = 100;
@@ -41,24 +41,36 @@
             kind = "tenant";
             name = "client";
             ipv4 = "10.80.10.0/24";
-            ipv6 = "fd42:mini:800::/64";
+            ipv6 = "fd42:800::/64";
           }
         ];
       };
       pools = {
         loopback = {
           ipv4 = "10.80.0.0/24";
-          ipv6 = "fd42:mini:800:ff::/118";
+          ipv6 = "fd42:800:ff::/118";
         };
         p2p = {
           ipv4 = "10.80.255.0/24";
-          ipv6 = "fd42:mini:800:fe::/118";
+          ipv6 = "fd42:800:fe::/118";
         };
       };
       topology = {
         links = [
           [
             "pppoe-client"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "pppoe-provider"
           ]
         ];
@@ -71,6 +83,15 @@
                 name = "client";
               }
             ];
+          };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
           };
           pppoe-provider = {
             role = "core";

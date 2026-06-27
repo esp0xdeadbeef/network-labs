@@ -1,0 +1,11 @@
+{
+  meta = {
+    traceId = "FS-940-HDS-010-SDS-020-SMS-050";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-050-forwarding-equivalence-group-planner.md";
+    renderer = "clab";
+    scope = "canonical-sms-source-stub";
+    evidenceBoundary = "source-stub-only";
+  };
+  hosts = { };
+  deploymentHosts = { };
+}

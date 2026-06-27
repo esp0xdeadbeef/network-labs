@@ -1,4 +1,40 @@
-{
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+  mkRuntimeTarget = host: name: {
+    placement.host = host;
+    logicalNode = {
+      enterprise = "acme";
+      site = "lab";
+      inherit name;
+    };
+    role = "access";
+    containers = [
+      {
+        name = "default";
+        container = name;
+      }
+    ];
+    effectiveRuntimeRealization.interfaces = { };
+  };
+in
+rec {
   id = "layer-entry-poc-wireguard-provider";
   provenance = {
     requested = {
@@ -59,4 +95,41 @@
     ra.enable = false;
     healthCheck.enable = false;
   };
+  control_plane_model = {
+    meta = {
+      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      source = "network-labs layer-entry renderer-input POC";
+      scope = "WireGuard provider renderer contract plus NixOS active-lab compile shim";
+    };
+    deployment.hosts = {
+      s-router-nixos = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-clab = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-test-clients = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+    };
+    render.hosts = {
+      s-router-nixos.deploymentHost = "s-router-nixos";
+      s-router-clab.deploymentHost = "s-router-clab";
+      s-router-test-clients.deploymentHost = "s-router-test-clients";
+    };
+    data.acme.lab = {
+      enterprise = "acme";
+      siteName = "acme.lab";
+      runtimeTargets = {
+        compile-nixos = mkRuntimeTarget "s-router-nixos" "compile-nixos";
+        compile-clab = mkRuntimeTarget "s-router-clab" "compile-clab";
+        compile-test-client = mkRuntimeTarget "s-router-test-clients" "compile-test-client";
+      };
+    };
+  };
+
+  deploymentHosts = control_plane_model.deployment.hosts;
 }

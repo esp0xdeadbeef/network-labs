@@ -16,7 +16,7 @@
             };
             to = {
               kind = "external";
-              name = "testnet";
+              uplinks = [ "testnet" ];
             };
             trafficType = "any";
             priority = 100;
@@ -41,24 +41,36 @@
             kind = "tenant";
             name = "client";
             ipv4 = "10.50.10.0/24";
-            ipv6 = "fd42:mini:500::/64";
+            ipv6 = "fd42:500::/64";
           }
         ];
       };
       pools = {
         loopback = {
           ipv4 = "10.50.0.0/24";
-          ipv6 = "fd42:mini:500:ff::/118";
+          ipv6 = "fd42:500:ff::/118";
         };
         p2p = {
-          ipv4 = "10.0.0.0/30";
-          ipv6 = "fd42:mini:500:fe::/126";
+          ipv4 = "10.50.240.0/28";
+          ipv6 = "fd42:500:fe::/124";
         };
       };
       topology = {
         links = [
           [
             "router-a"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "router-b"
           ]
         ];
@@ -72,12 +84,21 @@
               }
             ];
           };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
+          };
           router-b = {
             role = "core";
             uplinks = {
               testnet = {
                 ipv4 = [ "10.20.0.0/24" ];
-                ipv6 = [ "fd42:mini:500:20::/64" ];
+                ipv6 = [ "fd42:500:20::/64" ];
               };
             };
           };

@@ -10,9 +10,11 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh endpoint-harness-consumption";
-    focusedTest = "tests/test-active-lab-mini-smt-endpoint-harness-consumption-only.sh";
+    command = null;
+    focusedTest = null;
     maxRuntimeTargets = 3;
-    scope = "s-router-test-clients endpoint harness consumption: validates endpoint fixtures consumed from source-classified records, rejects script-local/placeholder materialization";
+    status = "NOT OK";
+    missing = "endpoint-harness-consumption is not registered in GAMP/SMT/mini-smt/tests.nix and no executable focused mini-SMT script exists yet";
+    scope = "Prepared source fixture for s-router-test-clients endpoint harness consumption; not an active runner shim until the manifest and focused test are added.";
   };
 }
