@@ -20,7 +20,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-intent="${repo_root}/sat/intent.nix"
+intent="${repo_root}/GAMP/SAT/intent.nix"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
@@ -164,7 +164,7 @@ jq -e '
   and (row_by($esp.clab.profileManifest.tenantAccessMatrix; "scope"; "client").discoveryExports == [ "cast-discovery" ])
   and (row_by($esp.clab.profileManifest.tenantAccessMatrix; "scope"; "streaming").discoveryExports == [ ])
 ' "${tmp_dir}/intent.json" >/dev/null \
-  || fail "sat/intent.nix profileManifest rows are missing required FS-650..FS-690 source fields"
+  || fail "GAMP/SAT/intent.nix profileManifest rows are missing required FS-650..FS-690 source fields"
 
 for marker in \
   SAT-SRC-PROFILE-MANIFEST-NIXOS \

@@ -214,10 +214,10 @@ let
         else
           result
           // {
-            ${entry.host} = mergeHost host {
+            ${entry.host} = host // {
               bridgeNetworks = {
                 ${entry.bridge} = { };
-              };
+              } // (host.bridgeNetworks or { });
             };
           }
       )

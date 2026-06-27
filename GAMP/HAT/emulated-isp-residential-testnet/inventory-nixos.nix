@@ -664,6 +664,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             "nixos-branch-node01"
             "nixos-client01"
             "nixos-client02"
+            "nixos-emulated-sigma"
             "nixos-printer01"
             "nixos-receiver01"
             "nixos-streaming-test"
@@ -715,6 +716,25 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
                 required = false;
               };
               tenant = "client";
+            };
+            nixos-emulated-sigma = {
+              addressDelivery = "endpoint-configured";
+              assignment = "static-ipv4-or-ipv6-client";
+              bridge = "mgmt";
+              gateway4 = "10.20.10.1";
+              gateway6 = "fd42:dead:beef:10::1";
+              ipv4 = [ "10.20.10.50/24" ];
+              ipv6 = [ "fd42:dead:beef:10::50/64" ];
+              managementBoundary = {
+                fixturePlacementCreatesManagementAccess = false;
+                mode = "no-general-management";
+              };
+              owningSubstrate = "nixos";
+              persistenceExpectation = {
+                kind = "ephemeral-fixture";
+                required = false;
+              };
+              tenant = "mgmt";
             };
             nixos-printer01 = {
               addressDelivery = "endpoint-configured";
@@ -877,8 +897,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       ipv6 = [ "fd42:dead:beef:20::1" ];
     };
     nixos-emulated-sigma = {
-      ipv4 = [ "10.20.70.50/24" ];
-      ipv6 = [ "fd42:dead:beef:70::50/64" ];
+      ipv4 = [ "10.20.10.50/24" ];
+      ipv6 = [ "fd42:dead:beef:10::50/64" ];
     };
   };
   realization = {

@@ -5,7 +5,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 
 check_inventory() {
   local renderer="$1"

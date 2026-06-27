@@ -14,9 +14,9 @@ fi
 REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
   let
     root = builtins.getEnv "REPO_ROOT";
-    intent = import (root + "/sat/intent.nix");
-    inventory = import (root + "/sat/inventory.nix");
-    table = import (root + "/sat/provider-access-fixture-table.nix");
+    intent = import (root + "/GAMP/SAT/intent.nix");
+    inventory = import (root + "/GAMP/SAT/inventory.nix");
+    table = import (root + "/GAMP/SAT/provider-access-fixture-table.nix");
 
     sds012 = "FS-800-HDS-010-SDS-012-SMS-010";
     sds013 = "FS-800-HDS-010-SDS-010-SMS-020";
@@ -80,7 +80,7 @@ REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
     if require (attachmentNames != [ ])
       "${sds013}: provider-access source module must define attachment records"
       && require (inventory.controlPlane.providerAccess.attachments == table.attachments)
-        "${sds013}: canonical provider-access stage must be inventory.controlPlane.providerAccess.attachments sourced from sat/provider-access-fixture-table.nix"
+        "${sds013}: canonical provider-access stage must be inventory.controlPlane.providerAccess.attachments sourced from GAMP/SAT/provider-access-fixture-table.nix"
       && require (builtins.match ".*upstreamEmulation.*" encodedIntent == null)
         "${sds012}: intent.nix must not carry upstreamEmulation side-channel authority"
       && require (builtins.match ".*providerAccess.*" encodedIntent == null)

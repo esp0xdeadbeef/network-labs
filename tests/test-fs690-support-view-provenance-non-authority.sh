@@ -5,7 +5,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-intent="${repo_root}/sat/intent.nix"
+intent="${repo_root}/GAMP/SAT/intent.nix"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 

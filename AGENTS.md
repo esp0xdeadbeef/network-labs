@@ -35,8 +35,9 @@ Some examples also import files from other example directories:
 * `examples/dual-wan-branch-overlay-bgp/inventory-nixos.nix` imports `examples/dual-wan-branch-overlay/inventory-nixos.nix`
 * `examples/dual-wan-branch-overlay-bgp/intent.nix` imports `examples/dual-wan-branch-overlay/intent.nix`
 
-The controlled SAT source is `sat/`, not an example. Do not treat it as an
-example-normalization target.
+The controlled SAT source is `GAMP/SAT/`, not an example. Do not treat it as an
+example-normalization target. The root-level `sat/` path is legacy and must not
+be used for new evidence or tests.
 
 These example imports are the known sources of non-self-contained example behavior.
 

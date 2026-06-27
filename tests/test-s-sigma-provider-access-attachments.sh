@@ -13,9 +13,9 @@ fi
 REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
   let
     root = builtins.getEnv "REPO_ROOT";
-    intent = import (root + "/sat/intent.nix");
-    inventory = import (root + "/sat/inventory.nix");
-    table = import (root + "/sat/provider-access-fixture-table.nix");
+    intent = import (root + "/GAMP/SAT/intent.nix");
+    inventory = import (root + "/GAMP/SAT/inventory.nix");
+    table = import (root + "/GAMP/SAT/provider-access-fixture-table.nix");
 
     requiredTechnologies = {
       pppoeNixos = "pppoe";

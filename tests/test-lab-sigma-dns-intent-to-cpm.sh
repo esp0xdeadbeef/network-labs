@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 
 # SMS-020 CMC: Removed CPM compile-and-build invocation — downstream
 # entrypoint must be tested in network-control-plane-model/tests/.

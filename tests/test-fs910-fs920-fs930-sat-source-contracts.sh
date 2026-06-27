@@ -9,7 +9,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/sat"
+lab_dir="${repo_root}/GAMP/SAT"
 # SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
 # CPM compile-and-build invocation and jq validation of CPM output
 # are downstream-dependent and must live in network-control-plane-model/tests/.

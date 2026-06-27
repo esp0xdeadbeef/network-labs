@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-hat_dir="${repo_root}/HAT/emulated-isp-residential-testnet"
+hat_dir="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet"
 # SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
 # CPM compile-and-build invocations and jq validation of CPM output
 # are downstream-dependent and moved to network-control-plane-model/tests/.

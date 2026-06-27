@@ -6,8 +6,8 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-intent="${repo_root}/HAT/emulated-isp-residential-testnet/intent.nix"
-inventory_nixos="${repo_root}/HAT/emulated-isp-residential-testnet/inventory-nixos.nix"
+intent="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/intent.nix"
+inventory_nixos="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
