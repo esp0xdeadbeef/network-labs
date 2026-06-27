@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "decision-reason-diagnostic";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-030";
+  selector = "dns-resolver-config";
+  traceId = "FS-540-HDS-010-SDS-010-SMS-020";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT decision-reason-diagnostic";
+  sourceRoot = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020";
+  sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT dns-resolver-config";
 }
