@@ -98,6 +98,7 @@ tests=(
   test-fs770-common-intent-field-presence.sh
   test-fs770-realization-fact-classification.sh
   test-fs770-realization-fact-binding.sh
+  test-fs770-hds010-sds020-sms010-realization-fact-binding.sh
   test-fs770-realization-mutation-rejection.sh
   test-hat-printer-receiver-policy-source.sh
   test-hat-emulated-isp-residential-testnet.sh

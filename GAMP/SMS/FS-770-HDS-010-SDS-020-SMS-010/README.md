@@ -2,10 +2,9 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
 
-This network-labs row mirrors the canonical GAMP SMS trace so lab-source
-coverage cannot silently omit it.
+This network-labs row mirrors the canonical GAMP SMS trace and records the
+focused common behavior source binding construction input.
 
-Status: Source stub only - not validation evidence.
+Status: OK - focused construction test registered.
 
-The canonical SMS title slug is `realization-fact-binding`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+Focused construction test: `tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh`.

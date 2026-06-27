@@ -4,18 +4,18 @@
   parentSds = ../../SDS/FS-770-HDS-010-SDS-020;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md";
   titleSlug = "realization-fact-binding";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "Focused common behavior source binding construction input.";
+  evidenceBoundary = "focused-construction";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "common-behavior-source-binding" = {
       traceId = "FS-770-HDS-010-SDS-020-SMS-010";
-      kind = "source-reference";
-      sourcePath = "GAMP/SMT/FS-770-HDS-010-SDS-020-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
+      kind = "hat-inventory-source-binding";
+      sourcePath = "GAMP/HAT/emulated-isp-residential-testnet/common-behavior-source-binding.nix";
+      test = "tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh";
       maxRuntimeTargets = 0;
     };
   };
   templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
+    "tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh"
   ];
 }
