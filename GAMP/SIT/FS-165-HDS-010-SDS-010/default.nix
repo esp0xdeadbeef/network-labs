@@ -9,12 +9,12 @@
     };
     "FS-165-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-165-HDS-010-SDS-010-SMS-020;
-      sourcePath = "GAMP/SMS/FS-165-HDS-010-SDS-010-SMS-020-readable-normalized-source-form.md";
+      sourcePath = "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-020/intent.nix";
       role = "readable-normalized-source-form";
     };
     "FS-165-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-165-HDS-010-SDS-010-SMS-030;
-      sourcePath = "GAMP/SMS/FS-165-HDS-010-SDS-010-SMS-030-downstream-contract-gap-diagnostic.md";
+      sourcePath = "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-030/intent.nix";
       role = "downstream-contract-gap-diagnostic";
     };
   };

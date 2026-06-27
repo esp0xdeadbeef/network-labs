@@ -68,6 +68,34 @@ in
       maxRuntimeTargets = 2;
     };
 
+    decision-reason-diagnostic = {
+      id = "decision-reason-diagnostic";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-030";
+      rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-030;
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-030;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-030/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "NFM decision reason diagnostics for reachability validation";
+      maxRuntimeTargets = 2;
+    };
+
     p2p-next-hop = {
       id = "p2p-next-hop";
       traceId = "FS-500-HDS-010-SDS-010-SMS-040";
@@ -93,6 +121,90 @@ in
       independent = true;
       aggregateOnly = false;
       scope = "CPM point-to-point next-hop contract";
+      maxRuntimeTargets = 2;
+    };
+
+    lane-egress-binding = {
+      id = "lane-egress-binding";
+      traceId = "FS-370-HDS-010-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-370-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-370-HDS-010-SDS-010-SMS-050;
+        SMT = ../FS-370-HDS-010-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-370-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-370-HDS-010-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-lane-egress-binding-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM lane egress binding classification";
+      maxRuntimeTargets = 2;
+    };
+
+    dns-resolver-config = {
+      id = "dns-resolver-config";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-540-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-540-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-540-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-540-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-dns-resolver-config-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CPM per-interface DNS resolver configuration authority";
+      maxRuntimeTargets = 2;
+    };
+
+    internet-mode-verification = {
+      id = "internet-mode-verification";
+      traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-380-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-380-HDS-020-SDS-010-SMS-050;
+        SMT = ../FS-380-HDS-020-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-380-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-internet-mode-verification-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "SMT/SIT-only internet-mode emulated PPPoE provider with VLAN4/VLAN5 DHCP upstream verification; no skips, NAT, or VLAN2";
       maxRuntimeTargets = 2;
     };
 

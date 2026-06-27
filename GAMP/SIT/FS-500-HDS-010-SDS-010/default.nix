@@ -13,9 +13,21 @@
       sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
       role = "p2p-next-hop-pairing";
     };
-  };
+    "FS-500-HDS-010-SDS-010-SMS-020" = {
+      smtRow = ../../SMT/FS-500-HDS-010-SDS-010-SMS-020;
+      sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-020/intent.nix";
+      role = "row-local-source-stub";
+      evidenceBoundary = "source-stub-only";
+    };
+    "FS-500-HDS-010-SDS-010-SMS-030" = {
+      smtRow = ../../SMT/FS-500-HDS-010-SDS-010-SMS-030;
+      sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030/intent.nix";
+      role = "row-local-source-stub";
+      evidenceBoundary = "source-stub-only";
+    };
+};
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh reachability-decision p2p-next-hop";
+    command = "tests/run-active-lab-mini-smt.sh reachability-decision decision-reason-diagnostic p2p-next-hop";
     sourcePaths = [
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix"
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix"

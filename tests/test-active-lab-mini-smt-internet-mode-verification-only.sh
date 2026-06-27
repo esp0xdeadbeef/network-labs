@@ -21,9 +21,34 @@ nix eval --impure --expr "
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-380-HDS-020-SDS-010-SMS-050\";
     entry = manifest.tests.\"internet-mode-verification\";
+    rowRoot = ${repo_root}/GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050;
+    inventoryNixos = import (rowRoot + \"/inventory-nixos.nix\");
+    inventoryClab = import (rowRoot + \"/inventory-clab.nix\");
+    inventoryClients = import (rowRoot + \"/inventory-test-clients.nix\");
     record = builtins.head lab.internetModeRecords;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.internetModeVerification record;
+    uplinksOk = uplinks:
+      builtins.all
+        (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\")
+        (builtins.attrValues uplinks);
+    uplinksNoVlan2 = uplinks:
+      builtins.all (uplink: (uplink.vlan or null) != 2) (builtins.attrValues uplinks);
+    handoffOk = host: host.accessHandoff.kind == \"pppoe\" && host.accessHandoff.server == \"emulated-isp\";
+    skippedRecord = record // { skipInternetTest = true; };
+    natRecord = record // { privateNat44 = [ { sourcePrefixes = [ \"10.80.10.0/24\" ]; } ]; };
+    missingHandoffRecord = builtins.removeAttrs record [ \"accessHandoff\" ];
+    opaqueHandoffRecord = record // { accessHandoff = record.accessHandoff // { kind = \"opaque\"; }; };
+    vlan2Record = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { vlan = 2; mode = \"dhcp\"; } ]; }; };
+    routedWanRecord = record // { upstream = { kind = \"wan-core\"; internetUplinks = [ { vlan = 4; mode = \"dhcp\"; } ]; }; };
+    staticModeRecord = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { vlan = 4; mode = \"static\"; } ]; }; };
+    skippedCheck = mini.validators.internetModeVerification skippedRecord;
+    natCheck = mini.validators.internetModeVerification natRecord;
+    missingHandoffCheck = mini.validators.internetModeVerification missingHandoffRecord;
+    opaqueHandoffCheck = mini.validators.internetModeVerification opaqueHandoffRecord;
+    vlan2Check = mini.validators.internetModeVerification vlan2Record;
+    routedWanCheck = mini.validators.internetModeVerification routedWanRecord;
+    staticModeCheck = mini.validators.internetModeVerification staticModeRecord;
   in
     require (lab.kind == \"mini-smt\")
       \"internet-mode lab must be a mini SMT\"
@@ -43,21 +68,67 @@ nix eval --impure --expr "
       \"internet-mode manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"internet-mode mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"wan-core\" ])
-      \"internet-mode mini SMT may start only client-edge and wan-core\"
+    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"emulated-isp\" ])
+      \"internet-mode mini SMT may start only client-edge and emulated-isp\"
     && require (lab.maxRuntimeTargets == 2)
       \"internet-mode mini SMT must stay capped at two runtime targets\"
     && require (builtins.length lab.internetModeRecords == 1)
       \"internet-mode mini SMT must test exactly one internet mode record\"
     && require (lab.testsOnly == [
-      \"internet-mode-nat44-record\"
-      \"internet-mode-source-prefixes\"
+      \"internet-mode-emulated-pppoe-handoff\"
+      \"internet-mode-emulated-isp-upstream\"
+      \"internet-mode-vlan4-vlan5-dhcp\"
+      \"internet-mode-no-skip\"
+      \"internet-mode-no-nat\"
+      \"internet-mode-no-vlan2\"
     ])
       \"internet-mode mini SMT must name only the internet mode atom checks\"
     && require (builtins.elem \"s-router-clab\" lab.forbiddenScope)
       \"internet-mode mini SMT must forbid full s-router-clab scope\"
+    && require (lab.runtimeTargets.client-edge.accessHandoff.kind == \"pppoe\")
+      \"internet-mode client target must use an emulated PPPoE handoff\"
+    && require ((builtins.head lab.runtimeTargets.emulated-isp.accessServices).kind == \"pppoe-server\")
+      \"internet-mode provider target must expose an emulated PPPoE server\"
+    && require (record.accessHandoff.kind == \"pppoe\" && record.accessHandoff.server == \"emulated-isp\" && record.accessHandoff.client == \"client-edge\")
+      \"internet-mode record must exercise emulated PPPoE access instead of skipping internet\"
+    && require ((record.upstream or {}).kind == \"emulated-isp\")
+      \"internet-mode upstream must be an emulated ISP\"
+    && require (builtins.all (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\") record.upstream.internetUplinks)
+      \"internet-mode upstream may only use VLAN4/VLAN5 DHCP uplinks\"
+    && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks)
+      \"internet-mode NixOS inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+    && require (handoffOk inventoryNixos.deploymentHosts.s-router-nixos)
+      \"internet-mode NixOS inventory must define an emulated PPPoE handoff\"
+    && require (uplinksNoVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks)
+      \"internet-mode NixOS inventory must not expose VLAN2\"
+    && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks)
+      \"internet-mode CLAB inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+    && require (handoffOk inventoryClab.deploymentHosts.s-router-clab)
+      \"internet-mode CLAB inventory must define an emulated PPPoE handoff\"
+    && require (uplinksNoVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks)
+      \"internet-mode CLAB inventory must not expose VLAN2\"
+    && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
+      \"internet-mode test-clients inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+    && require (handoffOk inventoryClients.deploymentHosts.s-router-test-clients)
+      \"internet-mode test-clients inventory must define an emulated PPPoE handoff\"
+    && require (uplinksNoVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
+      \"internet-mode test-clients inventory must not expose VLAN2\"
     && require (valid.ok && valid.diagnostic == null)
       \"valid internet mode record must pass\"
+    && require (!skippedCheck.ok && skippedCheck.diagnostic == \"internet-test-skip-not-allowed\")
+      \"internet-mode mini SMT must reject skipped internet coverage\"
+    && require (!natCheck.ok && natCheck.diagnostic == \"nat-not-allowed\")
+      \"internet-mode mini SMT must reject NAT\"
+    && require (!missingHandoffCheck.ok && missingHandoffCheck.diagnostic == \"missing-emulated-access-handoff\")
+      \"internet-mode mini SMT must require an emulated access handoff\"
+    && require (!opaqueHandoffCheck.ok && opaqueHandoffCheck.diagnostic == \"unsupported-emulated-access-handoff\")
+      \"internet-mode mini SMT must reject opaque access handoffs\"
+    && require (!vlan2Check.ok && vlan2Check.diagnostic == \"vlan2-not-allowed\")
+      \"internet-mode mini SMT must reject VLAN2\"
+    && require (!routedWanCheck.ok && routedWanCheck.diagnostic == \"upstream-not-emulated-isp\")
+      \"internet-mode mini SMT must reject non-emulated-ISP upstreams\"
+    && require (!staticModeCheck.ok && staticModeCheck.diagnostic == \"internet-uplink-must-use-dhcp\")
+      \"internet-mode mini SMT must require DHCP mode\"
 " >/dev/null || fail "mini SMT internet mode verification contract failed"
 
 echo "PASS active-lab-mini-smt-internet-mode-verification-only"

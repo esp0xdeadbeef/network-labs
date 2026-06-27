@@ -59,6 +59,7 @@
     };
   };
   templateTests = [
+    "tests/test-gamp-row-source-stubs.sh"
     "tests/test-gamp-sds-sms-template-mapping.sh"
     "tests/test-active-lab-mini-smt-sms-input-templates.sh"
   ];

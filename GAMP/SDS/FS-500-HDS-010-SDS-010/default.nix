@@ -14,6 +14,18 @@
       miniSmtIds = [ "p2p-next-hop" ];
       inputKinds = [ "intent-source" ];
     };
+    "FS-500-HDS-010-SDS-010-SMS-020" = {
+      smsRow = ../../SMS/FS-500-HDS-010-SDS-010-SMS-020;
+      miniSmtIds = [ "row-local" ];
+      inputKinds = [ "intent-source" ];
+      evidenceBoundary = "source-stub-only";
+    };
+    "FS-500-HDS-010-SDS-010-SMS-030" = {
+      smsRow = ../../SMS/FS-500-HDS-010-SDS-010-SMS-030;
+      miniSmtIds = [ "decision-reason-diagnostic" ];
+      inputKinds = [ "intent-source" ];
+      evidenceBoundary = "source-stub-only";
+    };
   };
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"

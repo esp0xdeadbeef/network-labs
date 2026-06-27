@@ -9,6 +9,7 @@
     };
     "FS-400-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-400-HDS-010-SDS-010-SMS-040;
+      sourcePath = "GAMP/SMT/FS-400-HDS-010-SDS-010-SMS-040/intent.nix";
       role = "overlay-client-gua-mode";
       evidenceBoundary = "construction-only";
     };

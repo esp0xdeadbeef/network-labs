@@ -4,7 +4,15 @@
   parentSds = ../../SDS/FS-350-HDS-010-SDS-010;
   purpose = "Overlay participant ledger: segment overlay node IPAM by overlay identity, emit one participant-address ledger per overlay, reject cross-ledger assignments (construction-only).";
   evidenceBoundary = "construction-only";
-  sourceInputs = {};
+  sourceInputs = {
+    "row-local" = {
+      traceId = "FS-350-HDS-010-SDS-010-SMS-030";
+      kind = "intent-source";
+      sourcePath = "GAMP/SMT/FS-350-HDS-010-SDS-010-SMS-030/intent.nix";
+      test = "tests/test-gamp-row-source-stubs.sh";
+      maxRuntimeTargets = 0;
+    };
+  };
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"
   ];

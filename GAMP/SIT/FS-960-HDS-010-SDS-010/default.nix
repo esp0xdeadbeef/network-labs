@@ -4,6 +4,7 @@
   smsInputs = {
     "FS-960-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-960-HDS-010-SDS-010-SMS-040;
+      sourcePath = "GAMP/SMT/FS-960-HDS-010-SDS-010-SMS-040/intent.nix";
       role = "sms-040-module";
       evidenceBoundary = "construction-only";
     };

@@ -2,8 +2,10 @@
 
 Row-local source for the mini internet mode verification SMT.
 
-Tests renderer internet mode record consumption from CPM output:
-tenant client → external WAN with `privateNat44` source prefixes and output interfaces.
+Tests the SMT/SIT-only internet-mode source fixture: tenant client -> emulated
+PPPoE provider -> emulated ISP upstream. The emulated ISP receives internet only
+from VLAN4/VLAN5 DHCP uplinks. Skipping internet coverage, NAT, and VLAN2 are
+rejected for this mini-lab source.
 
 Run:
 
