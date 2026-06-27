@@ -1,7 +1,6 @@
 # Row-local mini-SMT intent fixture for FS-800-HDS-010-SDS-020-SMS-040
 # Provider-Access Fabric Gateway Routing — self-contained topology fixture
-# This replaces the former import from ../mini-smt/intents/provider-access-default-route/
-# per row-local-only policy: do NOT reference shared mini-smt/ directories.
+# This replaces the former staged mini-SMT import per row-local-only policy.
 
 {
   "mini-smt" = {

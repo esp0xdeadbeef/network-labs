@@ -102,10 +102,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ./runtime-nixos-cpm.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix;
       };
       evidenceLevels = [
         "SMT"
@@ -125,10 +127,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ./runtime-nixos-p2p-cpm.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix;
       };
       evidenceLevels = [
         "SMT"
@@ -148,10 +152,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ../layer-entry-poc/renderer-input/minimal-access-endpoint-cpm.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
       };
       evidenceLevels = [
         "SMT"
@@ -171,10 +177,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ../layer-entry-poc/renderer-input/minimal-clab-cpm.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
       };
       evidenceLevels = [
         "SMT"
@@ -194,10 +202,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ../layer-entry-poc/renderer-input/wireguard-provider-contract.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix;
       };
       evidenceLevels = [
         "SMT"
@@ -217,10 +227,12 @@ in
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
         SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
         kind = "renderer-input";
-        cpm = ../layer-entry-poc/renderer-input/minimal-nebula-cpm.nix;
+        cpm = ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix;
       };
       evidenceLevels = [
         "SMT"

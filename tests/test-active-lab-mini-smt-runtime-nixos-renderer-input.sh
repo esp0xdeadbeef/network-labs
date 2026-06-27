@@ -46,7 +46,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"active-lab inventory-nixos must declare stub kind\"
     && require (stub.miniSmtId == \"renderer-nixos\")
       \"active-lab inventory-nixos must point at renderer-nixos\"
-    && require (toString stub.cpmInput == repoRoot + \"/GAMP/SMT/mini-smt/runtime-nixos-cpm.nix\")
+    && require (toString stub.cpmInput == repoRoot + \"/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix\")
       \"active-lab inventory-nixos must point at the focused CPM fixture\"
     && require (toString stub.test == repoRoot + \"/tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh\")
       \"active-lab inventory-nixos must point at the focused runtime test\"

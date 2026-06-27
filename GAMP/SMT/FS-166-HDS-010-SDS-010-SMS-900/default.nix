@@ -1,8 +1,9 @@
 {
-  layer = "SMS";
+  layer = "SMT";
   traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-  parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
-  purpose = "Renderer-entry mini POC source input templates.";
+  smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+  sitRow = ../../SIT/FS-166-HDS-010-SDS-010;
+  purpose = "Renderer-entry mini POC source inputs owned by the FS-166 SMS-900 SMT row.";
   sourceInputs = {
     renderer-nixos = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
@@ -58,8 +59,4 @@
       maxRuntimeTargets = 2;
     };
   };
-  templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
-  ];
 }
