@@ -117,13 +117,6 @@ validation surfaces is not allowed.
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` |
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
-| `policy-router-relation-identity` | `FS-310-HDS-010-SDS-010-SMS-030` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-policy-router-relation-identity.sh` |
-| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` |
-| `provider-access-default-route` | `FS-800-HDS-010-SDS-020-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-provider-access-default-route.sh` |
-| `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` |
-| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` |
-| `endpoint-harness-consumption` | `FS-720-HDS-010-SDS-020-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-endpoint-harness-consumption-only.sh` |
-| `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
@@ -131,15 +124,24 @@ validation surfaces is not allowed.
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | renderer-input | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
-All 16 mini-SMT entries now have complete row-directory infrastructure
+All 9 manifest mini-SMT entries now have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and
 SMT construction stubs). The authoritative manifest is
 `GAMP/SMT/mini-smt/tests.nix`.
 
 ## Status
 
-No SMT rows are promoted by this directory yet. Add executable evidence before
-changing any row to `OK`.
+The manifest entries above are current source-local SMT/SIT prerequisite
+evidence, not HAT/SAT approval. Current FS-166 renderer-entry evidence was
+re-checked on 2026-06-27 with:
+
+```bash
+tests/run-active-lab-mini-smt.sh renderer-nixos renderer-nixos-p2p renderer-nixos-clients renderer-clab renderer-wireguard renderer-nebula
+```
+
+That command exited 0 for all six renderer-entry mini-SMT rows. Do not promote
+rows outside this manifest from this inventory; add executable evidence before
+changing any unrelated row to `OK`.
 
 ## Shared-File Policy (Anti-Contention)
 

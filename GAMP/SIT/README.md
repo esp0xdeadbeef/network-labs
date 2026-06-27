@@ -77,15 +77,14 @@ SIT row at the SDS-scoped level. The current SIT row inventory:
 
 | SIT Directory | Trace | SMS Inputs |
 | --- | --- | --- |
-| `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-SMS-900` |
-| `FS-310-HDS-010-SDS-010` | Policy router relation identity | `FS-310-SMS-030` |
-| `FS-370-HDS-010-SDS-010` | Lane egress binding | `FS-370-SMS-050` |
-| `FS-380-HDS-020-SDS-010` | Internet mode verification | `FS-380-SMS-050` |
-| `FS-500-HDS-010-SDS-010` | Reachability + p2p | `FS-500-SMS-010`, `FS-500-SMS-040` |
-| `FS-540-HDS-010-SDS-010` | DNS resolver config | `FS-540-SMS-020` |
-| `FS-720-HDS-010-SDS-020` | Endpoint harness consumption | `FS-720-SMS-020` |
-| `FS-800-HDS-010-SDS-020` | Provider access default route | `FS-800-010-020-SMS-040` |
-| `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-SMS-010` |
+| `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-HDS-010-SDS-010-SMS-900` (`renderer-nixos`, `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, `renderer-nebula`) |
+| `FS-500-HDS-010-SDS-010` | Reachability + p2p | `FS-500-HDS-010-SDS-010-SMS-010`, `FS-500-HDS-010-SDS-010-SMS-040` |
+| `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-HDS-030-SDS-030-SMS-010` |
+
+This inventory intentionally follows the live manifest in
+`GAMP/SMT/mini-smt/tests.nix`. Historical or prepared SIT directories that are
+not in that manifest are not current mini-SMT evidence until the manifest
+registers them again and their focused command passes.
 
 ## On-Prem Host Adapter
 
@@ -103,5 +102,13 @@ validation surfaces is not allowed.
 
 ## Status
 
-No SIT rows are promoted by this directory yet. Add executable integration
-evidence before changing any row to `OK`.
+Current FS-166 renderer-entry SIT prerequisite evidence was re-checked on
+2026-06-27 with:
+
+```bash
+tests/run-active-lab-mini-smt.sh renderer-nixos renderer-nixos-p2p renderer-nixos-clients renderer-clab renderer-wireguard renderer-nebula
+```
+
+That command exited 0 for all six FS-166 renderer-entry mini-SMT rows. This is
+source-to-renderer integration evidence only; it does not claim HAT, SAT, or
+production readiness.
