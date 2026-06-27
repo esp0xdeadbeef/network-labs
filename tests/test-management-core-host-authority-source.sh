@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/GAMP/SAT"
+lab_dir="${repo_root}/sat"
 
 nix eval --impure --expr '
   let
