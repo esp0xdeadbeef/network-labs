@@ -1,39 +1,22 @@
 let
-  base = import ../GAMP/HAT/emulated-isp-residential-testnet/inventory-clab.nix;
-  host = base.deployment.hosts.s-router-clab or { };
+  source = ../GAMP/SMT/layer-entry-poc/renderer-input/minimal-clab-cpm.nix;
+  cpm = import source;
 in
-base
-// {
+{
   activeLabInventoryStub = {
     kind = "runtime-clab-inventory-stub";
-    source = ../GAMP/HAT/emulated-isp-residential-testnet/inventory-clab.nix;
+    miniSmtId = "renderer-clab";
+    rendererTarget = "clab";
+    entryBoundary = "renderer-input";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    inherit source;
+    cpmInput = source;
+    test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;
+    runner = ../tests/run-active-lab-mini-smt.sh;
+    note = "Inventory is provenance for the renderer-clab SMS-owned mini SMT input. The source fixture carries the on-prem VLAN2 management adapter required by the s-router-clab runtime consumer.";
     runtimeManagement.vlan2 = "management-only";
   };
 
-  deployment = base.deployment // {
-    hosts = base.deployment.hosts // {
-      s-router-clab = host // {
-        uplinks = (host.uplinks or { }) // {
-          management = {
-            bridge = "vlan2";
-            ipv4 = {
-              dhcp = true;
-              enable = true;
-              method = "dhcp";
-            };
-            ipv6 = {
-              acceptRA = false;
-              dhcp = false;
-              dhcpv6PD = false;
-              enable = false;
-              method = "none";
-            };
-            mode = "vlan";
-            parent = "eth0";
-            vlan = 2;
-          };
-        };
-      };
-    };
-  };
+  deployment = cpm.control_plane_model.deployment;
+  deploymentHosts = cpm.deploymentHosts;
 }

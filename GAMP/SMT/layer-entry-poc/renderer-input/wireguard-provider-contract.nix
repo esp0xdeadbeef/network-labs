@@ -2,7 +2,7 @@
   id = "layer-entry-poc-wireguard-provider";
   provenance = {
     requested = {
-      scope.traceId = "FS-166-HDS-010-SDS-010-SMS-900__allow-client-to-testnet-host-isp";
+      scope.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
       target = {
         renderer = "wireguard";
         role = "renderer-output";
