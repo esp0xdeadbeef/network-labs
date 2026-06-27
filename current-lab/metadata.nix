@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "lane-egress-binding";
-  traceId = "FS-370-HDS-010-SDS-010-SMS-050";
+  selector = "p2p-next-hop";
+  traceId = "FS-500-HDS-010-SDS-010-SMS-040";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050";
-  sourcePath = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT lane-egress-binding";
+  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040";
+  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT p2p-next-hop";
 }
