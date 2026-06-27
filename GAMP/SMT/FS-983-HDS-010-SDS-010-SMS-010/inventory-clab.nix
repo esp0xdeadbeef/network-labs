@@ -1,0 +1,11 @@
+{
+  meta = {
+    traceId = "FS-983-HDS-010-SDS-010-SMS-010";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-983-HDS-010-SDS-010-SMS-010-renderer-endpoint-fixture-boundary.md";
+    renderer = "clab";
+    scope = "canonical-sms-source-stub";
+    evidenceBoundary = "source-stub-only";
+  };
+  hosts = { };
+  deploymentHosts = { };
+}

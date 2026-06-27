@@ -16,19 +16,16 @@
             };
             to = {
               kind = "external";
-              name = "emulated-isp";
+              uplinks = [
+                "internet-vlan4"
+                "internet-vlan5"
+              ];
             };
             trafficType = "any";
             priority = 100;
           }
         ];
-        services = [
-          {
-            name = "emulated-isp-pppoe";
-            protocol = "pppoe";
-            provider = "emulated-isp";
-          }
-        ];
+        services = [ ];
         trafficTypes = [
           {
             name = "any";
@@ -47,24 +44,36 @@
             kind = "tenant";
             name = "client";
             ipv4 = "10.20.20.0/24";
-            ipv6 = "fd42:mini:380:20::/64";
+            ipv6 = "fd42:380:20::/64";
           }
         ];
       };
       pools = {
         loopback = {
           ipv4 = "10.19.0.0/24";
-          ipv6 = "fd42:mini:380::/118";
+          ipv6 = "fd42:380::/118";
         };
         p2p = {
           ipv4 = "10.10.0.0/24";
-          ipv6 = "fd42:mini:380:ff::/118";
+          ipv6 = "fd42:380:ff::/118";
         };
       };
       topology = {
         links = [
           [
             "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "emulated-isp"
           ]
         ];
@@ -82,9 +91,17 @@
               }
             ];
           };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
+          };
           emulated-isp = {
-            role = "external";
-            external = "emulated-isp";
+            role = "core";
             accessServices = [
               {
                 kind = "pppoe-server";

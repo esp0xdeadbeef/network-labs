@@ -9,6 +9,21 @@ fail() {
   exit 1
 }
 
+while IFS= read -r name || [[ -n "${name}" ]]; do
+  case "${name}" in
+    mini-smt) ;;
+    FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]) ;;
+    *) fail "SMT top-level directory must be canonical SMS-scoped or mini-smt manifest: ${name}" ;;
+  esac
+done < <(find "${repo_root}/GAMP/SMT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
+
+while IFS= read -r name || [[ -n "${name}" ]]; do
+  case "${name}" in
+    FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]) ;;
+    *) fail "SIT top-level directory must be canonical SDS-scoped: ${name}" ;;
+  esac
+done < <(find "${repo_root}/GAMP/SIT" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
+
 validate_row_dir() {
   local layer="$1"
   local dir="$2"

@@ -9,7 +9,7 @@ trap 'rm -rf "${tmpdir}"' EXIT
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
-  poc = import (repoRoot + "/GAMP/SMT/layer-entry-poc");
+  poc = import (repoRoot + "/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc");
   require = cond: msg: if cond then true else throw msg;
 in
   require (poc.boundaryInputs."renderer-input".entryBoundary == "renderer-input") "renderer mini SMT must start at renderer-input boundary"

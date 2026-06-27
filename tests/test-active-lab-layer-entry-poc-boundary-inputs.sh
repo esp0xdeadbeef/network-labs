@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-poc_file="${repo_root}/GAMP/SMT/layer-entry-poc/default.nix"
+poc_file="${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc/default.nix"
 
 fail() {
   echo "FAIL active-lab-layer-entry-poc-boundary-inputs: $*" >&2

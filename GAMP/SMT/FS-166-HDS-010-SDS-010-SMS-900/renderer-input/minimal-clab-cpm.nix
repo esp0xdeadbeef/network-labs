@@ -50,7 +50,11 @@ rec {
               runtimeIfName = "eth1";
               addr4 = "192.0.2.0/31";
               addr6 = "2001:db8:9000::/127";
-              backingRef.name = "edge-a-b";
+              backingRef = {
+                kind = "bridge";
+                id = "edge-a-b";
+                name = "edge-a-b";
+              };
               attach.bridge = "br-layer-entry";
             };
           };
@@ -77,7 +81,11 @@ rec {
               runtimeIfName = "eth1";
               addr4 = "192.0.2.1/31";
               addr6 = "2001:db8:9000::1/127";
-              backingRef.name = "edge-a-b";
+              backingRef = {
+                kind = "bridge";
+                id = "edge-a-b";
+                name = "edge-a-b";
+              };
               attach.bridge = "br-layer-entry";
             };
           };

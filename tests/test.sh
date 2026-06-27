@@ -46,6 +46,8 @@ tests=(
   test-gamp-layer-entry-scenario-templates.sh
   test-gamp-row-directory-layout.sh
   test-gamp-row-source-stubs.sh
+  test-gamp-canonical-sms-mirror.sh
+  test-current-lab-selector.sh
   test-active-lab-mini-smt-independent-manifest.sh
   test-active-lab-mini-smt-intent-source-selection.sh
   test-active-lab-minimal-entrypoints.sh

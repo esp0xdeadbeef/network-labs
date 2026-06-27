@@ -16,7 +16,7 @@
             };
             to = {
               kind = "external";
-              name = "testnet";
+              uplinks = [ "testnet" ];
             };
             trafficType = "any";
             priority = 100;
@@ -35,10 +35,42 @@
           }
         ];
       };
+      ownership = {
+        prefixes = [
+          {
+            kind = "tenant";
+            name = "client";
+            ipv4 = "10.50.30.0/24";
+            ipv6 = "fd42:500:30::/64";
+          }
+        ];
+      };
+      pools = {
+        loopback = {
+          ipv4 = "10.51.0.0/24";
+          ipv6 = "fd42:500:30:ff::/118";
+        };
+        p2p = {
+          ipv4 = "10.51.255.0/24";
+          ipv6 = "fd42:500:30:fe::/118";
+        };
+      };
       topology = {
         links = [
           [
             "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "testnet-edge"
           ]
         ];
@@ -52,9 +84,23 @@
               }
             ];
           };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
+          };
           testnet-edge = {
-            role = "external";
-            external = "testnet";
+            role = "core";
+            uplinks = {
+              testnet = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
           };
         };
       };

@@ -1,6 +1,61 @@
-{
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+  mkRuntimeTarget = host: name: {
+    placement.host = host;
+    logicalNode = {
+      enterprise = "acme";
+      site = "lab";
+      inherit name;
+    };
+    role = "access";
+    containers = [
+      {
+        name = "default";
+        container = name;
+      }
+    ];
+    effectiveRuntimeRealization.interfaces = { };
+  };
+in
+rec {
   control_plane_model = {
     meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
+    deployment.hosts = {
+      s-router-nixos = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-clab = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-test-clients = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+    };
+    render.hosts = {
+      s-router-nixos.deploymentHost = "s-router-nixos";
+      s-router-clab.deploymentHost = "s-router-clab";
+      s-router-test-clients.deploymentHost = "s-router-test-clients";
+    };
     data.acme.lab = {
       siteName = "acme.lab";
       domains.tenants = [
@@ -11,7 +66,7 @@
         }
       ];
       runtimeTargets = {
-        lab-lighthouse = {
+        lab-lighthouse = (mkRuntimeTarget "s-router-nixos" "lab-lighthouse") // {
           placement.host = "s-router-nixos";
           logicalNode = {
             enterprise = "acme";
@@ -19,8 +74,36 @@
             name = "lab-lighthouse";
           };
         };
-        lab-client-nebula = {
+        lab-client-nebula = (mkRuntimeTarget "s-router-nixos" "lab-client-nebula") // {
           placement.host = "s-router-nixos";
+          logicalNode = {
+            enterprise = "acme";
+            site = "lab";
+            name = "lab-client-nebula";
+          };
+        };
+        lab-lighthouse-clab = (mkRuntimeTarget "s-router-clab" "lab-lighthouse-clab") // {
+          logicalNode = {
+            enterprise = "acme";
+            site = "lab";
+            name = "lab-lighthouse";
+          };
+        };
+        lab-client-nebula-clab = (mkRuntimeTarget "s-router-clab" "lab-client-nebula-clab") // {
+          logicalNode = {
+            enterprise = "acme";
+            site = "lab";
+            name = "lab-client-nebula";
+          };
+        };
+        lab-lighthouse-test-client = (mkRuntimeTarget "s-router-test-clients" "lab-lighthouse-test-client") // {
+          logicalNode = {
+            enterprise = "acme";
+            site = "lab";
+            name = "lab-lighthouse";
+          };
+        };
+        lab-client-nebula-test-client = (mkRuntimeTarget "s-router-test-clients" "lab-client-nebula-test-client") // {
           logicalNode = {
             enterprise = "acme";
             site = "lab";
@@ -50,6 +133,7 @@
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
+              mtu = 1300;
             };
             groups = [ "lighthouse" ];
             relay.amRelay = true;
@@ -58,6 +142,7 @@
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
+              mtu = 1300;
             };
             groups = [ "client" ];
             relay = {
@@ -92,4 +177,6 @@
       };
     };
   };
+
+  deploymentHosts = control_plane_model.deployment.hosts;
 }

@@ -1,0 +1,11 @@
+{
+  meta = {
+    traceId = "FS-930-HDS-010-SDS-010-SMS-030";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-930-HDS-010-SDS-010-SMS-030-lower-layer-repair-prohibition.md";
+    renderer = "nixos";
+    scope = "canonical-sms-source-stub";
+    evidenceBoundary = "source-stub-only";
+  };
+  hosts = { };
+  deploymentHosts = { };
+}

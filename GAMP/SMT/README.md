@@ -140,19 +140,82 @@ All 13 manifest mini-SMT entries now have complete row-directory infrastructure
 SMT construction stubs). The authoritative manifest is
 `GAMP/SMT/mini-smt/tests.nix`.
 
+## GAMP SMS Universe Classification
+
+As of 2026-06-27, `tests/test-gamp-canonical-sms-mirror.sh` verifies 509
+canonical SMS trace IDs mirrored from `network-codex-agent/GAMP/SMS`, with no
+`RDR` matches and no duplicate canonical SMS IDs. `network-labs/GAMP/SMS` and
+`network-labs/GAMP/SMT` contain 512 SMS-scoped row directories: the 509
+canonical mirrors plus three lab-local rows
+(`FS-166-HDS-010-SDS-010-SMS-900`,
+`FS-720-HDS-010-SDS-020-SMS-040`,
+`FS-800-HDS-030-SDS-030-SMS-040`).
+
+Current active-lab runnable SMT shims are exactly the 13 IDs in
+`GAMP/SMT/mini-smt/tests.nix`, listed in the table above. They cover eight SMS
+rows: `FS-166-HDS-010-SDS-010-SMS-900`,
+`FS-370-HDS-010-SDS-010-SMS-050`,
+`FS-380-HDS-020-SDS-010-SMS-050`,
+`FS-500-HDS-010-SDS-010-SMS-010`,
+`FS-500-HDS-010-SDS-010-SMS-030`,
+`FS-500-HDS-010-SDS-010-SMS-040`,
+`FS-540-HDS-010-SDS-010-SMS-020`, and
+`FS-800-HDS-030-SDS-030-SMS-010`.
+
+Standalone row-local SMT checks outside the active-lab runner are
+`FS-310-HDS-010-SDS-010-SMS-030` via
+`tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh`
+and `FS-800-HDS-010-SDS-020-SMS-040` via
+`tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh`.
+They are construction/local-build evidence only and are not selected by
+`tests/run-active-lab-mini-smt.sh`.
+
+All remaining SMS-scoped rows are source-stub-only or prepared-only until a
+focused command is registered and passes. `FS-720-HDS-010-SDS-020-SMS-020` is
+explicitly `NOT OK`: its source fixture exists, but
+`endpoint-harness-consumption` is not registered in
+`GAMP/SMT/mini-smt/tests.nix` and no executable focused mini-SMT script exists.
+
+HAT and SAT selection shims are separate from SMT:
+`scripts/select-current-lab.sh HAT` selects
+`GAMP/HAT/emulated-isp-residential-testnet`, and
+`scripts/select-current-lab.sh SAT` selects `GAMP/SAT`. They are runnable source
+selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
+
 ## Status
 
 The manifest entries above are current source-local SMT/SIT prerequisite
-evidence, not HAT/SAT approval. Current FS-166 renderer-entry evidence was
-re-checked on 2026-06-27 with:
+evidence, not HAT/SAT approval. Current active-lab SMT evidence was re-checked
+on 2026-06-27 with:
 
 ```bash
-tests/run-active-lab-mini-smt.sh renderer-nixos renderer-nixos-p2p renderer-nixos-clients renderer-clab renderer-wireguard renderer-nebula
+NETWORK_FORWARDING_MODEL_ROOT=/home/deadbeef/github/network-forwarding-model bash tests/test-current-lab-selector.sh
+bash tests/run-active-lab-mini-smt.sh all
+nix build --dry-run ".#nixosConfigurations.${attr}.config.system.build.toplevel" \
+  --override-input network-labs path:/home/deadbeef/github/network-labs \
+  --override-input network-renderer-nixos path:/home/deadbeef/github/network-renderer-nixos
 ```
 
-That command exited 0 for all six renderer-entry mini-SMT rows. Do not promote
-rows outside this manifest from this inventory; add executable evidence before
-changing any unrelated row to `OK`.
+`tests/test-current-lab-selector.sh` exited 0. `tests/run-active-lab-mini-smt.sh
+all` exited 0 for all 13 mini-SMT entries. The dry-run NixOS compile matrix in
+`/tmp/network-labs-active-lab-smt-full-20260627T085247Z` passed all three target
+attributes (`s-router-clab`, `s-router-nixos`, `s-router-test-clients`) for
+`decision-reason-diagnostic`, `dns-resolver-config`,
+`internet-mode-verification`, `lane-egress-binding`, `p2p-next-hop`,
+`pppoe-pairing`, `reachability-decision`, `renderer-clab`, `renderer-nebula`,
+`renderer-nixos`, `renderer-nixos-clients`, and `renderer-nixos-p2p`.
+`/tmp/network-labs-active-lab-smt-wireguard-20260627T092056Z` passed the same
+three target attributes for `renderer-wireguard`.
+
+Focused ownership proof for `internet-mode-verification`: the source fixture
+passed `s-router-clab` and `s-router-test-clients`, then failed
+`s-router-nixos` in `network-renderer-nixos` on multi-lane tenant endpoint
+resolution. After the renderer fix, the focused matrix in
+`/tmp/network-labs-active-lab-smt-focused8-20260627T084959Z` passed all three
+target attributes, and
+`network-renderer-nixos/tests/test-policy-endpoint-multilane-tenant-resolution.sh`
+exited 0. Do not promote rows outside this manifest from this inventory; add
+executable evidence before changing any unrelated row to `OK`.
 
 ## Shared-File Policy (Anti-Contention)
 

@@ -8,7 +8,7 @@ nixos_renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-rend
 compiler_root="${NETWORK_COMPILER_ROOT:-${repo_root}/../network-compiler}"
 nfm_root="${NETWORK_FORWARDING_MODEL_ROOT:-${repo_root}/../network-forwarding-model}"
 cpm_root="${NETWORK_CONTROL_PLANE_MODEL_ROOT:-${repo_root}/../network-control-plane-model}"
-poc_file="${repo_root}/GAMP/SMT/layer-entry-poc/default.nix"
+poc_file="${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc/default.nix"
 
 fail() {
   echo "FAIL active-lab-layer-entry-construction-cycles: $*" >&2
@@ -41,7 +41,7 @@ if ! env \
         nfmRoot = builtins.getEnv "NFM_ROOT";
         cpmRoot = builtins.getEnv "CPM_ROOT";
 
-        poc = import (repoRoot + "/GAMP/SMT/layer-entry-poc");
+        poc = import (repoRoot + "/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc");
         forwardingInput = import poc.boundaryInputs."forwarding-model-input".suppliedArtifact.fixture;
         cpmInput = import poc.boundaryInputs."control-plane-input".suppliedArtifact.fixture;
         rendererCpm = import poc.meta.rendererTargets.nixos.fixture;

@@ -1,0 +1,10 @@
+{
+  canonicalSmsStub = {
+    traceId = "FS-770-HDS-010-SDS-030-SMS-020";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-030-SMS-020-source-shape-adapter-selection.md";
+    titleSlug = "source-shape-adapter-selection";
+    evidenceBoundary = "source-stub-only";
+    runnable = false;
+    notRunnableReason = "No focused mini-SMT runner is registered for this canonical SMS trace.";
+  };
+}

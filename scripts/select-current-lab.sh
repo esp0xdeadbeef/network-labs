@@ -1,0 +1,708 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+current_dir="${repo_root}/current-lab"
+manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  scripts/select-current-lab.sh --list
+  scripts/select-current-lab.sh default
+  scripts/select-current-lab.sh SMT <mini-smt-id|FS-...-SMS-...>
+  scripts/select-current-lab.sh SIT <FS-...-SDS-...>
+  scripts/select-current-lab.sh HAT [emulated-isp-residential-testnet]
+  scripts/select-current-lab.sh SAT
+EOF
+}
+
+write_file() {
+  local path="$1"
+  shift
+  local tmp
+  mkdir -p "$(dirname "${path}")"
+  tmp="$(mktemp "${path}.tmp.XXXXXX")"
+  "$@" >"${tmp}"
+  mv "${tmp}" "${path}"
+}
+
+write_import() {
+  local target="$1"
+  local source="$2"
+  write_file "${current_dir}/${target}" printf 'import %s\n' "${source}"
+}
+
+write_empty_sops() {
+  local target="$1"
+  local host="$2"
+  write_file "${current_dir}/${target}" cat <<EOF
+{ ... }:
+
+{
+  _module.args.activeLabSopsStub = {
+    kind = "current-lab-empty-sops-stub";
+    hostName = "${host}";
+  };
+}
+EOF
+}
+
+write_default_nixos_inventory() {
+  write_file "${current_dir}/inventory-nixos.nix" cat <<'EOF'
+{
+  activeLabInventoryStub = {
+    kind = "mini-smt-renderer-input-stub";
+    miniSmtId = "renderer-nixos";
+    rendererTarget = "nixos";
+    entryBoundary = "renderer-input";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+
+    cpmInput = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix;
+    test = ../tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh;
+    runner = ../tests/run-active-lab-mini-smt.sh;
+
+    note = "Inventory is provenance for the renderer-nixos SMS-owned mini SMT input. The source fixture carries the on-prem VLAN2 management adapter required by the s-router runtime consumers.";
+
+    runtimeManagement = {
+      vlan2 = "management-only";
+      testDhcpUplinks = [
+        "vlan4"
+        "vlan5"
+      ];
+    };
+  };
+}
+EOF
+}
+
+write_default_clab_inventory() {
+  write_file "${current_dir}/inventory-clab.nix" cat <<'EOF'
+let
+  source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
+  cpm = import source;
+in
+{
+  activeLabInventoryStub = {
+    kind = "runtime-clab-inventory-stub";
+    miniSmtId = "renderer-clab";
+    rendererTarget = "clab";
+    entryBoundary = "renderer-input";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    inherit source;
+    cpmInput = source;
+    test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;
+    runner = ../tests/run-active-lab-mini-smt.sh;
+    note = "Inventory is provenance for the renderer-clab SMS-owned mini SMT input. The source fixture carries the on-prem VLAN2 management adapter required by the s-router-clab runtime consumer.";
+    runtimeManagement.vlan2 = "management-only";
+  };
+
+  deployment = cpm.control_plane_model.deployment;
+  deploymentHosts = cpm.deploymentHosts;
+}
+EOF
+}
+
+write_default_hetz_inventory() {
+  write_file "${current_dir}/inventory-hetz.nix" cat <<'EOF'
+let
+  source = ../GAMP/HAT/emulated-isp-residential-testnet/inventory-hetz.nix;
+in
+(import source)
+// {
+  activeLabInventoryStub = {
+    kind = "runtime-hetz-inventory-stub";
+    inherit source;
+  };
+}
+EOF
+}
+
+write_default_clients() {
+  write_file "${current_dir}/clients.nix" cat <<'EOF'
+{
+  activeLabClientStub = {
+    kind = "runtime-client-source-stub";
+    scope = "NixOS access-endpoint renderer input path";
+    miniSmtId = "renderer-nixos-clients";
+    source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
+    test = ../tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh;
+  };
+
+  clients = { };
+}
+EOF
+}
+
+write_default_inventory_test_clients() {
+  write_file "${current_dir}/inventory-test-clients.nix" cat <<'EOF'
+{
+  meta = {
+    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    renderer = "test-clients";
+    scope = "active-lab-current-selection";
+  };
+  clients = { };
+  deploymentHosts = {
+    s-router-test-clients = {
+      hat.endpointClients = { };
+    };
+  };
+}
+EOF
+}
+
+forwarding_enterprise_json_for_intent() {
+  local intent_source="$1"
+  local intent_path="${intent_source#../}"
+  local nfm_root="${NETWORK_FORWARDING_MODEL_ROOT:-${repo_root}/../network-forwarding-model}"
+
+  [[ -d "${nfm_root}" ]] || {
+    echo "network-forwarding-model repo not found: ${nfm_root}" >&2
+    return 2
+  }
+
+  NETWORK_FORWARDING_MODEL_ROOT="${nfm_root}" nix eval --impure --raw --expr "
+let
+  nfmRoot = builtins.getEnv \"NETWORK_FORWARDING_MODEL_ROOT\";
+  nfm = builtins.getFlake (\"path:\" + nfmRoot);
+  system = builtins.currentSystem;
+  input = import ${repo_root}/${intent_path};
+  fm = nfm.libBySystem.\${system}.buildFromCompilerInputs { inherit input; };
+in
+  builtins.toJSON fm.enterprise
+"
+}
+
+write_managed_inventory_content() {
+  local source="$1"
+  local intent_source="$2"
+  local forwarding_enterprise_json="$3"
+  local realization_host="$4"
+  shift 4
+
+  cat <<EOF
+let
+  source = import ${source};
+  rowIntent = import ${intent_source};
+  forwardingEnterprise = builtins.fromJSON ''
+${forwarding_enterprise_json}
+  '';
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+  deployment = source.deployment or { };
+  deploymentHosts = (deployment.hosts or { }) // (source.deploymentHosts or { });
+  realization = source.realization or { };
+  sanitize = value: builtins.replaceStrings [ "." "_" ":" "/" " " ] [ "-" "-" "-" "-" "-" ] value;
+  indexedMap = f: values:
+    builtins.genList (index: f index (builtins.elemAt values index)) (builtins.length values);
+  linksForSite = enterpriseName: siteName:
+    (((forwardingEnterprise.\${enterpriseName} or { }).site or { }).\${siteName} or { }).links or { };
+  nodeForSite = enterpriseName: siteName: nodeName:
+    ((((forwardingEnterprise.\${enterpriseName} or { }).site or { }).\${siteName} or { }).nodes or { }).\${nodeName} or { };
+  bridgeForLink = linkName: "br-\${linkName}";
+  normalizeUplink = uplinkName: uplink:
+    uplink // {
+      bridge = uplink.bridge or uplinkName;
+    };
+  normalizeUplinks = uplinks:
+    builtins.mapAttrs normalizeUplink uplinks;
+  uplinkNamesForNode = enterpriseName: siteName: nodeName:
+    builtins.sort (left: right: left < right) (builtins.attrNames ((nodeForSite enterpriseName siteName nodeName).uplinks or { }));
+  linkNamesForNode = enterpriseName: siteName: nodeName:
+    let
+      links = linksForSite enterpriseName siteName;
+    in
+    builtins.filter
+      (linkName: builtins.hasAttr nodeName (links.\${linkName}.endpoints or { }))
+      (builtins.sort (left: right: left < right) (builtins.attrNames links));
+  portForLink = enterpriseName: siteName: nodeName: index: linkName:
+    let
+      endpoint = (linksForSite enterpriseName siteName).\${linkName}.endpoints.\${nodeName};
+    in
+    {
+      name = linkName;
+      value = {
+        link = linkName;
+        adapterName = sanitize "\${linkName}-\${nodeName}";
+        attach = {
+          kind = "bridge";
+          bridge = bridgeForLink linkName;
+        };
+        interface = {
+          name = "p\${toString index}";
+        }
+        // (if endpoint ? addr4 then { addr4 = endpoint.addr4; } else { })
+        // (if endpoint ? addr6 then { addr6 = endpoint.addr6; } else { });
+      };
+    };
+  portsForNode = enterpriseName: siteName: nodeName:
+    let
+      linkPorts = builtins.listToAttrs (
+        indexedMap
+          (index: linkName: portForLink enterpriseName siteName nodeName index linkName)
+          (linkNamesForNode enterpriseName siteName nodeName)
+      );
+      uplinkPorts = builtins.listToAttrs (
+        indexedMap
+          (index: uplinkName: {
+            name = "uplink-\${uplinkName}";
+            value = {
+              uplink = uplinkName;
+              interface = {
+                name = "u\${toString index}";
+              };
+            };
+          })
+          (uplinkNamesForNode enterpriseName siteName nodeName)
+      );
+    in
+    linkPorts // uplinkPorts;
+  tenantInterfaceNamesForNode = enterpriseName: siteName: nodeName:
+    let
+      interfaces = (nodeForSite enterpriseName siteName nodeName).interfaces or { };
+    in
+    builtins.filter
+      (interfaceName: (interfaces.\${interfaceName}.kind or null) == "tenant")
+      (builtins.sort (left: right: left < right) (builtins.attrNames interfaces));
+  advertisementEntriesForNode = enterpriseName: siteName: nodeName:
+    let
+      tenantInterfaceNames = tenantInterfaceNamesForNode enterpriseName siteName nodeName;
+    in
+    {
+      dhcp4 = builtins.listToAttrs (
+        builtins.map
+          (interfaceName: {
+            name = interfaceName;
+            value = {
+              dnsServers = [ "router-self" ];
+              domain = "lan.";
+            };
+          })
+          tenantInterfaceNames
+      );
+      ipv6Ra = builtins.listToAttrs (
+        builtins.map
+          (interfaceName: {
+            name = interfaceName;
+            value = {
+              dnssl = [ "lan." ];
+              rdnss = [ "router-self" ];
+            };
+          })
+          tenantInterfaceNames
+      );
+    };
+  servicesForNode = enterpriseName: siteName: nodeName:
+    if tenantInterfaceNamesForNode enterpriseName siteName nodeName == [ ] then
+      { }
+    else
+      {
+        dns = { };
+      };
+  bridgeEntriesForSite = enterpriseName: siteName:
+    builtins.map
+      (linkName: {
+        name = bridgeForLink linkName;
+        value = { };
+      })
+      (builtins.attrNames (linksForSite enterpriseName siteName));
+  generatedBridgeNetworks =
+    builtins.listToAttrs (
+      builtins.concatMap
+        (enterpriseName:
+          builtins.concatMap
+            (siteName: bridgeEntriesForSite enterpriseName siteName)
+            (builtins.attrNames rowIntent.\${enterpriseName}))
+        (builtins.attrNames rowIntent)
+    );
+  uplinkEntriesForSite = enterpriseName: siteName:
+    let
+      nodes = (((forwardingEnterprise.\${enterpriseName} or { }).site or { }).\${siteName} or { }).nodes or { };
+      names = builtins.concatMap
+        (nodeName: uplinkNamesForNode enterpriseName siteName nodeName)
+        (builtins.attrNames nodes);
+      vlanForUplink = uplinkName:
+        if builtins.match ".*vlan4$" uplinkName != null then 4
+        else if builtins.match ".*vlan5$" uplinkName != null then 5
+        else null;
+    in
+    builtins.map
+      (uplinkName:
+        let
+          vlan = vlanForUplink uplinkName;
+        in
+        {
+          name = uplinkName;
+          value = {
+            bridge = uplinkName;
+            ipv4 = {
+              dhcp = true;
+              enable = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              dhcp = false;
+              dhcpv6PD = false;
+              enable = true;
+              method = "slaac";
+            };
+            mode = "dhcp";
+            parent = "eth0";
+          } // (if vlan == null then { } else { inherit vlan; });
+        })
+      names;
+  generatedUplinks =
+    builtins.listToAttrs (
+      builtins.concatMap
+        (enterpriseName:
+          builtins.concatMap
+            (siteName: uplinkEntriesForSite enterpriseName siteName)
+            (builtins.attrNames rowIntent.\${enterpriseName}))
+        (builtins.attrNames rowIntent)
+    );
+  mkRealizationNode = enterpriseName: siteName: nodeName: {
+    name = sanitize "\${enterpriseName}-\${siteName}-\${nodeName}";
+    value = {
+      host = "${realization_host}";
+      logicalNode = {
+        enterprise = enterpriseName;
+        site = siteName;
+        name = nodeName;
+      };
+      platform = "nixos-container";
+      ports = portsForNode enterpriseName siteName nodeName;
+      advertisements = advertisementEntriesForNode enterpriseName siteName nodeName;
+      services = servicesForNode enterpriseName siteName nodeName;
+    };
+  };
+  nodesForSite = enterpriseName: siteName:
+    let
+      site = rowIntent.\${enterpriseName}.\${siteName};
+      nodes = (site.topology or { }).nodes or { };
+    in
+    builtins.map (nodeName: mkRealizationNode enterpriseName siteName nodeName) (builtins.attrNames nodes);
+  generatedRealizationNodes =
+    builtins.listToAttrs (
+      builtins.concatMap
+        (enterpriseName:
+          builtins.concatMap
+            (siteName: nodesForSite enterpriseName siteName)
+            (builtins.attrNames rowIntent.\${enterpriseName}))
+        (builtins.attrNames rowIntent)
+    );
+  mergeHost = existing:
+    existing // {
+      uplinks = normalizeUplinks (generatedUplinks // (existing.uplinks or { }) // {
+        management = managementVlan2;
+      });
+      bridgeNetworks = (existing.bridgeNetworks or { }) // generatedBridgeNetworks;
+    };
+  managedDeploymentHosts = deploymentHosts // {
+EOF
+
+  local host
+  for host in "${realization_host}" "$@"; do
+    printf '    "%s" = mergeHost (deploymentHosts."%s" or { });\n' "${host}" "${host}"
+  done
+
+  cat <<'EOF'
+  };
+  managedDeployment = deployment // {
+    hosts = (deployment.hosts or { }) // managedDeploymentHosts;
+  };
+in
+source // {
+  deploymentHosts = managedDeploymentHosts;
+  deployment = managedDeployment;
+  realization = realization // {
+    nodes = (realization.nodes or { }) // generatedRealizationNodes;
+  };
+}
+EOF
+}
+
+write_smt_inventory_with_management() {
+  local target="$1"
+  local source="$2"
+  local intent_source="$3"
+  local forwarding_enterprise_json="$4"
+  shift 4
+  write_file "${current_dir}/${target}" write_managed_inventory_content "${source}" "${intent_source}" "${forwarding_enterprise_json}" "$@"
+}
+
+write_default_hetz_sops() {
+  write_file "${current_dir}/sops-routing-s-router-hetz.nix" cat <<'EOF'
+{ ... }:
+
+let
+  sharedSopsFile = ../active-lab/secrets/shared.yaml;
+in
+{
+  sops.secrets = {
+    "clients/client-01/identity/mac" = {
+      sopsFile = sharedSopsFile;
+    };
+
+    "clients/client-01/identity/pppoeUsername" = {
+      sopsFile = sharedSopsFile;
+    };
+
+    "clients/client-01/credentials/pppoePassword" = {
+      sopsFile = sharedSopsFile;
+    };
+  };
+}
+EOF
+}
+
+write_default_sops() {
+  write_import "sops-routing-s-router-clab.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix"
+  write_empty_sops "sops-routing-s-router-nixos.nix" "s-router-nixos"
+  write_import "sops-routing-s-router-test-clients.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix"
+  write_default_hetz_sops
+}
+
+write_metadata() {
+  local layer="$1"
+  local selector="$2"
+  local trace_id="$3"
+  local source_kind="$4"
+  local source_root="$5"
+  local source_path="$6"
+  local selected_by="$7"
+  write_file "${current_dir}/metadata.nix" cat <<EOF
+{
+  layer = "${layer}";
+  selector = "${selector}";
+  traceId = "${trace_id}";
+  sourceKind = "${source_kind}";
+  sourceRoot = "${source_root}";
+  sourcePath = "${source_path}";
+  selectedBy = "${selected_by}";
+}
+EOF
+}
+
+select_default() {
+  mkdir -p "${current_dir}"
+  write_import "intent.nix" "../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix"
+  write_default_nixos_inventory
+  write_default_clab_inventory
+  write_default_hetz_inventory
+  write_default_inventory_test_clients
+  write_default_clients
+  write_default_sops
+  write_metadata \
+    "SMT" \
+    "renderer-nixos" \
+    "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime" \
+    "renderer-input" \
+    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900" \
+    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix" \
+    "scripts/select-current-lab.sh default"
+}
+
+mini_attr() {
+  local id="$1"
+  local expr="$2"
+  nix eval --impure --raw --expr "let manifest = import ${manifest_file}; row = manifest.tests.\"${id}\"; in ${expr}"
+}
+
+mini_exists() {
+  local id="$1"
+  nix eval --impure --expr "let manifest = import ${manifest_file}; in manifest.tests ? \"${id}\"" 2>/dev/null | grep -qx true
+}
+
+trace_for_mini_or_trace() {
+  local requested="$1"
+  if mini_exists "${requested}"; then
+    mini_attr "${requested}" "row.traceId"
+    return 0
+  fi
+  if [[ "${requested}" =~ ^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+$ ]]; then
+    printf '%s\n' "${requested}"
+    return 0
+  fi
+  echo "Unknown SMT selector: ${requested}" >&2
+  return 2
+}
+
+source_kind_for_mini_or_trace() {
+  local requested="$1"
+  if mini_exists "${requested}"; then
+    mini_attr "${requested}" "row.source.kind or \"unspecified\""
+  else
+    printf 'trace-row\n'
+  fi
+}
+
+source_path_for_mini_or_trace() {
+  local requested="$1"
+  if mini_exists "${requested}"; then
+    mini_attr "${requested}" "let source = row.source or {}; in if source ? cpm then toString source.cpm else if source ? intent then toString source.intent else \"\""
+  else
+    printf 'GAMP/SMT/%s/intent.nix\n' "${requested}"
+  fi
+}
+
+select_smt() {
+  local requested="$1"
+  local trace row_trace source_kind source_path row_dir selected_by
+  trace="$(trace_for_mini_or_trace "${requested}")"
+  row_trace="${trace%%__*}"
+  source_kind="$(source_kind_for_mini_or_trace "${requested}")"
+  source_path="$(source_path_for_mini_or_trace "${requested}")"
+  if [[ "${source_path}" == "${repo_root}/"* ]]; then
+    source_path="${source_path#"${repo_root}/"}"
+  fi
+  row_dir="GAMP/SMT/${row_trace}"
+  selected_by="scripts/select-current-lab.sh SMT ${requested}"
+
+  [[ -d "${repo_root}/${row_dir}" ]] || {
+    echo "SMT row directory not found: ${row_dir}" >&2
+    exit 2
+  }
+
+  if [[ "${source_kind}" == "renderer-input" ]]; then
+    write_import "intent.nix" "../${source_path}"
+    write_import "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix"
+    write_import "inventory-clab.nix" "../${row_dir}/inventory-clab.nix"
+    write_import "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix"
+  else
+    local forwarding_enterprise_json
+    forwarding_enterprise_json="$(forwarding_enterprise_json_for_intent "../${row_dir}/intent.nix")"
+    write_import "intent.nix" "../${row_dir}/intent.nix"
+    write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos" "s-router-test-clients"
+    write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
+    write_smt_inventory_with_management "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-test-clients"
+  fi
+  write_import "clients.nix" "./inventory-test-clients.nix"
+  write_default_hetz_inventory
+  write_default_sops
+  write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
+}
+
+select_sit() {
+  local sds="$1"
+  local sit_dir="GAMP/SIT/${sds}"
+
+  [[ "${sds}" =~ ^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+$ ]] || {
+    echo "SIT selector must be an SDS trace ID: ${sds}" >&2
+    exit 2
+  }
+  [[ -d "${repo_root}/${sit_dir}" ]] || {
+    echo "SIT row directory not found: ${sit_dir}" >&2
+    exit 2
+  }
+
+  select_default
+  write_metadata "SIT" "${sds}" "${sds}" "sds-integration-source" "${sit_dir}" "${sit_dir}/default.nix" "scripts/select-current-lab.sh SIT ${sds}"
+}
+
+select_hat() {
+  local name="${1:-emulated-isp-residential-testnet}"
+  local root="GAMP/HAT/${name}"
+
+  [[ -d "${repo_root}/${root}" ]] || {
+    echo "HAT source not found: ${root}" >&2
+    exit 2
+  }
+
+  write_import "intent.nix" "../${root}/intent.nix"
+  write_import "inventory-nixos.nix" "../${root}/inventory-nixos.nix"
+  write_import "inventory-clab.nix" "../${root}/inventory-clab.nix"
+  write_import "inventory-hetz.nix" "../${root}/inventory-hetz.nix"
+  write_import "inventory-test-clients.nix" "../${root}/inventory-nixos.nix"
+  write_file "${current_dir}/clients.nix" cat <<'EOF'
+{
+  activeLabClientStub = {
+    kind = "hat-client-source-stub";
+    source = ../GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix;
+  };
+  clients = { };
+}
+EOF
+  write_import "sops-routing-s-router-clab.nix" "../${root}/sops-routing-s-router-clab.nix"
+  write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
+  write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
+  write_default_hetz_sops
+  write_metadata "HAT" "${name}" "${name}" "hat-source" "${root}" "${root}/intent.nix" "scripts/select-current-lab.sh HAT ${name}"
+}
+
+select_sat() {
+  local root="GAMP/SAT"
+  write_import "intent.nix" "../${root}/intent.nix"
+  write_import "inventory-nixos.nix" "../${root}/inventory-nixos.nix"
+  write_import "inventory-clab.nix" "../${root}/inventory-clab.nix"
+  write_import "inventory-hetz.nix" "../${root}/inventory-hetz.nix"
+  write_import "inventory-test-clients.nix" "../${root}/inventory-nixos.nix"
+  write_import "clients.nix" "../${root}/clients.nix"
+  write_import "sops-routing-s-router-clab.nix" "../${root}/sops-routing-s-router-clab.nix"
+  write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
+  write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
+  write_import "sops-routing-s-router-hetz.nix" "../${root}/sops-routing-s-router-hetz.nix"
+  write_metadata "SAT" "SAT" "SAT" "sat-source" "${root}" "${root}/intent.nix" "scripts/select-current-lab.sh SAT"
+}
+
+list_sources() {
+  echo "default"
+  echo "SAT"
+  echo "HAT emulated-isp-residential-testnet"
+  while IFS= read -r id || [[ -n "${id}" ]]; do
+    printf 'SMT %s\n' "${id}"
+  done < <(tests/run-active-lab-mini-smt.sh --list)
+  find "${repo_root}/GAMP/SIT" -mindepth 1 -maxdepth 1 -type d -printf 'SIT %f\n' | sort
+}
+
+if [[ "$#" -eq 0 ]]; then
+  usage >&2
+  exit 2
+fi
+
+case "$1" in
+  --list)
+    list_sources
+    ;;
+  default)
+    [[ "$#" -eq 1 ]] || { usage >&2; exit 2; }
+    select_default
+    ;;
+  SMT)
+    [[ "$#" -eq 2 ]] || { usage >&2; exit 2; }
+    select_smt "$2"
+    ;;
+  SIT)
+    [[ "$#" -eq 2 ]] || { usage >&2; exit 2; }
+    select_sit "$2"
+    ;;
+  HAT)
+    [[ "$#" -le 2 ]] || { usage >&2; exit 2; }
+    select_hat "${2:-emulated-isp-residential-testnet}"
+    ;;
+  SAT)
+    [[ "$#" -eq 1 ]] || { usage >&2; exit 2; }
+    select_sat
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac

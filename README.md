@@ -125,7 +125,7 @@ Fixture source: `network-labs/sat/` (controlled SAT), `network-labs/HAT/` (HAT p
 
 ## Layer-Entry POC Boundary
 
-`GAMP/SMT/layer-entry-poc/` is the source-side boundary and orchestrator for
+`GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc/` is the source-side boundary and orchestrator for
 small deterministic POCs that do not need the full HAT/SAT deployment path.
 These checks exist so downstream agents can test one FS/SMS/SMT point at a time
 from a declared input boundary instead of reverse-engineering fixtures inside a
