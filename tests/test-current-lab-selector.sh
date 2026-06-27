@@ -53,6 +53,12 @@ let
     && uplinks.management.bridge == "vlan2"
     && uplinks.management.ipv4.dhcp == true
     && uplinks.management.ipv6.acceptRA == false;
+  tenantBridge = "br-mini-smt-internet-mode-verification-tenant-client";
+  tenantPortOk = inventory:
+    inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.logicalInterface == "tenant-client"
+    && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.kind == "bridge"
+    && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.bridge == tenantBridge
+    && builtins.hasAttr tenantBridge inventory.deployment.hosts.s-router-clab.bridgeNetworks;
 in
   require (current.selection.layer == "SMT") "SMT selector layer mismatch"
   && require (current.selection.selector == "internet-mode-verification") "SMT selector id mismatch"
@@ -65,6 +71,7 @@ in
   && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode must preserve VLAN2 management"
   && require (managementOk inventoryClab.deployment.hosts.s-router-clab.uplinks) "clab internet-mode must expose deployment.hosts management"
   && require (inventoryClab.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-clab") "clab internet-mode realization host mismatch"
+  && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 DHCP"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode must preserve VLAN2 management"
