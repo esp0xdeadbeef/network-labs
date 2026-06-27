@@ -5,6 +5,7 @@
   smsInputs = {
     "FS-370-HDS-010-SDS-010-SMS-040" = {
       smsRow = ../../SMS/FS-370-HDS-010-SDS-010-SMS-040;
+      miniSmtIds = [ "row-local" ];
       inputKinds = [ "source-reference" ];
       evidenceBoundary = "construction-only";
     };
@@ -13,7 +14,13 @@
       miniSmtIds = [ "lane-egress-binding" ];
       inputKinds = [ "intent-source" ];
     };
-  };
+    "FS-370-HDS-010-SDS-010-SMS-101" = {
+      smsRow = ../../SMS/FS-370-HDS-010-SDS-010-SMS-101;
+      miniSmtIds = [ "row-local" ];
+      inputKinds = [ "intent-source" ];
+      evidenceBoundary = "source-stub-only";
+    };
+};
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"
     "tests/test-active-lab-mini-smt-sds-input-templates.sh"

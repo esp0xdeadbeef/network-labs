@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# GAMP-SCOPE: SMT/SIT row-local source stub coverage; not HAT/SAT evidence
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+fail() {
+  echo "FAIL gamp-row-source-stubs: $*" >&2
+  exit 1
+}
+
+mapfile -t rows < <(find "${repo_root}/GAMP/SMT" -mindepth 1 -maxdepth 1 -type d -name 'FS-*-HDS-*-SDS-*-SMS-*' -printf '%f\n' | sort)
+((${#rows[@]} > 0)) || fail "no SMT SMS row directories found"
+
+for trace_id in "${rows[@]}"; do
+  row_dir="${repo_root}/GAMP/SMT/${trace_id}"
+  for name in intent.nix inventory-nixos.nix inventory-clab.nix inventory-test-clients.nix; do
+    [[ -f "${row_dir}/${name}" ]] || fail "${trace_id} missing ${name}"
+  done
+done
+
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  names =
+    builtins.filter
+      (name: builtins.match "FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9]-SMS-[0-9][0-9][0-9]" name != null)
+      (builtins.attrNames (builtins.readDir (repoRoot + "/GAMP/SMT")));
+  require = cond: msg: if cond then true else throw msg;
+  checkRow = traceId:
+    let
+      base = repoRoot + "/GAMP/SMT/" + traceId;
+      intent = import (base + "/intent.nix");
+      nixos = import (base + "/inventory-nixos.nix");
+      clab = import (base + "/inventory-clab.nix");
+      testClients = import (base + "/inventory-test-clients.nix");
+    in
+      require (builtins.isAttrs intent)
+        (traceId + ": intent.nix must import to an attrset")
+      && require (!(intent ? meta) || intent.meta.traceId == traceId)
+        (traceId + ": intent.nix meta.traceId must match when present")
+      && require (nixos ? meta && nixos.meta.traceId == traceId && nixos.meta.renderer == "nixos")
+        (traceId + ": inventory-nixos.nix must expose matching nixos metadata")
+      && require (clab ? meta && clab.meta.traceId == traceId && clab.meta.renderer == "clab")
+        (traceId + ": inventory-clab.nix must expose matching clab metadata")
+      && require (testClients ? meta && testClients.meta.traceId == traceId && testClients.meta.renderer == "test-clients")
+        (traceId + ": inventory-test-clients.nix must expose matching test-clients metadata");
+in
+  builtins.all checkRow names
+' >/dev/null || fail "row-local source stubs are not importable"
+
+echo "PASS gamp-row-source-stubs"

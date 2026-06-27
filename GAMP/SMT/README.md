@@ -58,6 +58,12 @@ the mini profile, not `nixos-rebuild --target-host` and not a dry-run as the
 final result. Aggregate layer-entry scripts may prove skip-boundary wiring, but
 they are not row-level mini-SMT evidence.
 
+SMT/SIT-only internet rows must still test internet behavior. Use a bounded
+emulated provider, such as a PPPoE server or equivalent provider-side handoff,
+and source that provider only from `vlan4`/`vlan5` DHCP. Do not turn internet
+coverage into a skip. This is a fixture restriction for SMT/SIT rows, not a
+real-environment inventory rule.
+
 Every mini SMT row must be independently runnable. Put row-local SMT inputs
 under the full SMS trace directory:
 
@@ -117,7 +123,11 @@ validation surfaces is not allowed.
 | --- | --- | --- | --- | --- | --- | --- |
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` |
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` |
+| `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
+| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` |
+| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` |
+| `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
@@ -125,7 +135,7 @@ validation surfaces is not allowed.
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
-All 9 manifest mini-SMT entries now have complete row-directory infrastructure
+All 13 manifest mini-SMT entries now have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and
 SMT construction stubs). The authoritative manifest is
 `GAMP/SMT/mini-smt/tests.nix`.

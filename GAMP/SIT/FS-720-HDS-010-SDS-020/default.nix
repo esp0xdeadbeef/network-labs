@@ -9,6 +9,7 @@
     };
     "FS-720-HDS-010-SDS-020-SMS-040" = {
       smtRow = ../../SMT/FS-720-HDS-010-SDS-020-SMS-040;
+      sourcePath = "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-040/intent.nix";
       role = "test-clients-persistence-management";
       evidenceBoundary = "construction-only";
     };

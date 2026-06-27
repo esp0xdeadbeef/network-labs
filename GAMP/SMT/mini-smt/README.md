@@ -39,6 +39,12 @@ management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
 uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 `vlan5` and make that input explicit.
 
+For SMT/SIT-only internet behavior, do not skip the internet path. Model a
+small emulated provider instead, such as an emulated PPPoE server or equivalent
+provider-side handoff. That emulated provider may source its upstream only from
+`vlan4`/`vlan5` DHCP. This restriction is for SMT/SIT fixtures only; real
+environment inventories are governed by their own environment specs.
+
 Mini SMT/SIT rows may use their own `intent.nix` files. Do not rewrite
 `../../../active-lab/intent.nix` for each row. Put row-specific SMT sources
 under `../FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/`, declare them in `tests.nix`, and
@@ -65,7 +71,11 @@ Current mini-labs:
 | --- | --- | --- | --- |
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` | Two-target reachability decision result classification. |
+| `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` | Two-target decision reason diagnostics for reachability validation. |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
+| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` | Two-target lane egress binding classification. |
+| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Two-target DNS resolver configuration authority. |
+| `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` | SMT/SIT-only emulated PPPoE provider with VLAN4/VLAN5 DHCP upstream; skips, NAT, and VLAN2 rejected. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
@@ -73,7 +83,7 @@ Current mini-labs:
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
 
-All 9 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
+All 13 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
 See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,
 `GAMP/SMS/README.md` for the template row indexes.
 

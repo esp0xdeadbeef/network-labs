@@ -4,7 +4,15 @@
   parentSds = ../../SDS/FS-310-HDS-020-SDS-010;
   purpose = "Renderer Interface Name Source Binding Module (construction-only).";
   evidenceBoundary = "construction-only";
-  sourceInputs = {};
+  sourceInputs = {
+    "row-local" = {
+      traceId = "FS-310-HDS-020-SDS-010-SMS-040";
+      kind = "intent-source";
+      sourcePath = "GAMP/SMT/FS-310-HDS-020-SDS-010-SMS-040/intent.nix";
+      test = "tests/test-gamp-row-source-stubs.sh";
+      maxRuntimeTargets = 0;
+    };
+  };
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"
   ];

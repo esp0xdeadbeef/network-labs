@@ -2,6 +2,7 @@
 
 SMS template row for the `internet-mode-verification` input.
 
-The source is a small row-local `intent.nix` proving renderer internet mode
-verification: tenant client to WAN external with CPM privateNat44 source prefixes
-and output interfaces. Intended for focused deterministic POC tests, not HAT/SAT.
+The source is a small row-local `intent.nix` proving SMT/SIT internet-mode
+coverage through an emulated PPPoE provider. The provider upstream is limited
+to VLAN4/VLAN5 DHCP, and skipped internet coverage is rejected. Intended for
+focused deterministic POC tests, not HAT/SAT.

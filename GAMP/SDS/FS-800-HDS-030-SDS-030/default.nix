@@ -10,6 +10,7 @@
     };
     "FS-800-HDS-030-SDS-030-SMS-040" = {
       smsRow = ../../SMS/FS-800-HDS-030-SDS-030-SMS-040;
+      miniSmtIds = [ "row-local" ];
       inputKinds = [ "source-reference" ];
       evidenceBoundary = "construction-only";
     };

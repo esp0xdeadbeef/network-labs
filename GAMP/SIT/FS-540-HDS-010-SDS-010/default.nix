@@ -9,10 +9,17 @@
     };
     "FS-540-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-540-HDS-010-SDS-010-SMS-040;
+      sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-040/intent.nix";
       role = "requester-lane-recursive-reachability";
       evidenceBoundary = "construction-only";
     };
-  };
+    "FS-540-HDS-010-SDS-010-SMS-010" = {
+      smtRow = ../../SMT/FS-540-HDS-010-SDS-010-SMS-010;
+      sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-010/intent.nix";
+      role = "row-local-source-stub";
+      evidenceBoundary = "source-stub-only";
+    };
+};
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh dns-resolver-config";
     sourcePaths = [

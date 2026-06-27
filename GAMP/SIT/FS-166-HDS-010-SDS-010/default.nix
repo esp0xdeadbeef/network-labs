@@ -4,6 +4,7 @@
   smsInputs = {
     "FS-166-HDS-010-SDS-010-SMS-900" = {
       smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
+      smtRow = ../../SMT/FS-166-HDS-010-SDS-010-SMS-900;
       sourcePath = "GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900/default.nix";
       role = "renderer-mini-smt-umbrella";
     };

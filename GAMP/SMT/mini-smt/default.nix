@@ -161,31 +161,65 @@ let
     };
 
   internetModeVerificationResult =
-    modes:
+    record:
     let
-      hasPrivateNat44 = modes ? privateNat44 && builtins.isList modes.privateNat44;
-      nat44Records = if hasPrivateNat44 then modes.privateNat44 else [ ];
-      hasValidNat44 = builtins.length nat44Records > 0;
-      firstNat44 = if hasValidNat44 then builtins.head nat44Records else null;
-      hasSourcePrefixes = firstNat44 ? sourcePrefixes
-        && builtins.isList firstNat44.sourcePrefixes
-        && builtins.length firstNat44.sourcePrefixes > 0;
-      hasOutputInterfaces = firstNat44 ? outputInterfaces
-        && builtins.isList firstNat44.outputInterfaces
-        && builtins.length firstNat44.outputInterfaces > 0;
+      hasSkip =
+        (record.skipInternet or false)
+        || (record.skipInternetTest or false)
+        || (record ? skipReason);
+      hasNat = record ? privateNat44 || record ? nat44 || record ? nat || record ? masquerade;
+      handoff = record.accessHandoff or { };
+      upstream = record.upstream or { };
+      uplinks = upstream.internetUplinks or [ ];
+      allowedVlan = vlan: vlan == 4 || vlan == 5;
+      allowedHandoffKind =
+        kind:
+        kind == "pppoe" || kind == "dhcp-provider" || kind == "routed-testnet";
+      uplinkOk =
+        uplink:
+        uplink ? vlan
+        && allowedVlan uplink.vlan
+        && (uplink.mode or null) == "dhcp";
+      hasVlan2 = builtins.any (uplink: (uplink.vlan or null) == 2) uplinks;
+      hasBadVlan = builtins.any (uplink: uplink ? vlan && !(allowedVlan uplink.vlan)) uplinks;
+      hasBadMode = builtins.any (uplink: (uplink.mode or null) != "dhcp") uplinks;
     in
-    if !hasPrivateNat44 then {
+    if hasSkip then {
       ok = false;
-      diagnostic = "missing-privateNat44-record";
-    } else if !hasValidNat44 then {
+      diagnostic = "internet-test-skip-not-allowed";
+    } else if hasNat then {
       ok = false;
-      diagnostic = "empty-privateNat44-records";
-    } else if !hasSourcePrefixes then {
+      diagnostic = "nat-not-allowed";
+    } else if !(handoff ? kind) then {
       ok = false;
-      diagnostic = "missing-source-prefixes";
-    } else if !hasOutputInterfaces then {
+      diagnostic = "missing-emulated-access-handoff";
+    } else if !(allowedHandoffKind handoff.kind) then {
       ok = false;
-      diagnostic = "missing-output-interfaces";
+      diagnostic = "unsupported-emulated-access-handoff";
+    } else if (handoff.server or null) != "emulated-isp" then {
+      ok = false;
+      diagnostic = "access-handoff-server-not-emulated-isp";
+    } else if (handoff.client or null) != "client-edge" then {
+      ok = false;
+      diagnostic = "access-handoff-client-not-test-client";
+    } else if (upstream.kind or null) != "emulated-isp" then {
+      ok = false;
+      diagnostic = "upstream-not-emulated-isp";
+    } else if uplinks == [ ] then {
+      ok = false;
+      diagnostic = "missing-internet-uplinks";
+    } else if hasVlan2 then {
+      ok = false;
+      diagnostic = "vlan2-not-allowed";
+    } else if hasBadVlan then {
+      ok = false;
+      diagnostic = "internet-vlan-not-allowed";
+    } else if hasBadMode then {
+      ok = false;
+      diagnostic = "internet-uplink-must-use-dhcp";
+    } else if !(builtins.all uplinkOk uplinks) then {
+      ok = false;
+      diagnostic = "invalid-internet-uplink";
     } else {
       ok = true;
       diagnostic = null;
@@ -538,6 +572,88 @@ in
       testsOnly = [
         "dns-resolver-relation-id"
         "dns-resolver-action-class"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${internetModeTraceId}" = {
+      kind = "mini-smt";
+      traceId = internetModeTraceId;
+      smsAtom = "internet mode verification: emulated ISP upstream fed only by VLAN4/VLAN5 DHCP";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        client-edge = {
+          role = "access";
+          tenant = "client";
+          accessHandoff = {
+            kind = "pppoe";
+            server = "emulated-isp";
+          };
+        };
+        emulated-isp = {
+          role = "emulated-isp";
+          accessServices = [
+            {
+              kind = "pppoe-server";
+              client = "client-edge";
+            }
+          ];
+          internetUplinks = [
+            {
+              vlan = 4;
+              mode = "dhcp";
+            }
+            {
+              vlan = 5;
+              mode = "dhcp";
+            }
+          ];
+        };
+      };
+      internetModeRecords = [
+        {
+          accessHandoff = {
+            kind = "pppoe";
+            client = "client-edge";
+            server = "emulated-isp";
+          };
+          upstream = {
+            kind = "emulated-isp";
+            internetUplinks = [
+              {
+                vlan = 4;
+                mode = "dhcp";
+              }
+              {
+                vlan = 5;
+                mode = "dhcp";
+              }
+            ];
+          };
+        }
+      ];
+      testsOnly = [
+        "internet-mode-emulated-pppoe-handoff"
+        "internet-mode-emulated-isp-upstream"
+        "internet-mode-vlan4-vlan5-dhcp"
+        "internet-mode-no-skip"
+        "internet-mode-no-nat"
+        "internet-mode-no-vlan2"
       ];
       forbiddenScope = [
         "active-lab/full"

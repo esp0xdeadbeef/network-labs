@@ -45,6 +45,7 @@ tests=(
   test-gamp-vlan2-host-adapter-template.sh
   test-gamp-layer-entry-scenario-templates.sh
   test-gamp-row-directory-layout.sh
+  test-gamp-row-source-stubs.sh
   test-active-lab-mini-smt-independent-manifest.sh
   test-active-lab-mini-smt-intent-source-selection.sh
   test-active-lab-minimal-entrypoints.sh

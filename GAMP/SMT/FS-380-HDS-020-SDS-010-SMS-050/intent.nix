@@ -3,12 +3,12 @@
     "internet-mode-verification" = {
       communicationContract = {
         interfaceTags = {
-          external-wan = "wan";
+          external-emulated-isp = "emulated-isp";
           tenant-client = "client";
         };
         relations = [
           {
-            id = "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-wan";
+            id = "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp";
             action = "allow";
             from = {
               kind = "tenant";
@@ -16,13 +16,19 @@
             };
             to = {
               kind = "external";
-              name = "wan";
+              name = "emulated-isp";
             };
             trafficType = "any";
             priority = 100;
           }
         ];
-        services = [ ];
+        services = [
+          {
+            name = "emulated-isp-pppoe";
+            protocol = "pppoe";
+            provider = "emulated-isp";
+          }
+        ];
         trafficTypes = [
           {
             name = "any";
@@ -59,12 +65,16 @@
         links = [
           [
             "client-edge"
-            "wan-core"
+            "emulated-isp"
           ]
         ];
         nodes = {
           client-edge = {
             role = "access";
+            accessHandoff = {
+              kind = "pppoe";
+              server = "emulated-isp";
+            };
             attachments = [
               {
                 kind = "tenant";
@@ -72,12 +82,23 @@
               }
             ];
           };
-          wan-core = {
-            role = "core";
+          emulated-isp = {
+            role = "external";
+            external = "emulated-isp";
+            accessServices = [
+              {
+                kind = "pppoe-server";
+                client = "client-edge";
+              }
+            ];
             uplinks = {
-              wan = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
+              internet-vlan4 = {
+                mode = "dhcp";
+                vlan = 4;
+              };
+              internet-vlan5 = {
+                mode = "dhcp";
+                vlan = 5;
               };
             };
           };

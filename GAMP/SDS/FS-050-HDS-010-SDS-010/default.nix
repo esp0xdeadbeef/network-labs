@@ -5,6 +5,7 @@
   smsInputs = {
     "FS-050-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-050-HDS-010-SDS-010-SMS-010;
+      miniSmtIds = [ "row-local" ];
       inputKinds = [ "source-reference" ];
       evidenceBoundary = "construction-only";
     };
