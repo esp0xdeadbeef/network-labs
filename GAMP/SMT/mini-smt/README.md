@@ -64,12 +64,23 @@ Current mini-labs:
 | `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` | Two-target PPPoE provider/customer pairing and fallback rejection. |
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` | Two-target reachability decision result classification. |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
+| `policy-router-relation-identity` | `FS-310-HDS-010-SDS-010-SMS-030` | `tests/test-active-lab-mini-smt-policy-router-relation-identity.sh` | Two-target CPM policy router relation identity preservation. |
+| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` | Two-target CPM lane egress binding. |
+| `provider-access-default-route` | `FS-800-HDS-010-SDS-020-SMS-040` | `tests/test-active-lab-mini-smt-provider-access-default-route.sh` | CPM provider-access fabric gateway routing contract, max 3 targets. |
+| `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` | Two-target NFM traffic-path validation reason diagnostic. |
+| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Two-target CPM per-interface DNS resolver configuration authority. |
+| `endpoint-harness-consumption` | `FS-720-HDS-010-SDS-020-SMS-020` | `tests/test-active-lab-mini-smt-endpoint-harness-consumption-only.sh` | s-router-test-clients endpoint harness consumption, max 3 targets. |
+| `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` | Two-target renderer internet mode verification. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` | Minimal two-node Containerlab topology from explicit CPM input. |
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
+
+All 16 rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
+See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,
+`GAMP/SMS/README.md` for the template row indexes.
 
 Worked row examples:
 

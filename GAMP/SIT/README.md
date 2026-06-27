@@ -69,6 +69,24 @@ This mirrors the current validation model: many SIT rows are SDS-level
 integration rows, while some SIT evidence must explicitly test one or more
 SMS-level inputs.
 
+## Mini-SMT Row-Level Integration
+
+SIT rows may consume one or more SMS inputs from the mini-SMT system.
+Each mini-SMT entry in `GAMP/SMT/mini-smt/tests.nix` has a corresponding
+SIT row at the SDS-scoped level. The current SIT row inventory:
+
+| SIT Directory | Trace | SMS Inputs |
+| --- | --- | --- |
+| `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-SMS-900` |
+| `FS-310-HDS-010-SDS-010` | Policy router relation identity | `FS-310-SMS-030` |
+| `FS-370-HDS-010-SDS-010` | Lane egress binding | `FS-370-SMS-050` |
+| `FS-380-HDS-020-SDS-010` | Internet mode verification | `FS-380-SMS-050` |
+| `FS-500-HDS-010-SDS-010` | Reachability + p2p | `FS-500-SMS-010`, `FS-500-SMS-040` |
+| `FS-540-HDS-010-SDS-010` | DNS resolver config | `FS-540-SMS-020` |
+| `FS-720-HDS-010-SDS-020` | Endpoint harness consumption | `FS-720-SMS-020` |
+| `FS-800-HDS-010-SDS-020` | Provider access default route | `FS-800-010-020-SMS-040` |
+| `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-SMS-010` |
+
 ## On-Prem Host Adapter
 
 Any SIT stub that needs an on-prem host attachment must use or reference:
