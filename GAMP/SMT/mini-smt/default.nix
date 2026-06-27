@@ -1,7 +1,11 @@
 let
   pppoeTraceId = "FS-800-HDS-030-SDS-030-SMS-010";
   reachabilityTraceId = "FS-500-HDS-010-SDS-010-SMS-010";
+  decisionReasonTraceId = "FS-500-HDS-010-SDS-010-SMS-030";
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
+  laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
+  dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
 
   pppoePairResult =
     pair:
@@ -89,6 +93,103 @@ let
       diagnostic = "reachability-action-unsupported";
       decisionClass = null;
     };
+
+  laneEgressBindingResult =
+    relation:
+    if !(relation ? id) || relation.id != "${laneEgressBindingTraceId}__mini-client-to-testnet-uplink" then {
+      ok = false;
+      diagnostic = "lane-egress-relation-id-missing";
+    } else if !(relation ? action) then {
+      ok = false;
+      diagnostic = "lane-egress-action-missing";
+    } else if relation.action == "allow" then {
+      ok = true;
+      diagnostic = null;
+      expectedLaneKind = "access-uplink";
+    } else {
+      ok = false;
+      diagnostic = "lane-egress-action-unsupported";
+    };
+
+  decisionReasonDiagnosticResult =
+    path:
+    let
+      hasRelationId = path ? relationId && builtins.isString path.relationId;
+      hasAction = path ? action && builtins.isString path.action;
+      validId = hasRelationId && path.relationId == "${decisionReasonTraceId}__mini-decision-reason-diagnostic";
+    in
+    if !hasRelationId then {
+      ok = false;
+      diagnostic = "missing-evidence";
+      reasonType = "missingEvidence";
+    } else if !hasAction then {
+      ok = false;
+      diagnostic = "missing-action-field";
+      reasonType = null;
+    } else if !validId then {
+      ok = false;
+      diagnostic = "missing-evidence";
+      reasonType = "missingEvidence";
+    } else if path.action == "allow" then {
+      ok = true;
+      diagnostic = null;
+      reasonType = null;
+    } else if path.action == "deny" || path.action == "reject" then {
+      ok = false;
+      diagnostic = "contract-contradiction";
+      reasonType = "contractContradiction";
+    } else {
+      ok = false;
+      diagnostic = "unsupported-action";
+      reasonType = null;
+    };
+
+  dnsResolverConfigResult =
+    relation:
+    if !(relation ? id) || relation.id != "${dnsResolverConfigTraceId}__mini-dns-client-to-testnet" then {
+      ok = false;
+      diagnostic = "dns-resolver-relation-id-missing";
+    } else if !(relation ? action) then {
+      ok = false;
+      diagnostic = "dns-resolver-action-missing";
+    } else if relation.action == "allow" then {
+      ok = true;
+      diagnostic = null;
+    } else {
+      ok = false;
+      diagnostic = "dns-resolver-action-unsupported";
+    };
+
+  internetModeVerificationResult =
+    modes:
+    let
+      hasPrivateNat44 = modes ? privateNat44 && builtins.isList modes.privateNat44;
+      nat44Records = if hasPrivateNat44 then modes.privateNat44 else [ ];
+      hasValidNat44 = builtins.length nat44Records > 0;
+      firstNat44 = if hasValidNat44 then builtins.head nat44Records else null;
+      hasSourcePrefixes = firstNat44 ? sourcePrefixes
+        && builtins.isList firstNat44.sourcePrefixes
+        && builtins.length firstNat44.sourcePrefixes > 0;
+      hasOutputInterfaces = firstNat44 ? outputInterfaces
+        && builtins.isList firstNat44.outputInterfaces
+        && builtins.length firstNat44.outputInterfaces > 0;
+    in
+    if !hasPrivateNat44 then {
+      ok = false;
+      diagnostic = "missing-privateNat44-record";
+    } else if !hasValidNat44 then {
+      ok = false;
+      diagnostic = "empty-privateNat44-records";
+    } else if !hasSourcePrefixes then {
+      ok = false;
+      diagnostic = "missing-source-prefixes";
+    } else if !hasOutputInterfaces then {
+      ok = false;
+      diagnostic = "missing-output-interfaces";
+    } else {
+      ok = true;
+      diagnostic = null;
+    };
 in
 {
   meta = {
@@ -101,6 +202,10 @@ in
     pppoePair = pppoePairResult;
     reachabilityDecision = reachabilityDecisionResult;
     p2pRoute = p2pRouteResult;
+    laneEgressBinding = laneEgressBindingResult;
+    decisionReasonDiagnostic = decisionReasonDiagnosticResult;
+    dnsResolverConfig = dnsResolverConfigResult;
+    internetModeVerification = internetModeVerificationResult;
   };
 
   labs = {
@@ -275,6 +380,164 @@ in
       testsOnly = [
         "p2p-peer-next-hop"
         "route-renderability-shape"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${laneEgressBindingTraceId}" = {
+      kind = "mini-smt";
+      traceId = laneEgressBindingTraceId;
+      smsAtom = "CPM lane egress binding: forwardingIntent lane annotations with access-uplink kind and non-null uplink";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-370-HDS-010-SDS-010-SMS-050/intent.nix;
+        expectedRelationIds = [
+          "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        client-edge = {
+          role = "access";
+          tenant = "client";
+        };
+        testnet-edge = {
+          role = "core";
+          external = "testnet";
+        };
+      };
+      laneEgressRelations = [
+        {
+          id = "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "testnet";
+          };
+          trafficType = "any";
+          expectedLaneKind = "access-uplink";
+        }
+      ];
+      testsOnly = [
+        "lane-egress-binding"
+        "lane-uplink-annotation"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${decisionReasonTraceId}" = {
+      kind = "mini-smt";
+      traceId = decisionReasonTraceId;
+      smsAtom = "decision reason diagnostic: traffic-path validation against communication contract";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-030/intent.nix;
+        expectedRelationIds = [
+          "FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        client-edge = {
+          role = "access";
+          tenant = "client";
+        };
+        testnet-edge = {
+          role = "external";
+          external = "testnet";
+        };
+      };
+      decisionReasonRelations = [
+        {
+          id = "FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "testnet";
+          };
+          trafficType = "any";
+        }
+      ];
+      testsOnly = [
+        "decision-reason-diagnostic-class"
+        "missing-evidence-detection"
+        "contract-contradiction-detection"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "s-router-nixos"
+        "s-router-clab"
+        "s-router-test-clients"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${dnsResolverConfigTraceId}" = {
+      kind = "mini-smt";
+      traceId = dnsResolverConfigTraceId;
+      smsAtom = "CPM per-interface DNS resolver configuration authority: dns.resolver4, dns.resolver6, dns.resolverSource emission";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
+        ];
+      };
+      maxRuntimeTargets = 2;
+      runtimeTargets = {
+        access-dns = {
+          role = "access";
+          tenant = "client";
+        };
+        resolver-node = {
+          role = "core";
+          external = "testnet";
+        };
+      };
+      dnsResolverRelations = [
+        {
+          id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "external";
+            name = "testnet";
+          };
+          trafficType = "any";
+        }
+      ];
+      testsOnly = [
+        "dns-resolver-relation-id"
+        "dns-resolver-action-class"
       ];
       forbiddenScope = [
         "active-lab/full"
