@@ -28,6 +28,30 @@ Those PPPoE realization facts use per-harness isolated Ethernet bridges by
 default so NixOS and CLAB runs do not share physical VLAN handoffs. HAT/SAT
 runtime proof is still required before full SAT promotion is possible.
 
+## Current Source-To-Artifact Status
+
+2026-06-28 pre-HAT SAT prerequisite check found that
+`s-router-test-clients` rejected the SAT source with
+`FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC`. The first wrong
+layer was the SAT inventory: `nixos-emulated-sigma` and
+`clab-emulated-sigma` attach to the management bridge, but the source contract
+did not explicitly classify them as management endpoints. The inventory now
+sets `role = "management"` for both rows, and
+`tests/test-s-sigma-sat-source-contract-comments.sh` asserts that bridge,
+tenant, and role remain coherent.
+
+Evidence commands exited 0:
+
+```bash
+bash tests/test-s-sigma-sat-source-contract-comments.sh
+nix build --dry-run --no-link --print-out-paths \
+  path:/home/deadbeef/github/nixos#nixosConfigurations.s-router-{clab,nixos,test-clients}.config.system.build.nixos-shell \
+  --override-input network-labs path:/home/deadbeef/github/network-labs
+```
+
+This is source-to-artifact prerequisite evidence only. It does not claim live
+SAT acceptance.
+
 ## Policy Model
 
 The target is a realistic segmented network, not a flat routed LAN.

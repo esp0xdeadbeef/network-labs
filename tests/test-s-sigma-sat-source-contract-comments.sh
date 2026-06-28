@@ -177,6 +177,23 @@ nix eval --impure --raw --expr "
 
 nix eval --impure --raw --expr "
   let
+    inventory = import ${inventory};
+    endpointClients = inventory.deployment.hosts.s-router-test-clients.hat.endpointClients;
+    nixosSigma = endpointClients.nixos-emulated-sigma;
+    clabSigma = endpointClients.clab-emulated-sigma;
+  in
+    if nixosSigma.bridge == \"mgmt\"
+      && nixosSigma.tenant == \"mgmt\"
+      && nixosSigma.role == \"management\"
+      && clabSigma.bridge == \"mgmt\"
+      && clabSigma.tenant == \"mgmt\"
+      && clabSigma.role == \"management\"
+    then \"true\"
+    else throw \"s-router SAT source must explicitly classify sigma mgmt-bridge endpoint clients as management endpoints\"
+" >/dev/null
+
+nix eval --impure --raw --expr "
+  let
     intent = import ${intent};
     inventory = import ${inventory};
     require = cond: msg: if cond then true else throw msg;
