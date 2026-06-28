@@ -732,6 +732,27 @@ in
         ];
       };
 
+      prefixAuthority.routeImportConstraints = [
+        {
+          id = "hat-site-a-isp-b-client-route-import";
+          gampId = "FS-480-HDS-010-SDS-010-SMS-010";
+          authorityId = "prefix-authority::nixos-access-client::4|10.20.20.0/24";
+          routePrefix = "10.20.20.0/24";
+          allowedPrefixes = [ "10.20.20.0/24" ];
+          sourcePeerOrProvider = "isp-b";
+          allowedSources = [ "isp-b" ];
+          routePurpose = "remote-site";
+          allowedPurposes = [ "remote-site" ];
+          destinationOwner = "nixos-access-client";
+          allowedDestinationOwners = [ "nixos-access-client" ];
+          maximumScope = "remote-site";
+          routeScope = "remote-site";
+          exportRequested = true;
+          exportEligible = true;
+          rejectionBehavior = "reject";
+        }
+      ];
+
       ownership = {
         endpoints = [
           {
@@ -1853,6 +1874,27 @@ in
           }
         ];
       };
+
+      prefixAuthority.routeImportConstraints = [
+        {
+          id = "hat-site-b-isp-b-client-route-import";
+          gampId = "FS-480-HDS-010-SDS-010-SMS-010";
+          authorityId = "prefix-authority::clab-access-client::4|10.50.20.0/24";
+          routePrefix = "10.50.20.0/24";
+          allowedPrefixes = [ "10.50.20.0/24" ];
+          sourcePeerOrProvider = "isp-b";
+          allowedSources = [ "isp-b" ];
+          routePurpose = "remote-site";
+          allowedPurposes = [ "remote-site" ];
+          destinationOwner = "clab-access-client";
+          allowedDestinationOwners = [ "clab-access-client" ];
+          maximumScope = "remote-site";
+          routeScope = "remote-site";
+          exportRequested = true;
+          exportEligible = true;
+          rejectionBehavior = "reject";
+        }
+      ];
 
       ownership = {
         endpoints = [
