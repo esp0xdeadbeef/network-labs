@@ -48,6 +48,7 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
   active = import (repoRoot + "/active-lab");
+  current = import (repoRoot + "/current-lab");
   clients = import (repoRoot + "/active-lab/clients.nix");
   inventoryClab = import (repoRoot + "/active-lab/inventory-clab.nix");
   inventoryHetz = import (repoRoot + "/active-lab/inventory-hetz.nix");
@@ -58,9 +59,27 @@ let
     harness = "s-router-clab";
     site = "clab";
   };
+  sorted = builtins.sort (a: b: a < b);
   stub = inventory.activeLabInventoryStub or null;
+  clabStub = inventoryClab.activeLabInventoryStub or null;
+  hetzStub = inventoryHetz.activeLabInventoryStub or null;
+  clientStub = clients.activeLabClientStub or null;
   rendererNixos = manifest.tests.renderer-nixos;
   require = cond: msg: if cond then true else throw msg;
+  requiredNixosClients = [
+    "nixos-branch-node01"
+    "nixos-client01"
+    "nixos-client02"
+    "nixos-emulated-sigma"
+    "nixos-printer01"
+    "nixos-receiver01"
+    "nixos-streaming-test"
+  ];
+  requiredClabClients = [
+    "clab-client01"
+    "clab-client02"
+    "clab-emulated-sigma"
+  ];
   requiredSecretGampIds = [
     "FS-800-HDS-020-SDS-020"
     "FS-800-HDS-010-SDS-030-SMS-020"
@@ -71,27 +90,64 @@ let
     (protectedSecretBindings.secretDeclarations or [ ])
     ++ (protectedSecretBindings.secretSources or [ ])
     ++ (protectedSecretBindings.sourceBindings or [ ]);
+  activeNixosHosts = inventory.deployment.hosts or { };
+  activeClabHosts = inventoryClab.deployment.hosts or { };
+  activeHetzHosts = inventoryHetz.deployment.hosts or { };
+  selectedDefaultMini =
+    current.selection.layer == "SMT"
+    && current.selection.selector == "renderer-nixos";
+  defaultMiniOk =
+    clientStub != null
+    && clabStub != null
+    && hetzStub != null
+    && stub != null
+    && clientStub.kind == "runtime-client-source-stub"
+    && clabStub.kind == "runtime-clab-inventory-stub"
+    && hetzStub.kind == "runtime-hetz-inventory-stub"
+    && stub.kind == "mini-smt-renderer-input-stub"
+    && stub.miniSmtId == "renderer-nixos"
+    && stub.entryBoundary == "renderer-input"
+    && stub.traceId == rendererNixos.traceId
+    && toString stub.cpmInput == toString rendererNixos.source.cpm
+    && toString stub.test == repoRoot + "/tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh"
+    && toString stub.runner == repoRoot + "/tests/run-active-lab-mini-smt.sh"
+    && stub.runtimeManagement.vlan2 == "management-only"
+    && stub.runtimeManagement.testDhcpUplinks == [ "vlan4" "vlan5" ];
+  hatOk =
+    current.selection.layer == "HAT"
+    && current.selection.selector == "emulated-isp-residential-testnet"
+    && current.selection.sourceRoot == "GAMP/HAT/emulated-isp-residential-testnet"
+    && (clientStub.kind or null) == "hat-client-source"
+    && sorted (clients.requiredEndpointClients or [ ]) == requiredNixosClients
+    && sorted (builtins.attrNames (clients.clients or { })) == requiredNixosClients
+    && builtins.hasAttr "s-router-nixos" activeNixosHosts
+    && builtins.hasAttr "s-router-test-clients" activeNixosHosts
+    && sorted (activeNixosHosts.s-router-test-clients.hat.requiredEndpointClients or [ ]) == requiredNixosClients
+    && builtins.hasAttr "s-router-clab" activeClabHosts
+    && sorted (activeClabHosts.s-router-clab.hat.requiredEndpointClients or [ ]) == requiredClabClients
+    && builtins.hasAttr "s-router-hetz" activeHetzHosts;
+  satOk =
+    current.selection.layer == "SAT"
+    && current.selection.sourceRoot == "GAMP/SAT"
+    && builtins.hasAttr "s-router-nixos" activeNixosHosts
+    && builtins.hasAttr "s-router-clab" activeClabHosts;
+  selectedSourceExplicit =
+    (current.selection.sourceRoot or "") != ""
+    && (current.selection.sourcePath or "") != "";
+  selectedEntrypointsOk =
+    if current.selection.layer == "HAT" then hatOk
+    else if current.selection.layer == "SAT" then satOk
+    else if selectedDefaultMini then defaultMiniOk
+    else selectedSourceExplicit;
 in
   require (!(active ? clients)) "active-lab default must not expose clients through default.nix"
   && require (!(active ? inventoryFor)) "active-lab default must not expose legacy host inventory lookup"
   && require (!(active ? secretFileFor)) "active-lab default must not expose host secret file lookup"
   && require (!(active ? secretFiles)) "active-lab default must not expose broad secret files"
   && require (builtins.isFunction active.mkSource) "active-lab must keep mkSource for row-local intent stubs"
-  && require (clients.activeLabClientStub.kind == "runtime-client-source-stub") "clients.nix must be an explicit runtime stub"
-  && require (inventoryClab.activeLabInventoryStub.kind == "runtime-clab-inventory-stub") "inventory-clab.nix must be an explicit runtime stub"
-  && require (inventoryHetz.activeLabInventoryStub.kind == "runtime-hetz-inventory-stub") "inventory-hetz.nix must be an explicit runtime stub"
   && require (protectedSecretRows != [ ]) "protected PPPoE secret rows must exist"
   && require (builtins.all hasRequiredSecretIds protectedSecretRows) "active-lab SOPS material must stay tied to the protected PPPoE FS IDs"
-  && require (stub != null) "inventory-nixos.nix must be an explicit stub, not an empty attrset"
-  && require (stub.kind == "mini-smt-renderer-input-stub") "inventory-nixos.nix must declare the stub kind"
-  && require (stub.miniSmtId == "renderer-nixos") "inventory-nixos.nix must point at the renderer-nixos mini SMT"
-  && require (stub.entryBoundary == "renderer-input") "inventory-nixos.nix must declare renderer-input boundary"
-  && require (stub.traceId == rendererNixos.traceId) "inventory-nixos.nix trace must match the mini SMT row"
-  && require (toString stub.cpmInput == toString rendererNixos.source.cpm) "inventory-nixos.nix must point at the mini SMT CPM input"
-  && require (toString stub.test == repoRoot + "/tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh") "inventory-nixos.nix must point at the focused test"
-  && require (toString stub.runner == repoRoot + "/tests/run-active-lab-mini-smt.sh") "inventory-nixos.nix must point at the mini SMT runner"
-  && require (stub.runtimeManagement.vlan2 == "management-only") "vlan2 must be documented as management-only"
-  && require (stub.runtimeManagement.testDhcpUplinks == [ "vlan4" "vlan5" ]) "test DHCP uplinks must be vlan4/vlan5"
+  && require selectedEntrypointsOk "active-lab entrypoint content must match the selected current-lab layer"
 ' >/dev/null || fail "active-lab minimal entrypoint contract failed"
 
 echo "PASS active-lab-minimal-entrypoints"

@@ -3,6 +3,10 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 selector="${repo_root}/scripts/select-current-lab.sh"
+current_dir="${repo_root}/current-lab"
+restore_dir="$(mktemp -d)"
+
+cp -a "${current_dir}/." "${restore_dir}/"
 
 fail() {
   echo "FAIL current-lab-selector: $*" >&2
@@ -10,7 +14,8 @@ fail() {
 }
 
 cleanup() {
-  "${selector}" default >/dev/null
+  cp -a "${restore_dir}/." "${current_dir}/"
+  rm -rf "${restore_dir}"
 }
 trap cleanup EXIT
 
