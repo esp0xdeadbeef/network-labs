@@ -217,6 +217,28 @@ target attributes, and
 exited 0. Do not promote rows outside this manifest from this inventory; add
 executable evidence before changing any unrelated row to `OK`.
 
+2026-06-28 pre-HAT current-lab preflight found the prior matrix stale for
+`s-router-test-clients`: with `network-renderer-access-endpoint-nixos` at
+`e4a8457`, the dry-run target
+`.#nixosConfigurations.s-router-test-clients.config.system.build.nixos-shell`
+failed on `FS-720-HDS-030-SDS-010-SMS-021` because the access-endpoint renderer
+treated a valid no-endpoint CPM renderer-entry profile as a missing CPM contract.
+Owning fix: `network-renderer-access-endpoint-nixos` commit `c29b128`
+(`Allow no-endpoint CPM profiles`). Evidence commands exited 0:
+
+```bash
+bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh
+bash tests/run.sh
+nix build --dry-run --no-link --print-out-paths \
+  .#nixosConfigurations.s-router-test-clients.config.system.build.nixos-shell \
+  --override-input network-labs path:/home/deadbeef/github/network-labs \
+  --override-input network-renderer-access-endpoint-nixos path:/home/deadbeef/github/network-renderer-access-endpoint-nixos
+```
+
+The same local-override preflight also exited 0 for
+`s-router-clab` and `s-router-nixos`. This is SMT/SIT prerequisite compile
+evidence only; it is not HAT/SAT runtime acceptance.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or
