@@ -158,3 +158,14 @@ explicit CPM-owned allocation metadata in
 `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix` and covers
 it in the focused mini-SMT test. The row remains source-to-artifact prerequisite
 evidence only, not live HAT/SAT acceptance.
+
+2026-06-28 SAT prerequisite note: the SAT source initially failed the
+`s-router-test-clients` dry-run with
+`FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC` because the
+SAT inventory placed `nixos-emulated-sigma` and `clab-emulated-sigma` on the
+management bridge without explicitly classifying them as management endpoints.
+The owning fix is in `GAMP/SAT/inventory.nix`; the focused source-contract test
+now asserts `bridge = "mgmt"`, `tenant = "mgmt"`, and `role = "management"` for
+both rows. After the fix, SAT dry-runs passed for `s-router-clab`,
+`s-router-nixos`, and `s-router-test-clients` with the active-lab SAT selector.
+This remains source-to-artifact prerequisite evidence only.

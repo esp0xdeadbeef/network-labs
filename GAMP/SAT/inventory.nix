@@ -2302,6 +2302,7 @@ in
                 kind = "ephemeral-fixture";
                 required = false;
               };
+              role = "management";
               tenant = "mgmt";
             };
             nixos-printer01 = {
@@ -2475,6 +2476,7 @@ in
                 kind = "ephemeral-fixture";
                 required = false;
               };
+              role = "management";
               tenant = "mgmt";
             };
           };
