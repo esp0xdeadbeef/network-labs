@@ -128,3 +128,24 @@ It passed all three target attributes (`s-router-clab`, `s-router-nixos`,
 `FS-800-HDS-030-SDS-030`, plus `HAT emulated-isp-residential-testnet` and
 `SAT`. This is source-to-artifact compile evidence only; it does not claim live
 host HAT/SAT acceptance or production readiness.
+
+2026-06-28 pre-HAT current-lab preflight supersedes the stale
+`s-router-test-clients` part of that matrix until downstream locks consume the
+fix. The failing trace was `FS-720-HDS-030-SDS-010-SMS-021`: the
+access-endpoint renderer rejected the `FS-166-HDS-010-SDS-010-SMS-900`
+renderer-entry profile even though that profile legitimately has zero endpoint
+fixtures. Owning fix: `network-renderer-access-endpoint-nixos` commit
+`c29b128` (`Allow no-endpoint CPM profiles`). Evidence commands exited 0:
+
+```bash
+bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh
+bash tests/run.sh
+nix build --dry-run --no-link --print-out-paths \
+  .#nixosConfigurations.s-router-{clab,nixos,test-clients}.config.system.build.nixos-shell \
+  --override-input network-labs path:/home/deadbeef/github/network-labs \
+  --override-input network-renderer-access-endpoint-nixos path:/home/deadbeef/github/network-renderer-access-endpoint-nixos
+```
+
+This remains source-to-artifact prerequisite evidence. HAT/SAT still require the
+live host/site checks after the published renderer revision is selected by the
+consumer lock.
