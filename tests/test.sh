@@ -47,7 +47,6 @@ tests=(
   test-gamp-row-directory-layout.sh
   test-gamp-row-source-stubs.sh
   test-gamp-canonical-sms-mirror.sh
-  test-current-lab-selector.sh
   test-active-lab-mini-smt-independent-manifest.sh
   test-active-lab-mini-smt-intent-source-selection.sh
   test-active-lab-minimal-entrypoints.sh
@@ -119,6 +118,10 @@ tests=(
   test-fs760-hds040-sds010-sms010-receiver-denied-probe-surfaces.sh
 )
 
+serial_tests=(
+  test-current-lab-selector.sh
+)
+
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
@@ -151,6 +154,20 @@ wait_for_one() {
   fi
 }
 
+for test_name in "${serial_tests[@]}"; do
+  test_path="${repo_root}/tests/${test_name}"
+  log_file="${tmp_dir}/${test_name}.log"
+  printf 'START %s\n' "${test_name}"
+  if timeout "${test_timeout_seconds}" "${test_path}" >"${log_file}" 2>&1; then
+    printf 'PASS %s\n' "${test_name}"
+  else
+    status=$?
+    printf 'FAIL %s (exit %s)\n' "${test_name}" "${status}" >&2
+    awk -v prefix="[${test_name}] " '{ print prefix $0 }' "${log_file}" >&2
+    failures=$((failures + 1))
+  fi
+done
+
 printf 'running %s tests with TEST_JOBS=%s\n' "${#tests[@]}" "${jobs}"
 for test_name in "${tests[@]}"; do
   test_path="${repo_root}/tests/${test_name}"
@@ -176,4 +193,4 @@ if (( failures > 0 )); then
   exit 1
 fi
 
-printf 'PASS network-labs: %s tests\n' "${#tests[@]}"
+printf 'PASS network-labs: %s tests\n' "$((${#serial_tests[@]} + ${#tests[@]}))"

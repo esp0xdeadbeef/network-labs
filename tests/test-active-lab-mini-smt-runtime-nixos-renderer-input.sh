@@ -4,7 +4,6 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cpm_root="${NETWORK_CONTROL_PLANE_MODEL_ROOT:-${repo_root}/../network-control-plane-model}"
 nixos_renderer_root="${NETWORK_RENDERER_NIXOS_ROOT:-${repo_root}/../network-renderer-nixos}"
 
 fail() {
@@ -12,21 +11,17 @@ fail() {
   exit 1
 }
 
-[[ -d "${cpm_root}" ]] || fail "missing network-control-plane-model repo at ${cpm_root}"
 [[ -d "${nixos_renderer_root}" ]] || fail "missing network-renderer-nixos repo at ${nixos_renderer_root}"
 
 nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
   let
     repoRoot = \"${repo_root}\";
-    cpmRepo = builtins.getFlake \"path:${cpm_root}\";
     nixosRenderer = builtins.getFlake \"path:${nixos_renderer_root}\";
     system = builtins.currentSystem;
-    inventory = import (repoRoot + \"/active-lab/inventory-nixos.nix\");
-    stub = inventory.activeLabInventoryStub or null;
-    cpm = cpmRepo.libBySystem.\${system}.compileAndBuildFromPaths {
-      inputPath = repoRoot + \"/active-lab/intent.nix\";
-      inventoryPath = repoRoot + \"/active-lab/inventory-nixos.nix\";
-    };
+    sms = import (repoRoot + \"/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900/default.nix\");
+    row = sms.sourceInputs.renderer-nixos;
+    sourcePath = repoRoot + \"/\" + row.sourcePath;
+    cpm = import sourcePath;
     host = nixosRenderer.libBySystem.\${system}.renderer.buildHostFromControlPlane {
       controlPlaneOut = cpm;
       selector = \"s-router-nixos\";
@@ -40,16 +35,14 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     containerNames = builtins.attrNames (host.renderedHost.containers or { });
     require = cond: msg: if cond then true else throw msg;
   in
-    require (stub != null)
-      \"active-lab inventory-nixos must be an explicit mini SMT stub\"
-    && require (stub.kind == \"mini-smt-renderer-input-stub\")
-      \"active-lab inventory-nixos must declare stub kind\"
-    && require (stub.miniSmtId == \"renderer-nixos\")
-      \"active-lab inventory-nixos must point at renderer-nixos\"
-    && require (toString stub.cpmInput == repoRoot + \"/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix\")
-      \"active-lab inventory-nixos must point at the focused CPM fixture\"
-    && require (toString stub.test == repoRoot + \"/tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh\")
-      \"active-lab inventory-nixos must point at the focused runtime test\"
+    require (row.kind == \"renderer-input\")
+      \"renderer-nixos SMS source must be a renderer-input mini SMT\"
+    && require (row.rendererTarget == \"nixos\")
+      \"renderer-nixos SMS source must target the NixOS renderer\"
+    && require (row.sourcePath == \"GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix\")
+      \"renderer-nixos SMS source path mismatch\"
+    && require (row.test == \"tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh\")
+      \"renderer-nixos SMS source test mismatch\"
     && require (traceId == \"FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime\")
       \"active-lab runtime CPM must carry the mini runtime trace id\"
     && require (layerEntry.entryBoundary == \"renderer-input\")

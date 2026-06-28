@@ -24,12 +24,14 @@ let
   sit = import (repoRoot + "/GAMP/SIT/FS-166-HDS-010-SDS-010/default.nix");
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   active = import (repoRoot + "/active-lab");
+  current = import (repoRoot + "/current-lab");
   activeIntent = import (repoRoot + "/active-lab/intent.nix");
   activeNixosInventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
   activeClabInventory = import (repoRoot + "/active-lab/inventory-clab.nix");
   activeClients = import (repoRoot + "/active-lab/clients.nix");
 
   require = cond: msg: if cond then true else throw msg;
+  sorted = builtins.sort (a: b: a < b);
   pathExistsRel = rel: builtins.pathExists (repoRoot + "/" + rel);
   importRel = rel: import (repoRoot + "/" + rel);
 
@@ -48,6 +50,20 @@ let
     "renderer-nixos-clients"
     "renderer-nixos-p2p"
     "renderer-wireguard"
+  ];
+  requiredNixosClients = [
+    "nixos-branch-node01"
+    "nixos-client01"
+    "nixos-client02"
+    "nixos-emulated-sigma"
+    "nixos-printer01"
+    "nixos-receiver01"
+    "nixos-streaming-test"
+  ];
+  requiredClabClients = [
+    "clab-client01"
+    "clab-client02"
+    "clab-emulated-sigma"
   ];
   sourceNames = builtins.attrNames sms.sourceInputs;
 
@@ -133,9 +149,51 @@ let
 
   sitSourcePaths = sit.evidence.sourcePaths or [ ];
 
-  nixosStub = activeNixosInventory.activeLabInventoryStub;
-  clabStub = activeClabInventory.activeLabInventoryStub;
-  clientStub = activeClients.activeLabClientStub;
+  nixosStub = activeNixosInventory.activeLabInventoryStub or null;
+  clabStub = activeClabInventory.activeLabInventoryStub or null;
+  clientStub = activeClients.activeLabClientStub or null;
+  activeNixosHosts = activeNixosInventory.deployment.hosts or { };
+  activeClabHosts = activeClabInventory.deployment.hosts or { };
+  selectedDefaultMini =
+    current.selection.layer == "SMT"
+    && current.selection.selector == "renderer-nixos";
+  defaultActiveLabOk =
+    (activeIntent.control_plane_model.meta.traceId or null) == sms.sourceInputs.renderer-nixos.traceId
+    && nixosStub != null
+    && clabStub != null
+    && clientStub != null
+    && nixosStub.miniSmtId == "renderer-nixos"
+    && toString nixosStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-nixos.sourcePath
+    && toString nixosStub.test == repoRoot + "/" + sms.sourceInputs.renderer-nixos.test
+    && clientStub.miniSmtId == "renderer-nixos-clients"
+    && toString clientStub.source == repoRoot + "/" + sms.sourceInputs.renderer-nixos-clients.sourcePath
+    && clabStub.miniSmtId == "renderer-clab"
+    && clabStub.traceId == sms.sourceInputs.renderer-clab.traceId
+    && toString clabStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-clab.sourcePath
+    && toString clabStub.test == repoRoot + "/" + sms.sourceInputs.renderer-clab.test;
+  hatActiveLabOk =
+    current.selection.layer == "HAT"
+    && current.selection.selector == "emulated-isp-residential-testnet"
+    && current.selection.sourceRoot == "GAMP/HAT/emulated-isp-residential-testnet"
+    && (activeClients.activeLabClientStub.kind or null) == "hat-client-source"
+    && sorted (activeClients.requiredEndpointClients or [ ]) == requiredNixosClients
+    && sorted (builtins.attrNames (activeClients.clients or { })) == requiredNixosClients
+    && builtins.hasAttr "s-router-test-clients" activeNixosHosts
+    && sorted (activeNixosHosts.s-router-test-clients.hat.requiredEndpointClients or [ ]) == requiredNixosClients
+    && builtins.hasAttr "s-router-clab" activeClabHosts
+    && sorted (activeClabHosts.s-router-clab.hat.requiredEndpointClients or [ ]) == requiredClabClients;
+  satActiveLabOk =
+    current.selection.layer == "SAT"
+    && current.selection.sourceRoot == "GAMP/SAT"
+    && builtins.hasAttr "s-router-nixos" activeNixosHosts;
+  selectedSourceExplicit =
+    (current.selection.sourceRoot or "") != ""
+    && (current.selection.sourcePath or "") != "";
+  activeLabSelectionOk =
+    if current.selection.layer == "HAT" then hatActiveLabOk
+    else if current.selection.layer == "SAT" then satActiveLabOk
+    else if selectedDefaultMini then defaultActiveLabOk
+    else selectedSourceExplicit;
 in
   require (sms.layer == "SMS") "FS-166 SMS row must declare SMS layer"
   && require (sms.traceId == "FS-166-HDS-010-SDS-010-SMS-900") "FS-166 SMS row trace mismatch"
@@ -144,17 +202,8 @@ in
   && require (builtins.all (id: builtins.hasAttr id sms.sourceInputs) expectedIds) "SMS row missing an SDS mini SMT input"
   && require (builtins.all sourceMatchesRow expectedIds) "SMS source input path, test, manifest, or emitted trace does not match"
   && require (builtins.all (id: builtins.elem sms.sourceInputs.${id}.sourcePath sitSourcePaths) expectedIds) "SIT row must list every renderer-entry source path"
-  && require (activeIntent.control_plane_model.meta.traceId == sms.sourceInputs.renderer-nixos.traceId) "global active-lab intent must point at renderer-nixos SMS source"
   && require (builtins.isFunction active.mkSource) "active-lab default must keep mkSource for row-local shims"
-  && require (nixosStub.miniSmtId == "renderer-nixos") "inventory-nixos shim must point at renderer-nixos"
-  && require (toString nixosStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-nixos.sourcePath) "inventory-nixos shim must point at renderer-nixos CPM input"
-  && require (toString nixosStub.test == repoRoot + "/" + sms.sourceInputs.renderer-nixos.test) "inventory-nixos shim must point at renderer-nixos test"
-  && require (clientStub.miniSmtId == "renderer-nixos-clients") "clients shim must point at renderer-nixos-clients"
-  && require (toString clientStub.source == repoRoot + "/" + sms.sourceInputs.renderer-nixos-clients.sourcePath) "clients shim must point at renderer-nixos-clients source"
-  && require (clabStub.miniSmtId == "renderer-clab") "inventory-clab shim must point at renderer-clab"
-  && require (clabStub.traceId == sms.sourceInputs.renderer-clab.traceId) "inventory-clab shim trace must match renderer-clab SMS source"
-  && require (toString clabStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-clab.sourcePath) "inventory-clab shim must point at renderer-clab CPM input"
-  && require (toString clabStub.test == repoRoot + "/" + sms.sourceInputs.renderer-clab.test) "inventory-clab shim must point at renderer-clab test"
+  && require activeLabSelectionOk "selected active-lab source must match the current layer and must not fake renderer-nixos mini evidence under HAT/SAT"
   && require (builtins.all sourceHasManagement (builtins.attrNames requiredManagementHosts)) "on-prem renderer-entry sources must carry VLAN2 management for their s-router hosts"
 ' >/dev/null || fail "SMS input template contract failed"
 
