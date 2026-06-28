@@ -8,5 +8,6 @@
     inventoryHetz = ./inventory-hetz.nix;
     clients = ./clients.nix;
     inventoryTestClients = ./inventory-test-clients.nix;
+    sops = ./sops.nix;
   };
 }

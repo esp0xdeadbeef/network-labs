@@ -27,6 +27,7 @@ for required in \
   inventory-clab.nix \
   inventory-hetz.nix \
   inventory-nixos.nix \
+  sops.nix \
   sops-routing-s-router-clab.nix \
   sops-routing-s-router-hetz.nix \
   sops-routing-s-router-nixos.nix \

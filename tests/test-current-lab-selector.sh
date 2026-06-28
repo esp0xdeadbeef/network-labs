@@ -122,12 +122,40 @@ REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  clients = import (repoRoot + "/active-lab/clients.nix");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/active-lab/inventory-clab.nix");
+  requiredNixosClients = [
+    "nixos-branch-node01"
+    "nixos-client01"
+    "nixos-client02"
+    "nixos-emulated-sigma"
+    "nixos-printer01"
+    "nixos-receiver01"
+    "nixos-streaming-test"
+  ];
+  requiredClabClients = [
+    "clab-client01"
+    "clab-client02"
+    "clab-emulated-sigma"
+  ];
   require = cond: msg: if cond then true else throw msg;
+  sorted = builtins.sort (a: b: a < b);
 in
   require (current.selection.layer == "HAT") "HAT selector layer mismatch"
   && require (current.selection.selector == "emulated-isp-residential-testnet") "HAT selector mismatch"
+  && require (current.selection.sourceRoot == "GAMP/HAT/emulated-isp-residential-testnet") "HAT source root mismatch"
+  && require (toString active.sourcePaths.sops == repoRoot + "/active-lab/sops.nix") "active-lab must expose the selected HAT sops module"
+  && require (clients.activeLabClientStub.kind == "hat-client-source") "HAT clients must be a real selected client source, not an empty compatibility stub"
+  && require (sorted clients.requiredEndpointClients == requiredNixosClients) "HAT required NixOS clients mismatch"
+  && require (sorted (builtins.attrNames clients.clients) == requiredNixosClients) "HAT clients.nix must expose every required NixOS endpoint"
   && require (inventory.deployment.hosts ? s-router-nixos) "HAT inventory must expose s-router-nixos"
+  && require (inventory.deployment.hosts ? s-router-test-clients) "HAT inventory must expose s-router-test-clients"
+  && require (sorted inventory.deployment.hosts.s-router-test-clients.hat.requiredEndpointClients == requiredNixosClients) "HAT inventory required NixOS endpoint list mismatch"
+  && require (sorted (builtins.attrNames inventory.deployment.hosts.s-router-test-clients.hat.endpointClients) == requiredNixosClients) "HAT inventory must define all NixOS endpoint clients"
+  && require (sorted inventoryClab.deployment.hosts.s-router-clab.hat.requiredEndpointClients == requiredClabClients) "HAT CLAB required endpoint list mismatch"
+  && require (sorted (builtins.attrNames inventoryClab.deployment.hosts.s-router-clab.hat.endpointClients) == requiredClabClients) "HAT CLAB inventory must define all CLAB endpoint fixtures"
 ' >/dev/null || fail "HAT selection failed"
 
 "${selector}" SAT >/dev/null

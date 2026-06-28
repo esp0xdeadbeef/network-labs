@@ -6,6 +6,7 @@ let
 
       sourcePaths = {
         inherit intent;
+        sops = ./sops.nix;
       };
     };
 in

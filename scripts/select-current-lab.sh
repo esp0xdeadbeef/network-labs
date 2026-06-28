@@ -517,6 +517,7 @@ EOF
 }
 
 write_default_sops() {
+  write_import "sops.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops.nix"
   write_import "sops-routing-s-router-clab.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix"
   write_empty_sops "sops-routing-s-router-nixos.nix" "s-router-nixos"
   write_import "sops-routing-s-router-test-clients.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix"
@@ -689,15 +690,8 @@ select_hat() {
   write_import "inventory-clab.nix" "../${root}/inventory-clab.nix"
   write_import "inventory-hetz.nix" "../${root}/inventory-hetz.nix"
   write_import "inventory-test-clients.nix" "../${root}/inventory-nixos.nix"
-  write_file "${current_dir}/clients.nix" cat <<'EOF'
-{
-  activeLabClientStub = {
-    kind = "hat-client-source-stub";
-    source = ../GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix;
-  };
-  clients = { };
-}
-EOF
+  write_import "clients.nix" "../${root}/clients.nix"
+  write_import "sops.nix" "../${root}/sops.nix"
   write_import "sops-routing-s-router-clab.nix" "../${root}/sops-routing-s-router-clab.nix"
   write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
   write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
@@ -713,6 +707,7 @@ select_sat() {
   write_import "inventory-hetz.nix" "../${root}/inventory-hetz.nix"
   write_import "inventory-test-clients.nix" "../${root}/inventory-nixos.nix"
   write_import "clients.nix" "../${root}/clients.nix"
+  write_import "sops.nix" "../${root}/sops.nix"
   write_import "sops-routing-s-router-clab.nix" "../${root}/sops-routing-s-router-clab.nix"
   write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
   write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
