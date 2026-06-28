@@ -29,6 +29,9 @@ fail() {
 nix eval --impure --json --expr "{
   raw = import ${lab_dir}/inventory.nix;
   resolved = import ${lab_dir}/getResolvedInventory.nix { renderer = \"nixos\"; };
+  hatNixos = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix;
+  hatClab = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-clab.nix;
+  hatHetz = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-hetz.nix;
 }" >"${source_json}"
 
 jq -e '
@@ -170,9 +173,15 @@ jq -e '
     and valid_failure_handling(.failureHandlingContracts)
     and valid_diagnostics(.failureDiagnosticContracts);
   .raw as $raw
-  | .resolved as $resolved
+  | [
+      .raw,
+      .resolved,
+      .hatNixos,
+      .hatClab,
+      .hatHetz
+    ] as $sources
   | ($raw | valid_source)
-  and ($resolved | valid_source)
+  and all($sources[]; valid_source)
   and (($raw | .operationalPrivacyContracts.metadataSurfaces |= map(select(.metadataClass != "dns-query")) | valid_source) | not)
   and (($raw | .operationalPrivacyContracts.defaultHigherDetailEnabled = true | valid_source) | not)
   and (($raw | .failureHandlingContracts.modeledFailureClasses |= map(select(.failureClass != "provider-loss")) | valid_source) | not)

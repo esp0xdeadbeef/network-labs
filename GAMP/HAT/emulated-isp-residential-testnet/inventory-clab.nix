@@ -23,6 +23,9 @@ let
         hosts = satCompat.withRealizationHostBridges hostsWithUplinks satNodes;
       };
       endpoints = (satInventory.endpoints or { }) // (inventory.endpoints or { });
+      operationalPrivacyContracts = satInventory.operationalPrivacyContracts;
+      failureHandlingContracts = satInventory.failureHandlingContracts;
+      failureDiagnosticContracts = satInventory.failureDiagnosticContracts;
       realization = inventory.realization // {
         fabricLinks = (satInventory.realization.fabricLinks or { }) // (inventory.realization.fabricLinks or { });
         nodes = satNodes // inventory.realization.nodes;
