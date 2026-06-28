@@ -730,9 +730,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-dmz = {
         advertisements = {
+          dhcp4.tenant-dmz.dnsServers = [ "router-self" ];
           dhcp4.tenant-dmz.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
+          ipv6Ra.tenant-dmz.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -768,9 +770,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-guest = {
         advertisements = {
+          dhcp4.tenant-guest.dnsServers = [ "router-self" ];
           dhcp4.tenant-guest.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-guest.dnssl = [ "lan." ];
+          ipv6Ra.tenant-guest.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -806,9 +810,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-iot = {
         advertisements = {
+          dhcp4.tenant-iot.dnsServers = [ "router-self" ];
           dhcp4.tenant-iot.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-iot.dnssl = [ "lan." ];
+          ipv6Ra.tenant-iot.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -844,9 +850,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-management = {
         advertisements = {
+          dhcp4.tenant-management.dnsServers = [ "router-self" ];
           dhcp4.tenant-management.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-management.dnssl = [ "lan." ];
+          ipv6Ra.tenant-management.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -882,9 +890,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-trusted = {
         advertisements = {
+          dhcp4.tenant-trusted.dnsServers = [ "router-self" ];
           dhcp4.tenant-trusted.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
+          ipv6Ra.tenant-trusted.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -920,9 +930,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-a-nixos-access-work = {
         advertisements = {
+          dhcp4.tenant-work.dnsServers = [ "router-self" ];
           dhcp4.tenant-work.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-work.dnssl = [ "lan." ];
+          ipv6Ra.tenant-work.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-nixos";
@@ -2241,9 +2253,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-dmz = {
         advertisements = {
+          dhcp4.tenant-dmz.dnsServers = [ "router-self" ];
           dhcp4.tenant-dmz.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-dmz.dnssl = [ "lan." ];
+          ipv6Ra.tenant-dmz.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
@@ -2279,9 +2293,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-guest = {
         advertisements = {
+          dhcp4.tenant-guest.dnsServers = [ "router-self" ];
           dhcp4.tenant-guest.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-guest.dnssl = [ "lan." ];
+          ipv6Ra.tenant-guest.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
@@ -2317,9 +2333,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-iot = {
         advertisements = {
+          dhcp4.tenant-iot.dnsServers = [ "router-self" ];
           dhcp4.tenant-iot.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-iot.dnssl = [ "lan." ];
+          ipv6Ra.tenant-iot.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
@@ -2355,9 +2373,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-management = {
         advertisements = {
+          dhcp4.tenant-management.dnsServers = [ "router-self" ];
           dhcp4.tenant-management.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-management.dnssl = [ "lan." ];
+          ipv6Ra.tenant-management.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
@@ -2393,9 +2413,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-trusted = {
         advertisements = {
+          dhcp4.tenant-trusted.dnsServers = [ "router-self" ];
           dhcp4.tenant-trusted.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-trusted.dnssl = [ "lan." ];
+          ipv6Ra.tenant-trusted.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
@@ -2431,9 +2453,11 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
       };
       esp0xdeadbeef-site-b-clab-access-work = {
         advertisements = {
+          dhcp4.tenant-work.dnsServers = [ "router-self" ];
           dhcp4.tenant-work.domain = "lan.";
           dhcpv6 = { };
           ipv6Ra.tenant-work.dnssl = [ "lan." ];
+          ipv6Ra.tenant-work.rdnss = [ "router-self" ];
         };
         services.dns = { };
         host = "s-router-clab";
