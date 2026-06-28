@@ -1054,6 +1054,10 @@ in
             role = "core";
             uplinks = {
               route-import = {
+                addr4 = "198.51.100.2/30";
+                peerAddr4 = "198.51.100.1/30";
+                addr6 = "2001:db8:51::2/127";
+                peerAddr6 = "2001:db8:51::1/127";
                 ipv4 = [ "198.51.100.0/24" ];
                 ipv6 = [ "2001:db8:51::/48" ];
               };
@@ -2187,6 +2191,10 @@ in
           clab-core-route-import = {
             role = "core";
             uplinks.route-import = {
+              addr4 = "198.51.100.6/30";
+              peerAddr4 = "198.51.100.5/30";
+              addr6 = "2001:db8:51::4/127";
+              peerAddr6 = "2001:db8:51::5/127";
               ipv4 = [ "198.51.100.0/24" ];
               ipv6 = [ "2001:db8:51::/48" ];
             };
