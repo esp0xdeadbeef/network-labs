@@ -13,6 +13,23 @@ fail() {
   exit 1
 }
 
+require_file() {
+  local label="$1"
+  local path="$2"
+  [[ -f "${path}" ]] || fail "missing ${label}: ${path}"
+}
+
+check_relative_imports() {
+  local path="$1"
+  local dir
+  dir="$(dirname "${path}")"
+
+  while IFS= read -r import_expr; do
+    local rel="${import_expr#import }"
+    require_file "import target for ${path}" "${dir}/${rel}"
+  done < <(rg -o 'import [./A-Za-z0-9_-]+\.nix' "${path}" || true)
+}
+
 # ── Check 1: intent.nix must not carry validation/runtime/script content ──────
 # Forbidden patterns: validation rows, runtime observations, script switches,
 # expected command output, acceptance status.
@@ -32,7 +49,7 @@ echo "PASS Check 1"
 # ── Check 2: inventory files must not contain validation/runtime content ───────
 echo "--- Check 2: scan inventory files for validation/runtime content ---"
 
-for inv in inventory-clab.nix inventory-nixos.nix; do
+for inv in inventory-clab.nix inventory-hetz.nix inventory-nixos.nix; do
   inv_hits=$(rg -in \
     'NOT OK| HAT \| OK|SAT \| OK|SMT \| OK|SIT \| OK|expected.*output|observed.*runtime|acceptance.*status|diagnostic\.(validation-content|missing-source-class)' \
     "${hat_dir}/${inv}" || true)
@@ -41,7 +58,9 @@ for inv in inventory-clab.nix inventory-nixos.nix; do
     echo "${inv_hits}"
     fail "${inv} must not carry validation, runtime, or script content"
   fi
+  check_relative_imports "${hat_dir}/${inv}"
 done
+check_relative_imports "${hat_dir}/provider-access-fixture-table.nix"
 echo "PASS Check 2"
 
 # ── Seeded Negative 1: intent.nix with validation status row ───────────────────
