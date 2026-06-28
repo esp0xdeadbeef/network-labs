@@ -46,6 +46,15 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     edgeABridge = if edgeAVeths == [ ] then null else (builtins.head edgeAVeths).hostBridge or null;
     edgeBBridge = if edgeBVeths == [ ] then null else (builtins.head edgeBVeths).hostBridge or null;
     renderedBridge = (rendered.bridges.\"rt--p2p--bridge--edge-a-b\" or { }).renderedName or null;
+    edgeAIface = cpm.control_plane_model.data.acme.lab.runtimeTargets.edge-a.effectiveRuntimeRealization.interfaces.edge-a-b;
+    edgeBIface = cpm.control_plane_model.data.acme.lab.runtimeTargets.edge-b.effectiveRuntimeRealization.interfaces.edge-a-b;
+    allocationIsExpected = allocation:
+      allocation.source == \"control-plane-model\"
+      && allocation.tableId == 2200
+      && allocation.priority == 5000
+      && allocation.tableRulePriority == 5001
+      && allocation.dynamicRulePriority == 5002
+      && allocation.mainSuppressPriority == 5003;
     require = cond: msg: if cond then true else throw msg;
   in
     require (traceId == \"FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p\")
@@ -77,6 +86,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"edge-b must carry the route atom via edge-a\"
     && require (edgeABridge == renderedBridge && edgeBBridge == renderedBridge)
       \"both containers must attach their veth to the same rendered p2p bridge\"
+    && require (allocationIsExpected edgeAIface.policyRoutingAllocation && allocationIsExpected edgeBIface.policyRoutingAllocation)
+      \"p2p renderer-input fixture must carry explicit CPM policyRoutingAllocation for both endpoints\"
 " >/dev/null || fail "NixOS p2p renderer-input contract failed"
 
 echo "PASS active-lab-mini-smt-runtime-nixos-p2p-renderer-input"

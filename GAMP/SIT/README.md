@@ -149,3 +149,12 @@ nix build --dry-run --no-link --print-out-paths \
 This remains source-to-artifact prerequisite evidence. HAT/SAT still require the
 live host/site checks after the published renderer revision is selected by the
 consumer lock.
+
+2026-06-28 SIT prerequisite note for `FS-166-HDS-010-SDS-010`: the
+`renderer-nixos-p2p` source fixture initially failed the `s-router-nixos`
+dry-run with `FS-310-HDS-010-SDS-010-SMS-130` because its renderer-entry CPM
+input lacked `policyRoutingAllocation` for interface `edge-a-b`. The fix adds
+explicit CPM-owned allocation metadata in
+`GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix` and covers
+it in the focused mini-SMT test. The row remains source-to-artifact prerequisite
+evidence only, not live HAT/SAT acceptance.

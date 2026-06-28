@@ -257,6 +257,27 @@ The same local-override preflight also exited 0 for
 `s-router-clab` and `s-router-nixos`. This is SMT/SIT prerequisite compile
 evidence only; it is not HAT/SAT runtime acceptance.
 
+2026-06-28 active-lab SMT sweep then found `renderer-nixos-p2p` failed the
+`s-router-nixos` dry-run with diagnostic
+`FS-310-HDS-010-SDS-010-SMS-130`: interface `edge-a-b` had NixOS policy-routing
+materialization but no CPM `policyRoutingAllocation`. The NixOS renderer was
+correct; `runtime-nixos-p2p-cpm.nix` is a renderer-entry CPM fixture that skips
+CPM, so the owning fix was to add explicit source=`control-plane-model`
+allocation metadata to both p2p endpoint interface records and assert it in
+`tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh`. Evidence
+commands exited 0:
+
+```bash
+bash tests/run-active-lab-mini-smt.sh renderer-nixos-p2p
+nix build --dry-run --no-link --print-out-paths \
+  path:/home/deadbeef/github/nixos#nixosConfigurations.s-router-nixos.config.system.build.nixos-shell \
+  --override-input network-labs path:/home/deadbeef/github/network-labs
+```
+
+The resumed SMT sweep for `renderer-nixos-p2p` and `renderer-wireguard` passed
+all three host dry-runs in
+`/tmp/network-labs-active-lab-smt-sweep-resume-20260628T124259Z`.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or

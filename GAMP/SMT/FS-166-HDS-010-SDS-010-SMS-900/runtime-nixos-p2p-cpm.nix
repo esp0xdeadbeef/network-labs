@@ -73,6 +73,15 @@ let
           }
         ];
       };
+      policyRoutingAllocation = {
+        source = "control-plane-model";
+        allocation = "${traceId}__edge-a-b";
+        tableId = 2200;
+        priority = 5000;
+        tableRulePriority = 5001;
+        dynamicRulePriority = 5002;
+        mainSuppressPriority = 5003;
+      };
     };
 in
 rec {
