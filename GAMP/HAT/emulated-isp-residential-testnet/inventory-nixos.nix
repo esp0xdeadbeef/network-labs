@@ -741,6 +741,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
                 kind = "ephemeral-fixture";
                 required = false;
               };
+              role = "management";
               tenant = "mgmt";
             };
             nixos-printer01 = {
