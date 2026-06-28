@@ -92,6 +92,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       (endpointClients.${name}.addressDelivery or null) == delivery;
     endpointTenantIs = name: tenant:
       (endpointClients.${name}.tenant or null) == tenant;
+    endpointRoleIs = name: role:
+      (endpointClients.${name}.role or null) == role;
     endpointAddressIs = name: family: address:
       let endpoint = endpointClients.${name} or { };
       in builtins.elem address (endpoint.${family} or [ ]);
@@ -515,6 +517,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "HAT endpoint inventory must carry nixos-emulated-sigma static IPv4"
     && require (endpointAddressIs "nixos-emulated-sigma" "ipv6" "fd42:dead:beef:10::50/64")
       "HAT endpoint inventory must carry nixos-emulated-sigma static IPv6"
+    && require (endpointRoleIs "nixos-emulated-sigma" "management")
+      "HAT mgmt-bridge endpoint inventory must explicitly classify nixos-emulated-sigma as a management endpoint"
     && require (endpointAssignmentIs "clab-emulated-sigma" "static-ipv4-or-ipv6-client")
       "HAT endpoint inventory must identify clab-emulated-sigma static-address client fixture"
     && require (endpointSubstrateIs "clab-emulated-sigma" "clab" && endpointDeliveryIs "clab-emulated-sigma" "endpoint-configured")
