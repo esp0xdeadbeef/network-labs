@@ -11,4 +11,6 @@ Run:
 tests/run-active-lab-mini-smt.sh lane-egress-binding
 ```
 
-This row starts `client-edge` and `testnet-edge` runtime targets.
+This row declares the five-target lane path that the active-lab selector must
+realize: `client-edge`, `downstream-selector`, `policy`, `upstream-selector`,
+and `testnet-edge`.

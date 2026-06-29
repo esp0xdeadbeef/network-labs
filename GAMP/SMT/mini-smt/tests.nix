@@ -148,8 +148,8 @@ in
       script = "tests/test-active-lab-mini-smt-lane-egress-binding-only.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "CPM lane egress binding classification";
-      maxRuntimeTargets = 2;
+      scope = "CPM lane egress binding classification over the five-node access -> downstream-selector -> policy -> upstream-selector -> testnet path";
+      maxRuntimeTargets = 5;
     };
 
     dns-resolver-config = {

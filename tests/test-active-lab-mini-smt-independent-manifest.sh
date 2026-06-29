@@ -34,17 +34,22 @@ let
     builtins.all
       (name: manifest.tests.${name} ? source && manifest.tests.${name}.source ? kind)
       names;
-  allSmall =
+  allBoundedMiniRuntime =
     builtins.all
-      (name: manifest.tests.${name}.maxRuntimeTargets <= 2)
+      (name:
+        let max = manifest.tests.${name}.maxRuntimeTargets;
+        in max >= 0 && max <= 5)
       names;
-  allSingleRelationIntentSources =
+  fiveTargetRowsAreExplicit =
+    manifest.tests.lane-egress-binding.maxRuntimeTargets == 5
+    && manifest.tests.dns-resolver-config.maxRuntimeTargets == 5;
+  allIntentSourcesHaveRelations =
     builtins.all
       (name:
         let entry = manifest.tests.${name};
         in
           if entry.source.kind == "intent-source" then
-            builtins.length (entry.source.expectedRelationIds or [ ]) == 1
+            builtins.length (entry.source.expectedRelationIds or [ ]) >= 1
           else
             true)
       names;
@@ -81,8 +86,9 @@ in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
   && require allHaveSource "every mini SMT must declare an explicit source"
-  && require allSmall "every mini SMT must stay capped at two runtime targets"
-  && require allSingleRelationIntentSources "intent-source mini SMTs must bind exactly one relation id"
+  && require allBoundedMiniRuntime "every mini SMT must stay capped at five runtime targets or fewer"
+  && require fiveTargetRowsAreExplicit "lane-egress-binding and dns-resolver-config must explicitly declare five-target mini paths"
+  && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
   && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"

@@ -75,8 +75,8 @@ Current mini-labs:
 | `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` | Two-target reachability decision result classification. |
 | `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` | Two-target decision reason diagnostics for reachability validation. |
 | `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` | Two-router, one-link p2p next-hop pairing. |
-| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` | Two-target lane egress binding classification. |
-| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Two-target DNS resolver configuration authority. |
+| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` | Five-target access/downstream-selector/policy/upstream-selector/testnet lane egress binding classification. |
+| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Five-target DNS resolver configuration authority. |
 | `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` | SMT/SIT-only emulated PPPoE provider with VLAN4/VLAN5 DHCP upstream; skips, NAT, and VLAN2 rejected. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
@@ -153,8 +153,8 @@ renderer-entry variants, the concrete inputs share
 row.
 
 `tests/test-active-lab-mini-smt-independent-manifest.sh` enforces that each
-manifest entry is independently runnable, capped at two runtime targets, and
-backed by a mini source fixture rather than a full active-lab/HAT/SAT source.
+manifest entry is independently runnable, capped at five runtime targets or
+fewer, and backed by a mini source fixture rather than a full active-lab/HAT/SAT source.
 `tests/test-gamp-row-directory-layout.sh` additionally enforces full SMS trace
 directories for SMT/SMS rows and SDS-level SDS/SIT directories with explicit
 SMS input keys.

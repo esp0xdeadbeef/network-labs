@@ -22,6 +22,13 @@ nix eval --impure --expr "
     lab = mini.labs.\"FS-370-HDS-010-SDS-010-SMS-050\";
     entry = manifest.tests.\"lane-egress-binding\";
     relation = builtins.head lab.laneEgressRelations;
+    expectedTargets = [
+      \"client-edge\"
+      \"downstream-selector\"
+      \"policy\"
+      \"testnet-edge\"
+      \"upstream-selector\"
+    ];
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.laneEgressBinding relation;
   in
@@ -43,19 +50,38 @@ nix eval --impure --expr "
       \"lane-egress manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"lane-egress mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"testnet-edge\" ])
-      \"lane-egress mini SMT may start only client-edge and testnet-edge\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"lane-egress mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == expectedTargets)
+      \"lane-egress mini SMT must declare the five-node lane runtime path\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"lane-egress mini SMT must stay capped at five runtime targets\"
+    && require (lab.runtimeTargets.client-edge.role == \"access\")
+      \"lane-egress client-edge must be the access target\"
+    && require (lab.runtimeTargets.downstream-selector.role == \"downstream-selector\")
+      \"lane-egress downstream-selector target missing\"
+    && require (lab.runtimeTargets.policy.role == \"policy\")
+      \"lane-egress policy target missing\"
+    && require (lab.runtimeTargets.upstream-selector.role == \"upstream-selector\" && lab.runtimeTargets.upstream-selector.external == \"testnet\")
+      \"lane-egress upstream-selector must bind the testnet uplink surface\"
+    && require (lab.runtimeTargets.testnet-edge.role == \"core\" && lab.runtimeTargets.testnet-edge.external == \"testnet\")
+      \"lane-egress testnet-edge must be the modeled external core\"
     && require (builtins.length lab.laneEgressRelations == 1)
       \"lane-egress mini SMT must test exactly one lane egress relation\"
     && require (lab.testsOnly == [
       \"lane-egress-binding\"
       \"lane-uplink-annotation\"
+      \"five-node-lane-runtime-shape\"
     ])
       \"lane-egress mini SMT must name only the lane egress atom checks\"
-    && require (builtins.elem \"s-router-clab\" lab.forbiddenScope)
-      \"lane-egress mini SMT must forbid full s-router-clab scope\"
+    && require (lab.liveSurfaces == [
+      \"s-router-nixos\"
+      \"s-router-clab\"
+      \"s-router-test-clients\"
+    ])
+      \"lane-egress mini SMT must name its live active-lab surfaces\"
+    && require (!(builtins.elem \"s-router-clab\" lab.forbiddenScope))
+      \"lane-egress mini SMT must not forbid its own live active-lab surface\"
+    && require (builtins.elem \"HAT\" lab.forbiddenScope && builtins.elem \"SAT\" lab.forbiddenScope)
+      \"lane-egress mini SMT must still forbid HAT/SAT scope\"
     && require (valid.ok && valid.diagnostic == null)
       \"valid lane egress relation must pass\"
     && require (valid.expectedLaneKind == \"access-uplink\")
