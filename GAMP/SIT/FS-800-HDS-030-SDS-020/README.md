@@ -1,7 +1,7 @@
 # SIT Integration Fixture: FS-800-HDS-030-SDS-020
 
-Status: NOT OK - focused source, CPM contract, and renderer artifact tests
-pass, but live customer-side PPPoE session markers are absent.
+Status: OK - focused source, CPM contract, renderer artifact tests, and live
+customer-side PPPoE session markers pass on the active HAT lab.
 
 Evidence command:
 
@@ -23,18 +23,24 @@ references, then verifies the current CPM and CLAB renderer consume those
 records into explicit `pppoe-handoff` interfaces and a rendered Containerlab
 bridge link.
 
-Live row evidence on 2026-06-29:
+Live row evidence on 2026-06-29 after renderer fixes:
 
 ```bash
-bash tests/FS-800-HDS-030-SDS-020-SIT-live-pppoe-session-markers.sh
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+  ../network-codex-agent/scripts/fs800-pppoe-hat-active-lab-runtime-check.sh --live
 ```
 
-The customer-side source/CPM/renderer fixtures pass and the live NixOS secret
-materialization probe passes, but `bash
-tests/FS-800-HDS-030-SDS-020-SIT-live-pppoe-session-markers.sh` fails on
-`s-router-nixos`: `nixos-core-testnet-host-isp` is stuck `activating` after a
-targeted start attempt and `nixos-core-testnet-routed-isp` is `inactive`; the
-customer PPPoE session is not established. The CLAB
-customer-side PPPoE containers do have live `ppp0`/`ppp1` PPP links and pppd
-client processes, so the remaining current gap is NixOS customer-side PPPoE
-activation.
+The live verifier passes end-to-end against active-lab HAT hosts:
+`FS-800-HDS-020-SDS-021` secret materialization, provider-side PPPoE runtime,
+customer-side PPPoE runtime, and the CLAB live render marker all pass. The NixOS
+host was reached at `192.168.1.17` because lab DNS was unavailable after the
+activation; the running generation was
+`/nix/store/r347n2c5lwwbhc2l9rpzw82a058parzz-nixos-system-s-router-nixos-26.05.20260627.714a5f8`.
+The owning NixOS renderer fixes are `network-renderer-nixos@55727d3` (non-blocking
+PPPoE client starter) and `network-renderer-nixos@f763a1d` (timer-delayed client
+start after container host bridge attachment). Live evidence showed
+`nixos-core-testnet-host-isp` with `ppp0` at `203.0.113.4/32` and
+`nixos-core-testnet-routed-isp` with `ppp1` at `203.0.113.2 peer
+203.0.113.1/32`.
