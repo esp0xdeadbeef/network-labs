@@ -170,6 +170,7 @@ let
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
   nixosUplinks = inventoryNixos.deploymentHosts.s-router-nixos.uplinks;
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
+  clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
 in
   require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
@@ -183,6 +184,10 @@ in
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
   && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
+  && require (inventoryClab.containerlab.capabilities.labEmulation == true) "FS-540 CLAB SIT source must preserve explicit lab-emulation capability"
+  && require (inventoryClab.containerlab.labEmulation.scope == "harness") "FS-540 CLAB SIT provider emulation must remain harness-scoped"
+  && require (clabProvider.providerEmulationMode == "fake-provider" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4) "FS-540 CLAB SIT must preserve fake-provider VLAN11 handoff with VLAN4 live upstream"
+  && require (clabProvider.handoffVlan != 2 && clabProvider.liveUpstreamVlan != 2) "FS-540 CLAB SIT provider emulation must not use VLAN2"
 ' >/dev/null || fail "SIT FS-540 selection failed"
 
 if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then

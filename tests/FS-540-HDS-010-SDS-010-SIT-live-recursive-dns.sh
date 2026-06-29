@@ -181,6 +181,61 @@ check_artifact_resolver_sources() {
   echo "PASS ${trace_id} ${surface} resolver-source artifact counts: local-recursive=${local_recursive} upstream-forwarder=${upstream} dhcp-provided=${dhcp} none=${none} public-fallback=${public_fallback}"
 }
 
+check_clab_provider_emulation_inventory() {
+  local inventory="/persist/s-router-clab/live-boot/network-artifacts/inventory.json"
+  local result
+
+  result="$(ssh_base "${clab_host}" "set -euo pipefail
+    test -f '${inventory}'
+    jq -r '
+      def listify:
+        if type == \"array\" then .
+        elif type == \"object\" then [.]
+        else []
+        end;
+      (.containerlab // {}) as \$containerlab
+      | (\$containerlab.labEmulation.scope // null) as \$scope
+      | (
+          ((\$containerlab.labEmulation.requests // []) | listify)
+          + ((\$containerlab.labEmulation.providerEmulation // []) | listify)
+          + ((\$containerlab.providerEmulation // []) | listify)
+        ) as \$requests
+      | (
+          (\$containerlab.capabilities.labEmulation == true)
+          or ((\$containerlab.capabilities // []) | type == \"array\" and index(\"lab-emulation\") != null)
+          or (\$containerlab.labEmulationCapability == true)
+        ) as \$capability
+      | (
+          any(\$requests[];
+            ((.providerEmulationMode // .mode // .kind // .type) == \"fake-provider\")
+            and ((.scope // \$scope // \"harness\") == \"harness\")
+            and ((.handoffVlan // .providerToCoreHandoff.vlan // null) == 11)
+            and ((.liveUpstreamVlan // .liveUpstreamReachability.vlan // null) == 4)
+            and (.defaultRoute? == null)
+            and (.defaultFirewall? == null)
+          )
+        ) as \$requestOk
+      | if \$capability and \$requestOk then
+          \"OK\"
+        else
+          \"capability=\" + (\$capability|tostring)
+          + \" requestOk=\" + (\$requestOk|tostring)
+          + \" requestCount=\" + ((\$requests|length)|tostring)
+        end
+    ' '${inventory}'
+  ")" || {
+    record_failure "s-router-clab: cannot inspect deployed CLAB inventory provider-emulation source"
+    return
+  }
+
+  if [[ "${result}" != "OK" ]]; then
+    record_failure "s-router-clab: deployed inventory lacks explicit harness fake-provider emulation for testnet-vlan4 (${result}); expected containerlab.capabilities.labEmulation=true with providerEmulationMode=fake-provider handoffVlan=11 liveUpstreamVlan=4 before recursive DNS route assertions"
+    return
+  fi
+
+  echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4"
+}
+
 check_nixos_recursive_container() {
   local container="$1"
   local output
@@ -295,6 +350,8 @@ check_artifact_resolver_sources \
   s-router-clab \
   "${clab_host}" \
   /persist/s-router-clab/live-boot/network-artifacts/control-plane.json
+
+check_clab_provider_emulation_inventory
 
 nixos_access_container="$(discover_nixos_container access-dns || true)"
 nixos_resolver_container="$(discover_nixos_container resolver-node || true)"
