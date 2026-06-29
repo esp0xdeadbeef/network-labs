@@ -174,6 +174,7 @@ in
       ];
       rendererTarget = null;
       script = "tests/test-active-lab-mini-smt-dns-resolver-config-only.sh";
+      liveSitScript = "tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh";
       independent = true;
       aggregateOnly = false;
       scope = "CPM per-interface DNS resolver configuration authority";

@@ -21,10 +21,13 @@
     };
 };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh dns-resolver-config";
+    command = ''
+      tests/run-active-lab-mini-smt.sh dns-resolver-config &&
+      tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh
+    '';
     sourcePaths = [
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "NOT OK live on 2026-06-29: the row-local mini-SMT passes construction scope, but the live active-lab recursive DNS probe fails because NixOS access containers time out against 127.0.0.1#53, NixOS core-nebula returns SERVFAIL, CLAB access containers time out through getent, and CLAB core-nebula inherits Docker/host public resolver fallback";
   };
 }
