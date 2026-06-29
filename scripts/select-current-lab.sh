@@ -33,6 +33,18 @@ write_import() {
   write_file "${current_dir}/${target}" printf 'import %s\n' "${source}"
 }
 
+write_current_host_entrypoints() {
+  write_import "intent-s-router-nixos.nix" "./intent.nix"
+  write_import "intent-s-router-clab.nix" "./intent.nix"
+  write_import "intent-s-router-test-clients.nix" "./intent.nix"
+
+  write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+  write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
+  write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
+
+  write_import "clients-s-router-test-clients.nix" "./clients.nix"
+}
+
 write_empty_sops() {
   local target="$1"
   local host="$2"
@@ -525,8 +537,9 @@ write_smt_inventory_with_management() {
   local source="$2"
   local intent_source="$3"
   local forwarding_enterprise_json="$4"
-  shift 4
-  write_file "${current_dir}/${target}" write_managed_inventory_content "${source}" "${intent_source}" "${forwarding_enterprise_json}" "$@"
+  local realization_host="$5"
+  shift 5
+  write_file "${current_dir}/${target}" write_managed_inventory_content "${source}" "${intent_source}" "${forwarding_enterprise_json}" "${realization_host}" "$@"
 }
 
 write_default_hetz_sops() {
@@ -592,6 +605,7 @@ select_default() {
   write_default_inventory_test_clients
   write_default_clients
   write_default_sops
+  write_current_host_entrypoints
   write_metadata \
     "SMT" \
     "renderer-nixos" \
@@ -737,13 +751,14 @@ select_smt() {
     local forwarding_enterprise_json
     forwarding_enterprise_json="$(forwarding_enterprise_json_for_intent "../${row_dir}/intent.nix")"
     write_import "intent.nix" "../${row_dir}/intent.nix"
-    write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos" "s-router-test-clients"
+    write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos"
     write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
     write_smt_inventory_with_management "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-test-clients"
     write_import "clients.nix" "./inventory-test-clients.nix"
   fi
   write_default_hetz_inventory
   write_default_sops
+  write_current_host_entrypoints
   write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
 }
 
@@ -786,6 +801,7 @@ select_hat() {
   write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
   write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
   write_default_hetz_sops
+  write_current_host_entrypoints
   write_metadata "HAT" "${name}" "${name}" "hat-source" "${root}" "${root}/intent.nix" "scripts/select-current-lab.sh HAT ${name}"
 }
 
@@ -802,6 +818,7 @@ select_sat() {
   write_import "sops-routing-s-router-nixos.nix" "../${root}/sops-routing-s-router-nixos.nix"
   write_import "sops-routing-s-router-test-clients.nix" "../${root}/sops-routing-s-router-test-clients.nix"
   write_import "sops-routing-s-router-hetz.nix" "../${root}/sops-routing-s-router-hetz.nix"
+  write_current_host_entrypoints
   write_metadata "SAT" "SAT" "SAT" "sat-source" "${root}" "${root}/intent.nix" "scripts/select-current-lab.sh SAT"
 }
 

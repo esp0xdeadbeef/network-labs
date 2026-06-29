@@ -314,7 +314,6 @@ let
     };
   managedDeploymentHosts = deploymentHosts // {
     "s-router-nixos" = mergeHost (deploymentHosts."s-router-nixos" or { });
-    "s-router-test-clients" = mergeHost (deploymentHosts."s-router-test-clients" or { });
   };
   managedDeployment = deployment // {
     hosts = (deployment.hosts or { }) // managedDeploymentHosts;

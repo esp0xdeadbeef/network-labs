@@ -24,9 +24,16 @@ done
 
 for required in \
   clients.nix \
+  clients-s-router-test-clients.nix \
+  intent-s-router-clab.nix \
+  intent-s-router-nixos.nix \
+  intent-s-router-test-clients.nix \
   inventory-clab.nix \
   inventory-hetz.nix \
   inventory-nixos.nix \
+  inventory-s-router-clab.nix \
+  inventory-s-router-nixos.nix \
+  inventory-s-router-test-clients.nix \
   sops.nix \
   sops-routing-s-router-clab.nix \
   sops-routing-s-router-hetz.nix \

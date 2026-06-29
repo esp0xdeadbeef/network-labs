@@ -5,6 +5,11 @@
 operators select SAT, HAT, SIT, or SMT sources by overwriting these files with
 `scripts/select-current-lab.sh`.
 
+Host-specific files such as
+`intent-s-router-nixos.nix`, `inventory-s-router-clab.nix`, and
+`clients-s-router-test-clients.nix` are selector-written aliases for NixOS
+runtime modules that bind each VM to its selected active-lab source.
+
 Do not edit nixos source to select a lab. Select here, then build nixos with:
 
 ```bash
