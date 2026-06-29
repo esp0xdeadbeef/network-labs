@@ -49,6 +49,7 @@ nix eval --impure --expr "
     uplinksNoVlan2 = uplinks:
       builtins.all (uplink: (uplink.vlan or null) != 2) (builtins.attrValues uplinks);
     handoffOk = host: host.accessHandoff.kind == \"pppoe\" && host.accessHandoff.server == \"emulated-isp\";
+    noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
     skippedRecord = record // { skipInternetTest = true; };
     natRecord = record // { privateNat44 = [ { sourcePrefixes = [ \"10.80.10.0/24\" ]; } ]; };
     missingHandoffRecord = builtins.removeAttrs record [ \"accessHandoff\" ];
@@ -121,12 +122,16 @@ nix eval --impure --expr "
       \"internet-mode CLAB inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks)
       \"internet-mode CLAB inventory must not expose VLAN2\"
+    && require (inventoryClients.deploymentHosts ? s-router-test-clients)
+      \"internet-mode test-clients inventory must keep the s-router-test-clients host substrate\"
     && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
       \"internet-mode test-clients inventory must expose only VLAN4/VLAN5 links with DHCP addressing\"
     && require (handoffOk inventoryClients.deploymentHosts.s-router-test-clients)
       \"internet-mode test-clients inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
-      \"internet-mode test-clients inventory must not expose VLAN2\"
+      \"internet-mode test-clients inventory must not expose VLAN2 as dataplane\"
+    && require (noRealizationNodes inventoryClients)
+      \"internet-mode test-clients inventory must not synthesize router realization nodes\"
     && require (valid.ok && valid.diagnostic == null)
       \"valid internet mode record must pass\"
     && require (!skippedCheck.ok && skippedCheck.diagnostic == \"internet-test-skip-not-allowed\")

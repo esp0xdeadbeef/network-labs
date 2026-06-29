@@ -57,7 +57,6 @@ let
   activeInventoryNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
   activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
-  activeClients = import (repoRoot + "/active-lab/clients-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   testUplinkNames = uplinks: builtins.filter (name: name != "management") (builtins.attrNames uplinks);
   uplinksOk = uplinks:
@@ -82,11 +81,24 @@ let
     && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.kind == "bridge"
     && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.bridge == tenantBridge
     && builtins.hasAttr tenantBridge inventory.deployment.hosts.s-router-clab.bridgeNetworks;
+  noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
+  noEndpointClientIntent = intent:
+    ((intent.control_plane_model.data.active-lab.test-clients.runtimeTargets or { }) == { })
+    && ((intent.control_plane_model.data.active-lab.test-clients.endpointAssignment or { }) == { });
+  noRouterRealizationIntent = intent:
+    ((intent.control_plane_model.realization or { }).nodes or { }) == { };
+  handoffOk = host:
+    (host.accessHandoff.kind or null) == "pppoe"
+    && (host.accessHandoff.server or null) == "emulated-isp";
 in
   require (current.selection.layer == "SMT") "SMT selector layer mismatch"
   && require (current.selection.selector == "internet-mode-verification") "SMT selector id mismatch"
   && require (current.selection.traceId == "FS-380-HDS-020-SDS-010-SMS-050") "SMT trace mismatch"
-  && require (activeIntentNixos == activeIntentClab && activeIntentNixos == activeIntentClients) "internet-mode host-specific intent aliases must share the selected row intent"
+  && require (activeIntentNixos == activeIntentClab) "internet-mode router host-specific intent aliases must share the selected row intent"
+  && require (noEndpointClientIntent activeIntentClients) "SMT/SIT test-client host-specific intent must be a CPM-shaped no-endpoint client source unless the row overrides it"
+  && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "SMT/SIT test-client host-specific intent must keep the s-router-test-clients host substrate"
+  && require (handoffOk activeIntentClients.control_plane_model.deployment.hosts.s-router-test-clients) "SMT/SIT test-client host-specific intent must preserve the row-local PPPoE handoff"
+  && require (noRouterRealizationIntent activeIntentClients) "SMT/SIT test-client host-specific intent must not synthesize router realization nodes"
   && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode must preserve VLAN2 management"
   && require (managementOk activeInventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos host-specific inventory alias must preserve VLAN2 management"
   && require (!(activeInventoryNixos.deploymentHosts ? s-router-test-clients)) "SMT/SIT NixOS host-specific inventory must not share test-client deployment host data"
@@ -101,14 +113,13 @@ in
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
-  && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode must preserve VLAN2 management"
-  && require (managementOk activeInventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client host-specific inventory alias must preserve VLAN2 management"
-  && require (!(activeInventoryClients.deploymentHosts ? s-router-nixos)) "SMT/SIT test-client host-specific inventory must not share NixOS deployment host data"
-  && require (managementOk inventoryClients.deployment.hosts.s-router-test-clients.uplinks) "test-client internet-mode must expose deployment.hosts management"
-  && require (inventoryClients.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-test-clients") "test-client internet-mode realization host mismatch"
-  && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
-  && require (noTestVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode test uplinks must not use VLAN2"
-  && require (activeClients.deploymentHosts.s-router-test-clients.accessHandoff.kind == "pppoe") "test-client host-specific clients alias must preserve PPPoE handoff"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "SMT/SIT test-client inventory must keep s-router-test-clients host substrate"
+  && require (activeInventoryClients == inventoryClients) "SMT/SIT test-client host-specific inventory alias must preserve the row-local client inventory"
+  && require ((import (repoRoot + "/active-lab/clients-s-router-test-clients.nix")) == inventoryClients) "SMT/SIT test-client clients alias must preserve the row-local client inventory when no row clients.nix exists"
+  && require (noRealizationNodes inventoryClients) "SMT/SIT test-client inventory must not synthesize router realization nodes"
+  && require (noRealizationNodes activeInventoryClients) "SMT/SIT test-client host-specific inventory must not synthesize router realization nodes"
+  && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode host substrate must expose VLAN4/VLAN5 links with DHCP addressing"
+  && require (noTestVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode host substrate must not use VLAN2 as dataplane"
 ' >/dev/null || fail "SMT internet-mode selection failed"
 
 "${selector}" SMT renderer-nixos-p2p >/dev/null
@@ -174,7 +185,6 @@ let
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
-  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
     "mini-smt-lane-egress-binding-client-edge"
@@ -185,7 +195,9 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
-  clientNodes = builtins.attrNames inventoryClients.realization.nodes;
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+  noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
 in
   require (current.selection.layer == "SIT") "FS-370 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-370-HDS-010-SDS-010") "FS-370 SIT selector id mismatch"
@@ -195,10 +207,12 @@ in
   && require (manifest.tests.lane-egress-binding.maxRuntimeTargets == 5) "FS-370 lane-egress mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-370 NixOS SIT must realize exactly the five-node lane path"
   && require (clabNodes == expectedNodes) "FS-370 CLAB SIT must realize exactly the five-node lane path"
-  && require (clientNodes == expectedNodes) "FS-370 test-client SIT must realize exactly the five-node lane path"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-370 test-client SIT inventory must keep s-router-test-clients host substrate"
+  && require (activeInventoryClients == inventoryClients) "FS-370 test-client SIT host inventory must preserve row-local client inventory"
+  && require (noRealizationNodes inventoryClients) "FS-370 test-client SIT inventory must not synthesize router realization nodes"
+  && require (noRealizationNodes activeInventoryClients) "FS-370 test-client SIT host inventory must not synthesize router realization nodes"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-370 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-370 CLAB mini nodes must stay on s-router-clab"
-  && require (builtins.all (name: inventoryClients.realization.nodes.${name}.host == "s-router-test-clients") clientNodes) "FS-370 test-client mini nodes must stay on s-router-test-clients"
 ' >/dev/null || fail "SIT FS-370 selection failed"
 
 "${selector}" SIT FS-540-HDS-010-SDS-010 >/dev/null
