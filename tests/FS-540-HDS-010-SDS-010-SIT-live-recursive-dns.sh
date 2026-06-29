@@ -43,6 +43,10 @@ discover_clab_container() {
   ssh_base "${clab_host}" "docker ps --format '{{.Names}}' | grep -E '(^|-)${suffix}\$' | head -n 1"
 }
 
+discover_clab_lab_emulation_container() {
+  ssh_base "${clab_host}" "docker ps --format '{{.Names}}' | grep -E '(^|-)lab-emulation-fs540-dns-resolver-testnet\$' | head -n 1"
+}
+
 check_current_lab_selection() {
   if [[ "${FS540_SKIP_LOCAL_SELECTION_GUARD:-0}" == "1" ]]; then
     echo "WARN ${trace_id}: local current-lab selection guard skipped" >&2
@@ -244,6 +248,24 @@ check_clab_provider_emulation_inventory() {
   echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4 dhcp4=10.20.0.1/24 nat44=10.20.0.0/24"
 }
 
+check_clab_fake_provider_runtime() {
+  local container="$1"
+  local output
+
+  output="$(ssh_base "${clab_host}" "docker exec '${container}' sh -lc '
+    set -eu
+    ip -4 addr show dev eth1 | grep -F \"10.20.0.1/24\"
+    nft list chain ip nat postrouting | grep -F \"ip saddr 10.20.0.0/24 masquerade\"
+    ping -c 1 -W 2 1.1.1.1
+  '" 2>&1)" || {
+    record_failure "s-router-clab ${container}: fake-provider runtime lacks gateway address, NAT44, or upstream IPv4 reachability"
+    printf '%s\n' "${output}" >&2
+    return
+  }
+
+  echo "PASS ${trace_id} s-router-clab ${container} fake-provider runtime has gateway, NAT44, and upstream reachability"
+}
+
 check_nixos_recursive_container() {
   local container="$1"
   local output
@@ -317,6 +339,28 @@ check_clab_resolver_egress() {
   echo "PASS ${trace_id} s-router-clab ${container} resolver-node has IPv4 upstream route"
 }
 
+check_clab_upstream_selector_policy_route() {
+  local container="$1"
+  local output
+
+  output="$(ssh_base "${clab_host}" "docker exec '${container}' sh -lc '
+    set -eu
+    ip rule show | grep -F \"iif p0 lookup 1001\"
+    ip route show table 1001 | grep -F \"default via 10.54.255.6 dev p1\"
+    if ip rule show | grep -F \"iif p1 lookup 1001\"; then
+      echo \"unexpected resolver-facing p1 rule for runtime-origin default table\" >&2
+      exit 43
+    fi
+    ip route get 1.1.1.1 from 10.54.10.1 iif p0 | grep -F \"dev p1\"
+  '" 2>&1)" || {
+    record_failure "s-router-clab ${container}: upstream-selector lacks runtime-origin policy default route from p0 to resolver-facing p1"
+    printf '%s\n' "${output}" >&2
+    return
+  }
+
+  echo "PASS ${trace_id} s-router-clab ${container} upstream-selector runtime-origin policy route selects p1"
+}
+
 check_clab_no_docker_host_resolver_fallback() {
   local container="$1"
   local output
@@ -365,6 +409,8 @@ nixos_access_container="$(discover_nixos_container access-dns || true)"
 nixos_resolver_container="$(discover_nixos_container resolver-node || true)"
 clab_access_container="$(discover_clab_container access-dns || true)"
 clab_resolver_container="$(discover_clab_container resolver-node || true)"
+clab_upstream_container="$(discover_clab_container upstream-selector || true)"
+clab_fake_provider_container="$(discover_clab_lab_emulation_container || true)"
 
 [[ -n "${nixos_access_container}" ]] \
   || record_failure "s-router-nixos: live FS-540 mini access-dns container not found"
@@ -374,9 +420,15 @@ clab_resolver_container="$(discover_clab_container resolver-node || true)"
   || record_failure "s-router-clab: live FS-540 mini access-dns container not found"
 [[ -n "${clab_resolver_container}" ]] \
   || record_failure "s-router-clab: live FS-540 mini resolver-node container not found"
+[[ -n "${clab_upstream_container}" ]] \
+  || record_failure "s-router-clab: live FS-540 mini upstream-selector container not found"
+[[ -n "${clab_fake_provider_container}" ]] \
+  || record_failure "s-router-clab: live FS-540 fake-provider lab-emulation container not found"
 
+[[ -z "${clab_fake_provider_container}" ]] || check_clab_fake_provider_runtime "${clab_fake_provider_container}"
 [[ -z "${nixos_resolver_container}" ]] || check_nixos_resolver_egress "${nixos_resolver_container}"
 [[ -z "${clab_resolver_container}" ]] || check_clab_resolver_egress "${clab_resolver_container}"
+[[ -z "${clab_upstream_container}" ]] || check_clab_upstream_selector_policy_route "${clab_upstream_container}"
 [[ -z "${nixos_access_container}" ]] || check_nixos_recursive_container "${nixos_access_container}"
 [[ -z "${clab_access_container}" ]] || check_clab_recursive_container "${clab_access_container}"
 [[ -z "${clab_resolver_container}" ]] || check_clab_no_docker_host_resolver_fallback "${clab_resolver_container}"
