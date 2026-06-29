@@ -165,6 +165,8 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
+  nixosUplinks = inventoryNixos.deploymentHosts.s-router-nixos.uplinks;
+  clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
 in
   require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
@@ -176,6 +178,8 @@ in
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
+  && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4) "FS-540 NixOS mini uplink must be explicit VLAN4, not untagged testnet"
+  && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4) "FS-540 CLAB mini uplink must be explicit VLAN4, not untagged testnet"
 ' >/dev/null || fail "SIT FS-540 selection failed"
 
 if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then

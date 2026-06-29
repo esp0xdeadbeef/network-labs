@@ -557,11 +557,11 @@ in
         };
         upstream-selector = {
           role = "upstream-selector";
-          external = "testnet";
+          external = "testnet-vlan4";
         };
         resolver-node = {
           role = "core";
-          external = "testnet";
+          external = "testnet-vlan4";
         };
       };
       dnsResolverRelations = [
@@ -574,7 +574,7 @@ in
           };
           to = {
             kind = "external";
-            name = "testnet";
+            name = "testnet-vlan4";
           };
           trafficType = "any";
         }

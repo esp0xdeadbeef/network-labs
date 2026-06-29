@@ -3,7 +3,7 @@
     "dns-resolver-config" = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
+          external-testnet = "testnet-vlan4";
           tenant-client = "client";
         };
         relations = [
@@ -16,7 +16,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [ "testnet-vlan4" ];
             };
             trafficType = "any";
             priority = 100;
@@ -96,7 +96,7 @@
           resolver-node = {
             role = "core";
             uplinks = {
-              testnet = {
+              testnet-vlan4 = {
                 ipv4 = [ "10.20.0.0/24" ];
                 ipv6 = [ "fd42:540:20::/64" ];
               };

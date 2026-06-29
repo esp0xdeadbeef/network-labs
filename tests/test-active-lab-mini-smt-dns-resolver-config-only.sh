@@ -20,6 +20,9 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-540-HDS-010-SDS-010-SMS-020\";
+    rowIntent = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
+    site = rowIntent.\"mini-smt\".\"dns-resolver-config\";
+    rowRelation = builtins.head site.communicationContract.relations;
     entry = manifest.tests.\"dns-resolver-config\";
     relation = builtins.head lab.dnsResolverRelations;
     require = cond: msg: if cond then true else throw msg;
@@ -57,6 +60,10 @@ nix eval --impure --expr "
       \"dns-resolver mini SMT must stay capped at five runtime targets\"
     && require (builtins.length lab.dnsResolverRelations == 1)
       \"dns-resolver mini SMT must test exactly one DNS resolver relation\"
+    && require (rowRelation.to.uplinks == [ \"testnet-vlan4\" ])
+      \"dns-resolver mini SIT must use an explicit VLAN4 testnet uplink, not an untagged testnet bridge\"
+    && require (site.topology.nodes.resolver-node.uplinks ? \"testnet-vlan4\")
+      \"dns-resolver resolver-node must declare the VLAN4-backed testnet uplink\"
     && require (lab.testsOnly == [
       \"dns-resolver-relation-id\"
       \"dns-resolver-action-class\"
