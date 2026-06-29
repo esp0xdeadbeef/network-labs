@@ -14,7 +14,9 @@ tests/run-active-lab-mini-smt.sh --source dns-resolver-config
 tests/run-active-lab-mini-smt.sh dns-resolver-config
 ```
 
-This row starts `access-dns` and `resolver-node` runtime targets.
+This row's live SIT selection starts only the smallest DNS policy path:
+`access-dns`, `downstream-selector`, `policy`, `upstream-selector`, and
+`resolver-node`. It must not select the full active-lab, HAT, or SAT topology.
 
 Live SIT recursion is checked separately because the mini-SMT is construction
 scope:

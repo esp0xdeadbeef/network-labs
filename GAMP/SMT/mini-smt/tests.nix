@@ -177,8 +177,8 @@ in
       liveSitScript = "tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "CPM per-interface DNS resolver configuration authority";
-      maxRuntimeTargets = 2;
+      scope = "CPM per-interface DNS resolver configuration authority over the smallest requester-policy-resolver path";
+      maxRuntimeTargets = 5;
     };
 
     internet-mode-verification = {

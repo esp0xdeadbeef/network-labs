@@ -45,15 +45,22 @@ nix eval --impure --expr "
       \"dns-resolver manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"dns-resolver mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"access-dns\" \"resolver-node\" ])
-      \"dns-resolver mini SMT may start only access-dns and resolver-node\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"dns-resolver mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"access-dns\"
+      \"downstream-selector\"
+      \"policy\"
+      \"resolver-node\"
+      \"upstream-selector\"
+    ])
+      \"dns-resolver mini SMT may start only the five-node requester-policy-resolver path\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"dns-resolver mini SMT must stay capped at five runtime targets\"
     && require (builtins.length lab.dnsResolverRelations == 1)
       \"dns-resolver mini SMT must test exactly one DNS resolver relation\"
     && require (lab.testsOnly == [
       \"dns-resolver-relation-id\"
       \"dns-resolver-action-class\"
+      \"dns-resolver-minimal-policy-path\"
     ])
       \"dns-resolver mini SMT must name only the DNS resolver config atom checks\"
     && require (builtins.elem \"SAT\" lab.forbiddenScope)

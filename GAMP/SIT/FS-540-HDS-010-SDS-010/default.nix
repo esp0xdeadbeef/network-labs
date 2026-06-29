@@ -28,6 +28,6 @@
     sourcePaths = [
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix"
     ];
-    observedResult = "NOT OK live on 2026-06-29: row-local mini-SMT and focused construction checks pass, and CLAB core-nebula no longer inherits Docker/host public resolver fallback after network-renderer-containerlab-linux-backend@218019d; the live active-lab recursive DNS probe still fails with 5 findings because NixOS access-client, access-admin, and core-nebula do not resolve through 127.0.0.1#53, and CLAB access-client/access-admin do not resolve through clabgen-dns-proxy.py";
+    observedResult = "NOT OK live on 2026-06-29: row-local mini-SMT and focused construction checks pass, and current-lab is selected to SIT FS-540-HDS-010-SDS-010 with the five-node mini path access-dns, downstream-selector, policy, upstream-selector, resolver-node. Targeted NixOS dry-runs for s-router-nixos, s-router-clab, and s-router-test-clients pass with network-labs overridden to this checkout. Live probe against 192.168.1.17/192.168.1.19 now correctly rejects the deployed remote artifacts before DNS assertions because the remotes are still broad HAT-sized topologies: s-router-nixos has 12 runtime targets named esp-nixos-nixos-router-* and s-router-clab has 11 runtime targets named esp-clab-clab-router-*, both missing access-dns and resolver-node. Runtime DNS remains NOT OK until the remote hosts are rebuilt from this FS-540 mini current-lab selection and the live recursive DNS assertions pass on the mini containers.";
   };
 }
