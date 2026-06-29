@@ -37,7 +37,9 @@ placeholder files out of the top level; add row-local sources here instead.
 Do not use `vlan2` as test infrastructure. `vlan2` is the runtime
 management/reachability network for the VM/host lifecycle, not a mini-SMT DHCP
 uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
-`vlan5` and make that input explicit.
+`vlan5` and make that input explicit. Generated host inventories must keep
+the VLAN as the link mode (`mode = "vlan"`) and express DHCP only as the IP
+method (`ipv4.method = "dhcp"`).
 
 For SMT/SIT-only internet behavior, do not skip the internet path. Model a
 small emulated provider instead, such as an emulated PPPoE server or equivalent

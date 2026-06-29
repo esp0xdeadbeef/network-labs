@@ -55,7 +55,10 @@ let
     builtins.all
       (name:
         let uplink = uplinks.${name}; in
-        (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == "dhcp")
+        (uplink.vlan == 4 || uplink.vlan == 5)
+        && uplink.mode == "vlan"
+        && uplink.ipv4.method == "dhcp"
+        && uplink.ipv4.dhcp == true)
       (testUplinkNames uplinks);
   noTestVlan2 = uplinks:
     builtins.all (name: (uplinks.${name}.vlan or null) != 2) (testUplinkNames uplinks);
@@ -77,18 +80,18 @@ in
   && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode must preserve VLAN2 management"
   && require (managementOk inventoryNixos.deployment.hosts.s-router-nixos.uplinks) "nixos internet-mode must expose deployment.hosts management"
   && require (inventoryNixos.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-nixos") "nixos internet-mode realization host mismatch"
-  && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode uplinks must be VLAN4/VLAN5 DHCP"
+  && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode must preserve VLAN2 management"
   && require (managementOk inventoryClab.deployment.hosts.s-router-clab.uplinks) "clab internet-mode must expose deployment.hosts management"
   && require (inventoryClab.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-clab") "clab internet-mode realization host mismatch"
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
-  && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 DHCP"
+  && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode must preserve VLAN2 management"
   && require (managementOk inventoryClients.deployment.hosts.s-router-test-clients.uplinks) "test-client internet-mode must expose deployment.hosts management"
   && require (inventoryClients.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-test-clients") "test-client internet-mode realization host mismatch"
-  && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode uplinks must be VLAN4/VLAN5 DHCP"
+  && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode test uplinks must not use VLAN2"
 ' >/dev/null || fail "SMT internet-mode selection failed"
 
@@ -178,8 +181,8 @@ in
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
-  && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4) "FS-540 NixOS mini uplink must be explicit VLAN4, not untagged testnet"
-  && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4) "FS-540 CLAB mini uplink must be explicit VLAN4, not untagged testnet"
+  && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
+  && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
 ' >/dev/null || fail "SIT FS-540 selection failed"
 
 if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then
