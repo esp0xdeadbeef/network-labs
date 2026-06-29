@@ -2,11 +2,19 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-021-ae-cpm-only-consumption.md`
 
-Status: NOT OK - source stub only.
+Status: OK - owning access-endpoint renderer construction evidence passes.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Focused evidence:
+
+```bash
+(cd ../network-renderer-access-endpoint-nixos &&
+  NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh)
+```
+
+This row mirrors the canonical SMS trace and records the owning renderer
+construction proof. The focused test proves access-endpoint fixture data is
+consumed through CPM `endpointAssignment`, rejects direct raw intent/inventory
+rediscovery, rejects CPM-missing fallback recovery, and verifies the SMS-021
+diagnostic guards. It does not claim HAT/SAT payload acceptance.
 
 Title slug: `ae-cpm-only-consumption`
