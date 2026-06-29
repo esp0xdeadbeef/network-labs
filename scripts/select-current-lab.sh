@@ -164,6 +164,53 @@ write_default_inventory_test_clients() {
 EOF
 }
 
+write_row_test_client_entrypoints() {
+  local row_dir="$1"
+
+  if [[ -f "${repo_root}/${row_dir}/intent-test-clients.nix" ]]; then
+    write_import "intent-s-router-test-clients.nix" "../${row_dir}/intent-test-clients.nix"
+  else
+    write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<'EOF'
+let
+  inventory = import ./inventory-test-clients.nix;
+  testClientHost = (inventory.deploymentHosts or { }).s-router-test-clients or { };
+in
+rec {
+  control_plane_model = {
+    meta = {
+      traceId = "active-lab-test-clients-no-endpoints";
+      source = "network-labs current-lab SMT/SIT client-host no-endpoint source";
+    };
+    deployment.hosts.s-router-test-clients = testClientHost // {
+      bridgeNetworks = testClientHost.bridgeNetworks or { };
+    };
+    render.hosts.s-router-test-clients.deploymentHost = "s-router-test-clients";
+    realization.nodes = { };
+    data.active-lab.test-clients = {
+      enterprise = "active-lab";
+      siteName = "test-clients";
+      runtimeTargets = { };
+      endpointAssignment = { };
+    };
+  };
+  deploymentHosts = control_plane_model.deployment.hosts;
+  deployment = control_plane_model.deployment;
+  realization = control_plane_model.realization;
+}
+EOF
+  fi
+
+  write_import "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix"
+  write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
+
+  if [[ -f "${repo_root}/${row_dir}/clients.nix" ]]; then
+    write_import "clients.nix" "../${row_dir}/clients.nix"
+  else
+    write_import "clients.nix" "./inventory-test-clients.nix"
+  fi
+  write_import "clients-s-router-test-clients.nix" "./clients.nix"
+}
+
 forwarding_enterprise_json_for_intent() {
   local intent_source="$1"
   local intent_path="${intent_source#../}"
@@ -753,12 +800,13 @@ select_smt() {
     write_import "intent.nix" "../${row_dir}/intent.nix"
     write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos"
     write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
-    write_smt_inventory_with_management "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-test-clients"
-    write_import "clients.nix" "./inventory-test-clients.nix"
   fi
   write_default_hetz_inventory
   write_default_sops
   write_current_host_entrypoints
+  if [[ "${source_kind}" != "renderer-input" ]]; then
+    write_row_test_client_entrypoints "${row_dir}"
+  fi
   write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
 }
 

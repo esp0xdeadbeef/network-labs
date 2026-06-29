@@ -43,8 +43,11 @@ let
         (traceId + ": inventory-nixos.nix must expose matching nixos metadata")
       && require (clab ? meta && clab.meta.traceId == traceId && clab.meta.renderer == "clab")
         (traceId + ": inventory-clab.nix must expose matching clab metadata")
-      && require (testClients ? meta && testClients.meta.traceId == traceId && testClients.meta.renderer == "test-clients")
-        (traceId + ": inventory-test-clients.nix must expose matching test-clients metadata");
+      && require (
+        testClients == { }
+        || (testClients ? meta && testClients.meta.traceId == traceId && testClients.meta.renderer == "test-clients")
+      )
+        (traceId + ": inventory-test-clients.nix must be an empty attrset or expose matching test-clients metadata");
 in
   builtins.all checkRow names
 ' >/dev/null || fail "row-local source stubs are not importable"
