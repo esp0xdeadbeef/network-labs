@@ -16,5 +16,13 @@ tests/run-active-lab-mini-smt.sh dns-resolver-config
 
 This row starts `access-dns` and `resolver-node` runtime targets.
 
+Live SIT recursion is checked separately because the mini-SMT is construction
+scope:
+
+```bash
+S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab \
+  tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh
+```
+
 This is construction evidence for the SMS row only. The parent SIT row
 `GAMP/SIT/FS-540-HDS-010-SDS-010/default.nix` consumes this SMS input.

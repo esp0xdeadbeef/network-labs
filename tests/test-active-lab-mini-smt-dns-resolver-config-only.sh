@@ -33,6 +33,8 @@ nix eval --impure --expr "
       \"dns-resolver manifest must point at the same trace as the mini-lab\"
     && require (entry.script == \"tests/test-active-lab-mini-smt-dns-resolver-config-only.sh\")
       \"dns-resolver manifest must point at this focused script\"
+    && require (entry.liveSitScript == \"tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh\")
+      \"dns-resolver manifest must point at the focused live recursive DNS SIT probe\"
     && require (entry.independent == true && entry.aggregateOnly == false)
       \"dns-resolver manifest must be independently runnable and not aggregate-only\"
     && require (entry.source.kind == \"intent-source\")
