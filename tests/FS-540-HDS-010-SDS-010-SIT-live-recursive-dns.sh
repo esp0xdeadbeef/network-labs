@@ -3,15 +3,20 @@
 # GAMP-SCOPE: focused live SIT probe for active-lab recursive DNS; not a HAT runner
 set -euo pipefail
 
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 nixos_host="${S_ROUTER_NIXOS:-s-router-nixos}"
 clab_host="${S_ROUTER_CLAB:-s-router-clab}"
 query_name="${FS540_DNS_QUERY:-cache.nixos.org}"
 trace_id="FS-540-HDS-010-SDS-010"
 failures=0
 
+fail_fast() {
+  echo "FAIL ${trace_id}: $*" >&2
+  exit 1
+}
+
 if ! [[ "${query_name}" =~ ^[A-Za-z0-9._-]+$ ]]; then
-  echo "FAIL ${trace_id}: unsafe DNS query name: ${query_name}" >&2
-  exit 64
+  fail_fast "unsafe DNS query name: ${query_name}"
 fi
 
 record_failure() {
@@ -26,6 +31,103 @@ ssh_base() {
     -o StrictHostKeyChecking=accept-new \
     "root@$1" \
     "$2"
+}
+
+discover_nixos_container() {
+  local suffix="$1"
+  ssh_base "${nixos_host}" "nixos-container list 2>/dev/null | awk 'NR > 1 { print \$1 }' | grep -E '(^|-)${suffix}\$' | head -n 1"
+}
+
+discover_clab_container() {
+  local suffix="$1"
+  ssh_base "${clab_host}" "docker ps --format '{{.Names}}' | grep -E '(^|-)${suffix}\$' | head -n 1"
+}
+
+check_current_lab_selection() {
+  if [[ "${FS540_SKIP_LOCAL_SELECTION_GUARD:-0}" == "1" ]]; then
+    echo "WARN ${trace_id}: local current-lab selection guard skipped" >&2
+    return
+  fi
+
+  nix eval --impure --expr "
+    let
+      current = import ${repo_root}/current-lab;
+      inventory = import ${repo_root}/current-lab/inventory-nixos.nix;
+      manifest = import ${repo_root}/GAMP/SMT/mini-smt/tests.nix;
+      entry = manifest.tests.\"dns-resolver-config\";
+      nodes = builtins.attrNames (inventory.realization.nodes or { });
+      expectedNodes = [
+        \"mini-smt-dns-resolver-config-access-dns\"
+        \"mini-smt-dns-resolver-config-downstream-selector\"
+        \"mini-smt-dns-resolver-config-policy\"
+        \"mini-smt-dns-resolver-config-resolver-node\"
+        \"mini-smt-dns-resolver-config-upstream-selector\"
+      ];
+      selected =
+        (
+          current.selection.layer == \"SIT\"
+          && current.selection.selector == \"FS-540-HDS-010-SDS-010\"
+        )
+        || (
+          current.selection.layer == \"SMT\"
+          && current.selection.selector == \"dns-resolver-config\"
+        )
+        || (
+          current.selection.layer == \"SMT\"
+          && current.selection.traceId == \"FS-540-HDS-010-SDS-010-SMS-020\"
+        );
+      require = cond: msg: if cond then true else throw msg;
+    in
+      require selected
+        \"FS-540 live SIT requires current-lab selected to SIT FS-540-HDS-010-SDS-010 or SMT dns-resolver-config; run scripts/select-current-lab.sh SIT FS-540-HDS-010-SDS-010\"
+      && require (entry.maxRuntimeTargets == 5)
+        \"FS-540 dns-resolver-config manifest must cap the live mini path at five runtime targets\"
+      && require (builtins.length nodes <= entry.maxRuntimeTargets)
+        \"FS-540 selected current-lab expands beyond the mini runtime target cap\"
+      && require (nodes == expectedNodes)
+        \"FS-540 selected current-lab must be exactly the five-node requester-policy-resolver mini path\"
+  " >/dev/null || fail_fast "current-lab is not the FS-540 mini SIT selection"
+}
+
+check_artifact_mini_scope() {
+  local surface="$1"
+  local host="$2"
+  local artifact="$3"
+  local renderer_key="$4"
+  local summary count has_access has_resolver names
+
+  summary="$(ssh_base "${host}" "set -euo pipefail
+    test -f '${artifact}'
+    jq -r --arg renderer '${renderer_key}' '
+      (
+        .control_plane_model.data.esp[\$renderer].runtimeTargets
+        // .control_plane_model.runtimeTargets
+        // .runtimeTargets
+        // {}
+      ) as \$targets
+      | (\$targets | keys | sort) as \$names
+      | [
+          (\$names | length),
+          (any(\$names[]; test(\"(^|-)access-dns$\"))),
+          (any(\$names[]; test(\"(^|-)resolver-node$\"))),
+          (\$names | join(\",\"))
+        ]
+      | @tsv
+    ' '${artifact}'
+  ")" || {
+    record_failure "${surface}: cannot inspect mini runtime target scope from ${artifact}"
+    return
+  }
+
+  IFS=$'\t' read -r count has_access has_resolver names <<<"${summary}"
+  [[ "${count}" -gt 0 ]] || record_failure "${surface}: artifact has no runtime target scope"
+  [[ "${count}" -le 5 ]] || record_failure "${surface}: artifact is not the FS-540 mini topology; runtimeTargets=${count} names=${names}"
+  [[ "${has_access}" == "true" ]] || record_failure "${surface}: artifact missing access-dns runtime target; names=${names}"
+  [[ "${has_resolver}" == "true" ]] || record_failure "${surface}: artifact missing resolver-node runtime target; names=${names}"
+
+  if [[ "${count}" -gt 0 && "${count}" -le 5 && "${has_access}" == "true" && "${has_resolver}" == "true" ]]; then
+    echo "PASS ${trace_id} ${surface} artifact runtime scope: runtimeTargets=${count} names=${names}"
+  fi
 }
 
 check_artifact_resolver_sources() {
@@ -118,33 +220,44 @@ check_clab_no_docker_host_resolver_fallback() {
   echo "PASS ${trace_id} s-router-clab ${container} does not inherit Docker/host public resolver fallback"
 }
 
+check_current_lab_selection
+
+check_artifact_mini_scope \
+  s-router-nixos \
+  "${nixos_host}" \
+  /etc/network-artifacts/control-plane.json \
+  nixos
+
 check_artifact_resolver_sources \
   s-router-nixos \
   "${nixos_host}" \
   /etc/network-artifacts/control-plane.json
+
+check_artifact_mini_scope \
+  s-router-clab \
+  "${clab_host}" \
+  /persist/s-router-clab/live-boot/network-artifacts/control-plane.json \
+  clab
 
 check_artifact_resolver_sources \
   s-router-clab \
   "${clab_host}" \
   /persist/s-router-clab/live-boot/network-artifacts/control-plane.json
 
-for container in \
-  nixos-router-access-client \
-  nixos-router-access-admin \
-  nixos-router-core-nebula
-do
-  check_nixos_recursive_container "${container}"
-done
+nixos_access_container="$(discover_nixos_container access-dns || true)"
+clab_access_container="$(discover_clab_container access-dns || true)"
+clab_resolver_container="$(discover_clab_container resolver-node || true)"
 
-for container in \
-  clab-fabric-esp-clab-clab-router-access-client \
-  clab-fabric-esp-clab-clab-router-access-admin
-do
-  check_clab_recursive_container "${container}"
-done
+[[ -n "${nixos_access_container}" ]] \
+  || record_failure "s-router-nixos: live FS-540 mini access-dns container not found"
+[[ -n "${clab_access_container}" ]] \
+  || record_failure "s-router-clab: live FS-540 mini access-dns container not found"
+[[ -n "${clab_resolver_container}" ]] \
+  || record_failure "s-router-clab: live FS-540 mini resolver-node container not found"
 
-check_clab_no_docker_host_resolver_fallback \
-  clab-fabric-esp-clab-clab-router-core-nebula
+[[ -z "${nixos_access_container}" ]] || check_nixos_recursive_container "${nixos_access_container}"
+[[ -z "${clab_access_container}" ]] || check_clab_recursive_container "${clab_access_container}"
+[[ -z "${clab_resolver_container}" ]] || check_clab_no_docker_host_resolver_fallback "${clab_resolver_container}"
 
 if [[ "${failures}" -ne 0 ]]; then
   echo "FAIL ${trace_id}: live recursive DNS SIT failed with ${failures} finding(s)" >&2

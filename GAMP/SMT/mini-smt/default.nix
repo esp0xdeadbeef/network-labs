@@ -534,7 +534,7 @@ in
     "${dnsResolverConfigTraceId}" = {
       kind = "mini-smt";
       traceId = dnsResolverConfigTraceId;
-      smsAtom = "CPM per-interface DNS resolver configuration authority: dns.resolver4, dns.resolver6, dns.resolverSource emission";
+      smsAtom = "CPM per-interface DNS resolver configuration authority over the smallest requester-policy-resolver path";
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
       source = {
         kind = "intent-source";
@@ -543,11 +543,21 @@ in
           "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         access-dns = {
           role = "access";
           tenant = "client";
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+          external = "testnet";
         };
         resolver-node = {
           role = "core";
@@ -572,6 +582,7 @@ in
       testsOnly = [
         "dns-resolver-relation-id"
         "dns-resolver-action-class"
+        "dns-resolver-minimal-policy-path"
       ];
       forbiddenScope = [
         "active-lab/full"

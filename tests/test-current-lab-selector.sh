@@ -146,6 +146,38 @@ in
   && require (inventoryNixos.deploymentHosts ? s-router-nixos) "SIT selection must install runnable NixOS inventory"
 ' >/dev/null || fail "SIT selection failed"
 
+"${selector}" SIT FS-540-HDS-010-SDS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  require = cond: msg: if cond then true else throw msg;
+  expectedNodes = [
+    "mini-smt-dns-resolver-config-access-dns"
+    "mini-smt-dns-resolver-config-downstream-selector"
+    "mini-smt-dns-resolver-config-policy"
+    "mini-smt-dns-resolver-config-resolver-node"
+    "mini-smt-dns-resolver-config-upstream-selector"
+  ];
+  nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
+  clabNodes = builtins.attrNames inventoryClab.realization.nodes;
+in
+  require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
+  && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
+  && require (current.selection.sourceRoot == "GAMP/SIT/FS-540-HDS-010-SDS-010") "FS-540 SIT source root mismatch"
+  && require (active.intent ? "mini-smt") "FS-540 SIT selection must install the row-local mini-SMT source"
+  && require (active.intent."mini-smt" ? "dns-resolver-config") "FS-540 SIT must select the DNS resolver mini source"
+  && require (manifest.tests.dns-resolver-config.maxRuntimeTargets == 5) "FS-540 DNS resolver mini cap must be five targets"
+  && require (nixosNodes == expectedNodes) "FS-540 NixOS SIT must realize exactly the five-node DNS mini path"
+  && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
+  && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
+  && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
+' >/dev/null || fail "SIT FS-540 selection failed"
+
 if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then
   fail "source-stub-only SIT selection should fail"
 fi
