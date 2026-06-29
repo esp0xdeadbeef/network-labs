@@ -1,4 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config ? {}, lib ? {}, pkgs ? null
+, sopsFile ? ./../../active-lab/secrets/sops-s-router-clab.yaml
+, ... }:
 
 {
   # Shared HAT lab sops module.
@@ -13,11 +15,11 @@
   sops.secrets."hat-pppoe-username" = {
     key = "pppoe-username";
     mode = "0400";
-    sopsFile = ./../../active-lab/secrets/sops-s-router-clab.yaml;
+    inherit sopsFile;
   };
   sops.secrets."hat-pppoe-password" = {
     key = "pppoe-password";
     mode = "0400";
-    sopsFile = ./../../active-lab/secrets/sops-s-router-clab.yaml;
+    inherit sopsFile;
   };
 }

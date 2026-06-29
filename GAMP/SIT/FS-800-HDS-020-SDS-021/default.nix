@@ -15,6 +15,6 @@
       bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh &&
       bash tests/FS-800-HDS-020-SDS-021-SIT-live-secret-presence.sh s-router-nixos
     '';
-    observedResult = "NOT OK live on 2026-06-29: source contract passes, but s-router-nixos lacks /run/secrets/hat-pppoe-username and /run/secrets/hat-pppoe-password; PPPoE containers fail to clone /run/secrets/hat-pppoe-password before runtime PPPoE can be validated";
+    observedResult = "NOT OK live on 2026-06-29: source SMT now verifies host-specific active-lab SOPS routing and live s-router-nixos can decrypt sops-s-router-nixos.yaml, but the deployed s-router-nixos generation still lacks /run/secrets/hat-pppoe-username and /run/secrets/hat-pppoe-password; PPPoE containers fail before runtime PPPoE can be validated";
   };
 }

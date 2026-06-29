@@ -59,11 +59,19 @@ must_fail_materialization() {
 nix eval --impure --json --expr "
   let
     sopsModule = import ${repo_root}/GAMP/HAT/sops.nix { config = {}; lib = {}; pkgs = {}; };
+    sopsRoutingNixos = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix;
+    sopsRoutingClab = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix;
+    sopsRoutingTest = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix;
     inventoryNixos = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix;
     inventoryClab = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/inventory-clab.nix;
     protectedBindings = import ${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/protected-pppoe-credential-bindings.nix;
   in {
     sops = sopsModule;
+    hostRouting = {
+      nixos = sopsRoutingNixos;
+      clab = sopsRoutingClab;
+      test = sopsRoutingTest;
+    };
     inventories = {
       nixos = inventoryNixos;
       clab = inventoryClab;
@@ -82,13 +90,16 @@ nix eval --impure --json --expr "
     };
   }
 " | jq -e '
-  def secret_ok($name; $key):
-    .sops.sops.secrets[$name] as $secret
+  def secret_ok($module; $name; $key; $file):
+    $module.sops.secrets[$name] as $secret
     | $secret.key == $key
       and $secret.mode == "0400"
       and (($secret.owner // "root") == "root")
       and (($secret.group // "root") == "root")
-      and ($secret.sopsFile | test("active-lab/secrets/sops-s-router-clab.yaml$"));
+      and ($secret.sopsFile | test($file + "$"));
+  def host_secret_pair_ok($module; $file):
+    secret_ok($module; "hat-pppoe-username"; "pppoe-username"; $file)
+    and secret_ok($module; "hat-pppoe-password"; "pppoe-password"; $file);
   def pppoe_client_credentials($inventory):
     [
       $inventory.realization.nodes
@@ -127,8 +138,10 @@ nix eval --impure --json --expr "
       .bindingKind == "declaration-source"
       and .sourceClass == "deployment-platform-secret-reference"
       and no_authority(.policyAuthority));
-  secret_ok("hat-pppoe-username"; "pppoe-username")
-  and secret_ok("hat-pppoe-password"; "pppoe-password")
+  host_secret_pair_ok(.sops; "active-lab/secrets/sops-s-router-clab.yaml")
+  and host_secret_pair_ok(.hostRouting.nixos; "active-lab/secrets/sops-s-router-nixos.yaml")
+  and host_secret_pair_ok(.hostRouting.clab; "active-lab/secrets/sops-s-router-clab.yaml")
+  and host_secret_pair_ok(.hostRouting.test; "active-lab/secrets/sops-s-router-test.yaml")
   and runtime_credentials_ok(.inventories.nixos)
   and runtime_credentials_ok(.inventories.clab)
   and protected_ok(.protected.nixos)
