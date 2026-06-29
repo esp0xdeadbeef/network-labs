@@ -18,6 +18,18 @@
           name = "fs540-dns-resolver-testnet";
           handoffVlan = 11;
           liveUpstreamVlan = 4;
+          dhcp4 = {
+            address = "10.20.0.1/24";
+            router = "10.20.0.1";
+            rangeStart = "10.20.0.20";
+            rangeEnd = "10.20.0.99";
+            leaseTime = "5m";
+            sourcePrefix = "10.20.0.0/24";
+          };
+          nat44 = {
+            enabled = true;
+            sourcePrefix = "10.20.0.0/24";
+          };
         }
       ];
     };

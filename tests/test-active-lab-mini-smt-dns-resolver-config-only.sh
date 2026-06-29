@@ -78,6 +78,16 @@ nix eval --impure --expr "
       \"dns-resolver CLAB provider-to-core handoff must use the controlled fake-provider VLAN11\"
     && require (clabProvider.liveUpstreamVlan == 4)
       \"dns-resolver CLAB fake provider must source upstream reachability from VLAN4 DHCP\"
+    && require (clabProvider.dhcp4.address == \"10.20.0.1/24\")
+      \"dns-resolver CLAB fake provider must declare explicit DHCPv4 gateway address\"
+    && require (clabProvider.dhcp4.router == \"10.20.0.1\")
+      \"dns-resolver CLAB fake provider must declare explicit DHCPv4 router option\"
+    && require (clabProvider.dhcp4.rangeStart == \"10.20.0.20\" && clabProvider.dhcp4.rangeEnd == \"10.20.0.99\")
+      \"dns-resolver CLAB fake provider must declare explicit DHCPv4 lease range\"
+    && require (clabProvider.dhcp4.leaseTime == \"5m\" && clabProvider.dhcp4.sourcePrefix == \"10.20.0.0/24\")
+      \"dns-resolver CLAB fake provider must declare explicit DHCPv4 lease time and source prefix\"
+    && require (clabProvider.nat44.enabled == true && clabProvider.nat44.sourcePrefix == \"10.20.0.0/24\")
+      \"dns-resolver CLAB fake provider must declare explicit NAT44 source prefix\"
     && require (!(clabProvider ? defaultRoute) && !(clabProvider ? defaultFirewall))
       \"dns-resolver CLAB provider-emulation source must not create route/firewall policy authority\"
     && require (clabProvider.liveUpstreamVlan != 2 && clabProvider.handoffVlan != 2)

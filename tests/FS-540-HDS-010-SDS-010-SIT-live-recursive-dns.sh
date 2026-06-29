@@ -211,6 +211,14 @@ check_clab_provider_emulation_inventory() {
             and ((.scope // \$scope // \"harness\") == \"harness\")
             and ((.handoffVlan // .providerToCoreHandoff.vlan // null) == 11)
             and ((.liveUpstreamVlan // .liveUpstreamReachability.vlan // null) == 4)
+            and (.dhcp4.address == \"10.20.0.1/24\")
+            and (.dhcp4.router == \"10.20.0.1\")
+            and (.dhcp4.rangeStart == \"10.20.0.20\")
+            and (.dhcp4.rangeEnd == \"10.20.0.99\")
+            and (.dhcp4.leaseTime == \"5m\")
+            and (.dhcp4.sourcePrefix == \"10.20.0.0/24\")
+            and (.nat44.enabled == true)
+            and (.nat44.sourcePrefix == \"10.20.0.0/24\")
             and (.defaultRoute? == null)
             and (.defaultFirewall? == null)
           )
@@ -229,11 +237,11 @@ check_clab_provider_emulation_inventory() {
   }
 
   if [[ "${result}" != "OK" ]]; then
-    record_failure "s-router-clab: deployed inventory lacks explicit harness fake-provider emulation for testnet-vlan4 (${result}); expected containerlab.capabilities.labEmulation=true with providerEmulationMode=fake-provider handoffVlan=11 liveUpstreamVlan=4 before recursive DNS route assertions"
+    record_failure "s-router-clab: deployed inventory lacks explicit harness fake-provider emulation for testnet-vlan4 (${result}); expected labEmulation=true with fake-provider handoffVlan=11 liveUpstreamVlan=4 plus explicit DHCPv4 10.20.0.1/24 range 10.20.0.20-10.20.0.99 and NAT44 10.20.0.0/24 before recursive DNS route assertions"
     return
   fi
 
-  echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4"
+  echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4 dhcp4=10.20.0.1/24 nat44=10.20.0.0/24"
 }
 
 check_nixos_recursive_container() {
