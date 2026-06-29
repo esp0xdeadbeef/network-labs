@@ -26,6 +26,6 @@
     sourcePaths = [
       "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix"
     ];
-    observedResult = "NOT OK for live closure until the row-specific active-lab verifier passes on s-router-nixos, s-router-clab, and s-router-test-clients; local mini-SMT construction guard verifies the five-node lane path without full HAT/SAT deployment";
+    observedResult = "OK on 2026-06-29: NETWORK_REPO_DIRECT_TEST_OK=1 bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live passed after selecting SIT FS-370-HDS-010-SDS-010; evidence proves the five-node lane path on s-router-nixos, s-router-clab, and s-router-test-clients with test-clients verified by artifact-derived host bridge/uplink materialization, not containers; row-local SMT/SIT evidence only, not HAT/SAT acceptance";
   };
 }
