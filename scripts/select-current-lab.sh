@@ -148,6 +148,26 @@ EOF
 
 write_default_inventory_test_clients() {
   write_file "${current_dir}/inventory-test-clients.nix" cat <<'EOF'
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
 {
   meta = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
@@ -158,7 +178,56 @@ write_default_inventory_test_clients() {
   deploymentHosts = {
     s-router-test-clients = {
       hat.endpointClients = { };
+      uplinks.management = managementVlan2;
     };
+  };
+}
+EOF
+}
+
+write_row_inventory_test_clients() {
+  local row_dir="$1"
+
+  write_file "${current_dir}/inventory-test-clients.nix" cat <<EOF
+let
+  source = import ../${row_dir}/inventory-test-clients.nix;
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+  deployment = source.deployment or { };
+  baseDeploymentHosts = (deployment.hosts or { }) // (source.deploymentHosts or { });
+  testClientHost = baseDeploymentHosts.s-router-test-clients or { };
+  managedTestClientHost = testClientHost // {
+    uplinks = (testClientHost.uplinks or { }) // {
+      management = managementVlan2;
+    };
+  };
+  deploymentHosts = baseDeploymentHosts // {
+    s-router-test-clients = managedTestClientHost;
+  };
+in
+source // {
+  inherit deploymentHosts;
+  deployment = deployment // {
+    hosts = (deployment.hosts or { }) // deploymentHosts;
+  };
+  realization = (source.realization or { }) // {
+    nodes = ((source.realization or { }).nodes or { });
   };
 }
 EOF
@@ -200,7 +269,7 @@ rec {
 EOF
   fi
 
-  write_import "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix"
+  write_row_inventory_test_clients "${row_dir}"
   write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
 
   if [[ -f "${repo_root}/${row_dir}/clients.nix" ]]; then
