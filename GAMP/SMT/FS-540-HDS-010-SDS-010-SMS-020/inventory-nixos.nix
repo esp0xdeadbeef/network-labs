@@ -6,6 +6,12 @@
     scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
+  endpoints = {
+    access-dns = {
+      ipv4 = [ "10.54.10.1" ];
+      ipv6 = [ "fd42:540::1" ];
+    };
+  };
   hosts = { };
   deploymentHosts = { };
 }

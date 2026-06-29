@@ -34,6 +34,12 @@
       ];
     };
   };
+  endpoints = {
+    access-dns = {
+      ipv4 = [ "10.54.10.1" ];
+      ipv6 = [ "fd42:540::1" ];
+    };
+  };
   hosts = { };
   deploymentHosts = { };
 }

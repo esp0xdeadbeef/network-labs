@@ -6,6 +6,8 @@
     kind = "intent-source";
     intent = ./intent.nix;
     expectedRelationIds = [
+      "FS-540-HDS-010-SDS-010-SMS-020__mini-client-to-access-dns"
+      "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet"
       "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
     ];
   };
