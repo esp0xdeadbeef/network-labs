@@ -1,7 +1,7 @@
 # FS-800-HDS-020-SDS-021
 
-Status: NOT OK - live active-lab secret materialization currently fails on the
-deployed host generation.
+Status: OK - small source fixture and live active-lab secret materialization
+pass.
 
 Focused evidence:
 
@@ -15,7 +15,7 @@ was tightened to verify host-specific active-lab SOPS routing for
 `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`; source SMT and
 live `s-router-nixos` decrypt of `sops-s-router-nixos.yaml` pass.
 
-The live SIT probe must still pass before this row can support the next HAT
-run. The deployed `s-router-nixos` generation still lacks
-`/run/secrets/hat-pppoe-username` and `/run/secrets/hat-pppoe-password`, and
-PPPoE containers fail before runtime PPPoE can be validated.
+On 2026-06-29 the live SIT probe passed on `s-router-nixos`: both
+`/run/secrets/hat-pppoe-username` and `/run/secrets/hat-pppoe-password` exist
+with the required root-only boundary. This row no longer blocks PPPoE runtime
+validation.
