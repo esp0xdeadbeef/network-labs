@@ -28,7 +28,7 @@
             enable = true;
             method = "slaac";
           };
-          mode = "dhcp";
+          mode = "vlan";
           parent = "eth0";
           vlan = 4;
         };
@@ -46,7 +46,7 @@
             enable = true;
             method = "slaac";
           };
-          mode = "dhcp";
+          mode = "vlan";
           parent = "eth0";
           vlan = 5;
         };

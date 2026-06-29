@@ -41,7 +41,10 @@ nix eval --impure --expr "
       && (uplink.ipv6 or { }).method == \"slaac\";
     uplinksOk = uplinks:
       builtins.all
-        (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\" && explicitAddressingOk uplink)
+        (uplink:
+          (uplink.vlan == 4 || uplink.vlan == 5)
+          && uplink.mode == \"vlan\"
+          && explicitAddressingOk uplink)
         (builtins.attrValues uplinks);
     uplinksNoVlan2 = uplinks:
       builtins.all (uplink: (uplink.vlan or null) != 2) (builtins.attrValues uplinks);
@@ -107,19 +110,19 @@ nix eval --impure --expr "
     && require (builtins.all (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\") record.upstream.internetUplinks)
       \"internet-mode upstream may only use VLAN4/VLAN5 DHCP uplinks\"
     && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks)
-      \"internet-mode NixOS inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+      \"internet-mode NixOS inventory must expose only VLAN4/VLAN5 links with DHCP addressing\"
     && require (handoffOk inventoryNixos.deploymentHosts.s-router-nixos)
       \"internet-mode NixOS inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks)
       \"internet-mode NixOS inventory must not expose VLAN2\"
     && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks)
-      \"internet-mode CLAB inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+      \"internet-mode CLAB inventory must expose only VLAN4/VLAN5 links with DHCP addressing\"
     && require (handoffOk inventoryClab.deploymentHosts.s-router-clab)
       \"internet-mode CLAB inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks)
       \"internet-mode CLAB inventory must not expose VLAN2\"
     && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
-      \"internet-mode test-clients inventory must expose only VLAN4/VLAN5 DHCP uplinks\"
+      \"internet-mode test-clients inventory must expose only VLAN4/VLAN5 links with DHCP addressing\"
     && require (handoffOk inventoryClients.deploymentHosts.s-router-test-clients)
       \"internet-mode test-clients inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks)

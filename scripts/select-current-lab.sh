@@ -447,7 +447,7 @@ ${forwarding_enterprise_json}
               enable = true;
               method = "slaac";
             };
-            mode = "dhcp";
+            mode = if vlan == null then "dhcp" else "vlan";
             parent = "eth0";
           } // (if vlan == null then { } else { inherit vlan; });
         })
