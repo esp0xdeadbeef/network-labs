@@ -11,12 +11,12 @@
       nixos = "GAMP/SMT/FS-720-HDS-030-SDS-010-SMS-021/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-720-HDS-030-SDS-010-SMS-021/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "owning-renderer-construction-evidence";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "(cd ../network-renderer-access-endpoint-nixos && NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh)";
+    focusedTest = "../network-renderer-access-endpoint-nixos/tests/FS-720-HDS-030-SDS-010-SMS-021.sh";
+    observedResult = "OK on 2026-06-29: owning access-endpoint renderer construction test passes; endpoint fixture data is consumed from CPM endpointAssignment, direct raw intent/inventory rediscovery and CPM-missing fallback recovery are rejected, and SMS-021 diagnostic guards are verified";
   };
 }
