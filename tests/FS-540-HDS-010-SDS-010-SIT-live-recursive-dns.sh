@@ -35,7 +35,7 @@ ssh_base() {
 
 discover_nixos_container() {
   local suffix="$1"
-  ssh_base "${nixos_host}" "nixos-container list 2>/dev/null | awk 'NR > 1 { print \$1 }' | grep -E '(^|-)${suffix}\$' | head -n 1"
+  ssh_base "${nixos_host}" "nixos-container list 2>/dev/null | awk 'NF && \$1 != \"Name\" { print \$1 }' | grep -E '(^|-)${suffix}\$' | head -n 1"
 }
 
 discover_clab_container() {
@@ -100,7 +100,8 @@ check_artifact_mini_scope() {
     test -f '${artifact}'
     jq -r --arg renderer '${renderer_key}' '
       (
-        .control_plane_model.data.esp[\$renderer].runtimeTargets
+        .control_plane_model.data.\"mini-smt\".\"dns-resolver-config\".runtimeTargets
+        // .control_plane_model.data.esp[\$renderer].runtimeTargets
         // .control_plane_model.runtimeTargets
         // .runtimeTargets
         // {}
@@ -134,17 +135,34 @@ check_artifact_resolver_sources() {
   local surface="$1"
   local host="$2"
   local artifact="$3"
-  local counts local_recursive upstream dhcp none
+  local counts local_recursive upstream dhcp none public_fallback access_local non_access_local
 
   counts="$(ssh_base "${host}" "set -euo pipefail
     test -f '${artifact}'
     jq -r '
-      [.. | objects | select((.dnsResolver? | type) == \"object\") | .dnsResolver.resolverSource] as \$sources
+      (
+        .control_plane_model.data.\"mini-smt\".\"dns-resolver-config\".runtimeTargets
+        // .control_plane_model.runtimeTargets
+        // .runtimeTargets
+        // {}
+      ) as \$targets
+      | [
+          \$targets
+          | to_entries[]
+          | {
+              name: .key,
+              sources: ([.value | .. | objects | select((.dnsResolver? | type) == \"object\") | .dnsResolver.resolverSource])
+            }
+        ] as \$targetSources
+      | [\$targetSources[] | .sources[]] as \$sources
       | [
           (\$sources | map(select(. == \"local-recursive\")) | length),
           (\$sources | map(select(. == \"upstream-forwarder\")) | length),
           (\$sources | map(select(. == \"dhcp-provided\")) | length),
-          (\$sources | map(select(. == \"none\")) | length)
+          (\$sources | map(select(. == \"none\")) | length),
+          (\$sources | map(select(. == \"public-fallback\")) | length),
+          (\$targetSources | map(select(.name | test(\"(^|-)access-dns$\")) | .sources[] | select(. == \"local-recursive\")) | length),
+          (\$targetSources | map(select(.name | test(\"(^|-)access-dns$\") | not) | .sources[] | select(. == \"local-recursive\")) | length)
         ]
       | @tsv
     ' '${artifact}'
@@ -153,12 +171,14 @@ check_artifact_resolver_sources() {
     return
   }
 
-  read -r local_recursive upstream dhcp none <<<"${counts}"
+  read -r local_recursive upstream dhcp none public_fallback access_local non_access_local <<<"${counts}"
   [[ "${local_recursive}" -gt 0 ]] || record_failure "${surface}: no local-recursive dnsResolver entries"
-  [[ "${upstream}" -gt 0 ]] || record_failure "${surface}: no upstream-forwarder dnsResolver entries"
   [[ "${none}" -gt 0 ]] || record_failure "${surface}: no none dnsResolver entries"
+  [[ "${public_fallback}" -eq 0 ]] || record_failure "${surface}: unauthorized public-fallback dnsResolver entries=${public_fallback}"
+  [[ "${access_local}" -gt 0 ]] || record_failure "${surface}: access-dns does not carry local-recursive resolver authority"
+  [[ "${non_access_local}" -eq 0 ]] || record_failure "${surface}: non-access mini targets carry local-recursive resolver authority count=${non_access_local}"
 
-  echo "PASS ${trace_id} ${surface} resolver-source artifact counts: local-recursive=${local_recursive} upstream-forwarder=${upstream} dhcp-provided=${dhcp} none=${none}"
+  echo "PASS ${trace_id} ${surface} resolver-source artifact counts: local-recursive=${local_recursive} upstream-forwarder=${upstream} dhcp-provided=${dhcp} none=${none} public-fallback=${public_fallback}"
 }
 
 check_nixos_recursive_container() {
@@ -182,6 +202,22 @@ check_nixos_recursive_container() {
   echo "PASS ${trace_id} s-router-nixos ${container} recursive DNS resolves ${query_name}"
 }
 
+check_nixos_resolver_egress() {
+  local container="$1"
+  local output
+
+  output="$(ssh_base "${nixos_host}" "timeout 10 nixos-container run '${container}' -- sh -lc '
+    set -eu
+    ip route get 1.1.1.1
+  '" 2>&1)" || {
+    record_failure "s-router-nixos ${container}: resolver-node has no IPv4 route to upstream egress"
+    printf '%s\n' "${output}" >&2
+    return
+  }
+
+  echo "PASS ${trace_id} s-router-nixos ${container} resolver-node has IPv4 upstream route"
+}
+
 check_clab_recursive_container() {
   local container="$1"
   local output
@@ -200,6 +236,22 @@ check_clab_recursive_container() {
   }
 
   echo "PASS ${trace_id} s-router-clab ${container} recursive DNS resolves ${query_name}"
+}
+
+check_clab_resolver_egress() {
+  local container="$1"
+  local output
+
+  output="$(ssh_base "${clab_host}" "docker exec '${container}' sh -lc '
+    set -eu
+    ip route get 1.1.1.1
+  '" 2>&1)" || {
+    record_failure "s-router-clab ${container}: resolver-node has no IPv4 route to upstream egress"
+    printf '%s\n' "${output}" >&2
+    return
+  }
+
+  echo "PASS ${trace_id} s-router-clab ${container} resolver-node has IPv4 upstream route"
 }
 
 check_clab_no_docker_host_resolver_fallback() {
@@ -245,16 +297,21 @@ check_artifact_resolver_sources \
   /persist/s-router-clab/live-boot/network-artifacts/control-plane.json
 
 nixos_access_container="$(discover_nixos_container access-dns || true)"
+nixos_resolver_container="$(discover_nixos_container resolver-node || true)"
 clab_access_container="$(discover_clab_container access-dns || true)"
 clab_resolver_container="$(discover_clab_container resolver-node || true)"
 
 [[ -n "${nixos_access_container}" ]] \
   || record_failure "s-router-nixos: live FS-540 mini access-dns container not found"
+[[ -n "${nixos_resolver_container}" ]] \
+  || record_failure "s-router-nixos: live FS-540 mini resolver-node container not found"
 [[ -n "${clab_access_container}" ]] \
   || record_failure "s-router-clab: live FS-540 mini access-dns container not found"
 [[ -n "${clab_resolver_container}" ]] \
   || record_failure "s-router-clab: live FS-540 mini resolver-node container not found"
 
+[[ -z "${nixos_resolver_container}" ]] || check_nixos_resolver_egress "${nixos_resolver_container}"
+[[ -z "${clab_resolver_container}" ]] || check_clab_resolver_egress "${clab_resolver_container}"
 [[ -z "${nixos_access_container}" ]] || check_nixos_recursive_container "${nixos_access_container}"
 [[ -z "${clab_access_container}" ]] || check_clab_recursive_container "${clab_access_container}"
 [[ -z "${clab_resolver_container}" ]] || check_clab_no_docker_host_resolver_fallback "${clab_resolver_container}"
