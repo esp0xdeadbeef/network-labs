@@ -1,9 +1,9 @@
 {
-  layer = "SMT";
-  selector = "internet-mode-verification";
-  traceId = "FS-380-HDS-020-SDS-010-SMS-050";
-  sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050";
-  sourcePath = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT internet-mode-verification";
+  layer = "HAT";
+  selector = "emulated-isp-residential-testnet";
+  traceId = "emulated-isp-residential-testnet";
+  sourceKind = "hat-source";
+  sourceRoot = "GAMP/HAT/emulated-isp-residential-testnet";
+  sourcePath = "GAMP/HAT/emulated-isp-residential-testnet/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh HAT emulated-isp-residential-testnet";
 }

@@ -46,11 +46,47 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         (port.link or null) == portName
         && (port.attach.kind or null) == "bridge"
         && builtins.isString (port.attach.bridge or null);
+    serviceInterfacePortOk = inventory: nodeName: portName:
+      let port = ((inventory.realization.nodes.${nodeName} or { }).ports or { }).${portName} or { };
+      in
+        (port.serviceInterface or null) == portName
+        && !(port ? link)
+        && (port.attach.kind or null) == "bridge"
+        && builtins.isString (port.attach.bridge or null);
     inventoryOk = item:
       let
         inventory = item.value;
         selectorPorts = selectorLinkPorts inventory;
         links = fabricLinks inventory;
+        providerHandoffPortsOk =
+          if item.label == "nixos" then
+            serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-a-nixos-core-testnet-host-isp"
+              "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-a-nixos-provider-handoff-access-a"
+              "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp"
+              "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-a-nixos-provider-handoff-access-b"
+              "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b"
+          else if item.label == "clab" then
+            serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-b-clab-core-testnet-host-isp"
+              "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-b-clab-provider-handoff-access-a"
+              "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-b-clab-core-testnet-routed-isp"
+              "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"
+            && serviceInterfacePortOk inventory
+              "esp0xdeadbeef-site-b-clab-provider-handoff-access-b"
+              "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b"
+          else
+            false;
       in
         require (selectorPorts == [ ])
           "${item.label} inventory must not expose selector p2p transit fanout as host-facing selector ports"
@@ -65,7 +101,9 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
         && require (explicitNonSelectorPortOk inventory
           "esp0xdeadbeef-site-b-clab-policy"
           "p2p-clab-downstream-selector-clab-policy--access-clab-access-client")
-          "${item.label} inventory must preserve non-selector CLAB policy p2p port realization";
+          "${item.label} inventory must preserve non-selector CLAB policy p2p port realization"
+        && require providerHandoffPortsOk
+          "${item.label} inventory must preserve its provider handoff service-interface ports";
   in
     builtins.all inventoryOk inventories
 ' | grep -qx true
