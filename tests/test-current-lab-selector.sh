@@ -34,11 +34,13 @@ let
   current = import (repoRoot + "/current-lab");
   active = import (repoRoot + "/active-lab");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
+  inventoryHost = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.selector == "renderer-nixos") "default current-lab selector mismatch"
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime") "active-lab must import default current-lab intent"
   && require (inventory.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default selection must preserve VLAN2 management"
+  && require (inventoryHost.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default host-specific NixOS inventory alias must preserve VLAN2 management"
 ' >/dev/null || fail "default selection failed"
 
 "${selector}" SMT internet-mode-verification >/dev/null
@@ -49,6 +51,13 @@ let
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  activeInventoryNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+  activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+  activeClients = import (repoRoot + "/active-lab/clients-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   testUplinkNames = uplinks: builtins.filter (name: name != "management") (builtins.attrNames uplinks);
   uplinksOk = uplinks:
@@ -77,22 +86,29 @@ in
   require (current.selection.layer == "SMT") "SMT selector layer mismatch"
   && require (current.selection.selector == "internet-mode-verification") "SMT selector id mismatch"
   && require (current.selection.traceId == "FS-380-HDS-020-SDS-010-SMS-050") "SMT trace mismatch"
+  && require (activeIntentNixos == activeIntentClab && activeIntentNixos == activeIntentClients) "internet-mode host-specific intent aliases must share the selected row intent"
   && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode must preserve VLAN2 management"
+  && require (managementOk activeInventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos host-specific inventory alias must preserve VLAN2 management"
+  && require (!(activeInventoryNixos.deploymentHosts ? s-router-test-clients)) "SMT/SIT NixOS host-specific inventory must not share test-client deployment host data"
   && require (managementOk inventoryNixos.deployment.hosts.s-router-nixos.uplinks) "nixos internet-mode must expose deployment.hosts management"
   && require (inventoryNixos.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-nixos") "nixos internet-mode realization host mismatch"
   && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode must preserve VLAN2 management"
+  && require (managementOk activeInventoryClab.deploymentHosts.s-router-clab.uplinks) "clab host-specific inventory alias must preserve VLAN2 management"
   && require (managementOk inventoryClab.deployment.hosts.s-router-clab.uplinks) "clab internet-mode must expose deployment.hosts management"
   && require (inventoryClab.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-clab") "clab internet-mode realization host mismatch"
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode must preserve VLAN2 management"
+  && require (managementOk activeInventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client host-specific inventory alias must preserve VLAN2 management"
+  && require (!(activeInventoryClients.deploymentHosts ? s-router-nixos)) "SMT/SIT test-client host-specific inventory must not share NixOS deployment host data"
   && require (managementOk inventoryClients.deployment.hosts.s-router-test-clients.uplinks) "test-client internet-mode must expose deployment.hosts management"
   && require (inventoryClients.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-test-clients") "test-client internet-mode realization host mismatch"
   && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode test uplinks must not use VLAN2"
+  && require (activeClients.deploymentHosts.s-router-test-clients.accessHandoff.kind == "pppoe") "test-client host-specific clients alias must preserve PPPoE handoff"
 ' >/dev/null || fail "SMT internet-mode selection failed"
 
 "${selector}" SMT renderer-nixos-p2p >/dev/null
@@ -241,6 +257,9 @@ let
   clients = import (repoRoot + "/active-lab/clients.nix");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/active-lab/inventory-clab.nix");
+  inventoryHostNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+  inventoryHostClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
+  inventoryHostClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   requiredNixosClients = [
     "nixos-branch-node01"
     "nixos-client01"
@@ -262,6 +281,9 @@ in
   && require (current.selection.selector == "emulated-isp-residential-testnet") "HAT selector mismatch"
   && require (current.selection.sourceRoot == "GAMP/HAT/emulated-isp-residential-testnet") "HAT source root mismatch"
   && require (toString active.sourcePaths.sops == repoRoot + "/active-lab/sops.nix") "active-lab must expose the selected HAT sops module"
+  && require (inventoryHostNixos == inventory) "HAT s-router-nixos host inventory should share the selected NixOS HAT inventory"
+  && require (inventoryHostClients == inventory) "HAT s-router-test-clients host inventory should share the selected NixOS HAT inventory"
+  && require (inventoryHostClab == inventoryClab) "HAT s-router-clab host inventory should share the selected CLAB HAT inventory"
   && require (clients.activeLabClientStub.kind == "hat-client-source") "HAT clients must be a real selected client source, not an empty compatibility stub"
   && require (sorted clients.requiredEndpointClients == requiredNixosClients) "HAT required NixOS clients mismatch"
   && require (sorted (builtins.attrNames clients.clients) == requiredNixosClients) "HAT clients.nix must expose every required NixOS endpoint"
@@ -279,9 +301,13 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
+  inventoryHostNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+  inventoryHostClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.layer == "SAT") "SAT selector layer mismatch"
+  && require (inventoryHostNixos == inventory) "SAT s-router-nixos host inventory should share the selected NixOS SAT inventory"
+  && require (inventoryHostClients == inventory) "SAT s-router-test-clients host inventory should share the selected NixOS SAT inventory"
   && require (inventory.deployment.hosts ? s-router-nixos) "SAT inventory must expose s-router-nixos"
 ' >/dev/null || fail "SAT selection failed"
 
