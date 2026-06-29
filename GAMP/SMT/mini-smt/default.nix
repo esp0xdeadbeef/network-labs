@@ -5,6 +5,11 @@ let
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  dnsResolverRelationIds = [
+    "${dnsResolverConfigTraceId}__mini-client-to-access-dns"
+    "${dnsResolverConfigTraceId}__mini-access-dns-service-to-testnet"
+    "${dnsResolverConfigTraceId}__mini-dns-client-to-testnet"
+  ];
   internetModeTraceId = "FS-380-HDS-020-SDS-010-SMS-050";
 
   pppoePairResult =
@@ -146,18 +151,56 @@ let
 
   dnsResolverConfigResult =
     relation:
-    if !(relation ? id) || relation.id != "${dnsResolverConfigTraceId}__mini-dns-client-to-testnet" then {
+    let
+      relationId = relation.id or null;
+      from = if builtins.isAttrs (relation.from or null) then relation.from else { };
+      to = if builtins.isAttrs (relation.to or null) then relation.to else { };
+      isClientToService = relationId == "${dnsResolverConfigTraceId}__mini-client-to-access-dns";
+      isServiceToTestnet = relationId == "${dnsResolverConfigTraceId}__mini-access-dns-service-to-testnet";
+      isClientToTestnet = relationId == "${dnsResolverConfigTraceId}__mini-dns-client-to-testnet";
+      isDnsTraffic = (relation.trafficType or null) == "dns";
+      isAnyTraffic = (relation.trafficType or null) == "any";
+      pointsAtTestnet = (to.uplinks or [ ]) == [ "testnet-vlan4" ];
+    in
+    if !(builtins.elem relationId dnsResolverRelationIds) then {
       ok = false;
       diagnostic = "dns-resolver-relation-id-missing";
     } else if !(relation ? action) then {
       ok = false;
       diagnostic = "dns-resolver-action-missing";
-    } else if relation.action == "allow" then {
-      ok = true;
-      diagnostic = null;
-    } else {
+    } else if relation.action != "allow" then {
       ok = false;
       diagnostic = "dns-resolver-action-unsupported";
+    } else if isClientToService && !(
+      from.kind or null == "tenant"
+      && from.name or null == "client"
+      && to.kind or null == "service"
+      && to.name or null == "access-dns"
+      && isDnsTraffic
+    ) then {
+      ok = false;
+      diagnostic = "dns-resolver-client-service-policy-missing";
+    } else if isServiceToTestnet && !(
+      from.kind or null == "service"
+      && from.name or null == "access-dns"
+      && to.kind or null == "external"
+      && pointsAtTestnet
+      && isDnsTraffic
+    ) then {
+      ok = false;
+      diagnostic = "dns-resolver-service-egress-policy-missing";
+    } else if isClientToTestnet && !(
+      from.kind or null == "tenant"
+      && from.name or null == "client"
+      && to.kind or null == "external"
+      && pointsAtTestnet
+      && isAnyTraffic
+    ) then {
+      ok = false;
+      diagnostic = "dns-resolver-client-egress-policy-missing";
+    } else {
+      ok = true;
+      diagnostic = null;
     };
 
   internetModeVerificationResult =
@@ -539,9 +582,7 @@ in
       source = {
         kind = "intent-source";
         intent = ../FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
-        expectedRelationIds = [
-          "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet"
-        ];
+        expectedRelationIds = dnsResolverRelationIds;
       };
       maxRuntimeTargets = 5;
       runtimeTargets = {
@@ -566,6 +607,32 @@ in
       };
       dnsResolverRelations = [
         {
+          id = "FS-540-HDS-010-SDS-010-SMS-020__mini-client-to-access-dns";
+          action = "allow";
+          from = {
+            kind = "tenant";
+            name = "client";
+          };
+          to = {
+            kind = "service";
+            name = "access-dns";
+          };
+          trafficType = "dns";
+        }
+        {
+          id = "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet";
+          action = "allow";
+          from = {
+            kind = "service";
+            name = "access-dns";
+          };
+          to = {
+            kind = "external";
+            uplinks = [ "testnet-vlan4" ];
+          };
+          trafficType = "dns";
+        }
+        {
           id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
           action = "allow";
           from = {
@@ -574,7 +641,7 @@ in
           };
           to = {
             kind = "external";
-            name = "testnet-vlan4";
+            uplinks = [ "testnet-vlan4" ];
           };
           trafficType = "any";
         }
@@ -582,6 +649,8 @@ in
       testsOnly = [
         "dns-resolver-relation-id"
         "dns-resolver-action-class"
+        "dns-recursive-service-relation"
+        "dns-service-egress-relation"
         "dns-resolver-minimal-policy-path"
       ];
       forbiddenScope = [
