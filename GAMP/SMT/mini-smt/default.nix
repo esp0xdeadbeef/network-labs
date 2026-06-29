@@ -472,7 +472,7 @@ in
       kind = "mini-smt";
       traceId = laneEgressBindingTraceId;
       smsAtom = "CPM lane egress binding: forwardingIntent lane annotations with access-uplink kind and non-null uplink";
-      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      evidenceBoundary = "split: construction predicate plus active-lab live evidence on the declared five-target lane path";
       source = {
         kind = "intent-source";
         intent = ../FS-370-HDS-010-SDS-010-SMS-050/intent.nix;
@@ -480,11 +480,21 @@ in
           "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         client-edge = {
           role = "access";
           tenant = "client";
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+          external = "testnet";
         };
         testnet-edge = {
           role = "core";
@@ -510,14 +520,17 @@ in
       testsOnly = [
         "lane-egress-binding"
         "lane-uplink-annotation"
+        "five-node-lane-runtime-shape"
       ];
       forbiddenScope = [
         "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+      liveSurfaces = [
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
-        "HAT"
-        "SAT"
       ];
     };
 

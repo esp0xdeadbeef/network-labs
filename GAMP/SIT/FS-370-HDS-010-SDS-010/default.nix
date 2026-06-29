@@ -22,9 +22,10 @@
 };
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh lane-egress-binding";
+    liveCommand = "NETWORK_REPO_DIRECT_TEST_OK=1 bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "NOT OK for live closure until the row-specific active-lab verifier passes on s-router-nixos, s-router-clab, and s-router-test-clients; local mini-SMT construction guard verifies the five-node lane path without full HAT/SAT deployment";
   };
 }

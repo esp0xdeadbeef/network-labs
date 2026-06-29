@@ -12,7 +12,8 @@
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh lane-egress-binding";
     focusedTest = "tests/test-active-lab-mini-smt-lane-egress-binding-only.sh";
-    maxRuntimeTargets = 2;
-    scope = "CPM lane egress binding: tenant client to external testnet uplink with correct lane kind and non-null uplink annotation";
+    maxRuntimeTargets = 5;
+    evidenceBoundary = "split";
+    scope = "CPM lane egress binding: tenant client to external testnet uplink with correct lane kind, non-null uplink annotation, and five-node active-lab runtime shape";
   };
 }
