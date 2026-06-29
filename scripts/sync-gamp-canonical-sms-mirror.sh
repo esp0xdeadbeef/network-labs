@@ -46,7 +46,8 @@ write_if_missing() {
   if [[ -e "${path}" ]]; then
     if [[ "${OVERWRITE_SOURCE_STUBS:-0}" == "1" ]] \
       && [[ -f "${path}" ]] \
-      && grep -Eq 'canonical-sms-source-stub|canonical SMS|canonicalSms|Canonical SMS|canonical SMS inputs mirrored' "${path}"; then
+      && grep -Eq 'canonical-sms-source-stub|canonical-source-stub|source-stub-only|Source stub only|canonical SMS inputs mirrored|Canonical SMS mirror source-stub' "${path}" \
+      && ! grep -Eq 'status = "OK"|Status: OK' "${path}"; then
       :
     else
       return 0

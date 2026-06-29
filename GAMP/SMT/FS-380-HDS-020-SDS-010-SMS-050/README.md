@@ -13,5 +13,6 @@ Run:
 tests/run-active-lab-mini-smt.sh internet-mode-verification
 ```
 
-This row starts `client-edge` and `wan-core` runtime targets.
-SMS-050 is a coordinator; primary construction verification lives in sibling SMS-060.
+This row is limited to `client-edge` and `emulated-isp` runtime targets.
+The row-local inventories carry only the mini-SMT source facts required by the
+test: emulated PPPoE handoff and VLAN4/VLAN5 DHCP upstreams.

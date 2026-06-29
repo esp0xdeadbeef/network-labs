@@ -15,10 +15,10 @@
     };
 };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh policy-router-relation-identity";
+    command = "bash tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
     sourcePaths = [
       "GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "2026-06-29: row-local structural SMT/SIT proof passed for relation identity preservation without shared mini-SMT manifest registration or HAT/SAT deployment.";
   };
 }

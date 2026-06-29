@@ -5,7 +5,7 @@ Row-local source for the mini provider-access default-route SMT.
 Run:
 
 ```bash
-tests/run-active-lab-mini-smt.sh provider-access-default-route
+bash tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh
 ```
 
 This row proves CPM provider-access fabric gateway routing: provider handoff to

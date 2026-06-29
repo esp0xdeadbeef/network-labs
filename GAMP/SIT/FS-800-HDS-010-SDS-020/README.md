@@ -10,5 +10,5 @@ currently consumes:
 Run the small row input independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh provider-access-default-route
+bash tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh
 ```

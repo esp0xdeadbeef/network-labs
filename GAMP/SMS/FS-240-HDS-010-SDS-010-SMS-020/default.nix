@@ -2,19 +2,20 @@
   layer = "SMS";
   traceId = "FS-240-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-240-HDS-010-SDS-010;
-  purpose = "Row-local SMT/SIT source stub for FS-240-HDS-010-SDS-010-SMS-020.";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-240-HDS-010-SDS-010-SMS-020-management-plane-authority-exclusion.md";
+  titleSlug = "management-plane-authority-exclusion";
+  purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";
   sourceInputs = {
-    "row-local" = {
+    "canonical-source-stub" = {
       traceId = "FS-240-HDS-010-SDS-010-SMS-020";
-      kind = "intent-source";
+      kind = "source-reference";
       sourcePath = "GAMP/SMT/FS-240-HDS-010-SDS-010-SMS-020/intent.nix";
-      test = "tests/test-gamp-row-source-stubs.sh";
+      test = "tests/test-gamp-canonical-sms-mirror.sh";
       maxRuntimeTargets = 0;
     };
   };
   templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-gamp-row-source-stubs.sh"
+    "tests/test-gamp-canonical-sms-mirror.sh"
   ];
 }

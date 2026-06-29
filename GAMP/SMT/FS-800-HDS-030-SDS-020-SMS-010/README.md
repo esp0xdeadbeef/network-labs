@@ -1,12 +1,14 @@
-# SMT Source Stub: FS-800-HDS-030-SDS-020-SMS-010
+# SMT Source Fixture: FS-800-HDS-030-SDS-020-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-record-checks.md`
 
-Status: NOT OK - source stub only.
+Status: OK - focused network-labs source fixture test passes.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Evidence command:
+
+`tests/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-source.sh`
+
+This row verifies customer-side PPPoE source fixture records in network-labs.
+It does not claim live HAT/SAT PPPoE session acceptance.
 
 Title slug: `pppoe-customer-side-record-checks`

@@ -1,1 +1,8 @@
-import ../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix
+{ ... }:
+
+{
+  _module.args.activeLabSopsStub = {
+    kind = "current-lab-empty-sops-stub";
+    hostName = "s-router-nixos";
+  };
+}

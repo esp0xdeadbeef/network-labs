@@ -1,8 +1,9 @@
 {
   meta = {
     traceId = "FS-540-HDS-010-SDS-010-SMS-010";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-010-recursive-dns-binding.md";
     renderer = "nixos";
-    scope = "row-local-smt-sit-inventory-stub";
+    scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
   hosts = { };

@@ -1,8 +1,9 @@
 {
   meta = {
     traceId = "FS-480-HDS-010-SDS-010-SMS-040";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-040-missing-route-import-authority-explanation.md";
     renderer = "clab";
-    scope = "row-local-smt-sit-inventory-stub";
+    scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
   hosts = { };

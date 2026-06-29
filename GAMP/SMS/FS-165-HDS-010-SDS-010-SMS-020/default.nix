@@ -2,19 +2,20 @@
   layer = "SMS";
   traceId = "FS-165-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-165-HDS-010-SDS-010;
-  purpose = "Row-local SMT/SIT source stub for FS-165-HDS-010-SDS-010-SMS-020.";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-165-HDS-010-SDS-010-SMS-020-readable-normalized-source-form.md";
+  titleSlug = "readable-normalized-source-form";
+  purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";
   sourceInputs = {
-    "row-local" = {
+    "canonical-source-stub" = {
       traceId = "FS-165-HDS-010-SDS-010-SMS-020";
-      kind = "intent-source";
+      kind = "source-reference";
       sourcePath = "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-020/intent.nix";
-      test = "tests/test-gamp-row-source-stubs.sh";
+      test = "tests/test-gamp-canonical-sms-mirror.sh";
       maxRuntimeTargets = 0;
     };
   };
   templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-gamp-row-source-stubs.sh"
+    "tests/test-gamp-canonical-sms-mirror.sh"
   ];
 }

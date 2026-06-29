@@ -1,23 +1,40 @@
 {
   layer = "SDS";
   traceId = "FS-310-HDS-010-SDS-010";
-  purpose = "Policy router relation identity mini POC input grouping.";
+  purpose = "Canonical SMS mirror source-stub grouping.";
   smsInputs = {
-    "FS-310-HDS-010-SDS-010-SMS-030" = {
-      smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-030;
-      miniSmtIds = [ "policy-router-relation-identity" ];
-      inputKinds = [ "intent-source" ];
-    };
     "FS-310-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-010;
-      miniSmtIds = [ "row-local" ];
-      inputKinds = [ "intent-source" ];
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
       evidenceBoundary = "source-stub-only";
     };
-};
+    "FS-310-HDS-010-SDS-010-SMS-020" = {
+      smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-020;
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "source-stub-only";
+    };
+    "FS-310-HDS-010-SDS-010-SMS-030" = {
+      smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-030;
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "source-stub-only";
+    };
+    "FS-310-HDS-010-SDS-010-SMS-120" = {
+      smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-120;
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "source-stub-only";
+    };
+    "FS-310-HDS-010-SDS-010-SMS-130" = {
+      smsRow = ../../SMS/FS-310-HDS-010-SDS-010-SMS-130;
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "source-stub-only";
+    };
+  };
   templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-mini-smt-sds-input-templates.sh"
-    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
+    "tests/test-gamp-canonical-sms-mirror.sh"
   ];
 }

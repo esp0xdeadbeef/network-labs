@@ -28,9 +28,20 @@ nix eval --impure --expr "
     record = builtins.head lab.internetModeRecords;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.internetModeVerification record;
+    explicitAddressingOk = uplink:
+      (uplink.bridge or null) != null
+      && (uplink.parent or null) == \"eth0\"
+      && (uplink.ipv4 or { }).enable == true
+      && (uplink.ipv4 or { }).dhcp == true
+      && (uplink.ipv4 or { }).method == \"dhcp\"
+      && (uplink.ipv6 or { }).enable == true
+      && (uplink.ipv6 or { }).acceptRA == true
+      && (uplink.ipv6 or { }).dhcp == false
+      && (uplink.ipv6 or { }).dhcpv6PD == false
+      && (uplink.ipv6 or { }).method == \"slaac\";
     uplinksOk = uplinks:
       builtins.all
-        (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\")
+        (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\" && explicitAddressingOk uplink)
         (builtins.attrValues uplinks);
     uplinksNoVlan2 = uplinks:
       builtins.all (uplink: (uplink.vlan or null) != 2) (builtins.attrValues uplinks);

@@ -9,17 +9,18 @@ source-form review stage defined by SDS FS-165-HDS-010-SDS-010:
 
 | SMS | Role | Construction Test |
 | --- | --- | --- |
-| FS-165-HDS-010-SDS-010-SMS-010 | Source-Value Necessity | `tests/test-gamp-fs165-source-form-minimality.sh` |
-| FS-165-HDS-010-SDS-010-SMS-020 | Readable Normalized Source Form | (shared test) |
-| FS-165-HDS-010-SDS-010-SMS-030 | Downstream Contract Gap Diagnostic | (shared test) |
+| FS-165-HDS-010-SDS-010-SMS-010 | Source-Value Necessity | `tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh` |
+| FS-165-HDS-010-SDS-010-SMS-020 | Readable Normalized Source Form | `tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh` |
+| FS-165-HDS-010-SDS-010-SMS-030 | Downstream Contract Gap Diagnostic | `tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh` |
 
 ## Integration Path
 
-All three SMS modules are exercised by a shared construction test in
-`network-codex-agent`: `bash tests/test-gamp-fs165-source-form-minimality.sh`.
+All three SMS modules are exercised by a row-local construction test in
+`network-labs`: `bash tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh`.
 
-The test uses the Python checker `scripts/helpers/gamp-sms-input-contracts.py`
-with inline JSON fixtures covering all predicates across all three SMS specs.
+The test uses the Python checker
+`network-codex-agent/scripts/helpers/gamp-sms-input-contracts.py` with inline
+JSON fixtures covering predicates across all three SMS specs.
 
 ## Evidence Boundary
 

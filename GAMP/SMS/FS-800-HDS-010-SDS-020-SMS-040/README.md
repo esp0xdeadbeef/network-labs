@@ -13,4 +13,5 @@ The authoritative SMS spec is in network-codex-agent:
 ## Mini-SMT fixture
 
 Row-local intent fixture: `GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/intent.nix`
-Registered in: `GAMP/SMT/mini-smt/tests.nix` (id=provider-access-default-route)
+Focused row-local test:
+`tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh`.

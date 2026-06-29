@@ -1,8 +1,9 @@
 {
   meta = {
     traceId = "FS-270-HDS-010-SDS-010-SMS-030";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-270-HDS-010-SDS-010-SMS-030-transit-host-local-separation.md";
     renderer = "clab";
-    scope = "row-local-smt-sit-inventory-stub";
+    scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
   hosts = { };

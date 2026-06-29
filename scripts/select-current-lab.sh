@@ -223,6 +223,46 @@ ${forwarding_enterprise_json}
     };
   normalizeUplinks = uplinks:
     builtins.mapAttrs normalizeUplink uplinks;
+  mergeFamily = generated: existing: familyName:
+    let
+      generatedFamily = generated.\${familyName} or null;
+      existingFamily = existing.\${familyName} or null;
+    in
+    if builtins.isAttrs generatedFamily || builtins.isAttrs existingFamily then
+      {
+        \${familyName} =
+          (if builtins.isAttrs generatedFamily then generatedFamily else { })
+          // (if builtins.isAttrs existingFamily then existingFamily else { });
+      }
+    else
+      { };
+  mergeUplink = existingUplinks: uplinkName:
+    let
+      generated = generatedUplinks.\${uplinkName} or { };
+      existing = existingUplinks.\${uplinkName} or { };
+    in
+    generated
+    // existing
+    // mergeFamily generated existing "ipv4"
+    // mergeFamily generated existing "ipv6";
+  mergeUplinks = existingUplinks:
+    let
+      names = builtins.attrNames (generatedUplinks // existingUplinks // { management = managementVlan2; });
+    in
+    normalizeUplinks (
+      builtins.listToAttrs (
+        builtins.map
+          (uplinkName: {
+            name = uplinkName;
+            value =
+              if uplinkName == "management" then
+                managementVlan2
+              else
+                mergeUplink existingUplinks uplinkName;
+          })
+          names
+      )
+    );
   uplinkNamesForNode = enterpriseName: siteName: nodeName:
     builtins.sort (left: right: left < right) (builtins.attrNames ((nodeForSite enterpriseName siteName nodeName).uplinks or { }));
   linkNamesForNode = enterpriseName: siteName: nodeName:
@@ -453,9 +493,7 @@ ${forwarding_enterprise_json}
     );
   mergeHost = existing:
     existing // {
-      uplinks = normalizeUplinks (generatedUplinks // (existing.uplinks or { }) // {
-        management = managementVlan2;
-      });
+      uplinks = mergeUplinks (existing.uplinks or { });
       bridgeNetworks = (existing.bridgeNetworks or { }) // generatedBridgeNetworks;
     };
   managedDeploymentHosts = deploymentHosts // {
@@ -616,6 +654,56 @@ source_path_for_mini_or_trace() {
   fi
 }
 
+sit_command_for() {
+  local sds="$1"
+  nix eval --impure --raw --expr "
+let
+  row = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
+in
+  row.evidence.command or \"\"
+"
+}
+
+first_manifest_mini_for_sit() {
+  local sds="$1"
+  local command rest mini_id
+  command="$(sit_command_for "${sds}")"
+  case "${command}" in
+    "tests/run-active-lab-mini-smt.sh "*) ;;
+    *)
+      echo "SIT row is not a current active-lab SIT shim: ${sds}" >&2
+      echo "SIT row command: ${command:-<none>}" >&2
+      return 2
+      ;;
+  esac
+
+  rest="${command#tests/run-active-lab-mini-smt.sh }"
+  for mini_id in ${rest}; do
+    if mini_exists "${mini_id}"; then
+      printf '%s\n' "${mini_id}"
+      return 0
+    fi
+  done
+
+  echo "SIT row has no registered mini-SMT selector in ${manifest_file}: ${sds}" >&2
+  echo "SIT row command: ${command}" >&2
+  return 2
+}
+
+list_sit_sources() {
+  nix eval --impure --raw --expr "
+let
+  manifest = import ${manifest_file};
+  ids = builtins.attrNames manifest.tests;
+  traceFor = id: (builtins.getAttr id manifest.tests).traceId;
+  sdsFor = trace: builtins.elemAt (builtins.match \"(FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+)-SMS-[0-9]+.*\" trace) 0;
+  addUnique = acc: value: if builtins.elem value acc then acc else acc ++ [ value ];
+  unique = builtins.foldl' addUnique [ ] (map (id: sdsFor (traceFor id)) ids);
+in
+  builtins.concatStringsSep \"\n\" (builtins.sort (left: right: left < right) unique)
+"
+}
+
 select_smt() {
   local requested="$1"
   local trace row_trace source_kind source_path renderer_target row_dir selected_by
@@ -662,6 +750,7 @@ select_smt() {
 select_sit() {
   local sds="$1"
   local sit_dir="GAMP/SIT/${sds}"
+  local mini_id
 
   [[ "${sds}" =~ ^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+$ ]] || {
     echo "SIT selector must be an SDS trace ID: ${sds}" >&2
@@ -672,7 +761,8 @@ select_sit() {
     exit 2
   }
 
-  select_default
+  mini_id="$(first_manifest_mini_for_sit "${sds}")"
+  select_smt "${mini_id}"
   write_metadata "SIT" "${sds}" "${sds}" "sds-integration-source" "${sit_dir}" "${sit_dir}/default.nix" "scripts/select-current-lab.sh SIT ${sds}"
 }
 
@@ -722,7 +812,9 @@ list_sources() {
   while IFS= read -r id || [[ -n "${id}" ]]; do
     printf 'SMT %s\n' "${id}"
   done < <(tests/run-active-lab-mini-smt.sh --list)
-  find "${repo_root}/GAMP/SIT" -mindepth 1 -maxdepth 1 -type d -printf 'SIT %f\n' | sort
+  while IFS= read -r sds || [[ -n "${sds}" ]]; do
+    printf 'SIT %s\n' "${sds}"
+  done < <(list_sit_sources)
 }
 
 if [[ "$#" -eq 0 ]]; then

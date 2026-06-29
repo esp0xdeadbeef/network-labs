@@ -182,21 +182,24 @@ HAT and SAT selection shims are separate from SMT:
 `scripts/select-current-lab.sh SAT` selects `GAMP/SAT`. They are runnable source
 selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
 
-2026-06-28 classification refresh:
+2026-06-29 classification refresh:
 
-- Canonical `network-codex-agent/GAMP/SMS` traces: 509.
+- Guard command: `bash tests/test-active-lab-shim-classification.sh` (PASS).
+- Canonical `network-codex-agent/GAMP/SMS` traces: 509, with zero `RDR`
+  matches and zero duplicate canonical SMS IDs.
 - `network-labs/GAMP/SMS` and `network-labs/GAMP/SMT` trace directories: 512
   each, consisting of the 509 canonical mirrors plus lab-local
   `FS-166-HDS-010-SDS-010-SMS-900`,
   `FS-720-HDS-010-SDS-020-SMS-040`, and
   `FS-800-HDS-030-SDS-030-SMS-040`.
-- Generated canonical source-stub SMT defaults: 411. These are not runnable
-  mini-SMT evidence until a focused runner or owning repository proof is
-  registered.
+- `network-labs/GAMP/SDS` and `network-labs/GAMP/SIT` trace directories: 176
+  each, consisting of 175 canonical parent SDS rows plus the lab-local
+  `FS-166-HDS-010-SDS-010` renderer-entry umbrella.
+- SMT defaults explicitly marked `source-stub-only`: 408. SIT defaults
+  explicitly marked `source-stub-only`: 118. These are not runnable mini-SMT or
+  SIT evidence until a focused runner or owning repository proof is registered.
 - Active mini-SMT selectors in `GAMP/SMT/mini-smt/tests.nix`: 13.
-- Selectable SIT directories: 176. Of those, 109 are explicit canonical
-  source-stub-only rows with no evidence command, and 17 `default.nix` rows
-  currently record a non-null `evidence.command`.
+- Selectable active-lab SIT selectors derived from the mini-SMT manifest: 6.
 - HAT/SAT source selectors: one HAT source
   `GAMP/HAT/emulated-isp-residential-testnet` and one SAT source `GAMP/SAT`.
 

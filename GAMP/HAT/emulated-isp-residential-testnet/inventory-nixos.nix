@@ -290,6 +290,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
           };
+          provider-handoff-a = { };
+          provider-handoff-b = { };
           br-site-a-p2p-nixos-access-client-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-dmz-nixos-downstream-selector = { };
           br-site-a-p2p-nixos-access-guest-nixos-downstream-selector = { };
@@ -300,7 +302,9 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
           br-site-a-p2p-nixos-core-commercial-vpn-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-nebula-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-route-import-nixos-upstream-selector = { };
+          br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = { };
           br-site-a-p2p-nixos-core-testnet-host-isp-nixos-upstream-selector = { };
+          br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b = { };
           br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector = { };
           br-site-a-p2p-nixos-core-upstream-vlan4-nixos-upstream-selector = { };
@@ -1266,6 +1270,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             uplink = "nebula-egress";
           };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
+          };
           p2p-nixos-core-nebula-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-nebula-p2p-nixos-core-nebula-nixos-upstream-selector";
             attach = {
@@ -1321,6 +1335,27 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-host-isp-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+          };
+          tenant-provider-handoff-a = {
+            attach = {
+              bridge = "provider-handoff-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-core-a";
+            };
+            logicalInterface = "tenant-provider-handoff-a";
+          };
           p2p-nixos-core-testnet-host-isp-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-host-isp-p2p-nixos-core-testnet-host-isp-nixos-upstream-selector";
             attach = {
@@ -1371,6 +1406,27 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+          };
+          tenant-provider-handoff-b = {
+            attach = {
+              bridge = "provider-handoff-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-core-b";
+            };
+            logicalInterface = "tenant-provider-handoff-b";
+          };
           p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-testnet-routed-isp-p2p-nixos-core-testnet-routed-isp-nixos-upstream-selector";
             attach = {
@@ -1511,6 +1567,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             uplink = "wireguard-host128";
           };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
+          };
         };
       };
       esp0xdeadbeef-site-a-nixos-core-wireguard-remote-egress = {
@@ -1543,6 +1609,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens80";
             };
             uplink = "wireguard-egress";
+          };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
           };
         };
       };
@@ -2064,6 +2140,17 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-nixos-core-testnet-host-isp-nixos-provider-handoff-access-a";
+          };
           p2p-nixos-downstream-selector-nixos-provider-handoff-access-a = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-a-p2p-nixos-downstream-selector-nixos-provider-handoff-access-a";
             attach = {
@@ -2074,6 +2161,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens21";
             };
             link = "p2p-nixos-downstream-selector-nixos-provider-handoff-access-a";
+          };
+          tenant-provider-handoff-a = {
+            attach = {
+              bridge = "provider-handoff-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-handoff-a";
+            };
+            logicalInterface = "tenant-provider-handoff-a";
           };
         };
         services = {
@@ -2117,6 +2214,17 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b = {
+            adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-b-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+            attach = {
+              bridge = "br-site-a-p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-nixos-core-testnet-routed-isp-nixos-provider-handoff-access-b";
+          };
           p2p-nixos-downstream-selector-nixos-provider-handoff-access-b = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-provider-handoff-access-b-p2p-nixos-downstream-selector-nixos-provider-handoff-access-b";
             attach = {
@@ -2127,6 +2235,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens21";
             };
             link = "p2p-nixos-downstream-selector-nixos-provider-handoff-access-b";
+          };
+          tenant-provider-handoff-b = {
+            attach = {
+              bridge = "provider-handoff-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-handoff-b";
+            };
+            logicalInterface = "tenant-provider-handoff-b";
           };
         };
         services = {
