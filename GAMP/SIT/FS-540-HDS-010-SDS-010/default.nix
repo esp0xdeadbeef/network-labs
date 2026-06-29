@@ -28,6 +28,6 @@
     sourcePaths = [
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix"
     ];
-    observedResult = "NOT OK live on 2026-06-29: the row-local mini-SMT passes construction scope, but the live active-lab recursive DNS probe fails because NixOS access containers time out against 127.0.0.1#53, NixOS core-nebula returns SERVFAIL, CLAB access containers time out through getent, and CLAB core-nebula inherits Docker/host public resolver fallback";
+    observedResult = "NOT OK live on 2026-06-29: row-local mini-SMT and focused construction checks pass, and CLAB core-nebula no longer inherits Docker/host public resolver fallback after network-renderer-containerlab-linux-backend@218019d; the live active-lab recursive DNS probe still fails with 5 findings because NixOS access-client, access-admin, and core-nebula do not resolve through 127.0.0.1#53, and CLAB access-client/access-admin do not resolve through clabgen-dns-proxy.py";
   };
 }
