@@ -187,6 +187,8 @@ in
   && require (inventoryClab.containerlab.capabilities.labEmulation == true) "FS-540 CLAB SIT source must preserve explicit lab-emulation capability"
   && require (inventoryClab.containerlab.labEmulation.scope == "harness") "FS-540 CLAB SIT provider emulation must remain harness-scoped"
   && require (clabProvider.providerEmulationMode == "fake-provider" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4) "FS-540 CLAB SIT must preserve fake-provider VLAN11 handoff with VLAN4 live upstream"
+  && require (clabProvider.dhcp4.address == "10.20.0.1/24" && clabProvider.dhcp4.router == "10.20.0.1" && clabProvider.dhcp4.rangeStart == "10.20.0.20" && clabProvider.dhcp4.rangeEnd == "10.20.0.99" && clabProvider.dhcp4.leaseTime == "5m" && clabProvider.dhcp4.sourcePrefix == "10.20.0.0/24") "FS-540 CLAB SIT fake-provider must declare explicit DHCPv4 service parameters"
+  && require (clabProvider.nat44.enabled == true && clabProvider.nat44.sourcePrefix == "10.20.0.0/24") "FS-540 CLAB SIT fake-provider must declare explicit NAT44 source prefix"
   && require (clabProvider.handoffVlan != 2 && clabProvider.liveUpstreamVlan != 2) "FS-540 CLAB SIT provider emulation must not use VLAN2"
 ' >/dev/null || fail "SIT FS-540 selection failed"
 
