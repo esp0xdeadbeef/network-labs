@@ -74,6 +74,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
           };
+          provider-handoff-a = { };
+          provider-handoff-b = { };
           br-site-b-p2p-clab-access-client-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-dmz-clab-downstream-selector = { };
           br-site-b-p2p-clab-access-guest-clab-downstream-selector = { };
@@ -84,7 +86,9 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
           br-site-b-p2p-clab-core-commercial-vpn-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-nebula-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-route-import-clab-upstream-selector = { };
+          br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = { };
           br-site-b-p2p-clab-core-testnet-host-isp-clab-upstream-selector = { };
+          br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = { };
           br-site-b-p2p-clab-core-testnet-routed-isp-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = { };
           br-site-b-p2p-clab-core-upstream-vlan4-clab-upstream-selector = { };
@@ -2547,6 +2551,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             uplink = "nebula-egress";
           };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
+          };
           p2p-clab-core-nebula-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-nebula-p2p-clab-core-nebula-clab-upstream-selector";
             attach = {
@@ -2602,6 +2616,27 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-host-isp-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+            attach = {
+              bridge = "br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+          };
+          tenant-provider-handoff-a = {
+            attach = {
+              bridge = "provider-handoff-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-core-a";
+            };
+            logicalInterface = "tenant-provider-handoff-a";
+          };
           p2p-clab-core-testnet-host-isp-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-host-isp-p2p-clab-core-testnet-host-isp-clab-upstream-selector";
             attach = {
@@ -2652,6 +2687,27 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-routed-isp-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+            attach = {
+              bridge = "br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+          };
+          tenant-provider-handoff-b = {
+            attach = {
+              bridge = "provider-handoff-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-core-b";
+            };
+            logicalInterface = "tenant-provider-handoff-b";
+          };
           p2p-clab-core-testnet-routed-isp-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-testnet-routed-isp-p2p-clab-core-testnet-routed-isp-clab-upstream-selector";
             attach = {
@@ -2792,6 +2848,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             uplink = "wireguard-host128";
           };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
+          };
         };
       };
       esp0xdeadbeef-site-b-clab-core-wireguard-remote-egress = {
@@ -2824,6 +2890,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens80";
             };
             uplink = "wireguard-egress";
+          };
+          tenant-iot = {
+            attach = {
+              bridge = "iot";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-iot";
+            };
+            logicalInterface = "tenant-iot";
           };
         };
       };
@@ -3345,6 +3421,17 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-a-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+            attach = {
+              bridge = "br-site-b-p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-clab-core-testnet-host-isp-clab-provider-handoff-access-a";
+          };
           p2p-clab-downstream-selector-clab-provider-handoff-access-a = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-a-p2p-clab-downstream-selector-clab-provider-handoff-access-a";
             attach = {
@@ -3355,6 +3442,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens21";
             };
             link = "p2p-clab-downstream-selector-clab-provider-handoff-access-a";
+          };
+          tenant-provider-handoff-a = {
+            attach = {
+              bridge = "provider-handoff-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-handoff-a";
+            };
+            logicalInterface = "tenant-provider-handoff-a";
           };
         };
         services = {
@@ -3398,6 +3495,17 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
         };
         platform = "linux";
         ports = {
+          p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b = {
+            adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+            attach = {
+              bridge = "br-site-b-p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "ens20";
+            };
+            serviceInterface = "p2p-clab-core-testnet-routed-isp-clab-provider-handoff-access-b";
+          };
           p2p-clab-downstream-selector-clab-provider-handoff-access-b = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-provider-handoff-access-b-p2p-clab-downstream-selector-clab-provider-handoff-access-b";
             attach = {
@@ -3408,6 +3516,16 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               name = "ens21";
             };
             link = "p2p-clab-downstream-selector-clab-provider-handoff-access-b";
+          };
+          tenant-provider-handoff-b = {
+            attach = {
+              bridge = "provider-handoff-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "prov-handoff-b";
+            };
+            logicalInterface = "tenant-provider-handoff-b";
           };
         };
         services = {

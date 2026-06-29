@@ -10,5 +10,5 @@ currently consumes:
 Run the small row input independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh policy-router-relation-identity
+bash tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh
 ```

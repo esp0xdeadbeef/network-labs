@@ -1,8 +1,9 @@
 {
   meta = {
     traceId = "FS-720-HDS-010-SDS-020-SMS-020";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-020-SMS-020-endpoint-harness-consumption.md";
     renderer = "clab";
-    scope = "row-local-smt-sit-inventory-stub";
+    scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
   hosts = { };

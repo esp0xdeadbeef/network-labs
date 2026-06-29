@@ -21,6 +21,12 @@ trap cleanup EXIT
 
 "${selector}" --list >/dev/null
 
+"${selector}" --list | rg -qx 'SIT FS-500-HDS-010-SDS-010' \
+  || fail "selector list must include current runnable SIT FS-500-HDS-010-SDS-010"
+if "${selector}" --list | rg -qx 'SIT FS-010-HDS-010-SDS-010'; then
+  fail "selector list must not expose source-stub-only SIT FS-010-HDS-010-SDS-010"
+fi
+
 "${selector}" default >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
@@ -121,6 +127,28 @@ in
   && require (inventoryClab.activeLabInventoryStub.miniSmtId == "renderer-clab") "renderer-clab must preserve CLAB provenance shim"
   && require (inventoryClab.deploymentHosts ? s-router-clab) "renderer-clab CLAB inventory must expose s-router-clab"
 ' >/dev/null || fail "SMT renderer-clab selection failed"
+
+"${selector}" SIT FS-500-HDS-010-SDS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  require = cond: msg: if cond then true else throw msg;
+in
+  require (current.selection.layer == "SIT") "SIT selector layer mismatch"
+  && require (current.selection.selector == "FS-500-HDS-010-SDS-010") "SIT selector id mismatch"
+  && require (current.selection.sourceRoot == "GAMP/SIT/FS-500-HDS-010-SDS-010") "SIT source root mismatch"
+  && require (current.selection.sourcePath == "GAMP/SIT/FS-500-HDS-010-SDS-010/default.nix") "SIT source path mismatch"
+  && require (active.intent ? "mini-smt") "SIT selection must install the row-local mini-SMT source"
+  && require (active.intent."mini-smt" ? "reachability-decision") "SIT FS-500 must select its first registered mini-SMT source"
+  && require (inventoryNixos.deploymentHosts ? s-router-nixos) "SIT selection must install runnable NixOS inventory"
+' >/dev/null || fail "SIT selection failed"
+
+if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then
+  fail "source-stub-only SIT selection should fail"
+fi
 
 "${selector}" HAT >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '

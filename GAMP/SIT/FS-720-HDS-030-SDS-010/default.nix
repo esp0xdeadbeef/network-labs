@@ -13,12 +13,15 @@
       smtRow = ../../SMT/FS-720-HDS-030-SDS-010-SMS-041;
       sourcePath = "GAMP/SMT/FS-720-HDS-030-SDS-010-SMS-041/intent.nix";
       canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md";
-      role = "canonical-sms-source-stub";
-      evidenceBoundary = "source-stub-only";
+      role = "active-lab-tenant-bridge-source-fixture";
+      evidenceBoundary = "active-lab-source-fixture-only";
     };
   };
   evidence = {
-    command = null;
-    observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
+    command = ''
+      bash tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh &&
+      bash tests/FS-720-HDS-030-SDS-010-SMS-041-SIT-live-clab-render-status.sh s-router-clab
+    '';
+    observedResult = "NOT OK live on 2026-06-29: source fixture test passes for active-lab tenant bridge fields, but s-router-clab render-live status is phase=render/result=failure and journal shows duplicate br-wan target-host bridge scoping before locked artifact acceptance";
   };
 }

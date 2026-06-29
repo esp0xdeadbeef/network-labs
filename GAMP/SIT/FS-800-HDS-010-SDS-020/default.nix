@@ -9,10 +9,10 @@
     };
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh provider-access-default-route";
+    command = "bash tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh";
     sourcePaths = [
       "GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "2026-06-29: row-local provider-access default-route structural test passed; construction/local-build evidence only, live provider-handoff egress remains HAT-routed.";
   };
 }

@@ -2,9 +2,9 @@
   layer = "SMT";
   traceId = "FS-165-HDS-010-SDS-010-SMS-010";
   evidence = {
-    command = "bash tests/test-gamp-fs165-source-form-minimality.sh";
-    repo = "network-codex-agent";
-    focusedTest = "tests/test-gamp-fs165-source-form-minimality.sh";
+    command = "bash tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh";
+    repo = "network-labs with network-codex-agent checker";
+    focusedTest = "tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh";
     scope = "source-value necessity validation: accept/reject source values based on source class and downstream derivation";
     isConstructionOnly = true;
   };

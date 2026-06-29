@@ -2,11 +2,17 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md`
 
-Status: NOT OK - source stub only.
+Status: OK - active-lab source fixture evidence only.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Focused evidence:
+
+```bash
+bash tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh
+```
+
+This proves the active-lab HAT inventories expose explicit tenant `attach.bridge`
+fields for CLAB/NixOS core tenant surfaces and provider handoff surfaces before
+the CLAB renderer fail-closed bridge-field contract is exercised. It does not
+claim live HAT/SAT session acceptance.
 
 Title slug: `ae-fail-closed-contract`

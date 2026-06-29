@@ -10,8 +10,8 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh policy-router-relation-identity";
-    focusedTest = "tests/test-active-lab-mini-smt-policy-router-relation-identity.sh";
+    command = "bash tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
+    focusedTest = "tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
     maxRuntimeTargets = 2;
     scope = "one tenant-to-external allow relation through policy router with relation identity preservation";
   };

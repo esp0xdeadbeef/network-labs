@@ -7,6 +7,7 @@ manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 list_ids() {
   nix eval --impure --raw --expr \
     "let manifest = import ${manifest_file}; in builtins.concatStringsSep \"\n\" (builtins.attrNames manifest.tests)"
+  printf '\n'
 }
 
 script_for() {

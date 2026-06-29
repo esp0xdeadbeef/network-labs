@@ -1,8 +1,9 @@
 {
   meta = {
     traceId = "FS-800-HDS-030-SDS-030-SMS-010";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-030-SMS-010-pppoe-pairing-fallback-rejection.md";
     renderer = "test-clients";
-    scope = "row-local-smt-sit-test-client-inventory-stub";
+    scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
   };
   clients = { };

@@ -15,10 +15,11 @@
     };
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh ula-nat66-selection";
+    command = "bash tests/test-fs400-hds010-sds010-sms020-ula-nat66-intent-fixture.sh && bash tests/FS-400-HDS-010-SDS-010-SMS-040-row-local-structural.sh";
     sourcePaths = [
       "GAMP/SMT/FS-400-HDS-010-SDS-010-SMS-020/intent.nix"
+      "GAMP/SMT/FS-400-HDS-010-SDS-010-SMS-040/intent.nix"
     ];
-    observedResult = "focused mini runner verifies the SDS with one row-local SMS input without full HAT/SAT deployment";
+    observedResult = "2026-06-29: row-local structural/source-fixture checks passed for SMS-020 ULA NAT66 selection and SMS-040 overlay client GUA mode; construction/local-build evidence only.";
   };
 }

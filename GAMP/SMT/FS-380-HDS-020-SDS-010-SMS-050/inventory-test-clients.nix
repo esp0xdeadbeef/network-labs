@@ -1,9 +1,10 @@
 {
   meta = {
     traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-050-renderer-internet-mode-verification.md";
     renderer = "test-clients";
-    scope = "row-local-smt-sit-test-client-inventory-stub";
-    evidenceBoundary = "source-stub-only";
+    scope = "mini-smt-internet-mode-verification-source-fixture";
+    evidenceBoundary = "source-fixture";
   };
   clients = { };
   deploymentHosts = {
@@ -12,19 +13,45 @@
         kind = "pppoe";
         server = "emulated-isp";
       };
+      hat.endpointClients = { };
       uplinks = {
-        emulated-isp-vlan4 = {
+        internet-vlan4 = {
+          bridge = "internet-vlan4";
+          ipv4 = {
+            dhcp = true;
+            enable = true;
+            method = "dhcp";
+          };
+          ipv6 = {
+            acceptRA = true;
+            dhcp = false;
+            dhcpv6PD = false;
+            enable = true;
+            method = "slaac";
+          };
           mode = "dhcp";
-          bridge = "vlan4";
+          parent = "eth0";
           vlan = 4;
         };
-        emulated-isp-vlan5 = {
+        internet-vlan5 = {
+          bridge = "internet-vlan5";
+          ipv4 = {
+            dhcp = true;
+            enable = true;
+            method = "dhcp";
+          };
+          ipv6 = {
+            acceptRA = true;
+            dhcp = false;
+            dhcpv6PD = false;
+            enable = true;
+            method = "slaac";
+          };
           mode = "dhcp";
-          bridge = "vlan5";
+          parent = "eth0";
           vlan = 5;
         };
       };
-      hat.endpointClients = { };
     };
   };
 }
