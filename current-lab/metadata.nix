@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "renderer-nebula";
-  traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
-  sourceKind = "renderer-input";
-  sourceRoot = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900";
-  sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT renderer-nebula";
+  selector = "provider-access-default-route";
+  traceId = "FS-800-HDS-010-SDS-020-SMS-040";
+  sourceKind = "intent-source";
+  sourceRoot = "GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040";
+  sourcePath = "GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT provider-access-default-route";
 }

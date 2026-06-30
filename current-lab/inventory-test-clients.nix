@@ -1,4 +1,5 @@
 let
+  source = import ../GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/inventory-test-clients.nix;
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {
@@ -17,18 +18,24 @@ let
     parent = "eth0";
     vlan = 2;
   };
-in
-{
-  meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
-    renderer = "test-clients";
-    scope = "active-lab-current-selection";
-  };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = { };
-      uplinks.management = managementVlan2;
+  deployment = source.deployment or { };
+  baseDeploymentHosts = (deployment.hosts or { }) // (source.deploymentHosts or { });
+  testClientHost = baseDeploymentHosts.s-router-test-clients or { };
+  managedTestClientHost = testClientHost // {
+    uplinks = (testClientHost.uplinks or { }) // {
+      management = managementVlan2;
     };
+  };
+  deploymentHosts = baseDeploymentHosts // {
+    s-router-test-clients = managedTestClientHost;
+  };
+in
+source // {
+  inherit deploymentHosts;
+  deployment = deployment // {
+    hosts = (deployment.hosts or { }) // deploymentHosts;
+  };
+  realization = (source.realization or { }) // {
+    nodes = ((source.realization or { }).nodes or { });
   };
 }
