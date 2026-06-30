@@ -5,7 +5,7 @@
   smsInputs = {
     "FS-800-HDS-010-SDS-020-SMS-040" = {
       smsRow = ../../SMS/FS-800-HDS-010-SDS-020-SMS-040;
-      miniSmtIds = [ "provider-access-default-route" ];
+      miniSmtIds = [ "FS-800-HDS-010-SDS-020-SMS-040" ];
       inputKinds = [ "intent-source" ];
     };
   };

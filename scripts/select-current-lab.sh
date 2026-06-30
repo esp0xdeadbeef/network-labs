@@ -65,11 +65,11 @@ write_default_nixos_inventory() {
 {
   activeLabInventoryStub = {
     kind = "mini-smt-renderer-input-stub";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
-    miniSmtManifestKey = "renderer-nixos";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-901";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-901";
     rendererTarget = "nixos";
     entryBoundary = "renderer-input";
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-901";
 
     cpmInput = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix;
     test = ../tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh;
@@ -98,11 +98,11 @@ in
 {
   activeLabInventoryStub = {
     kind = "runtime-clab-inventory-stub";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
-    miniSmtManifestKey = "renderer-clab";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-904";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-904";
     rendererTarget = "clab";
     entryBoundary = "renderer-input";
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-904";
     inherit source;
     cpmInput = source;
     test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;
@@ -138,8 +138,8 @@ write_default_clients() {
   activeLabClientStub = {
     kind = "runtime-client-source-stub";
     scope = "NixOS access-endpoint renderer input path";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
-    miniSmtManifestKey = "renderer-nixos-clients";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-903";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-903";
     source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
     test = ../tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh;
   };
@@ -173,7 +173,7 @@ let
 in
 {
   meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
     renderer = "test-clients";
     scope = "active-lab-current-selection";
   };
@@ -285,7 +285,7 @@ let
 in
 {
   meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
     renderer = "test-clients";
     scope = "active-lab-current-selection";
   };
@@ -895,10 +895,10 @@ select_default() {
   write_current_host_entrypoints
   write_metadata \
     "SMT" \
-    "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime" \
-    "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime" \
+    "FS-166-HDS-010-SDS-010-SMS-901" \
+    "FS-166-HDS-010-SDS-010-SMS-901" \
     "renderer-input" \
-    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900" \
+    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901" \
     "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix" \
     "scripts/select-current-lab.sh default"
 }

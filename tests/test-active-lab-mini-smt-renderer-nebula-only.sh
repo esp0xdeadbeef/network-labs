@@ -51,7 +51,7 @@ let
 in
   require (poc.boundaryInputs."renderer-input".entryBoundary == "renderer-input") "renderer mini SMT must start at renderer-input boundary"
   && require (poc.meta.rendererTargets.nebula.rendererRepo == "network-renderer-nebula") "wrong nebula renderer repo"
-  && require (cpm.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula") "nebula source trace mismatch"
+  && require (cpm.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-906") "nebula source trace mismatch"
   && require (builtins.attrNames cpm.deploymentHosts == [ "s-router-nixos" ]) "nebula row must expose only the Nebula-capable s-router-nixos host"
   && require (targets == [ "lab-client-nebula" "lab-lighthouse" ]) "nebula row must declare exactly the client and lighthouse runtime targets"
   && require (cpm.control_plane_model.data.acme.lab.runtimeTargets.lab-lighthouse.placement.host == "s-router-nixos") "nebula lighthouse must target s-router-nixos"

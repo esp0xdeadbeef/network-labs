@@ -21,9 +21,9 @@ let
   active = import (repoRoot + "/active-lab");
   current = import (repoRoot + "/current-lab");
   manifest = import '"${manifest_file}"';
-  pppoe = manifest.tests.pppoe-pairing;
-  reachability = manifest.tests.reachability-decision;
-  p2p = manifest.tests.p2p-next-hop;
+  pppoe = manifest.tests."FS-800-HDS-030-SDS-030-SMS-010";
+  reachability = manifest.tests."FS-500-HDS-010-SDS-010-SMS-010";
+  p2p = manifest.tests."FS-500-HDS-010-SDS-010-SMS-040";
   pppoeSource = active.mkSource { intent = pppoe.source.intent; };
   reachabilitySource = active.mkSource { intent = reachability.source.intent; };
   p2pSource = active.mkSource { intent = p2p.source.intent; };
@@ -44,7 +44,7 @@ let
   globalTrace = active.intent.control_plane_model.meta.traceId or null;
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901";
   selectedSourceExplicit =
     builtins.isString (current.selection.sourceRoot or null)
     && builtins.isString (current.selection.sourcePath or null)
@@ -76,7 +76,7 @@ in
   && require (toString active.sourcePaths.intent == activeDefaultIntentPath) "global active-lab source path must remain active-lab/intent.nix"
   && require (
     if selectedDefaultMini then
-      globalTrace == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime"
+      globalTrace == "FS-166-HDS-010-SDS-010-SMS-901"
     else
       selectedSourceExplicit
   ) "global active-lab selection must be explicit and may be HAT/SAT/non-default SMT"

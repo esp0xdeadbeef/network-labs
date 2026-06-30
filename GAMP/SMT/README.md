@@ -121,21 +121,21 @@ validation surfaces is not allowed.
 
 | Mini-SMT ID | Trace ID | SMT Dir | SDS Dir | SMS Dir | SIT Dir | Test Script |
 | --- | --- | --- | --- | --- | --- | --- |
-| `pppoe-pairing` | `FS-800-HDS-030-SDS-030-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` |
-| `reachability-decision` | `FS-500-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` |
-| `decision-reason-diagnostic` | `FS-500-HDS-010-SDS-010-SMS-030` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` |
-| `p2p-next-hop` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
-| `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` |
-| `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` |
-| `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
-| `provider-access-default-route` | `FS-800-HDS-010-SDS-020-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` |
-| `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
-| `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
-| `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
-| `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` |
-| `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
-| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
-| `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
+| `FS-800-HDS-030-SDS-030-SMS-010` | `FS-800-HDS-030-SDS-030-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-pppoe-pairing-only.sh` |
+| `FS-500-HDS-010-SDS-010-SMS-010` | `FS-500-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-reachability-decision-only.sh` |
+| `FS-500-HDS-010-SDS-010-SMS-030` | `FS-500-HDS-010-SDS-010-SMS-030` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh` |
+| `FS-500-HDS-010-SDS-010-SMS-040` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
+| `FS-370-HDS-010-SDS-010-SMS-050` | `FS-370-HDS-010-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` |
+| `FS-540-HDS-010-SDS-010-SMS-020` | `FS-540-HDS-010-SDS-010-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` |
+| `FS-380-HDS-020-SDS-010-SMS-050` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
+| `FS-800-HDS-010-SDS-020-SMS-040` | `FS-800-HDS-010-SDS-020-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-901` | `FS-166-HDS-010-SDS-010-SMS-901` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-902` | `FS-166-HDS-010-SDS-010-SMS-902` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-903` | `FS-166-HDS-010-SDS-010-SMS-903` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-904` | `FS-166-HDS-010-SDS-010-SMS-904` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-905` | `FS-166-HDS-010-SDS-010-SMS-905` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
+| `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
 All 15 manifest mini-SMT entries now have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and
@@ -270,7 +270,7 @@ allocation metadata to both p2p endpoint interface records and assert it in
 commands exited 0:
 
 ```bash
-bash tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p
+bash tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-902
 nix build --dry-run --no-link --print-out-paths \
   path:/home/deadbeef/github/nixos#nixosConfigurations.s-router-nixos.config.system.build.nixos-shell \
   --override-input network-labs path:/home/deadbeef/github/network-labs
@@ -290,7 +290,7 @@ fix in `network-labs@f9d21d2` adds that metadata to
 both the CPM `policyRoutingAllocation` and p2p interface class fields.
 
 2026-06-30 live `renderer-nixos` row closure: `network-labs@b077ad6` selected
-`SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime`, local `nixos` lock `56239c47` consumed it, and
+`SMT FS-166-HDS-010-SDS-010-SMS-901`, local `nixos` lock `56239c47` consumed it, and
 `network-codex-agent@41f3e451` added the focused runtime verifier
 `scripts/fs166-active-lab-renderer-nixos-runtime-check.sh`. Local builds passed
 for all three active-lab hosts, then `s-router-nixos` (`192.168.1.17`),
@@ -303,7 +303,7 @@ row-local `renderer-nixos` SMT/SIT runtime predicate only; the other FS-166
 renderer mini-SMT variants still require their own row-local live runs.
 
 2026-06-30 live `renderer-nixos-p2p` row closure: `network-labs@50850a3`
-selected `SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p`, `network-labs@f9d21d2` completed the
+selected `SMT FS-166-HDS-010-SDS-010-SMS-902`, `network-labs@f9d21d2` completed the
 renderer-input CPM fixture, local `nixos` lock `5f86907b` consumed it, and
 `network-codex-agent@3895ed64` asserted the p2p interface class in
 `scripts/fs166-active-lab-renderer-nixos-p2p-runtime-check.sh`. Local builds
@@ -321,7 +321,7 @@ without running either edge container. This closes the row-local
 `renderer-nixos-p2p` SMT/SIT runtime predicate only and does not promote HAT/SAT.
 
 2026-06-30 live `renderer-nixos-clients` row closure: `network-labs@d494c16`
-selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients`, removed router runtime targets from the
+selected `SMT FS-166-HDS-010-SDS-010-SMS-903`, removed router runtime targets from the
 access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and
 `network-codex-agent@d79b5e17` added
 `scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh`. Local builds
@@ -340,7 +340,7 @@ row-local `renderer-nixos-clients` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
 2026-06-30 live `renderer-clab` row closure: `network-labs@ba3329c` selected
-`SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab`, fixed the `s-router-clab` host-specific intent alias to
+`SMT FS-166-HDS-010-SDS-010-SMS-904`, fixed the `s-router-clab` host-specific intent alias to
 consume the CLAB CPM fixture instead of the default NixOS runtime CPM, local
 `nixos` lock `91fcc0f9` consumed it, and
 `network-codex-agent@644a5360` added
@@ -365,7 +365,7 @@ predicate only and does not promote HAT/SAT.
 2026-06-30 live `renderer-wireguard` row closure:
 `network-renderer-wireguard@fcaa109` fixed hostModule runtime materialization
 by binding explicit `/run/secrets` key paths into generated containers,
-`network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` with one
+`network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-905` with one
 `wireguard-egress` runtime target and row-local SOPS secret,
 `network-codex-agent@f864df47` added
 `scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh`, and local
@@ -390,7 +390,7 @@ promote HAT/SAT.
 2026-06-30 live `renderer-nebula` row closure:
 `network-renderer-nebula@b9f01fb` fixed hostModule runtime materialization by
 binding persistent Nebula profile directories into generated containers,
-`network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` with two runtime targets
+`network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-906` with two runtime targets
 (`lab-lighthouse` and `lab-client-nebula`) plus row-local SOPS profile secrets,
 `network-codex-agent@808593f3` added
 `scripts/fs166-active-lab-renderer-nebula-runtime-check.sh`, and local `nixos`

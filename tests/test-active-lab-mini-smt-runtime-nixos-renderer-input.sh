@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-900
+# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-901
 # GAMP-SCOPE: active-lab mini runtime SMT; not HAT/SAT evidence
 set -euo pipefail
 
@@ -43,7 +43,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"renderer-nixos SMS source path mismatch\"
     && require (row.test == \"tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh\")
       \"renderer-nixos SMS source test mismatch\"
-    && require (traceId == \"FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime\")
+    && require (traceId == \"FS-166-HDS-010-SDS-010-SMS-901\")
       \"active-lab runtime CPM must carry the mini runtime trace id\"
     && require (layerEntry.entryBoundary == \"renderer-input\")
       \"active-lab runtime CPM must be treated as renderer-input\"

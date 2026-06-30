@@ -20,7 +20,7 @@ let
 in
 rec {
   control_plane_model = {
-    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    meta.traceId = "FS-166-HDS-010-SDS-010-SMS-904";
     deployment.hosts.s-router-clab = {
       uplinks.management = managementVlan2;
       bridgeNetworks = { };

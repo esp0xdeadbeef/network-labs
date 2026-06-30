@@ -165,7 +165,7 @@ mini-SMT test to assert them. These fixture corrections are source-to-artifact
 prerequisite evidence only, not live HAT/SAT acceptance.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
-`renderer-nixos`: `network-labs@b077ad6` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime`, local
+`renderer-nixos`: `network-labs@b077ad6` selected `SMT FS-166-HDS-010-SDS-010-SMS-901`, local
 `nixos` lock `56239c47` consumed it, and the three local profiles built:
 `s-router-nixos`
 `/nix/store/3x94j69vaz05ahhvxw4c3c0ynlc36c24-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
@@ -193,7 +193,7 @@ The live result proves the one-target renderer-input active-lab row:
 not promote HAT/SAT.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
-`renderer-nixos-p2p`: `network-labs@50850a3` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p`,
+`renderer-nixos-p2p`: `network-labs@50850a3` selected `SMT FS-166-HDS-010-SDS-010-SMS-902`,
 `network-labs@f9d21d2` completed the renderer-input CPM fixture, local `nixos`
 lock `5f86907b` consumed it, and the three local profiles built:
 `s-router-nixos`
@@ -223,7 +223,7 @@ row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
 `renderer-nixos-clients`: `network-labs@d494c16` selected
-`SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients`, removed router runtime targets from the
+`SMT FS-166-HDS-010-SDS-010-SMS-903`, removed router runtime targets from the
 access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and the
 three local profiles built: `s-router-nixos`
 `/nix/store/6vvzch7wpwdhszs8d75xri8vbbdkl5ii-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
@@ -252,7 +252,7 @@ running `container@poc-client.service`, while `s-router-nixos` and
 evidence only and does not promote HAT/SAT.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
-`renderer-clab`: `network-labs@ba3329c` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab`, fixed
+`renderer-clab`: `network-labs@ba3329c` selected `SMT FS-166-HDS-010-SDS-010-SMS-904`, fixed
 the `s-router-clab` host-specific intent alias to consume
 `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix`,
 local `nixos` lock `91fcc0f9` consumed it, and the three locked profiles built:
@@ -287,7 +287,7 @@ SMT/SIT runtime evidence only and does not promote HAT/SAT.
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
 `renderer-wireguard`: `network-renderer-wireguard@fcaa109` fixed hostModule
 runtime materialization by binding explicit `/run/secrets` key paths into
-generated containers, `network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard`
+generated containers, `network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-905`
 with one `wireguard-egress` runtime target and row-local SOPS secret, local
 `nixos` lock `2b174716` consumed them, and the three locked profiles built:
 `s-router-nixos`
@@ -321,7 +321,7 @@ row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
 `renderer-nebula`: `network-renderer-nebula@b9f01fb` fixed hostModule runtime
 materialization by binding persistent Nebula profile directories into generated
-containers, `network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` with two
+containers, `network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-906` with two
 runtime targets (`lab-lighthouse` and `lab-client-nebula`) plus row-local SOPS
 profile secrets, local `nixos` lock `41f11073` consumed them, and the three
 locked profiles built: `s-router-nixos`

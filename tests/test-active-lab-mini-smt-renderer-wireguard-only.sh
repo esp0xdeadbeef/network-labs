@@ -30,7 +30,7 @@ let
 in
   require (poc.boundaryInputs."renderer-input".entryBoundary == "renderer-input") "renderer mini SMT must start at renderer-input boundary"
   && require (poc.meta.rendererTargets.wireguard.rendererRepo == "network-renderer-wireguard") "wrong wireguard renderer repo"
-  && require (contract.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard") "wireguard source trace mismatch"
+  && require (contract.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-905") "wireguard source trace mismatch"
   && require (targets == [ "wireguard-egress" ]) "wireguard row must declare exactly one runtime target"
   && require (contract.control_plane_model.data.acme.lab.runtimeTargets.wireguard-egress.placement.host == "s-router-nixos") "wireguard row must target s-router-nixos only"
   && require (overlay.terminateOn == [ "wireguard-egress" ]) "wireguard overlay must terminate on the row runtime target"

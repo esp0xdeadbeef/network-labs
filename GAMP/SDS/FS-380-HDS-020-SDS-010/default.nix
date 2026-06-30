@@ -5,7 +5,7 @@
   smsInputs = {
     "FS-380-HDS-020-SDS-010-SMS-050" = {
       smsRow = ../../SMS/FS-380-HDS-020-SDS-010-SMS-050;
-      miniSmtIds = [ "internet-mode-verification" ];
+      miniSmtIds = [ "FS-380-HDS-020-SDS-010-SMS-050" ];
       inputKinds = [ "intent-source" ];
     };
   };

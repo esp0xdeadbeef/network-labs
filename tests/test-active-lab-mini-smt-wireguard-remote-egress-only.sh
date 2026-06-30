@@ -28,7 +28,7 @@ let
   lib = pkgs.lib;
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   mini = import (repoRoot + "/GAMP/SMT/mini-smt/default.nix");
-  entry = manifest.tests.wireguard-remote-egress;
+  entry = manifest.tests."FS-470-HDS-010-SDS-010-SMS-010";
   lab = mini.labs."FS-470-HDS-010-SDS-010-SMS-010";
   cpm = import entry.source.cpm;
   controlPlane = cpm.control_plane_model;

@@ -66,6 +66,10 @@ let
     "clab-emulated-sigma"
   ];
   sourceNames = builtins.attrNames sms.sourceInputs;
+  sourceTraceIds = map (id: sms.sourceInputs.${id}.traceId) expectedIds;
+  sdsMiniIds =
+    builtins.concatLists
+      (map (traceId: sds.smsInputs.${traceId}.miniSmtIds) sourceTraceIds);
 
   sourceTrace = value:
     if value ? control_plane_model
@@ -138,7 +142,7 @@ let
   sourceMatchesRow = name:
     let
       row = sms.sourceInputs.${name};
-      entry = manifest.tests.${name};
+      entry = builtins.getAttr row.traceId manifest.tests;
     in
       pathExistsRel row.sourcePath
       && pathExistsRel row.test
@@ -156,7 +160,7 @@ let
   activeClabHosts = activeClabInventory.deployment.hosts or { };
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901";
   defaultActiveLabOk =
     (activeIntent.control_plane_model.meta.traceId or null) == sms.sourceInputs.renderer-nixos.traceId
     && nixosStub != null
@@ -198,7 +202,7 @@ in
   require (sms.layer == "SMS") "FS-166 SMS row must declare SMS layer"
   && require (sms.traceId == "FS-166-HDS-010-SDS-010-SMS-900") "FS-166 SMS row trace mismatch"
   && require (sourceNames == expectedSortedIds) "FS-166 SMS row must enumerate every renderer-entry source"
-  && require (sds.smsInputs."FS-166-HDS-010-SDS-010-SMS-900".miniSmtIds == expectedIds) "SDS row must enumerate all FS-166 mini SMT IDs"
+  && require (sdsMiniIds == sourceTraceIds) "SDS row must enumerate every FS-166 mini SMT trace ID"
   && require (builtins.all (id: builtins.hasAttr id sms.sourceInputs) expectedIds) "SMS row missing an SDS mini SMT input"
   && require (builtins.all sourceMatchesRow expectedIds) "SMS source input path, test, manifest, or emitted trace does not match"
   && require (builtins.all (id: builtins.elem sms.sourceInputs.${id}.sourcePath sitSourcePaths) expectedIds) "SIT row must list every renderer-entry source path"

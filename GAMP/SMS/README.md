@@ -16,7 +16,12 @@ SAT approval evidence.
 
 | SMS Directory | Parent SDS | Mini-SMT ID(s) |
 | --- | --- | --- |
-| `FS-166-HDS-010-SDS-010-SMS-900` | `FS-166-HDS-010-SDS-010` | `renderer-nixos`, `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, `renderer-nebula` |
+| `FS-166-HDS-010-SDS-010-SMS-901` | `FS-166-HDS-010-SDS-010` | `renderer-nixos` |
+| `FS-166-HDS-010-SDS-010-SMS-902` | `FS-166-HDS-010-SDS-010` | `renderer-nixos-p2p` |
+| `FS-166-HDS-010-SDS-010-SMS-903` | `FS-166-HDS-010-SDS-010` | `renderer-nixos-clients` |
+| `FS-166-HDS-010-SDS-010-SMS-904` | `FS-166-HDS-010-SDS-010` | `renderer-clab` |
+| `FS-166-HDS-010-SDS-010-SMS-905` | `FS-166-HDS-010-SDS-010` | `renderer-wireguard` |
+| `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010` | `renderer-nebula` |
 | `FS-370-HDS-010-SDS-010-SMS-050` | `FS-370-HDS-010-SDS-010` | `lane-egress-binding` |
 | `FS-380-HDS-020-SDS-010-SMS-050` | `FS-380-HDS-020-SDS-010` | `internet-mode-verification` |
 | `FS-500-HDS-010-SDS-010-SMS-010` | `FS-500-HDS-010-SDS-010` | `reachability-decision` |
