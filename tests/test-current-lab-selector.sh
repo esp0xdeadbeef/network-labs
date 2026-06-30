@@ -238,6 +238,50 @@ in
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
 ' >/dev/null || fail "SMT renderer-wireguard selection failed"
 
+"${selector}" SMT renderer-nebula >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix") {};
+  require = cond: msg: if cond then true else throw msg;
+  defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  nebulaTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
+  nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
+  overlay = activeIntentNixos.control_plane_model.data.acme.lab.overlays.nebula-layer-entry;
+  secrets = sopsNixos.sops.secrets;
+in
+  require (current.selection.layer == "SMT") "renderer-nebula selector layer mismatch"
+  && require (current.selection.selector == "renderer-nebula") "renderer-nebula selector id mismatch"
+  && require (current.selection.traceId == nebulaTrace) "renderer-nebula trace mismatch"
+  && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix") "renderer-nebula source path mismatch"
+  && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must preserve the global NixOS runtime CPM"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == nebulaTrace) "renderer-nebula must install the Nebula CPM on s-router-nixos"
+  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must not replace s-router-clab router input"
+  && require (activeIntentClients.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must not replace s-router-test-clients router input"
+  && require (nixosTargets == [ "lab-client-nebula" "lab-lighthouse" ]) "renderer-nebula s-router-nixos host intent must expose only the Nebula client and lighthouse"
+  && require (activeIntentNixos.deploymentHosts ? s-router-nixos) "renderer-nebula s-router-nixos host intent must expose s-router-nixos deployment host"
+  && require (!(activeIntentNixos.deploymentHosts ? s-router-clab)) "renderer-nebula host intent must not expose s-router-clab deployment host data"
+  && require (!(activeIntentNixos.deploymentHosts ? s-router-test-clients)) "renderer-nebula host intent must not expose s-router-test-clients deployment host data"
+  && require (overlay.nebula.lighthouse.node == "lab-lighthouse") "renderer-nebula overlay must identify the row lighthouse"
+  && require (overlay.runtimeNodes.lab-lighthouse.service.interface == "nebula1") "renderer-nebula lighthouse service interface mismatch"
+  && require (overlay.runtimeNodes.lab-lighthouse.service.listenHost == "100.96.90.1") "renderer-nebula lighthouse listen host mismatch"
+  && require (overlay.runtimeNodes.lab-lighthouse.service.port == 4242) "renderer-nebula lighthouse listen port mismatch"
+  && require (overlay.runtimeNodes.lab-client-nebula.service.interface == "nebula1") "renderer-nebula client service interface mismatch"
+  && require (overlay.runtimeNodes.lab-client-nebula.service.listenHost == "100.96.90.2") "renderer-nebula client listen host mismatch"
+  && require (overlay.runtimeNodes.lab-client-nebula.service.port == 4242) "renderer-nebula client listen port mismatch"
+  && require (secrets."nebula-profile-lab-lighthouse-ca-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/ca.crt") "renderer-nebula lighthouse CA secret path mismatch"
+  && require (secrets."nebula-profile-lab-lighthouse-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/lab-lighthouse.crt") "renderer-nebula lighthouse cert secret path mismatch"
+  && require (secrets."nebula-profile-lab-lighthouse-key".path == "/persist/nebula-runtime/profiles/lab-lighthouse/lab-lighthouse.key") "renderer-nebula lighthouse key secret path mismatch"
+  && require (secrets."nebula-profile-lab-client-nebula-ca-crt".path == "/persist/nebula-runtime/profiles/lab-client-nebula/ca.crt") "renderer-nebula client CA secret path mismatch"
+  && require (secrets."nebula-profile-lab-client-nebula-crt".path == "/persist/nebula-runtime/profiles/lab-client-nebula/lab-client-nebula.crt") "renderer-nebula client cert secret path mismatch"
+  && require (secrets."nebula-profile-lab-client-nebula-key".path == "/persist/nebula-runtime/profiles/lab-client-nebula/lab-client-nebula.key") "renderer-nebula client key secret path mismatch"
+' >/dev/null || fail "SMT renderer-nebula selection failed"
+
 "${selector}" SIT FS-500-HDS-010-SDS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let

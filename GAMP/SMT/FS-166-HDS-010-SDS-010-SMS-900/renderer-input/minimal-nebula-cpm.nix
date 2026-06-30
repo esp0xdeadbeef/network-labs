@@ -42,19 +42,9 @@ rec {
         uplinks.management = managementVlan2;
         bridgeNetworks = { };
       };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-test-clients = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
     };
     render.hosts = {
       s-router-nixos.deploymentHost = "s-router-nixos";
-      s-router-clab.deploymentHost = "s-router-clab";
-      s-router-test-clients.deploymentHost = "s-router-test-clients";
     };
     data.acme.lab = {
       siteName = "acme.lab";
@@ -76,34 +66,6 @@ rec {
         };
         lab-client-nebula = (mkRuntimeTarget "s-router-nixos" "lab-client-nebula") // {
           placement.host = "s-router-nixos";
-          logicalNode = {
-            enterprise = "acme";
-            site = "lab";
-            name = "lab-client-nebula";
-          };
-        };
-        lab-lighthouse-clab = (mkRuntimeTarget "s-router-clab" "lab-lighthouse-clab") // {
-          logicalNode = {
-            enterprise = "acme";
-            site = "lab";
-            name = "lab-lighthouse";
-          };
-        };
-        lab-client-nebula-clab = (mkRuntimeTarget "s-router-clab" "lab-client-nebula-clab") // {
-          logicalNode = {
-            enterprise = "acme";
-            site = "lab";
-            name = "lab-client-nebula";
-          };
-        };
-        lab-lighthouse-test-client = (mkRuntimeTarget "s-router-test-clients" "lab-lighthouse-test-client") // {
-          logicalNode = {
-            enterprise = "acme";
-            site = "lab";
-            name = "lab-lighthouse";
-          };
-        };
-        lab-client-nebula-test-client = (mkRuntimeTarget "s-router-test-clients" "lab-client-nebula-test-client") // {
           logicalNode = {
             enterprise = "acme";
             site = "lab";
@@ -133,6 +95,8 @@ rec {
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
+              listenHost = "100.96.90.1";
+              port = 4242;
               mtu = 1300;
             };
             groups = [ "lighthouse" ];
@@ -142,6 +106,8 @@ rec {
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
+              listenHost = "100.96.90.2";
+              port = 4242;
               mtu = 1300;
             };
             groups = [ "client" ];
