@@ -156,18 +156,18 @@ let
   activeClabHosts = activeClabInventory.deployment.hosts or { };
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "renderer-nixos";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
   defaultActiveLabOk =
     (activeIntent.control_plane_model.meta.traceId or null) == sms.sourceInputs.renderer-nixos.traceId
     && nixosStub != null
     && clabStub != null
     && clientStub != null
-    && nixosStub.miniSmtId == "renderer-nixos"
+    && nixosStub.miniSmtId == sms.sourceInputs.renderer-nixos.traceId
     && toString nixosStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-nixos.sourcePath
     && toString nixosStub.test == repoRoot + "/" + sms.sourceInputs.renderer-nixos.test
-    && clientStub.miniSmtId == "renderer-nixos-clients"
+    && clientStub.miniSmtId == sms.sourceInputs.renderer-nixos-clients.traceId
     && toString clientStub.source == repoRoot + "/" + sms.sourceInputs.renderer-nixos-clients.sourcePath
-    && clabStub.miniSmtId == "renderer-clab"
+    && clabStub.miniSmtId == sms.sourceInputs.renderer-clab.traceId
     && clabStub.traceId == sms.sourceInputs.renderer-clab.traceId
     && toString clabStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-clab.sourcePath
     && toString clabStub.test == repoRoot + "/" + sms.sourceInputs.renderer-clab.test;

@@ -72,7 +72,7 @@ GAMP/SMT/FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/
 ```
 
 Declare the row in `GAMP/SMT/mini-smt/tests.nix` and make
-`tests/run-active-lab-mini-smt.sh <mini-smt-id>` run exactly that row.
+`tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>` run exactly that row.
 Renderer rows must have their own focused script, for example
 `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
 `renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
@@ -270,7 +270,7 @@ allocation metadata to both p2p endpoint interface records and assert it in
 commands exited 0:
 
 ```bash
-bash tests/run-active-lab-mini-smt.sh renderer-nixos-p2p
+bash tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p
 nix build --dry-run --no-link --print-out-paths \
   path:/home/deadbeef/github/nixos#nixosConfigurations.s-router-nixos.config.system.build.nixos-shell \
   --override-input network-labs path:/home/deadbeef/github/network-labs
@@ -290,7 +290,7 @@ fix in `network-labs@f9d21d2` adds that metadata to
 both the CPM `policyRoutingAllocation` and p2p interface class fields.
 
 2026-06-30 live `renderer-nixos` row closure: `network-labs@b077ad6` selected
-`SMT renderer-nixos`, local `nixos` lock `56239c47` consumed it, and
+`SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime`, local `nixos` lock `56239c47` consumed it, and
 `network-codex-agent@41f3e451` added the focused runtime verifier
 `scripts/fs166-active-lab-renderer-nixos-runtime-check.sh`. Local builds passed
 for all three active-lab hosts, then `s-router-nixos` (`192.168.1.17`),
@@ -303,7 +303,7 @@ row-local `renderer-nixos` SMT/SIT runtime predicate only; the other FS-166
 renderer mini-SMT variants still require their own row-local live runs.
 
 2026-06-30 live `renderer-nixos-p2p` row closure: `network-labs@50850a3`
-selected `SMT renderer-nixos-p2p`, `network-labs@f9d21d2` completed the
+selected `SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p`, `network-labs@f9d21d2` completed the
 renderer-input CPM fixture, local `nixos` lock `5f86907b` consumed it, and
 `network-codex-agent@3895ed64` asserted the p2p interface class in
 `scripts/fs166-active-lab-renderer-nixos-p2p-runtime-check.sh`. Local builds
@@ -321,7 +321,7 @@ without running either edge container. This closes the row-local
 `renderer-nixos-p2p` SMT/SIT runtime predicate only and does not promote HAT/SAT.
 
 2026-06-30 live `renderer-nixos-clients` row closure: `network-labs@d494c16`
-selected `SMT renderer-nixos-clients`, removed router runtime targets from the
+selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients`, removed router runtime targets from the
 access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and
 `network-codex-agent@d79b5e17` added
 `scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh`. Local builds
@@ -340,7 +340,7 @@ row-local `renderer-nixos-clients` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
 2026-06-30 live `renderer-clab` row closure: `network-labs@ba3329c` selected
-`SMT renderer-clab`, fixed the `s-router-clab` host-specific intent alias to
+`SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab`, fixed the `s-router-clab` host-specific intent alias to
 consume the CLAB CPM fixture instead of the default NixOS runtime CPM, local
 `nixos` lock `91fcc0f9` consumed it, and
 `network-codex-agent@644a5360` added
@@ -365,7 +365,7 @@ predicate only and does not promote HAT/SAT.
 2026-06-30 live `renderer-wireguard` row closure:
 `network-renderer-wireguard@fcaa109` fixed hostModule runtime materialization
 by binding explicit `/run/secrets` key paths into generated containers,
-`network-labs@d74172e` selected `SMT renderer-wireguard` with one
+`network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` with one
 `wireguard-egress` runtime target and row-local SOPS secret,
 `network-codex-agent@f864df47` added
 `scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh`, and local
@@ -390,7 +390,7 @@ promote HAT/SAT.
 2026-06-30 live `renderer-nebula` row closure:
 `network-renderer-nebula@b9f01fb` fixed hostModule runtime materialization by
 binding persistent Nebula profile directories into generated containers,
-`network-labs@4919505` selected `SMT renderer-nebula` with two runtime targets
+`network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` with two runtime targets
 (`lab-lighthouse` and `lab-client-nebula`) plus row-local SOPS profile secrets,
 `network-codex-agent@808593f3` added
 `scripts/fs166-active-lab-renderer-nebula-runtime-check.sh`, and local `nixos`

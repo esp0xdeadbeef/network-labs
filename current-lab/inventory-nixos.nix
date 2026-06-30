@@ -1,7 +1,8 @@
 {
   activeLabInventoryStub = {
     kind = "mini-smt-renderer-input-stub";
-    miniSmtId = "renderer-nixos";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    miniSmtManifestKey = "renderer-nixos";
     rendererTarget = "nixos";
     entryBoundary = "renderer-input";
     traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";

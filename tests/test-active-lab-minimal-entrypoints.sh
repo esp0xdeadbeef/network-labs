@@ -108,7 +108,7 @@ let
   activeHetzHosts = inventoryHetz.deployment.hosts or { };
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "renderer-nixos";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
   defaultMiniOk =
     clientStub != null
     && clabStub != null
@@ -118,7 +118,7 @@ let
     && clabStub.kind == "runtime-clab-inventory-stub"
     && hetzStub.kind == "runtime-hetz-inventory-stub"
     && stub.kind == "mini-smt-renderer-input-stub"
-    && stub.miniSmtId == "renderer-nixos"
+    && stub.miniSmtId == rendererNixos.traceId
     && stub.entryBoundary == "renderer-input"
     && stub.traceId == rendererNixos.traceId
     && toString stub.cpmInput == toString rendererNixos.source.cpm

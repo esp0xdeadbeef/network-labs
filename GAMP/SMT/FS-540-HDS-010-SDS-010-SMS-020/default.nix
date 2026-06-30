@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-020";
-  miniSmtId = "dns-resolver-config";
+  miniSmtId = "FS-540-HDS-010-SDS-010-SMS-020";
   source = {
     kind = "intent-source";
     intent = ./intent.nix;
@@ -12,7 +12,7 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh dns-resolver-config";
+    command = "tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020";
     focusedTest = "tests/test-active-lab-mini-smt-dns-resolver-config-only.sh";
     liveSitProbe = "tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh";
     liveCommand = ''

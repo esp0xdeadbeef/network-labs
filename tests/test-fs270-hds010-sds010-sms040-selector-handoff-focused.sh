@@ -30,8 +30,8 @@ INVENTORY
 fi
 
 echo "--- Source verification ---"
-tests/run-active-lab-mini-smt.sh --source selector-handoff 2>/dev/null || {
-  echo "SKIP: mini-smt selector-handoff not registered in tests.nix (row-local only, manager must register)"
+tests/run-active-lab-mini-smt.sh --source FS-270-HDS-010-SDS-010-SMS-040 2>/dev/null || {
+  echo "SKIP: mini-SMT FS-270-HDS-010-SDS-010-SMS-040 not registered in tests.nix (row-local only, manager must register)"
   echo "PASS source-fixture-exists"
   exit 0
 }

@@ -10,7 +10,7 @@ usage() {
 Usage:
   scripts/select-current-lab.sh --list
   scripts/select-current-lab.sh default
-  scripts/select-current-lab.sh SMT <mini-smt-id|FS-...-SMS-...>
+  scripts/select-current-lab.sh SMT <FS-...-SMS-... trace-id>
   scripts/select-current-lab.sh SIT <FS-...-SDS-...>
   scripts/select-current-lab.sh HAT [emulated-isp-residential-testnet]
   scripts/select-current-lab.sh SAT
@@ -65,7 +65,8 @@ write_default_nixos_inventory() {
 {
   activeLabInventoryStub = {
     kind = "mini-smt-renderer-input-stub";
-    miniSmtId = "renderer-nixos";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    miniSmtManifestKey = "renderer-nixos";
     rendererTarget = "nixos";
     entryBoundary = "renderer-input";
     traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
@@ -97,7 +98,8 @@ in
 {
   activeLabInventoryStub = {
     kind = "runtime-clab-inventory-stub";
-    miniSmtId = "renderer-clab";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    miniSmtManifestKey = "renderer-clab";
     rendererTarget = "clab";
     entryBoundary = "renderer-input";
     traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
@@ -136,7 +138,8 @@ write_default_clients() {
   activeLabClientStub = {
     kind = "runtime-client-source-stub";
     scope = "NixOS access-endpoint renderer input path";
-    miniSmtId = "renderer-nixos-clients";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    miniSmtManifestKey = "renderer-nixos-clients";
     source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
     test = ../tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh;
   };
@@ -892,7 +895,7 @@ select_default() {
   write_current_host_entrypoints
   write_metadata \
     "SMT" \
-    "renderer-nixos" \
+    "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime" \
     "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime" \
     "renderer-input" \
     "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900" \
@@ -911,45 +914,77 @@ mini_exists() {
   nix eval --impure --expr "let manifest = import ${manifest_file}; in manifest.tests ? \"${id}\"" 2>/dev/null | grep -qx true
 }
 
-trace_for_mini_or_trace() {
+mini_key_for_trace() {
+  local trace="$1"
+  nix eval --impure --raw --expr "
+let
+  manifest = import ${manifest_file};
+  ids = builtins.attrNames manifest.tests;
+  matches = builtins.filter (id: (builtins.getAttr id manifest.tests).traceId == \"${trace}\") ids;
+in
+  if matches == [ ] then \"\" else builtins.head matches
+"
+}
+
+mini_key_for_selector() {
   local requested="$1"
+  local key trace
+
+  key="$(mini_key_for_trace "${requested}")"
+  if [[ -n "${key}" ]]; then
+    printf '%s\n' "${key}"
+    return 0
+  fi
+
   if mini_exists "${requested}"; then
-    mini_attr "${requested}" "row.traceId"
-    return 0
+    trace="$(mini_attr "${requested}" "row.traceId")"
+    if [[ "${NETWORK_LABS_ALLOW_LEGACY_MINI_SMT_ALIAS:-0}" == "1" ]]; then
+      printf '%s\n' "${requested}"
+      return 0
+    fi
+    echo "Alias SMT selector rejected: ${requested}" >&2
+    echo "Use full trace ID: ${trace}" >&2
+    return 2
   fi
-  if [[ "${requested}" =~ ^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+$ ]]; then
-    printf '%s\n' "${requested}"
-    return 0
-  fi
-  echo "Unknown SMT selector: ${requested}" >&2
+
+  echo "Unknown SMT trace ID: ${requested}" >&2
   return 2
 }
 
-source_kind_for_mini_or_trace() {
+mini_key_for_manifest_token() {
   local requested="$1"
-  if mini_exists "${requested}"; then
-    mini_attr "${requested}" "row.source.kind or \"unspecified\""
-  else
-    printf 'trace-row\n'
+  local key
+
+  key="$(mini_key_for_trace "${requested}")"
+  if [[ -n "${key}" ]]; then
+    printf '%s\n' "${key}"
+    return 0
   fi
+  if mini_exists "${requested}"; then
+    printf '%s\n' "${requested}"
+    return 0
+  fi
+  return 2
 }
 
-renderer_target_for_mini_or_trace() {
-  local requested="$1"
-  if mini_exists "${requested}"; then
-    mini_attr "${requested}" "if (row.rendererTarget or null) == null then \"\" else row.rendererTarget"
-  else
-    printf '\n'
-  fi
+trace_for_mini_key() {
+  local key="$1"
+  mini_attr "${key}" "row.traceId"
 }
 
-source_path_for_mini_or_trace() {
-  local requested="$1"
-  if mini_exists "${requested}"; then
-    mini_attr "${requested}" "let source = row.source or {}; in if source ? cpm then toString source.cpm else if source ? intent then toString source.intent else \"\""
-  else
-    printf 'GAMP/SMT/%s/intent.nix\n' "${requested}"
-  fi
+source_kind_for_mini_key() {
+  local key="$1"
+  mini_attr "${key}" "row.source.kind or \"unspecified\""
+}
+
+renderer_target_for_mini_key() {
+  local key="$1"
+  mini_attr "${key}" "if (row.rendererTarget or null) == null then \"\" else row.rendererTarget"
+}
+
+source_path_for_mini_key() {
+  local key="$1"
+  mini_attr "${key}" "let source = row.source or {}; in if source ? cpm then toString source.cpm else if source ? intent then toString source.intent else \"\""
 }
 
 sit_command_for() {
@@ -977,7 +1012,7 @@ first_manifest_mini_for_sit() {
 
   rest="${command#tests/run-active-lab-mini-smt.sh }"
   for mini_id in ${rest}; do
-    if mini_exists "${mini_id}"; then
+    if mini_id="$(mini_key_for_manifest_token "${mini_id}")"; then
       printf '%s\n' "${mini_id}"
       return 0
     fi
@@ -1004,17 +1039,18 @@ in
 
 select_smt() {
   local requested="$1"
-  local trace row_trace source_kind source_path renderer_target row_dir selected_by
-  trace="$(trace_for_mini_or_trace "${requested}")"
+  local mini_key trace row_trace source_kind source_path renderer_target row_dir selected_by
+  mini_key="$(mini_key_for_selector "${requested}")"
+  trace="$(trace_for_mini_key "${mini_key}")"
   row_trace="${trace%%__*}"
-  source_kind="$(source_kind_for_mini_or_trace "${requested}")"
-  source_path="$(source_path_for_mini_or_trace "${requested}")"
-  renderer_target="$(renderer_target_for_mini_or_trace "${requested}")"
+  source_kind="$(source_kind_for_mini_key "${mini_key}")"
+  source_path="$(source_path_for_mini_key "${mini_key}")"
+  renderer_target="$(renderer_target_for_mini_key "${mini_key}")"
   if [[ "${source_path}" == "${repo_root}/"* ]]; then
     source_path="${source_path#"${repo_root}/"}"
   fi
   row_dir="GAMP/SMT/${row_trace}"
-  selected_by="scripts/select-current-lab.sh SMT ${requested}"
+  selected_by="scripts/select-current-lab.sh SMT ${trace}"
 
   [[ -d "${repo_root}/${row_dir}" ]] || {
     echo "SMT row directory not found: ${row_dir}" >&2
@@ -1071,13 +1107,13 @@ select_smt() {
   if [[ "${source_kind}" != "renderer-input" ]]; then
     write_row_test_client_entrypoints "${row_dir}" "${forwarding_enterprise_json}"
   fi
-  write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
+  write_metadata "SMT" "${trace}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
 }
 
 select_sit() {
   local sds="$1"
   local sit_dir="GAMP/SIT/${sds}"
-  local mini_id
+  local mini_key mini_trace
 
   [[ "${sds}" =~ ^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+$ ]] || {
     echo "SIT selector must be an SDS trace ID: ${sds}" >&2
@@ -1088,8 +1124,9 @@ select_sit() {
     exit 2
   }
 
-  mini_id="$(first_manifest_mini_for_sit "${sds}")"
-  select_smt "${mini_id}"
+  mini_key="$(first_manifest_mini_for_sit "${sds}")"
+  mini_trace="$(trace_for_mini_key "${mini_key}")"
+  select_smt "${mini_trace}"
   write_metadata "SIT" "${sds}" "${sds}" "sds-integration-source" "${sit_dir}" "${sit_dir}/default.nix" "scripts/select-current-lab.sh SIT ${sds}"
 }
 

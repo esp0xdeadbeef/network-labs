@@ -22,7 +22,7 @@
 };
   evidence = {
     command = ''
-      tests/run-active-lab-mini-smt.sh dns-resolver-config &&
+      tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020 &&
       tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh
     '';
     liveCommand = ''

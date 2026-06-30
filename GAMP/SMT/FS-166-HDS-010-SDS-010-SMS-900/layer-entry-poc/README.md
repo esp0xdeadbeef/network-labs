@@ -58,7 +58,7 @@ layer-entry harnesses. The aggregate scripts prove wiring across boundaries; a
 row-level SMT should prove one small runtime surface and then run the real
 target lifecycle for that surface. Renderer mini-SMT rows are declared in
 `../mini-smt/tests.nix` and are run independently with
-`../../tests/run-active-lab-mini-smt.sh <mini-smt-id>`.
+`../../tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>`.
 
 For row-specific SMT/SIT intent-source checks, use the SMT SMS row directory,
 for example `../FS-500-HDS-010-SDS-010-SMS-040/intent.nix`, through

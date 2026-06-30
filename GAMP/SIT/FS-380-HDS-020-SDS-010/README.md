@@ -10,5 +10,5 @@ currently consumes:
 Run the small row input independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh internet-mode-verification
+tests/run-active-lab-mini-smt.sh FS-380-HDS-020-SDS-010-SMS-050
 ```

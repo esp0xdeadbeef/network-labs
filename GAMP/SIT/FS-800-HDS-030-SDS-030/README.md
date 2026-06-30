@@ -13,7 +13,7 @@ currently consumes:
 Run the row-local source check:
 
 ```bash
-tests/run-active-lab-mini-smt.sh pppoe-pairing
+tests/run-active-lab-mini-smt.sh FS-800-HDS-030-SDS-030-SMS-010
 ```
 
 Run the live active-lab verifier after selecting and deploying this row:

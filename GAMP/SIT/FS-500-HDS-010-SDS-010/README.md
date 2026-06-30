@@ -12,7 +12,7 @@ currently consumes:
 Run the small row inputs independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh reachability-decision p2p-next-hop
+tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-010 FS-500-HDS-010-SDS-010-SMS-040
 ```
 
 After selecting the reachability row into `current-lab`, run the live verifier

@@ -8,7 +8,7 @@ tenant client → external testnet uplink path with `lane.kind: "access-uplink"`
 Run:
 
 ```bash
-tests/run-active-lab-mini-smt.sh lane-egress-binding
+tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-050
 ```
 
 This row declares the five-target lane path that the active-lab selector must

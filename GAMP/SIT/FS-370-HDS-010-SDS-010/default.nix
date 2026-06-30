@@ -21,7 +21,7 @@
     };
 };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh lane-egress-binding";
+    command = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-050";
     liveCommand = "NETWORK_REPO_DIRECT_TEST_OK=1 S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 S_ROUTER_TEST_CLIENTS=192.168.1.18 ../network-codex-agent/scripts/fs370-active-lab-lane-egress-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix"

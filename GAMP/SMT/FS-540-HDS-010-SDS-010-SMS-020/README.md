@@ -10,8 +10,8 @@ resolver prevention.
 Run:
 
 ```bash
-tests/run-active-lab-mini-smt.sh --source dns-resolver-config
-tests/run-active-lab-mini-smt.sh dns-resolver-config
+tests/run-active-lab-mini-smt.sh --source FS-540-HDS-010-SDS-010-SMS-020
+tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020
 ```
 
 This row's live SIT selection starts only the smallest DNS policy path:

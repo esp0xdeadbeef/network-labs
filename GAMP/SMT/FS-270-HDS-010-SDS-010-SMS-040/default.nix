@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-270-HDS-010-SDS-010-SMS-040";
-  miniSmtId = "selector-handoff";
+  miniSmtId = "FS-270-HDS-010-SDS-010-SMS-040";
   evidenceBoundary = "construction-only";
   source = {
     kind = "intent-source";
@@ -11,7 +11,7 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh --source selector-handoff";
+    command = "tests/run-active-lab-mini-smt.sh --source FS-270-HDS-010-SDS-010-SMS-040";
     focusedTest = "tests/FS-270-HDS-010-SDS-010-SMS-040-selector-forwarding-relation-identity.sh";
     owningRepo = "network-control-plane-model";
     maxRuntimeTargets = 2;

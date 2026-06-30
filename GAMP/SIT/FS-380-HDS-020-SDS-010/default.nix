@@ -9,7 +9,7 @@
     };
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh internet-mode-verification";
+    command = "tests/run-active-lab-mini-smt.sh FS-380-HDS-020-SDS-010-SMS-050";
     liveCommand = ''
       cd /home/deadbeef/github/network-codex-agent &&
       NETWORK_REPO_DIRECT_TEST_OK=1 \
