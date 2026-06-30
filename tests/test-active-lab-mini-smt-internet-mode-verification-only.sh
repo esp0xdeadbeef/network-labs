@@ -131,7 +131,7 @@ nix eval --impure --expr "
       \"internet-mode CLAB inventory must declare exactly one fake-provider request\"
     && require (clabProvider.providerEmulationMode == \"fake-provider\" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4)
       \"internet-mode CLAB fake provider must bind provider handoff VLAN11 and live upstream VLAN4 explicitly\"
-    && require (clabProvider.dhcp4.address == \"10.20.0.1/24\" && clabProvider.dhcp4.router == \"10.20.0.1\" && clabProvider.dhcp4.rangeStart == \"10.20.0.20\" && clabProvider.dhcp4.rangeEnd == \"10.20.0.99\" && clabProvider.dhcp4.leaseTime == \"5m\" && clabProvider.dhcp4.sourcePrefix == \"10.20.0.0/24\")
+    && require (clabProvider.dhcp4.address == \"10.20.0.1/24\" && clabProvider.dhcp4.router == \"10.20.0.1\" && clabProvider.dhcp4.clientAddress == \"10.20.0.20\" && clabProvider.dhcp4.rangeStart == \"10.20.0.20\" && clabProvider.dhcp4.rangeEnd == \"10.20.0.99\" && clabProvider.dhcp4.leaseTime == \"5m\" && clabProvider.dhcp4.sourcePrefix == \"10.20.0.0/24\")
       \"internet-mode CLAB fake provider must declare explicit DHCPv4 service parameters\"
     && require (clabProvider.nat44.enabled == true && clabProvider.nat44.sourcePrefix == \"10.20.0.0/24\")
       \"internet-mode CLAB fake provider must declare explicit NAT44 source prefix\"
