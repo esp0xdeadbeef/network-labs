@@ -298,23 +298,31 @@ in
           "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         pppoe-client = {
           role = "pppoe-client";
           interface = "wan0";
           runtimeInterface = "ppp0";
         };
-        pppoe-server = {
-          role = "pppoe-server";
-          interface = "wan0";
-          service = "accel-ppp";
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+        };
+        pppoe-provider = {
+          role = "pppoe-provider";
+          uplink = "pppoe-provider";
         };
       };
       pppoePairs = {
         primary = {
           provider = {
-            target = "pppoe-server";
+            target = "pppoe-provider";
             handoff = "pppoe";
             routeDeliveryClass = "connected";
           };
@@ -335,9 +343,6 @@ in
       ];
       forbiddenScope = [
         "active-lab/full"
-        "s-router-nixos"
-        "s-router-clab"
-        "s-router-test-clients"
         "HAT"
         "SAT"
       ];
