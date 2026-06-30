@@ -36,8 +36,8 @@ in
       script = "tests/test-active-lab-mini-smt-pppoe-pairing-only.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "compiler/NFM PPPoE pairing contract";
-      maxRuntimeTargets = 2;
+      scope = "compiler/NFM PPPoE pairing contract over the five-node access -> downstream-selector -> policy -> upstream-selector -> pppoe-provider path";
+      maxRuntimeTargets = 5;
     };
 
     provider-access-default-route = {

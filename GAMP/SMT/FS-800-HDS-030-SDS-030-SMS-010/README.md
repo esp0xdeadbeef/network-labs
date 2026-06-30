@@ -8,4 +8,12 @@ Run:
 tests/run-active-lab-mini-smt.sh pppoe-pairing
 ```
 
-This row may start only `pppoe-client` and `pppoe-server`.
+This row may start only the five-node current-lab path:
+
+- `pppoe-client`
+- `downstream-selector`
+- `policy`
+- `upstream-selector`
+- `pppoe-provider`
+
+The row must not select full HAT/SAT or aggregate renderer POC sources.

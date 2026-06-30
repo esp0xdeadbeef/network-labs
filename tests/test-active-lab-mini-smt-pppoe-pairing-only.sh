@@ -21,8 +21,12 @@ nix eval --impure --expr "
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-800-HDS-030-SDS-030-SMS-010\";
     entry = manifest.tests.\"pppoe-pairing\";
+    rowIntent = import ${repo_root}/GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/intent.nix;
+    rowSource = rowIntent.\"mini-smt\".\"pppoe-pairing\";
     pair = lab.pppoePairs.primary;
     require = cond: msg: if cond then true else throw msg;
+    rowNodes = builtins.attrNames rowSource.topology.nodes;
+    rowLinks = rowSource.topology.links;
     valid = mini.validators.pppoePair pair;
     providerOnly = mini.validators.pppoePair (removeAttrs pair [ \"customer\" ]);
     customerOnly = mini.validators.pppoePair (removeAttrs pair [ \"provider\" ]);
@@ -47,18 +51,48 @@ nix eval --impure --expr "
       \"PPPoE manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"PPPoE mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"pppoe-client\" \"pppoe-server\" ])
-      \"PPPoE mini SMT may start only pppoe-client and pppoe-server\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"PPPoE mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"downstream-selector\"
+      \"policy\"
+      \"pppoe-client\"
+      \"pppoe-provider\"
+      \"upstream-selector\"
+    ])
+      \"PPPoE mini SMT runtime target declaration must match the five-node current-lab path\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"PPPoE mini SMT must stay capped at five runtime targets\"
+    && require (builtins.length rowNodes == 5)
+      \"PPPoE row source must contain exactly five topology nodes\"
+    && require (rowNodes == [
+      \"downstream-selector\"
+      \"policy\"
+      \"pppoe-client\"
+      \"pppoe-provider\"
+      \"upstream-selector\"
+    ])
+      \"PPPoE row source nodes must match the current-lab five-node path\"
+    && require (builtins.elem [ \"pppoe-client\" \"downstream-selector\" ] rowLinks)
+      \"PPPoE row source missing pppoe-client -> downstream-selector link\"
+    && require (builtins.elem [ \"downstream-selector\" \"policy\" ] rowLinks)
+      \"PPPoE row source missing downstream-selector -> policy link\"
+    && require (builtins.elem [ \"policy\" \"upstream-selector\" ] rowLinks)
+      \"PPPoE row source missing policy -> upstream-selector link\"
+    && require (builtins.elem [ \"upstream-selector\" \"pppoe-provider\" ] rowLinks)
+      \"PPPoE row source missing upstream-selector -> pppoe-provider link\"
+    && require (rowSource.topology.nodes.\"pppoe-provider\".uplinks ? pppoe-provider)
+      \"PPPoE row source provider node must expose the pppoe-provider uplink\"
     && require (lab.testsOnly == [
       \"provider-customer-pairing\"
       \"fallback-rejection\"
       \"transport-classification\"
     ])
       \"PPPoE mini SMT must name only the pairing/fallback atom checks\"
-    && require (builtins.elem \"s-router-nixos\" lab.forbiddenScope)
-      \"PPPoE mini SMT must forbid full s-router-nixos scope\"
+    && require (!(builtins.elem \"s-router-nixos\" lab.forbiddenScope))
+      \"PPPoE mini SMT must allow focused s-router-nixos runtime evidence\"
+    && require (!(builtins.elem \"s-router-clab\" lab.forbiddenScope))
+      \"PPPoE mini SMT must allow focused s-router-clab runtime evidence\"
+    && require (!(builtins.elem \"s-router-test-clients\" lab.forbiddenScope))
+      \"PPPoE mini SMT must allow focused s-router-test-clients reachability evidence\"
     && require (valid.ok && valid.diagnostic == null)
       \"valid PPPoE pair must pass\"
     && require (!providerOnly.ok && providerOnly.diagnostic == \"missing-customer-surface\")

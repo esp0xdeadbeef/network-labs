@@ -213,9 +213,10 @@ independently. Current renderer mini-SMT IDs are `renderer-nixos`,
 Preferred small row examples are already wired:
 
 - `tests/run-active-lab-mini-smt.sh pppoe-pairing` for
-  `FS-800-HDS-030-SDS-030-SMS-010`, capped to `pppoe-client` and
-  `pppoe-server`, proving only PPPoE provider/customer pairing, fallback
-  rejection, and transport classification.
+  `FS-800-HDS-030-SDS-030-SMS-010`, capped to the five-node
+  pppoe-client/downstream-selector/policy/upstream-selector/pppoe-provider path,
+  proving PPPoE provider/customer pairing, fallback rejection, transport
+  classification, and selectable current-lab runtime shape without full HAT/SAT.
 - `tests/run-active-lab-mini-smt.sh provider-access-default-route` for
   `FS-800-HDS-010-SDS-020-SMS-040`, capped to the canonical six-node
   provider-access path, proving provider-handoff default selection without
