@@ -1,5 +1,5 @@
 { config ? {}, lib ? {}, pkgs ? null
-, sopsFile ? ./../../active-lab/secrets/sops-s-router-clab.yaml
+, sopsFile ? ./emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml
 , runtimeFactSecrets ? []
 , ... }:
 

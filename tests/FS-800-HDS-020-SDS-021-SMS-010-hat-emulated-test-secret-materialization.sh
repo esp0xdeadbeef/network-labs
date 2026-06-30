@@ -138,10 +138,10 @@ nix eval --impure --json --expr "
       .bindingKind == "declaration-source"
       and .sourceClass == "deployment-platform-secret-reference"
       and no_authority(.policyAuthority));
-  host_secret_pair_ok(.sops; "active-lab/secrets/sops-s-router-clab.yaml")
-  and host_secret_pair_ok(.hostRouting.nixos; "active-lab/secrets/sops-s-router-nixos.yaml")
-  and host_secret_pair_ok(.hostRouting.clab; "active-lab/secrets/sops-s-router-clab.yaml")
-  and host_secret_pair_ok(.hostRouting.test; "active-lab/secrets/sops-s-router-test.yaml")
+  host_secret_pair_ok(.sops; "GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml")
+  and host_secret_pair_ok(.hostRouting.nixos; "GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-nixos.yaml")
+  and host_secret_pair_ok(.hostRouting.clab; "GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml")
+  and host_secret_pair_ok(.hostRouting.test; "GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-test.yaml")
   and runtime_credentials_ok(.inventories.nixos)
   and runtime_credentials_ok(.inventories.clab)
   and protected_ok(.protected.nixos)

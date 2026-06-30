@@ -1,3 +1,3 @@
 import ./sops.nix {
-  sopsFile = ./../../../active-lab/secrets/sops-s-router-test.yaml;
+  sopsFile = ./secrets/sops-s-router-test.yaml;
 }

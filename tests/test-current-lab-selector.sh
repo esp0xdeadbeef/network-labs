@@ -240,6 +240,7 @@ in
   && require (nixosTargets == [ "wireguard-egress" ]) "renderer-wireguard s-router-nixos host intent must expose only wireguard-egress"
   && require (activeIntentNixos.control_plane_model.wgInventory.wg-layer-entry.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "renderer-wireguard must expose row-local wgInventory"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
+  && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "renderer-wireguard must use the FS-166 row-owned SOPS file"
 ' >/dev/null || fail "SMT renderer-wireguard selection failed"
 
 "${selector}" SMT wireguard-remote-egress >/dev/null
@@ -276,6 +277,7 @@ in
   && require (providerContract.profile.generatedPeer.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "wireguard-remote-egress provider contract must use row-local sops secret"
   && require (providerContract.nat.ipv4.enable == true && providerContract.nat.ipv6.enable == true) "wireguard-remote-egress provider contract must enable NAT44/NAT66"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "wireguard-remote-egress must expose the row-local sops secret to s-router-nixos"
+  && require (builtins.match ".*GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "wireguard-remote-egress must use the FS-470 row-owned SOPS file"
 ' >/dev/null || fail "SMT wireguard-remote-egress selection failed"
 
 "${selector}" SMT renderer-nebula >/dev/null
@@ -319,6 +321,7 @@ in
   && require (overlay.runtimeNodes.lab-client-nebula.service.listenHost == "100.96.90.2") "renderer-nebula client listen host mismatch"
   && require (overlay.runtimeNodes.lab-client-nebula.service.port == 4242) "renderer-nebula client listen port mismatch"
   && require (secrets."nebula-profile-lab-lighthouse-ca-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/ca.crt") "renderer-nebula lighthouse CA secret path mismatch"
+  && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml" (toString secrets."nebula-profile-lab-lighthouse-ca-crt".sopsFile) != null) "renderer-nebula must use the FS-166 row-owned SOPS file"
   && require (secrets."nebula-profile-lab-lighthouse-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/lab-lighthouse.crt") "renderer-nebula lighthouse cert secret path mismatch"
   && require (secrets."nebula-profile-lab-lighthouse-key".path == "/persist/nebula-runtime/profiles/lab-lighthouse/lab-lighthouse.key") "renderer-nebula lighthouse key secret path mismatch"
   && require (secrets."nebula-profile-lab-client-nebula-ca-crt".path == "/persist/nebula-runtime/profiles/lab-client-nebula/ca.crt") "renderer-nebula client CA secret path mismatch"
