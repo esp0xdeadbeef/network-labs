@@ -363,6 +363,31 @@ complete/success, FS-166 renderer-clab control-plane artifact,
 CLAB edge runtime. This closes the row-local `renderer-clab` SMT/SIT runtime
 predicate only and does not promote HAT/SAT.
 
+2026-06-30 live `renderer-wireguard` row closure:
+`network-renderer-wireguard@fcaa109` fixed hostModule runtime materialization
+by binding explicit `/run/secrets` key paths into generated containers,
+`network-labs@d74172e` selected `SMT renderer-wireguard` with one
+`wireguard-egress` runtime target and row-local SOPS secret,
+`network-codex-agent@f864df47` added
+`scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh`, and local
+`nixos` lock `2b174716` consumed them. Locked local builds passed for
+`s-router-nixos`
+`/nix/store/2s4f0k880339g6723kd8873pavq2z45n-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/c3mv5hngzqqi1c3mnh6lr7gqi8kliqjj-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/kb8bb4spfhj2y07l9fj6gps4sdik64p1-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+The three hosts were shut down and returned through the external rebuild path.
+The live verifier passed and proved `s-router-nixos` materialized the one-node
+WireGuard row: FS-166 renderer-wireguard control-plane artifact, running
+`container@wireguard-egress.service`, row-local
+`/run/secrets/wireguard-mini-provider-private-key` present on the host and in
+the container, `wg-layer-entry` with `10.66.90.2/32`, and active
+`s88-provider-interface-wg-layer-entry-egress.service`. `s-router-clab` and
+`s-router-test-clients` did not run the WireGuard row runtime. This closes the
+row-local `renderer-wireguard` SMT/SIT runtime predicate only and does not
+promote HAT/SAT.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or
