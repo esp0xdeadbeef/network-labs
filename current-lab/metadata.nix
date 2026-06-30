@@ -1,9 +1,9 @@
 {
-  layer = "SIT";
-  selector = "FS-800-HDS-030-SDS-030";
-  traceId = "FS-800-HDS-030-SDS-030";
-  sourceKind = "sds-integration-source";
-  sourceRoot = "GAMP/SIT/FS-800-HDS-030-SDS-030";
-  sourcePath = "GAMP/SIT/FS-800-HDS-030-SDS-030/default.nix";
-  selectedBy = "scripts/select-current-lab.sh SIT FS-800-HDS-030-SDS-030";
+  layer = "SMT";
+  selector = "wireguard-remote-egress";
+  traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+  sourceKind = "renderer-input";
+  sourceRoot = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010";
+  sourcePath = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT wireguard-remote-egress";
 }
