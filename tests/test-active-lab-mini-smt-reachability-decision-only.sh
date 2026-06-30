@@ -46,10 +46,16 @@ nix eval --impure --expr "
       \"reachability manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"reachability mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"testnet-edge\" ])
-      \"reachability mini SMT may start only client-edge and testnet-edge\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"reachability mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"client-edge\"
+      \"downstream-selector\"
+      \"policy\"
+      \"testnet-edge\"
+      \"upstream-selector\"
+    ])
+      \"reachability mini SMT must use the five-node policy path required by NFM\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"reachability mini SMT must stay capped at five runtime targets\"
     && require (builtins.length lab.reachabilityRelations == 1)
       \"reachability mini SMT must test exactly one relation atom\"
     && require (lab.testsOnly == [

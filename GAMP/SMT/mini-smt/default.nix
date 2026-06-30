@@ -290,7 +290,7 @@ in
       kind = "mini-smt";
       traceId = pppoeTraceId;
       smsAtom = "PPPoE provider/customer pairing and fallback rejection";
-      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these targets";
+      evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly this five-target policy path";
       source = {
         kind = "intent-source";
         intent = ../FS-800-HDS-030-SDS-030-SMS-010/intent.nix;
@@ -355,14 +355,24 @@ in
           "FS-500-HDS-010-SDS-010-SMS-010__mini-allow-client-to-testnet"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         client-edge = {
           role = "access";
           tenant = "client";
         };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+          external = "testnet";
+        };
         testnet-edge = {
-          role = "external";
+          role = "core";
           external = "testnet";
         };
       };

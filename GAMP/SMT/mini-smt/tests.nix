@@ -65,7 +65,7 @@ in
       independent = true;
       aggregateOnly = false;
       scope = "NFM reachability decision result classification";
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
     };
 
     decision-reason-diagnostic = {
