@@ -194,6 +194,8 @@ let
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
     "mini-smt-lane-egress-binding-client-edge"
@@ -204,8 +206,6 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
-  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
-  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   clientNodes = builtins.attrNames inventoryClients.realization.nodes;
 in
   require (current.selection.layer == "SIT") "FS-370 SIT selector layer mismatch"
@@ -234,6 +234,9 @@ let
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
     "mini-smt-dns-resolver-config-access-dns"
@@ -247,6 +250,8 @@ let
   nixosUplinks = inventoryNixos.deploymentHosts.s-router-nixos.uplinks;
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
+  clientSite = activeIntentClients.control_plane_model.data."mini-smt"."dns-resolver-config";
+  clientEndpoint = clientSite.endpointAssignment."dns-resolver-config-access-dns" or {};
 in
   require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
@@ -258,6 +263,16 @@ in
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-540 test-client SIT inventory must keep s-router-test-clients host substrate"
+  && require (activeInventoryClients == inventoryClients) "FS-540 test-client SIT host inventory must preserve row-local client inventory"
+  && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT inventory must preserve VLAN2 management"
+  && require (activeIntentClients.control_plane_model.realization.nodes == { }) "FS-540 test-client SIT intent must not synthesize router realization nodes"
+  && require (clientSite.runtimeTargets == { }) "FS-540 test-client SIT intent must not synthesize router runtime targets"
+  && require (builtins.hasAttr "dns-resolver-config-access-dns" clientSite.endpointAssignment) "FS-540 test-client SIT intent must expose the DNS access endpoint assignment"
+  && require (clientEndpoint.owningSubstrate == "s-router-test-clients" && clientEndpoint.mode == "static") "FS-540 test-client SIT endpoint assignment must target s-router-test-clients as a static endpoint"
+  && require (clientEndpoint.bridge == "br-mini-smt-dns-resolver-config-tenant-client") "FS-540 test-client SIT endpoint assignment must use the modeled tenant bridge"
+  && require (clientEndpoint.static.address == "10.54.10.1" && clientEndpoint.static.address6 == "fd42:540::1") "FS-540 test-client SIT endpoint assignment must carry the DNS listener addresses"
+  && require (activeIntentClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT intent must preserve VLAN2 management"
   && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (inventoryClab.containerlab.capabilities.labEmulation == true) "FS-540 CLAB SIT source must preserve explicit lab-emulation capability"
