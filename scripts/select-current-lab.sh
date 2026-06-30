@@ -678,8 +678,8 @@ ${forwarding_enterprise_json}
         (nodeName: uplinkNamesForNode enterpriseName siteName nodeName)
         (builtins.attrNames nodes);
       vlanForUplink = uplinkName:
-        if builtins.match ".*vlan4$" uplinkName != null then 4
-        else if builtins.match ".*vlan5$" uplinkName != null then 5
+        if uplinkName == "isp" || builtins.match ".*vlan4$" uplinkName != null then 4
+        else if uplinkName == "pppoe-provider" || builtins.match ".*vlan5$" uplinkName != null then 5
         else null;
     in
     builtins.map
