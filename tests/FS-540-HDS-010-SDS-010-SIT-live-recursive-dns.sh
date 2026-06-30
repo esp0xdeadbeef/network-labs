@@ -255,7 +255,9 @@ check_clab_fake_provider_runtime() {
 
   output="$(ssh_base "${clab_host}" "docker exec '${container}' sh -lc '
     set -eu
-    ip -4 addr show dev eth1 | grep -F \"10.20.0.1/24\"
+    provider_if=\"\$(ip -o -4 addr show | awk '\''\$4 == \"10.20.0.1/24\" { print \$2; exit }'\'')\"
+    test -n \"\${provider_if}\"
+    ip -4 addr show dev \"\${provider_if}\" | grep -F \"10.20.0.1/24\"
     nft list chain ip nat postrouting | grep -F \"ip saddr 10.20.0.0/24 masquerade\"
     ping -c 1 -W 2 1.1.1.1
   '" 2>&1)" || {
@@ -347,12 +349,15 @@ check_clab_upstream_selector_policy_route() {
   output="$(ssh_base "${clab_host}" "docker exec '${container}' sh -lc '
     set -eu
     ip rule show | grep -F \"iif p0 lookup 1001\"
+    ip rule show | grep -F \"to 10.54.10.0/24 iif p1 lookup 1001\"
     ip route show table 1001 | grep -F \"default via 10.54.255.6 dev p1\"
-    if ip rule show | grep -F \"iif p1 lookup 1001\"; then
-      echo \"unexpected resolver-facing p1 rule for runtime-origin default table\" >&2
+    ip route show table 1001 | grep -F \"10.54.10.0/24 via 10.54.255.4 dev p0\"
+    if ip rule show | awk '\''/iif p1 lookup 1001/ && !/to 10[.]54[.]10[.]0\\/24/ { found = 1 } END { exit found ? 0 : 1 }'\''; then
+      echo \"unexpected broad resolver-facing p1 rule for runtime-origin default table\" >&2
       exit 43
     fi
     ip route get 1.1.1.1 from 10.54.10.1 iif p0 | grep -F \"dev p1\"
+    ip route get 10.54.10.1 from 1.1.1.1 iif p1 | grep -F \"dev p0\"
   '" 2>&1)" || {
     record_failure "s-router-clab ${container}: upstream-selector lacks runtime-origin policy default route from p0 to resolver-facing p1"
     printf '%s\n' "${output}" >&2

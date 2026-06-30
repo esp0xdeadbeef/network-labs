@@ -23,6 +23,8 @@ nix eval --impure --expr "
     rowIntent = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix;
     nixosInventory = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/inventory-nixos.nix;
     clabInventory = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/inventory-clab.nix;
+    testClientsInventory = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/inventory-test-clients.nix;
+    testClientsIntent = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent-test-clients.nix;
     site = rowIntent.\"mini-smt\".\"dns-resolver-config\";
     expectedRelationIds = [
       \"FS-540-HDS-010-SDS-010-SMS-020__mini-client-to-access-dns\"
@@ -44,6 +46,8 @@ nix eval --impure --expr "
     ownershipEndpoints = builtins.filter (endpoint: (endpoint.name or null) == \"access-dns\") (site.ownership.endpoints or [ ]);
     nixosAccessEndpoint = (nixosInventory.endpoints or {}).\"access-dns\" or {};
     clabAccessEndpoint = (clabInventory.endpoints or {}).\"access-dns\" or {};
+    testClientSite = testClientsIntent.control_plane_model.data.\"mini-smt\".\"dns-resolver-config\";
+    testClientEndpoint = testClientSite.endpointAssignment.\"dns-resolver-config-access-dns\" or {};
     entry = manifest.tests.\"dns-resolver-config\";
     clabProvider = builtins.head clabInventory.containerlab.labEmulation.requests;
     require = cond: msg: if cond then true else throw msg;
@@ -104,6 +108,22 @@ nix eval --impure --expr "
       \"dns-resolver NixOS inventory must expose the access-dns listener endpoint addresses\"
     && require ((clabAccessEndpoint.ipv4 or [ ]) == [ \"10.54.10.1\" ] && (clabAccessEndpoint.ipv6 or [ ]) == [ \"fd42:540::1\" ])
       \"dns-resolver CLAB inventory must expose the access-dns listener endpoint addresses\"
+    && require (testClientsInventory.meta.scope == \"row-local-test-client-endpoint-source\")
+      \"dns-resolver test-clients inventory must be row-local endpoint source, not a source stub\"
+    && require (testClientsIntent.control_plane_model.realization.nodes == { })
+      \"dns-resolver test-clients intent must not synthesize router realization nodes\"
+    && require (testClientSite.runtimeTargets == { })
+      \"dns-resolver test-clients intent must not synthesize router runtime targets\"
+    && require (builtins.hasAttr \"dns-resolver-config-access-dns\" testClientSite.endpointAssignment)
+      \"dns-resolver test-clients intent must expose the access-dns endpoint assignment\"
+    && require (testClientEndpoint.owningSubstrate == \"s-router-test-clients\" && testClientEndpoint.mode == \"static\")
+      \"dns-resolver test-clients endpoint assignment must target s-router-test-clients as a static endpoint\"
+    && require (testClientEndpoint.bridge == \"br-mini-smt-dns-resolver-config-tenant-client\")
+      \"dns-resolver test-clients endpoint assignment must use the modeled tenant bridge\"
+    && require (testClientEndpoint.static.address == \"10.54.10.1\" && testClientEndpoint.static.address6 == \"fd42:540::1\")
+      \"dns-resolver test-clients endpoint assignment must carry the access-dns listener addresses\"
+    && require (testClientsIntent.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2)
+      \"dns-resolver test-clients intent must preserve VLAN2 management substrate\"
     && require (site.topology.nodes.resolver-node.uplinks ? \"testnet-vlan4\")
       \"dns-resolver resolver-node must declare the VLAN4-backed testnet uplink\"
     && require (clabInventory.containerlab.capabilities.labEmulation == true)
