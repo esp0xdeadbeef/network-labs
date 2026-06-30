@@ -12,7 +12,7 @@
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh pppoe-pairing";
     focusedTest = "tests/test-active-lab-mini-smt-pppoe-pairing-only.sh";
-    maxRuntimeTargets = 2;
+    maxRuntimeTargets = 5;
     scope = "PPPoE provider/customer pairing and fallback rejection";
   };
 }
