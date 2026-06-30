@@ -77,8 +77,10 @@ in
     capabilities = renderResult.capabilities;
   };
   hostModule = {
+    containerCapabilities = container.additionalCapabilities;
     containers = builtins.attrNames hostOutput.containers;
     containerAutoStart = container.autoStart;
+    containerPrivateNetwork = container.privateNetwork;
     extraFlags = container.extraFlags or [ ];
   };
   containerConfig = {
@@ -117,8 +119,10 @@ for phrase in \
   '"hasProviderRuntimeModule":true' \
   '"wireguard-host-only-nat44"' \
   '"wireguard-host-only-nat66"' \
+  '"containerCapabilities":["CAP_NET_ADMIN","CAP_NET_RAW"]' \
   '"containers":["wireguard-remote-egress"]' \
   '"containerAutoStart":true' \
+  '"containerPrivateNetwork":true' \
   '"--bind-ro=/run/secrets/wireguard-mini-provider-private-key:/run/secrets/wireguard-mini-provider-private-key"' \
   '"providerRuntimeEnabled":true' \
   '"providerRuntimeContractId":"fs470-remote-egress"' \
