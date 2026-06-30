@@ -4,7 +4,7 @@
   parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
   purpose = "Renderer-entry NixOS clients CPM source template.";
   evidenceBoundary = "active-lab mini SMT/SIT";
-  sourceInputs.renderer-nixos-clients = {
+  sourceInputs."FS-166-HDS-010-SDS-010-SMS-903" = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-903";
     kind = "renderer-input";
     rendererTarget = "nixos-clients";

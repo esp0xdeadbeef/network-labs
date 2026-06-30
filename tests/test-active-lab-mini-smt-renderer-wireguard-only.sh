@@ -42,8 +42,8 @@ in
   && require (result.artifacts.nixosModules ? providerRuntime) "wireguard provider runtime module missing"
   && require (result.diagnostics == []) "wireguard renderer diagnostics must be empty"
   && require (hostModuleOutput.containers ? wireguard-egress) "wireguard hostModule must materialize the row runtime container"
-  && require (wgContainer.bindMounts."/run/secrets/wireguard-mini-provider-private-key".hostPath == "/run/secrets/wireguard-mini-provider-private-key")
-    "wireguard hostModule must bind the row-local sops secret into the container"
+  && require (builtins.elem "--bind-ro=/run/secrets/wireguard-mini-provider-private-key:/run/secrets/wireguard-mini-provider-private-key" (wgContainer.extraFlags or [ ]))
+    "wireguard hostModule must bind the row-local sops secret into the container as a read-only nspawn bind"
 ' >/dev/null
 
 echo "PASS active-lab mini SMT wireguard renderer-only POC"

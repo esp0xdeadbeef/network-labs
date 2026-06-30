@@ -4,12 +4,12 @@ SIT row note for the renderer mini-SMT umbrella integration path.
 
 SIT rows are SDS-scoped. This row covers the FS-166 renderer mini-SMT entries:
 
-- `renderer-nixos` — one runtime container from explicit CPM input
-- `renderer-nixos-p2p` — two p2p-linked runtime containers
-- `renderer-nixos-clients` — one endpoint client container
-- `renderer-clab` — Containerlab two-node topology
-- `renderer-wireguard` — WireGuard provider runtime module
-- `renderer-nebula` — Nebula overlay with lighthouse/client
+- `FS-166-HDS-010-SDS-010-SMS-901` — one runtime container from explicit CPM input
+- `FS-166-HDS-010-SDS-010-SMS-902` — two p2p-linked runtime containers
+- `FS-166-HDS-010-SDS-010-SMS-903` — one endpoint client container
+- `FS-166-HDS-010-SDS-010-SMS-904` — Containerlab two-node topology
+- `FS-166-HDS-010-SDS-010-SMS-905` — WireGuard provider runtime module
+- `FS-166-HDS-010-SDS-010-SMS-906` — Nebula overlay with lighthouse/client
 
 All entries derive from FS-166-HDS-010-SDS-010-SMS-900 source inputs.
 
@@ -22,7 +22,7 @@ tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-901 FS-166-HDS-010-S
 Observed on 2026-06-27: exit 0 for all six entries. This is focused SMT/SIT
 source-to-renderer evidence only and does not claim HAT/SAT runtime acceptance.
 
-Current live `renderer-nixos` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-901` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent
@@ -41,9 +41,10 @@ Observed on 2026-06-30: exit 0 after `network-labs@b077ad6` selected
 path. Live `s-router-nixos` exposed the FS-166 renderer-input artifact and
 running `poc-router`; live `s-router-clab` and `s-router-test-clients` exposed
 the same FS-166 artifact with `poc-router` absent on those hosts. This closes
-only the row-local renderer-nixos SMT/SIT runtime predicate, not HAT/SAT.
+only the row-local `FS-166-HDS-010-SDS-010-SMS-901` SMT/SIT runtime predicate,
+not HAT/SAT.
 
-Current live `renderer-nixos-p2p` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-902` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent
@@ -64,9 +65,9 @@ path. Live `s-router-nixos` exposed the FS-166 p2p renderer-input artifact,
 running `edge-a` and `edge-b`, and the rendered p2p bridge. Live
 `s-router-clab` and `s-router-test-clients` exposed the same FS-166 p2p
 artifact with `edge-a` and `edge-b` absent on those hosts. This closes only the
-row-local renderer-nixos-p2p SMT/SIT runtime predicate, not HAT/SAT.
+row-local `FS-166-HDS-010-SDS-010-SMS-902` SMT/SIT runtime predicate, not HAT/SAT.
 
-Current live `renderer-nixos-clients` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-903` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent
@@ -89,7 +90,7 @@ running `container@poc-client.service`. Live `s-router-nixos` and
 `s-router-clab` did not run `poc-client`. This closes only the row-local
 renderer-nixos-clients SMT/SIT runtime predicate, not HAT/SAT.
 
-Current live `renderer-clab` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-904` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent
@@ -115,7 +116,7 @@ and eth1 p2p addresses `192.0.2.0/31` and `192.0.2.1/31`. Live
 This closes only the row-local renderer-clab SMT/SIT runtime predicate, not
 HAT/SAT.
 
-Current live `renderer-wireguard` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-905` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent
@@ -139,9 +140,10 @@ the row-local `/run/secrets/wireguard-mini-provider-private-key` on the host and
 inside the container, `wg-layer-entry` with `10.66.90.2/32`, and active
 `s88-provider-interface-wg-layer-entry-egress.service`. Live `s-router-clab`
 and `s-router-test-clients` did not run the WireGuard row runtime. This closes
-only the row-local renderer-wireguard SMT/SIT runtime predicate, not HAT/SAT.
+only the row-local `FS-166-HDS-010-SDS-010-SMS-905` SMT/SIT runtime predicate,
+not HAT/SAT.
 
-Current live `renderer-nebula` evidence command:
+Current live `FS-166-HDS-010-SDS-010-SMS-906` evidence command:
 
 ```bash
 cd /home/deadbeef/github/network-codex-agent

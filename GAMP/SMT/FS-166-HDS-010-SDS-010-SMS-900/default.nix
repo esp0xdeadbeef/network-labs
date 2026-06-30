@@ -5,7 +5,7 @@
   sitRow = ../../SIT/FS-166-HDS-010-SDS-010;
   purpose = "Renderer-entry mini POC source inputs owned by the FS-166 SMS-900 SMT row.";
   sourceInputs = {
-    renderer-nixos = {
+    "FS-166-HDS-010-SDS-010-SMS-901" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";
       kind = "renderer-input";
       rendererTarget = "nixos";
@@ -14,7 +14,7 @@
       maxRuntimeTargets = 1;
     };
 
-    renderer-nixos-p2p = {
+    "FS-166-HDS-010-SDS-010-SMS-902" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-902";
       kind = "renderer-input";
       rendererTarget = "nixos";
@@ -23,7 +23,7 @@
       maxRuntimeTargets = 2;
     };
 
-    renderer-nixos-clients = {
+    "FS-166-HDS-010-SDS-010-SMS-903" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-903";
       kind = "renderer-input";
       rendererTarget = "nixos-clients";
@@ -32,7 +32,7 @@
       maxRuntimeTargets = 1;
     };
 
-    renderer-clab = {
+    "FS-166-HDS-010-SDS-010-SMS-904" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-904";
       kind = "renderer-input";
       rendererTarget = "clab";
@@ -41,7 +41,7 @@
       maxRuntimeTargets = 2;
     };
 
-    renderer-wireguard = {
+    "FS-166-HDS-010-SDS-010-SMS-905" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       kind = "renderer-input";
       rendererTarget = "wireguard";
@@ -50,7 +50,7 @@
       maxRuntimeTargets = 1;
     };
 
-    renderer-nebula = {
+    "FS-166-HDS-010-SDS-010-SMS-906" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-906";
       kind = "renderer-input";
       rendererTarget = "nebula";

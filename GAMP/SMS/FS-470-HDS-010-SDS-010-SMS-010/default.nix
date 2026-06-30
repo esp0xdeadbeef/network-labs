@@ -7,7 +7,7 @@
   purpose = "WireGuard remote-egress renderer-input active-lab source template.";
   evidenceBoundary = "active-lab mini SMT/SIT";
   sourceInputs = {
-    "wireguard-remote-egress" = {
+    "FS-470-HDS-010-SDS-010-SMS-010" = {
       traceId = "FS-470-HDS-010-SDS-010-SMS-010";
       kind = "renderer-input";
       rendererTarget = "wireguard";

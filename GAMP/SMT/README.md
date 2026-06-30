@@ -73,9 +73,9 @@ GAMP/SMT/FS-XXX-HDS-XXX-SDS-XXX-SMS-XXX/
 
 Declare the row in `GAMP/SMT/mini-smt/tests.nix` and make
 `tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>` run exactly that row.
-Renderer rows must have their own focused script, for example
-`renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, or
-`renderer-nebula`; an aggregate all-renderers script is only a smoke harness.
+Renderer rows must have their own focused script, but the row selector and
+source-input key must be the full `FS-...-HDS-...-SDS-...-SMS-...` trace ID; an
+aggregate all-renderers script is only a smoke harness.
 
 Rows that start at intent-source must use a row-specific intent file, for
 example `GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix`, declared in the
@@ -217,15 +217,19 @@ nix build --dry-run ".#nixosConfigurations.${attr}.config.system.build.toplevel"
 ```
 
 `tests/test-current-lab-selector.sh` exited 0. `tests/run-active-lab-mini-smt.sh
-all` exited 0 for all 13 mini-SMT entries. The dry-run NixOS compile matrix in
+all` exited 0 for all mini-SMT entries present in the manifest at that revision.
+The dry-run NixOS compile matrix in
 `/tmp/network-labs-active-lab-smt-full-20260627T085247Z` passed all three target
-attributes (`s-router-clab`, `s-router-nixos`, `s-router-test-clients`) for
-`decision-reason-diagnostic`, `dns-resolver-config`,
-`internet-mode-verification`, `lane-egress-binding`, `p2p-next-hop`,
-`pppoe-pairing`, `reachability-decision`, `renderer-clab`, `renderer-nebula`,
-`renderer-nixos`, `renderer-nixos-clients`, and `renderer-nixos-p2p`.
+attributes (`s-router-clab`, `s-router-nixos`, `s-router-test-clients`) for the
+FS trace IDs now represented by `FS-500-HDS-010-SDS-010-SMS-030`,
+`FS-540-HDS-010-SDS-010-SMS-020`, `FS-380-HDS-020-SDS-010-SMS-050`,
+`FS-370-HDS-010-SDS-010-SMS-050`, `FS-500-HDS-010-SDS-010-SMS-040`,
+`FS-800-HDS-030-SDS-030-SMS-010`, `FS-500-HDS-010-SDS-010-SMS-010`,
+`FS-166-HDS-010-SDS-010-SMS-904`, `FS-166-HDS-010-SDS-010-SMS-906`,
+`FS-166-HDS-010-SDS-010-SMS-901`, `FS-166-HDS-010-SDS-010-SMS-903`, and
+`FS-166-HDS-010-SDS-010-SMS-902`.
 `/tmp/network-labs-active-lab-smt-wireguard-20260627T092056Z` passed the same
-three target attributes for `renderer-wireguard`.
+three target attributes for `FS-166-HDS-010-SDS-010-SMS-905`.
 
 Focused ownership proof for `internet-mode-verification`: the source fixture
 passed `s-router-clab` and `s-router-test-clients`, then failed
@@ -259,7 +263,7 @@ The same local-override preflight also exited 0 for
 `s-router-clab` and `s-router-nixos`. This is SMT/SIT prerequisite compile
 evidence only; it is not HAT/SAT runtime acceptance.
 
-2026-06-28 active-lab SMT sweep then found `renderer-nixos-p2p` failed the
+2026-06-28 active-lab SMT sweep then found `FS-166-HDS-010-SDS-010-SMS-902` failed the
 `s-router-nixos` dry-run with diagnostic
 `FS-310-HDS-010-SDS-010-SMS-130`: interface `edge-a-b` had NixOS policy-routing
 materialization but no CPM `policyRoutingAllocation`. The NixOS renderer was
@@ -276,11 +280,12 @@ nix build --dry-run --no-link --print-out-paths \
   --override-input network-labs path:/home/deadbeef/github/network-labs
 ```
 
-The resumed SMT sweep for `renderer-nixos-p2p` and `renderer-wireguard` passed
+The resumed SMT sweep for `FS-166-HDS-010-SDS-010-SMS-902` and
+`FS-166-HDS-010-SDS-010-SMS-905` passed
 all three host dry-runs in
 `/tmp/network-labs-active-lab-smt-sweep-resume-20260628T124259Z`.
 
-2026-06-30 rerun of `renderer-nixos-p2p` found the remaining renderer-input
+2026-06-30 rerun of `FS-166-HDS-010-SDS-010-SMS-902` found the remaining renderer-input
 fixture gap: the same p2p endpoints also lacked CPM-owned `interfaceClass` and
 `explicit` metadata. This is not a NixOS renderer bug; the row enters at
 `renderer-input` and therefore the fixture must already be CPM-complete. The
@@ -289,7 +294,7 @@ fix in `network-labs@f9d21d2` adds that metadata to
 `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` now asserts
 both the CPM `policyRoutingAllocation` and p2p interface class fields.
 
-2026-06-30 live `renderer-nixos` row closure: `network-labs@b077ad6` selected
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-901` row closure: `network-labs@b077ad6` selected
 `SMT FS-166-HDS-010-SDS-010-SMS-901`, local `nixos` lock `56239c47` consumed it, and
 `network-codex-agent@41f3e451` added the focused runtime verifier
 `scripts/fs166-active-lab-renderer-nixos-runtime-check.sh`. Local builds passed
@@ -299,10 +304,10 @@ for all three active-lab hosts, then `s-router-nixos` (`192.168.1.17`),
 The live verifier passed and proved the one-target `poc-router` row is running
 only on `s-router-nixos`, while `s-router-clab` and `s-router-test-clients`
 expose the FS-166 artifact without running `poc-router`. This closes the
-row-local `renderer-nixos` SMT/SIT runtime predicate only; the other FS-166
+row-local `FS-166-HDS-010-SDS-010-SMS-901` SMT/SIT runtime predicate only; the other FS-166
 renderer mini-SMT variants still require their own row-local live runs.
 
-2026-06-30 live `renderer-nixos-p2p` row closure: `network-labs@50850a3`
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-902` row closure: `network-labs@50850a3`
 selected `SMT FS-166-HDS-010-SDS-010-SMS-902`, `network-labs@f9d21d2` completed the
 renderer-input CPM fixture, local `nixos` lock `5f86907b` consumed it, and
 `network-codex-agent@3895ed64` asserted the p2p interface class in
@@ -318,9 +323,9 @@ The live verifier passed and proved the two-target `edge-a`/`edge-b` p2p row
 runs only on `s-router-nixos`, with the rendered p2p bridge present there, while
 `s-router-clab` and `s-router-test-clients` expose the FS-166 p2p artifact
 without running either edge container. This closes the row-local
-`renderer-nixos-p2p` SMT/SIT runtime predicate only and does not promote HAT/SAT.
+`FS-166-HDS-010-SDS-010-SMS-902` SMT/SIT runtime predicate only and does not promote HAT/SAT.
 
-2026-06-30 live `renderer-nixos-clients` row closure: `network-labs@d494c16`
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-903` row closure: `network-labs@d494c16`
 selected `SMT FS-166-HDS-010-SDS-010-SMS-903`, removed router runtime targets from the
 access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and
 `network-codex-agent@d79b5e17` added
@@ -336,10 +341,10 @@ The live verifier passed and proved `poc-client` runs only on
 `s-router-test-clients`, with the FS-166 clients control-plane artifact,
 access-endpoint provenance, and rendered `client` bridge present there, while
 `s-router-nixos` and `s-router-clab` do not run `poc-client`. This closes the
-row-local `renderer-nixos-clients` SMT/SIT runtime predicate only and does not
+row-local `FS-166-HDS-010-SDS-010-SMS-903` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
-2026-06-30 live `renderer-clab` row closure: `network-labs@ba3329c` selected
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-904` row closure: `network-labs@ba3329c` selected
 `SMT FS-166-HDS-010-SDS-010-SMS-904`, fixed the `s-router-clab` host-specific intent alias to
 consume the CLAB CPM fixture instead of the default NixOS runtime CPM, local
 `nixos` lock `91fcc0f9` consumed it, and
@@ -359,10 +364,10 @@ complete/success, FS-166 renderer-clab control-plane artifact,
 `br-layer-entry`, running Docker containers `clab-fabric-acme-lab-edge-a` and
 `clab-fabric-acme-lab-edge-b`, and eth1 p2p addresses `192.0.2.0/31` and
 `192.0.2.1/31`. `s-router-nixos` and `s-router-test-clients` did not run the
-CLAB edge runtime. This closes the row-local `renderer-clab` SMT/SIT runtime
+CLAB edge runtime. This closes the row-local `FS-166-HDS-010-SDS-010-SMS-904` SMT/SIT runtime
 predicate only and does not promote HAT/SAT.
 
-2026-06-30 live `renderer-wireguard` row closure:
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-905` row closure:
 `network-renderer-wireguard@fcaa109` fixed hostModule runtime materialization
 by binding explicit `/run/secrets` key paths into generated containers,
 `network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-905` with one
@@ -384,10 +389,10 @@ WireGuard row: FS-166 renderer-wireguard control-plane artifact, running
 the container, `wg-layer-entry` with `10.66.90.2/32`, and active
 `s88-provider-interface-wg-layer-entry-egress.service`. `s-router-clab` and
 `s-router-test-clients` did not run the WireGuard row runtime. This closes the
-row-local `renderer-wireguard` SMT/SIT runtime predicate only and does not
+row-local `FS-166-HDS-010-SDS-010-SMS-905` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
-2026-06-30 live `renderer-nebula` row closure:
+2026-06-30 live `FS-166-HDS-010-SDS-010-SMS-906` row closure:
 `network-renderer-nebula@b9f01fb` fixed hostModule runtime materialization by
 binding persistent Nebula profile directories into generated containers,
 `network-labs@4919505` selected `SMT FS-166-HDS-010-SDS-010-SMS-906` with two runtime targets
@@ -408,7 +413,7 @@ control-plane artifact, running `container@lab-lighthouse.service` and
 the host and inside the containers, active `nebula@runtime.service` in both
 containers, and client `nebula1` with `100.96.90.2/24`. `s-router-clab` and
 `s-router-test-clients` did not run the Nebula row runtime. This closes the
-row-local `renderer-nebula` SMT/SIT runtime predicate only and does not promote
+row-local `FS-166-HDS-010-SDS-010-SMS-906` SMT/SIT runtime predicate only and does not promote
 HAT/SAT.
 
 ## Shared-File Policy (Anti-Contention)

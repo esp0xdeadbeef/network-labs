@@ -4,7 +4,7 @@
   parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
   purpose = "Renderer-entry CLAB CPM source template.";
   evidenceBoundary = "active-lab mini SMT/SIT";
-  sourceInputs.renderer-clab = {
+  sourceInputs."FS-166-HDS-010-SDS-010-SMS-904" = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-904";
     kind = "renderer-input";
     rendererTarget = "clab";

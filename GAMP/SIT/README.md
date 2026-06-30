@@ -77,13 +77,13 @@ SIT row at the SDS-scoped level. The current SIT row inventory:
 
 | SIT Directory | Trace | SMS Inputs |
 | --- | --- | --- |
-| `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-HDS-010-SDS-010-SMS-900` (`renderer-nixos`, `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, `renderer-nebula`) |
+| `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-HDS-010-SDS-010-SMS-900` (`FS-166-HDS-010-SDS-010-SMS-901` through `FS-166-HDS-010-SDS-010-SMS-906`) |
 | `FS-370-HDS-010-SDS-010` | Lane egress binding | `FS-370-HDS-010-SDS-010-SMS-050` |
 | `FS-380-HDS-020-SDS-010` | Internet mode verification | `FS-380-HDS-020-SDS-010-SMS-050` |
-| `FS-470-HDS-010-SDS-010` | WireGuard remote egress | `FS-470-HDS-010-SDS-010-SMS-010` (`wireguard-remote-egress`) |
+| `FS-470-HDS-010-SDS-010` | WireGuard remote egress | `FS-470-HDS-010-SDS-010-SMS-010` |
 | `FS-500-HDS-010-SDS-010` | Reachability + diagnostics + p2p | `FS-500-HDS-010-SDS-010-SMS-010`, `FS-500-HDS-010-SDS-010-SMS-030`, `FS-500-HDS-010-SDS-010-SMS-040` |
 | `FS-540-HDS-010-SDS-010` | DNS resolver config | `FS-540-HDS-010-SDS-010-SMS-020` |
-| `FS-800-HDS-010-SDS-020` | Provider-access default route | `FS-800-HDS-010-SDS-020-SMS-040` (`provider-access-default-route`) |
+| `FS-800-HDS-010-SDS-020` | Provider-access default route | `FS-800-HDS-010-SDS-020-SMS-040` |
 | `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-HDS-030-SDS-030-SMS-010` |
 
 This inventory intentionally follows the live manifest in
@@ -153,7 +153,7 @@ live host/site checks after the published renderer revision is selected by the
 consumer lock.
 
 2026-06-28 SIT prerequisite note for `FS-166-HDS-010-SDS-010`: the
-`renderer-nixos-p2p` source fixture initially failed the `s-router-nixos`
+`FS-166-HDS-010-SDS-010-SMS-902` source fixture initially failed the `s-router-nixos`
 dry-run with `FS-310-HDS-010-SDS-010-SMS-130` because its renderer-entry CPM
 input lacked `policyRoutingAllocation` for interface `edge-a-b`. The fix adds
 explicit CPM-owned allocation metadata in
@@ -193,7 +193,7 @@ The live result proves the one-target renderer-input active-lab row:
 not promote HAT/SAT.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
-`renderer-nixos-p2p`: `network-labs@50850a3` selected `SMT FS-166-HDS-010-SDS-010-SMS-902`,
+`FS-166-HDS-010-SDS-010-SMS-902`: `network-labs@50850a3` selected `SMT FS-166-HDS-010-SDS-010-SMS-902`,
 `network-labs@f9d21d2` completed the renderer-input CPM fixture, local `nixos`
 lock `5f86907b` consumed it, and the three local profiles built:
 `s-router-nixos`
@@ -285,7 +285,7 @@ addresses `192.0.2.0/31` and `192.0.2.1/31`, while `s-router-nixos` and
 SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
-`renderer-wireguard`: `network-renderer-wireguard@fcaa109` fixed hostModule
+`FS-166-HDS-010-SDS-010-SMS-905`: `network-renderer-wireguard@fcaa109` fixed hostModule
 runtime materialization by binding explicit `/run/secrets` key paths into
 generated containers, `network-labs@d74172e` selected `SMT FS-166-HDS-010-SDS-010-SMS-905`
 with one `wireguard-egress` runtime target and row-local SOPS secret, local

@@ -36,20 +36,20 @@ let
   importRel = rel: import (repoRoot + "/" + rel);
 
   expectedIds = [
-    "renderer-nixos"
-    "renderer-nixos-p2p"
-    "renderer-nixos-clients"
-    "renderer-clab"
-    "renderer-wireguard"
-    "renderer-nebula"
+    "FS-166-HDS-010-SDS-010-SMS-901"
+    "FS-166-HDS-010-SDS-010-SMS-902"
+    "FS-166-HDS-010-SDS-010-SMS-903"
+    "FS-166-HDS-010-SDS-010-SMS-904"
+    "FS-166-HDS-010-SDS-010-SMS-905"
+    "FS-166-HDS-010-SDS-010-SMS-906"
   ];
   expectedSortedIds = [
-    "renderer-clab"
-    "renderer-nebula"
-    "renderer-nixos"
-    "renderer-nixos-clients"
-    "renderer-nixos-p2p"
-    "renderer-wireguard"
+    "FS-166-HDS-010-SDS-010-SMS-901"
+    "FS-166-HDS-010-SDS-010-SMS-902"
+    "FS-166-HDS-010-SDS-010-SMS-903"
+    "FS-166-HDS-010-SDS-010-SMS-904"
+    "FS-166-HDS-010-SDS-010-SMS-905"
+    "FS-166-HDS-010-SDS-010-SMS-906"
   ];
   requiredNixosClients = [
     "nixos-branch-node01"
@@ -118,18 +118,18 @@ let
     && ((management.ipv6 or { }).method or null) == "none";
 
   requiredManagementHosts = {
-    renderer-nixos = [
+    "FS-166-HDS-010-SDS-010-SMS-901" = [
       "s-router-nixos"
       "s-router-clab"
       "s-router-test-clients"
     ];
-    renderer-nixos-p2p = [
+    "FS-166-HDS-010-SDS-010-SMS-902" = [
       "s-router-nixos"
       "s-router-clab"
       "s-router-test-clients"
     ];
-    renderer-nixos-clients = [ "s-router-test-clients" ];
-    renderer-clab = [ "s-router-clab" ];
+    "FS-166-HDS-010-SDS-010-SMS-903" = [ "s-router-test-clients" ];
+    "FS-166-HDS-010-SDS-010-SMS-904" = [ "s-router-clab" ];
   };
 
   sourceValue = name: importRel sms.sourceInputs.${name}.sourcePath;
@@ -162,19 +162,19 @@ let
     current.selection.layer == "SMT"
     && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901";
   defaultActiveLabOk =
-    (activeIntent.control_plane_model.meta.traceId or null) == sms.sourceInputs.renderer-nixos.traceId
+    (activeIntent.control_plane_model.meta.traceId or null) == sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-901".traceId
     && nixosStub != null
     && clabStub != null
     && clientStub != null
-    && nixosStub.miniSmtId == sms.sourceInputs.renderer-nixos.traceId
-    && toString nixosStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-nixos.sourcePath
-    && toString nixosStub.test == repoRoot + "/" + sms.sourceInputs.renderer-nixos.test
-    && clientStub.miniSmtId == sms.sourceInputs.renderer-nixos-clients.traceId
-    && toString clientStub.source == repoRoot + "/" + sms.sourceInputs.renderer-nixos-clients.sourcePath
-    && clabStub.miniSmtId == sms.sourceInputs.renderer-clab.traceId
-    && clabStub.traceId == sms.sourceInputs.renderer-clab.traceId
-    && toString clabStub.cpmInput == repoRoot + "/" + sms.sourceInputs.renderer-clab.sourcePath
-    && toString clabStub.test == repoRoot + "/" + sms.sourceInputs.renderer-clab.test;
+    && nixosStub.miniSmtId == sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-901".traceId
+    && toString nixosStub.cpmInput == repoRoot + "/" + sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-901".sourcePath
+    && toString nixosStub.test == repoRoot + "/" + sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-901".test
+    && clientStub.miniSmtId == sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-903".traceId
+    && toString clientStub.source == repoRoot + "/" + sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-903".sourcePath
+    && clabStub.miniSmtId == sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-904".traceId
+    && clabStub.traceId == sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-904".traceId
+    && toString clabStub.cpmInput == repoRoot + "/" + sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-904".sourcePath
+    && toString clabStub.test == repoRoot + "/" + sms.sourceInputs."FS-166-HDS-010-SDS-010-SMS-904".test;
   hatActiveLabOk =
     current.selection.layer == "HAT"
     && current.selection.selector == "emulated-isp-residential-testnet"

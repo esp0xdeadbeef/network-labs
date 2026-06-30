@@ -29,7 +29,7 @@ active-lab input is small enough to prove only the container-start
 materialization surface.
 
 The top-level `../../../active-lab/inventory-nixos.nix` is only a provenance
-stub for this `renderer-nixos` mini SMT. It must point at this CPM input, the
+stub for `FS-166-HDS-010-SDS-010-SMS-901`. It must point at this CPM input, the
 focused test, and the mini-SMT runner. It is not a broad active-lab inventory
 and it must not be empty. Keep unrelated active-lab host inventories or
 placeholder files out of the top level; add row-local sources here instead.
@@ -109,16 +109,16 @@ prerequisite evidence only; it is not HAT/SAT runtime approval.
 
 Worked row examples:
 
-- `pppoe-pairing` is the preferred small proof for
-  `FS-800-HDS-030-SDS-030-SMS-010`. It uses a row-local `intent.nix` and proves
+- `FS-800-HDS-030-SDS-030-SMS-010` is the preferred small proof for PPPoE
+  pairing. It uses a row-local `intent.nix` and proves
   only PPPoE provider/customer pairing, fallback rejection, and transport
   classification. It may start at most `pppoe-client` and `pppoe-server`.
-- `p2p-next-hop` is the preferred small proof for
-  `FS-500-HDS-010-SDS-010-SMS-040`. It uses a row-local `intent.nix` and proves
+- `FS-500-HDS-010-SDS-010-SMS-040` is the preferred small proof for p2p
+  next-hop selection. It uses a row-local `intent.nix` and proves
   only one p2p link, two router endpoints, and one next-hop route atom. It may
   start at most `router-a` and `router-b`.
-- `reachability-decision` is the preferred small proof for
-  `FS-500-HDS-010-SDS-010-SMS-010`. It uses a separate row-local `intent.nix`
+- `FS-500-HDS-010-SDS-010-SMS-010` is the preferred small proof for reachability
+  decision classification. It uses a separate row-local `intent.nix`
   and proves only structured allow/deny reachability decision classification.
   The parent `GAMP/SIT/FS-500-HDS-010-SDS-010/default.nix` intentionally
   declares both this SMS input and the `SMS-040` p2p next-hop input.
@@ -151,8 +151,8 @@ tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-904
 Every manifest entry carries `rowDirectories.SDS` and `rowDirectories.SMS`.
 Those point to source-template rows in `../../SDS/` and `../../SMS/`. For
 renderer-entry variants, the concrete inputs share
-`FS-166-HDS-010-SDS-010-SMS-900` and are split by `sourceInputs` in that SMS
-row.
+`FS-166-HDS-010-SDS-010-SMS-900` and are split by full trace-ID `sourceInputs`
+keys in that SMS row.
 
 `tests/test-active-lab-mini-smt-independent-manifest.sh` enforces that each
 manifest entry is independently runnable, capped at five runtime targets or

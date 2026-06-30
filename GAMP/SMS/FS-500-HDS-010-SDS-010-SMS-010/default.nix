@@ -4,7 +4,7 @@
   parentSds = ../../SDS/FS-500-HDS-010-SDS-010;
   purpose = "Reachability decision result mini POC source input template.";
   sourceInputs = {
-    reachability-decision = {
+    "FS-500-HDS-010-SDS-010-SMS-010" = {
       traceId = "FS-500-HDS-010-SDS-010-SMS-010";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix";
