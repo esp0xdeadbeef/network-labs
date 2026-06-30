@@ -4,19 +4,19 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wireguard-remote-egress.md";
   titleSlug = "wireguard-remote-egress";
   source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/intent.nix";
+    kind = "renderer-input";
+    sourcePath = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix";
     inventories = {
       clab = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
       nixos = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "active-lab renderer-input mini SMT/SIT";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "tests/run-active-lab-mini-smt.sh wireguard-remote-egress";
+    focusedTest = "tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh";
+    observedResult = "Focused runner evaluates the row-local CPM renderer input with network-renderer-wireguard hostModule and proves provider runtime import, NAT44/NAT66, DHCPv4, RA/RDNSS, bootstrap separation, and row-local SOPS private-key binding. Live host evidence is recorded at the NCA SIT row after lock bump and s-router shutdown/rebuild.";
   };
 }

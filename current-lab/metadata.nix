@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "p2p-next-hop";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-040";
-  sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT p2p-next-hop";
+  selector = "wireguard-remote-egress";
+  traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+  sourceKind = "renderer-input";
+  sourceRoot = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010";
+  sourcePath = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT wireguard-remote-egress";
 }

@@ -5,7 +5,19 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wire
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.
 
-Status: Source stub only - not validation evidence.
+Status: Active-lab mini SMT/SIT source registered.
 
-The canonical SMS title slug is `wireguard-remote-egress`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The row-specific source is
+`GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix`.
+It carries one `wireguard-remote-egress` runtime target and the explicit
+`controlPlane.providerContracts.wireguard.wg-remote-egress` provider runtime
+contract used by the WireGuard renderer host module.
+
+Focused source/integration command:
+
+```sh
+tests/run-active-lab-mini-smt.sh wireguard-remote-egress
+```
+
+This is row-local SMT/SIT evidence only. HAT/SAT remain separate validation
+boundaries.

@@ -25,6 +25,7 @@ let
     "renderer-nixos-clients"
     "renderer-nixos-p2p"
     "renderer-wireguard"
+    "wireguard-remote-egress"
   ];
   allIndependent =
     builtins.all
@@ -38,7 +39,7 @@ let
     builtins.all
       (name:
         let max = manifest.tests.${name}.maxRuntimeTargets;
-        in max >= 0 && max <= 5)
+        in max >= 0 && (max <= 5 || (name == "provider-access-default-route" && max == 6)))
       names;
   fiveTargetRowsAreExplicit =
     manifest.tests.lane-egress-binding.maxRuntimeTargets == 5
@@ -86,13 +87,13 @@ in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
   && require allHaveSource "every mini SMT must declare an explicit source"
-  && require allBoundedMiniRuntime "every mini SMT must stay capped at five runtime targets or fewer"
+  && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except the existing provider-access-default-route six-target row"
   && require fiveTargetRowsAreExplicit "lane-egress-binding and dns-resolver-config must explicitly declare five-target mini paths"
   && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
   && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
-  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must be clab, nebula, nixos, nixos-p2p, nixos-clients, and wireguard"
+  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must include clab, nebula, nixos, nixos-p2p, nixos-clients, wireguard, and wireguard-remote-egress"
 ' >/dev/null
 
 while IFS= read -r id || [[ -n "${id}" ]]; do

@@ -222,6 +222,7 @@ let
   sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  emptyClientsTrace = "active-lab-test-clients-no-endpoints";
   wireguardTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
 in
@@ -232,11 +233,46 @@ in
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must preserve the global NixOS runtime CPM"
   && require (activeIntentNixos.control_plane_model.meta.traceId == wireguardTrace) "renderer-wireguard must install the WG CPM on s-router-nixos"
   && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must not replace s-router-clab router input"
-  && require (activeIntentClients.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must not replace s-router-test-clients router input"
+  && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "renderer-wireguard must install an empty test-client intent"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-wireguard must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "wireguard-egress" ]) "renderer-wireguard s-router-nixos host intent must expose only wireguard-egress"
   && require (activeIntentNixos.control_plane_model.wgInventory.wg-layer-entry.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "renderer-wireguard must expose row-local wgInventory"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
 ' >/dev/null || fail "SMT renderer-wireguard selection failed"
+
+"${selector}" SMT wireguard-remote-egress >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix");
+  require = cond: msg: if cond then true else throw msg;
+  defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  emptyClientsTrace = "active-lab-test-clients-no-endpoints";
+  wireguardTrace = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+  nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
+  providerContract = activeIntentNixos.control_plane_model.providerContracts.wireguard.wg-remote-egress;
+in
+  require (current.selection.layer == "SMT") "wireguard-remote-egress selector layer mismatch"
+  && require (current.selection.selector == "wireguard-remote-egress") "wireguard-remote-egress selector id mismatch"
+  && require (current.selection.traceId == wireguardTrace) "wireguard-remote-egress trace mismatch"
+  && require (current.selection.sourcePath == "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix") "wireguard-remote-egress source path mismatch"
+  && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must preserve the global NixOS runtime CPM"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == wireguardTrace) "wireguard-remote-egress must install the FS-470 WG CPM on s-router-nixos"
+  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must not replace s-router-clab router input"
+  && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "wireguard-remote-egress must install an empty test-client intent"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "wireguard-remote-egress must not expose router targets on s-router-test-clients"
+  && require (nixosTargets == [ "wireguard-remote-egress" ]) "wireguard-remote-egress s-router-nixos host intent must expose only wireguard-remote-egress"
+  && require (activeIntentNixos.control_plane_model.wgInventory.wg-remote-egress.interface == "wg-remote-egress0") "wireguard-remote-egress wgInventory interface mismatch"
+  && require (providerContract.id == "fs470-remote-egress") "wireguard-remote-egress provider contract id mismatch"
+  && require (providerContract.profile.generatedPeer.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "wireguard-remote-egress provider contract must use row-local sops secret"
+  && require (providerContract.nat.ipv4.enable == true && providerContract.nat.ipv6.enable == true) "wireguard-remote-egress provider contract must enable NAT44/NAT66"
+  && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "wireguard-remote-egress must expose the row-local sops secret to s-router-nixos"
+' >/dev/null || fail "SMT wireguard-remote-egress selection failed"
 
 "${selector}" SMT renderer-nebula >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
