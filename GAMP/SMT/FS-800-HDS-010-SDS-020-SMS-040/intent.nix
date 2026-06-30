@@ -20,7 +20,7 @@
             };
             to = {
               kind = "external";
-              name = "isp";
+              uplinks = [ "isp" ];
             };
             trafficType = "any";
             priority = 100;
@@ -52,21 +52,33 @@
       pools = {
         loopback = {
           ipv4 = "10.80.0.0/24";
-          ipv6 = "fd42:mini:800:ff::/118";
+          ipv6 = "fd42:800:20:ff::/118";
         };
         p2p = {
           ipv4 = "10.80.255.0/24";
-          ipv6 = "fd42:mini:800:fe::/118";
+          ipv6 = "fd42:800:20:fe::/118";
         };
       };
       topology = {
         links = [
           [
             "provider-handoff-access-a"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "fabric-core"
           ]
           [
-            "provider-handoff-access-a"
+            "upstream-selector"
             "pppoe-core"
           ]
         ];
@@ -80,6 +92,15 @@
               }
             ];
           };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
+          };
           fabric-core = {
             role = "core";
             uplinks = {
@@ -91,6 +112,12 @@
           };
           pppoe-core = {
             role = "core";
+            uplinks = {
+              pppoe-provider = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
           };
         };
       };

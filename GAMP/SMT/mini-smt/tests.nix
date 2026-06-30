@@ -40,6 +40,34 @@ in
       maxRuntimeTargets = 2;
     };
 
+    provider-access-default-route = {
+      id = "provider-access-default-route";
+      traceId = "FS-800-HDS-010-SDS-020-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-800-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-800-HDS-010-SDS-020-SMS-040;
+        SMT = ../FS-800-HDS-010-SDS-020-SMS-040;
+        SIT = ../../SIT/FS-800-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-800-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-800-HDS-010-SDS-020-SMS-040__mini-provider-handoff-to-internet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "provider-access default route selection over the smallest canonical policy path plus PPPoE-side core";
+      maxRuntimeTargets = 6;
+    };
+
     reachability-decision = {
       id = "reachability-decision";
       traceId = "FS-500-HDS-010-SDS-010-SMS-010";
