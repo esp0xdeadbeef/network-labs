@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "decision-reason-diagnostic";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-030";
+  selector = "p2p-next-hop";
+  traceId = "FS-500-HDS-010-SDS-010-SMS-040";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT decision-reason-diagnostic";
+  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040";
+  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT p2p-next-hop";
 }
