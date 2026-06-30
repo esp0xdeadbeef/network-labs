@@ -86,7 +86,7 @@ rec {
       runtimeTargets.wireguard-remote-egress = runtimeTarget;
     };
     wgInventory.wg-remote-egress = {
-      interface = "wg-remote-egress0";
+      interface = "wg-re-egress0";
       privateKeyFile = wgPrivateKeyFile;
       listenPort = 51820;
       peers = [
@@ -111,7 +111,7 @@ rec {
       interfaces = {
         wan = "uplink0";
         lan = "edge-lan0";
-        vpn = "wg-remote-egress0";
+        vpn = "wg-re-egress0";
       };
       profile = {
         mode = "generated-peer";

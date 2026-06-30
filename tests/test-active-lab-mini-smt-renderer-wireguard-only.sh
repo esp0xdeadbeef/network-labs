@@ -22,7 +22,7 @@ let
   wgInventory = contract.control_plane_model.wgInventory.wg-layer-entry;
   hostModule = renderer.libBySystem.${system}.renderer.hostModule {
     hostName = "s-router-nixos";
-    controlPlane = contract.control_plane_model;
+    controlPlane = contract;
   };
   hostModuleOutput = (hostModule { config = {}; inherit lib pkgs; }).content;
   wgContainer = hostModuleOutput.containers.wireguard-egress;

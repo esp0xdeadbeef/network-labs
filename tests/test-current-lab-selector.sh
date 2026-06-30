@@ -271,7 +271,7 @@ in
   && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "wireguard-remote-egress must install an empty test-client intent"
   && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "wireguard-remote-egress must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "wireguard-remote-egress" ]) "wireguard-remote-egress s-router-nixos host intent must expose only wireguard-remote-egress"
-  && require (activeIntentNixos.control_plane_model.wgInventory.wg-remote-egress.interface == "wg-remote-egress0") "wireguard-remote-egress wgInventory interface mismatch"
+  && require (activeIntentNixos.control_plane_model.wgInventory.wg-remote-egress.interface == "wg-re-egress0") "wireguard-remote-egress wgInventory interface mismatch"
   && require (providerContract.id == "fs470-remote-egress") "wireguard-remote-egress provider contract id mismatch"
   && require (providerContract.profile.generatedPeer.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "wireguard-remote-egress provider contract must use row-local sops secret"
   && require (providerContract.nat.ipv4.enable == true && providerContract.nat.ipv6.enable == true) "wireguard-remote-egress provider contract must enable NAT44/NAT66"

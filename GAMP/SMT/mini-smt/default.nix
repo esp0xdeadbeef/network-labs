@@ -648,7 +648,7 @@ in
           role = "provider-egress";
           placement.host = "s-router-nixos";
           overlay = "wg-remote-egress";
-          interface = "wg-remote-egress0";
+          interface = "wg-re-egress0";
           providerContract = "controlPlane.providerContracts.wireguard.wg-remote-egress";
         };
       };
