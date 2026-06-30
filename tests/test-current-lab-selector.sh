@@ -459,6 +459,43 @@ in
   && require (clabProvider.handoffVlan != 2 && clabProvider.liveUpstreamVlan != 2) "FS-540 CLAB SIT provider emulation must not use VLAN2"
 ' >/dev/null || fail "SIT FS-540 selection failed"
 
+"${selector}" SIT FS-800-HDS-010-SDS-020 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryHetz = import (repoRoot + "/current-lab/inventory-hetz.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  require = cond: msg: if cond then true else throw msg;
+  expectedNodes = [
+    "mini-smt-provider-access-default-route-downstream-selector"
+    "mini-smt-provider-access-default-route-fabric-core"
+    "mini-smt-provider-access-default-route-policy"
+    "mini-smt-provider-access-default-route-pppoe-core"
+    "mini-smt-provider-access-default-route-provider-handoff-access-a"
+    "mini-smt-provider-access-default-route-upstream-selector"
+  ];
+  nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
+  clabNodes = builtins.attrNames inventoryClab.realization.nodes;
+  hetzNodes = builtins.attrNames inventoryHetz.realization.nodes;
+  hetzUplinks = inventoryHetz.deploymentHosts.s-router-hetz.uplinks;
+in
+  require (current.selection.layer == "SIT") "FS-800 provider route SIT selector layer mismatch"
+  && require (current.selection.selector == "FS-800-HDS-010-SDS-020") "FS-800 provider route SIT selector id mismatch"
+  && require (nixosNodes == expectedNodes) "FS-800 provider route NixOS SIT must realize exactly the six-node provider path"
+  && require (clabNodes == expectedNodes) "FS-800 provider route CLAB SIT must realize exactly the six-node provider path"
+  && require (hetzNodes == expectedNodes) "FS-800 provider route Hetz SIT must realize exactly the six-node provider path"
+  && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-800 provider route NixOS mini nodes must stay on s-router-nixos"
+  && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-800 provider route CLAB mini nodes must stay on s-router-clab"
+  && require (builtins.all (name: inventoryHetz.realization.nodes.${name}.host == "s-router-hetz") hetzNodes) "FS-800 provider route Hetz mini nodes must stay on s-router-hetz"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-800 provider route test-client inventory must keep s-router-test-clients host substrate"
+  && require (((inventoryClients.realization or {}).nodes or {}) == {}) "FS-800 provider route must not render router nodes on s-router-test-clients"
+  && require (hetzUplinks ? isp && hetzUplinks.isp.mode == "vlan" && hetzUplinks.isp.vlan == 4 && hetzUplinks.isp.parent == "eth0") "FS-800 provider route Hetz isp uplink must be VLAN4, not raw eth0"
+  && require (hetzUplinks ? pppoe-provider && hetzUplinks.pppoe-provider.mode == "vlan" && hetzUplinks.pppoe-provider.vlan == 5 && hetzUplinks.pppoe-provider.parent == "eth0") "FS-800 provider route Hetz pppoe-provider uplink must be VLAN5, not raw eth0"
+' >/dev/null || fail "SIT FS-800 provider default-route selection failed"
+
 if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then
   fail "source-stub-only SIT selection should fail"
 fi
