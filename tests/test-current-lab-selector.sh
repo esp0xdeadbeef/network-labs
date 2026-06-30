@@ -226,6 +226,7 @@ let
   emptyClientsTrace = "active-lab-test-clients-no-endpoints";
   wireguardTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
+  sopsSecretNames = builtins.attrNames sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "renderer-wireguard selector layer mismatch"
   && require (current.selection.selector == "renderer-wireguard") "renderer-wireguard selector id mismatch"
@@ -239,6 +240,7 @@ in
   && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-wireguard must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "wireguard-egress" ]) "renderer-wireguard s-router-nixos host intent must expose only wireguard-egress"
   && require (activeIntentNixos.control_plane_model.wgInventory.wg-layer-entry.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "renderer-wireguard must expose row-local wgInventory"
+  && require (sopsSecretNames == [ "wireguard-mini-provider-private-key" ]) "renderer-wireguard must not inherit HAT PPPoE or unrelated SOPS secrets"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
   && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "renderer-wireguard must use the FS-166 row-owned SOPS file"
 ' >/dev/null || fail "SMT renderer-wireguard selection failed"
@@ -260,6 +262,7 @@ let
   wireguardTrace = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
   providerContract = activeIntentNixos.control_plane_model.providerContracts.wireguard.wg-remote-egress;
+  sopsSecretNames = builtins.attrNames sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "wireguard-remote-egress selector layer mismatch"
   && require (current.selection.selector == "wireguard-remote-egress") "wireguard-remote-egress selector id mismatch"
@@ -276,6 +279,7 @@ in
   && require (providerContract.id == "fs470-remote-egress") "wireguard-remote-egress provider contract id mismatch"
   && require (providerContract.profile.generatedPeer.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "wireguard-remote-egress provider contract must use row-local sops secret"
   && require (providerContract.nat.ipv4.enable == true && providerContract.nat.ipv6.enable == true) "wireguard-remote-egress provider contract must enable NAT44/NAT66"
+  && require (sopsSecretNames == [ "wireguard-mini-provider-private-key" ]) "wireguard-remote-egress must not inherit HAT PPPoE or unrelated SOPS secrets"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "wireguard-remote-egress must expose the row-local sops secret to s-router-nixos"
   && require (builtins.match ".*GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "wireguard-remote-egress must use the FS-470 row-owned SOPS file"
 ' >/dev/null || fail "SMT wireguard-remote-egress selection failed"
