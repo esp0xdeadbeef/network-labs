@@ -120,8 +120,8 @@ in
       script = "tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "NFM decision reason diagnostics for reachability validation";
-      maxRuntimeTargets = 2;
+      scope = "NFM decision reason diagnostics over the five-node client -> downstream-selector -> policy -> upstream-selector -> testnet path";
+      maxRuntimeTargets = 5;
     };
 
     p2p-next-hop = {
