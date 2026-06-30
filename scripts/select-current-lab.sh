@@ -816,7 +816,7 @@ write_default_sops() {
   write_import "sops-routing-s-router-clab.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix"
   write_empty_sops "sops-routing-s-router-nixos.nix" "s-router-nixos"
   write_import "sops-routing-s-router-test-clients.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix"
-  write_default_hetz_sops
+  write_empty_sops "sops-routing-s-router-hetz.nix" "s-router-hetz"
 }
 
 write_wireguard_sops_nixos() {
@@ -1037,8 +1037,11 @@ select_smt() {
     write_import "intent.nix" "../${row_dir}/intent.nix"
     write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos"
     write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
+    write_smt_inventory_with_management "inventory-hetz.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-hetz"
   fi
-  write_default_hetz_inventory
+  if [[ "${source_kind}" == "renderer-input" ]]; then
+    write_default_hetz_inventory
+  fi
   write_default_sops
   write_current_host_entrypoints
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "clab" ]]; then
