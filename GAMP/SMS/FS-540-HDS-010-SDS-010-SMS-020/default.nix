@@ -4,7 +4,7 @@
   parentSds = ../../SDS/FS-540-HDS-010-SDS-010;
   purpose = "DNS resolver config mini POC source input template.";
   sourceInputs = {
-    dns-resolver-config = {
+    "FS-540-HDS-010-SDS-010-SMS-020" = {
       traceId = "FS-540-HDS-010-SDS-010-SMS-020";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix";

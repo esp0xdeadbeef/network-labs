@@ -177,8 +177,8 @@ Keep the top-level `active-lab/` exposure minimal. `active-lab/default.nix`
 exists only to import the selected `intent.nix` and expose `mkSource` for
 row-local mini-lab intent stubs. `active-lab/intent.nix` points at the current
 default mini runtime CPM input, and `active-lab/inventory-nixos.nix` is an
-explicit provenance stub that points at the `renderer-nixos` mini SMT, its CPM
-fixture, and its focused test. Do not add empty placeholders such as
+explicit provenance stub that points at `FS-166-HDS-010-SDS-010-SMS-901`, its
+CPM fixture, and its focused test. Do not add empty placeholders such as
 `inventory.nix`, broad host inventory lookups, or catalog directories under
 `active-lab/`. Runtime files that the NixOS harness imports directly, such as
 `clients.nix`, `inventory-clab.nix`, `inventory-hetz.nix`, and
@@ -205,9 +205,11 @@ input is supplied directly. Direct multi-renderer input coverage lives in
 Row-level mini-SMT evidence must not depend on that aggregate renderer script.
 Use `GAMP/SMT/mini-smt/tests.nix` plus
 `tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>` so one SMT can be tested
-independently. Current renderer mini-SMT IDs are `renderer-nixos`,
-`renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`,
-`renderer-wireguard`, and `renderer-nebula`.
+independently. Current renderer mini-SMT IDs are full trace IDs:
+`FS-166-HDS-010-SDS-010-SMS-901`, `FS-166-HDS-010-SDS-010-SMS-902`,
+`FS-166-HDS-010-SDS-010-SMS-903`, `FS-166-HDS-010-SDS-010-SMS-904`,
+`FS-166-HDS-010-SDS-010-SMS-905`, `FS-166-HDS-010-SDS-010-SMS-906`, and
+`FS-470-HDS-010-SDS-010-SMS-010`.
 
 Preferred small row examples are already wired:
 
