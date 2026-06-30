@@ -28,11 +28,11 @@
 };
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh reachability-decision decision-reason-diagnostic p2p-next-hop";
-    liveCommand = "NETWORK_REPO_DIRECT_TEST_OK=1 S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 S_ROUTER_TEST_CLIENTS=192.168.1.18 ../network-codex-agent/scripts/fs500-active-lab-reachability-runtime-check.sh --live";
+    liveCommand = "row-specific live verifiers: fs500-active-lab-reachability-runtime-check.sh --live; fs500-decision-reason-active-lab-runtime-check.sh --live; fs500-p2p-next-hop-active-lab-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix"
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix"
     ];
-    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifier passed for reachability-decision and decision-reason-diagnostic against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19 with exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge for each selected row; s-router-test-clients 192.168.1.18 remained client-only with no row router containers.";
+    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifiers passed for reachability-decision, decision-reason-diagnostic, and p2p-next-hop against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19. Reachability and decision-reason rows exposed exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge; p2p-next-hop exposed exactly router-a, downstream-selector, policy, upstream-selector, and router-b. s-router-test-clients 192.168.1.18 remained a client/substrate surface with no row router containers.";
   };
 }
