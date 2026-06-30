@@ -12,7 +12,7 @@
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh reachability-decision";
     focusedTest = "tests/test-active-lab-mini-smt-reachability-decision-only.sh";
-    maxRuntimeTargets = 2;
-    scope = "one reachability decision relation and structured allow/deny classification";
+    maxRuntimeTargets = 5;
+    scope = "one reachability decision relation and structured allow/deny classification over the five-node client -> downstream-selector -> policy -> upstream-selector -> testnet path";
   };
 }
