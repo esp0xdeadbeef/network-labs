@@ -90,6 +90,7 @@ let
   handoffOk = host:
     (host.accessHandoff.kind or null) == "pppoe"
     && (host.accessHandoff.server or null) == "emulated-isp";
+  clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
 in
   require (current.selection.layer == "SMT") "SMT selector layer mismatch"
   && require (current.selection.selector == "internet-mode-verification") "SMT selector id mismatch"
@@ -113,6 +114,12 @@ in
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
+  && require (inventoryClab.containerlab.capabilities.labEmulation == true) "clab internet-mode must preserve explicit lab-emulation capability"
+  && require (inventoryClab.containerlab.labEmulation.scope == "harness") "clab internet-mode provider emulation must remain harness-scoped"
+  && require (clabProvider.providerEmulationMode == "fake-provider" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4) "clab internet-mode must preserve fake-provider VLAN11 handoff with VLAN4 live upstream"
+  && require (clabProvider.dhcp4.address == "10.20.0.1/24" && clabProvider.dhcp4.router == "10.20.0.1" && clabProvider.dhcp4.rangeStart == "10.20.0.20" && clabProvider.dhcp4.rangeEnd == "10.20.0.99" && clabProvider.dhcp4.leaseTime == "5m" && clabProvider.dhcp4.sourcePrefix == "10.20.0.0/24") "clab internet-mode fake provider must declare explicit DHCPv4 service parameters"
+  && require (clabProvider.nat44.enabled == true && clabProvider.nat44.sourcePrefix == "10.20.0.0/24") "clab internet-mode fake provider must declare explicit NAT44 source prefix"
+  && require (clabProvider.handoffVlan != 2 && clabProvider.liveUpstreamVlan != 2) "clab internet-mode provider emulation must not use VLAN2"
   && require (inventoryClients.deploymentHosts ? s-router-test-clients) "SMT/SIT test-client inventory must keep s-router-test-clients host substrate"
   && require (activeInventoryClients == inventoryClients) "SMT/SIT test-client host-specific inventory alias must preserve the row-local client inventory"
   && require ((import (repoRoot + "/active-lab/clients-s-router-test-clients.nix")) == inventoryClients) "SMT/SIT test-client clients alias must preserve the row-local client inventory when no row clients.nix exists"

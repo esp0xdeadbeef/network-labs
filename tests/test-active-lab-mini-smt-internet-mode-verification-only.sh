@@ -25,6 +25,7 @@ nix eval --impure --expr "
     inventoryNixos = import (rowRoot + \"/inventory-nixos.nix\");
     inventoryClab = import (rowRoot + \"/inventory-clab.nix\");
     inventoryClients = import (rowRoot + \"/inventory-test-clients.nix\");
+    clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
     record = builtins.head lab.internetModeRecords;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.internetModeVerification record;
@@ -122,6 +123,20 @@ nix eval --impure --expr "
       \"internet-mode CLAB inventory must define an emulated PPPoE handoff\"
     && require (uplinksNoVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks)
       \"internet-mode CLAB inventory must not expose VLAN2\"
+    && require (inventoryClab.containerlab.capabilities.labEmulation == true)
+      \"internet-mode CLAB inventory must declare explicit lab-emulation capability\"
+    && require (inventoryClab.containerlab.labEmulation.scope == \"harness\")
+      \"internet-mode CLAB fake provider must be harness-scoped\"
+    && require (builtins.length inventoryClab.containerlab.labEmulation.requests == 1)
+      \"internet-mode CLAB inventory must declare exactly one fake-provider request\"
+    && require (clabProvider.providerEmulationMode == \"fake-provider\" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4)
+      \"internet-mode CLAB fake provider must bind provider handoff VLAN11 and live upstream VLAN4 explicitly\"
+    && require (clabProvider.dhcp4.address == \"10.20.0.1/24\" && clabProvider.dhcp4.router == \"10.20.0.1\" && clabProvider.dhcp4.rangeStart == \"10.20.0.20\" && clabProvider.dhcp4.rangeEnd == \"10.20.0.99\" && clabProvider.dhcp4.leaseTime == \"5m\" && clabProvider.dhcp4.sourcePrefix == \"10.20.0.0/24\")
+      \"internet-mode CLAB fake provider must declare explicit DHCPv4 service parameters\"
+    && require (clabProvider.nat44.enabled == true && clabProvider.nat44.sourcePrefix == \"10.20.0.0/24\")
+      \"internet-mode CLAB fake provider must declare explicit NAT44 source prefix\"
+    && require (clabProvider.handoffVlan != 2 && clabProvider.liveUpstreamVlan != 2)
+      \"internet-mode CLAB fake provider must not use VLAN2\"
     && require (inventoryClients.deploymentHosts ? s-router-test-clients)
       \"internet-mode test-clients inventory must keep the s-router-test-clients host substrate\"
     && require (uplinksOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks)
