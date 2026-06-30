@@ -25,3 +25,13 @@ NETWORK_REPO_DIRECT_TEST_OK=1 \
   S_ROUTER_TEST_CLIENTS=192.168.1.18 \
   ../network-codex-agent/scripts/fs500-active-lab-reachability-runtime-check.sh --live
 ```
+
+For the decision-reason diagnostic row:
+
+```sh
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+  S_ROUTER_NIXOS=192.168.1.17 \
+  S_ROUTER_CLAB=192.168.1.19 \
+  S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+  ../network-codex-agent/scripts/fs500-decision-reason-active-lab-runtime-check.sh --live
+```

@@ -54,10 +54,18 @@ nix eval --impure --expr "
       \"manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"testnet-edge\" ])
-      \"mini SMT may start only client-edge and testnet-edge\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"client-edge\"
+      \"downstream-selector\"
+      \"policy\"
+      \"testnet-edge\"
+      \"upstream-selector\"
+    ])
+      \"mini SMT must use the five-node policy path required by active-lab current-lab\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"mini SMT must stay capped at five runtime targets\"
+    && require (lab.liveSurfaces == [ \"s-router-nixos\" \"s-router-clab\" \"s-router-test-clients\" ])
+      \"focused SIT must allow the three s-router active-lab surfaces\"
     && require (builtins.length lab.decisionReasonRelations == 1)
       \"mini SMT must test exactly one decision reason relation atom\"
     && require (validPath.ok && validPath.diagnostic == null)

@@ -561,11 +561,20 @@ in
           "FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         client-edge = {
           role = "access";
           tenant = "client";
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
         };
         testnet-edge = {
           role = "external";
@@ -591,14 +600,17 @@ in
         "decision-reason-diagnostic-class"
         "missing-evidence-detection"
         "contract-contradiction-detection"
+        "five-node-diagnostic-runtime-shape"
       ];
       forbiddenScope = [
         "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+      liveSurfaces = [
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
-        "HAT"
-        "SAT"
       ];
     };
 
