@@ -940,6 +940,10 @@ select_smt() {
   write_default_hetz_inventory
   write_default_sops
   write_current_host_entrypoints
+  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "clab" ]]; then
+    write_import "intent-s-router-clab.nix" "../${source_path}"
+    write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
+  fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
     write_import "intent-s-router-test-clients.nix" "../${source_path}"
     write_renderer_clients_inventory_test_clients "${source_path}"

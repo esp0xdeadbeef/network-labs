@@ -185,15 +185,25 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
   active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
   require = cond: msg: if cond then true else throw msg;
+  defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  clabTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+  clabTargets = builtins.attrNames activeIntentClab.control_plane_model.data.acme.lab.runtimeTargets;
 in
   require (current.selection.layer == "SMT") "renderer-clab selector layer mismatch"
   && require (current.selection.selector == "renderer-clab") "renderer-clab selector id mismatch"
-  && require (current.selection.traceId == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab") "renderer-clab trace mismatch"
+  && require (current.selection.traceId == clabTrace) "renderer-clab trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix") "renderer-clab source path mismatch"
-  && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime") "renderer-clab must preserve the global NixOS runtime CPM"
+  && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-clab must preserve the global NixOS runtime CPM"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == defaultTrace) "renderer-clab must preserve s-router-nixos host intent"
+  && require (activeIntentClab.control_plane_model.meta.traceId == clabTrace) "renderer-clab must install the CLAB CPM on s-router-clab"
+  && require (clabTargets == [ "edge-a" "edge-b" ]) "renderer-clab s-router-clab host intent must expose only edge-a and edge-b"
+  && require (activeIntentClab.control_plane_model.render.hosts.s-router-clab.deploymentHost == "s-router-clab") "renderer-clab s-router-clab host intent must target s-router-clab"
+  && require (activeIntentClab.deploymentHosts ? s-router-clab) "renderer-clab s-router-clab host intent must expose s-router-clab deployment host"
   && require (inventoryNixos.activeLabInventoryStub.miniSmtId == "renderer-nixos") "renderer-clab must preserve NixOS inventory shim"
   && require (inventoryNixos.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "renderer-clab must preserve NixOS management metadata"
   && require (inventoryClab.activeLabInventoryStub.miniSmtId == "renderer-clab") "renderer-clab must preserve CLAB provenance shim"
