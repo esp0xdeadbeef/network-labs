@@ -281,6 +281,15 @@ The resumed SMT sweep for `renderer-nixos-p2p` and `renderer-wireguard` passed
 all three host dry-runs in
 `/tmp/network-labs-active-lab-smt-sweep-resume-20260628T124259Z`.
 
+2026-06-30 rerun of `renderer-nixos-p2p` found the remaining renderer-input
+fixture gap: the same p2p endpoints also lacked CPM-owned `interfaceClass` and
+`explicit` metadata. This is not a NixOS renderer bug; the row enters at
+`renderer-input` and therefore the fixture must already be CPM-complete. The
+fix in `network-labs@f9d21d2` adds that metadata to
+`runtime-nixos-p2p-cpm.nix`, and
+`tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` now asserts
+both the CPM `policyRoutingAllocation` and p2p interface class fields.
+
 2026-06-30 live `renderer-nixos` row closure: `network-labs@b077ad6` selected
 `SMT renderer-nixos`, local `nixos` lock `56239c47` consumed it, and
 `network-codex-agent@41f3e451` added the focused runtime verifier
@@ -293,6 +302,24 @@ only on `s-router-nixos`, while `s-router-clab` and `s-router-test-clients`
 expose the FS-166 artifact without running `poc-router`. This closes the
 row-local `renderer-nixos` SMT/SIT runtime predicate only; the other FS-166
 renderer mini-SMT variants still require their own row-local live runs.
+
+2026-06-30 live `renderer-nixos-p2p` row closure: `network-labs@50850a3`
+selected `SMT renderer-nixos-p2p`, `network-labs@f9d21d2` completed the
+renderer-input CPM fixture, local `nixos` lock `5f86907b` consumed it, and
+`network-codex-agent@3895ed64` asserted the p2p interface class in
+`scripts/fs166-active-lab-renderer-nixos-p2p-runtime-check.sh`. Local builds
+passed for `s-router-nixos`
+`/nix/store/9d37x0mj3kdzz3p3fdpplyd4zxbjmayk-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/sfj8f085hqsqzs5daf9dxiz97yadm7wx-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/x1rb1r0dwv7bqfzkddl41p7bxq3p3b0s-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+The three hosts were shut down and returned through the external rebuild path.
+The live verifier passed and proved the two-target `edge-a`/`edge-b` p2p row
+runs only on `s-router-nixos`, with the rendered p2p bridge present there, while
+`s-router-clab` and `s-router-test-clients` expose the FS-166 p2p artifact
+without running either edge container. This closes the row-local
+`renderer-nixos-p2p` SMT/SIT runtime predicate only and does not promote HAT/SAT.
 
 ## Shared-File Policy (Anti-Contention)
 
