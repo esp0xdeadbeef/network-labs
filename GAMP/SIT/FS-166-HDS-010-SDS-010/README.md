@@ -88,3 +88,29 @@ access-endpoint provenance for `poc-client`, the rendered `client` bridge, and
 running `container@poc-client.service`. Live `s-router-nixos` and
 `s-router-clab` did not run `poc-client`. This closes only the row-local
 renderer-nixos-clients SMT/SIT runtime predicate, not HAT/SAT.
+
+Current live `renderer-clab` evidence command:
+
+```bash
+cd /home/deadbeef/github/network-codex-agent
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-clab-runtime-check.sh --live
+```
+
+Observed on 2026-06-30: exit 0 after `network-labs@ba3329c` selected
+`SMT renderer-clab`, fixed the `s-router-clab` host-specific intent alias to
+consume `minimal-clab-cpm.nix`, and local `nixos` lock `91fcc0f9` consumed it.
+The three `s-router-*` hosts were shut down and returned through the external
+rebuild path. Live `s-router-clab` exposed the FS-166 renderer-clab artifact,
+render-live complete/success marker, `fabric.clab.yml` containing
+`acme-lab-edge-a` and `acme-lab-edge-b`, `br-layer-entry`, running Docker
+containers `clab-fabric-acme-lab-edge-a` and `clab-fabric-acme-lab-edge-b`,
+and eth1 p2p addresses `192.0.2.0/31` and `192.0.2.1/31`. Live
+`s-router-nixos` and `s-router-test-clients` did not run the CLAB edge runtime.
+This closes only the row-local renderer-clab SMT/SIT runtime predicate, not
+HAT/SAT.
