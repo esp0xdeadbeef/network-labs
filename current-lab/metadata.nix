@@ -1,9 +1,9 @@
 {
-  layer = "SMT";
-  selector = "p2p-next-hop";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-040";
-  sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT p2p-next-hop";
+  layer = "SIT";
+  selector = "FS-370-HDS-010-SDS-010";
+  traceId = "FS-370-HDS-010-SDS-010";
+  sourceKind = "sds-integration-source";
+  sourceRoot = "GAMP/SIT/FS-370-HDS-010-SDS-010";
+  sourcePath = "GAMP/SIT/FS-370-HDS-010-SDS-010/default.nix";
+  selectedBy = "scripts/select-current-lab.sh SIT FS-370-HDS-010-SDS-010";
 }
