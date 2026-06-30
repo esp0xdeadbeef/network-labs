@@ -769,6 +769,32 @@ import ../GAMP/HAT/sops.nix {
 EOF
 }
 
+write_nebula_sops_nixos() {
+  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<'EOF'
+{ ... }:
+
+let
+  sopsFile = ../active-lab/secrets/sops-s-router-nixos.yaml;
+  mkProfileSecret = nodeName: fileName: {
+    inherit sopsFile;
+    owner = "root";
+    mode = "0400";
+    path = "/persist/nebula-runtime/profiles/${nodeName}/${fileName}";
+  };
+in
+{
+  sops.secrets = {
+    "nebula-profile-lab-lighthouse-ca-crt" = mkProfileSecret "lab-lighthouse" "ca.crt";
+    "nebula-profile-lab-lighthouse-crt" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.crt";
+    "nebula-profile-lab-lighthouse-key" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.key";
+    "nebula-profile-lab-client-nebula-ca-crt" = mkProfileSecret "lab-client-nebula" "ca.crt";
+    "nebula-profile-lab-client-nebula-crt" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.crt";
+    "nebula-profile-lab-client-nebula-key" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.key";
+  };
+}
+EOF
+}
+
 write_metadata() {
   local layer="$1"
   local selector="$2"
@@ -959,6 +985,11 @@ select_smt() {
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
     write_wireguard_sops_nixos
+  fi
+  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nebula" ]]; then
+    write_import "intent-s-router-nixos.nix" "../${source_path}"
+    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+    write_nebula_sops_nixos
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
     write_import "intent-s-router-test-clients.nix" "../${source_path}"
