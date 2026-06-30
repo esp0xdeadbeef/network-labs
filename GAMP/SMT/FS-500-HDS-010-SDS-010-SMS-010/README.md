@@ -8,8 +8,8 @@ active-lab, HAT, SAT, or aggregate renderer dependency.
 Run:
 
 ```sh
-tests/run-active-lab-mini-smt.sh --source reachability-decision
-tests/run-active-lab-mini-smt.sh reachability-decision
+tests/run-active-lab-mini-smt.sh --source FS-500-HDS-010-SDS-010-SMS-010
+tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-010
 ```
 
 This is construction evidence for the SMS row only. The parent SIT row

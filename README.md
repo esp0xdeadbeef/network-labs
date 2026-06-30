@@ -204,32 +204,32 @@ input is supplied directly. Direct multi-renderer input coverage lives in
 
 Row-level mini-SMT evidence must not depend on that aggregate renderer script.
 Use `GAMP/SMT/mini-smt/tests.nix` plus
-`tests/run-active-lab-mini-smt.sh <mini-smt-id>` so one SMT can be tested
+`tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>` so one SMT can be tested
 independently. Current renderer mini-SMT IDs are `renderer-nixos`,
 `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`,
 `renderer-wireguard`, and `renderer-nebula`.
 
 Preferred small row examples are already wired:
 
-- `tests/run-active-lab-mini-smt.sh pppoe-pairing` for
+- `tests/run-active-lab-mini-smt.sh FS-800-HDS-030-SDS-030-SMS-010` for
   `FS-800-HDS-030-SDS-030-SMS-010`, capped to the five-node
   pppoe-client/downstream-selector/policy/upstream-selector/pppoe-provider path,
   proving PPPoE provider/customer pairing, fallback rejection, transport
   classification, and selectable current-lab runtime shape without full HAT/SAT.
-- `tests/run-active-lab-mini-smt.sh provider-access-default-route` for
+- `tests/run-active-lab-mini-smt.sh FS-800-HDS-010-SDS-020-SMS-040` for
   `FS-800-HDS-010-SDS-020-SMS-040`, capped to the canonical six-node
   provider-access path, proving provider-handoff default selection without
   promoting the PPPoE side core into default reachability.
-- `tests/run-active-lab-mini-smt.sh reachability-decision` for
+- `tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-010` for
   `FS-500-HDS-010-SDS-010-SMS-010`, capped to the five-node
   client/downstream-selector/policy/upstream-selector/testnet path required by
   current NFM, proving only structured reachability decision classification.
-- `tests/run-active-lab-mini-smt.sh p2p-next-hop` for
+- `tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-040` for
   `FS-500-HDS-010-SDS-010-SMS-040`, capped to `router-a` and `router-b`,
   proving only one p2p link, two router endpoints, and one next-hop route atom.
 
 Inspect the selected row input with
-`tests/run-active-lab-mini-smt.sh --source <mini-smt-id>` before running it.
+`tests/run-active-lab-mini-smt.sh --source <FS-...-SMS-... trace-id>` before running it.
 Do not use `all`, full active-lab, HAT/SAT, or aggregate renderer-entry scripts
 as proof for one SMT row.
 
@@ -247,7 +247,7 @@ construction/integration layers.
 
 Select row-local sources with `active-lab.mkSource { intent = ...; }` or
 inspect the manifest source with
-`tests/run-active-lab-mini-smt.sh --source <mini-smt-id>`. Do not rewrite the
+`tests/run-active-lab-mini-smt.sh --source <FS-...-SMS-... trace-id>`. Do not rewrite the
 global `active-lab/intent.nix` to run a specific row.
 
 Examples of intended use:

@@ -14,7 +14,7 @@ The rule is:
 - one explicit source entry per mini-lab (`intent-source`, `control-plane-input`,
   or `renderer-input`);
 - one focused script per mini-lab, runnable through
-  `tests/run-active-lab-mini-smt.sh <id>`;
+  `tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>`;
 - a declared maximum runtime-target count;
 - no implicit dependencies on full `s-router-nixos`, `s-router-clab`, or
   `s-router-test-clients`;
@@ -64,7 +64,7 @@ activeLab.mkSource {
 The runner exposes the selected source:
 
 ```sh
-tests/run-active-lab-mini-smt.sh --source p2p-next-hop
+tests/run-active-lab-mini-smt.sh --source FS-500-HDS-010-SDS-010-SMS-040
 ```
 
 Current mini-labs:
@@ -94,13 +94,13 @@ See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,
 Current `renderer-nixos` source inspection:
 
 ```sh
-tests/run-active-lab-mini-smt.sh --source renderer-nixos
+tests/run-active-lab-mini-smt.sh --source FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime
 ```
 
 resolves `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix`. The focused row test:
 
 ```sh
-tests/run-active-lab-mini-smt.sh renderer-nixos
+tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime
 ```
 
 exited 0 on 2026-06-27 and proved one `poc-router` renderer-input container
@@ -127,14 +127,14 @@ When an agent is working one of those rows, inspect the source first and then
 run the exact row id:
 
 ```sh
-tests/run-active-lab-mini-smt.sh --source pppoe-pairing
-tests/run-active-lab-mini-smt.sh pppoe-pairing
+tests/run-active-lab-mini-smt.sh --source FS-800-HDS-030-SDS-030-SMS-010
+tests/run-active-lab-mini-smt.sh FS-800-HDS-030-SDS-030-SMS-010
 
-tests/run-active-lab-mini-smt.sh --source p2p-next-hop
-tests/run-active-lab-mini-smt.sh p2p-next-hop
+tests/run-active-lab-mini-smt.sh --source FS-500-HDS-010-SDS-010-SMS-040
+tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-040
 
-tests/run-active-lab-mini-smt.sh --source reachability-decision
-tests/run-active-lab-mini-smt.sh reachability-decision
+tests/run-active-lab-mini-smt.sh --source FS-500-HDS-010-SDS-010-SMS-010
+tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-010
 ```
 
 Do not use `all`, the full active-lab fixture, or
@@ -145,7 +145,7 @@ evidence.
 The machine-readable manifest is `tests.nix`. Run one row directly:
 
 ```sh
-tests/run-active-lab-mini-smt.sh renderer-clab
+tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab
 ```
 
 Every manifest entry carries `rowDirectories.SDS` and `rowDirectories.SMS`.
@@ -165,8 +165,8 @@ List rows or run a small selected set:
 
 ```sh
 tests/run-active-lab-mini-smt.sh --list
-tests/run-active-lab-mini-smt.sh --source pppoe-pairing
-tests/run-active-lab-mini-smt.sh renderer-wireguard renderer-nebula
+tests/run-active-lab-mini-smt.sh --source FS-800-HDS-030-SDS-030-SMS-010
+tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula
 ```
 
 Aggregate layer-entry scripts can still prove that skip boundaries and renderer

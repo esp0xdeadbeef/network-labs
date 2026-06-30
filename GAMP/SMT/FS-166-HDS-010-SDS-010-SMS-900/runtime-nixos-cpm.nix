@@ -38,7 +38,7 @@ rec {
   control_plane_model = {
     meta = {
       inherit traceId layerEntry;
-      source = "network-labs active-lab mini-SMT renderer-input";
+      source = "network-labs active-lab mini-SMT FS-166-HDS-010-SDS-010-SMS-900 renderer-input";
       scope = "one-container NixOS runtime materialization POC; not HAT/SAT approval";
       expectedRuntimeTargets = [ "poc-router" ];
     };

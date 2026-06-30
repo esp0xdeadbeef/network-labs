@@ -37,13 +37,13 @@ let
   inventoryHost = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
 in
-  require (current.selection.selector == "renderer-nixos") "default current-lab selector mismatch"
+  require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime") "default current-lab selector mismatch"
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime") "active-lab must import default current-lab intent"
   && require (inventory.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default selection must preserve VLAN2 management"
   && require (inventoryHost.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default host-specific NixOS inventory alias must preserve VLAN2 management"
 ' >/dev/null || fail "default selection failed"
 
-"${selector}" SMT internet-mode-verification >/dev/null
+"${selector}" SMT FS-380-HDS-020-SDS-010-SMS-050 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -93,7 +93,7 @@ let
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
 in
   require (current.selection.layer == "SMT") "SMT selector layer mismatch"
-  && require (current.selection.selector == "internet-mode-verification") "SMT selector id mismatch"
+  && require (current.selection.selector == "FS-380-HDS-020-SDS-010-SMS-050") "SMT selector id mismatch"
   && require (current.selection.traceId == "FS-380-HDS-020-SDS-010-SMS-050") "SMT trace mismatch"
   && require (activeIntentNixos == activeIntentClab) "internet-mode router host-specific intent aliases must share the selected row intent"
   && require (noEndpointClientIntent activeIntentClients) "SMT/SIT test-client host-specific intent must be a CPM-shaped no-endpoint client source unless the row overrides it"
@@ -131,7 +131,7 @@ in
   && require (noTestVlan2 inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "test-client internet-mode host substrate must not use VLAN2 as dataplane"
 ' >/dev/null || fail "SMT internet-mode selection failed"
 
-"${selector}" SMT renderer-nixos-p2p >/dev/null
+"${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -140,13 +140,13 @@ let
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.layer == "SMT") "renderer SMT selector layer mismatch"
-  && require (current.selection.selector == "renderer-nixos-p2p") "renderer SMT selector id mismatch"
+  && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p") "renderer SMT selector id mismatch"
   && require (current.selection.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p") "renderer SMT suffixed trace mismatch"
   && require (current.selection.sourceRoot == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900") "renderer SMT source root must use canonical row directory"
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p") "renderer SMT active-lab import mismatch"
 ' >/dev/null || fail "SMT renderer selection failed"
 
-"${selector}" SMT renderer-nixos-clients >/dev/null
+"${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -163,7 +163,7 @@ let
   clientSite = activeIntentClients.control_plane_model.data.acme.site-a;
 in
   require (current.selection.layer == "SMT") "renderer-nixos-clients selector layer mismatch"
-  && require (current.selection.selector == "renderer-nixos-clients") "renderer-nixos-clients selector id mismatch"
+  && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients") "renderer-nixos-clients selector id mismatch"
   && require (current.selection.traceId == clientTrace) "renderer-nixos-clients trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix") "renderer-nixos-clients source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-nixos-clients must preserve the global NixOS runtime CPM for non-client hosts"
@@ -177,9 +177,9 @@ in
   && require (!(inventoryClients.deploymentHosts ? s-router-nixos)) "renderer-nixos-clients inventory must not expose s-router-nixos"
   && require (!(inventoryClients.deploymentHosts ? s-router-clab)) "renderer-nixos-clients inventory must not expose s-router-clab"
   && require (activeInventoryClients == inventoryClients) "renderer-nixos-clients host-specific inventory alias must preserve client inventory"
-' >/dev/null || fail "SMT renderer-nixos-clients selection failed"
+' >/dev/null || fail "SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients selection failed"
 
-"${selector}" SMT renderer-clab >/dev/null
+"${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -195,7 +195,7 @@ let
   clabTargets = builtins.attrNames activeIntentClab.control_plane_model.data.acme.lab.runtimeTargets;
 in
   require (current.selection.layer == "SMT") "renderer-clab selector layer mismatch"
-  && require (current.selection.selector == "renderer-clab") "renderer-clab selector id mismatch"
+  && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab") "renderer-clab selector id mismatch"
   && require (current.selection.traceId == clabTrace) "renderer-clab trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix") "renderer-clab source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-clab must preserve the global NixOS runtime CPM"
@@ -204,13 +204,13 @@ in
   && require (clabTargets == [ "edge-a" "edge-b" ]) "renderer-clab s-router-clab host intent must expose only edge-a and edge-b"
   && require (activeIntentClab.control_plane_model.render.hosts.s-router-clab.deploymentHost == "s-router-clab") "renderer-clab s-router-clab host intent must target s-router-clab"
   && require (activeIntentClab.deploymentHosts ? s-router-clab) "renderer-clab s-router-clab host intent must expose s-router-clab deployment host"
-  && require (inventoryNixos.activeLabInventoryStub.miniSmtId == "renderer-nixos") "renderer-clab must preserve NixOS inventory shim"
+  && require (inventoryNixos.activeLabInventoryStub.miniSmtId == defaultTrace) "renderer-clab must preserve NixOS inventory shim"
   && require (inventoryNixos.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "renderer-clab must preserve NixOS management metadata"
-  && require (inventoryClab.activeLabInventoryStub.miniSmtId == "renderer-clab") "renderer-clab must preserve CLAB provenance shim"
+  && require (inventoryClab.activeLabInventoryStub.miniSmtId == clabTrace) "renderer-clab must preserve CLAB provenance shim"
   && require (inventoryClab.deploymentHosts ? s-router-clab) "renderer-clab CLAB inventory must expose s-router-clab"
-' >/dev/null || fail "SMT renderer-clab selection failed"
+' >/dev/null || fail "SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab selection failed"
 
-"${selector}" SMT renderer-wireguard >/dev/null
+"${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -229,7 +229,7 @@ let
   sopsSecretNames = builtins.attrNames sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "renderer-wireguard selector layer mismatch"
-  && require (current.selection.selector == "renderer-wireguard") "renderer-wireguard selector id mismatch"
+  && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard") "renderer-wireguard selector id mismatch"
   && require (current.selection.traceId == wireguardTrace) "renderer-wireguard trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix") "renderer-wireguard source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must preserve the global NixOS runtime CPM"
@@ -243,9 +243,9 @@ in
   && require (sopsSecretNames == [ "wireguard-mini-provider-private-key" ]) "renderer-wireguard must not inherit HAT PPPoE or unrelated SOPS secrets"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
   && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "renderer-wireguard must use the FS-166 row-owned SOPS file"
-' >/dev/null || fail "SMT renderer-wireguard selection failed"
+' >/dev/null || fail "SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard selection failed"
 
-"${selector}" SMT wireguard-remote-egress >/dev/null
+"${selector}" SMT FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -265,7 +265,7 @@ let
   sopsSecretNames = builtins.attrNames sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "wireguard-remote-egress selector layer mismatch"
-  && require (current.selection.selector == "wireguard-remote-egress") "wireguard-remote-egress selector id mismatch"
+  && require (current.selection.selector == "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress") "wireguard-remote-egress selector id mismatch"
   && require (current.selection.traceId == wireguardTrace) "wireguard-remote-egress trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix") "wireguard-remote-egress source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must preserve the global NixOS runtime CPM"
@@ -282,9 +282,9 @@ in
   && require (sopsSecretNames == [ "wireguard-mini-provider-private-key" ]) "wireguard-remote-egress must not inherit HAT PPPoE or unrelated SOPS secrets"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "wireguard-remote-egress must expose the row-local sops secret to s-router-nixos"
   && require (builtins.match ".*GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "wireguard-remote-egress must use the FS-470 row-owned SOPS file"
-' >/dev/null || fail "SMT wireguard-remote-egress selection failed"
+' >/dev/null || fail "SMT FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress selection failed"
 
-"${selector}" SMT renderer-nebula >/dev/null
+"${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -304,7 +304,7 @@ let
   secrets = sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "renderer-nebula selector layer mismatch"
-  && require (current.selection.selector == "renderer-nebula") "renderer-nebula selector id mismatch"
+  && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula") "renderer-nebula selector id mismatch"
   && require (current.selection.traceId == nebulaTrace) "renderer-nebula trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix") "renderer-nebula source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must preserve the global NixOS runtime CPM"
@@ -331,7 +331,7 @@ in
   && require (secrets."nebula-profile-lab-client-nebula-ca-crt".path == "/persist/nebula-runtime/profiles/lab-client-nebula/ca.crt") "renderer-nebula client CA secret path mismatch"
   && require (secrets."nebula-profile-lab-client-nebula-crt".path == "/persist/nebula-runtime/profiles/lab-client-nebula/lab-client-nebula.crt") "renderer-nebula client cert secret path mismatch"
   && require (secrets."nebula-profile-lab-client-nebula-key".path == "/persist/nebula-runtime/profiles/lab-client-nebula/lab-client-nebula.key") "renderer-nebula client key secret path mismatch"
-' >/dev/null || fail "SMT renderer-nebula selection failed"
+' >/dev/null || fail "SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula selection failed"
 
 "${selector}" SIT FS-500-HDS-010-SDS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '

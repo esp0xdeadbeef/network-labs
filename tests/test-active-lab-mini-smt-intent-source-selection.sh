@@ -44,7 +44,7 @@ let
   globalTrace = active.intent.control_plane_model.meta.traceId or null;
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "renderer-nixos";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
   selectedSourceExplicit =
     builtins.isString (current.selection.sourceRoot or null)
     && builtins.isString (current.selection.sourcePath or null)
@@ -85,9 +85,9 @@ in
   && require (toString p2pSource.sourcePaths.intent != toString active.sourcePaths.intent) "p2p mini intent must be separate from global active-lab intent"
 ' >/dev/null || fail "alternate intent source selection failed"
 
-pppoe_source="$("${runner}" --source pppoe-pairing)"
-reachability_source="$("${runner}" --source reachability-decision)"
-p2p_source="$("${runner}" --source p2p-next-hop)"
+pppoe_source="$("${runner}" --source FS-800-HDS-030-SDS-030-SMS-010)"
+reachability_source="$("${runner}" --source FS-500-HDS-010-SDS-010-SMS-010)"
+p2p_source="$("${runner}" --source FS-500-HDS-010-SDS-010-SMS-040)"
 
 grep -Fq "kind=intent-source" <<<"${pppoe_source}" \
   || fail "runner must report pppoe-pairing as intent-source"

@@ -14,7 +14,7 @@ currently consumes:
 Run the small row input independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh dns-resolver-config
+tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020
 ```
 
 Run the live recursive DNS SIT probe against the active lab:

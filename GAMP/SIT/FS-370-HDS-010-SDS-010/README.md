@@ -10,7 +10,7 @@ currently consumes:
 Run the small row input independently:
 
 ```sh
-tests/run-active-lab-mini-smt.sh lane-egress-binding
+tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-050
 ```
 
 Live closure also requires the row-specific active-lab verifier to pass on the

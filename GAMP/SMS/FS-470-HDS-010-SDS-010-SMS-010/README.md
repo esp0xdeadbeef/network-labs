@@ -16,7 +16,7 @@ contract used by the WireGuard renderer host module.
 Focused source/integration command:
 
 ```sh
-tests/run-active-lab-mini-smt.sh wireguard-remote-egress
+tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress
 ```
 
 This is row-local SMT/SIT evidence only. HAT/SAT remain separate validation

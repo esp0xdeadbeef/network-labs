@@ -5,7 +5,7 @@ Row-local source for the mini PPPoE provider/customer pairing SMT.
 Run:
 
 ```bash
-tests/run-active-lab-mini-smt.sh pppoe-pairing
+tests/run-active-lab-mini-smt.sh FS-800-HDS-030-SDS-030-SMS-010
 ```
 
 This row may start only the five-node current-lab path:

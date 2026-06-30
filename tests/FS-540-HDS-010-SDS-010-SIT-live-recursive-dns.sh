@@ -83,7 +83,7 @@ check_current_lab_selection() {
       require = cond: msg: if cond then true else throw msg;
     in
       require selected
-        \"FS-540 live SIT requires current-lab selected to SIT FS-540-HDS-010-SDS-010 or SMT dns-resolver-config; run scripts/select-current-lab.sh SIT FS-540-HDS-010-SDS-010\"
+        \"FS-540 live SIT requires current-lab selected to SIT FS-540-HDS-010-SDS-010 or SMT FS-540-HDS-010-SDS-010-SMS-020; run scripts/select-current-lab.sh SIT FS-540-HDS-010-SDS-010\"
       && require (entry.maxRuntimeTargets == 5)
         \"FS-540 dns-resolver-config manifest must cap the live mini path at five runtime targets\"
       && require (builtins.length nodes <= entry.maxRuntimeTargets)
