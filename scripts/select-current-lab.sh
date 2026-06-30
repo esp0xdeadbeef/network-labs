@@ -822,11 +822,12 @@ write_default_sops() {
 write_wireguard_sops_nixos() {
   local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
   write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
-import ../GAMP/HAT/sops.nix {
-  sopsFile = ${sops_file};
-  runtimeFactSecrets = [
-    "wireguard-mini-provider-private-key"
-  ];
+{
+  sops.secrets."wireguard-mini-provider-private-key" = {
+    key = "wireguard-mini-provider-private-key";
+    mode = "0400";
+    sopsFile = ${sops_file};
+  };
 }
 EOF
 }
