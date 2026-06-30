@@ -206,7 +206,7 @@ let
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
-  noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
+  clientNodes = builtins.attrNames inventoryClients.realization.nodes;
 in
   require (current.selection.layer == "SIT") "FS-370 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-370-HDS-010-SDS-010") "FS-370 SIT selector id mismatch"
@@ -216,13 +216,13 @@ in
   && require (manifest.tests.lane-egress-binding.maxRuntimeTargets == 5) "FS-370 lane-egress mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-370 NixOS SIT must realize exactly the five-node lane path"
   && require (clabNodes == expectedNodes) "FS-370 CLAB SIT must realize exactly the five-node lane path"
+  && require (clientNodes == expectedNodes) "FS-370 test-client SIT must realize exactly the five-node lane path"
   && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-370 test-client SIT inventory must keep s-router-test-clients host substrate"
   && require (activeInventoryClients == inventoryClients) "FS-370 test-client SIT host inventory must preserve row-local client inventory"
-  && require (noRealizationNodes inventoryClients) "FS-370 test-client SIT inventory must not synthesize router realization nodes"
-  && require (noRealizationNodes activeInventoryClients) "FS-370 test-client SIT host inventory must not synthesize router realization nodes"
   && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-370 test-client SIT inventory must preserve VLAN2 management"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-370 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-370 CLAB mini nodes must stay on s-router-clab"
+  && require (builtins.all (name: inventoryClients.realization.nodes.${name}.host == "s-router-test-clients") clientNodes) "FS-370 test-client mini nodes must stay on s-router-test-clients"
 ' >/dev/null || fail "SIT FS-370 selection failed"
 
 "${selector}" SIT FS-540-HDS-010-SDS-010 >/dev/null

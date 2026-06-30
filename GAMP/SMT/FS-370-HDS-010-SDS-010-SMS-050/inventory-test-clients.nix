@@ -5,6 +5,7 @@
     renderer = "test-clients";
     scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";
+    managedRuntimeRealization = true;
   };
   clients = { };
   deploymentHosts = {

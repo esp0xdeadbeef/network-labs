@@ -233,8 +233,20 @@ source // {
 EOF
 }
 
+row_test_clients_need_managed_realization() {
+  local row_dir="$1"
+
+  nix eval --impure --expr "
+let
+  source = import ${repo_root}/${row_dir}/inventory-test-clients.nix;
+in
+  (source.meta.managedRuntimeRealization or false)
+" 2>/dev/null | grep -qx true
+}
+
 write_row_test_client_entrypoints() {
   local row_dir="$1"
+  local forwarding_enterprise_json="${2:-}"
 
   if [[ -f "${repo_root}/${row_dir}/intent-test-clients.nix" ]]; then
     write_import "intent-s-router-test-clients.nix" "../${row_dir}/intent-test-clients.nix"
@@ -269,7 +281,11 @@ rec {
 EOF
   fi
 
-  write_row_inventory_test_clients "${row_dir}"
+  if [[ -n "${forwarding_enterprise_json}" ]] && row_test_clients_need_managed_realization "${row_dir}"; then
+    write_smt_inventory_with_management "inventory-test-clients.nix" "../${row_dir}/inventory-test-clients.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-test-clients"
+  else
+    write_row_inventory_test_clients "${row_dir}"
+  fi
   write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
 
   if [[ -f "${repo_root}/${row_dir}/clients.nix" ]]; then
@@ -874,7 +890,7 @@ select_smt() {
   write_default_sops
   write_current_host_entrypoints
   if [[ "${source_kind}" != "renderer-input" ]]; then
-    write_row_test_client_entrypoints "${row_dir}"
+    write_row_test_client_entrypoints "${row_dir}" "${forwarding_enterprise_json}"
   fi
   write_metadata "SMT" "${requested}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
 }
