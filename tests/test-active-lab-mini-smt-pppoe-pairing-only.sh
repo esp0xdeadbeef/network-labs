@@ -30,6 +30,7 @@ nix eval --impure --expr "
     valid = mini.validators.pppoePair pair;
     providerOnly = mini.validators.pppoePair (removeAttrs pair [ \"customer\" ]);
     customerOnly = mini.validators.pppoePair (removeAttrs pair [ \"provider\" ]);
+    unpaired = mini.validators.pppoePair { };
     fallbackEnabled = mini.validators.pppoePair (pair // { fallback = true; });
     opaqueTransport = mini.validators.pppoePair (pair // { transportClassification = \"opaque\"; });
   in
@@ -99,6 +100,8 @@ nix eval --impure --expr "
       \"provider-only seeded negative must fail with missing-customer-surface\"
     && require (!customerOnly.ok && customerOnly.diagnostic == \"missing-provider-surface\")
       \"customer-only seeded negative must fail with missing-provider-surface\"
+    && require (!unpaired.ok && unpaired.diagnostic == \"unpaired-pppoe-row\")
+      \"unpaired seeded negative must fail with unpaired-pppoe-row\"
     && require (!fallbackEnabled.ok && fallbackEnabled.diagnostic == \"fallback-enabled\")
       \"fallback seeded negative must fail with fallback-enabled\"
     && require (!opaqueTransport.ok && opaqueTransport.diagnostic == \"opaque-transport-classification\")
