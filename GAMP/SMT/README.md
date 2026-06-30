@@ -321,6 +321,25 @@ runs only on `s-router-nixos`, with the rendered p2p bridge present there, while
 without running either edge container. This closes the row-local
 `renderer-nixos-p2p` SMT/SIT runtime predicate only and does not promote HAT/SAT.
 
+2026-06-30 live `renderer-nixos-clients` row closure: `network-labs@d494c16`
+selected `SMT renderer-nixos-clients`, removed router runtime targets from the
+access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and
+`network-codex-agent@d79b5e17` added
+`scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh`. Local builds
+passed for `s-router-nixos`
+`/nix/store/6vvzch7wpwdhszs8d75xri8vbbdkl5ii-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/46zis36qs3r0p19vr8inrmnwa4pkn4n0-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/0b9hns2pz369q36nmhr9f8x8hwhv2aj2-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+The three hosts were shut down and returned through the external rebuild path.
+The live verifier passed and proved `poc-client` runs only on
+`s-router-test-clients`, with the FS-166 clients control-plane artifact,
+access-endpoint provenance, and rendered `client` bridge present there, while
+`s-router-nixos` and `s-router-clab` do not run `poc-client`. This closes the
+row-local `renderer-nixos-clients` SMT/SIT runtime predicate only and does not
+promote HAT/SAT.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or

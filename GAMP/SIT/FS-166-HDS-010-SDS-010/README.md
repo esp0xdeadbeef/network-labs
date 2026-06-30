@@ -65,3 +65,26 @@ running `edge-a` and `edge-b`, and the rendered p2p bridge. Live
 `s-router-clab` and `s-router-test-clients` exposed the same FS-166 p2p
 artifact with `edge-a` and `edge-b` absent on those hosts. This closes only the
 row-local renderer-nixos-p2p SMT/SIT runtime predicate, not HAT/SAT.
+
+Current live `renderer-nixos-clients` evidence command:
+
+```bash
+cd /home/deadbeef/github/network-codex-agent
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh --live
+```
+
+Observed on 2026-06-30: exit 0 after `network-labs@d494c16` selected
+`SMT renderer-nixos-clients`, removed router runtime targets from the endpoint
+fixture, and local `nixos` lock `c75190e5` consumed it. The three `s-router-*`
+hosts were shut down and returned through the external rebuild path. Live
+`s-router-test-clients` exposed the FS-166 clients control-plane artifact,
+access-endpoint provenance for `poc-client`, the rendered `client` bridge, and
+running `container@poc-client.service`. Live `s-router-nixos` and
+`s-router-clab` did not run `poc-client`. This closes only the row-local
+renderer-nixos-clients SMT/SIT runtime predicate, not HAT/SAT.
