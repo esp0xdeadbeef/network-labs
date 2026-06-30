@@ -406,11 +406,13 @@ in
       ];
       forbiddenScope = [
         "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+      liveSurfaces = [
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
-        "HAT"
-        "SAT"
       ];
     };
 
