@@ -5,7 +5,7 @@
   purpose = "Renderer-entry mini POC source input templates.";
   sourceInputs = {
     renderer-nixos = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-901";
       kind = "renderer-input";
       rendererTarget = "nixos";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix";
@@ -14,7 +14,7 @@
     };
 
     renderer-nixos-p2p = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-902";
       kind = "renderer-input";
       rendererTarget = "nixos";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix";
@@ -23,7 +23,7 @@
     };
 
     renderer-nixos-clients = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-903";
       kind = "renderer-input";
       rendererTarget = "nixos-clients";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix";
@@ -32,7 +32,7 @@
     };
 
     renderer-clab = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-904";
       kind = "renderer-input";
       rendererTarget = "clab";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix";
@@ -41,7 +41,7 @@
     };
 
     renderer-wireguard = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       kind = "renderer-input";
       rendererTarget = "wireguard";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix";
@@ -50,7 +50,7 @@
     };
 
     renderer-nebula = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-906";
       kind = "renderer-input";
       rendererTarget = "nebula";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix";

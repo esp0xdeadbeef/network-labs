@@ -5,7 +5,7 @@
   smsInputs = {
     "FS-470-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-470-HDS-010-SDS-010-SMS-010;
-      miniSmtIds = [ "wireguard-remote-egress" ];
+      miniSmtIds = [ "FS-470-HDS-010-SDS-010-SMS-010" ];
       inputKinds = [ "renderer-input" ];
       evidenceBoundary = "active-lab mini SMT/SIT";
     };

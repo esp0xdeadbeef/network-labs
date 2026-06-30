@@ -77,7 +77,7 @@ let
   clabStub = inventoryClab.activeLabInventoryStub or null;
   hetzStub = inventoryHetz.activeLabInventoryStub or null;
   clientStub = clients.activeLabClientStub or null;
-  rendererNixos = manifest.tests.renderer-nixos;
+  rendererNixos = manifest.tests."FS-166-HDS-010-SDS-010-SMS-901";
   require = cond: msg: if cond then true else throw msg;
   requiredNixosClients = [
     "nixos-branch-node01"
@@ -108,7 +108,7 @@ let
   activeHetzHosts = inventoryHetz.deployment.hosts or { };
   selectedDefaultMini =
     current.selection.layer == "SMT"
-    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+    && current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901";
   defaultMiniOk =
     clientStub != null
     && clabStub != null

@@ -5,11 +5,11 @@ in
 {
   activeLabInventoryStub = {
     kind = "runtime-clab-inventory-stub";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
-    miniSmtManifestKey = "renderer-clab";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-904";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-904";
     rendererTarget = "clab";
     entryBoundary = "renderer-input";
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-904";
     inherit source;
     cpmInput = source;
     test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;

@@ -24,7 +24,7 @@ let
   targets = input.control_plane_model.data.acme.lab.runtimeTargets;
   targetNames = builtins.attrNames targets;
 in
-  require (input.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab") "clab source trace mismatch"
+  require (input.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-904") "clab source trace mismatch"
   && require (targetNames == [ "edge-a" "edge-b" ]) "clab source must expose exactly edge-a and edge-b"
   && require (targets.edge-a.placement.host == "s-router-clab") "edge-a must target s-router-clab"
   && require (targets.edge-b.placement.host == "s-router-clab") "edge-b must target s-router-clab"

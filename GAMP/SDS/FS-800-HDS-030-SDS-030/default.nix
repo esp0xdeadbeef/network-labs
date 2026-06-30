@@ -5,7 +5,7 @@
   smsInputs = {
     "FS-800-HDS-030-SDS-030-SMS-010" = {
       smsRow = ../../SMS/FS-800-HDS-030-SDS-030-SMS-010;
-      miniSmtIds = [ "pppoe-pairing" ];
+      miniSmtIds = [ "FS-800-HDS-030-SDS-030-SMS-010" ];
       inputKinds = [ "intent-source" ];
     };
     "FS-800-HDS-030-SDS-030-SMS-040" = {

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-900
+# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-901
 # GAMP-SCOPE: active-lab runtime entry marker; not HAT/SAT approval evidence
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-trace_id="FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime"
+trace_id="FS-166-HDS-010-SDS-010-SMS-901"
 original_id="allow-client-to-testnet-host-isp"
 
 fail() {

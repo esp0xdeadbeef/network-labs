@@ -1,6 +1,3 @@
-let
-  rendererTrace = "FS-166-HDS-010-SDS-010-SMS-900";
-in
 {
   meta = {
     contract = "active-lab mini SMT independent test manifest";
@@ -12,7 +9,7 @@ in
   };
 
   tests = {
-    pppoe-pairing = {
+    "FS-800-HDS-030-SDS-030-SMS-010" = {
       id = "FS-800-HDS-030-SDS-030-SMS-010";
       traceId = "FS-800-HDS-030-SDS-030-SMS-010";
       rowDirectories = {
@@ -40,7 +37,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    provider-access-default-route = {
+    "FS-800-HDS-010-SDS-020-SMS-040" = {
       id = "FS-800-HDS-010-SDS-020-SMS-040";
       traceId = "FS-800-HDS-010-SDS-020-SMS-040";
       rowDirectories = {
@@ -68,7 +65,7 @@ in
       maxRuntimeTargets = 6;
     };
 
-    reachability-decision = {
+    "FS-500-HDS-010-SDS-010-SMS-010" = {
       id = "FS-500-HDS-010-SDS-010-SMS-010";
       traceId = "FS-500-HDS-010-SDS-010-SMS-010";
       rowDirectories = {
@@ -96,7 +93,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    decision-reason-diagnostic = {
+    "FS-500-HDS-010-SDS-010-SMS-030" = {
       id = "FS-500-HDS-010-SDS-010-SMS-030";
       traceId = "FS-500-HDS-010-SDS-010-SMS-030";
       rowDirectories = {
@@ -124,7 +121,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    p2p-next-hop = {
+    "FS-500-HDS-010-SDS-010-SMS-040" = {
       id = "FS-500-HDS-010-SDS-010-SMS-040";
       traceId = "FS-500-HDS-010-SDS-010-SMS-040";
       rowDirectories = {
@@ -152,7 +149,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    lane-egress-binding = {
+    "FS-370-HDS-010-SDS-010-SMS-050" = {
       id = "FS-370-HDS-010-SDS-010-SMS-050";
       traceId = "FS-370-HDS-010-SDS-010-SMS-050";
       rowDirectories = {
@@ -180,7 +177,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    dns-resolver-config = {
+    "FS-540-HDS-010-SDS-010-SMS-020" = {
       id = "FS-540-HDS-010-SDS-010-SMS-020";
       traceId = "FS-540-HDS-010-SDS-010-SMS-020";
       rowDirectories = {
@@ -211,7 +208,7 @@ in
       maxRuntimeTargets = 5;
     };
 
-    internet-mode-verification = {
+    "FS-380-HDS-020-SDS-010-SMS-050" = {
       id = "FS-380-HDS-020-SDS-010-SMS-050";
       traceId = "FS-380-HDS-020-SDS-010-SMS-050";
       rowDirectories = {
@@ -239,13 +236,13 @@ in
       maxRuntimeTargets = 2;
     };
 
-    renderer-nixos = {
-      id = "${rendererTrace}__active-lab-mini-runtime";
-      traceId = "${rendererTrace}__active-lab-mini-runtime";
+    "FS-166-HDS-010-SDS-010-SMS-901" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-901";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-901";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-901;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-901;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
@@ -264,13 +261,13 @@ in
       maxRuntimeTargets = 1;
     };
 
-    renderer-nixos-p2p = {
-      id = "${rendererTrace}__active-lab-mini-runtime-p2p";
-      traceId = "${rendererTrace}__active-lab-mini-runtime-p2p";
+    "FS-166-HDS-010-SDS-010-SMS-902" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-902";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-902";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-902;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-902;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
@@ -289,13 +286,13 @@ in
       maxRuntimeTargets = 2;
     };
 
-    renderer-nixos-clients = {
-      id = "${rendererTrace}__mini-renderer-nixos-clients";
-      traceId = "${rendererTrace}__mini-renderer-nixos-clients";
+    "FS-166-HDS-010-SDS-010-SMS-903" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-903";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-903";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-903;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-903;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
@@ -314,13 +311,13 @@ in
       maxRuntimeTargets = 1;
     };
 
-    renderer-clab = {
-      id = "${rendererTrace}__mini-renderer-clab";
-      traceId = "${rendererTrace}__mini-renderer-clab";
+    "FS-166-HDS-010-SDS-010-SMS-904" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-904";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-904";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-904;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-904;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
@@ -339,13 +336,13 @@ in
       maxRuntimeTargets = 2;
     };
 
-    renderer-wireguard = {
-      id = "${rendererTrace}__mini-renderer-wireguard";
-      traceId = "${rendererTrace}__mini-renderer-wireguard";
+    "FS-166-HDS-010-SDS-010-SMS-905" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-905";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-905;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-905;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {
@@ -364,7 +361,7 @@ in
       maxRuntimeTargets = 1;
     };
 
-    wireguard-remote-egress = {
+    "FS-470-HDS-010-SDS-010-SMS-010" = {
       id = "FS-470-HDS-010-SDS-010-SMS-010";
       traceId = "FS-470-HDS-010-SDS-010-SMS-010";
       rowDirectories = {
@@ -389,13 +386,13 @@ in
       maxRuntimeTargets = 1;
     };
 
-    renderer-nebula = {
-      id = "${rendererTrace}__mini-renderer-nebula";
-      traceId = "${rendererTrace}__mini-renderer-nebula";
+    "FS-166-HDS-010-SDS-010-SMS-906" = {
+      id = "FS-166-HDS-010-SDS-010-SMS-906";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-906";
       rowDirectories = {
         SDS = ../../SDS/FS-166-HDS-010-SDS-010;
-        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
-        SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
+        SMS = ../../SMS/FS-166-HDS-010-SDS-010-SMS-906;
+        SMT = ../FS-166-HDS-010-SDS-010-SMS-906;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
       source = {

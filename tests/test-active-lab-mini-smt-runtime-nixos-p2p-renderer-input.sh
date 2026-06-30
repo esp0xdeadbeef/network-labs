@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-900
+# GAMP-ID: FS-166-HDS-010-SDS-010-SMS-902
 # GAMP-SCOPE: active-lab mini runtime SMT; NixOS renderer-input p2p materialization; not HAT/SAT evidence
 set -euo pipefail
 
@@ -67,7 +67,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       && iface.interfaceClass.coreTransit == false;
     require = cond: msg: if cond then true else throw msg;
   in
-    require (traceId == \"FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p\")
+    require (traceId == \"FS-166-HDS-010-SDS-010-SMS-902\")
       \"p2p runtime CPM must carry the mini runtime p2p trace id\"
     && require (layerEntry.entryBoundary == \"renderer-input\")
       \"p2p runtime CPM must be renderer-input boundary\"

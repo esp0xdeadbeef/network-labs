@@ -1,5 +1,5 @@
 let
-  traceId = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p";
+  traceId = "FS-166-HDS-010-SDS-010-SMS-902";
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {

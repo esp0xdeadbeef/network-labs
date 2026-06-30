@@ -88,13 +88,15 @@ let
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   require = cond: msg: if cond then true else throw msg;
   pathExistsRel = rel: builtins.pathExists (repoRoot + "/" + rel);
-  ids = sds.smsInputs."FS-166-HDS-010-SDS-010-SMS-900".miniSmtIds;
   sourceNames = builtins.attrNames sms.sourceInputs;
+  ids = map (name: sms.sourceInputs.${name}.traceId) sourceNames;
+  sourceNameForTrace = trace:
+    builtins.head (builtins.filter (name: sms.sourceInputs.${name}.traceId == trace) sourceNames);
   sitSourcePaths = sit.evidence.sourcePaths or [ ];
   sourceMatches = id:
     let
-      source = sms.sourceInputs.${id};
-      entry = manifest.tests.${id};
+      source = sms.sourceInputs.${sourceNameForTrace id};
+      entry = builtins.getAttr id manifest.tests;
     in
       source.traceId == entry.traceId
       && source.test == entry.script
@@ -102,7 +104,7 @@ let
       && pathExistsRel source.test
       && builtins.elem source.sourcePath sitSourcePaths;
 in
-  require (builtins.all (id: builtins.hasAttr id sms.sourceInputs) ids) "FS-166 SDS references an SMS mini SMT missing from SMS sourceInputs"
+  require (builtins.all (id: builtins.hasAttr id sds.smsInputs) ids) "FS-166 SMS sourceInputs reference an SDS mini SMT trace missing from SDS smsInputs"
   && require (builtins.all (id: builtins.hasAttr id manifest.tests) ids) "FS-166 SDS references an SMS mini SMT missing from manifest"
   && require (builtins.length ids == builtins.length sourceNames) "FS-166 SMS sourceInputs and SDS mini SMT count differ"
   && require (builtins.all sourceMatches ids) "FS-166 SDS/SMS/SIT/manifest source mapping mismatch"

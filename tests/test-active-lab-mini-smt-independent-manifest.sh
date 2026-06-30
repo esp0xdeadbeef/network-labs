@@ -16,38 +16,42 @@ let
   require = cond: msg: if cond then true else throw msg;
   rendererNames =
     builtins.filter
-      (name: manifest.tests.${name}.rendererTarget != null)
+      (name: (builtins.getAttr name manifest.tests).rendererTarget != null)
       names;
   expectedRendererNames = [
-    "renderer-clab"
-    "renderer-nebula"
-    "renderer-nixos"
-    "renderer-nixos-clients"
-    "renderer-nixos-p2p"
-    "renderer-wireguard"
-    "wireguard-remote-egress"
+    "FS-166-HDS-010-SDS-010-SMS-901"
+    "FS-166-HDS-010-SDS-010-SMS-902"
+    "FS-166-HDS-010-SDS-010-SMS-903"
+    "FS-166-HDS-010-SDS-010-SMS-904"
+    "FS-166-HDS-010-SDS-010-SMS-905"
+    "FS-166-HDS-010-SDS-010-SMS-906"
+    "FS-470-HDS-010-SDS-010-SMS-010"
   ];
   allIndependent =
     builtins.all
-      (name: manifest.tests.${name}.independent == true && manifest.tests.${name}.aggregateOnly == false)
+      (name:
+        let entry = builtins.getAttr name manifest.tests;
+        in entry.independent == true && entry.aggregateOnly == false)
       names;
   allHaveSource =
     builtins.all
-      (name: manifest.tests.${name} ? source && manifest.tests.${name}.source ? kind)
+      (name:
+        let entry = builtins.getAttr name manifest.tests;
+        in entry ? source && entry.source ? kind)
       names;
   allBoundedMiniRuntime =
     builtins.all
       (name:
-        let max = manifest.tests.${name}.maxRuntimeTargets;
-        in max >= 0 && (max <= 5 || (name == "provider-access-default-route" && max == 6)))
+        let max = (builtins.getAttr name manifest.tests).maxRuntimeTargets;
+        in max >= 0 && (max <= 5 || (name == "FS-800-HDS-010-SDS-020-SMS-040" && max == 6)))
       names;
   fiveTargetRowsAreExplicit =
-    manifest.tests.lane-egress-binding.maxRuntimeTargets == 5
-    && manifest.tests.dns-resolver-config.maxRuntimeTargets == 5;
+    manifest.tests."FS-370-HDS-010-SDS-010-SMS-050".maxRuntimeTargets == 5
+    && manifest.tests."FS-540-HDS-010-SDS-010-SMS-020".maxRuntimeTargets == 5;
   allIntentSourcesHaveRelations =
     builtins.all
       (name:
-        let entry = manifest.tests.${name};
+        let entry = builtins.getAttr name manifest.tests;
         in
           if entry.source.kind == "intent-source" then
             builtins.length (entry.source.expectedRelationIds or [ ]) >= 1
@@ -57,7 +61,7 @@ let
   noHatSatEvidence =
     builtins.all
       (name:
-        let levels = manifest.tests.${name}.evidenceLevels or [ ];
+        let levels = (builtins.getAttr name manifest.tests).evidenceLevels or [ ];
         in !(builtins.elem "HAT" levels) && !(builtins.elem "SAT" levels))
       names;
   sourcePathIsMini =
@@ -71,7 +75,7 @@ let
   allRowsHaveLayerDirs =
     builtins.all
       (name:
-        let entry = manifest.tests.${name};
+        let entry = builtins.getAttr name manifest.tests;
         in
           entry ? rowDirectories
           && entry.rowDirectories ? SMT
@@ -81,19 +85,19 @@ let
       names;
   allSourcesAreMini =
     builtins.all
-      (name: sourcePathIsMini manifest.tests.${name}.source)
+      (name: sourcePathIsMini (builtins.getAttr name manifest.tests).source)
       names;
 in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
   && require allHaveSource "every mini SMT must declare an explicit source"
-  && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except the existing provider-access-default-route six-target row"
-  && require fiveTargetRowsAreExplicit "lane-egress-binding and dns-resolver-config must explicitly declare five-target mini paths"
+  && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except FS-800-HDS-010-SDS-020-SMS-040"
+  && require fiveTargetRowsAreExplicit "FS-370-HDS-010-SDS-010-SMS-050 and FS-540-HDS-010-SDS-010-SMS-020 must explicitly declare five-target mini paths"
   && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
   && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
-  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must include clab, nebula, nixos, nixos-p2p, nixos-clients, wireguard, and wireguard-remote-egress"
+  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must include the FS-166 renderer rows and FS-470-HDS-010-SDS-010-SMS-010"
 ' >/dev/null
 
 while IFS= read -r id || [[ -n "${id}" ]]; do

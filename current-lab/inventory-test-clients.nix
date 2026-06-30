@@ -20,7 +20,7 @@ let
 in
 {
   meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
     renderer = "test-clients";
     scope = "active-lab-current-selection";
   };

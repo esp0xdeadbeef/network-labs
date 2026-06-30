@@ -38,7 +38,7 @@ rec {
   id = "layer-entry-poc-wireguard-provider";
   provenance = {
     requested = {
-      scope.traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      scope.traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       target = {
         renderer = "wireguard";
         role = "renderer-output";
@@ -97,7 +97,7 @@ rec {
   };
   control_plane_model = {
     meta = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       source = "network-labs layer-entry renderer-input POC";
       scope = "WireGuard provider renderer contract plus NixOS active-lab compile shim";
     };
