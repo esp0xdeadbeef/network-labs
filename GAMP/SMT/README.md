@@ -388,6 +388,30 @@ the container, `wg-layer-entry` with `10.66.90.2/32`, and active
 row-local `renderer-wireguard` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
+2026-06-30 live `renderer-nebula` row closure:
+`network-renderer-nebula@b9f01fb` fixed hostModule runtime materialization by
+binding persistent Nebula profile directories into generated containers,
+`network-labs@4919505` selected `SMT renderer-nebula` with two runtime targets
+(`lab-lighthouse` and `lab-client-nebula`) plus row-local SOPS profile secrets,
+`network-codex-agent@808593f3` added
+`scripts/fs166-active-lab-renderer-nebula-runtime-check.sh`, and local `nixos`
+lock `41f11073` consumed them. Locked local builds passed for `s-router-nixos`
+`/nix/store/pbfyzvpzf99br18djxf9ym3cqf1mja7j-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/72yj65acvj25958hjlq1kyrqbchp3crh-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/d2awdxvzabd88g5vlwzgxmm648n30a5i-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+The three hosts were shut down and returned through the external rebuild path
+with fresh boot times on 2026-06-30 09:03. The live verifier passed and proved
+`s-router-nixos` materialized the two-node Nebula row: FS-166 renderer-nebula
+control-plane artifact, running `container@lab-lighthouse.service` and
+`container@lab-client-nebula.service`, row-local Nebula profile files present on
+the host and inside the containers, active `nebula@runtime.service` in both
+containers, and client `nebula1` with `100.96.90.2/24`. `s-router-clab` and
+`s-router-test-clients` did not run the Nebula row runtime. This closes the
+row-local `renderer-nebula` SMT/SIT runtime predicate only and does not promote
+HAT/SAT.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or

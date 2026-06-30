@@ -316,6 +316,40 @@ the container, `wg-layer-entry` with `10.66.90.2/32`, and active
 and `s-router-test-clients` do not run the WireGuard row runtime. This is
 row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
+2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
+`renderer-nebula`: `network-renderer-nebula@b9f01fb` fixed hostModule runtime
+materialization by binding persistent Nebula profile directories into generated
+containers, `network-labs@4919505` selected `SMT renderer-nebula` with two
+runtime targets (`lab-lighthouse` and `lab-client-nebula`) plus row-local SOPS
+profile secrets, local `nixos` lock `41f11073` consumed them, and the three
+locked profiles built: `s-router-nixos`
+`/nix/store/pbfyzvpzf99br18djxf9ym3cqf1mja7j-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/72yj65acvj25958hjlq1kyrqbchp3crh-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/d2awdxvzabd88g5vlwzgxmm648n30a5i-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
+`192.168.1.18`, the live verifier in `network-codex-agent` passed:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_NEBULA_PATH=/home/deadbeef/github/network-renderer-nebula \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-nebula-runtime-check.sh --live
+```
+
+The live result proves the two-node Nebula renderer-input row:
+`s-router-nixos` has the FS-166 renderer-nebula artifact, running
+`container@lab-lighthouse.service` and `container@lab-client-nebula.service`,
+row-local Nebula profile files present on the host and inside the containers,
+active `nebula@runtime.service` in both containers, and client `nebula1` with
+`100.96.90.2/24`, while `s-router-clab` and `s-router-test-clients` do not run
+the Nebula row runtime. This is row-local SMT/SIT runtime evidence only and
+does not promote HAT/SAT.
+
 2026-06-28 SAT prerequisite note: the SAT source initially failed the
 `s-router-test-clients` dry-run with
 `FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC` because the
