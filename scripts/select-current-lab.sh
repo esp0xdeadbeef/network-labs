@@ -216,6 +216,36 @@ rec {
 EOF
 }
 
+write_empty_clab_intent() {
+  write_file "${current_dir}/intent-s-router-clab.nix" cat <<'EOF'
+let
+  inventory = import ./inventory-clab.nix;
+  clabHost = (inventory.deploymentHosts or { }).s-router-clab or { };
+in
+rec {
+  control_plane_model = {
+    meta = {
+      traceId = "active-lab-clab-no-runtime";
+      source = "network-labs current-lab SMT/SIT clab-host no-runtime source";
+    };
+    deployment.hosts.s-router-clab = clabHost // {
+      bridgeNetworks = clabHost.bridgeNetworks or { };
+    };
+    render.hosts.s-router-clab.deploymentHost = "s-router-clab";
+    realization.nodes = { };
+    data.active-lab.clab = {
+      enterprise = "active-lab";
+      siteName = "clab";
+      runtimeTargets = { };
+    };
+  };
+  deploymentHosts = control_plane_model.deployment.hosts;
+  deployment = control_plane_model.deployment;
+  realization = control_plane_model.realization;
+}
+EOF
+}
+
 write_renderer_clients_inventory_test_clients() {
   local source_path="$1"
 
@@ -1015,12 +1045,15 @@ select_smt() {
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "wireguard" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+    write_empty_clab_intent
     write_empty_test_clients_intent
     write_wireguard_sops_nixos
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nebula" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+    write_empty_clab_intent
+    write_empty_test_clients_intent
     write_nebula_sops_nixos
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then

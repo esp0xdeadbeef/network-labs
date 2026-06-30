@@ -222,6 +222,7 @@ let
   sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  emptyClabTrace = "active-lab-clab-no-runtime";
   emptyClientsTrace = "active-lab-test-clients-no-endpoints";
   wireguardTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
@@ -232,7 +233,8 @@ in
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix") "renderer-wireguard source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must preserve the global NixOS runtime CPM"
   && require (activeIntentNixos.control_plane_model.meta.traceId == wireguardTrace) "renderer-wireguard must install the WG CPM on s-router-nixos"
-  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must not replace s-router-clab router input"
+  && require (activeIntentClab.control_plane_model.meta.traceId == emptyClabTrace) "renderer-wireguard must install an empty CLAB intent"
+  && require (activeIntentClab.control_plane_model.data.active-lab.clab.runtimeTargets == { }) "renderer-wireguard must not expose router targets on s-router-clab"
   && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "renderer-wireguard must install an empty test-client intent"
   && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-wireguard must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "wireguard-egress" ]) "renderer-wireguard s-router-nixos host intent must expose only wireguard-egress"
@@ -252,6 +254,7 @@ let
   sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  emptyClabTrace = "active-lab-clab-no-runtime";
   emptyClientsTrace = "active-lab-test-clients-no-endpoints";
   wireguardTrace = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
@@ -263,7 +266,8 @@ in
   && require (current.selection.sourcePath == "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix") "wireguard-remote-egress source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must preserve the global NixOS runtime CPM"
   && require (activeIntentNixos.control_plane_model.meta.traceId == wireguardTrace) "wireguard-remote-egress must install the FS-470 WG CPM on s-router-nixos"
-  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must not replace s-router-clab router input"
+  && require (activeIntentClab.control_plane_model.meta.traceId == emptyClabTrace) "wireguard-remote-egress must install an empty CLAB intent"
+  && require (activeIntentClab.control_plane_model.data.active-lab.clab.runtimeTargets == { }) "wireguard-remote-egress must not expose router targets on s-router-clab"
   && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "wireguard-remote-egress must install an empty test-client intent"
   && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "wireguard-remote-egress must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "wireguard-remote-egress" ]) "wireguard-remote-egress s-router-nixos host intent must expose only wireguard-remote-egress"
@@ -286,6 +290,8 @@ let
   sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix") {};
   require = cond: msg: if cond then true else throw msg;
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  emptyClabTrace = "active-lab-clab-no-runtime";
+  emptyClientsTrace = "active-lab-test-clients-no-endpoints";
   nebulaTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
   overlay = activeIntentNixos.control_plane_model.data.acme.lab.overlays.nebula-layer-entry;
@@ -297,8 +303,10 @@ in
   && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix") "renderer-nebula source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must preserve the global NixOS runtime CPM"
   && require (activeIntentNixos.control_plane_model.meta.traceId == nebulaTrace) "renderer-nebula must install the Nebula CPM on s-router-nixos"
-  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must not replace s-router-clab router input"
-  && require (activeIntentClients.control_plane_model.meta.traceId == defaultTrace) "renderer-nebula must not replace s-router-test-clients router input"
+  && require (activeIntentClab.control_plane_model.meta.traceId == emptyClabTrace) "renderer-nebula must install an empty CLAB intent"
+  && require (activeIntentClab.control_plane_model.data.active-lab.clab.runtimeTargets == { }) "renderer-nebula must not expose router targets on s-router-clab"
+  && require (activeIntentClients.control_plane_model.meta.traceId == emptyClientsTrace) "renderer-nebula must install an empty test-client intent"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-nebula must not expose router targets on s-router-test-clients"
   && require (nixosTargets == [ "lab-client-nebula" "lab-lighthouse" ]) "renderer-nebula s-router-nixos host intent must expose only the Nebula client and lighthouse"
   && require (activeIntentNixos.deploymentHosts ? s-router-nixos) "renderer-nebula s-router-nixos host intent must expose s-router-nixos deployment host"
   && require (!(activeIntentNixos.deploymentHosts ? s-router-clab)) "renderer-nebula host intent must not expose s-router-clab deployment host data"
