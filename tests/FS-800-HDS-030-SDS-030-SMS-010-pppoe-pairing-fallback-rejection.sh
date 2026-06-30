@@ -4,7 +4,6 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-lab_dir="${repo_root}/GAMP/SAT"
 trace_id="FS-800-HDS-030-SDS-030-SMS-010"
 
 fail() {
@@ -12,193 +11,61 @@ fail() {
   exit 1
 }
 
-# Run nix eval and return output
-run_nix() {
-  LAB_DIR="${lab_dir}" nix eval --impure --raw --expr "$1" 2>&1
-}
-
-# Happy path: verify existing PPPoE rows have both provider and customer
-happy=$(run_nix "
-  let
-    table = import (builtins.getEnv \"LAB_DIR\" + \"/provider-access-fixture-table.nix\");
-    checkRow = name: row:
-      row ? provider && builtins.isAttrs row.provider
-      && row.provider ? role && row.provider ? handoff
-      && row ? customer && builtins.isAttrs row.customer
-      && row.customer ? site && row.customer ? coreNode;
-  in
-    if checkRow \"pppoeNixos\" table.pppoeNixos
-       && checkRow \"pppoeClab\" table.pppoeClab
-    then \"PASS-happy\"
-    else \"FAIL-happy\"
-")
-if [[ "${happy}" != "PASS-happy" ]]; then
-  fail "happy path failed: ${happy}"
-fi
-
-# SN1: Provider-only → missing-customer-surface
-sn1=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
+nix eval --impure --expr "
+let
+  mini = import ${repo_root}/GAMP/SMT/mini-smt/default.nix;
+  table = import ${repo_root}/GAMP/SAT/provider-access-fixture-table.nix;
+  lab = mini.labs.\"${trace_id}\";
+  validator = mini.validators.pppoePair;
+  require = cond: msg: if cond then true else throw msg;
+  expectOk = label: pair:
+    let result = validator pair;
+    in require (result.ok && result.diagnostic == null)
+      (label + \" should be accepted by mini.validators.pppoePair, got \" + builtins.toJSON result);
+  expectReject = label: diagnostic: pair:
+    let result = validator pair;
+    in require (!result.ok && result.diagnostic == diagnostic)
+      (label + \" should reject with \" + diagnostic + \", got \" + builtins.toJSON result);
+  fixturePair = row: {
+    inherit (row) provider customer;
+    fallback = false;
+    transportClassification = \"pppoe\";
+  };
+  pair = lab.pppoePairs.primary;
+in
+  require (lab.traceId == \"${trace_id}\")
+    \"mini PPPoE pairing lab must carry the exact trace id\"
+  && require (lab.testsOnly == [
+    \"provider-customer-pairing\"
+    \"fallback-rejection\"
+    \"transport-classification\"
+  ])
+    \"mini PPPoE pairing lab must enumerate the pairing/fallback/transport predicates\"
+  && expectOk \"happy path mini-lab primary pair\" pair
+  && expectOk \"happy path SAT pppoeNixos fixture pair\" (fixturePair table.pppoeNixos)
+  && expectOk \"happy path SAT pppoeClab fixture pair\" (fixturePair table.pppoeClab)
+  && expectReject \"SN1 provider-only row\" \"missing-customer-surface\" (removeAttrs pair [ \"customer\" ])
+  && expectOk \"SN1 recovery row\" (pair // {
+    customer = {
+      target = \"recovered-client\";
+      coreInterface = \"wan0\";
+      runtimeInterface = \"ppp0\";
+      routeAuthority = \"connected\";
     };
-    hasProvider = row ? provider && builtins.isAttrs row.provider
-                  && row.provider ? role && row.provider ? handoff;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer
-                  && row.customer ? site && row.customer ? coreNode;
-    isProviderOnly = hasProvider && !hasCustomer;
-  in
-    if isProviderOnly then \"PASS-SN1-provider-only-rejected\"
-    else \"FAIL-SN1-should-be-rejected\"
-")
-if [[ "${sn1}" != "PASS-SN1-provider-only-rejected" ]]; then
-  fail "SN1 failed: ${sn1}"
-fi
-
-# SN1 recovery
-sn1r=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
+  })
+  && expectReject \"SN2 customer-only row\" \"missing-provider-surface\" (removeAttrs pair [ \"provider\" ])
+  && expectOk \"SN2 recovery row\" (pair // {
+    provider = {
+      target = \"recovered-provider\";
+      handoff = \"pppoe\";
+      routeDeliveryClass = \"connected\";
     };
-    hasProvider = row ? provider && builtins.isAttrs row.provider
-                  && row.provider ? role && row.provider ? handoff;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer
-                  && row.customer ? site && row.customer ? coreNode;
-    isProviderOnly = hasProvider && !hasCustomer;
-    isCustomerOnly = !hasProvider && hasCustomer;
-  in
-    if hasProvider && hasCustomer then \"PASS-SN1-recovery\"
-    else \"FAIL-SN1-recovery\"
-")
-if [[ "${sn1r}" != "PASS-SN1-recovery" ]]; then
-  fail "SN1 recovery failed: ${sn1r}"
-fi
-
-# SN2: Customer-only → missing-provider-surface
-sn2=$(run_nix "
-  let
-    row = {
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-    };
-    hasProvider = row ? provider && builtins.isAttrs row.provider
-                  && row.provider ? role && row.provider ? handoff;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer
-                  && row.customer ? site && row.customer ? coreNode;
-    isCustomerOnly = !hasProvider && hasCustomer;
-  in
-    if isCustomerOnly then \"PASS-SN2-customer-only-rejected\"
-    else \"FAIL-SN2-should-be-rejected\"
-")
-if [[ "${sn2}" != "PASS-SN2-customer-only-rejected" ]]; then
-  fail "SN2 failed: ${sn2}"
-fi
-
-# SN2 recovery
-sn2r=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-    };
-    hasProvider = row ? provider && builtins.isAttrs row.provider
-                  && row.provider ? role && row.provider ? handoff;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer
-                  && row.customer ? site && row.customer ? coreNode;
-  in
-    if hasProvider && hasCustomer then \"PASS-SN2-recovery\"
-    else \"FAIL-SN2-recovery\"
-")
-if [[ "${sn2r}" != "PASS-SN2-recovery" ]]; then
-  fail "SN2 recovery failed: ${sn2r}"
-fi
-
-# SN3: Fallback enabled → fallback-enabled
-sn3=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-      fallback = true;
-    };
-    hasFallback = row ? fallback && row.fallback == true;
-  in
-    if hasFallback then \"PASS-SN3-fallback-rejected\"
-    else \"FAIL-SN3-should-be-rejected\"
-")
-if [[ "${sn3}" != "PASS-SN3-fallback-rejected" ]]; then
-  fail "SN3 failed: ${sn3}"
-fi
-
-# SN3 recovery
-sn3r=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-      fallback = false;
-    };
-    hasFallback = row ? fallback && row.fallback == true;
-    hasProvider = row ? provider && builtins.isAttrs row.provider;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer;
-  in
-    if hasProvider && hasCustomer && !hasFallback then \"PASS-SN3-recovery\"
-    else \"FAIL-SN3-recovery\"
-")
-if [[ "${sn3r}" != "PASS-SN3-recovery" ]]; then
-  fail "SN3 recovery failed: ${sn3r}"
-fi
-
-# SN4: Opaque transport → opaque-transport-classification
-sn4=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-      transportClassification = \"opaque\";
-    };
-    hasOpaque = row ? transportClassification && row.transportClassification == \"opaque\";
-  in
-    if hasOpaque then \"PASS-SN4-opaque-rejected\"
-    else \"FAIL-SN4-should-be-rejected\"
-")
-if [[ "${sn4}" != "PASS-SN4-opaque-rejected" ]]; then
-  fail "SN4 failed: ${sn4}"
-fi
-
-# SN4 recovery
-sn4r=$(run_nix "
-  let
-    row = {
-      provider = { role = \"emulated-isp\"; handoff = \"pppoe\"; };
-      customer = { site = \"test\"; coreNode = \"test-core\"; };
-      transportClassification = \"pppoe\";
-    };
-    hasOpaque = row ? transportClassification && row.transportClassification == \"opaque\";
-    hasProvider = row ? provider && builtins.isAttrs row.provider;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer;
-  in
-    if hasProvider && hasCustomer && !hasOpaque then \"PASS-SN4-recovery\"
-    else \"FAIL-SN4-recovery\"
-")
-if [[ "${sn4r}" != "PASS-SN4-recovery" ]]; then
-  fail "SN4 recovery failed: ${sn4r}"
-fi
-
-# Edge case: unpaired (neither provider nor customer)
-sn5=$(run_nix "
-  let
-    row = { };
-    hasProvider = row ? provider && builtins.isAttrs row.provider;
-    hasCustomer = row ? customer && builtins.isAttrs row.customer;
-    isUnpaired = !hasProvider && !hasCustomer;
-  in
-    if isUnpaired then \"PASS-SN5-unpaired-rejected\"
-    else \"FAIL-SN5-should-be-rejected\"
-")
-if [[ "${sn5}" != "PASS-SN5-unpaired-rejected" ]]; then
-  fail "SN5 unpaired failed: ${sn5}"
-fi
+  })
+  && expectReject \"SN3 fallback row\" \"fallback-enabled\" (pair // { fallback = true; })
+  && expectOk \"SN3 recovery row\" (pair // { fallback = false; })
+  && expectReject \"SN4 opaque transport row\" \"opaque-transport-classification\" (pair // { transportClassification = \"opaque\"; })
+  && expectOk \"SN4 recovery row\" (pair // { transportClassification = \"pppoe\"; })
+  && expectReject \"SN5 unpaired row\" \"unpaired-pppoe-row\" { }
+" >/dev/null || fail "PPPoE pairing validator contract failed"
 
 echo "PASS ${trace_id}"

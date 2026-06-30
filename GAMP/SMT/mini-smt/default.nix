@@ -21,7 +21,10 @@ let
       opaqueTransport =
         pair ? transportClassification && pair.transportClassification != "pppoe";
     in
-    if !hasProvider then {
+    if !hasProvider && !hasCustomer then {
+      ok = false;
+      diagnostic = "unpaired-pppoe-row";
+    } else if !hasProvider then {
       ok = false;
       diagnostic = "missing-provider-surface";
     } else if !hasCustomer then {
