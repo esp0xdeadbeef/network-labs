@@ -15,5 +15,6 @@
     focusedTest = "tests/test-active-lab-mini-smt-decision-reason-diagnostic-only.sh";
     maxRuntimeTargets = 5;
     scope = "one reachability decision relation and traffic-path validation reason diagnostics over the five-node client -> downstream-selector -> policy -> upstream-selector -> testnet path";
+    observedResult = "2026-06-30: offline verifier and live verifier passed. Live s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19 exposed exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge for decision-reason-diagnostic; s-router-test-clients 192.168.1.18 remained client-only with no decision-reason router containers.";
   };
 }
