@@ -123,10 +123,36 @@ rec {
     data.acme.lab = {
       enterprise = "acme";
       siteName = "acme.lab";
+      overlays = {
+        wg-layer-entry = {
+          providerBootstrapDns = [ ];
+          terminateOn = [ "wireguard-egress" ];
+          nodes.wireguard-egress = {
+            addr4 = "10.66.90.2/32";
+            addr6 = "fd42:66:90::2/128";
+          };
+        };
+      };
       runtimeTargets = {
-        compile-nixos = mkRuntimeTarget "s-router-nixos" "compile-nixos";
-        compile-clab = mkRuntimeTarget "s-router-clab" "compile-clab";
-        compile-test-client = mkRuntimeTarget "s-router-test-clients" "compile-test-client";
+        wireguard-egress = mkRuntimeTarget "s-router-nixos" "wireguard-egress";
+      };
+    };
+    wgInventory = {
+      wg-layer-entry = {
+        interface = "wg-layer-entry";
+        privateKeyFile = "/run/secrets/wireguard-mini-provider-private-key";
+        listenPort = 51820;
+        peers = [
+          {
+            publicKey = "lulaH/DcSwly2+BTasbAx4hNtXuA3J5K9pXjPesXJlo=";
+            endpoint = "198.51.100.1:51820";
+            allowedIPs = [
+              "0.0.0.0/0"
+              "::/0"
+            ];
+            persistentKeepalive = 25;
+          }
+        ];
       };
     };
   };

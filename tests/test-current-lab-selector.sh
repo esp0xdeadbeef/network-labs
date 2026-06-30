@@ -210,6 +210,34 @@ in
   && require (inventoryClab.deploymentHosts ? s-router-clab) "renderer-clab CLAB inventory must expose s-router-clab"
 ' >/dev/null || fail "SMT renderer-clab selection failed"
 
+"${selector}" SMT renderer-wireguard >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  sopsNixos = import (repoRoot + "/current-lab/sops-routing-s-router-nixos.nix");
+  require = cond: msg: if cond then true else throw msg;
+  defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  wireguardTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard";
+  nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
+in
+  require (current.selection.layer == "SMT") "renderer-wireguard selector layer mismatch"
+  && require (current.selection.selector == "renderer-wireguard") "renderer-wireguard selector id mismatch"
+  && require (current.selection.traceId == wireguardTrace) "renderer-wireguard trace mismatch"
+  && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix") "renderer-wireguard source path mismatch"
+  && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must preserve the global NixOS runtime CPM"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == wireguardTrace) "renderer-wireguard must install the WG CPM on s-router-nixos"
+  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must not replace s-router-clab router input"
+  && require (activeIntentClients.control_plane_model.meta.traceId == defaultTrace) "renderer-wireguard must not replace s-router-test-clients router input"
+  && require (nixosTargets == [ "wireguard-egress" ]) "renderer-wireguard s-router-nixos host intent must expose only wireguard-egress"
+  && require (activeIntentNixos.control_plane_model.wgInventory.wg-layer-entry.privateKeyFile == "/run/secrets/wireguard-mini-provider-private-key") "renderer-wireguard must expose row-local wgInventory"
+  && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "renderer-wireguard must expose the row-local sops secret to s-router-nixos"
+' >/dev/null || fail "SMT renderer-wireguard selection failed"
+
 "${selector}" SIT FS-500-HDS-010-SDS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
