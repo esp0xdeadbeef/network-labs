@@ -65,6 +65,14 @@ nix eval --impure --expr "
       \"reachability mini SMT must name only the decision atom checks\"
     && require (builtins.elem \"SAT\" lab.forbiddenScope)
       \"reachability mini SMT must forbid SAT scope\"
+    && require (lab.liveSurfaces == [ \"s-router-nixos\" \"s-router-clab\" \"s-router-test-clients\" ])
+      \"focused SIT must allow the three s-router active-lab surfaces\"
+    && require (!(builtins.elem \"s-router-nixos\" lab.forbiddenScope))
+      \"reachability mini SMT must allow focused s-router-nixos runtime evidence\"
+    && require (!(builtins.elem \"s-router-clab\" lab.forbiddenScope))
+      \"reachability mini SMT must allow focused s-router-clab runtime evidence\"
+    && require (!(builtins.elem \"s-router-test-clients\" lab.forbiddenScope))
+      \"reachability mini SMT must allow focused s-router-test-clients substrate evidence\"
     && require (valid.ok && valid.diagnostic == null && valid.decisionClass == \"allowed\")
       \"valid allow relation must classify as allowed\"
     && require (denied.ok && denied.diagnostic == null && denied.decisionClass == \"denied\")
