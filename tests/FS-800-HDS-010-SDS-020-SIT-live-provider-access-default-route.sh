@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # GAMP-ID: FS-800-HDS-010-SDS-020-SMS-040
-# GAMP-SCOPE: focused live SIT probe for provider-handoff fabric default-route behavior; not a HAT runner
+# GAMP-SCOPE: focused live SIT probe for the row-local current-lab provider-handoff default route; not a HAT runner
 set -euo pipefail
 
 trace_id="FS-800-HDS-010-SDS-020-SMS-040"
@@ -30,13 +30,6 @@ shell_quote() {
   printf "'"
 }
 
-probe_payload() {
-  local address="$1"
-  printf 'ip -color=never -o -4 addr show dev ppp0; '
-  printf 'ip -color=never route show default || true; '
-  printf 'ip -color=never route get 1.1.1.1 from %s' "${address}"
-}
-
 validate_provider_route() {
   local surface="$1"
   local container="$2"
@@ -45,8 +38,8 @@ validate_provider_route() {
   local output="$5"
   local default_route route default_dev route_dev
 
-  if ! grep -F "ppp0" <<<"${output}" >/dev/null || ! grep -F "${address}" <<<"${output}" >/dev/null; then
-    record_failure "${surface} ${container}: ppp0 with ${address} is not present"
+  if ! grep -F "${address}" <<<"${output}" >/dev/null; then
+    record_failure "${surface} ${container}: provider-handoff address ${address} is not present"
     printf '%s\n' "${output}" >&2
     return 1
   fi
@@ -62,8 +55,8 @@ validate_provider_route() {
     return 1
   fi
 
-  if [[ "${default_route}" == *" dev ppp0"* || "${route}" == *" dev ppp0"* ]]; then
-    record_failure "${surface} ${container}: provider-handoff internet route incorrectly uses PPPoE ppp0"
+  if grep -E '(^[0-9]+: ppp| dev ppp| ppp0)' <<<"${output}" >/dev/null; then
+    record_failure "${surface} ${container}: provider-handoff route leaked onto a PPP interface"
     printf '%s\n' "${output}" >&2
     return 1
   fi
@@ -80,8 +73,66 @@ validate_provider_route() {
     return 1
   fi
 
-  printf 'PASS %s %s %s provider-handoff route uses fabric gateway %s on %s, not PPPoE ppp0\n%s\n' \
-    "${trace_id}" "${surface}" "${container}" "${expected_gateway}" "${default_dev}" "${output}"
+  printf 'PASS %s %s %s provider-handoff default route uses fabric gateway %s on %s with provider address %s and no PPP leak\n%s\n' \
+    "${trace_id}" "${surface}" "${container}" "${expected_gateway}" "${default_dev}" "${address}" "${output}"
+}
+
+probe_payload() {
+  printf 'ip -color=never -o -4 addr; '
+  printf 'ip -color=never route show; '
+  printf 'ip -color=never route get 1.1.1.1 || true'
+}
+
+validate_pppoe_core_route() {
+  local surface="$1"
+  local container="$2"
+  local output="$3"
+
+  if ! grep -E '^default .* dev u0' <<<"${output}" >/dev/null; then
+    record_failure "${surface} ${container}: PPPoE-side core default route is not isolated on uplink u0"
+    printf '%s\n' "${output}" >&2
+    return 1
+  fi
+
+  if grep -E '^default .* dev p0' <<<"${output}" >/dev/null; then
+    record_failure "${surface} ${container}: PPPoE-side core default route leaked onto fabric p0"
+    printf '%s\n' "${output}" >&2
+    return 1
+  fi
+
+  printf 'PASS %s %s %s PPPoE-side core default route stays on uplink u0\n%s\n' \
+    "${trace_id}" "${surface}" "${container}" "${output}"
+}
+
+pppoe_core_probe_payload() {
+  printf 'ip -color=never -o -4 addr; '
+  printf 'ip -color=never route show'
+}
+
+check_nixos_pppoe_core() {
+  local container="$1"
+  local output quoted_probe
+  quoted_probe="$(shell_quote "$(pppoe_core_probe_payload)")"
+  if ! output="$(ssh_base "${nixos_host}" \
+    "machinectl shell root@${container} /run/current-system/sw/bin/sh -lc ${quoted_probe}" 2>&1)"; then
+    record_failure "s-router-nixos ${container}: PPPoE-side core route probe failed"
+    printf '%s\n' "${output}" >&2
+    return
+  fi
+  validate_pppoe_core_route "s-router-nixos" "${container}" "${output}" || true
+}
+
+check_clab_pppoe_core() {
+  local container="$1"
+  local output quoted_probe
+  quoted_probe="$(shell_quote "$(pppoe_core_probe_payload)")"
+  if ! output="$(ssh_base "${clab_host}" \
+    "docker exec ${container} sh -lc ${quoted_probe}" 2>&1)"; then
+    record_failure "s-router-clab ${container}: PPPoE-side core route probe failed"
+    printf '%s\n' "${output}" >&2
+    return
+  fi
+  validate_pppoe_core_route "s-router-clab" "${container}" "${output}" || true
 }
 
 check_nixos_provider() {
@@ -89,7 +140,7 @@ check_nixos_provider() {
   local address="$2"
   local expected_gateway="$3"
   local output quoted_probe
-  quoted_probe="$(shell_quote "$(probe_payload "${address}")")"
+  quoted_probe="$(shell_quote "$(probe_payload)")"
   if ! output="$(ssh_base "${nixos_host}" \
     "machinectl shell root@${container} /run/current-system/sw/bin/sh -lc ${quoted_probe}" 2>&1)"; then
     record_failure "s-router-nixos ${container}: provider-handoff fabric route probe failed"
@@ -104,7 +155,7 @@ check_clab_provider() {
   local address="$2"
   local expected_gateway="$3"
   local output quoted_probe
-  quoted_probe="$(shell_quote "$(probe_payload "${address}")")"
+  quoted_probe="$(shell_quote "$(probe_payload)")"
   if ! output="$(ssh_base "${clab_host}" \
     "docker exec ${container} sh -lc ${quoted_probe}" 2>&1)"; then
     record_failure "s-router-clab ${container}: provider-handoff fabric route probe failed"
@@ -114,11 +165,11 @@ check_clab_provider() {
   validate_provider_route "s-router-clab" "${container}" "${address}" "${expected_gateway}" "${output}" || true
 }
 
-check_nixos_provider nixos-provider-handoff-access-a 203.0.113.5 10.10.44.50
-check_nixos_provider nixos-provider-handoff-access-b 203.0.113.1 10.10.44.52
+check_nixos_provider provider-handoff-access-a 203.0.113.1 10.80.255.2
+check_nixos_pppoe_core pppoe-core
 
-check_clab_provider clab-fabric-esp0xdeadbeef-site-b-clab-provider-handoff-access-a 203.0.113.5 10.50.44.50
-check_clab_provider clab-fabric-esp0xdeadbeef-site-b-clab-provider-handoff-access-b 203.0.113.1 10.50.44.52
+check_clab_provider clab-fabric-mini-smt-provider-access-default-route-provider-handoff-access-a 203.0.113.1 10.80.255.2
+check_clab_pppoe_core clab-fabric-mini-smt-provider-access-default-route-pppoe-core
 
 if [[ "${failures}" -ne 0 ]]; then
   echo "FAIL ${trace_id}: live active-lab provider-handoff fabric default-route SIT failed with ${failures} finding(s)" >&2
