@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "internet-mode-verification";
-  traceId = "FS-380-HDS-020-SDS-010-SMS-050";
+  selector = "pppoe-pairing";
+  traceId = "FS-800-HDS-030-SDS-030-SMS-010";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050";
-  sourcePath = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT internet-mode-verification";
+  sourceRoot = "GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010";
+  sourcePath = "GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT pppoe-pairing";
 }
