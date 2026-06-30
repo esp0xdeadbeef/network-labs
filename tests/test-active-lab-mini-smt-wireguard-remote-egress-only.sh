@@ -78,6 +78,7 @@ in
   };
   hostModule = {
     containers = builtins.attrNames hostOutput.containers;
+    containerAutoStart = container.autoStart;
     extraFlags = container.extraFlags or [ ];
   };
   containerConfig = {
@@ -117,6 +118,7 @@ for phrase in \
   '"wireguard-host-only-nat44"' \
   '"wireguard-host-only-nat66"' \
   '"containers":["wireguard-remote-egress"]' \
+  '"containerAutoStart":true' \
   '"--bind-ro=/run/secrets/wireguard-mini-provider-private-key:/run/secrets/wireguard-mini-provider-private-key"' \
   '"providerRuntimeEnabled":true' \
   '"providerRuntimeContractId":"fs470-remote-egress"' \
