@@ -400,9 +400,11 @@ let
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryHetz = import (repoRoot + "/current-lab/inventory-hetz.nix");
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+  sopsHetz = import (repoRoot + "/active-lab/sops-routing-s-router-hetz.nix") {};
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
     "mini-smt-dns-resolver-config-access-dns"
@@ -413,8 +415,10 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
+  hetzNodes = builtins.attrNames inventoryHetz.realization.nodes;
   nixosUplinks = inventoryNixos.deploymentHosts.s-router-nixos.uplinks;
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
+  hetzUplinks = inventoryHetz.deploymentHosts.s-router-hetz.uplinks;
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
   clientSite = activeIntentClients.control_plane_model.data."mini-smt"."dns-resolver-config";
   clientEndpoint = clientSite.endpointAssignment."dns-resolver-config-access-dns" or {};
@@ -427,8 +431,11 @@ in
   && require (manifest.tests.dns-resolver-config.maxRuntimeTargets == 5) "FS-540 DNS resolver mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-540 NixOS SIT must realize exactly the five-node DNS mini path"
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
+  && require (hetzNodes == expectedNodes) "FS-540 Hetz SIT must realize exactly the five-node DNS mini path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
+  && require (builtins.all (name: inventoryHetz.realization.nodes.${name}.host == "s-router-hetz") hetzNodes) "FS-540 Hetz mini nodes must stay on s-router-hetz"
+  && require (!(inventoryHetz.realization.nodes ? esp-clab-clab-router-access-admin)) "FS-540 Hetz SIT must not import HAT esp.clab realization nodes"
   && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-540 test-client SIT inventory must keep s-router-test-clients host substrate"
   && require (activeInventoryClients == inventoryClients) "FS-540 test-client SIT host inventory must preserve row-local client inventory"
   && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT inventory must preserve VLAN2 management"
@@ -441,6 +448,9 @@ in
   && require (activeIntentClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT intent must preserve VLAN2 management"
   && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
+  && require (hetzUplinks ? testnet-vlan4 && hetzUplinks.testnet-vlan4.vlan == 4 && hetzUplinks.testnet-vlan4.mode == "vlan" && hetzUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 Hetz mini uplink must be explicit VLAN4 link with DHCP addressing, not HAT inventory"
+  && require (sopsHetz._module.args.activeLabSopsStub.hostName == "s-router-hetz") "FS-540 Hetz SIT SOPS route must be an empty active-lab stub"
+  && require (!(sopsHetz ? sops)) "FS-540 Hetz SIT SOPS route must not inherit HAT PPPoE secrets"
   && require (inventoryClab.containerlab.capabilities.labEmulation == true) "FS-540 CLAB SIT source must preserve explicit lab-emulation capability"
   && require (inventoryClab.containerlab.labEmulation.scope == "harness") "FS-540 CLAB SIT provider emulation must remain harness-scoped"
   && require (clabProvider.providerEmulationMode == "fake-provider" && clabProvider.handoffVlan == 11 && clabProvider.liveUpstreamVlan == 4) "FS-540 CLAB SIT must preserve fake-provider VLAN11 handoff with VLAN4 live upstream"
