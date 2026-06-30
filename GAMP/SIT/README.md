@@ -219,6 +219,36 @@ and the rendered p2p bridge, while `s-router-clab` and `s-router-test-clients`
 have the FS-166 p2p artifact without either edge container running. This is
 row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
+2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
+`renderer-nixos-clients`: `network-labs@d494c16` selected
+`SMT renderer-nixos-clients`, removed router runtime targets from the
+access-endpoint CPM fixture, local `nixos` lock `c75190e5` consumed it, and the
+three local profiles built: `s-router-nixos`
+`/nix/store/6vvzch7wpwdhszs8d75xri8vbbdkl5ii-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/46zis36qs3r0p19vr8inrmnwa4pkn4n0-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/0b9hns2pz369q36nmhr9f8x8hwhv2aj2-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
+`192.168.1.18`, the live verifier in `network-codex-agent` passed:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh --live
+```
+
+The live result proves the one-endpoint access renderer active-lab row:
+`s-router-test-clients` has the FS-166 clients control-plane artifact,
+access-endpoint provenance for `poc-client`, the rendered `client` bridge, and
+running `container@poc-client.service`, while `s-router-nixos` and
+`s-router-clab` do not run `poc-client`. This is row-local SMT/SIT runtime
+evidence only and does not promote HAT/SAT.
+
 2026-06-28 SAT prerequisite note: the SAT source initially failed the
 `s-router-test-clients` dry-run with
 `FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC` because the
