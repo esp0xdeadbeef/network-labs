@@ -148,8 +148,8 @@ in
       script = "tests/test-active-lab-mini-smt-p2p-next-hop-only.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "CPM point-to-point next-hop contract";
-      maxRuntimeTargets = 2;
+      scope = "CPM point-to-point next-hop contract over the five-node router-a -> downstream-selector -> policy -> upstream-selector -> router-b path";
+      maxRuntimeTargets = 5;
     };
 
     lane-egress-binding = {

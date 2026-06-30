@@ -423,7 +423,7 @@ in
           "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         router-a = {
           role = "router";
@@ -442,6 +442,16 @@ in
               prefixLength4 = 31;
             };
           };
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+          external = "testnet";
         };
       };
       links = {
@@ -472,14 +482,17 @@ in
       testsOnly = [
         "p2p-peer-next-hop"
         "route-renderability-shape"
+        "five-node-runtime-shape"
       ];
       forbiddenScope = [
         "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+      liveSurfaces = [
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
-        "HAT"
-        "SAT"
       ];
     };
 

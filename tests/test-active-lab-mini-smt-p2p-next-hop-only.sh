@@ -46,21 +46,28 @@ nix eval --impure --expr "
       \"p2p manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"p2p mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"router-a\" \"router-b\" ])
-      \"p2p mini SMT may start only router-a and router-b\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"downstream-selector\"
+      \"policy\"
+      \"router-a\"
+      \"router-b\"
+      \"upstream-selector\"
+    ])
+      \"p2p mini SMT must use the five-node active-lab p2p policy path\"
     && require (builtins.attrNames lab.links == [ \"p2p-ab\" ])
       \"p2p mini SMT must carry exactly one p2p link\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"p2p mini SMT must stay capped at two runtime targets\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"p2p mini SMT must stay capped at five runtime targets\"
     && require (builtins.length lab.expectedRoutes == 1)
       \"p2p mini SMT must test exactly one route atom\"
     && require (lab.testsOnly == [
       \"p2p-peer-next-hop\"
       \"route-renderability-shape\"
+      \"five-node-runtime-shape\"
     ])
       \"p2p mini SMT must name only the p2p route atom checks\"
-    && require (builtins.elem \"s-router-clab\" lab.forbiddenScope)
-      \"p2p mini SMT must forbid full s-router-clab scope\"
+    && require (lab.liveSurfaces == [ \"s-router-nixos\" \"s-router-clab\" \"s-router-test-clients\" ])
+      \"focused SIT must allow the three s-router active-lab surfaces\"
     && require (valid.ok && valid.diagnostic == null)
       \"valid p2p route must pass\"
     && require (!wrongLink.ok && wrongLink.diagnostic == \"p2p-link-missing\")
