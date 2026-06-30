@@ -1,11 +1,15 @@
 # FS-540-HDS-010-SDS-010 SIT
 
-SIT row stub for the mini DNS resolver config integration path.
+Focused SIT row for the mini DNS resolver config integration path.
 
 SIT rows are SDS-scoped, but the inputs are explicit SMS atoms. This row
 currently consumes:
 
-- `FS-540-HDS-010-SDS-010-SMS-020`
+- `FS-540-HDS-010-SDS-010-SMS-020` — CPM DNS resolver configuration authority.
+- `FS-540-HDS-010-SDS-010-SMS-040` — requester-lane recursive reachability,
+  consumed here only at the construction-evidence boundary.
+- `FS-540-HDS-010-SDS-010-SMS-010` — recursive DNS binding source alignment,
+  consumed here only as a row-local source stub.
 
 Run the small row input independently:
 
