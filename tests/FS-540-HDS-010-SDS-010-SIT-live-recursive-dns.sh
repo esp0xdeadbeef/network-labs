@@ -217,6 +217,7 @@ check_clab_provider_emulation_inventory() {
             and ((.liveUpstreamVlan // .liveUpstreamReachability.vlan // null) == 4)
             and (.dhcp4.address == \"10.20.0.1/24\")
             and (.dhcp4.router == \"10.20.0.1\")
+            and (.dhcp4.clientAddress == \"10.20.0.20\")
             and (.dhcp4.rangeStart == \"10.20.0.20\")
             and (.dhcp4.rangeEnd == \"10.20.0.99\")
             and (.dhcp4.leaseTime == \"5m\")
@@ -241,11 +242,11 @@ check_clab_provider_emulation_inventory() {
   }
 
   if [[ "${result}" != "OK" ]]; then
-    record_failure "s-router-clab: deployed inventory lacks explicit harness fake-provider emulation for testnet-vlan4 (${result}); expected labEmulation=true with fake-provider handoffVlan=11 liveUpstreamVlan=4 plus explicit DHCPv4 10.20.0.1/24 range 10.20.0.20-10.20.0.99 and NAT44 10.20.0.0/24 before recursive DNS route assertions"
+    record_failure "s-router-clab: deployed inventory lacks explicit harness fake-provider emulation for testnet-vlan4 (${result}); expected labEmulation=true with fake-provider handoffVlan=11 liveUpstreamVlan=4 plus explicit DHCPv4 10.20.0.1/24, clientAddress 10.20.0.20, range 10.20.0.20-10.20.0.99, and NAT44 10.20.0.0/24 before recursive DNS route assertions"
     return
   fi
 
-  echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4 dhcp4=10.20.0.1/24 nat44=10.20.0.0/24"
+  echo "PASS ${trace_id} s-router-clab deployed inventory declares harness fake-provider emulation: handoffVlan=11 liveUpstreamVlan=4 dhcp4=10.20.0.1/24 clientAddress=10.20.0.20 nat44=10.20.0.0/24"
 }
 
 check_clab_fake_provider_runtime() {

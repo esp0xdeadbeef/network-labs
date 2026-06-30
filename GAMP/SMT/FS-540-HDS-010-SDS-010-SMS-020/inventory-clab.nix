@@ -21,6 +21,7 @@
           dhcp4 = {
             address = "10.20.0.1/24";
             router = "10.20.0.1";
+            clientAddress = "10.20.0.20";
             rangeStart = "10.20.0.20";
             rangeEnd = "10.20.0.99";
             leaseTime = "5m";
