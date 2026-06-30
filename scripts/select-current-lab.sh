@@ -185,6 +185,57 @@ in
 EOF
 }
 
+write_renderer_clients_inventory_test_clients() {
+  local source_path="$1"
+
+  write_file "${current_dir}/inventory-test-clients.nix" cat <<EOF
+let
+  source = import ../${source_path};
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+  sourceHosts =
+    (source.deploymentHosts or { })
+    // (((source.control_plane_model or { }).deployment or { }).hosts or { });
+  sourceTestClientHost = sourceHosts.s-router-test-clients or { };
+  testClientHost = sourceTestClientHost // {
+    uplinks = (sourceTestClientHost.uplinks or { }) // {
+      management = managementVlan2;
+    };
+  };
+in
+{
+  meta = {
+    traceId = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+    renderer = "test-clients";
+    scope = "active-lab-current-selection";
+  };
+  clients = { };
+  deploymentHosts = {
+    s-router-test-clients = testClientHost;
+  };
+  deployment.hosts = {
+    s-router-test-clients = testClientHost;
+  };
+}
+EOF
+}
+
 write_row_inventory_test_clients() {
   local row_dir="$1"
 
@@ -889,6 +940,12 @@ select_smt() {
   write_default_hetz_inventory
   write_default_sops
   write_current_host_entrypoints
+  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
+    write_import "intent-s-router-test-clients.nix" "../${source_path}"
+    write_renderer_clients_inventory_test_clients "${source_path}"
+    write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
+    write_import "clients-s-router-test-clients.nix" "./clients.nix"
+  fi
   if [[ "${source_kind}" != "renderer-input" ]]; then
     write_row_test_client_entrypoints "${row_dir}" "${forwarding_enterprise_json}"
   fi

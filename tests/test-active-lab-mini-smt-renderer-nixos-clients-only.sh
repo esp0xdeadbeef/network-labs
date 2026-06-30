@@ -31,6 +31,11 @@ let
 in
   require (poc.boundaryInputs."renderer-input".entryBoundary == "renderer-input") "renderer mini SMT must start at renderer-input boundary"
   && require (poc.meta.rendererTargets."nixos-clients".rendererRepo == "network-renderer-access-endpoint-nixos") "wrong nixos-clients renderer repo"
+  && require (input.control_plane_model.deployment.hosts ? s-router-test-clients) "nixos-clients source must expose s-router-test-clients"
+  && require (!(input.control_plane_model.deployment.hosts ? s-router-nixos)) "nixos-clients source must not expose s-router-nixos"
+  && require (!(input.control_plane_model.deployment.hosts ? s-router-clab)) "nixos-clients source must not expose s-router-clab"
+  && require (input.control_plane_model.data.acme.site-a.runtimeTargets == { }) "nixos-clients source must not carry router runtime targets"
+  && require (input.control_plane_model.data.acme.site-a.endpointAssignment.poc-client.bridge == "client") "nixos-clients source must carry poc-client endpointAssignment"
   && require (names == [ "poc-client" ]) "nixos-clients renderer should materialize exactly poc-client"
   && require (client.hostBridge == "client") "poc-client hostBridge should be client"
   && require (client.autoStart == true) "poc-client should be autostarted"

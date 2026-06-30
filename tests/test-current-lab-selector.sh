@@ -146,6 +146,39 @@ in
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p") "renderer SMT active-lab import mismatch"
 ' >/dev/null || fail "SMT renderer selection failed"
 
+"${selector}" SMT renderer-nixos-clients >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+  require = cond: msg: if cond then true else throw msg;
+  defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
+  clientTrace = "FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients";
+  clientSite = activeIntentClients.control_plane_model.data.acme.site-a;
+in
+  require (current.selection.layer == "SMT") "renderer-nixos-clients selector layer mismatch"
+  && require (current.selection.selector == "renderer-nixos-clients") "renderer-nixos-clients selector id mismatch"
+  && require (current.selection.traceId == clientTrace) "renderer-nixos-clients trace mismatch"
+  && require (current.selection.sourcePath == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix") "renderer-nixos-clients source path mismatch"
+  && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "renderer-nixos-clients must preserve the global NixOS runtime CPM for non-client hosts"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == defaultTrace) "renderer-nixos-clients must preserve s-router-nixos host intent"
+  && require (activeIntentClab.control_plane_model.meta.traceId == defaultTrace) "renderer-nixos-clients must preserve s-router-clab host intent"
+  && require (activeIntentClients.control_plane_model.meta.traceId == clientTrace) "renderer-nixos-clients must install the client CPM on s-router-test-clients"
+  && require (clientSite.runtimeTargets == { }) "renderer-nixos-clients client CPM must not carry router runtime targets"
+  && require (clientSite.endpointAssignment.poc-client.bridge == "client") "renderer-nixos-clients client CPM must carry poc-client endpointAssignment"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "renderer-nixos-clients inventory must keep s-router-test-clients"
+  && require (inventoryClients.deploymentHosts.s-router-test-clients.bridgeNetworks ? client) "renderer-nixos-clients inventory must expose client bridge"
+  && require (!(inventoryClients.deploymentHosts ? s-router-nixos)) "renderer-nixos-clients inventory must not expose s-router-nixos"
+  && require (!(inventoryClients.deploymentHosts ? s-router-clab)) "renderer-nixos-clients inventory must not expose s-router-clab"
+  && require (activeInventoryClients == inventoryClients) "renderer-nixos-clients host-specific inventory alias must preserve client inventory"
+' >/dev/null || fail "SMT renderer-nixos-clients selection failed"
+
 "${selector}" SMT renderer-clab >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
