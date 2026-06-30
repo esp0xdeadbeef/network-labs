@@ -122,6 +122,8 @@ nix eval --impure --expr "
       \"dns-resolver CLAB fake provider must declare explicit DHCPv4 gateway address\"
     && require (clabProvider.dhcp4.router == \"10.20.0.1\")
       \"dns-resolver CLAB fake provider must declare explicit DHCPv4 router option\"
+    && require (clabProvider.dhcp4.clientAddress == \"10.20.0.20\")
+      \"dns-resolver CLAB fake provider must declare explicit DHCPv4 client address for the live VLAN4 WAN binding\"
     && require (clabProvider.dhcp4.rangeStart == \"10.20.0.20\" && clabProvider.dhcp4.rangeEnd == \"10.20.0.99\")
       \"dns-resolver CLAB fake provider must declare explicit DHCPv4 lease range\"
     && require (clabProvider.dhcp4.leaseTime == \"5m\" && clabProvider.dhcp4.sourcePrefix == \"10.20.0.0/24\")
