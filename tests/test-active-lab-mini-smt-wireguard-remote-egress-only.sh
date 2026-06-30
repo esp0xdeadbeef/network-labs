@@ -92,6 +92,8 @@ in
       cfg.systemd.services.wireguard-provider-dispatcher.description;
     hasNetdevService =
       cfg.systemd.services ? "s88-provider-interface-wg-re-egress0-egress";
+    lanNetdevKind =
+      cfg.systemd.network.netdevs."10-edge-lan0".netdevConfig.Kind;
     nftables = cfg.networking.nftables.ruleset;
     dhcp4Config =
       builtins.fromJSON cfg.environment.etc."kea/kea-dhcp4.conf".text;
@@ -127,6 +129,7 @@ for phrase in \
   '"providerRuntimeEnabled":true' \
   '"providerRuntimeContractId":"fs470-remote-egress"' \
   '"hasNetdevService":false' \
+  '"lanNetdevKind":"dummy"' \
   '"dispatcherDescription":"Bring up provider tunnel wg-re-egress0 from model/provider contract"' \
   'iifname \"edge-lan0\" oifname \"wg-re-egress0\" accept comment \"wg-provider-lan-to-vpn fs470-remote-egress\"' \
   'iifname \"edge-lan0\" oifname \"uplink0\" drop comment \"wg-provider-deny-lan-to-wan fs470-remote-egress\"' \
