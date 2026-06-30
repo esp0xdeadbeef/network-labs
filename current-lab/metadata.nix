@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "reachability-decision";
-  traceId = "FS-500-HDS-010-SDS-010-SMS-010";
+  selector = "decision-reason-diagnostic";
+  traceId = "FS-500-HDS-010-SDS-010-SMS-030";
   sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010";
-  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT reachability-decision";
+  sourceRoot = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030";
+  sourcePath = "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-030/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT decision-reason-diagnostic";
 }
