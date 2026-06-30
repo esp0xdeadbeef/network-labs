@@ -22,10 +22,10 @@
 };
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh lane-egress-binding";
-    liveCommand = "NETWORK_REPO_DIRECT_TEST_OK=1 bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live";
+    liveCommand = "NETWORK_REPO_DIRECT_TEST_OK=1 S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 S_ROUTER_TEST_CLIENTS=192.168.1.18 ../network-codex-agent/scripts/fs370-active-lab-lane-egress-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix"
     ];
-    observedResult = "OK on 2026-06-29: NETWORK_REPO_DIRECT_TEST_OK=1 bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live passed after selecting SIT FS-370-HDS-010-SDS-010; evidence proves the five-node lane path on s-router-nixos, s-router-clab, and s-router-test-clients with test-clients verified by artifact-derived host bridge/uplink materialization, not containers; row-local SMT/SIT evidence only, not HAT/SAT acceptance";
+    observedResult = "OK on 2026-06-30: NETWORK_REPO_DIRECT_TEST_OK=1 S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 S_ROUTER_TEST_CLIENTS=192.168.1.18 ../network-codex-agent/scripts/fs370-active-lab-lane-egress-runtime-check.sh --live passed after selecting SIT FS-370-HDS-010-SDS-010; evidence proves the five-node lane path on s-router-nixos and s-router-clab with runtimeTargets=5 and uplinkLaneHits=1, and proves s-router-test-clients by artifact-derived host bridge/uplink materialization with routerContainers=0, hostBridges=5, and uplink=testnet; row-local SMT/SIT evidence only, not HAT/SAT acceptance";
   };
 }
