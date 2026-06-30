@@ -69,6 +69,16 @@ blobs, or shared example fragments.
   site-DNS endpoint addresses were added to inventory files, then the changed
   inventories were compiled through the current local CPM checkout and checked
   with the CPM policy and DNS report jq contracts.
+- FS-820/SMS-050 secret-source ownership is now guarded at CMC level. Lab-owned
+  encrypted payloads were moved out of `active-lab/secrets` and into owning
+  HAT/SMT fixture directories; host account/default-login keys such as
+  `deadbeef-passwd` and arbitrary host-owned names such as `qqqqabc` are
+  rejected in lab SOPS/source bindings. Focused proofs passed:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-820-HDS-010-SDS-010-SMS-050.sh`,
+  `bash tests/test-active-lab-minimal-entrypoints.sh`,
+  `bash tests/test-hat-sops-runtime-fact-bindings.sh`,
+  `bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh`,
+  and `bash tests/test-current-lab-selector.sh`.
 
 ## Still Broken
 

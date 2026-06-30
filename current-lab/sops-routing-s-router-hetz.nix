@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  sharedSopsFile = ../active-lab/secrets/shared.yaml;
+  sharedSopsFile = ../GAMP/HAT/emulated-isp-residential-testnet/secrets/shared.yaml;
 in
 {
   sops.secrets = {

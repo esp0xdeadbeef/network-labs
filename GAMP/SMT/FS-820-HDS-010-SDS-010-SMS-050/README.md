@@ -1,12 +1,15 @@
-# SMT Source Stub: FS-820-HDS-010-SDS-010-SMS-050
+# SMT Source: FS-820-HDS-010-SDS-010-SMS-050
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-050-network-labs-sops-configuration-validation.md`
 
-Status: NOT OK - source stub only.
+Status: OK - focused CMC construction guard verified.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Focused evidence: `NETWORK_REPO_DIRECT_TEST_OK=1 bash
+tests/FS-820-HDS-010-SDS-010-SMS-050.sh` passed on 2026-06-30. The guard rejects
+network-labs `sops.defaultSopsFile` overrides, host-owned keys such as
+`deadbeef-passwd`, unmodeled arbitrary host-owned keys such as `qqqqabc`, and
+encrypted YAML payload ownership under `active-lab/secrets`. The accepted path
+keeps lab-runtime secrets in owning HAT, SAT, SIT, or SMT row/fixture
+directories with per-secret `sopsFile` references.
 
 Title slug: `network-labs-sops-configuration-validation`

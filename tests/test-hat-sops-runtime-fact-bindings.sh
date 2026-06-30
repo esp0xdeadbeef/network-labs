@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-secret_file="${repo_root}/active-lab/secrets/sops-s-router-nixos.yaml"
+secret_file="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-nixos.yaml"
 
 fail() {
   echo "FAIL hat-sops-runtime-fact-bindings: $*" >&2
@@ -26,7 +26,7 @@ required_runtime_secrets=(
 [[ -f "${secret_file}" ]] || fail "missing ${secret_file}"
 for secret_name in "${required_runtime_secrets[@]}"; do
   rg -q "^${secret_name}:" "${secret_file}" \
-    || fail "active-lab NixOS SOPS file is missing ${secret_name}"
+    || fail "HAT NixOS SOPS file is missing ${secret_name}"
 done
 
 nix eval --impure --expr "
@@ -34,7 +34,7 @@ nix eval --impure --expr "
     repo = ${repo_root};
     routing = import (repo + \"/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix\");
     base = import (repo + \"/GAMP/HAT/sops.nix\") {
-      sopsFile = repo + \"/active-lab/secrets/sops-s-router-clab.yaml\";
+      sopsFile = repo + \"/GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml\";
     };
     required = [
       \"access-node-ipv6-prefix-esp0xdeadbeef-hetz-c-router-access-client\"
@@ -52,7 +52,7 @@ nix eval --impure --expr "
       builtins.hasAttr name module.sops.secrets
       && module.sops.secrets.\${name}.key == name
       && module.sops.secrets.\${name}.mode == \"0400\"
-      && builtins.match \".*active-lab/secrets/sops-s-router-nixos.yaml\" (toString module.sops.secrets.\${name}.sopsFile) != null;
+      && builtins.match \".*GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-nixos.yaml\" (toString module.sops.secrets.\${name}.sopsFile) != null;
   in
     require (builtins.all (secretOk routing) required)
       \"NixOS HAT SOPS routing must expose every runtime fact secret used by rendered /run/secrets bind mounts\"

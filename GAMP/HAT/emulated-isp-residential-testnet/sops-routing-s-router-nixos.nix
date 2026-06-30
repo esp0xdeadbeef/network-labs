@@ -1,5 +1,5 @@
 import ./sops.nix {
-  sopsFile = ./../../../active-lab/secrets/sops-s-router-nixos.yaml;
+  sopsFile = ./secrets/sops-s-router-nixos.yaml;
   runtimeFactSecrets = [
     "access-node-ipv6-prefix-esp0xdeadbeef-hetz-c-router-access-client"
     "access-node-ipv6-prefix-esp-clab-router-access-client"

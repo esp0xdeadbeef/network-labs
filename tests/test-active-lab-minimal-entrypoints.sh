@@ -44,22 +44,18 @@ do
     || fail "active-lab/${required} must exist because NixOS runtime modules import it"
 done
 
-[[ -d "${repo_root}/active-lab/secrets" ]] \
-  || fail "active-lab/secrets must remain as controlled FS/GAMP SOPS source material"
-[[ -f "${repo_root}/active-lab/secrets/sops-s-router-clab.yaml" ]] \
-  || fail "GAMP/HAT SOPS boundary requires active-lab/secrets/sops-s-router-clab.yaml"
-[[ -f "${repo_root}/active-lab/secrets/sops-s-router-nixos.yaml" ]] \
-  || fail "GAMP/HAT SOPS boundary requires active-lab/secrets/sops-s-router-nixos.yaml"
-[[ -f "${repo_root}/active-lab/secrets/sops-s-router-test.yaml" ]] \
-  || fail "GAMP/HAT SOPS boundary requires active-lab/secrets/sops-s-router-test.yaml"
-rg -q 'active-lab/secrets/sops-s-router-clab[.]yaml' "${repo_root}/GAMP/HAT/sops.nix" \
-  || fail "GAMP/HAT/sops.nix must keep the active-lab SOPS source explicit"
-rg -q 'active-lab/secrets/sops-s-router-nixos[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix" \
-  || fail "HAT s-router-nixos SOPS routing must bind to the s-router-nixos encrypted file"
-rg -q 'active-lab/secrets/sops-s-router-clab[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix" \
-  || fail "HAT s-router-clab SOPS routing must bind to the s-router-clab encrypted file"
-rg -q 'active-lab/secrets/sops-s-router-test[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix" \
-  || fail "HAT s-router-test-clients SOPS routing must bind to the s-router-test encrypted file"
+if [[ -d "${repo_root}/active-lab/secrets" ]] \
+  && find "${repo_root}/active-lab/secrets" -type f \( -name '*.yaml' -o -name '*.yml' \) | rg -q .; then
+  fail "active-lab/secrets must not own encrypted SOPS payloads"
+fi
+rg -q 'emulated-isp-residential-testnet/secrets/sops-s-router-clab[.]yaml' "${repo_root}/GAMP/HAT/sops.nix" \
+  || fail "GAMP/HAT/sops.nix must keep the HAT-owned SOPS source explicit"
+rg -q '[.]?/secrets/sops-s-router-nixos[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix" \
+  || fail "HAT s-router-nixos SOPS routing must bind to the HAT-owned s-router-nixos encrypted file"
+rg -q '[.]?/secrets/sops-s-router-clab[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix" \
+  || fail "HAT s-router-clab SOPS routing must bind to the HAT-owned s-router-clab encrypted file"
+rg -q '[.]?/secrets/sops-s-router-test[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix" \
+  || fail "HAT s-router-test-clients SOPS routing must bind to the HAT-owned s-router-test encrypted file"
 
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
@@ -163,7 +159,7 @@ in
   && require (!(active ? secretFiles)) "active-lab default must not expose broad secret files"
   && require (builtins.isFunction active.mkSource) "active-lab must keep mkSource for row-local intent stubs"
   && require (protectedSecretRows != [ ]) "protected PPPoE secret rows must exist"
-  && require (builtins.all hasRequiredSecretIds protectedSecretRows) "active-lab SOPS material must stay tied to the protected PPPoE FS IDs"
+  && require (builtins.all hasRequiredSecretIds protectedSecretRows) "HAT SOPS material must stay tied to the protected PPPoE FS IDs"
   && require selectedEntrypointsOk "active-lab entrypoint content must match the selected current-lab layer"
 ' >/dev/null || fail "active-lab minimal entrypoint contract failed"
 

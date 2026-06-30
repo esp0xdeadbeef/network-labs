@@ -791,7 +791,7 @@ write_default_hetz_sops() {
 { ... }:
 
 let
-  sharedSopsFile = ../active-lab/secrets/shared.yaml;
+  sharedSopsFile = ../GAMP/HAT/emulated-isp-residential-testnet/secrets/shared.yaml;
 in
 {
   sops.secrets = {
@@ -820,9 +820,10 @@ write_default_sops() {
 }
 
 write_wireguard_sops_nixos() {
-  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<'EOF'
+  local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
+  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
 import ../GAMP/HAT/sops.nix {
-  sopsFile = ../active-lab/secrets/sops-s-router-nixos.yaml;
+  sopsFile = ${sops_file};
   runtimeFactSecrets = [
     "wireguard-mini-provider-private-key"
   ];
@@ -831,16 +832,17 @@ EOF
 }
 
 write_nebula_sops_nixos() {
-  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<'EOF'
+  local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
+  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
 { ... }:
 
 let
-  sopsFile = ../active-lab/secrets/sops-s-router-nixos.yaml;
+  sopsFile = ${sops_file};
   mkProfileSecret = nodeName: fileName: {
     inherit sopsFile;
     owner = "root";
     mode = "0400";
-    path = "/persist/nebula-runtime/profiles/${nodeName}/${fileName}";
+    path = "/persist/nebula-runtime/profiles/\${nodeName}/\${fileName}";
   };
 in
 {
@@ -1047,14 +1049,14 @@ select_smt() {
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
     write_empty_clab_intent
     write_empty_test_clients_intent
-    write_wireguard_sops_nixos
+    write_wireguard_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nebula" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
     write_empty_clab_intent
     write_empty_test_clients_intent
-    write_nebula_sops_nixos
+    write_nebula_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
     write_import "intent-s-router-test-clients.nix" "../${source_path}"
