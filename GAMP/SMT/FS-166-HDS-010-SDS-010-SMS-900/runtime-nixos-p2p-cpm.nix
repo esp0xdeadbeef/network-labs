@@ -58,6 +58,20 @@ let
         id = "edge-a-b";
         name = "edge-a-b";
       };
+      explicit = {
+        explicitLocalAdapter = false;
+        explicitTransit = true;
+        explicitUplink = false;
+        explicitWan = false;
+      };
+      interfaceClass = {
+        coreFacing = false;
+        coreTransit = false;
+        edgeFacing = false;
+        exitFacing = false;
+        fabricFacing = false;
+        overlay = false;
+      };
       attach.bridge = "br-layer-entry";
       routes = {
         ipv4 = [

@@ -55,6 +55,16 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       && allocation.tableRulePriority == 5001
       && allocation.dynamicRulePriority == 5002
       && allocation.mainSuppressPriority == 5003;
+    p2pInterfaceClassOk = iface:
+      iface.explicit.explicitTransit == true
+      && iface.explicit.explicitWan == false
+      && iface.explicit.explicitLocalAdapter == false
+      && iface.interfaceClass.edgeFacing == false
+      && iface.interfaceClass.fabricFacing == false
+      && iface.interfaceClass.exitFacing == false
+      && iface.interfaceClass.coreFacing == false
+      && iface.interfaceClass.overlay == false
+      && iface.interfaceClass.coreTransit == false;
     require = cond: msg: if cond then true else throw msg;
   in
     require (traceId == \"FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p\")
@@ -88,6 +98,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"both containers must attach their veth to the same rendered p2p bridge\"
     && require (allocationIsExpected edgeAIface.policyRoutingAllocation && allocationIsExpected edgeBIface.policyRoutingAllocation)
       \"p2p renderer-input fixture must carry explicit CPM policyRoutingAllocation for both endpoints\"
+    && require (p2pInterfaceClassOk edgeAIface && p2pInterfaceClassOk edgeBIface)
+      \"p2p renderer-input fixture must carry explicit CPM interfaceClass for both endpoints\"
 " >/dev/null || fail "NixOS p2p renderer-input contract failed"
 
 echo "PASS active-lab-mini-smt-runtime-nixos-p2p-renderer-input"
