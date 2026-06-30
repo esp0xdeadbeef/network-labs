@@ -33,6 +33,6 @@
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix"
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix"
     ];
-    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifier passed against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19 with exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge for the selected reachability-decision active-lab; s-router-test-clients 192.168.1.18 remained client-only with no reachability-decision router containers.";
+    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifier passed for reachability-decision and decision-reason-diagnostic against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19 with exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge for each selected row; s-router-test-clients 192.168.1.18 remained client-only with no row router containers.";
   };
 }
