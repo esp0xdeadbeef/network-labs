@@ -216,10 +216,14 @@ Preferred small row examples are already wired:
   `FS-800-HDS-030-SDS-030-SMS-010`, capped to `pppoe-client` and
   `pppoe-server`, proving only PPPoE provider/customer pairing, fallback
   rejection, and transport classification.
+- `tests/run-active-lab-mini-smt.sh provider-access-default-route` for
+  `FS-800-HDS-010-SDS-020-SMS-040`, capped to the canonical six-node
+  provider-access path, proving provider-handoff default selection without
+  promoting the PPPoE side core into default reachability.
 - `tests/run-active-lab-mini-smt.sh reachability-decision` for
-  `FS-500-HDS-010-SDS-010-SMS-010`, capped to `client-edge` and
-  `testnet-edge`, proving only structured reachability decision
-  classification.
+  `FS-500-HDS-010-SDS-010-SMS-010`, capped to the five-node
+  client/downstream-selector/policy/upstream-selector/testnet path required by
+  current NFM, proving only structured reachability decision classification.
 - `tests/run-active-lab-mini-smt.sh p2p-next-hop` for
   `FS-500-HDS-010-SDS-010-SMS-040`, capped to `router-a` and `router-b`,
   proving only one p2p link, two router endpoints, and one next-hop route atom.

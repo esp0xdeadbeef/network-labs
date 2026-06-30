@@ -9,4 +9,6 @@ bash tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh
 ```
 
 This row proves CPM provider-access fabric gateway routing: provider handoff to
-internet with correct next-hop selection. May start at most 3 runtime targets.
+internet with correct next-hop selection. The selectable mini topology uses the
+minimal current compiler/NFM policy path plus a PPPoE core side link, and may
+start at most 6 runtime targets.
