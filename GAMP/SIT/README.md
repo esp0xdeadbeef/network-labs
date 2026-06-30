@@ -156,8 +156,11 @@ dry-run with `FS-310-HDS-010-SDS-010-SMS-130` because its renderer-entry CPM
 input lacked `policyRoutingAllocation` for interface `edge-a-b`. The fix adds
 explicit CPM-owned allocation metadata in
 `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix` and covers
-it in the focused mini-SMT test. The row remains source-to-artifact prerequisite
-evidence only, not live HAT/SAT acceptance.
+it in the focused mini-SMT test. A 2026-06-30 rerun found the remaining same
+fixture gap: p2p endpoints also lacked CPM-owned `interfaceClass` and `explicit`
+metadata. `network-labs@f9d21d2` adds those fields and extends the focused
+mini-SMT test to assert them. These fixture corrections are source-to-artifact
+prerequisite evidence only, not live HAT/SAT acceptance.
 
 2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
 `renderer-nixos`: `network-labs@b077ad6` selected `SMT renderer-nixos`, local
@@ -186,6 +189,35 @@ The live result proves the one-target renderer-input active-lab row:
 `s-router-clab` and `s-router-test-clients` have the FS-166 artifact without
 `poc-router` running. This is row-local SMT/SIT runtime evidence only and does
 not promote HAT/SAT.
+
+2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
+`renderer-nixos-p2p`: `network-labs@50850a3` selected `SMT renderer-nixos-p2p`,
+`network-labs@f9d21d2` completed the renderer-input CPM fixture, local `nixos`
+lock `5f86907b` consumed it, and the three local profiles built:
+`s-router-nixos`
+`/nix/store/9d37x0mj3kdzz3p3fdpplyd4zxbjmayk-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/sfj8f085hqsqzs5daf9dxiz97yadm7wx-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/x1rb1r0dwv7bqfzkddl41p7bxq3p3b0s-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
+`192.168.1.18`, the live verifier in `network-codex-agent` passed:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-nixos-p2p-runtime-check.sh --live
+```
+
+The live result proves the two-target p2p renderer-input active-lab row:
+`s-router-nixos` has the FS-166 p2p artifact, running `edge-a` and `edge-b`,
+and the rendered p2p bridge, while `s-router-clab` and `s-router-test-clients`
+have the FS-166 p2p artifact without either edge container running. This is
+row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
 2026-06-28 SAT prerequisite note: the SAT source initially failed the
 `s-router-test-clients` dry-run with
