@@ -249,6 +249,39 @@ running `container@poc-client.service`, while `s-router-nixos` and
 `s-router-clab` do not run `poc-client`. This is row-local SMT/SIT runtime
 evidence only and does not promote HAT/SAT.
 
+2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
+`renderer-clab`: `network-labs@ba3329c` selected `SMT renderer-clab`, fixed
+the `s-router-clab` host-specific intent alias to consume
+`GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix`,
+local `nixos` lock `91fcc0f9` consumed it, and the three locked profiles built:
+`s-router-nixos`
+`/nix/store/767yywrwcsi70pladrvgqg4azpazbhk2-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/mzaj8xngpkqaspm9k6020d1kkzm04dlv-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/400s30klvnl0shxxm0hwgamz9bg8xxny-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
+`192.168.1.18`, the live verifier in `network-codex-agent` passed:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-clab-runtime-check.sh --live
+```
+
+The live result proves the two-node CLAB renderer-input row:
+`s-router-clab` has the FS-166 renderer-clab artifact, render-live
+complete/success marker, `fabric.clab.yml` with `acme-lab-edge-a` and
+`acme-lab-edge-b`, `br-layer-entry`, running Docker containers
+`clab-fabric-acme-lab-edge-a` and `clab-fabric-acme-lab-edge-b`, and eth1 p2p
+addresses `192.0.2.0/31` and `192.0.2.1/31`, while `s-router-nixos` and
+`s-router-test-clients` do not run the CLAB edge runtime. This is row-local
+SMT/SIT runtime evidence only and does not promote HAT/SAT.
+
 2026-06-28 SAT prerequisite note: the SAT source initially failed the
 `s-router-test-clients` dry-run with
 `FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC` because the

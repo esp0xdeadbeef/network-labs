@@ -340,6 +340,29 @@ access-endpoint provenance, and rendered `client` bridge present there, while
 row-local `renderer-nixos-clients` SMT/SIT runtime predicate only and does not
 promote HAT/SAT.
 
+2026-06-30 live `renderer-clab` row closure: `network-labs@ba3329c` selected
+`SMT renderer-clab`, fixed the `s-router-clab` host-specific intent alias to
+consume the CLAB CPM fixture instead of the default NixOS runtime CPM, local
+`nixos` lock `91fcc0f9` consumed it, and
+`network-codex-agent@644a5360` added
+`scripts/fs166-active-lab-renderer-clab-runtime-check.sh`. Locked local builds
+passed for `s-router-nixos`
+`/nix/store/767yywrwcsi70pladrvgqg4azpazbhk2-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/mzaj8xngpkqaspm9k6020d1kkzm04dlv-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/400s30klvnl0shxxm0hwgamz9bg8xxny-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+The three hosts were shut down and returned through the external rebuild path.
+The live verifier passed and proved `s-router-clab` rendered and deployed the
+two-node Containerlab topology from `minimal-clab-cpm.nix`: render-live marker
+complete/success, FS-166 renderer-clab control-plane artifact,
+`fabric.clab.yml` with `acme-lab-edge-a` and `acme-lab-edge-b`,
+`br-layer-entry`, running Docker containers `clab-fabric-acme-lab-edge-a` and
+`clab-fabric-acme-lab-edge-b`, and eth1 p2p addresses `192.0.2.0/31` and
+`192.0.2.1/31`. `s-router-nixos` and `s-router-test-clients` did not run the
+CLAB edge runtime. This closes the row-local `renderer-clab` SMT/SIT runtime
+predicate only and does not promote HAT/SAT.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or
