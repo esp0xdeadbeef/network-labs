@@ -114,3 +114,29 @@ and eth1 p2p addresses `192.0.2.0/31` and `192.0.2.1/31`. Live
 `s-router-nixos` and `s-router-test-clients` did not run the CLAB edge runtime.
 This closes only the row-local renderer-clab SMT/SIT runtime predicate, not
 HAT/SAT.
+
+Current live `renderer-wireguard` evidence command:
+
+```bash
+cd /home/deadbeef/github/network-codex-agent
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh --live
+```
+
+Observed on 2026-06-30: exit 0 after `network-renderer-wireguard@fcaa109`
+bound explicit `/run/secrets` WireGuard key paths into generated containers,
+`network-labs@d74172e` selected `SMT renderer-wireguard` with a one-target
+`wgInventory` CPM fixture and row-local SOPS secret, and local `nixos` lock
+`2b174716` consumed them. The three `s-router-*` hosts were shut down and
+returned through the external rebuild path. Live `s-router-nixos` exposed the
+FS-166 renderer-wireguard artifact, running `container@wireguard-egress.service`,
+the row-local `/run/secrets/wireguard-mini-provider-private-key` on the host and
+inside the container, `wg-layer-entry` with `10.66.90.2/32`, and active
+`s88-provider-interface-wg-layer-entry-egress.service`. Live `s-router-clab`
+and `s-router-test-clients` did not run the WireGuard row runtime. This closes
+only the row-local renderer-wireguard SMT/SIT runtime predicate, not HAT/SAT.

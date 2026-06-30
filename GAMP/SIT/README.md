@@ -282,6 +282,40 @@ addresses `192.0.2.0/31` and `192.0.2.1/31`, while `s-router-nixos` and
 `s-router-test-clients` do not run the CLAB edge runtime. This is row-local
 SMT/SIT runtime evidence only and does not promote HAT/SAT.
 
+2026-06-30 live row closure for `FS-166-HDS-010-SDS-010` scoped to
+`renderer-wireguard`: `network-renderer-wireguard@fcaa109` fixed hostModule
+runtime materialization by binding explicit `/run/secrets` key paths into
+generated containers, `network-labs@d74172e` selected `SMT renderer-wireguard`
+with one `wireguard-egress` runtime target and row-local SOPS secret, local
+`nixos` lock `2b174716` consumed them, and the three locked profiles built:
+`s-router-nixos`
+`/nix/store/2s4f0k880339g6723kd8873pavq2z45n-nixos-system-s-router-nixos-26.05.20260627.714a5f8`,
+`s-router-clab`
+`/nix/store/c3mv5hngzqqi1c3mnh6lr7gqi8kliqjj-nixos-system-s-router-clab-26.05.20260627.714a5f8`,
+and `s-router-test-clients`
+`/nix/store/kb8bb4spfhj2y07l9fj6gps4sdik64p1-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
+After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
+`192.168.1.18`, the live verifier in `network-codex-agent` passed:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh --live
+```
+
+The live result proves the one-node WireGuard renderer-input row:
+`s-router-nixos` has the FS-166 renderer-wireguard artifact, running
+`container@wireguard-egress.service`, row-local
+`/run/secrets/wireguard-mini-provider-private-key` present on the host and in
+the container, `wg-layer-entry` with `10.66.90.2/32`, and active
+`s88-provider-interface-wg-layer-entry-egress.service`, while `s-router-clab`
+and `s-router-test-clients` do not run the WireGuard row runtime. This is
+row-local SMT/SIT runtime evidence only and does not promote HAT/SAT.
+
 2026-06-28 SAT prerequisite note: the SAT source initially failed the
 `s-router-test-clients` dry-run with
 `FS-725-HDS-020-SDS-010-SMS-010: MGMT_BRIDGE_ENDPOINT_TRAFFIC` because the
