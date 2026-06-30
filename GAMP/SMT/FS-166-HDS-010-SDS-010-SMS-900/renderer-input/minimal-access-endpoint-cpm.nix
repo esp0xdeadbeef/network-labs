@@ -17,22 +17,6 @@ let
     parent = "eth0";
     vlan = 2;
   };
-  mkRuntimeTarget = host: name: {
-    placement.host = host;
-    logicalNode = {
-      enterprise = "acme";
-      site = "site-a";
-      inherit name;
-    };
-    role = "access";
-    containers = [
-      {
-        name = "default";
-        container = name;
-      }
-    ];
-    effectiveRuntimeRealization.interfaces = { };
-  };
 in
 rec {
   control_plane_model = {
@@ -41,32 +25,18 @@ rec {
       source = "network-labs layer-entry renderer-input POC";
     };
     deployment.hosts = {
-      s-router-nixos = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
       s-router-test-clients = {
         uplinks.management = managementVlan2;
         bridgeNetworks.client = { };
       };
     };
     render.hosts = {
-      s-router-nixos.deploymentHost = "s-router-nixos";
-      s-router-clab.deploymentHost = "s-router-clab";
       s-router-test-clients.deploymentHost = "s-router-test-clients";
     };
     data.acme.site-a = {
       enterprise = "acme";
       siteName = "site-a";
-      runtimeTargets = {
-        compile-nixos = mkRuntimeTarget "s-router-nixos" "compile-nixos";
-        compile-clab = mkRuntimeTarget "s-router-clab" "compile-clab";
-        compile-test-client = mkRuntimeTarget "s-router-test-clients" "compile-test-client";
-      };
+      runtimeTargets = { };
       endpointAssignment.poc-client = {
         mode = "static";
         name = "poc-client";
