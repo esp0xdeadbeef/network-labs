@@ -245,7 +245,7 @@ in
   && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "renderer-wireguard must use the FS-166 row-owned SOPS file"
 ' >/dev/null || fail "SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard selection failed"
 
-"${selector}" SMT FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress >/dev/null
+"${selector}" SMT FS-470-HDS-010-SDS-010-SMS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
@@ -259,13 +259,13 @@ let
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime";
   emptyClabTrace = "active-lab-clab-no-runtime";
   emptyClientsTrace = "active-lab-test-clients-no-endpoints";
-  wireguardTrace = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+  wireguardTrace = "FS-470-HDS-010-SDS-010-SMS-010";
   nixosTargets = builtins.attrNames activeIntentNixos.control_plane_model.data.acme.lab.runtimeTargets;
   providerContract = activeIntentNixos.control_plane_model.providerContracts.wireguard.wg-remote-egress;
   sopsSecretNames = builtins.attrNames sopsNixos.sops.secrets;
 in
   require (current.selection.layer == "SMT") "wireguard-remote-egress selector layer mismatch"
-  && require (current.selection.selector == "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress") "wireguard-remote-egress selector id mismatch"
+  && require (current.selection.selector == "FS-470-HDS-010-SDS-010-SMS-010") "wireguard-remote-egress selector id mismatch"
   && require (current.selection.traceId == wireguardTrace) "wireguard-remote-egress trace mismatch"
   && require (current.selection.sourcePath == "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix") "wireguard-remote-egress source path mismatch"
   && require (active.intent.control_plane_model.meta.traceId == defaultTrace) "wireguard-remote-egress must preserve the global NixOS runtime CPM"
@@ -282,7 +282,7 @@ in
   && require (sopsSecretNames == [ "wireguard-mini-provider-private-key" ]) "wireguard-remote-egress must not inherit HAT PPPoE or unrelated SOPS secrets"
   && require (sopsNixos.sops.secrets ? "wireguard-mini-provider-private-key") "wireguard-remote-egress must expose the row-local sops secret to s-router-nixos"
   && require (builtins.match ".*GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."wireguard-mini-provider-private-key".sopsFile) != null) "wireguard-remote-egress must use the FS-470 row-owned SOPS file"
-' >/dev/null || fail "SMT FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress selection failed"
+' >/dev/null || fail "SMT FS-470-HDS-010-SDS-010-SMS-010 selection failed"
 
 "${selector}" SMT FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '

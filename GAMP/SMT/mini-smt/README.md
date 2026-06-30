@@ -84,7 +84,7 @@ Current mini-labs:
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` | Minimal two-node Containerlab topology from explicit CPM input. |
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
-| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress` | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` | WireGuard remote-egress provider runtime imported into one active-lab container from explicit CPM providerContracts. |
+| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` | WireGuard remote-egress provider runtime imported into one active-lab container from explicit CPM providerContracts. |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
 
 All 15 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.

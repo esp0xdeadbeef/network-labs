@@ -104,8 +104,8 @@ in
 )"
 
 for phrase in \
-  '"id":"wireguard-remote-egress"' \
-  '"traceId":"FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress"' \
+  '"id":"FS-470-HDS-010-SDS-010-SMS-010"' \
+  '"traceId":"FS-470-HDS-010-SDS-010-SMS-010"' \
   '"sourceKind":"renderer-input"' \
   '"rendererTarget":"wireguard"' \
   '"script":"tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh"' \

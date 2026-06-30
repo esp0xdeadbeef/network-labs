@@ -365,8 +365,8 @@ in
     };
 
     wireguard-remote-egress = {
-      id = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
-      traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+      id = "FS-470-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-470-HDS-010-SDS-010-SMS-010";
       rowDirectories = {
         SDS = ../../SDS/FS-470-HDS-010-SDS-010;
         SMS = ../../SMS/FS-470-HDS-010-SDS-010-SMS-010;

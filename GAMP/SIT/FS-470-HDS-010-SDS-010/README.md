@@ -8,7 +8,7 @@ source for SMS-040.
 Current focused command:
 
 ```sh
-tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress
+tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010
 ```
 
 The SMS-010 input is the row-local renderer-input CPM fixture

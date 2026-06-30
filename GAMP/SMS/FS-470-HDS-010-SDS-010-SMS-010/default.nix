@@ -8,7 +8,7 @@
   evidenceBoundary = "active-lab mini SMT/SIT";
   sourceInputs = {
     "wireguard-remote-egress" = {
-      traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+      traceId = "FS-470-HDS-010-SDS-010-SMS-010";
       kind = "renderer-input";
       rendererTarget = "wireguard";
       sourcePath = "GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix";

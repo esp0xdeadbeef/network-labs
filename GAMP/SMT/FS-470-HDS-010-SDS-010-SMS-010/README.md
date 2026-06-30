@@ -9,7 +9,7 @@ This row now owns the row-local renderer-input CPM fixture at
 `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` via:
 
 ```sh
-tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress
+tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010
 ```
 
 The fixture starts one runtime target, `wireguard-remote-egress`, and carries
