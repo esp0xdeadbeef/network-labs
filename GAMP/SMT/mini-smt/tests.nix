@@ -364,6 +364,31 @@ in
       maxRuntimeTargets = 1;
     };
 
+    wireguard-remote-egress = {
+      id = "wireguard-remote-egress";
+      traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+      rowDirectories = {
+        SDS = ../../SDS/FS-470-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-470-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-470-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-470-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "renderer-input";
+        cpm = ../FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix;
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = "wireguard";
+      script = "tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "WireGuard renderer hostModule imports provider runtime from explicit CPM providerContracts.wireguard output";
+      maxRuntimeTargets = 1;
+    };
+
     renderer-nebula = {
       id = "renderer-nebula";
       traceId = "${rendererTrace}__mini-renderer-nebula";

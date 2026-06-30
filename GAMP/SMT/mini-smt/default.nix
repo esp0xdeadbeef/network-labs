@@ -5,6 +5,7 @@ let
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  wireguardRemoteEgressTraceId = "FS-470-HDS-010-SDS-010-SMS-010";
   dnsResolverRelationIds = [
     "${dnsResolverConfigTraceId}__mini-client-to-access-dns"
     "${dnsResolverConfigTraceId}__mini-access-dns-service-to-testnet"
@@ -629,6 +630,42 @@ in
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
+      ];
+    };
+
+    "${wireguardRemoteEgressTraceId}" = {
+      kind = "mini-smt";
+      traceId = wireguardRemoteEgressTraceId;
+      smsAtom = "WireGuard remote egress provider runtime materialization";
+      evidenceBoundary = "renderer-input CPM source plus active-lab live evidence on the declared one-target WireGuard remote-egress runtime";
+      source = {
+        kind = "renderer-input";
+        cpm = ../FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix;
+      };
+      maxRuntimeTargets = 1;
+      runtimeTargets = {
+        wireguard-remote-egress = {
+          role = "provider-egress";
+          placement.host = "s-router-nixos";
+          overlay = "wg-remote-egress";
+          interface = "wg-remote-egress0";
+          providerContract = "controlPlane.providerContracts.wireguard.wg-remote-egress";
+        };
+      };
+      testsOnly = [
+        "provider-runtime-contract-presence"
+        "wireguard-hostmodule-runtime-import"
+        "source-scoped-nat44-nat66"
+        "dhcp4-ra-rdnss"
+        "bootstrap-payload-separation"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+      liveSurfaces = [
+        "s-router-nixos"
       ];
     };
 

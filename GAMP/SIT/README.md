@@ -80,8 +80,10 @@ SIT row at the SDS-scoped level. The current SIT row inventory:
 | `FS-166-HDS-010-SDS-010` | Renderer mini-SMT umbrella | `FS-166-HDS-010-SDS-010-SMS-900` (`renderer-nixos`, `renderer-nixos-p2p`, `renderer-nixos-clients`, `renderer-clab`, `renderer-wireguard`, `renderer-nebula`) |
 | `FS-370-HDS-010-SDS-010` | Lane egress binding | `FS-370-HDS-010-SDS-010-SMS-050` |
 | `FS-380-HDS-020-SDS-010` | Internet mode verification | `FS-380-HDS-020-SDS-010-SMS-050` |
+| `FS-470-HDS-010-SDS-010` | WireGuard remote egress | `FS-470-HDS-010-SDS-010-SMS-010` (`wireguard-remote-egress`) |
 | `FS-500-HDS-010-SDS-010` | Reachability + diagnostics + p2p | `FS-500-HDS-010-SDS-010-SMS-010`, `FS-500-HDS-010-SDS-010-SMS-030`, `FS-500-HDS-010-SDS-010-SMS-040` |
 | `FS-540-HDS-010-SDS-010` | DNS resolver config | `FS-540-HDS-010-SDS-010-SMS-020` |
+| `FS-800-HDS-010-SDS-020` | Provider-access default route | `FS-800-HDS-010-SDS-020-SMS-040` (`provider-access-default-route`) |
 | `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-HDS-030-SDS-030-SMS-010` |
 
 This inventory intentionally follows the live manifest in
@@ -90,8 +92,8 @@ not in that manifest are not current mini-SMT evidence until the manifest
 registers them again and their focused command passes.
 
 Standalone row-local checks outside the active-lab runner may have SIT rows, but
-they are not current active-lab SIT shims. Current examples are
-`FS-310-HDS-010-SDS-010` and `FS-800-HDS-010-SDS-020`.
+they are not current active-lab SIT shims. Current example:
+`FS-310-HDS-010-SDS-010`.
 `FS-720-HDS-010-SDS-020` is prepared source only and remains `NOT OK` until an
 executable focused runner is added.
 

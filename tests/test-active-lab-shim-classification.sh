@@ -69,7 +69,6 @@ for missing in missing-labs-sms missing-labs-smt missing-labs-sds missing-labs-s
 done
 
 cat >"${tmp_dir}/expected-extra-sms.txt" <<'EOF'
-FS-166-HDS-010-SDS-010-SMS-900
 FS-720-HDS-010-SDS-020-SMS-040
 FS-800-HDS-030-SDS-030-SMS-040
 EOF
@@ -122,13 +121,13 @@ runnable_sat_count="$(wc -l <"${tmp_dir}/selector-sat.txt")"
 source_stub_smt_count="$(rg -l 'evidenceBoundary = "source-stub-only"' "${repo_root}"/GAMP/SMT/*/default.nix | wc -l)"
 source_stub_sit_count="$(rg -l 'evidenceBoundary = "source-stub-only"' "${repo_root}"/GAMP/SIT/*/default.nix | wc -l)"
 
-[[ "${canonical_sms_count}" == "509" ]] || fail "canonical SMS count changed: ${canonical_sms_count}"
+[[ "${canonical_sms_count}" == "510" ]] || fail "canonical SMS count changed: ${canonical_sms_count}"
 [[ "${labs_sms_count}" == "512" ]] || fail "network-labs SMS dir count changed: ${labs_sms_count}"
 [[ "${labs_smt_count}" == "512" ]] || fail "network-labs SMT dir count changed: ${labs_smt_count}"
 [[ "${labs_sds_count}" == "176" ]] || fail "network-labs SDS dir count changed: ${labs_sds_count}"
 [[ "${labs_sit_count}" == "176" ]] || fail "network-labs SIT dir count changed: ${labs_sit_count}"
-[[ "${runnable_smt_count}" == "13" ]] || fail "runnable SMT selector count changed: ${runnable_smt_count}"
-[[ "${runnable_sit_count}" == "6" ]] || fail "runnable SIT selector count changed: ${runnable_sit_count}"
+[[ "${runnable_smt_count}" == "15" ]] || fail "runnable SMT selector count changed: ${runnable_smt_count}"
+[[ "${runnable_sit_count}" == "8" ]] || fail "runnable SIT selector count changed: ${runnable_sit_count}"
 [[ "${runnable_hat_count}" == "1" ]] || fail "runnable HAT selector count changed: ${runnable_hat_count}"
 [[ "${runnable_sat_count}" == "1" ]] || fail "runnable SAT selector count changed: ${runnable_sat_count}"
 

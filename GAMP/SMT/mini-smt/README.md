@@ -78,14 +78,16 @@ Current mini-labs:
 | `lane-egress-binding` | `FS-370-HDS-010-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` | Five-target access/downstream-selector/policy/upstream-selector/testnet lane egress binding classification. |
 | `dns-resolver-config` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Five-target DNS resolver configuration authority. |
 | `internet-mode-verification` | `FS-380-HDS-020-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` | SMT/SIT-only emulated PPPoE provider with VLAN4/VLAN5 DHCP upstream; skips, NAT, and VLAN2 rejected. |
+| `provider-access-default-route` | `FS-800-HDS-010-SDS-020-SMS-040` | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` | Provider-access default route selection over the smallest canonical policy path plus PPPoE-side core. |
 | `renderer-nixos` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `renderer-nixos-p2p` | `FS-166-HDS-010-SDS-010-SMS-900__active-lab-mini-runtime-p2p` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` | Minimal two-node Containerlab topology from explicit CPM input. |
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
+| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress` | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` | WireGuard remote-egress provider runtime imported into one active-lab container from explicit CPM providerContracts. |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
 
-All 13 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
+All 15 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
 See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,
 `GAMP/SMS/README.md` for the template row indexes.
 
