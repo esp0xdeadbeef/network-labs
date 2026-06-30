@@ -40,7 +40,7 @@ rec {
   id = "fs470-wireguard-remote-egress-active-lab";
   control_plane_model = {
     meta = {
-      traceId = "FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress";
+      traceId = "FS-470-HDS-010-SDS-010-SMS-010";
       source = "network-labs FS-470 active-lab renderer-input CPM";
       scope = "WireGuard remote-egress provider runtime materialization";
       layerEntry = {

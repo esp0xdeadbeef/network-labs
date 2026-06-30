@@ -134,7 +134,7 @@ validation surfaces is not allowed.
 | `renderer-nixos-clients` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nixos-clients` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
 | `renderer-clab` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-clab` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-clab-only.sh` |
 | `renderer-wireguard` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-wireguard` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
-| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010__mini-wireguard-remote-egress` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
+| `wireguard-remote-egress` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
 | `renderer-nebula` | `FS-166-HDS-010-SDS-010-SMS-900__mini-renderer-nebula` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
 All 15 manifest mini-SMT entries now have complete row-directory infrastructure
