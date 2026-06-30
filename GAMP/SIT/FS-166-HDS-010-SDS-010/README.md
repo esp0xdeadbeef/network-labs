@@ -21,3 +21,24 @@ tests/run-active-lab-mini-smt.sh renderer-nixos renderer-nixos-p2p renderer-nixo
 
 Observed on 2026-06-27: exit 0 for all six entries. This is focused SMT/SIT
 source-to-renderer evidence only and does not claim HAT/SAT runtime acceptance.
+
+Current live `renderer-nixos` evidence command:
+
+```bash
+cd /home/deadbeef/github/network-codex-agent
+NETWORK_REPO_DIRECT_TEST_OK=1 \
+NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos \
+S_ROUTER_NIXOS=192.168.1.17 \
+S_ROUTER_CLAB=192.168.1.19 \
+S_ROUTER_TEST_CLIENTS=192.168.1.18 \
+bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live
+```
+
+Observed on 2026-06-30: exit 0 after `network-labs@b077ad6` selected
+`SMT renderer-nixos` and local `nixos` lock `56239c47` consumed it. The three
+`s-router-*` hosts were shut down and returned through the external rebuild
+path. Live `s-router-nixos` exposed the FS-166 renderer-input artifact and
+running `poc-router`; live `s-router-clab` and `s-router-test-clients` exposed
+the same FS-166 artifact with `poc-router` absent on those hosts. This closes
+only the row-local renderer-nixos SMT/SIT runtime predicate, not HAT/SAT.

@@ -281,6 +281,19 @@ The resumed SMT sweep for `renderer-nixos-p2p` and `renderer-wireguard` passed
 all three host dry-runs in
 `/tmp/network-labs-active-lab-smt-sweep-resume-20260628T124259Z`.
 
+2026-06-30 live `renderer-nixos` row closure: `network-labs@b077ad6` selected
+`SMT renderer-nixos`, local `nixos` lock `56239c47` consumed it, and
+`network-codex-agent@41f3e451` added the focused runtime verifier
+`scripts/fs166-active-lab-renderer-nixos-runtime-check.sh`. Local builds passed
+for all three active-lab hosts, then `s-router-nixos` (`192.168.1.17`),
+`s-router-clab` (`192.168.1.19`), and `s-router-test-clients`
+(`192.168.1.18`) were shut down and returned through the external rebuild path.
+The live verifier passed and proved the one-target `poc-router` row is running
+only on `s-router-nixos`, while `s-router-clab` and `s-router-test-clients`
+expose the FS-166 artifact without running `poc-router`. This closes the
+row-local `renderer-nixos` SMT/SIT runtime predicate only; the other FS-166
+renderer mini-SMT variants still require their own row-local live runs.
+
 ## Shared-File Policy (Anti-Contention)
 
 **SMS workers must NOT edit `GAMP/SMT/mini-smt/default.nix` or

@@ -11,6 +11,7 @@
   };
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh renderer-nixos renderer-nixos-p2p renderer-nixos-clients renderer-clab renderer-wireguard renderer-nebula";
+    liveCommand = "cd /home/deadbeef/github/network-codex-agent && NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 S_ROUTER_TEST_CLIENTS=192.168.1.18 bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix"
       "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix"
@@ -20,5 +21,6 @@
       "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix"
     ];
     observedResult = "2026-06-27: renderer mini-SMT entries independently runnable with explicit CPM inputs; command exited 0 for renderer-nixos, renderer-nixos-p2p, renderer-nixos-clients, renderer-clab, renderer-wireguard, and renderer-nebula. SMT/SIT prerequisite evidence only; no HAT/SAT runtime acceptance claim.";
+    liveObservedResult = "2026-06-30: renderer-nixos active-lab live verifier exited 0 after selecting network-labs@b077ad6 current-lab SMT renderer-nixos and local nixos lock 56239c47. Local builds passed for s-router-nixos (/nix/store/3x94j69vaz05ahhvxw4c3c0ynlc36c24-nixos-system-s-router-nixos-26.05.20260627.714a5f8), s-router-clab (/nix/store/m2y4zy7bkp4rj6bz7n6k252l323m2nfa-nixos-system-s-router-clab-26.05.20260627.714a5f8), and s-router-test-clients (/nix/store/kw8m11ib6xqkw739qshci20jkdiq503j-nixos-system-s-router-test-clients-26.05.20260627.714a5f8). The three s-router hosts were shut down and returned through the external rebuild path. Live s-router-nixos reported the FS-166 renderer-input artifact and running poc-router; live s-router-clab and s-router-test-clients reported the same FS-166 artifact with poc-router not running on those hosts. Row-local SMT/SIT runtime evidence only; no HAT/SAT acceptance claim.";
   };
 }
