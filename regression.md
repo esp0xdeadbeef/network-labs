@@ -135,6 +135,30 @@ blobs, or shared example fragments.
   `bash scripts/fs166-active-lab-renderer-nixos-clients-runtime-check.sh --live`
   proved `s-router-test-clients` runs `poc-client` on the client bridge while
   `s-router-nixos` and `s-router-clab` have no endpoint container.
+- FS-166 renderer-clab active-lab selection is current live-validated.
+  `network-labs@ffce6f7` added explicit `realization.nodes` for the
+  `s-router-clab` runtime targets and made the selector export CPM realization
+  into `current-lab/inventory-clab.nix`; this fixed the first wrong layer behind
+  the renderer rejecting `targetHost = "s-router-clab"` with zero matching
+  realization nodes. `network-codex-agent@eb7a40dc`, `14c1b15b`, `918ae992`,
+  and `ed6e48c8` updated the verifier, CLAB readiness target derivation, empty
+  optional-container handling, and locked mini-SMT working directory.
+  Local `nixos` lock `91e5bec5` consumed the propagated lock chain
+  (`network-compiler@219a91f`, `network-forwarding-model@56c339c`,
+  `network-control-plane-model@b9569da`,
+  `network-renderer-containerlab-linux-backend@b9840ea`,
+  `network-renderer-nebula@bc2cc88`, `network-renderer-nixos@04b89f9`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010-SMS-904 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=2 lab-emulation=0`,
+  and the locked mini-SMT check ran from
+  `/nix/store/nb83a5vbdr60l1g5hlpvg3874igksgfi-source`. Follow-up verifier
+  `bash scripts/fs166-active-lab-renderer-clab-runtime-check.sh --live` proved
+  `s-router-clab` runs `clab-fabric-acme-lab-edge-a` and
+  `clab-fabric-acme-lab-edge-b` while `s-router-nixos` and
+  `s-router-test-clients` have no CLAB edge runtime.
 
 ## Still Broken
 
