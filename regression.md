@@ -300,6 +300,31 @@ blobs, or shared example fragments.
   `1.1.1.1` from `10.20.20.1`. It also proved `s-router-test-clients` exposes
   the VLAN4/VLAN5 host substrate with `runtimeTargets=0`, `bridgeNetworks=0`,
   `privateNat44=0`, and no router fabric containers.
+- FS-380 parent SIT active-lab selection is current live-validated.
+  `network-labs@0e82550` selected `FS-380-HDS-020-SDS-010`, which resolves the
+  parent SIT to `FS-380-HDS-020-SDS-010-SMS-050`. Local `nixos` lock
+  `ee4d0ded` consumed the propagated lock chain (`network-compiler@4b7aa32`,
+  `network-forwarding-model@66ac337`, `network-control-plane-model@bfef932`,
+  `network-renderer-access-endpoint-nixos@a479f7e`,
+  `network-renderer-containerlab-linux-backend@2451a43`,
+  `network-renderer-nebula@f6b984b`, `network-renderer-nixos@5cde7b9`,
+  `network-renderer-wireguard@c09df06`). The scoped full loop passed on
+  2026-07-01 with
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-380-HDS-020-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
+  Evidence included locked SIT selection from
+  `/nix/store/psx15jpypdbb8r0ll62d9fnj0hbb4f0z-source`, CLAB readiness
+  `active-targets=5 lab-emulation=1`, locked mini-SMT, CPM, NixOS renderer,
+  CLAB renderer, current-lab, artifact, no-router, and profile checks PASS,
+  local build hash `j4q61zh3wkismy6g7cyzchz309mgmkqq`, post-reboot hash
+  `i3i46v0y3nmajxhg8kx3bpi9b5hvqggc`, and normalized renderer JSON match.
+  Standalone verifier
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend NIXOS_REPO_PATH=/home/deadbeef/github/nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs380-active-lab-internet-mode-runtime-check.sh --live`
+  passed and proved NixOS/CLAB PPPoE/VLAN4/VLAN5 runtime artifacts with
+  `runtimeTargets=5`, `bridgeNetworks=6`, `privateNat44=1`, and successful
+  `1.1.1.1` pings; it also proved `s-router-test-clients` exposes the host-only
+  VLAN4/VLAN5 artifact with `runtimeTargets=0`, `bridgeNetworks=0`,
+  `privateNat44=0`. This records parent SIT/child SMS-050 runtime proof only;
+  it does not claim HAT/SAT acceptance.
 - FS-470 WireGuard remote-egress active-lab selection is current
   live-validated. `network-labs@39f963b` selected
   `FS-470-HDS-010-SDS-010-SMS-010` and installed the row-local
