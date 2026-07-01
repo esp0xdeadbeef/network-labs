@@ -95,6 +95,25 @@ blobs, or shared example fragments.
   passed, and `bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
   proved `s-router-nixos` runs `poc-router` while `s-router-clab` and
   `s-router-test-clients` expose explicit empty no-runtime host artifacts.
+- FS-166 renderer-nixos-p2p active-lab selection is current live-validated.
+  `network-labs@05813b6` selected
+  `FS-166-HDS-010-SDS-010-SMS-902`, `network-codex-agent@f9d58a73` updated the
+  p2p verifier to require explicit no-runtime CLAB/test-client host artifacts,
+  and local `nixos` lock `75ff6b7d` consumed the propagated lock chain
+  (`network-compiler@d70c7e9`, `network-forwarding-model@59cdf3d`,
+  `network-control-plane-model@8036b5b`,
+  `network-renderer-containerlab-linux-backend@afbe6a5`,
+  `network-renderer-nebula@1a1e228`, `network-renderer-nixos@9c00946`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`
+  because the local Nix sandbox failed flat NixOS container config outputs; the
+  locked model/render inputs and live target scope were unchanged. Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010-SMS-902 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the locked mini-SMT check ran from
+  `/nix/store/rvj260vfiyvs80w28x230n6cqhq6mdyw-source`, and
+  `bash scripts/fs166-active-lab-renderer-nixos-p2p-runtime-check.sh --live`
+  proved `s-router-nixos` runs `edge-a` and `edge-b` while `s-router-clab` and
+  `s-router-test-clients` expose explicit empty no-runtime host artifacts.
 
 ## Still Broken
 
