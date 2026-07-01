@@ -280,6 +280,32 @@ blobs, or shared example fragments.
   with `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
   `s-router-clab` and `s-router-test-clients` have no remote-egress runtime and
   expose trace-matched empty active-lab host intents.
+- FS-500 reachability-decision active-lab selection is current live-validated.
+  `network-labs@b397221` selected `FS-500-HDS-010-SDS-010-SMS-010` and
+  installed the five-node client -> downstream-selector -> policy ->
+  upstream-selector -> testnet active-lab source across NixOS and CLAB, with
+  no test-client router realization nodes. No owning-layer implementation fix
+  was needed during this 2026-07-01 re-run; the row-local mini-SMT, sibling
+  FS-500 mini-SMT fixtures, NFM construction fixtures, CPM preservation SIT,
+  and network-codex-agent runtime-debugger fixture all passed. Local `nixos`
+  lock `a26ba773` consumed the propagated lock chain
+  (`network-compiler@fb1ea41`, `network-forwarding-model@a02a932`,
+  `network-control-plane-model@6123da2`,
+  `network-renderer-wireguard@ed35404`,
+  `network-renderer-containerlab-linux-backend@93eed7d`,
+  `network-renderer-nebula@492b3ad`, `network-renderer-nixos@2d52135`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-500-HDS-010-SDS-010-SMS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
+  and the locked mini-SMT check ran from
+  `/nix/store/s09qn890id6rk47zbnwb5xq5d30xmwg0-source`. Follow-up verifier
+  `bash scripts/fs500-active-lab-reachability-runtime-check.sh --live` proved
+  `s-router-nixos` and `s-router-clab` expose `/etc/network-artifacts/control-plane.json`
+  with `runtimeTargets=5`, `validPathCount=1`, `invalidPathCount=0`, and
+  `relationHits=1`; it also proved `s-router-test-clients` has
+  `routerContainers=0` and `dockerContainers=0` for this trace.
 
 ## Still Broken
 
