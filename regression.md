@@ -181,6 +181,28 @@ blobs, or shared example fragments.
   `bash scripts/fs166-active-lab-renderer-wireguard-runtime-check.sh --live`
   proved `s-router-nixos` runs the WireGuard row runtime while `s-router-clab`
   and `s-router-test-clients` have no WireGuard row runtime.
+- FS-166 renderer-nebula active-lab selection is current live-validated.
+  `network-labs@a96d716` selected `FS-166-HDS-010-SDS-010-SMS-906`, installed
+  the Nebula renderer-input CPM on `s-router-nixos`, kept `s-router-clab` and
+  `s-router-test-clients` as explicit no-runtime host surfaces, and exposed the
+  row-local Nebula profile SOPS bindings for the NixOS runtime consumer.
+  Local `nixos` lock `d6c167c3` consumed the propagated lock chain
+  (`network-compiler@c282eeb`, `network-forwarding-model@58dcefa`,
+  `network-control-plane-model@a82199c`,
+  `network-renderer-containerlab-linux-backend@37a4d76`,
+  `network-renderer-nebula@2442d28`, `network-renderer-nixos@76993cc`,
+  `network-renderer-wireguard@a15e550`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010-SMS-906 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported
+  `active-targets=0 lab-emulation=0 no-runtime=true`, and the locked mini-SMT
+  check ran from `/nix/store/q72hqkcz3dpsb385nbgkzpk73y1gdimm-source`.
+  Follow-up verifier
+  `bash scripts/fs166-active-lab-renderer-nebula-runtime-check.sh --live`
+  proved `s-router-nixos` runs `lab-lighthouse` and `lab-client-nebula` while
+  `s-router-clab` and `s-router-test-clients` have no Nebula row runtime.
 
 ## Still Broken
 
