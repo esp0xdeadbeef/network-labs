@@ -351,6 +351,33 @@ blobs, or shared example fragments.
   with `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
   `s-router-clab` and `s-router-test-clients` have no remote-egress runtime and
   expose trace-matched empty active-lab host intents.
+- FS-470 parent SIT active-lab selection is current live-validated.
+  `network-labs@60517b8` selected `FS-470-HDS-010-SDS-010`, which resolves the
+  parent SIT to `FS-470-HDS-010-SDS-010-SMS-010`. Local `nixos` lock
+  `9f9d8697` consumed the propagated lock chain
+  (`network-compiler@d4df318`, `network-forwarding-model@381079b`,
+  `network-control-plane-model@e13559b`,
+  `network-renderer-access-endpoint-nixos@8bc2146`,
+  `network-renderer-wireguard@c25f925`,
+  `network-renderer-nebula@6d373e1`,
+  `network-renderer-containerlab-linux-backend@2e54506`,
+  `network-renderer-nixos@07ea5e1`). The parent-scoped full loop passed on
+  2026-07-01:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-470-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
+  Proof: locked active-lab SIT selection came from
+  `/nix/store/362nsik639y3fmd7jvrrw77qysp115di-source`; CLAB readiness reported
+  `active-targets=0 lab-emulation=0 no-runtime=true`; locked FS-470 WireGuard
+  SMT plus network-labs mini-SMT passed; local NixOS build expected system hash
+  `smh6z5g8cyv75fi02n5ksbfs5sn6lc6p`, post-reboot host generation was
+  `j210fyi5mfsw4bdngc839nvhd6wr4x83`, and normalized renderer JSON matched.
+  Standalone verifier
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs470-active-lab-wireguard-remote-egress-runtime-check.sh --live`
+  passed and proved `s-router-nixos` exposes
+  `/etc/network-artifacts/control-plane.json` with
+  `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
+  `s-router-clab` and `s-router-test-clients` expose empty active-lab host
+  intents and no remote-egress runtime. This records parent SIT/child SMS-010
+  runtime proof only; it does not claim HAT/SAT acceptance.
 - FS-500 reachability-decision active-lab selection is current live-validated.
   `network-labs@b397221` selected `FS-500-HDS-010-SDS-010-SMS-010` and
   installed the five-node client -> downstream-selector -> policy ->
