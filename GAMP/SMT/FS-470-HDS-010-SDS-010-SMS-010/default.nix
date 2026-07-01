@@ -17,6 +17,6 @@
   evidence = {
     command = "tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010";
     focusedTest = "tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh";
-    observedResult = "Focused runner evaluates the row-local CPM renderer input with network-renderer-wireguard hostModule and proves provider runtime import, NAT44/NAT66, DHCPv4, RA/RDNSS, bootstrap separation, and row-local SOPS private-key binding. Live host evidence is recorded at the NCA SIT row after lock bump and s-router shutdown/rebuild.";
+    observedResult = "2026-07-01: focused runner evaluates the row-local CPM renderer input with network-renderer-wireguard hostModule and proves provider runtime import, NAT44/NAT66, DHCPv4, RA/RDNSS, bootstrap separation, and row-local SOPS private-key binding. Active-lab selector and empty host artifacts use the full FS-470-HDS-010-SDS-010-SMS-010 trace ID. Live host evidence is recorded at the NCA SIT row after lock bump and s-router shutdown/rebuild.";
   };
 }
