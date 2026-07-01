@@ -207,7 +207,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             mode = "vlan";
             parent = "eth0";
-            upstream = "isp-a";
             vlan = 4;
           };
           uplink-isp-b = {
@@ -221,7 +220,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "static";
             };
             parent = "eth0";
-            upstream = "isp-b";
           };
           uplink-testnet-host-isp = {
             bridge = "stub-clab-br-t-host";
@@ -546,7 +544,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             };
             mode = "vlan";
             parent = "eth0";
-            upstream = "isp-a";
             vlan = 4;
           };
           uplink-isp-b = {
@@ -560,7 +557,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "static";
             };
             parent = "eth0";
-            upstream = "isp-b";
           };
           uplink-testnet-host-isp = {
             bridge = "br-t-host";
@@ -1487,7 +1483,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             interface = {
               name = "ens80";
             };
-            uplink = "uplink-isp-a";
+            uplink = "isp-a";
           };
           p2p-nixos-core-upstream-vlan4-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-upstream-vlan4-p2p-nixos-core-upstream-vlan4-nixos-upstream-selector";
@@ -1521,7 +1517,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             interface = {
               name = "ens81";
             };
-            uplink = "uplink-isp-b";
+            uplink = "isp-b";
           };
           p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-a-nixos-core-bgp-uplink-isp-b-p2p-nixos-core-bgp-uplink-isp-b-nixos-upstream-selector";
@@ -3057,7 +3053,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             interface = {
               name = "ens80";
             };
-            uplink = "uplink-isp-a";
+            uplink = "isp-a";
           };
           p2p-clab-core-upstream-vlan4-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-upstream-vlan4-p2p-clab-core-upstream-vlan4-clab-upstream-selector";
@@ -3091,7 +3087,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             interface = {
               name = "ens81";
             };
-            uplink = "uplink-isp-b";
+            uplink = "isp-b";
           };
           p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector = {
             adapterName = "adp-esp0xdeadbeef-site-b-clab-core-bgp-uplink-isp-b-p2p-clab-core-bgp-uplink-isp-b-clab-upstream-selector";
