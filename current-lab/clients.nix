@@ -1,1 +1,1 @@
-import ./inventory-test-clients.nix
+import ../GAMP/HAT/emulated-isp-residential-testnet/clients.nix
