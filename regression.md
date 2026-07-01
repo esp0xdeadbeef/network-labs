@@ -456,6 +456,35 @@ blobs, or shared example fragments.
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
   proved `s-router-test-clients` has `routerContainers=0` and
   `dockerContainers=0` for this trace.
+- FS-500 parent SIT active-lab selection is current live-validated.
+  `network-labs@8854bcd` selected `FS-500-HDS-010-SDS-010`, whose active
+  parent selector resolves to the `FS-500-HDS-010-SDS-010-SMS-010`
+  reachability runtime path. Local `nixos` lock `b177a23a` consumed the
+  propagated lock chain (`network-compiler@b908e49`,
+  `network-forwarding-model@7424e48`,
+  `network-control-plane-model@83e55ba`,
+  `network-renderer-access-endpoint-nixos@eefa8e6`,
+  `network-renderer-wireguard@9c22c10`,
+  `network-renderer-nebula@2718c77`,
+  `network-renderer-containerlab-linux-backend@05cdd76`,
+  `network-renderer-nixos@1a2318e`). The parent-scoped full loop passed on
+  2026-07-01:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-500-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
+  Proof: locked active-lab SIT selection came from
+  `/nix/store/hcy8kis8l5cnws22rfwi4jgyyzhs4kdr-source`; CLAB readiness reported
+  `active-targets=5 lab-emulation=0`; locked mini-SMT checks passed for
+  `FS-500-HDS-010-SDS-010-SMS-010`, `SMS-030`, and `SMS-040`; local NixOS
+  build expected system hash `bv44ws6fcg1n8k41m2isb6hjprqk92p4`, post-reboot
+  host generation was `rncd29433m7m6yla2d64ch8w91saxqhf`, and normalized
+  renderer JSON matched. Standalone verifier
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_NFM_PATH=/home/deadbeef/github/network-forwarding-model NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs500-active-lab-reachability-runtime-check.sh --live`
+  passed and proved `s-router-nixos` and `s-router-clab` expose
+  `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
+  `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
+  proved `s-router-test-clients` has no reachability router containers. This
+  records parent SIT/active SMS-010 runtime proof; separate child entries remain
+  the live selector proof for `SMS-030` and `SMS-040`. It does not claim
+  HAT/SAT acceptance.
 - FS-540 DNS resolver active-lab SIT selection is current live-validated.
   `network-labs@bdd222e` selected `FS-540-HDS-010-SDS-010`, consuming the
   row-local `FS-540-HDS-010-SDS-010-SMS-020` DNS resolver source for the
