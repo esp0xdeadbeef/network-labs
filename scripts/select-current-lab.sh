@@ -189,7 +189,8 @@ EOF
 }
 
 write_empty_test_clients_intent() {
-  write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<'EOF'
+  local trace_id="$1"
+  write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<EOF
 let
   inventory = import ./inventory-test-clients.nix;
   testClientHost = (inventory.deploymentHosts or { }).s-router-test-clients or { };
@@ -197,7 +198,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "active-lab-test-clients-no-endpoints";
+      traceId = "${trace_id}";
       source = "network-labs current-lab SMT/SIT client-host no-endpoint source";
     };
     deployment.hosts.s-router-test-clients = testClientHost // {
@@ -220,7 +221,8 @@ EOF
 }
 
 write_empty_clab_intent() {
-  write_file "${current_dir}/intent-s-router-clab.nix" cat <<'EOF'
+  local trace_id="$1"
+  write_file "${current_dir}/intent-s-router-clab.nix" cat <<EOF
 let
   inventory = import ./inventory-clab.nix;
   clabHost = (inventory.deploymentHosts or { }).s-router-clab or { };
@@ -228,7 +230,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "active-lab-clab-no-runtime";
+      traceId = "${trace_id}";
       source = "network-labs current-lab SMT/SIT clab-host no-runtime source";
     };
     deployment.hosts.s-router-clab = clabHost // {
@@ -362,11 +364,12 @@ in
 write_row_test_client_entrypoints() {
   local row_dir="$1"
   local forwarding_enterprise_json="${2:-}"
+  local trace_id="${row_dir##*/}"
 
   if [[ -f "${repo_root}/${row_dir}/intent-test-clients.nix" ]]; then
     write_import "intent-s-router-test-clients.nix" "../${row_dir}/intent-test-clients.nix"
   else
-    write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<'EOF'
+    write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<EOF
 let
   inventory = import ./inventory-test-clients.nix;
   testClientHost = (inventory.deploymentHosts or { }).s-router-test-clients or { };
@@ -374,7 +377,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "active-lab-test-clients-no-endpoints";
+      traceId = "${trace_id}";
       source = "network-labs current-lab SMT/SIT client-host no-endpoint source";
     };
     deployment.hosts.s-router-test-clients = testClientHost // {
@@ -1087,15 +1090,15 @@ select_smt() {
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "wireguard" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent
-    write_empty_test_clients_intent
+    write_empty_clab_intent "${trace}"
+    write_empty_test_clients_intent "${trace}"
     write_wireguard_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nebula" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent
-    write_empty_test_clients_intent
+    write_empty_clab_intent "${trace}"
+    write_empty_test_clients_intent "${trace}"
     write_nebula_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
