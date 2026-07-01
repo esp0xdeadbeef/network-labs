@@ -77,6 +77,7 @@ rec {
           name = "poc-router";
         };
         role = "access";
+        routingMode = "static";
         provenance = {
           inherit traceId;
           miniSmt = true;
