@@ -8,6 +8,7 @@ nixos_host="${S_ROUTER_NIXOS:-s-router-nixos}"
 clab_host="${S_ROUTER_CLAB:-s-router-clab}"
 query_name="${FS540_DNS_QUERY:-cache.nixos.org}"
 trace_id="FS-540-HDS-010-SDS-010"
+sms_trace_id="FS-540-HDS-010-SDS-010-SMS-020"
 failures=0
 
 fail_fast() {
@@ -61,11 +62,11 @@ check_current_lab_selection() {
       entry = manifest.tests.\"FS-540-HDS-010-SDS-010-SMS-020\";
       nodes = builtins.attrNames (inventory.realization.nodes or { });
       expectedNodes = [
-        \"mini-smt-dns-resolver-config-access-dns\"
-        \"mini-smt-dns-resolver-config-downstream-selector\"
-        \"mini-smt-dns-resolver-config-policy\"
-        \"mini-smt-dns-resolver-config-resolver-node\"
-        \"mini-smt-dns-resolver-config-upstream-selector\"
+        \"mini-smt-FS-540-HDS-010-SDS-010-SMS-020-access-dns\"
+        \"mini-smt-FS-540-HDS-010-SDS-010-SMS-020-downstream-selector\"
+        \"mini-smt-FS-540-HDS-010-SDS-010-SMS-020-policy\"
+        \"mini-smt-FS-540-HDS-010-SDS-010-SMS-020-resolver-node\"
+        \"mini-smt-FS-540-HDS-010-SDS-010-SMS-020-upstream-selector\"
       ];
       selected =
         (
@@ -97,17 +98,13 @@ check_artifact_mini_scope() {
   local surface="$1"
   local host="$2"
   local artifact="$3"
-  local renderer_key="$4"
   local summary count has_access has_resolver names
 
   summary="$(ssh_base "${host}" "set -euo pipefail
     test -f '${artifact}'
-    jq -r --arg renderer '${renderer_key}' '
+    jq -r --arg sms '${sms_trace_id}' '
       (
-        .control_plane_model.data.\"mini-smt\".\"dns-resolver-config\".runtimeTargets
-        // .control_plane_model.data.esp[\$renderer].runtimeTargets
-        // .control_plane_model.runtimeTargets
-        // .runtimeTargets
+        .control_plane_model.data.\"mini-smt\"[\$sms].runtimeTargets
         // {}
       ) as \$targets
       | (\$targets | keys | sort) as \$names
@@ -143,11 +140,9 @@ check_artifact_resolver_sources() {
 
   counts="$(ssh_base "${host}" "set -euo pipefail
     test -f '${artifact}'
-    jq -r '
+    jq -r --arg sms '${sms_trace_id}' '
       (
-        .control_plane_model.data.\"mini-smt\".\"dns-resolver-config\".runtimeTargets
-        // .control_plane_model.runtimeTargets
-        // .runtimeTargets
+        .control_plane_model.data.\"mini-smt\"[\$sms].runtimeTargets
         // {}
       ) as \$targets
       | [
@@ -390,8 +385,7 @@ check_current_lab_selection
 check_artifact_mini_scope \
   s-router-nixos \
   "${nixos_host}" \
-  /etc/network-artifacts/control-plane.json \
-  nixos
+  /etc/network-artifacts/control-plane.json
 
 check_artifact_resolver_sources \
   s-router-nixos \
@@ -401,8 +395,7 @@ check_artifact_resolver_sources \
 check_artifact_mini_scope \
   s-router-clab \
   "${clab_host}" \
-  /persist/s-router-clab/live-boot/network-artifacts/control-plane.json \
-  clab
+  /persist/s-router-clab/live-boot/network-artifacts/control-plane.json
 
 check_artifact_resolver_sources \
   s-router-clab \
