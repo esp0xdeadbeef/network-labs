@@ -1,9 +1,9 @@
 {
   layer = "SIT";
-  selector = "FS-800-HDS-030-SDS-030";
-  traceId = "FS-800-HDS-030-SDS-030";
+  selector = "FS-166-HDS-010-SDS-010";
+  traceId = "FS-166-HDS-010-SDS-010";
   sourceKind = "sds-integration-source";
-  sourceRoot = "GAMP/SIT/FS-800-HDS-030-SDS-030";
-  sourcePath = "GAMP/SIT/FS-800-HDS-030-SDS-030/default.nix";
-  selectedBy = "scripts/select-current-lab.sh SIT FS-800-HDS-030-SDS-030";
+  sourceRoot = "GAMP/SIT/FS-166-HDS-010-SDS-010";
+  sourcePath = "GAMP/SIT/FS-166-HDS-010-SDS-010/default.nix";
+  selectedBy = "scripts/select-current-lab.sh SIT FS-166-HDS-010-SDS-010";
 }
