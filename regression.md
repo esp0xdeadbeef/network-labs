@@ -332,6 +332,32 @@ blobs, or shared example fragments.
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
   proved `s-router-test-clients` has `routerContainers=0` and
   `dockerContainers=0` for this trace.
+- FS-500 p2p next-hop active-lab selection is current live-validated.
+  `network-labs@3083c4b` selected `FS-500-HDS-010-SDS-010-SMS-040` and
+  installed the five-node router-a -> downstream-selector -> policy ->
+  upstream-selector -> router-b active-lab source across NixOS and CLAB, with
+  no test-client router realization nodes. No owning-layer implementation fix
+  was needed during this 2026-07-01 re-run; the row-local mini-SMT, CPM
+  current-lab artifacts, and network-codex-agent p2p runtime-debugger fixture
+  all passed. Local `nixos` lock `30fb7d3a` consumed the propagated lock chain
+  (`network-compiler@f8e41c9`, `network-forwarding-model@6f776b8`,
+  `network-control-plane-model@c20c541`,
+  `network-renderer-wireguard@45e4451`,
+  `network-renderer-containerlab-linux-backend@1339f9e`,
+  `network-renderer-nebula@44c87c4`, `network-renderer-nixos@53db156`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-500-HDS-010-SDS-010-SMS-040 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
+  and the locked mini-SMT check ran from
+  `/nix/store/yp8cjm3ba8fgdyhyrlp76nm180gyqd01-source`. Follow-up verifier
+  `bash scripts/fs500-p2p-next-hop-active-lab-runtime-check.sh --live` proved
+  `s-router-nixos` and `s-router-clab` expose
+  `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
+  `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
+  proved `s-router-test-clients` has `routerContainers=0` and
+  `dockerContainers=0` for this trace.
 
 ## Still Broken
 
