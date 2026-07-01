@@ -20,7 +20,7 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-500-HDS-010-SDS-010-SMS-010\";
-    entry = manifest.tests.\"reachability-decision\";
+    entry = manifest.tests.\"FS-500-HDS-010-SDS-010-SMS-010\";
     relation = builtins.head lab.reachabilityRelations;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.reachabilityDecision relation;

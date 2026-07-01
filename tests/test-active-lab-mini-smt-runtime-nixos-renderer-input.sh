@@ -19,7 +19,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     nixosRenderer = builtins.getFlake \"path:${nixos_renderer_root}\";
     system = builtins.currentSystem;
     sms = import (repoRoot + \"/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900/default.nix\");
-    row = sms.sourceInputs.renderer-nixos;
+    row = sms.sourceInputs.\"FS-166-HDS-010-SDS-010-SMS-901\";
     sourcePath = repoRoot + \"/\" + row.sourcePath;
     cpm = import sourcePath;
     host = nixosRenderer.libBySystem.\${system}.renderer.buildHostFromControlPlane {

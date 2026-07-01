@@ -20,7 +20,7 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-500-HDS-010-SDS-010-SMS-040\";
-    entry = manifest.tests.\"p2p-next-hop\";
+    entry = manifest.tests.\"FS-500-HDS-010-SDS-010-SMS-040\";
     route = builtins.head lab.expectedRoutes;
     require = cond: msg: if cond then true else throw msg;
     valid = mini.validators.p2pRoute lab route;

@@ -36,7 +36,7 @@ rec {
     };
     render.hosts.s-router-test-clients.deploymentHost = "s-router-test-clients";
     realization.nodes = { };
-    data."mini-smt"."dns-resolver-config" = {
+    data."mini-smt"."FS-540-HDS-010-SDS-010-SMS-020" = {
       enterprise = "mini-smt";
       siteName = "dns-resolver-config";
       runtimeTargets = { };

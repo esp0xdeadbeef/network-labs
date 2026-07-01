@@ -1,6 +1,6 @@
 {
   "mini-smt" = {
-    "p2p-next-hop" = {
+    "FS-500-HDS-010-SDS-010-SMS-040" = {
       communicationContract = {
         interfaceTags = {
           external-testnet = "testnet";

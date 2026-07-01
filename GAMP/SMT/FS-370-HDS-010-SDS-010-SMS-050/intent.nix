@@ -1,6 +1,6 @@
 {
   "mini-smt" = {
-    "lane-egress-binding" = {
+    "FS-370-HDS-010-SDS-010-SMS-050" = {
       communicationContract = {
         interfaceTags = {
           external-testnet = "testnet";

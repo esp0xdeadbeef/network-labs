@@ -1,6 +1,6 @@
 {
   "mini-smt" = {
-    "internet-mode-verification" = {
+    "FS-380-HDS-020-SDS-010-SMS-050" = {
       communicationContract = {
         interfaceTags = {
           external-emulated-isp = "emulated-isp";

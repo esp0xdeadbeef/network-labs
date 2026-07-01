@@ -75,11 +75,12 @@ let
     && uplinks.management.bridge == "vlan2"
     && uplinks.management.ipv4.dhcp == true
     && uplinks.management.ipv6.acceptRA == false;
-  tenantBridge = "br-mini-smt-internet-mode-verification-tenant-client";
+  internetModeNode = "mini-smt-FS-380-HDS-020-SDS-010-SMS-050-client-edge";
+  tenantBridge = "br-mini-smt-FS-380-HDS-020-SDS-010-SMS-050-tenant-client";
   tenantPortOk = inventory:
-    inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.logicalInterface == "tenant-client"
-    && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.kind == "bridge"
-    && inventory.realization.nodes.mini-smt-internet-mode-verification-client-edge.ports.tenant-client.attach.bridge == tenantBridge
+    inventory.realization.nodes.${internetModeNode}.ports.tenant-client.logicalInterface == "tenant-client"
+    && inventory.realization.nodes.${internetModeNode}.ports.tenant-client.attach.kind == "bridge"
+    && inventory.realization.nodes.${internetModeNode}.ports.tenant-client.attach.bridge == tenantBridge
     && builtins.hasAttr tenantBridge inventory.deployment.hosts.s-router-clab.bridgeNetworks;
   noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
   noEndpointClientIntent = intent:
@@ -104,13 +105,13 @@ in
   && require (managementOk activeInventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos host-specific inventory alias must preserve VLAN2 management"
   && require (!(activeInventoryNixos.deploymentHosts ? s-router-test-clients)) "SMT/SIT NixOS host-specific inventory must not share test-client deployment host data"
   && require (managementOk inventoryNixos.deployment.hosts.s-router-nixos.uplinks) "nixos internet-mode must expose deployment.hosts management"
-  && require (inventoryNixos.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-nixos") "nixos internet-mode realization host mismatch"
+  && require (inventoryNixos.realization.nodes.${internetModeNode}.host == "s-router-nixos") "nixos internet-mode realization host mismatch"
   && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode must preserve VLAN2 management"
   && require (managementOk activeInventoryClab.deploymentHosts.s-router-clab.uplinks) "clab host-specific inventory alias must preserve VLAN2 management"
   && require (managementOk inventoryClab.deployment.hosts.s-router-clab.uplinks) "clab internet-mode must expose deployment.hosts management"
-  && require (inventoryClab.realization.nodes.mini-smt-internet-mode-verification-client-edge.host == "s-router-clab") "clab internet-mode realization host mismatch"
+  && require (inventoryClab.realization.nodes.${internetModeNode}.host == "s-router-clab") "clab internet-mode realization host mismatch"
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
@@ -347,7 +348,7 @@ in
   && require (current.selection.sourceRoot == "GAMP/SIT/FS-500-HDS-010-SDS-010") "SIT source root mismatch"
   && require (current.selection.sourcePath == "GAMP/SIT/FS-500-HDS-010-SDS-010/default.nix") "SIT source path mismatch"
   && require (active.intent ? "mini-smt") "SIT selection must install the row-local mini-SMT source"
-  && require (active.intent."mini-smt" ? "reachability-decision") "SIT FS-500 must select its first registered mini-SMT source"
+  && require (active.intent."mini-smt" ? "FS-500-HDS-010-SDS-010-SMS-010") "SIT FS-500 must select its first registered mini-SMT source"
   && require (inventoryNixos.deploymentHosts ? s-router-nixos) "SIT selection must install runnable NixOS inventory"
 ' >/dev/null || fail "SIT selection failed"
 
@@ -364,11 +365,11 @@ let
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-lane-egress-binding-client-edge"
-    "mini-smt-lane-egress-binding-downstream-selector"
-    "mini-smt-lane-egress-binding-policy"
-    "mini-smt-lane-egress-binding-testnet-edge"
-    "mini-smt-lane-egress-binding-upstream-selector"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-client-edge"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-downstream-selector"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-policy"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-testnet-edge"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
@@ -378,7 +379,7 @@ in
   && require (current.selection.selector == "FS-370-HDS-010-SDS-010") "FS-370 SIT selector id mismatch"
   && require (current.selection.sourceRoot == "GAMP/SIT/FS-370-HDS-010-SDS-010") "FS-370 SIT source root mismatch"
   && require (active.intent ? "mini-smt") "FS-370 SIT selection must install the row-local mini-SMT source"
-  && require (active.intent."mini-smt" ? "lane-egress-binding") "FS-370 SIT must select the lane-egress mini source"
+  && require (active.intent."mini-smt" ? "FS-370-HDS-010-SDS-010-SMS-050") "FS-370 SIT must select the lane-egress mini source"
   && require (manifest.tests."FS-370-HDS-010-SDS-010-SMS-050".maxRuntimeTargets == 5) "FS-370 lane-egress mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-370 NixOS SIT must realize exactly the five-node lane path"
   && require (clabNodes == expectedNodes) "FS-370 CLAB SIT must realize exactly the five-node lane path"
@@ -407,11 +408,11 @@ let
   sopsHetz = import (repoRoot + "/active-lab/sops-routing-s-router-hetz.nix") {};
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-dns-resolver-config-access-dns"
-    "mini-smt-dns-resolver-config-downstream-selector"
-    "mini-smt-dns-resolver-config-policy"
-    "mini-smt-dns-resolver-config-resolver-node"
-    "mini-smt-dns-resolver-config-upstream-selector"
+    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-access-dns"
+    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-downstream-selector"
+    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-policy"
+    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-resolver-node"
+    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
@@ -420,14 +421,14 @@ let
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
   hetzUplinks = inventoryHetz.deploymentHosts.s-router-hetz.uplinks;
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
-  clientSite = activeIntentClients.control_plane_model.data."mini-smt"."dns-resolver-config";
+  clientSite = activeIntentClients.control_plane_model.data."mini-smt"."FS-540-HDS-010-SDS-010-SMS-020";
   clientEndpoint = clientSite.endpointAssignment."dns-resolver-config-access-dns" or {};
 in
   require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
   && require (current.selection.sourceRoot == "GAMP/SIT/FS-540-HDS-010-SDS-010") "FS-540 SIT source root mismatch"
   && require (active.intent ? "mini-smt") "FS-540 SIT selection must install the row-local mini-SMT source"
-  && require (active.intent."mini-smt" ? "dns-resolver-config") "FS-540 SIT must select the DNS resolver mini source"
+  && require (active.intent."mini-smt" ? "FS-540-HDS-010-SDS-010-SMS-020") "FS-540 SIT must select the DNS resolver mini source"
   && require (manifest.tests."FS-540-HDS-010-SDS-010-SMS-020".maxRuntimeTargets == 5) "FS-540 DNS resolver mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-540 NixOS SIT must realize exactly the five-node DNS mini path"
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
@@ -470,12 +471,12 @@ let
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-provider-access-default-route-downstream-selector"
-    "mini-smt-provider-access-default-route-fabric-core"
-    "mini-smt-provider-access-default-route-policy"
-    "mini-smt-provider-access-default-route-pppoe-core"
-    "mini-smt-provider-access-default-route-provider-handoff-access-a"
-    "mini-smt-provider-access-default-route-upstream-selector"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-downstream-selector"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-fabric-core"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-policy"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-pppoe-core"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-provider-handoff-access-a"
+    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;

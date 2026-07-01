@@ -18,7 +18,7 @@ fail() {
 nix eval --impure --expr "
   let
     intent = import ${intent_file};
-    lab = intent.\"mini-smt\".\"provider-access-default-route\";
+    lab = intent.\"mini-smt\".\"FS-800-HDS-010-SDS-020-SMS-040\";
     require = cond: msg: if cond then true else throw msg;
     nodes = builtins.attrNames lab.topology.nodes;
     links = lab.topology.links;

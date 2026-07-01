@@ -4,7 +4,7 @@
 
 {
   "mini-smt" = {
-    "provider-access-default-route" = {
+    "FS-800-HDS-010-SDS-020-SMS-040" = {
       communicationContract = {
         interfaceTags = {
           external-isp = "isp";

@@ -20,9 +20,9 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-800-HDS-030-SDS-030-SMS-010\";
-    entry = manifest.tests.\"pppoe-pairing\";
+    entry = manifest.tests.\"FS-800-HDS-030-SDS-030-SMS-010\";
     rowIntent = import ${repo_root}/GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/intent.nix;
-    rowSource = rowIntent.\"mini-smt\".\"pppoe-pairing\";
+    rowSource = rowIntent.\"mini-smt\".\"FS-800-HDS-030-SDS-030-SMS-010\";
     pair = lab.pppoePairs.primary;
     require = cond: msg: if cond then true else throw msg;
     rowNodes = builtins.attrNames rowSource.topology.nodes;
