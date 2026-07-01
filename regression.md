@@ -393,6 +393,34 @@ blobs, or shared example fragments.
   `clab-fabric-34c57-939e1-lab-emulation-fs540-dns-resolver-testnet`; and
   both NixOS and CLAB `access-dns` resolved `cache.nixos.org` without Docker or
   host public resolver fallback on the CLAB resolver-node.
+- FS-800 provider default-route active-lab SIT selection is current
+  live-validated. `network-labs@0a72554` selected
+  `FS-800-HDS-010-SDS-020`, consuming the row-local
+  `FS-800-HDS-010-SDS-020-SMS-040` provider-handoff default-route source for
+  the six-node provider-handoff -> downstream-selector -> policy ->
+  upstream-selector -> fabric-core/pppoe-core path. During live validation,
+  `network-codex-agent@5a199592` fixed the CLAB readiness harness for
+  renderer-scoped over-length Containerlab names, and `network-labs@7aafaa02`
+  fixed this row's live SIT probe to resolve CLAB containers from deployed
+  control-plane and topology artifacts instead of stale
+  `mini-smt-provider-access-default-route-*` aliases. Local `nixos` lock
+  `7f179048` consumed the propagated lock chain (`network-compiler@fb25dc07`,
+  `network-forwarding-model@de241c07`,
+  `network-control-plane-model@d3466d6b`,
+  `network-renderer-containerlab-linux-backend@384744d3`,
+  `network-renderer-nebula@1db0ffe6`, `network-renderer-nixos@33d99142`).
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-800-HDS-010-SDS-020 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=6 lab-emulation=0`,
+  and locked checks ran from
+  `/nix/store/cnz1s6i9y7cf5alff6c821s5v6ym90cc-source`. Follow-up verifier
+  `bash scripts/fs800-provider-default-route-active-lab-runtime-check.sh --live`
+  proved NixOS and CLAB `provider-handoff-access-a` own
+  `203.0.113.1` and route default/public egress via fabric gateway
+  `10.80.255.2` on `p0` with no PPP leak; NixOS and CLAB `pppoe-core` keep
+  their default route on uplink `u0`; and `s-router-test-clients` has
+  `renderedContainers=0`, `providerDefaultRouteUnits=0`, and
+  `providerHandoffUnits=0`.
 
 ## Still Broken
 
