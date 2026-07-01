@@ -147,9 +147,10 @@ SMT construction stubs). The authoritative manifest is
 As of 2026-06-30, `tests/test-gamp-canonical-sms-mirror.sh` verifies 510
 canonical SMS trace IDs mirrored from `network-codex-agent/GAMP/SMS`, with no
 `RDR` matches and no duplicate canonical SMS IDs. `network-labs/GAMP/SMS` and
-`network-labs/GAMP/SMT` contain 512 SMS-scoped row directories: the 510
-canonical mirrors plus two lab-local rows
-(`FS-720-HDS-010-SDS-020-SMS-040`,
+`network-labs/GAMP/SMT` contain 518 SMS-scoped row directories: the 510
+canonical mirrors plus eight lab-local rows (`FS-166-HDS-010-SDS-010-SMS-901`
+through `FS-166-HDS-010-SDS-010-SMS-906`,
+`FS-720-HDS-010-SDS-020-SMS-040`, and
 `FS-800-HDS-030-SDS-030-SMS-040`).
 
 Current active-lab runnable SMT shims are exactly the 15 IDs in
@@ -172,10 +173,12 @@ They are construction/local-build evidence only and are not selected by
 `tests/run-active-lab-mini-smt.sh`.
 
 All remaining SMS-scoped rows are source-stub-only or prepared-only until a
-focused command is registered and passes. `FS-720-HDS-010-SDS-020-SMS-020` is
-explicitly `NOT OK`: its source fixture exists, but
-`endpoint-harness-consumption` is not registered in
-`GAMP/SMT/mini-smt/tests.nix` and no executable focused mini-SMT script exists.
+focused command or owning repository proof is registered and passes.
+`FS-720-HDS-010-SDS-020-SMS-020` is the construction-only exception: its
+source fixture exists in this repo, the owning proof is
+`network-codex-agent@d7f20211`, and it is intentionally not registered in
+`GAMP/SMT/mini-smt/tests.nix` because the governing SMS excludes live runtime
+evidence from this module scope.
 
 HAT and SAT selection shims are separate from SMT:
 `scripts/select-current-lab.sh HAT` selects
@@ -188,9 +191,11 @@ selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
 - Guard command: `bash tests/test-active-lab-shim-classification.sh` (PASS).
 - Canonical `network-codex-agent/GAMP/SMS` traces: 510, with zero `RDR`
   matches and zero duplicate canonical SMS IDs.
-- `network-labs/GAMP/SMS` and `network-labs/GAMP/SMT` trace directories: 512
+- `network-labs/GAMP/SMS` and `network-labs/GAMP/SMT` trace directories: 518
   each, consisting of the 510 canonical mirrors plus lab-local
-  `FS-720-HDS-010-SDS-020-SMS-040` and
+  `FS-166-HDS-010-SDS-010-SMS-901` through
+  `FS-166-HDS-010-SDS-010-SMS-906`,
+  `FS-720-HDS-010-SDS-020-SMS-040`, and
   `FS-800-HDS-030-SDS-030-SMS-040`.
 - `network-labs/GAMP/SDS` and `network-labs/GAMP/SIT` trace directories: 176
   each, all mirrored from canonical parent SDS rows.

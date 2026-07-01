@@ -33,5 +33,5 @@ SAT approval evidence.
 Rows outside that table are source-stub-only or prepared-only unless their own
 row says otherwise. Standalone row-local checks outside the active runner:
 `FS-310-HDS-010-SDS-010-SMS-030` and
-`FS-800-HDS-010-SDS-020-SMS-040`. Prepared but not runnable:
-`FS-720-HDS-010-SDS-020-SMS-020`.
+`FS-800-HDS-010-SDS-020-SMS-040`. Construction-only and intentionally not
+active-lab runnable: `FS-720-HDS-010-SDS-020-SMS-020`.

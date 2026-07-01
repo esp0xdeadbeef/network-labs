@@ -8,6 +8,9 @@ currently keeps these prepared SMS inputs visible:
 - `FS-720-HDS-010-SDS-020-SMS-020`
 - `FS-720-HDS-010-SDS-020-SMS-040`
 
-Status: NOT OK - prepared source only. `endpoint-harness-consumption` is not
-registered in `GAMP/SMT/mini-smt/tests.nix`, and no executable focused mini-SMT
-script exists yet.
+Status: OK - construction/source-artifact evidence only. The owning NCA proof
+`NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-s-router-fs720-source-harness-integration.sh`
+passed at `network-codex-agent@d7f20211` with evidence under
+`/tmp/hat-sat-agent-fs720-sit-source-harness-integration-high/run.Gp2DgG`.
+This row is intentionally not an active-lab mini runtime selector and does not
+claim HAT/SAT acceptance.
