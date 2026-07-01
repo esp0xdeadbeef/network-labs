@@ -20,7 +20,7 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-500-HDS-010-SDS-010-SMS-030\";
-    entry = manifest.tests.\"decision-reason-diagnostic\";
+    entry = manifest.tests.\"FS-500-HDS-010-SDS-010-SMS-030\";
     require = cond: msg: if cond then true else throw msg;
     validPath = mini.validators.decisionReasonDiagnostic {
       relationId = \"FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic\";

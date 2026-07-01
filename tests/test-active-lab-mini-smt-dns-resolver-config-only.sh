@@ -25,7 +25,7 @@ nix eval --impure --expr "
     clabInventory = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/inventory-clab.nix;
     testClientsInventory = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/inventory-test-clients.nix;
     testClientsIntent = import ${repo_root}/GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent-test-clients.nix;
-    site = rowIntent.\"mini-smt\".\"dns-resolver-config\";
+    site = rowIntent.\"mini-smt\".\"FS-540-HDS-010-SDS-010-SMS-020\";
     expectedRelationIds = [
       \"FS-540-HDS-010-SDS-010-SMS-020__mini-client-to-access-dns\"
       \"FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet\"
@@ -46,9 +46,9 @@ nix eval --impure --expr "
     ownershipEndpoints = builtins.filter (endpoint: (endpoint.name or null) == \"access-dns\") (site.ownership.endpoints or [ ]);
     nixosAccessEndpoint = (nixosInventory.endpoints or {}).\"access-dns\" or {};
     clabAccessEndpoint = (clabInventory.endpoints or {}).\"access-dns\" or {};
-    testClientSite = testClientsIntent.control_plane_model.data.\"mini-smt\".\"dns-resolver-config\";
+    testClientSite = testClientsIntent.control_plane_model.data.\"mini-smt\".\"FS-540-HDS-010-SDS-010-SMS-020\";
     testClientEndpoint = testClientSite.endpointAssignment.\"dns-resolver-config-access-dns\" or {};
-    entry = manifest.tests.\"dns-resolver-config\";
+    entry = manifest.tests.\"FS-540-HDS-010-SDS-010-SMS-020\";
     clabProvider = builtins.head clabInventory.containerlab.labEmulation.requests;
     require = cond: msg: if cond then true else throw msg;
     validResults = builtins.map mini.validators.dnsResolverConfig lab.dnsResolverRelations;

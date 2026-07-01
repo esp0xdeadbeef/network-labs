@@ -1,6 +1,6 @@
 {
   "mini-smt" = {
-    "decision-reason-diagnostic" = {
+    "FS-500-HDS-010-SDS-010-SMS-030" = {
       communicationContract = {
         interfaceTags = {
           external-testnet = "testnet";

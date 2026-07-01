@@ -20,7 +20,7 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-370-HDS-010-SDS-010-SMS-050\";
-    entry = manifest.tests.\"lane-egress-binding\";
+    entry = manifest.tests.\"FS-370-HDS-010-SDS-010-SMS-050\";
     relation = builtins.head lab.laneEgressRelations;
     expectedTargets = [
       \"client-edge\"

@@ -1,6 +1,6 @@
 {
   "mini-smt" = {
-    "pppoe-pairing" = {
+    "FS-800-HDS-030-SDS-030-SMS-010" = {
       communicationContract = {
         interfaceTags = {
           external-pppoe = "pppoe-provider";

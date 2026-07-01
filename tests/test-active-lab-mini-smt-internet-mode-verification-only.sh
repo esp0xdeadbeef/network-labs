@@ -20,7 +20,7 @@ nix eval --impure --expr "
     mini = import ${mini_file};
     manifest = import ${manifest_file};
     lab = mini.labs.\"FS-380-HDS-020-SDS-010-SMS-050\";
-    entry = manifest.tests.\"internet-mode-verification\";
+    entry = manifest.tests.\"FS-380-HDS-020-SDS-010-SMS-050\";
     rowRoot = ${repo_root}/GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-050;
     inventoryNixos = import (rowRoot + \"/inventory-nixos.nix\");
     inventoryClab = import (rowRoot + \"/inventory-clab.nix\");

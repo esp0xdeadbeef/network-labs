@@ -58,7 +58,7 @@ check_current_lab_selection() {
       current = import ${repo_root}/current-lab;
       inventory = import ${repo_root}/current-lab/inventory-nixos.nix;
       manifest = import ${repo_root}/GAMP/SMT/mini-smt/tests.nix;
-      entry = manifest.tests.\"dns-resolver-config\";
+      entry = manifest.tests.\"FS-540-HDS-010-SDS-010-SMS-020\";
       nodes = builtins.attrNames (inventory.realization.nodes or { });
       expectedNodes = [
         \"mini-smt-dns-resolver-config-access-dns\"
