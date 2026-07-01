@@ -225,6 +225,35 @@ blobs, or shared example fragments.
   artifacts with `runtimeTargets=5` and `uplinkLaneHits=1`; it also proved
   `s-router-test-clients` exposes `rendered-host.json` with `routerContainers=0`,
   `hostBridges=5`, and `uplink=testnet`.
+- FS-380 internet-mode active-lab selection is current live-validated.
+  `network-labs@7fe8e72` selected `FS-380-HDS-020-SDS-010-SMS-050` and
+  installed the five-node PPPoE/VLAN4/VLAN5 internet-mode current-lab source
+  across the NixOS, CLAB, and test-client surfaces. The first wrong layer found
+  during this 2026-07-01 re-run was stale construction-test addressing: CPM
+  and CLAB renderer tests still looked for legacy `internet-mode-verification`
+  site/node keys while current artifacts are keyed by the full trace ID.
+  `network-control-plane-model@c3219c5` and
+  `network-renderer-containerlab-linux-backend@8144845` updated those tests.
+  Local `nixos` lock `79237a19` consumed the propagated lock chain
+  (`network-compiler@4d53c69`, `network-forwarding-model@555a08d`,
+  `network-control-plane-model@93d84f6`,
+  `network-renderer-containerlab-linux-backend@200502f`,
+  `network-renderer-nebula@d510554`, `network-renderer-nixos@300dfef`,
+  `network-renderer-wireguard@a15e550`). The scoped live loop passed on
+  2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-380-HDS-020-SDS-010-SMS-050 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=1`,
+  and the locked mini-SMT check ran from
+  `/nix/store/cwf875ckzdr9w9hgs298xr556lf9r94l-source`. Follow-up verifier
+  `bash scripts/fs380-active-lab-internet-mode-runtime-check.sh --live` proved
+  `s-router-nixos` and `s-router-clab` expose trace-matched control-plane
+  artifacts with `runtimeTargets=5`, `bridgeNetworks=6`, `privateNat44=1`, and
+  `uplinks=internet-vlan4,internet-vlan5`; both surfaces successfully pinged
+  `1.1.1.1` from `10.20.20.1`. It also proved `s-router-test-clients` exposes
+  the VLAN4/VLAN5 host substrate with `runtimeTargets=0`, `bridgeNetworks=0`,
+  `privateNat44=0`, and no router fabric containers.
 
 ## Still Broken
 
