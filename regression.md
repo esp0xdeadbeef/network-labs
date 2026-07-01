@@ -254,6 +254,32 @@ blobs, or shared example fragments.
   `1.1.1.1` from `10.20.20.1`. It also proved `s-router-test-clients` exposes
   the VLAN4/VLAN5 host substrate with `runtimeTargets=0`, `bridgeNetworks=0`,
   `privateNat44=0`, and no router fabric containers.
+- FS-470 WireGuard remote-egress active-lab selection is current
+  live-validated. `network-labs@39f963b` selected
+  `FS-470-HDS-010-SDS-010-SMS-010` and installed the row-local
+  renderer-input CPM for the NixOS WireGuard provider runtime while keeping
+  explicit empty host intents for CLAB and test-client surfaces. No owning-layer
+  implementation fix was needed during this 2026-07-01 re-run; the row-local
+  mini-SMT and focused WireGuard renderer SMT already passed. Local `nixos`
+  lock `038a4409` consumed the propagated lock chain
+  (`network-compiler@e109a88`, `network-forwarding-model@a20716c`,
+  `network-control-plane-model@37deff9`,
+  `network-renderer-wireguard@526279d`,
+  `network-renderer-containerlab-linux-backend@c5de2e4`,
+  `network-renderer-nebula@ce6bcc8`, `network-renderer-nixos@36444ec`).
+  The scoped live loop passed on 2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-470-HDS-010-SDS-010-SMS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported
+  `active-targets=0 lab-emulation=0 no-runtime=true`, and the locked mini-SMT
+  check ran from `/nix/store/amncwykxph73bl4sbn9gasszii9c1g3c-source`.
+  Follow-up verifier
+  `bash scripts/fs470-active-lab-wireguard-remote-egress-runtime-check.sh --live`
+  proved `s-router-nixos` exposes `/etc/network-artifacts/control-plane.json`
+  with `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
+  `s-router-clab` and `s-router-test-clients` have no remote-egress runtime and
+  expose trace-matched empty active-lab host intents.
 
 ## Still Broken
 
