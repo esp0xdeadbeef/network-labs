@@ -88,8 +88,13 @@ blobs, or shared example fragments.
   rejected a non-CLAB runtime target without `routingMode`. Local proofs passed:
   `bash tests/test-current-lab-selector.sh`, `bash tests/run-active-lab-mini-smt.sh --source FS-166-HDS-010-SDS-010-SMS-901`,
   `bash tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-901`, and
-  `bash tests/test-active-lab-minimal-entrypoints.sh`. Live revalidation still
-  requires the NixOS lock to consume this committed `network-labs` revision.
+  `bash tests/test-active-lab-minimal-entrypoints.sh`. Live proof passed on
+  2026-07-01 after local `nixos` lock commit `a41d77c4` consumed
+  `network-labs@19fa364`: scoped full loop
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010-SMS-901 bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, and `bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
+  proved `s-router-nixos` runs `poc-router` while `s-router-clab` and
+  `s-router-test-clients` expose explicit empty no-runtime host artifacts.
 
 ## Still Broken
 
