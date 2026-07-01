@@ -26,6 +26,24 @@ rec {
       bridgeNetworks = { };
     };
     render.hosts.s-router-clab.deploymentHost = "s-router-clab";
+    realization.nodes = {
+      edge-a = {
+        host = "s-router-clab";
+        logicalNode = {
+          enterprise = "acme";
+          site = "lab";
+          name = "edge-a";
+        };
+      };
+      edge-b = {
+        host = "s-router-clab";
+        logicalNode = {
+          enterprise = "acme";
+          site = "lab";
+          name = "edge-b";
+        };
+      };
+    };
     data.acme.lab = {
       siteName = "acme.lab";
       runtimeTargets = {

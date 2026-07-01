@@ -217,6 +217,8 @@ let
   defaultTrace = "FS-166-HDS-010-SDS-010-SMS-901";
   clabTrace = "FS-166-HDS-010-SDS-010-SMS-904";
   clabTargets = builtins.attrNames activeIntentClab.control_plane_model.data.acme.lab.runtimeTargets;
+  clabRealizationNodes = inventoryClab.realization.nodes or { };
+  clabRealizationNames = builtins.attrNames clabRealizationNodes;
 in
   require (current.selection.layer == "SMT") "renderer-clab selector layer mismatch"
   && require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-904") "renderer-clab selector id mismatch"
@@ -228,6 +230,11 @@ in
   && require (clabTargets == [ "edge-a" "edge-b" ]) "renderer-clab s-router-clab host intent must expose only edge-a and edge-b"
   && require (activeIntentClab.control_plane_model.render.hosts.s-router-clab.deploymentHost == "s-router-clab") "renderer-clab s-router-clab host intent must target s-router-clab"
   && require (activeIntentClab.deploymentHosts ? s-router-clab) "renderer-clab s-router-clab host intent must expose s-router-clab deployment host"
+  && require (clabRealizationNames == [ "edge-a" "edge-b" ]) "renderer-clab inventory must expose realization nodes for edge-a and edge-b"
+  && require (clabRealizationNodes.edge-a.host == "s-router-clab") "renderer-clab edge-a realization host mismatch"
+  && require (clabRealizationNodes.edge-b.host == "s-router-clab") "renderer-clab edge-b realization host mismatch"
+  && require (clabRealizationNodes.edge-a.logicalNode == activeIntentClab.control_plane_model.data.acme.lab.runtimeTargets.edge-a.logicalNode) "renderer-clab edge-a realization logical node mismatch"
+  && require (clabRealizationNodes.edge-b.logicalNode == activeIntentClab.control_plane_model.data.acme.lab.runtimeTargets.edge-b.logicalNode) "renderer-clab edge-b realization logical node mismatch"
   && require (activeIntentClients.control_plane_model.meta.traceId == clabTrace) "renderer-clab must install a CLAB-trace no-runtime test-client host intent"
   && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-clab must not expose CLAB targets on s-router-test-clients"
   && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "renderer-clab test-client no-runtime intent must keep host substrate"

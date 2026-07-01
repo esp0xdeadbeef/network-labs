@@ -113,6 +113,7 @@ in
 
   deployment = cpm.control_plane_model.deployment;
   deploymentHosts = cpm.deploymentHosts;
+  realization = cpm.control_plane_model.realization or { nodes = { }; };
 }
 EOF
 }

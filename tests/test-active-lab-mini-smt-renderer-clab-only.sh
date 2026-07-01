@@ -23,11 +23,18 @@ let
   require = cond: msg: if cond then true else throw msg;
   targets = input.control_plane_model.data.acme.lab.runtimeTargets;
   targetNames = builtins.attrNames targets;
+  realizationNodes = input.control_plane_model.realization.nodes or { };
+  realizationNames = builtins.attrNames realizationNodes;
 in
   require (input.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-904") "clab source trace mismatch"
   && require (targetNames == [ "edge-a" "edge-b" ]) "clab source must expose exactly edge-a and edge-b"
   && require (targets.edge-a.placement.host == "s-router-clab") "edge-a must target s-router-clab"
   && require (targets.edge-b.placement.host == "s-router-clab") "edge-b must target s-router-clab"
+  && require (realizationNames == [ "edge-a" "edge-b" ]) "clab source must expose realization nodes for edge-a and edge-b"
+  && require (realizationNodes.edge-a.host == "s-router-clab") "edge-a realization node must target s-router-clab"
+  && require (realizationNodes.edge-b.host == "s-router-clab") "edge-b realization node must target s-router-clab"
+  && require (realizationNodes.edge-a.logicalNode == targets.edge-a.logicalNode) "edge-a realization logical node must match runtime target"
+  && require (realizationNodes.edge-b.logicalNode == targets.edge-b.logicalNode) "edge-b realization logical node must match runtime target"
   && require (input.control_plane_model.render.hosts.s-router-clab.deploymentHost == "s-router-clab") "clab renderer input must target s-router-clab"
   && require (input.deploymentHosts ? s-router-clab) "clab renderer input must expose s-router-clab deployment host"
   && require (input.deploymentHosts.s-router-clab.uplinks.management.vlan == 2) "clab renderer input must preserve VLAN2 as management only"
@@ -37,6 +44,12 @@ nix eval --impure --json --expr \
   "import ${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix" \
   >"${tmpdir}/cpm.json"
 
+nix eval --impure --json --expr \
+  "let cpm = import ${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix; in { deployment = cpm.control_plane_model.deployment; deploymentHosts = cpm.deploymentHosts; realization = cpm.control_plane_model.realization; }" \
+  >"${tmpdir}/renderer-inventory.json"
+
+CLABGEN_RENDERER_INVENTORY_JSON="${tmpdir}/renderer-inventory.json" \
+CLABGEN_DEPLOYMENT_HOST="s-router-clab" \
 nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \
   "path:${clab_renderer_root}#generate-clab-config" -- \
   "${tmpdir}/cpm.json" \
