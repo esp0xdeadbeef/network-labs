@@ -371,7 +371,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             parent = "hat-route-import";
             upstream = "route-import";
           };
-          uplink-isp-a = {
+          isp-a = {
             bridge = "br-uplink0";
             ipv4 = {
               dhcp = true;
@@ -382,9 +382,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "slaac";
             };
             parent = "eth0";
-            upstream = "isp-a";
           };
-          uplink-isp-b = {
+          isp-b = {
             bridge = "br-uplink-bgp";
             ipv4 = {
               address = "198.51.100.2/24";
@@ -395,7 +394,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "static";
             };
             parent = "eth0";
-            upstream = "isp-b";
           };
           uplink-testnet-host-isp = {
             bridge = "br-t-host";
@@ -453,7 +451,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
           "esp0xdeadbeef::site-a::nixos-core-route-import" = "route-import";
           "esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" = "uplink-testnet-host-isp";
           "esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
-          "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "uplink-isp-a";
+          "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "isp-a";
           "esp0xdeadbeef::site-a::nixos-core-wireguard-host128" = "wireguard-host128";
           "esp0xdeadbeef::site-a::nixos-core-wireguard-remote-egress" = "wireguard-egress";
           "esp0xdeadbeef::site-b::clab-core-commercial-vpn" = "commercial-vpn";
@@ -461,8 +459,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
           "esp0xdeadbeef::site-b::clab-core-route-import" = "route-import";
           "esp0xdeadbeef::site-b::clab-core-testnet-host-isp" = "uplink-testnet-host-isp";
           "esp0xdeadbeef::site-b::clab-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
-          "esp0xdeadbeef::site-b::clab-core-bgp-uplink-isp-b" = "uplink-isp-b";
-          "esp0xdeadbeef::site-b::clab-core-upstream-vlan4" = "uplink-isp-a";
+          "esp0xdeadbeef::site-b::clab-core-bgp-uplink-isp-b" = "isp-b";
+          "esp0xdeadbeef::site-b::clab-core-upstream-vlan4" = "isp-a";
           "esp0xdeadbeef::site-b::clab-core-wireguard-host128" = "wireguard-host128";
           "esp0xdeadbeef::site-b::clab-core-wireguard-remote-egress" = "wireguard-egress";
         };
@@ -571,7 +569,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             parent = "hat-route-import";
             upstream = "route-import";
           };
-          uplink-isp-a = {
+          isp-a = {
             bridge = "stub-nixos-br-uplink0";
             ipv4 = {
               dhcp = true;
@@ -582,9 +580,8 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "slaac";
             };
             parent = "eth0";
-            upstream = "isp-a";
           };
-          uplink-isp-b = {
+          isp-b = {
             bridge = "stub-nixos-br-uplink-bgp";
             ipv4 = {
               address = "198.51.100.2/24";
@@ -595,7 +592,6 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               method = "static";
             };
             parent = "eth0";
-            upstream = "isp-b";
           };
           uplink-testnet-host-isp = {
             bridge = "stub-nixos-br-t-host";
@@ -648,13 +644,13 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
           };
         };
         wanGroupToUplink = {
-          "esp0xdeadbeef::site-a::nixos-core-bgp-uplink-isp-b" = "uplink-isp-b";
+          "esp0xdeadbeef::site-a::nixos-core-bgp-uplink-isp-b" = "isp-b";
           "esp0xdeadbeef::site-a::nixos-core-commercial-vpn" = "commercial-vpn";
           "esp0xdeadbeef::site-a::nixos-core-nebula" = "nebula-egress";
           "esp0xdeadbeef::site-a::nixos-core-route-import" = "route-import";
           "esp0xdeadbeef::site-a::nixos-core-testnet-host-isp" = "uplink-testnet-host-isp";
           "esp0xdeadbeef::site-a::nixos-core-testnet-routed-isp" = "uplink-testnet-routed-isp";
-          "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "uplink-isp-a";
+          "esp0xdeadbeef::site-a::nixos-core-upstream-vlan4" = "isp-a";
           "esp0xdeadbeef::site-a::nixos-core-wireguard-host128" = "wireguard-host128";
           "esp0xdeadbeef::site-a::nixos-core-wireguard-remote-egress" = "wireguard-egress";
         };
@@ -1187,7 +1183,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             attach = {
               bridge = "stub-nixos-br-uplink0";
               kind = "bridge";
-              parentUplink = "uplink-isp-a";
+              parentUplink = "isp-a";
             };
             external = true;
             interface = {
@@ -1221,7 +1217,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             attach = {
               bridge = "stub-nixos-br-uplink-bgp";
               kind = "bridge";
-              parentUplink = "uplink-isp-b";
+              parentUplink = "isp-b";
             };
             external = true;
             interface = {
@@ -2762,7 +2758,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             attach = {
               bridge = "br-uplink0";
               kind = "bridge";
-              parentUplink = "uplink-isp-a";
+              parentUplink = "isp-a";
             };
             external = true;
             interface = {
@@ -2796,7 +2792,7 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             attach = {
               bridge = "br-uplink-bgp";
               kind = "bridge";
-              parentUplink = "uplink-isp-b";
+              parentUplink = "isp-b";
             };
             external = true;
             interface = {
