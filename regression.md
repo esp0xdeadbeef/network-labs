@@ -248,6 +248,29 @@ blobs, or shared example fragments.
   artifacts with `runtimeTargets=5` and `uplinkLaneHits=1`; it also proved
   `s-router-test-clients` exposes `rendered-host.json` with `routerContainers=0`,
   `hostBridges=5`, and `uplink=testnet`.
+- FS-370 parent SIT active-lab selection is current live-validated.
+  `network-labs@bffb523` selected `FS-370-HDS-010-SDS-010`, which resolves the
+  parent SIT to `FS-370-HDS-010-SDS-010-SMS-050`. Local `nixos` lock
+  `5c73858e` consumed the propagated lock chain (`network-compiler@6e42982`,
+  `network-forwarding-model@6288a4e`, `network-control-plane-model@f557d2b`,
+  `network-renderer-access-endpoint-nixos@d5b6770`,
+  `network-renderer-containerlab-linux-backend@ab5feeb`,
+  `network-renderer-nebula@f2a6cb6`, `network-renderer-nixos@d844c27`,
+  `network-renderer-wireguard@15ddeb4`). The scoped full loop passed on
+  2026-07-01 with
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-370-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
+  Evidence included locked SIT selection from
+  `/nix/store/w35vqw31pbjj7ckg82k9dqdivmrw6kiv-source`, CLAB readiness
+  `active-targets=5 lab-emulation=0`, locked mini-SMT and all three CPM lane
+  artifact checks PASS, local build hash `6xrmas7rfyi7py9f721sbq1nsb7nqz81`,
+  post-reboot hash `jxy18dv36cl025lz1hfvgghfgq46q1i5`, and normalized renderer
+  JSON match. Standalone verifier
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live`
+  passed and proved `s-router-nixos` and `s-router-clab` expose
+  `runtimeTargets=5` with `uplinkLaneHits=1`, while `s-router-test-clients`
+  exposes `rendered-host.json` with `routerContainers=0`, `hostBridges=5`, and
+  `uplink=testnet`. This records parent SIT/child SMS-050 runtime proof only;
+  it does not claim HAT/SAT acceptance.
 - FS-380 internet-mode active-lab selection is current live-validated.
   `network-labs@7fe8e72` selected `FS-380-HDS-020-SDS-010-SMS-050` and
   installed the five-node PPPoE/VLAN4/VLAN5 internet-mode current-lab source
