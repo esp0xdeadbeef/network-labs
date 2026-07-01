@@ -210,6 +210,7 @@ let
   active = import (repoRoot + "/active-lab");
   activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
   activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
   require = cond: msg: if cond then true else throw msg;
@@ -227,6 +228,9 @@ in
   && require (clabTargets == [ "edge-a" "edge-b" ]) "renderer-clab s-router-clab host intent must expose only edge-a and edge-b"
   && require (activeIntentClab.control_plane_model.render.hosts.s-router-clab.deploymentHost == "s-router-clab") "renderer-clab s-router-clab host intent must target s-router-clab"
   && require (activeIntentClab.deploymentHosts ? s-router-clab) "renderer-clab s-router-clab host intent must expose s-router-clab deployment host"
+  && require (activeIntentClients.control_plane_model.meta.traceId == clabTrace) "renderer-clab must install a CLAB-trace no-runtime test-client host intent"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer-clab must not expose CLAB targets on s-router-test-clients"
+  && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "renderer-clab test-client no-runtime intent must keep host substrate"
   && require (inventoryNixos.activeLabInventoryStub.miniSmtId == defaultTrace) "renderer-clab must preserve NixOS inventory shim"
   && require (inventoryNixos.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "renderer-clab must preserve NixOS management metadata"
   && require (inventoryClab.activeLabInventoryStub.miniSmtId == clabTrace) "renderer-clab must preserve CLAB provenance shim"

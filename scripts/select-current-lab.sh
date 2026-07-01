@@ -1092,8 +1092,13 @@ select_smt() {
     write_empty_test_clients_intent "${trace}"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "clab" ]]; then
+    write_import "intent-s-router-nixos.nix" "./intent.nix"
+    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
     write_import "intent-s-router-clab.nix" "../${source_path}"
     write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
+    write_empty_test_clients_intent "${trace}"
+    write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
+    write_import "clients-s-router-test-clients.nix" "./clients.nix"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "wireguard" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
