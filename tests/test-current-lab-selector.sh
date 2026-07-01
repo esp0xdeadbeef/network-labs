@@ -33,12 +33,22 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
   active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
   inventoryHost = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901") "default current-lab selector mismatch"
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-901") "active-lab must import default current-lab intent"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-901") "default s-router-nixos host intent must import default renderer-nixos CPM"
+  && require (activeIntentClab.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-901") "default s-router-clab host intent must carry the default trace"
+  && require (activeIntentClab.control_plane_model.data.active-lab.clab.runtimeTargets == { }) "default s-router-clab host intent must be no-runtime for renderer-nixos"
+  && require (activeIntentClab.control_plane_model.deployment.hosts ? s-router-clab) "default s-router-clab host intent must keep host substrate"
+  && require (activeIntentClients.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-901") "default s-router-test-clients host intent must carry the default trace"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "default s-router-test-clients host intent must be no-runtime for renderer-nixos"
+  && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "default s-router-test-clients host intent must keep host substrate"
   && require (inventory.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default selection must preserve VLAN2 management"
   && require (inventoryHost.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default host-specific NixOS inventory alias must preserve VLAN2 management"
 ' >/dev/null || fail "default selection failed"
@@ -138,6 +148,9 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
   active = import (repoRoot + "/active-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.layer == "SMT") "renderer SMT selector layer mismatch"
@@ -145,6 +158,13 @@ in
   && require (current.selection.traceId == "FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT suffixed trace mismatch"
   && require (current.selection.sourceRoot == "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT source root must use concrete SMS row directory"
   && require (active.intent.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT active-lab import mismatch"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT s-router-nixos host intent must import selected NixOS CPM"
+  && require (activeIntentClab.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT s-router-clab host intent must carry selected trace"
+  && require (activeIntentClab.control_plane_model.data.active-lab.clab.runtimeTargets == { }) "renderer SMT s-router-clab host intent must be no-runtime for NixOS renderer rows"
+  && require (activeIntentClab.control_plane_model.deployment.hosts ? s-router-clab) "renderer SMT s-router-clab host intent must keep host substrate"
+  && require (activeIntentClients.control_plane_model.meta.traceId == "FS-166-HDS-010-SDS-010-SMS-902") "renderer SMT s-router-test-clients host intent must carry selected trace"
+  && require (activeIntentClients.control_plane_model.data.active-lab.test-clients.runtimeTargets == { }) "renderer SMT s-router-test-clients host intent must be no-runtime for NixOS renderer rows"
+  && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "renderer SMT s-router-test-clients host intent must keep host substrate"
 ' >/dev/null || fail "SMT renderer selection failed"
 
 "${selector}" SMT FS-166-HDS-010-SDS-010-SMS-903 >/dev/null
