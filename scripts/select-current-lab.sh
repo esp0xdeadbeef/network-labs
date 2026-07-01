@@ -1110,6 +1110,10 @@ select_smt() {
     write_nebula_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
   fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
+    write_import "intent-s-router-nixos.nix" "./intent.nix"
+    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+    write_empty_clab_intent "${trace}"
+    write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
     write_import "intent-s-router-test-clients.nix" "../${source_path}"
     write_renderer_clients_inventory_test_clients "${source_path}"
     write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
