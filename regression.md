@@ -421,6 +421,33 @@ blobs, or shared example fragments.
   their default route on uplink `u0`; and `s-router-test-clients` has
   `renderedContainers=0`, `providerDefaultRouteUnits=0`, and
   `providerHandoffUnits=0`.
+- FS-800 PPPoE pairing active-lab SIT selection is current live-validated.
+  `network-labs@a0dc780` selected `FS-800-HDS-030-SDS-030`, consuming the
+  row-local `FS-800-HDS-030-SDS-030-SMS-010` source for the five-node
+  pppoe-client -> downstream-selector -> policy -> upstream-selector ->
+  pppoe-provider path. No owning-layer implementation fix was needed during
+  this 2026-07-01 rerun; the row-local pairing/fallback test, PPPoE-only
+  mini-SMT wrapper, current-lab selector regression, minimal entrypoint guard,
+  and small runtime verifier all passed before deployment. Local `nixos` lock
+  `570c4d02` consumed the propagated lock chain (`network-compiler@a47f5c7`,
+  `network-forwarding-model@c1febbb`,
+  `network-control-plane-model@6917686`,
+  `network-renderer-containerlab-linux-backend@938215c`,
+  `network-renderer-nebula@44c6775`, `network-renderer-nixos@b4b88fd`).
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-800-HDS-030-SDS-030 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
+  and locked checks ran from
+  `/nix/store/7wgrbwnb2zzvy5n1f66w4l4zf0h0yn4g-source`. Follow-up verifier
+  `bash scripts/fs800-pppoe-pairing-active-lab-runtime-check.sh --live` proved
+  NixOS and CLAB expose trace-matched control-plane artifacts with the five
+  expected runtime targets, `validPathCount=1`, `invalidPathCount=0`, and the
+  `FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider` allow
+  relation; NixOS runs exactly the five expected machines; CLAB runs exactly
+  the five expected containers; and `s-router-test-clients` renders/runs no
+  PPPoE pairing router containers. This is pairing/fallback and runtime-shape
+  SIT evidence only; it does not claim live PPPoE session establishment, HAT,
+  or SAT acceptance.
 
 ## Still Broken
 
