@@ -7,6 +7,7 @@
       smsRow = ../../SMS/FS-720-HDS-010-SDS-020-SMS-020;
       miniSmtIds = [ "endpoint-harness-consumption" ];
       inputKinds = [ "intent-source" ];
+      evidenceBoundary = "construction-only";
     };
     "FS-720-HDS-010-SDS-020-SMS-040" = {
       smsRow = ../../SMS/FS-720-HDS-010-SDS-020-SMS-040;
