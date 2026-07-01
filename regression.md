@@ -203,6 +203,28 @@ blobs, or shared example fragments.
   `bash scripts/fs166-active-lab-renderer-nebula-runtime-check.sh --live`
   proved `s-router-nixos` runs `lab-lighthouse` and `lab-client-nebula` while
   `s-router-clab` and `s-router-test-clients` have no Nebula row runtime.
+- FS-370 lane-egress active-lab selection is current live-validated.
+  `network-labs@e164e44` selected `FS-370-HDS-010-SDS-010-SMS-050` and
+  installed the five-node lane-egress current-lab source across the NixOS,
+  CLAB, and test-client surfaces. Local `nixos` lock `d4b7c129` consumed the
+  propagated lock chain (`network-compiler@b6e3bea`,
+  `network-forwarding-model@75f808a`,
+  `network-control-plane-model@9416369`,
+  `network-renderer-containerlab-linux-backend@821f698`,
+  `network-renderer-nebula@ab32551`, `network-renderer-nixos@c0fa473`,
+  `network-renderer-wireguard@a15e550`). The scoped live loop passed on
+  2026-07-01 with
+  `S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false'`.
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-370-HDS-010-SDS-010-SMS-050 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
+  and the locked mini-SMT check ran from
+  `/nix/store/lxgfsjfg1vw6873i11qfllvj1l82li7k-source`. Follow-up verifier
+  `bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live` proved
+  `s-router-nixos` and `s-router-clab` expose trace-matched control-plane
+  artifacts with `runtimeTargets=5` and `uplinkLaneHits=1`; it also proved
+  `s-router-test-clients` exposes `rendered-host.json` with `routerContainers=0`,
+  `hostBridges=5`, and `uplink=testnet`.
 
 ## Still Broken
 
