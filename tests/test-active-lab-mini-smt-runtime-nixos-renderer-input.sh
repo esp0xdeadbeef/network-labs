@@ -32,6 +32,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     managementUplink = cpm.deploymentHosts.s-router-nixos.uplinks.management or { };
     layerEntry = cpm.control_plane_model.meta.layerEntry;
     warningCodes = map (warning: warning.code) layerEntry.warnings;
+    runtimeTarget = cpm.control_plane_model.data.acme.lab.runtimeTargets.poc-router;
     containerNames = builtins.attrNames (host.renderedHost.containers or { });
     require = cond: msg: if cond then true else throw msg;
   in
@@ -56,6 +57,8 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"active-lab runtime CPM must carry all skipped-stage warnings\"
     && require (containerNames == [ \"poc-router\" ])
       \"active-lab mini runtime must render exactly poc-router\"
+    && require (runtimeTarget.routingMode == \"static\")
+      \"active-lab mini runtime target must declare renderer routingMode\"
     && require (
       managementUplink.bridge == \"vlan2\"
       && managementUplink.mode == \"vlan\"
