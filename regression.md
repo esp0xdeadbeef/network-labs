@@ -358,6 +358,41 @@ blobs, or shared example fragments.
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
   proved `s-router-test-clients` has `routerContainers=0` and
   `dockerContainers=0` for this trace.
+- FS-540 DNS resolver active-lab SIT selection is current live-validated.
+  `network-labs@bdd222e` selected `FS-540-HDS-010-SDS-010`, consuming the
+  row-local `FS-540-HDS-010-SDS-010-SMS-020` DNS resolver source for the
+  five-node access-dns -> downstream-selector -> policy -> upstream-selector ->
+  resolver-node path and the test-client endpoint-only source. The first
+  2026-07-01 full-loop retry exposed an owning construction-test input bug:
+  `network-renderer-access-endpoint-nixos` still compiled router
+  `active-lab/intent.nix` and `inventory-nixos.nix` while asserting the
+  test-client endpoint container. Owning fix
+  `network-renderer-access-endpoint-nixos@02be8f0` switched the test to
+  `active-lab/intent-s-router-test-clients.nix` and
+  `inventory-s-router-test-clients.nix`; focused proof
+  `bash tests/FS-540-HDS-010-SDS-010-SMS-020-access-endpoint-bridge-name.sh`
+  passed. Local `nixos` lock `157ef013` consumed the propagated lock chain
+  (`network-compiler@8876895`, `network-forwarding-model@195d159`,
+  `network-control-plane-model@9275194`,
+  `network-renderer-access-endpoint-nixos@02be8f0`,
+  `network-renderer-wireguard@b70d106`,
+  `network-renderer-containerlab-linux-backend@80ede8b`,
+  `network-renderer-nebula@d6e3b37`, `network-renderer-nixos@c8a869a`).
+  Evidence:
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-540-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`
+  passed after the owning fix, the CLAB readiness gate reported
+  `active-targets=5 lab-emulation=1`, and locked checks ran from
+  `/nix/store/b3sd2vinv3n6sbsaa1aqvfh1wn73x9dm-source`. Follow-up verifier
+  `bash scripts/fs540-active-lab-dns-resolver-runtime-check.sh --live` proved
+  both router artifacts expose `/etc/network-artifacts/control-plane.json` with
+  `runtimeTargets=5`, `validPathCount=3`, `invalidPathCount=0`,
+  `localRecursive=1`, `upstreamForwarder=0`, `dhcpProvided=1`, `none=9`, and
+  `publicFallback=0`; `s-router-test-clients` runs
+  `container@dns-resolver-config-access-dns.service` on `br-mini--baff8b`;
+  CLAB exposes fake-provider container
+  `clab-fabric-34c57-939e1-lab-emulation-fs540-dns-resolver-testnet`; and
+  both NixOS and CLAB `access-dns` resolved `cache.nixos.org` without Docker or
+  host public resolver fallback on the CLAB resolver-node.
 
 ## Still Broken
 
