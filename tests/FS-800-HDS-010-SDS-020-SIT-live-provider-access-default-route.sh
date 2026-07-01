@@ -165,11 +165,144 @@ check_clab_provider() {
   validate_provider_route "s-router-clab" "${container}" "${address}" "${expected_gateway}" "${output}" || true
 }
 
+topology_node_exists() {
+  local expected="$1"
+  shift
+  local node
+  for node in "$@"; do
+    [[ "${node}" == "${expected}" ]] && return 0
+  done
+  return 1
+}
+
+unique_topology_suffix_match() {
+  local suffix="$1"
+  shift
+  local node
+  local matches=()
+
+  for node in "$@"; do
+    [[ "${node}" == *"${suffix}" ]] && matches+=("${node}")
+  done
+
+  if ((${#matches[@]} == 1)); then
+    printf '%s\n' "${matches[0]}"
+    return 0
+  fi
+  if ((${#matches[@]} > 1)); then
+    printf 'multiple topology nodes match suffix %s: %s\n' "${suffix}" "${matches[*]}" >&2
+    return 2
+  fi
+  return 1
+}
+
+resolve_clab_container_for_logical_node() {
+  local logical_node="$1"
+  local spec_output topology_output
+  local spec_count topology_count
+  local target_name enterprise site node expected suffix resolved
+  local spec_lines=()
+  local topology_nodes=()
+  local quoted_trace quoted_node
+
+  quoted_trace="$(shell_quote "${trace_id}")"
+  quoted_node="$(shell_quote "${logical_node}")"
+
+  if ! spec_output="$(ssh_base "${clab_host}" \
+    "TRACE_ID=${quoted_trace} NODE_NAME=${quoted_node} jq -r '
+      .control_plane_model.data
+      | to_entries[]
+      | .value
+      | to_entries[]
+      | select(.key == env.TRACE_ID)
+      | (.value.runtimeTargets // {})
+      | to_entries[]
+      | select(((.value.logicalNode // {}).name // \"\") == env.NODE_NAME)
+      | [
+          .key,
+          ((.value.logicalNode // {}).enterprise // \"\"),
+          ((.value.logicalNode // {}).site // \"\"),
+          ((.value.logicalNode // {}).name // \"\")
+        ]
+      | @tsv
+    ' /persist/s-router-clab/live-boot/network-artifacts/control-plane.json")"; then
+    printf 'failed to read CLAB runtime target for logical node %s\n' "${logical_node}" >&2
+    return 1
+  fi
+
+  if [[ -z "${spec_output}" ]]; then
+    printf 'missing CLAB runtime target for logical node %s\n' "${logical_node}" >&2
+    return 1
+  fi
+
+  mapfile -t spec_lines <<<"${spec_output}"
+  spec_count="${#spec_lines[@]}"
+  if [[ "${spec_count}" -ne 1 ]]; then
+    printf 'expected one CLAB runtime target for logical node %s, got %s\n%s\n' \
+      "${logical_node}" "${spec_count}" "${spec_output}" >&2
+    return 1
+  fi
+
+  IFS=$'\t' read -r target_name enterprise site node <<<"${spec_lines[0]}"
+  if [[ -z "${enterprise}" || -z "${site}" || -z "${node}" ]]; then
+    printf 'CLAB runtime target %s lacks logicalNode enterprise/site/name\n' "${target_name}" >&2
+    return 1
+  fi
+
+  if ! topology_output="$(ssh_base "${clab_host}" \
+    "jq -r '.nodes | keys[]' /persist/s-router-clab/live-boot/clab-fabric/topology-data.json | sort")"; then
+    printf 'failed to read CLAB topology nodes\n' >&2
+    return 1
+  fi
+
+  mapfile -t topology_nodes <<<"${topology_output}"
+  topology_count="${#topology_nodes[@]}"
+  if [[ "${topology_count}" -eq 0 ]]; then
+    printf 'CLAB topology has no nodes\n' >&2
+    return 1
+  fi
+
+  expected="${enterprise}-${site}-${node}"
+  if topology_node_exists "${expected}" "${topology_nodes[@]}"; then
+    printf 'clab-fabric-%s\n' "${expected}"
+    return 0
+  fi
+
+  ((${#expected} > 64)) || {
+    printf 'CLAB topology missing expected node %s for logical node %s\n' "${expected}" "${logical_node}" >&2
+    return 1
+  }
+
+  suffix="-${site}-${node}"
+  if resolved="$(unique_topology_suffix_match "${suffix}" "${topology_nodes[@]}")"; then
+    printf 'clab-fabric-%s\n' "${resolved}"
+    return 0
+  fi
+
+  suffix="-${node}"
+  if resolved="$(unique_topology_suffix_match "${suffix}" "${topology_nodes[@]}")"; then
+    printf 'clab-fabric-%s\n' "${resolved}"
+    return 0
+  fi
+
+  printf 'CLAB topology missing scoped node for logical node %s from target %s\n' "${logical_node}" "${target_name}" >&2
+  return 1
+}
+
 check_nixos_provider provider-handoff-access-a 203.0.113.1 10.80.255.2
 check_nixos_pppoe_core pppoe-core
 
-check_clab_provider clab-fabric-mini-smt-provider-access-default-route-provider-handoff-access-a 203.0.113.1 10.80.255.2
-check_clab_pppoe_core clab-fabric-mini-smt-provider-access-default-route-pppoe-core
+if clab_provider_container="$(resolve_clab_container_for_logical_node provider-handoff-access-a)"; then
+  check_clab_provider "${clab_provider_container}" 203.0.113.1 10.80.255.2
+else
+  record_failure "s-router-clab provider-handoff-access-a: cannot resolve live CLAB container"
+fi
+
+if clab_pppoe_core_container="$(resolve_clab_container_for_logical_node pppoe-core)"; then
+  check_clab_pppoe_core "${clab_pppoe_core_container}"
+else
+  record_failure "s-router-clab pppoe-core: cannot resolve live CLAB container"
+fi
 
 if [[ "${failures}" -ne 0 ]]; then
   echo "FAIL ${trace_id}: live active-lab provider-handoff fabric default-route SIT failed with ${failures} finding(s)" >&2
