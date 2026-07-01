@@ -95,6 +95,29 @@ blobs, or shared example fragments.
   passed, and `bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
   proved `s-router-nixos` runs `poc-router` while `s-router-clab` and
   `s-router-test-clients` expose explicit empty no-runtime host artifacts.
+- FS-166 parent SIT active-lab selection is current live-validated for the
+  renderer-nixos child path. `network-labs@c8ff5e2` selected
+  `FS-166-HDS-010-SDS-010`, which resolves the parent SIT to
+  `FS-166-HDS-010-SDS-010-SMS-901`; local `nixos` lock `8e121758` consumed the
+  propagated lock chain. `network-codex-agent@1403e2ea` fixed CLAB readiness to
+  accept parent-SIT `parent-SMS-*` renderer-input no-runtime artifacts, and
+  `network-codex-agent@50aff666` fixed locked SIT verifier dispatch so immutable
+  network-labs sources use the local `network-renderer-nixos` checkout for
+  nested mini-SMT checks. The scoped full loop passed on 2026-07-01 with
+  `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
+  Evidence included locked SIT selection from
+  `/nix/store/n0bgrablfg63fm8s4xhq3wgjap7p1mcq-source`, CLAB readiness
+  `active-targets=0 lab-emulation=0 no-runtime=true`, locked
+  `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` PASS, local
+  build hash `la5c9dr3fp6baf8awns8p0i008p7si6a`, post-reboot hash
+  `kmgdjpilickdfbq1kgmzbx7gaglin85b`, and normalized renderer JSON match.
+  Standalone verifier
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
+  passed and proved `poc-router` only on `s-router-nixos`, with explicit
+  no-runtime renderer-nixos artifacts on `s-router-clab` and
+  `s-router-test-clients`. This records parent SIT/child SMS-901 runtime proof
+  only; it does not claim the other FS-166 sibling renderers or HAT/SAT
+  acceptance.
 - FS-166 renderer-nixos-p2p active-lab selection is current live-validated.
   `network-labs@05813b6` selected
   `FS-166-HDS-010-SDS-010-SMS-902`, `network-codex-agent@f9d58a73` updated the
