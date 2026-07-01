@@ -896,6 +896,8 @@ select_default() {
   write_default_clients
   write_default_sops
   write_current_host_entrypoints
+  write_empty_clab_intent "FS-166-HDS-010-SDS-010-SMS-901"
+  write_empty_test_clients_intent "FS-166-HDS-010-SDS-010-SMS-901"
   write_metadata \
     "SMT" \
     "FS-166-HDS-010-SDS-010-SMS-901" \
@@ -1083,6 +1085,12 @@ select_smt() {
   fi
   write_default_sops
   write_current_host_entrypoints
+  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos" ]]; then
+    write_import "intent-s-router-nixos.nix" "../${source_path}"
+    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
+    write_empty_clab_intent "${trace}"
+    write_empty_test_clients_intent "${trace}"
+  fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "clab" ]]; then
     write_import "intent-s-router-clab.nix" "../${source_path}"
     write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"

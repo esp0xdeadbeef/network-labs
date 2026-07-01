@@ -79,6 +79,17 @@ blobs, or shared example fragments.
   `bash tests/test-hat-sops-runtime-fact-bindings.sh`,
   `bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh`,
   and `bash tests/test-current-lab-selector.sh`.
+- FS-166 renderer-input active-lab NixOS selections now install explicit
+  trace-tagged no-runtime CPM-shaped host intents for `s-router-clab` and
+  `s-router-test-clients` while `s-router-nixos` consumes the selected NixOS
+  renderer CPM. The first wrong layer behind the 2026-07-01
+  `s-router-clab-render-live.service` failure was the active-lab selector
+  handing the NixOS-only `runtime-nixos-cpm.nix` to CLAB, which correctly
+  rejected a non-CLAB runtime target without `routingMode`. Local proofs passed:
+  `bash tests/test-current-lab-selector.sh`, `bash tests/run-active-lab-mini-smt.sh --source FS-166-HDS-010-SDS-010-SMS-901`,
+  `bash tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-901`, and
+  `bash tests/test-active-lab-minimal-entrypoints.sh`. Live revalidation still
+  requires the NixOS lock to consume this committed `network-labs` revision.
 
 ## Still Broken
 
