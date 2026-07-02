@@ -1,5 +1,5 @@
 let
-  source = import ../GAMP/SMT/FS-260-HDS-010-SDS-010-SMS-030/inventory-test-clients.nix;
+  source = import ../GAMP/SMT/FS-260-HDS-010-SDS-010-SMS-040/inventory-test-clients.nix;
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {
