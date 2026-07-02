@@ -10,7 +10,6 @@
         admin = {};
         branch = {};
         client = {};
-        testnet = {};
       };
     };
   };
