@@ -55,6 +55,9 @@
           testnet-edge = {
             role = "external";
             external = "testnet";
+            uplinks = {
+              testnet = { };
+            };
           };
         };
       };
