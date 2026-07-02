@@ -1767,6 +1767,7 @@ in
         };
         uplinks = {
           management = {
+            bridge = "vlan2";
             ipv4 = {
               dhcp = true;
               enable = true;
@@ -1779,8 +1780,9 @@ in
               enable = false;
               method = "none";
             };
-            mode = "native";
+            mode = "vlan";
             parent = "enp1s0";
+            vlan = 2;
           };
           wan = {
             bridge = "br-wan";
