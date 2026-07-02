@@ -1,1 +1,1 @@
-import ../GAMP/HAT/emulated-isp-residential-testnet/inventory-hetz.nix
+import ../GAMP/SAT/inventory-hetz.nix
