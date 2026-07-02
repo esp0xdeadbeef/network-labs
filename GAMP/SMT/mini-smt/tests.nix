@@ -10400,5 +10400,1592 @@
       scope = "Auto-generated SMT live verifier for FS-985.010.010";
       maxRuntimeTargets = 5;
     };
+
+    "FS-030-HDS-010-SDS-010-SMS-020" = {
+      id = "FS-030-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-030-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-030-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-030-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-030-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-030-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-030-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-030-HDS-010-SDS-010-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-030-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-030-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-030-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-030-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-030-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-030-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-030-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-030-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-030-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-050-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-050-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-050-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-050-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-050-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-050-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-050-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-050-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-050-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-050-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-050.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-100-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-100-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-100-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-100-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-100-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-100-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-100-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-100-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-100-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-165-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-165-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-165-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-165-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-165-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-165-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-165-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-165-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-165-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-165-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-165.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-180-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-180-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-180-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-180-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-180-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-180-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-180-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-180-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-180-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-180-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-180.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-190-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-190-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-190-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-190-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-190-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-190-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-190-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-190-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-190-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-190-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-190.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-200-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-200-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-200-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-200-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-200-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-200-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-200-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-200-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-200-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-200-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-200.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-260-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-260-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-260-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-260-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-260-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-260-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-260-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-260-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-260-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-270-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-270-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-270-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-270-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-270-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-270-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-270-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-270-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-270-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-270-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-270.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-310-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-310-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-310-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-310-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-310-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-310-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-310-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-310.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-310-HDS-020-SDS-010-SMS-040" = {
+      id = "FS-310-HDS-020-SDS-010-SMS-040";
+      traceId = "FS-310-HDS-020-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-020-SDS-010-SMS-040;
+        SMT = ../FS-310-HDS-020-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-310-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-310-HDS-020-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-310-HDS-020-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-310-HDS-020-SDS-010-SMS-200" = {
+      id = "FS-310-HDS-020-SDS-010-SMS-200";
+      traceId = "FS-310-HDS-020-SDS-010-SMS-200";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-020-SDS-010-SMS-200;
+        SMT = ../FS-310-HDS-020-SDS-010-SMS-200;
+        SIT = ../../SIT/FS-310-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-310-HDS-020-SDS-010-SMS-200/intent.nix;
+        expectedRelationIds = [ "FS-310-HDS-020-SDS-010-SMS-200__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-200.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-320-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-320-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-320-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-320-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-320-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-320-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-320-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-320-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-320-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-320.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-320-HDS-010-SDS-010-SMS-020" = {
+      id = "FS-320-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-320-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-320-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-320-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-320-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-320-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-320-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-320-HDS-010-SDS-010-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-010-SDS-010-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-320.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-320-HDS-030-SDS-010-SMS-040" = {
+      id = "FS-320-HDS-030-SDS-010-SMS-040";
+      traceId = "FS-320-HDS-030-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-320-HDS-030-SDS-010;
+        SMS = ../../SMS/FS-320-HDS-030-SDS-010-SMS-040;
+        SMT = ../FS-320-HDS-030-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-320-HDS-030-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-320-HDS-030-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-320-HDS-030-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-030-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-320.030.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-340-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-340-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-340-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-340-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-340-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-340-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-340-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-340-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-340-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-340-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-340.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-350-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-350-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-350-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-350-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-350-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-350-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-350-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-350-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-350-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-350-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-350-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-350-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-350-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-350-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-350-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-350-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-350-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-350-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-370-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-370-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-370-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-370-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-370-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-370-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-370-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-370-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-370-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-370-HDS-010-SDS-010-SMS-101" = {
+      id = "FS-370-HDS-010-SDS-010-SMS-101";
+      traceId = "FS-370-HDS-010-SDS-010-SMS-101";
+      rowDirectories = {
+        SDS = ../../SDS/FS-370-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-370-HDS-010-SDS-010-SMS-101;
+        SMT = ../FS-370-HDS-010-SDS-010-SMS-101;
+        SIT = ../../SIT/FS-370-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-370-HDS-010-SDS-010-SMS-101/intent.nix;
+        expectedRelationIds = [ "FS-370-HDS-010-SDS-010-SMS-101__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-101.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-380-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-380-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-380-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-380-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-380-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-380-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-380-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-380-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-380.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-400-HDS-010-SDS-010-SMS-020" = {
+      id = "FS-400-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-400-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-400-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-400-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-400-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-400-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-400-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-400-HDS-010-SDS-010-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-400-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-400-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-400-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-400-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-400-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-400-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-400-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-400-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-400-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-440-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-440-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-440-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-440-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-440-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-440-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-440-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-440-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-440-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-460-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-460-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-460-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-460-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-460-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-460-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-460-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-460-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-460-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-470-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-470-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-470-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-470-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-470-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-470-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-470-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-470-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-470-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-480-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-480-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-480-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-480-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-480-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-480-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-480-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-480-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-480-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-480-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-480.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-500-HDS-010-SDS-010-SMS-020" = {
+      id = "FS-500-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-500-HDS-010-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-500-HDS-010-SDS-010-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-500-HDS-010-SDS-010-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-500.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-510-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-510-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-510-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-510-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-510-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-510-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-510-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-510-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-510-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-510-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-510.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-520-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-520-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-520-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-520-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-520-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-520-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-520-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-520-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-520-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-520-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-520.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-530-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-530-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-530-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-530-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-530-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-530-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-530-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-530-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-530-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-530-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-530.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-540-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-540-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-540-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-540-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-540-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-540-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-540-HDS-010-SDS-010-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-540-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-540-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-540-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-540-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-540-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-540-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-540-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-550-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-550-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-550-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-550-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-550-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-550-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-550-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-550-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-550-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-560-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-560-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-560-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-560-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-560-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-560-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-560-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-560-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-560-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-560.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-570-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-570-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-570-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-570-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-570-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-570-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-570-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-570-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-570-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-570-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-570.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-580-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-580-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-580-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-580-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-580-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-580-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-580-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-580-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-580-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-580-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-580.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-590-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-590-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-590-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-590-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-590-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-590-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-590-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-590-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-590-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-590-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-590.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-600-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-600-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-600-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-600-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-600-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-600-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-600-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-600-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-600-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-600-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-600.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-610-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-610-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-610-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-610-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-610-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-610-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-610-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-610-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-610-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-610-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-610.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-620-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-620-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-620-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-620-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-620-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-620-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-620-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-620-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-620-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-620-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-620.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-630-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-630-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-630-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-630-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-630-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-630-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-630-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-630-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-630-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-630-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-630.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-640-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-640-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-640-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-640-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-640-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-640-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-640-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-640-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-640-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-650-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-650-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-650-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-650-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-650-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-650-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-650-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-650-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-650-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-650-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-650.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-660-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-660-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-660-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-660-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-660-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-660-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-660-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-660-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-660-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-660-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-660.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-670-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-670-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-670-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-670-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-670-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-670-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-670-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-670-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-670-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-670-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-670.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-680-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-680-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-680-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-680-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-680-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-680-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-680-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-680-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-680-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-710-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-710-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-710-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-710-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-710-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-710-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-710-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-710-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-710-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-720-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-720-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-720-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-720-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-720-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-720-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-720-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-720-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-720-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-720.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-720-HDS-010-SDS-020-SMS-020" = {
+      id = "FS-720-HDS-010-SDS-020-SMS-020";
+      traceId = "FS-720-HDS-010-SDS-020-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-720-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-720-HDS-010-SDS-020-SMS-020;
+        SMT = ../FS-720-HDS-010-SDS-020-SMS-020;
+        SIT = ../../SIT/FS-720-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-720-HDS-010-SDS-020-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-720-HDS-010-SDS-020-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-020-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-720.010.020";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-720-HDS-010-SDS-030-SMS-010" = {
+      id = "FS-720-HDS-010-SDS-030-SMS-010";
+      traceId = "FS-720-HDS-010-SDS-030-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-720-HDS-010-SDS-030;
+        SMS = ../../SMS/FS-720-HDS-010-SDS-030-SMS-010;
+        SMT = ../FS-720-HDS-010-SDS-030-SMS-010;
+        SIT = ../../SIT/FS-720-HDS-010-SDS-030;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-720-HDS-010-SDS-030-SMS-010/intent.nix;
+        expectedRelationIds = [ "FS-720-HDS-010-SDS-030-SMS-010__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-030-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-720.010.030";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-740-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-740-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-740-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-740-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-740-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-740-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-740-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-740-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-740-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-740.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-760-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-760-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-760-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-760-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-760-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-760-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-760-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-760-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-760-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-770-HDS-010-SDS-020-SMS-040" = {
+      id = "FS-770-HDS-010-SDS-020-SMS-040";
+      traceId = "FS-770-HDS-010-SDS-020-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-770-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-770-HDS-010-SDS-020-SMS-040;
+        SMT = ../FS-770-HDS-010-SDS-020-SMS-040;
+        SIT = ../../SIT/FS-770-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-770-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-770-HDS-010-SDS-020-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-020-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-770.010.020";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-790-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-790-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-790-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-790-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-790-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-790-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-790-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-790-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-790-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-790.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-800-HDS-010-SDS-030-SMS-040" = {
+      id = "FS-800-HDS-010-SDS-030-SMS-040";
+      traceId = "FS-800-HDS-010-SDS-030-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-800-HDS-010-SDS-030;
+        SMS = ../../SMS/FS-800-HDS-010-SDS-030-SMS-040;
+        SMT = ../FS-800-HDS-010-SDS-030-SMS-040;
+        SIT = ../../SIT/FS-800-HDS-010-SDS-030;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-800-HDS-010-SDS-030-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-800-HDS-010-SDS-030-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-030-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-800.010.030";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-830-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-830-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-830-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-830-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-830-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-830-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-830-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-830-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-830-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-830.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-840-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-840-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-840-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-840-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-840-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-840-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-840-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-840-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-840-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-840.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-930-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-930-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-930-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-930-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-930-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-930-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-930-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-930-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-930-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-930-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-930.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-940-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-940-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-940-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-940-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-940-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-940-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-940-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-940-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-940-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-940-HDS-010-SDS-020-SMS-040" = {
+      id = "FS-940-HDS-010-SDS-020-SMS-040";
+      traceId = "FS-940-HDS-010-SDS-020-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-940-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-940-HDS-010-SDS-020-SMS-040;
+        SMT = ../FS-940-HDS-010-SDS-020-SMS-040;
+        SIT = ../../SIT/FS-940-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-940-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-940-HDS-010-SDS-020-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-950-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-950-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-950-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-950-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-950-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-950-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-950-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-950-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-950-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-950-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-950.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-960-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-960-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-960-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-960-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-960-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-960-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-960-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-960-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-960-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-960-HDS-010-SDS-016-SMS-040" = {
+      id = "FS-960-HDS-010-SDS-016-SMS-040";
+      traceId = "FS-960-HDS-010-SDS-016-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-960-HDS-010-SDS-016;
+        SMS = ../../SMS/FS-960-HDS-010-SDS-016-SMS-040;
+        SMT = ../FS-960-HDS-010-SDS-016-SMS-040;
+        SIT = ../../SIT/FS-960-HDS-010-SDS-016;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-960-HDS-010-SDS-016-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-960-HDS-010-SDS-016-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-970-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-970-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-970-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-970-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-970-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-970-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-970-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-970-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-970-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-970.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-980-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-980-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-980-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-980-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-980-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-980-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-980-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-980-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-980-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-980-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-980.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-981-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-981-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-981-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-981-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-981-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-981-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-981-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-981-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-981-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      maxRuntimeTargets = 5;
+    };
+
+    "FS-982-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-982-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-982-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-982-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-982-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-982-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-982-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-982-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-982-HDS-010-SDS-010-SMS-040__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      maxRuntimeTargets = 5;
+    };
   };
 }

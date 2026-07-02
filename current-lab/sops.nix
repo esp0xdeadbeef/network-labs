@@ -1,1 +1,1 @@
-import ../GAMP/SAT/sops.nix
+import ../GAMP/HAT/emulated-isp-residential-testnet/sops.nix
