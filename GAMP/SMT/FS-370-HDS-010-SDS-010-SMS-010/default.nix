@@ -3,20 +3,19 @@
   traceId = "FS-370-HDS-010-SDS-010-SMS-010";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-010-source-prefix-egress-surface.md";
   titleSlug = "source-prefix-egress-surface";
+  evidenceBoundary = "construction-only";
   source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
+    kind = "intent-source";
+    intent = ./intent.nix;
+    expectedRelationIds = [ "FS-370-HDS-010-SDS-010-SMS-010__mini-verify" ];
   };
-  status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "network-control-plane-model";
+    focusedTest = "tests/test-fs370-hds010-sds010-sms010-source-prefix-egress.sh";
+    activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-010";
+    smtRow = "GAMP/SMT/README.md row 63";
+    status = "OK";
+    verifiedAt = "network-control-plane-model local HEAD c1137cd (2026-07-02)";
+    scope = "source-prefix egress surface binding predicate: CPM internetModes and forwardingIntent carry source prefix, source scope, lane, candidate egress, return-route, and leak-prevention metadata; unscoped egress accept, routed-public IPv4 without return routes, and missing leak prevention fail closed. Active-lab live script currently reports host artifact context and does not promote runtime acceptance.";
   };
 }

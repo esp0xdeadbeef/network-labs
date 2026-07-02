@@ -1,12 +1,16 @@
-# SMT Source Stub: FS-360-HDS-010-SDS-010-SMS-020
+# FS-360-HDS-010-SDS-010-SMS-020 SMT
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020-public-prefix-return-route-precondition.md`
 
-Status: NOT OK - source stub only.
+Status: OK - construction-only.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row records construction evidence for the public prefix return-route
+precondition. Runtime HAT/SAT evidence is not claimed here.
+
+Owning construction evidence lives in `network-forwarding-model`:
+`NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/fs-360-hds-010-sds-010-sms-020.sh`
+
+Active-lab context can be collected with:
+`tests/run-active-lab-mini-smt.sh FS-360-HDS-010-SDS-010-SMS-020`
 
 Title slug: `public-prefix-return-route-precondition`

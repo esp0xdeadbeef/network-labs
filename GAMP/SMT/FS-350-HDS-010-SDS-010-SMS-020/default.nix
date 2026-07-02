@@ -3,9 +3,9 @@
   traceId = "FS-350-HDS-010-SDS-010-SMS-020";
   evidenceBoundary = "construction-only";
   source = {
-    kind = "source-reference";
-    intent = null;
-    expectedRelationIds = null;
+    kind = "intent-source";
+    intent = ./intent.nix;
+    expectedRelationIds = [ "FS-350-HDS-010-SDS-010-SMS-020__mini-verify" ];
   };
   evidence = {
     owningRepo = "network-forwarding-model";

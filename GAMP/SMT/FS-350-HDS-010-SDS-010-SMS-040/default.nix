@@ -12,7 +12,7 @@
     focusedTest = "tests/test-FS-350-HDS-010-SDS-010-SMS-040-prefix-authority-class-separation.sh";
     smtRow = "GAMP/SMT/README.md row pending";
     status = "OK";
-    verifiedAt = "network-labs HEAD (2026-06-27)";
+    verifiedAt = "network-labs + network-forwarding-model local HEAD (2026-07-02)";
     scope = "prefix authority class separation: authorityClass assignment, childPurpose derivation, consumer eligibility checks, invalid-consumer-for-authority-class rejection, reserved-space denial, unassigned-space rejection";
   };
 }

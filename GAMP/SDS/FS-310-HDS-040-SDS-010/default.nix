@@ -29,9 +29,9 @@
     };
     "FS-310-HDS-040-SDS-010-SMS-150" = {
       smsRow = ../../SMS/FS-310-HDS-040-SDS-010-SMS-150;
-      miniSmtIds = [ "canonical-source-stub" ];
-      inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      miniSmtIds = [ "FS-310-HDS-040-SDS-010-SMS-150" ];
+      inputKinds = [ "intent-source" ];
+      evidenceBoundary = "active mini-SMT runtime wrapper plus owning CPM construction proof";
     };
     "FS-310-HDS-040-SDS-010-SMS-160" = {
       smsRow = ../../SMS/FS-310-HDS-040-SDS-010-SMS-160;

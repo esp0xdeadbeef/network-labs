@@ -6,36 +6,36 @@
           external-testnet = "testnet";
           tenant-client = "client";
         };
-        relations = [ {
-            id = "FS-360-HDS-010-SDS-010-SMS-010__mini-verify";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              uplinks = [ "testnet" ];
-            };
-            trafficType = "any";
-            priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
-            name = "any";
-            match = [ {
-                family = "any";
-                proto = "any";
-              } ];
-          } ];
-      };
-      ownership = {
-        prefixes = [ {
+        relations = [{
+          id = "FS-360-HDS-010-SDS-010-SMS-010__mini-verify";
+          action = "allow";
+          from = {
             kind = "tenant";
             name = "client";
-            ipv4 = "10.1.104.0/24";
-            ipv6 = "fd42:0168:50::/64";
-          } ];
+          };
+          to = {
+            kind = "external";
+            uplinks = [ "testnet" ];
+          };
+          trafficType = "any";
+          priority = 100;
+        }];
+        services = [ ];
+        trafficTypes = [{
+          name = "any";
+          match = [{
+            family = "any";
+            proto = "any";
+          }];
+        }];
+      };
+      ownership = {
+        prefixes = [{
+          kind = "tenant";
+          name = "client";
+          ipv4 = "10.1.104.0/24";
+          ipv6 = "fd42:0168:50::/64";
+        }];
       };
       pools = {
         loopback = {
@@ -57,10 +57,10 @@
         nodes = {
           client-edge = {
             role = "access";
-            attachments = [ {
-                kind = "tenant";
-                name = "client";
-              } ];
+            attachments = [{
+              kind = "tenant";
+              name = "client";
+            }];
           };
           downstream-selector = {
             role = "downstream-selector";

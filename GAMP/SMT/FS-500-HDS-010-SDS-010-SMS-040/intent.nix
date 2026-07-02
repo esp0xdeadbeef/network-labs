@@ -3,39 +3,55 @@
     FS-500-HDS-010-SDS-010-SMS-040 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
-          tenant-client = "client";
+          router-a = "router-a";
+          router-b = "router-b";
         };
-        relations = [ {
-            id = "FS-500-HDS-010-SDS-010-SMS-040__mini-verify";
-            action = "allow";
+        relations = [
+          {
+            id = "FS-500-HDS-010-SDS-010-SMS-040__mini-p2p-route-to-peer";
+            action = "route";
             from = {
-              kind = "tenant";
-              name = "client";
+              kind = "router";
+              name = "router-a";
             };
             to = {
-              kind = "external";
-              uplinks = [ "testnet" ];
+              kind = "prefix";
+              prefix = "10.20.0.0/24";
             };
-            trafficType = "any";
+            via = {
+              link = "p2p-ab";
+              nextHop4 = "10.0.0.1";
+            };
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
-            name = "any";
-            match = [ {
-                family = "any";
-                proto = "any";
-              } ];
-          } ];
+          }
+        ];
+        services = [ ];
+        trafficTypes = [ ];
       };
-      ownership = {
-        prefixes = [ {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.1.244.0/24";
-            ipv6 = "fd42:01f4:50::/64";
-          } ];
+      expectedRoutes = [
+        {
+          sourceTarget = "router-a";
+          link = "p2p-ab";
+          dst = "10.20.0.0/24";
+          via4 = "10.0.0.1";
+        }
+      ];
+      links = {
+        p2p-ab = {
+          kind = "p2p";
+          endpoints = [
+            {
+              target = "router-a";
+              interface = "p2p-ab";
+              address4 = "10.0.0.0";
+            }
+            {
+              target = "router-b";
+              interface = "p2p-ab";
+              address4 = "10.0.0.1";
+            }
+          ];
+        };
       };
       pools = {
         loopback = {
@@ -49,18 +65,32 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [
+            "router-a"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "router-b"
+          ]
         ];
         nodes = {
-          client-edge = {
-            role = "access";
-            attachments = [ {
-                kind = "tenant";
-                name = "client";
-              } ];
+          router-a = {
+            role = "router";
+            interfaces = {
+              p2p-ab = {
+                address4 = "10.0.0.0";
+                prefixLength4 = 31;
+              };
+            };
           };
           downstream-selector = {
             role = "downstream-selector";
@@ -71,13 +101,12 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          testnet-edge = {
-            role = "core";
-            external = "testnet";
-            uplinks = {
-              testnet = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
+          router-b = {
+            role = "router";
+            interfaces = {
+              p2p-ab = {
+                address4 = "10.0.0.1";
+                prefixLength4 = 31;
               };
             };
           };

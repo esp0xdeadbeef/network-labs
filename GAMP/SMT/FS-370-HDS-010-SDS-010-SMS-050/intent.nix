@@ -1,105 +1,106 @@
 {
-  "mini-smt": {
-    "auto": {
-      "addressPools": {
-        "p2p": {
-          "ipv4": "100.1.114.0/24",
-          "ipv6": "fd42:0172::/64"
-        },
-        "tenant": {
-          "ipv4": "10.1.114.0/24",
-          "ipv6": "fd42:0172:1::/64"
-        },
-        "local": {
-          "ipv4": "10.127.114.0/24",
-          "ipv6": "fd42:0172:7f::/64"
-        }
-      },
-      "communicationContract": {
-        "relations": [
+  mini-smt = {
+    FS-370-HDS-010-SDS-010-SMS-050 = {
+      communicationContract = {
+        relations = [
           {
-            "id": "FS-370-HDS-010-SDS-010-SMS-050__mini-verify",
-            "action": "allow",
-            "from": {
-              "kind": "tenant",
-              "name": "client"
-            },
-            "to": {
-              "kind": "external",
-              "uplinks": [
-                "testnet"
-              ]
-            },
-            "trafficType": "any",
-            "priority": 100
+            id = "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "external";
+              name = "testnet";
+              uplinks = [ "testnet" ];
+            };
+            trafficType = "any";
+            priority = 100;
           }
-        ],
-        "trafficTypes": [
+        ];
+        trafficTypes = [
           {
-            "name": "any",
-            "match": [
+            name = "any";
+            match = [
               {
-                "family": "any",
-                "proto": "any"
+                family = "any";
+                proto = "any";
               }
-            ]
+            ];
           }
-        ]
-      },
-      "topology": {
-        "links": [
+        ];
+      };
+      ownership = {
+        prefixes = [
+          {
+            kind = "tenant";
+            name = "client";
+            ipv4 = "10.1.114.0/24";
+            ipv6 = "fd42:0172:1::/64";
+          }
+        ];
+      };
+      pools = {
+        loopback = {
+          ipv4 = "10.127.114.0/24";
+          ipv6 = "fd42:0172:7f::/64";
+        };
+        p2p = {
+          ipv4 = "100.1.114.0/24";
+          ipv6 = "fd42:0172::/64";
+        };
+      };
+      topology = {
+        links = [
           [
-            "client-edge",
+            "client-edge"
             "downstream-selector"
-          ],
+          ]
           [
-            "downstream-selector",
+            "downstream-selector"
             "policy"
-          ],
+          ]
           [
-            "policy",
+            "policy"
             "upstream-selector"
-          ],
+          ]
           [
-            "upstream-selector",
+            "upstream-selector"
             "testnet-edge"
           ]
-        ],
-        "nodes": {
-          "client-edge": {
-            "role": "access",
-            "attachments": [
+        ];
+        nodes = {
+          client-edge = {
+            role = "access";
+            attachments = [
               {
-                "kind": "tenant",
-                "name": "client"
+                kind = "tenant";
+                name = "client";
               }
-            ]
-          },
-          "downstream-selector": {
-            "role": "downstream-selector"
-          },
-          "policy": {
-            "role": "policy"
-          },
-          "upstream-selector": {
-            "role": "upstream-selector"
-          },
-          "testnet-edge": {
-            "role": "core",
-            "external": "testnet",
-            "uplinks": {
-              "testnet": {
-                "ipv4": [
-                  "0.0.0.0/0"
-                ],
-                "ipv6": [
-                  "::/0"
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+            ];
+          };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
+          };
+          testnet-edge = {
+            role = "core";
+            external = "testnet";
+            uplinks = {
+              testnet = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+        };
+      };
+    };
+  };
 }
