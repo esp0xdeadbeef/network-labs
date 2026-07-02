@@ -1,126 +1,105 @@
 {
-  "mini-smt" = {
-    "FS-380-HDS-020-SDS-010-SMS-050" = {
-      communicationContract = {
-        interfaceTags = {
-          external-emulated-isp = "emulated-isp";
-          tenant-client = "client";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.1.124.0/24",
+          "ipv6": "fd42:017c::/64"
+        },
+        "tenant": {
+          "ipv4": "10.1.124.0/24",
+          "ipv6": "fd42:017c:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.124.0/24",
+          "ipv6": "fd42:017c:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              uplinks = [
-                "internet-vlan4"
-                "internet-vlan5"
-              ];
-            };
-            trafficType = "any";
-            priority = 100;
+            "id": "FS-380-HDS-020-SDS-010-SMS-050__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
-        ];
-        services = [ ];
-        trafficTypes = [
+        ],
+        "trafficTypes": [
           {
-            name = "any";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "any";
-                proto = "any";
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.20.20.0/24";
-            ipv6 = "fd42:380:20::/64";
-          }
-        ];
-      };
-      pools = {
-        loopback = {
-          ipv4 = "10.19.0.0/24";
-          ipv6 = "fd42:380::/118";
-        };
-        p2p = {
-          ipv4 = "10.10.0.0/24";
-          ipv6 = "fd42:380:ff::/118";
-        };
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "client-edge"
+            "client-edge",
             "downstream-selector"
-          ]
+          ],
           [
-            "downstream-selector"
+            "downstream-selector",
             "policy"
-          ]
+          ],
           [
-            "policy"
+            "policy",
             "upstream-selector"
-          ]
+          ],
           [
-            "upstream-selector"
-            "emulated-isp"
+            "upstream-selector",
+            "testnet-edge"
           ]
-        ];
-        nodes = {
-          client-edge = {
-            role = "access";
-            accessHandoff = {
-              kind = "pppoe";
-              server = "emulated-isp";
-            };
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          upstream-selector = {
-            role = "upstream-selector";
-          };
-          emulated-isp = {
-            role = "core";
-            accessServices = [
-              {
-                kind = "pppoe-server";
-                client = "client-edge";
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
               }
-            ];
-            uplinks = {
-              internet-vlan4 = {
-                mode = "dhcp";
-                vlan = 4;
-              };
-              internet-vlan5 = {
-                mode = "dhcp";
-                vlan = 5;
-              };
-            };
-          };
-        };
-      };
-    };
-  };
+            }
+          }
+        }
+      }
+    }
+  }
 }

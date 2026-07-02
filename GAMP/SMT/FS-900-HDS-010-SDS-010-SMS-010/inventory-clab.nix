@@ -1,11 +1,17 @@
 {
-  meta = {
-    traceId = "FS-900-HDS-010-SDS-010-SMS-010";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-010-operational-record-events.md";
-    renderer = "clab";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-900-HDS-010-SDS-010-SMS-010",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

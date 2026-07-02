@@ -1,15 +1,17 @@
 {
-  meta = {
-    traceId = "FS-540-HDS-010-SDS-010-SMS-025";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-025-uplink-dns-follow-source.md";
-    renderer = "test-clients";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = { };
-    };
-  };
+  "meta": {
+    "traceId": "FS-540-HDS-010-SDS-010-SMS-025",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

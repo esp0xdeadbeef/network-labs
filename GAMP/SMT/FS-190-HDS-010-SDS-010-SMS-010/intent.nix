@@ -1,71 +1,105 @@
 {
-  "mini-smt" = {
-    "service-exposure-classification" = {
-      communicationContract = {
-        interfaceTags = {
-          tenant-client = "client";
-        };
-        relations = [ ];
-        services = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.0.190.0/24",
+          "ipv6": "fd42:00be::/64"
+        },
+        "tenant": {
+          "ipv4": "10.0.190.0/24",
+          "ipv6": "fd42:00be:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.190.0/24",
+          "ipv6": "fd42:00be:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            name = "web-service";
-            kind = "shared-local";
-            exposureClass = "shared-local";
-            ownerScope = {
-              kind = "tenant";
-              name = "client";
-            };
-            requesterScope = {
-              kind = "tenant";
-              name = "client";
-            };
+            "id": "FS-190-HDS-010-SDS-010-SMS-010__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
-        ];
-        trafficTypes = [
+        ],
+        "trafficTypes": [
           {
-            name = "web";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "ipv4";
-                proto = "tcp";
-                port = 443;
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.190.10.0/24";
-            ipv6 = "fd42:190:4010::/64";
-          }
-        ];
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "access-node"
-            "core-node"
+            "client-edge",
+            "downstream-selector"
+          ],
+          [
+            "downstream-selector",
+            "policy"
+          ],
+          [
+            "policy",
+            "upstream-selector"
+          ],
+          [
+            "upstream-selector",
+            "testnet-edge"
           ]
-        ];
-        nodes = {
-          access-node = {
-            role = "access";
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          core-node = {
-            role = "core";
-          };
-        };
-      };
-    };
-  };
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

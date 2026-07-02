@@ -1,165 +1,105 @@
 {
-  "mini-smt" = {
-    "FS-540-HDS-010-SDS-010-SMS-020" = {
-      communicationContract = {
-        interfaceTags = {
-          external-testnet = "testnet-vlan4";
-          tenant-client = "client";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.2.28.0/24",
+          "ipv6": "fd42:021c::/64"
+        },
+        "tenant": {
+          "ipv4": "10.2.28.0/24",
+          "ipv6": "fd42:021c:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.28.0/24",
+          "ipv6": "fd42:021c:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-client-to-access-dns";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "service";
-              name = "access-dns";
-            };
-            trafficType = "dns";
-            priority = 50;
+            "id": "FS-540-HDS-010-SDS-010-SMS-020__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
+        ],
+        "trafficTypes": [
           {
-            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet";
-            action = "allow";
-            from = {
-              kind = "service";
-              name = "access-dns";
-            };
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-vlan4" ];
-            };
-            trafficType = "dns";
-            priority = 60;
-          }
-          {
-            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-vlan4" ];
-            };
-            trafficType = "any";
-            priority = 100;
-          }
-        ];
-        services = [
-          {
-            name = "access-dns";
-            providers = [ "access-dns" ];
-            trafficType = "dns";
-          }
-        ];
-        trafficTypes = [
-          {
-            name = "dns";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "any";
-                proto = "udp";
-                dports = [ 53 ];
+                "family": "any",
+                "proto": "any"
               }
-              {
-                family = "any";
-                proto = "tcp";
-                dports = [ 53 ];
-              }
-            ];
+            ]
           }
-          {
-            name = "any";
-            match = [
-              {
-                family = "any";
-                proto = "any";
-              }
-            ];
-          }
-        ];
-      };
-      ownership = {
-        endpoints = [
-          {
-            kind = "host";
-            name = "access-dns";
-            tenant = "client";
-          }
-        ];
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.54.10.0/24";
-            ipv6 = "fd42:540::/64";
-          }
-        ];
-      };
-      pools = {
-        loopback = {
-          ipv4 = "10.54.0.0/24";
-          ipv6 = "fd42:540:ff::/118";
-        };
-        p2p = {
-          ipv4 = "10.54.255.0/24";
-          ipv6 = "fd42:540:fe::/118";
-        };
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "access-dns"
+            "client-edge",
             "downstream-selector"
-          ]
+          ],
           [
-            "downstream-selector"
+            "downstream-selector",
             "policy"
-          ]
+          ],
           [
-            "policy"
+            "policy",
             "upstream-selector"
-          ]
+          ],
           [
-            "upstream-selector"
-            "resolver-node"
+            "upstream-selector",
+            "testnet-edge"
           ]
-        ];
-        nodes = {
-          access-dns = {
-            role = "access";
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          upstream-selector = {
-            role = "upstream-selector";
-          };
-          resolver-node = {
-            role = "core";
-            uplinks = {
-              testnet-vlan4 = {
-                ipv4 = [ "10.20.0.0/24" ];
-                ipv6 = [ "fd42:540:20::/64" ];
-              };
-            };
-          };
-        };
-      };
-    };
-  };
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

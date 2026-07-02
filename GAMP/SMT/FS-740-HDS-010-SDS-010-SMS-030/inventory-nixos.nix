@@ -1,11 +1,17 @@
 {
-  meta = {
-    traceId = "FS-740-HDS-010-SDS-010-SMS-030";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-740-HDS-010-SDS-010-SMS-030-printer-administration-denial.md";
-    renderer = "nixos";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-740-HDS-010-SDS-010-SMS-030",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }
