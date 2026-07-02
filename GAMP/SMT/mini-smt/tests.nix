@@ -410,5 +410,34 @@
       scope = "Nebula renderer materializes one overlay with lighthouse/client nodes from explicit CPM input";
       maxRuntimeTargets = 2;
     };
+
+    "FS-310-HDS-010-SDS-010-SMS-030" = {
+      id = "FS-310-HDS-010-SDS-010-SMS-030";
+      traceId = "FS-310-HDS-010-SDS-010-SMS-030";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-010-SDS-010-SMS-030;
+        SMT = ../FS-310-HDS-010-SDS-010-SMS-030;
+        SIT = ../../SIT/FS-310-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-310-HDS-010-SDS-010-SMS-030/intent.nix;
+        expectedRelationIds = [
+          "FS-310-HDS-010-SDS-010-SMS-030__mini-allow-client-to-testnet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
+      liveScript = "../network-codex-agent/scripts/fs310-active-lab-policy-router-identity-runtime-check.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "Policy router relation identity preservation over two-node tenant-client to external-testnet path";
+      maxRuntimeTargets = 2;
+    };
   };
 }

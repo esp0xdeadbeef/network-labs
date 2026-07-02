@@ -1,1 +1,1 @@
-import ../GAMP/HAT/emulated-isp-residential-testnet/inventory-nixos.nix
+import ../GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/inventory-nixos.nix
