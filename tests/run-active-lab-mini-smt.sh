@@ -257,6 +257,8 @@ for key in "${selected[@]}"; do
   script_log="${case_dir}/script.log"
   offline_log="${case_dir}/offline.log"
   pinned_log="${case_dir}/pinned-nixos.log"
+  echo "WORKDIR ${trace_id}: ${case_dir}"
+  echo "LOGS ${trace_id}: script=${script_log} offline=${offline_log} pinned=${pinned_log}"
 
   run_script_validator \
     "${trace_id}" \
