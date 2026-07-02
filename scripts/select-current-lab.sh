@@ -535,6 +535,27 @@ ${forwarding_enterprise_json}
     builtins.filter
       (linkName: builtins.hasAttr nodeName (links.\${linkName}.endpoints or { }))
       (builtins.sort (left: right: left < right) (builtins.attrNames links));
+  mergeRecursive = left: right:
+    let
+      commonNames =
+        builtins.filter
+          (name: builtins.hasAttr name right && builtins.isAttrs left.\${name} && builtins.isAttrs right.\${name})
+          (builtins.attrNames left);
+      nested =
+        builtins.listToAttrs (
+          builtins.map
+            (name: {
+              inherit name;
+              value = mergeRecursive left.\${name} right.\${name};
+            })
+            commonNames
+        );
+    in
+    left // right // nested;
+  realizationNodeName = enterpriseName: siteName: nodeName:
+    sanitize "\${enterpriseName}-\${siteName}-\${nodeName}";
+  existingRealizationNodeFor = enterpriseName: siteName: nodeName:
+    (realization.nodes or { }).\${realizationNodeName enterpriseName siteName nodeName} or { };
   portForLink = enterpriseName: siteName: nodeName: index: linkName:
     let
       endpoint = (linksForSite enterpriseName siteName).\${linkName}.endpoints.\${nodeName};
@@ -601,7 +622,7 @@ ${forwarding_enterprise_json}
           (uplinkNamesForNode enterpriseName siteName nodeName)
       );
     in
-    linkPorts // tenantPorts // uplinkPorts;
+    mergeRecursive (linkPorts // tenantPorts // uplinkPorts) ((existingRealizationNodeFor enterpriseName siteName nodeName).ports or { });
   tenantInterfaceNamesForNode = enterpriseName: siteName: nodeName:
     let
       interfaces = (nodeForSite enterpriseName siteName nodeName).interfaces or { };
@@ -613,37 +634,43 @@ ${forwarding_enterprise_json}
     let
       tenantInterfaceNames = tenantInterfaceNamesForNode enterpriseName siteName nodeName;
     in
-    {
-      dhcp4 = builtins.listToAttrs (
-        builtins.map
-          (interfaceName: {
-            name = interfaceName;
-            value = {
-              dnsServers = [ "router-self" ];
-              domain = "lan.";
-            };
-          })
-          tenantInterfaceNames
-      );
-      ipv6Ra = builtins.listToAttrs (
-        builtins.map
-          (interfaceName: {
-            name = interfaceName;
-            value = {
-              dnssl = [ "lan." ];
-              rdnss = [ "router-self" ];
-            };
-          })
-          tenantInterfaceNames
-      );
-    };
-  servicesForNode = enterpriseName: siteName: nodeName:
-    if tenantInterfaceNamesForNode enterpriseName siteName nodeName == [ ] then
-      { }
-    else
+    mergeRecursive
       {
-        dns = { };
-      };
+        dhcp4 = builtins.listToAttrs (
+          builtins.map
+            (interfaceName: {
+              name = interfaceName;
+              value = {
+                dnsServers = [ "router-self" ];
+                domain = "lan.";
+              };
+            })
+            tenantInterfaceNames
+        );
+        ipv6Ra = builtins.listToAttrs (
+          builtins.map
+            (interfaceName: {
+              name = interfaceName;
+              value = {
+                dnssl = [ "lan." ];
+                rdnss = [ "router-self" ];
+              };
+            })
+            tenantInterfaceNames
+        );
+      }
+      ((existingRealizationNodeFor enterpriseName siteName nodeName).advertisements or { });
+  servicesForNode = enterpriseName: siteName: nodeName:
+    let
+      generatedDns =
+        if tenantInterfaceNamesForNode enterpriseName siteName nodeName == [ ] then
+          { }
+        else
+          {
+            dns = { };
+          };
+    in
+    mergeRecursive generatedDns ((existingRealizationNodeFor enterpriseName siteName nodeName).services or { });
   bridgeEntriesForSite = enterpriseName: siteName:
     let
       linkBridgeEntries =
