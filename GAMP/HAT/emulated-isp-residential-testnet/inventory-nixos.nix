@@ -220,8 +220,10 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               address = "2001:db8:51::2/64";
               method = "static";
             };
+            mode = "vlan";
             parent = "eth0";
             upstream = "isp-b";
+            vlan = 5;
           };
           uplink-testnet-host-isp = {
             bridge = "stub-clab-br-t-host";
@@ -559,8 +561,10 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
               address = "2001:db8:51::2/64";
               method = "static";
             };
+            mode = "vlan";
             parent = "eth0";
             upstream = "isp-b";
+            vlan = 5;
           };
           uplink-testnet-host-isp = {
             bridge = "br-t-host";
