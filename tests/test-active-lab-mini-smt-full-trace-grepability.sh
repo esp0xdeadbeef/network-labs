@@ -31,8 +31,19 @@ printf '%s\n' "${source_output}" | rg -q 'FS-400[.]010[.]010' \
 
 rg -q -F 'WORKDIR ${trace_id}: ${case_dir}' "${runner}" \
   || fail "runner must print full-trace workdir locations"
+rg -q -F 'RUNROOT ${trace_id}: ${run_root}' "${runner}" \
+  || fail "runner must print full-trace persistent runroot locations"
+rg -q -F '${case_dir}/${trace_id}.script.log' "${runner}" \
+  || fail "runner script log filename must include full trace ID"
+rg -q -F '${case_dir}/${trace_id}.offline.log' "${runner}" \
+  || fail "runner offline log filename must include full trace ID"
+rg -q -F '${case_dir}/${trace_id}.pinned-nixos.log' "${runner}" \
+  || fail "runner pinned log filename must include full trace ID"
 rg -q -F 'LOGS ${trace_id}: script=${script_log} offline=${offline_log} pinned=${pinned_log}' "${runner}" \
   || fail "runner must print full-trace log locations"
+if rg -n "trap 'rm -rf" "${runner}" >&2; then
+  fail "runner must keep trace-labeled logs after exit for grepability"
+fi
 
 if rg -n "${dotted_trace_re}" "${runner}" "${manifest}" >&2; then
   fail "runner or manifest contains dotted non-grepable trace aliases"
