@@ -484,7 +484,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-020-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-020.010.010";
+      scope = "FS-020-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -507,7 +507,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      scope = "FS-030-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -530,7 +530,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      scope = "FS-030-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -553,7 +553,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.020";
+      scope = "FS-030-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -576,7 +576,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-030-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.030";
+      scope = "FS-030-HDS-010-SDS-030-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -599,7 +599,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-040-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.040";
+      scope = "FS-030-HDS-010-SDS-040-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -622,7 +622,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.050";
+      scope = "FS-030-HDS-010-SDS-050-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -645,7 +645,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-040.010.010";
+      scope = "FS-040-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -668,7 +668,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-060-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-060.010.010";
+      scope = "FS-060-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -691,7 +691,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-070-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-070.010.010";
+      scope = "FS-070-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -714,7 +714,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-080-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-080.010.010";
+      scope = "FS-080-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -737,7 +737,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-090-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-090.010.010";
+      scope = "FS-090-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -760,7 +760,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      scope = "FS-100-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -783,7 +783,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      scope = "FS-100-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -806,7 +806,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      scope = "FS-100-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -829,7 +829,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      scope = "FS-100-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -852,7 +852,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-110-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-110.010.010";
+      scope = "FS-110-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -875,7 +875,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-120-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-120.010.010";
+      scope = "FS-120-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -898,7 +898,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-130-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-130.010.010";
+      scope = "FS-130-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -921,7 +921,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-140-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-140.010.010";
+      scope = "FS-140-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -944,7 +944,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-150-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-150.010.010";
+      scope = "FS-150-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -967,7 +967,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-150-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-150.010.020";
+      scope = "FS-150-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -990,7 +990,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-160-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-160.010.010";
+      scope = "FS-160-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1013,7 +1013,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-165-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-165.010.010";
+      scope = "FS-165-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1036,7 +1036,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-165-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-165.010.010";
+      scope = "FS-165-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1059,7 +1059,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-900.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-166.010.010";
+      scope = "FS-166-HDS-010-SDS-010-SMS-900 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1082,7 +1082,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-170-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-170.010.010";
+      scope = "FS-170-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1105,7 +1105,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-170-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-170.010.010";
+      scope = "FS-170-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1128,7 +1128,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-170-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-170.010.010";
+      scope = "FS-170-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1151,7 +1151,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-180-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-180.010.010";
+      scope = "FS-180-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1174,7 +1174,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-180-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-180.010.010";
+      scope = "FS-180-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1197,7 +1197,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-180-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-180.010.010";
+      scope = "FS-180-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1220,7 +1220,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-181-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-181.010.010";
+      scope = "FS-181-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1243,7 +1243,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-181-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-181.010.020";
+      scope = "FS-181-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1266,7 +1266,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-181-HDS-010-SDS-030-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-181.010.030";
+      scope = "FS-181-HDS-010-SDS-030-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1289,7 +1289,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-181-HDS-010-SDS-040-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-181.010.040";
+      scope = "FS-181-HDS-010-SDS-040-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1312,7 +1312,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-190-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-190.010.010";
+      scope = "FS-190-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1335,7 +1335,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-190-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-190.010.010";
+      scope = "FS-190-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1358,7 +1358,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-200-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-200.010.010";
+      scope = "FS-200-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1381,7 +1381,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-200-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-200.010.010";
+      scope = "FS-200-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1404,7 +1404,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-210-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-210.010.010";
+      scope = "FS-210-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1427,7 +1427,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-210-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-210.010.010";
+      scope = "FS-210-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1450,7 +1450,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-210-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-210.010.010";
+      scope = "FS-210-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1473,7 +1473,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-220-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-220.010.010";
+      scope = "FS-220-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1496,7 +1496,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-230-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-230.010.010";
+      scope = "FS-230-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1519,7 +1519,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-230-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-230.010.010";
+      scope = "FS-230-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1542,7 +1542,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-230-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-230.010.010";
+      scope = "FS-230-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1565,7 +1565,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-240-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-240.010.010";
+      scope = "FS-240-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1588,7 +1588,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-240-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-240.010.010";
+      scope = "FS-240-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1611,7 +1611,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-240-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-240.010.010";
+      scope = "FS-240-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1634,7 +1634,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-250-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-250.010.010";
+      scope = "FS-250-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1657,7 +1657,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-250-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-250.010.010";
+      scope = "FS-250-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1680,7 +1680,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-255-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-255.010.010";
+      scope = "FS-255-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1703,7 +1703,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1726,7 +1726,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-012.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-012 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1749,7 +1749,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-015.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-015 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1772,7 +1772,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1795,7 +1795,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1818,7 +1818,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1841,7 +1841,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1864,7 +1864,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1887,7 +1887,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1910,7 +1910,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1933,7 +1933,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-265-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-265.010.010";
+      scope = "FS-265-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1956,7 +1956,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-267-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-267.010.010";
+      scope = "FS-267-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -1979,7 +1979,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-270-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-270.010.010";
+      scope = "FS-270-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2002,7 +2002,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-270-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-270.010.010";
+      scope = "FS-270-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2025,7 +2025,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-270-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-270.010.010";
+      scope = "FS-270-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2048,7 +2048,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-275-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-275.010.010";
+      scope = "FS-275-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2071,7 +2071,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-280-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-280.010.010";
+      scope = "FS-280-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2094,7 +2094,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-280-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-280.010.010";
+      scope = "FS-280-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2117,7 +2117,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-290-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-290.010.010";
+      scope = "FS-290-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2140,7 +2140,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-290-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-290.010.010";
+      scope = "FS-290-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2163,7 +2163,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-290-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-290.010.010";
+      scope = "FS-290-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2186,7 +2186,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-300-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-300.010.010";
+      scope = "FS-300-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2209,7 +2209,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-300-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-300.010.010";
+      scope = "FS-300-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2232,7 +2232,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-300-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-300.010.010";
+      scope = "FS-300-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2255,7 +2255,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-305-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-305.010.010";
+      scope = "FS-305-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2278,7 +2278,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.010.010";
+      scope = "FS-310-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2301,7 +2301,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-010-SDS-010-SMS-120.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.010.010";
+      scope = "FS-310-HDS-010-SDS-010-SMS-120 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2324,7 +2324,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-010-SDS-010-SMS-130.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.010.010";
+      scope = "FS-310-HDS-010-SDS-010-SMS-130 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2347,7 +2347,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2370,7 +2370,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2393,7 +2393,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2416,7 +2416,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-190.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-190 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2439,7 +2439,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-210.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-210 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2462,7 +2462,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.030.010";
+      scope = "FS-310-HDS-030-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2485,7 +2485,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.030.010";
+      scope = "FS-310-HDS-030-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2508,7 +2508,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-110.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.030.010";
+      scope = "FS-310-HDS-030-SDS-010-SMS-110 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2531,7 +2531,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-111.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.030.010";
+      scope = "FS-310-HDS-030-SDS-010-SMS-111 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2554,7 +2554,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-112.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.030.010";
+      scope = "FS-310-HDS-030-SDS-010-SMS-112 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2577,7 +2577,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-100.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-100 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2600,7 +2600,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-101.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-101 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2623,7 +2623,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-102.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-102 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2646,7 +2646,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-140.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-140 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2669,7 +2669,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-150.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-150 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2692,7 +2692,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-160.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-160 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2715,7 +2715,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-170.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-170 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2738,7 +2738,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-180.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.040.010";
+      scope = "FS-310-HDS-040-SDS-010-SMS-180 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2761,7 +2761,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-050-SDS-010-SMS-220.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.050.010";
+      scope = "FS-310-HDS-050-SDS-010-SMS-220 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2784,7 +2784,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.010.010";
+      scope = "FS-320-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2807,7 +2807,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-020-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.020.010";
+      scope = "FS-320-HDS-020-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2830,7 +2830,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-020-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.020.010";
+      scope = "FS-320-HDS-020-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2853,7 +2853,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-030-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.030.010";
+      scope = "FS-320-HDS-030-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2876,7 +2876,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-040-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.040.010";
+      scope = "FS-320-HDS-040-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2899,7 +2899,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-330-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-330.010.010";
+      scope = "FS-330-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2922,7 +2922,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-330-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-330.010.010";
+      scope = "FS-330-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2945,7 +2945,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-330-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-330.010.010";
+      scope = "FS-330-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2968,7 +2968,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-340-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-340.010.010";
+      scope = "FS-340-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -2991,7 +2991,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-340-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-340.010.010";
+      scope = "FS-340-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3014,7 +3014,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-340-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-340.010.010";
+      scope = "FS-340-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3037,7 +3037,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      scope = "FS-350-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3060,7 +3060,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      scope = "FS-350-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3083,7 +3083,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      scope = "FS-350-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3106,7 +3106,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-360-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-360.010.010";
+      scope = "FS-360-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3129,7 +3129,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-360-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-360.010.010";
+      scope = "FS-360-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3152,7 +3152,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-360-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-360.010.010";
+      scope = "FS-360-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3175,7 +3175,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3198,7 +3198,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3221,7 +3221,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3244,7 +3244,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3267,7 +3267,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3290,7 +3290,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3313,7 +3313,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3336,7 +3336,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-100.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-100 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3359,7 +3359,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-110.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-110 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3382,7 +3382,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-120.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-120 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3405,7 +3405,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.010.010";
+      scope = "FS-380-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3428,7 +3428,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.010.010";
+      scope = "FS-380-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3451,7 +3451,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.010.010";
+      scope = "FS-380-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3474,7 +3474,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3497,7 +3497,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3520,7 +3520,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3543,7 +3543,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3566,7 +3566,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-100.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-100 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3589,7 +3589,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-020-SDS-010-SMS-110.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.020.010";
+      scope = "FS-380-HDS-020-SDS-010-SMS-110 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3612,7 +3612,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-390.010.010";
+      scope = "FS-390-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3635,7 +3635,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-390.010.010";
+      scope = "FS-390-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3658,7 +3658,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-390.010.010";
+      scope = "FS-390-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3773,7 +3773,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-410-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-410.010.010";
+      scope = "FS-410-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3796,7 +3796,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-410-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-410.010.010";
+      scope = "FS-410-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3819,7 +3819,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-410-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-410.010.010";
+      scope = "FS-410-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3842,7 +3842,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-410-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-410.010.010";
+      scope = "FS-410-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3865,7 +3865,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-410-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-410.010.010";
+      scope = "FS-410-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3888,7 +3888,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-420-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-420.010.010";
+      scope = "FS-420-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3911,7 +3911,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-420-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-420.010.010";
+      scope = "FS-420-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3934,7 +3934,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-420-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-420.010.010";
+      scope = "FS-420-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3957,7 +3957,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-430-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-430.010.010";
+      scope = "FS-430-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3980,7 +3980,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-430-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-430.010.010";
+      scope = "FS-430-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4003,7 +4003,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-430-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-430.010.010";
+      scope = "FS-430-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4026,7 +4026,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      scope = "FS-440-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4049,7 +4049,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      scope = "FS-440-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4072,7 +4072,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      scope = "FS-440-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4095,7 +4095,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      scope = "FS-440-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4118,7 +4118,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-450-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-450.010.010";
+      scope = "FS-450-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4141,7 +4141,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-450-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-450.010.010";
+      scope = "FS-450-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4164,7 +4164,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-450-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-450.010.010";
+      scope = "FS-450-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4187,7 +4187,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4210,7 +4210,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4233,7 +4233,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-021.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-021 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4256,7 +4256,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4279,7 +4279,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-041.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-041 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4302,7 +4302,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4325,7 +4325,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4348,7 +4348,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4371,7 +4371,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4394,7 +4394,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4417,7 +4417,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4440,7 +4440,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-021.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-021 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4463,7 +4463,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-022.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-022 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4486,7 +4486,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4509,7 +4509,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-041.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-041 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4532,7 +4532,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4555,7 +4555,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4578,7 +4578,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4601,7 +4601,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4624,7 +4624,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-480-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-480.010.010";
+      scope = "FS-480-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4647,7 +4647,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-480-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-480.010.010";
+      scope = "FS-480-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4670,7 +4670,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-480-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-480.010.010";
+      scope = "FS-480-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4693,7 +4693,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-490-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-490.010.010";
+      scope = "FS-490-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4716,7 +4716,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-490-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-490.010.010";
+      scope = "FS-490-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4739,7 +4739,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-490-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-490.010.010";
+      scope = "FS-490-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4762,7 +4762,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-510-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-510.010.010";
+      scope = "FS-510-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4785,7 +4785,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-510-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-510.010.010";
+      scope = "FS-510-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4808,7 +4808,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-510-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-510.010.010";
+      scope = "FS-510-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4831,7 +4831,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-520-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-520.010.010";
+      scope = "FS-520-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4854,7 +4854,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-520-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-520.010.010";
+      scope = "FS-520-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4877,7 +4877,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-520-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-520.010.010";
+      scope = "FS-520-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4900,7 +4900,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-530-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-530.010.010";
+      scope = "FS-530-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4923,7 +4923,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-530-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-530.010.010";
+      scope = "FS-530-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4946,7 +4946,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-530-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-530.010.010";
+      scope = "FS-530-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4969,7 +4969,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-025.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      scope = "FS-540-HDS-010-SDS-010-SMS-025 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -4992,7 +4992,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      scope = "FS-540-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5015,7 +5015,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-035.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      scope = "FS-540-HDS-010-SDS-010-SMS-035 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5038,7 +5038,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.020.010";
+      scope = "FS-540-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5061,7 +5061,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      scope = "FS-550-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5084,7 +5084,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      scope = "FS-550-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5107,7 +5107,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      scope = "FS-550-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5130,7 +5130,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      scope = "FS-550-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5153,7 +5153,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-560.010.010";
+      scope = "FS-560-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5176,7 +5176,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-560.010.010";
+      scope = "FS-560-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5199,7 +5199,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-560.010.010";
+      scope = "FS-560-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5222,7 +5222,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-570-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-570.010.010";
+      scope = "FS-570-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5245,7 +5245,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-570-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-570.010.010";
+      scope = "FS-570-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5268,7 +5268,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-570-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-570.010.010";
+      scope = "FS-570-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5291,7 +5291,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-580-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-580.010.010";
+      scope = "FS-580-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5314,7 +5314,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-580-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-580.010.010";
+      scope = "FS-580-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5337,7 +5337,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-580-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-580.010.010";
+      scope = "FS-580-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5360,7 +5360,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-590-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-590.010.010";
+      scope = "FS-590-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5383,7 +5383,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-590-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-590.010.010";
+      scope = "FS-590-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5406,7 +5406,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-590-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-590.010.010";
+      scope = "FS-590-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5429,7 +5429,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-600-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-600.010.010";
+      scope = "FS-600-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5452,7 +5452,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-600-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-600.010.010";
+      scope = "FS-600-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5475,7 +5475,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-600-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-600.010.010";
+      scope = "FS-600-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5498,7 +5498,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-610-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-610.010.010";
+      scope = "FS-610-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5521,7 +5521,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-610-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-610.010.010";
+      scope = "FS-610-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5544,7 +5544,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-610-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-610.010.010";
+      scope = "FS-610-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5567,7 +5567,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-620-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-620.010.010";
+      scope = "FS-620-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5590,7 +5590,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-620-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-620.010.010";
+      scope = "FS-620-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5613,7 +5613,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-620-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-620.010.010";
+      scope = "FS-620-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5636,7 +5636,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-630-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-630.010.010";
+      scope = "FS-630-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5659,7 +5659,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-630-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-630.010.010";
+      scope = "FS-630-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5682,7 +5682,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-630-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-630.010.010";
+      scope = "FS-630-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5705,7 +5705,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5728,7 +5728,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5751,7 +5751,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5774,7 +5774,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5797,7 +5797,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5820,7 +5820,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-650-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-650.010.010";
+      scope = "FS-650-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5843,7 +5843,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-650-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-650.010.010";
+      scope = "FS-650-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5866,7 +5866,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-650-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-650.010.010";
+      scope = "FS-650-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5889,7 +5889,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-660-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-660.010.010";
+      scope = "FS-660-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5912,7 +5912,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-660-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-660.010.010";
+      scope = "FS-660-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5935,7 +5935,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-660-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-660.010.010";
+      scope = "FS-660-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5958,7 +5958,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-670-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-670.010.010";
+      scope = "FS-670-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -5981,7 +5981,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-670-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-670.010.010";
+      scope = "FS-670-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6004,7 +6004,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-670-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-670.010.010";
+      scope = "FS-670-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6027,7 +6027,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      scope = "FS-680-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6050,7 +6050,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      scope = "FS-680-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6073,7 +6073,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      scope = "FS-680-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6096,7 +6096,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      scope = "FS-680-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6119,7 +6119,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-690-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-690.010.010";
+      scope = "FS-690-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6142,7 +6142,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-690-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-690.010.010";
+      scope = "FS-690-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6165,7 +6165,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-690-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-690.010.010";
+      scope = "FS-690-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6188,7 +6188,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-700-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-700.010.010";
+      scope = "FS-700-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6211,7 +6211,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-700-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-700.010.020";
+      scope = "FS-700-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6234,7 +6234,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-700-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-700.020.010";
+      scope = "FS-700-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6257,7 +6257,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-005.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      scope = "FS-710-HDS-010-SDS-010-SMS-005 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6280,7 +6280,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      scope = "FS-710-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6303,7 +6303,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      scope = "FS-710-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6326,7 +6326,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      scope = "FS-710-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6349,7 +6349,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.020.010";
+      scope = "FS-710-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6372,7 +6372,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.010";
+      scope = "FS-720-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6395,7 +6395,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.010";
+      scope = "FS-720-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6418,7 +6418,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.010";
+      scope = "FS-720-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6441,7 +6441,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-015-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.015";
+      scope = "FS-720-HDS-010-SDS-015-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6464,7 +6464,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.020";
+      scope = "FS-720-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6487,7 +6487,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-020-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.020";
+      scope = "FS-720-HDS-010-SDS-020-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6510,7 +6510,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-025-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.025";
+      scope = "FS-720-HDS-010-SDS-025-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6533,7 +6533,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-040-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.040";
+      scope = "FS-720-HDS-010-SDS-040-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6556,7 +6556,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-050-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.050";
+      scope = "FS-720-HDS-010-SDS-050-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6579,7 +6579,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-060-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.060";
+      scope = "FS-720-HDS-010-SDS-060-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6602,7 +6602,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.020.010";
+      scope = "FS-720-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6625,7 +6625,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-030-SDS-010-SMS-021.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.030.010";
+      scope = "FS-720-HDS-030-SDS-010-SMS-021 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6648,7 +6648,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-030-SDS-010-SMS-041.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.030.010";
+      scope = "FS-720-HDS-030-SDS-010-SMS-041 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6671,7 +6671,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-040-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.040.010";
+      scope = "FS-720-HDS-040-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6694,7 +6694,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-725-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-725.010.010";
+      scope = "FS-725-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6717,7 +6717,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-725-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-725.020.010";
+      scope = "FS-725-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6740,7 +6740,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-730-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-730.010.010";
+      scope = "FS-730-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6763,7 +6763,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-730-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-730.010.010";
+      scope = "FS-730-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6786,7 +6786,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-730-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-730.010.010";
+      scope = "FS-730-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6809,7 +6809,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-730-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-730.020.010";
+      scope = "FS-730-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6832,7 +6832,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.010.010";
+      scope = "FS-740-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6855,7 +6855,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.010.010";
+      scope = "FS-740-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6878,7 +6878,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.010.010";
+      scope = "FS-740-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6901,7 +6901,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.020.010";
+      scope = "FS-740-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6924,7 +6924,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-030-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.030.010";
+      scope = "FS-740-HDS-030-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6947,7 +6947,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-040-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.040.010";
+      scope = "FS-740-HDS-040-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6970,7 +6970,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-750-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-750.010.010";
+      scope = "FS-750-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -6993,7 +6993,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-750-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-750.010.010";
+      scope = "FS-750-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7016,7 +7016,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-750-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-750.010.010";
+      scope = "FS-750-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7039,7 +7039,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-750-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-750.020.010";
+      scope = "FS-750-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7062,7 +7062,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      scope = "FS-760-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7085,7 +7085,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      scope = "FS-760-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7108,7 +7108,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      scope = "FS-760-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7131,7 +7131,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      scope = "FS-760-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7154,7 +7154,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.020.010";
+      scope = "FS-760-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7177,7 +7177,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-030-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.030.010";
+      scope = "FS-760-HDS-030-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7200,7 +7200,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-040-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.040.010";
+      scope = "FS-760-HDS-040-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7223,7 +7223,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.010";
+      scope = "FS-770-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7246,7 +7246,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.010";
+      scope = "FS-770-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7269,7 +7269,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.010";
+      scope = "FS-770-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7292,7 +7292,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.020";
+      scope = "FS-770-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7315,7 +7315,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.020";
+      scope = "FS-770-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7338,7 +7338,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-020-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.020";
+      scope = "FS-770-HDS-010-SDS-020-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7361,7 +7361,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-030-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.030";
+      scope = "FS-770-HDS-010-SDS-030-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7384,7 +7384,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-030-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.030";
+      scope = "FS-770-HDS-010-SDS-030-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7407,7 +7407,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-030-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.030";
+      scope = "FS-770-HDS-010-SDS-030-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7430,7 +7430,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.020.010";
+      scope = "FS-770-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7453,7 +7453,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-780-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-780.010.010";
+      scope = "FS-780-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7476,7 +7476,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-780-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-780.010.020";
+      scope = "FS-780-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7499,7 +7499,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-780-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-780.010.020";
+      scope = "FS-780-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7522,7 +7522,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-780-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-780.020.010";
+      scope = "FS-780-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7545,7 +7545,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-790.010.010";
+      scope = "FS-790-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7568,7 +7568,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-790.010.010";
+      scope = "FS-790-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7591,7 +7591,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-790.010.010";
+      scope = "FS-790-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7614,7 +7614,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-790.020.010";
+      scope = "FS-790-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7637,7 +7637,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.010";
+      scope = "FS-800-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7660,7 +7660,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.010";
+      scope = "FS-800-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7683,7 +7683,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.010";
+      scope = "FS-800-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7706,7 +7706,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-011-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.011";
+      scope = "FS-800-HDS-010-SDS-011-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7729,7 +7729,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-012-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.012";
+      scope = "FS-800-HDS-010-SDS-012-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7752,7 +7752,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-013-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.013";
+      scope = "FS-800-HDS-010-SDS-013-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7775,7 +7775,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.020";
+      scope = "FS-800-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7798,7 +7798,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.020";
+      scope = "FS-800-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7821,7 +7821,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-020-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.020";
+      scope = "FS-800-HDS-010-SDS-020-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7844,7 +7844,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-030-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.030";
+      scope = "FS-800-HDS-010-SDS-030-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7867,7 +7867,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-030-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.030";
+      scope = "FS-800-HDS-010-SDS-030-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7890,7 +7890,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-030-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.030";
+      scope = "FS-800-HDS-010-SDS-030-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7913,7 +7913,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-020-SDS-021-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.020.021";
+      scope = "FS-800-HDS-020-SDS-021-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7936,7 +7936,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-020-SDS-040-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.020.040";
+      scope = "FS-800-HDS-020-SDS-040-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7959,7 +7959,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-030-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.030.010";
+      scope = "FS-800-HDS-030-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -7982,7 +7982,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-030-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.030.020";
+      scope = "FS-800-HDS-030-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8005,7 +8005,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-030-SDS-030-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.030.030";
+      scope = "FS-800-HDS-030-SDS-030-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8028,7 +8028,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-810-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-810.010.010";
+      scope = "FS-810-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8051,7 +8051,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-810-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-810.010.010";
+      scope = "FS-810-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8074,7 +8074,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-810-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-810.010.010";
+      scope = "FS-810-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8097,7 +8097,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-820.010.010";
+      scope = "FS-820-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8120,7 +8120,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-820.010.010";
+      scope = "FS-820-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8143,7 +8143,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-820.010.010";
+      scope = "FS-820-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8166,7 +8166,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-820.010.010";
+      scope = "FS-820-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8189,7 +8189,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-820.010.010";
+      scope = "FS-820-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8212,7 +8212,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-830.010.010";
+      scope = "FS-830-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8235,7 +8235,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-830.010.010";
+      scope = "FS-830-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8258,7 +8258,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-830.010.010";
+      scope = "FS-830-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8281,7 +8281,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-840.010.010";
+      scope = "FS-840-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8304,7 +8304,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-840.010.010";
+      scope = "FS-840-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8327,7 +8327,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-840.010.010";
+      scope = "FS-840-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8350,7 +8350,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-850-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-850.010.010";
+      scope = "FS-850-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8373,7 +8373,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-850-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-850.010.010";
+      scope = "FS-850-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8396,7 +8396,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-850-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-850.010.010";
+      scope = "FS-850-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8419,7 +8419,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-860.010.010";
+      scope = "FS-860-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8442,7 +8442,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-860.010.010";
+      scope = "FS-860-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8465,7 +8465,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-860.010.010";
+      scope = "FS-860-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8488,7 +8488,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-870-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-870.010.010";
+      scope = "FS-870-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8511,7 +8511,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-870-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-870.010.010";
+      scope = "FS-870-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8534,7 +8534,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-870-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-870.010.010";
+      scope = "FS-870-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8557,7 +8557,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-880-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-880.010.010";
+      scope = "FS-880-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8580,7 +8580,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-880-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-880.010.010";
+      scope = "FS-880-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8603,7 +8603,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-880-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-880.010.010";
+      scope = "FS-880-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8626,7 +8626,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-890-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-890.010.010";
+      scope = "FS-890-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8649,7 +8649,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-890-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-890.010.010";
+      scope = "FS-890-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8672,7 +8672,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-890-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-890.010.010";
+      scope = "FS-890-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8695,7 +8695,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-900-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-900.010.010";
+      scope = "FS-900-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8718,7 +8718,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-900-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-900.010.010";
+      scope = "FS-900-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8741,7 +8741,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-900-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-900.010.010";
+      scope = "FS-900-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8764,7 +8764,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-910-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-910.010.010";
+      scope = "FS-910-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8787,7 +8787,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-910-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-910.010.010";
+      scope = "FS-910-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8810,7 +8810,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-910-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-910.010.010";
+      scope = "FS-910-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8833,7 +8833,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-920-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-920.010.010";
+      scope = "FS-920-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8856,7 +8856,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-920-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-920.010.010";
+      scope = "FS-920-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8879,7 +8879,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-920-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-920.010.010";
+      scope = "FS-920-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8902,7 +8902,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-930-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-930.010.010";
+      scope = "FS-930-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8925,7 +8925,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-930-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-930.010.010";
+      scope = "FS-930-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8948,7 +8948,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-930-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-930.010.010";
+      scope = "FS-930-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8971,7 +8971,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -8994,7 +8994,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9017,7 +9017,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9040,7 +9040,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9063,7 +9063,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9086,7 +9086,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9109,7 +9109,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9132,7 +9132,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9155,7 +9155,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9178,7 +9178,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9201,7 +9201,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9224,7 +9224,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9247,7 +9247,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9270,7 +9270,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-950-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-950.010.010";
+      scope = "FS-950-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9293,7 +9293,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-950-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-950.010.010";
+      scope = "FS-950-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9316,7 +9316,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-950-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-950.010.010";
+      scope = "FS-950-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9339,7 +9339,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9362,7 +9362,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9385,7 +9385,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9408,7 +9408,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9431,7 +9431,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9454,7 +9454,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9477,7 +9477,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9500,7 +9500,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9523,7 +9523,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-011-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.011";
+      scope = "FS-960-HDS-010-SDS-011-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9546,7 +9546,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-012-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.012";
+      scope = "FS-960-HDS-010-SDS-012-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9569,7 +9569,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-013-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.013";
+      scope = "FS-960-HDS-010-SDS-013-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9592,7 +9592,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-014-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.014";
+      scope = "FS-960-HDS-010-SDS-014-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9615,7 +9615,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-015-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.015";
+      scope = "FS-960-HDS-010-SDS-015-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9638,7 +9638,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9661,7 +9661,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9684,7 +9684,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9707,7 +9707,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9730,7 +9730,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9753,7 +9753,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-020-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.020.010";
+      scope = "FS-960-HDS-020-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9776,7 +9776,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.010";
+      scope = "FS-970-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9799,7 +9799,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.010";
+      scope = "FS-970-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9822,7 +9822,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.010";
+      scope = "FS-970-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9845,7 +9845,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.020";
+      scope = "FS-970-HDS-010-SDS-020-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9868,7 +9868,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.020";
+      scope = "FS-970-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9891,7 +9891,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.020";
+      scope = "FS-970-HDS-010-SDS-020-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9914,7 +9914,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-980-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-980.010.010";
+      scope = "FS-980-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9937,7 +9937,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-980-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-980.010.010";
+      scope = "FS-980-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9960,7 +9960,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-980-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-980.010.010";
+      scope = "FS-980-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -9983,7 +9983,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10006,7 +10006,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10029,7 +10029,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10052,7 +10052,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10075,7 +10075,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10098,7 +10098,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10121,7 +10121,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10144,7 +10144,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10167,7 +10167,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10190,7 +10190,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10213,7 +10213,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-070.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-070 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10236,7 +10236,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-080.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-080 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10259,7 +10259,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-090.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-090 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10282,7 +10282,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-100.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-100 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10305,7 +10305,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-110.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-110 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10328,7 +10328,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-983-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-983.010.010";
+      scope = "FS-983-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10351,7 +10351,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-984-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-984.010.010";
+      scope = "FS-984-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10374,7 +10374,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-985-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-985.010.010";
+      scope = "FS-985-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10397,7 +10397,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-985-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-985.010.010";
+      scope = "FS-985-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10420,7 +10420,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      scope = "FS-030-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10443,7 +10443,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-030.010.010";
+      scope = "FS-030-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10466,7 +10466,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-050-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-050.010.010";
+      scope = "FS-050-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10489,7 +10489,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-100-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-100.010.010";
+      scope = "FS-100-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10512,7 +10512,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-165-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-165.010.010";
+      scope = "FS-165-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10535,7 +10535,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-180-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-180.010.010";
+      scope = "FS-180-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10558,7 +10558,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-190-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-190.010.010";
+      scope = "FS-190-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10581,7 +10581,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-200-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-200.010.010";
+      scope = "FS-200-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10604,7 +10604,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-260-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-260.010.010";
+      scope = "FS-260-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10627,7 +10627,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-270-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-270.010.010";
+      scope = "FS-270-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10650,7 +10650,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.010.010";
+      scope = "FS-310-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10673,7 +10673,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10696,7 +10696,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-310-HDS-020-SDS-010-SMS-200.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-310.020.010";
+      scope = "FS-310-HDS-020-SDS-010-SMS-200 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10719,7 +10719,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.010.010";
+      scope = "FS-320-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10742,7 +10742,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.010.010";
+      scope = "FS-320-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10765,7 +10765,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-320-HDS-030-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-320.030.010";
+      scope = "FS-320-HDS-030-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10788,7 +10788,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-340-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-340.010.010";
+      scope = "FS-340-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10811,7 +10811,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      scope = "FS-350-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10834,7 +10834,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-350-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-350.010.010";
+      scope = "FS-350-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10857,7 +10857,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10880,7 +10880,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-370-HDS-010-SDS-010-SMS-101.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-370.010.010";
+      scope = "FS-370-HDS-010-SDS-010-SMS-101 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10903,7 +10903,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-380-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-380.010.010";
+      scope = "FS-380-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10972,7 +10972,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-440-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-440.010.010";
+      scope = "FS-440-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10995,7 +10995,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-460-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-460.010.010";
+      scope = "FS-460-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11018,7 +11018,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-470-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-470.010.010";
+      scope = "FS-470-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11041,7 +11041,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-480-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-480.010.010";
+      scope = "FS-480-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11064,7 +11064,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-500-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-500.010.010";
+      scope = "FS-500-HDS-010-SDS-010-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11087,7 +11087,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-510-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-510.010.010";
+      scope = "FS-510-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11110,7 +11110,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-520-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-520.010.010";
+      scope = "FS-520-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11133,7 +11133,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-530-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-530.010.010";
+      scope = "FS-530-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11156,7 +11156,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      scope = "FS-540-HDS-010-SDS-010-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11179,7 +11179,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-540.010.010";
+      scope = "FS-540-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11202,7 +11202,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-550-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-550.010.010";
+      scope = "FS-550-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11225,7 +11225,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-560.010.010";
+      scope = "FS-560-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11248,7 +11248,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-570-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-570.010.010";
+      scope = "FS-570-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11271,7 +11271,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-580-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-580.010.010";
+      scope = "FS-580-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11294,7 +11294,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-590-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-590.010.010";
+      scope = "FS-590-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11317,7 +11317,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-600-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-600.010.010";
+      scope = "FS-600-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11340,7 +11340,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-610-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-610.010.010";
+      scope = "FS-610-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11363,7 +11363,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-620-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-620.010.010";
+      scope = "FS-620-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11386,7 +11386,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-630-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-630.010.010";
+      scope = "FS-630-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11409,7 +11409,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-640-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-640.010.010";
+      scope = "FS-640-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11432,7 +11432,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-650-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-650.010.010";
+      scope = "FS-650-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11455,7 +11455,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-660-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-660.010.010";
+      scope = "FS-660-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11478,7 +11478,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-670-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-670.010.010";
+      scope = "FS-670-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11501,7 +11501,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-680-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-680.010.010";
+      scope = "FS-680-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11524,7 +11524,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-710-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-710.010.010";
+      scope = "FS-710-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11547,7 +11547,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.010";
+      scope = "FS-720-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11570,7 +11570,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-020-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.020";
+      scope = "FS-720-HDS-010-SDS-020-SMS-020 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11593,7 +11593,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-720-HDS-010-SDS-030-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-720.010.030";
+      scope = "FS-720-HDS-010-SDS-030-SMS-010 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11616,7 +11616,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-740-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-740.010.010";
+      scope = "FS-740-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11639,7 +11639,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-760-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-760.010.010";
+      scope = "FS-760-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11662,7 +11662,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-770-HDS-010-SDS-020-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-770.010.020";
+      scope = "FS-770-HDS-010-SDS-020-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11685,7 +11685,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-790-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-790.010.010";
+      scope = "FS-790-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11708,7 +11708,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-800-HDS-010-SDS-030-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-800.010.030";
+      scope = "FS-800-HDS-010-SDS-030-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11731,7 +11731,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-830.010.010";
+      scope = "FS-830-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11754,7 +11754,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-840.010.010";
+      scope = "FS-840-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11777,7 +11777,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-930-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-930.010.010";
+      scope = "FS-930-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11800,7 +11800,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.010";
+      scope = "FS-940-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11823,7 +11823,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-940-HDS-010-SDS-020-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-940.010.020";
+      scope = "FS-940-HDS-010-SDS-020-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11846,7 +11846,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-950-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-950.010.010";
+      scope = "FS-950-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11869,7 +11869,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.010";
+      scope = "FS-960-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11892,7 +11892,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-960-HDS-010-SDS-016-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-960.010.016";
+      scope = "FS-960-HDS-010-SDS-016-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11915,7 +11915,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-970.010.010";
+      scope = "FS-970-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11938,7 +11938,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-980-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-980.010.010";
+      scope = "FS-980-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11961,7 +11961,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-981-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-981.010.010";
+      scope = "FS-981-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -11984,7 +11984,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-982-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-982.010.010";
+      scope = "FS-982-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
   };

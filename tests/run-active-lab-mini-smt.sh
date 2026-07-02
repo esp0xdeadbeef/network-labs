@@ -171,11 +171,11 @@ run_pinned_active_lab_build() {
   out_link="${work_dir}/s-router-nixos-pinned"
 
   [[ -f "${nixos_root}/flake.nix" ]] || {
-    echo "Pinned s-router-nixos build missing NixOS flake: ${nixos_root}" >&2
+    echo "FAIL ${trace_id}: pinned s-router-nixos build missing NixOS flake: ${nixos_root}" >&2
     return 1
   }
   [[ -f "${nixos_root}/flake.lock" ]] || {
-    echo "Pinned s-router-nixos build missing flake.lock: ${nixos_root}/flake.lock" >&2
+    echo "FAIL ${trace_id}: pinned s-router-nixos build missing flake.lock: ${nixos_root}/flake.lock" >&2
     return 1
   }
 
