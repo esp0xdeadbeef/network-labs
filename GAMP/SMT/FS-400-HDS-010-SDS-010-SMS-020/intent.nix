@@ -7,7 +7,7 @@
           tenant-client = "client";
         };
         relations = [ {
-            id = "FS-400-HDS-010-SDS-010-SMS-020__mini-verify";
+            id = "FS-400-HDS-010-SDS-010-SMS-020__mini-ula-nat66-tenant-to-wan";
             action = "allow";
             from = {
               kind = "tenant";
@@ -33,9 +33,17 @@
         prefixes = [ {
             kind = "tenant";
             name = "client";
+            internetMode = "nat66";
+            nat66EgressPrefix = "2001:db8:abcd::/48";
             ipv4 = "10.1.144.0/24";
             ipv6 = "fd42:0190:50::/64";
           } ];
+      };
+      nat66Egress = {
+        testnet = {
+          prefix = "2001:db8:abcd::/48";
+          source = "FS-400-HDS-010-SDS-010-SMS-020";
+        };
       };
       pools = {
         loopback = {
@@ -49,13 +57,13 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
+          [ "residential-edge" "downstream-selector" ]
           [ "downstream-selector" "policy" ]
           [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [ "upstream-selector" "wan-edge" ]
         ];
         nodes = {
-          client-edge = {
+          residential-edge = {
             role = "access";
             attachments = [ {
                 kind = "tenant";
@@ -71,7 +79,7 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          testnet-edge = {
+          wan-edge = {
             role = "core";
             external = "testnet";
             uplinks = {

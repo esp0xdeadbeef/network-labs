@@ -1,12 +1,12 @@
-# SMT Source Stub: FS-400-HDS-010-SDS-010-SMS-010
+# SMT Construction Row: FS-400-HDS-010-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-010-ipv6-internet-mode-selection.md`
 
-Status: NOT OK - source stub only.
+Status: OK - construction-only.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row has no live runtime target. `GAMP/SMT/mini-smt/tests.nix` dispatches
+the construction-only verifier in `network-codex-agent`, which aggregates the
+mode-specific CPM construction proofs for ULA NAT66, routed client GUA, and
+overlay client GUA. Live runtime rows stay on the mode-specific child SMS rows.
 
 Title slug: `ipv6-internet-mode-selection`

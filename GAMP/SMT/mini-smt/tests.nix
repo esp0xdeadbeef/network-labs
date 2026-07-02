@@ -3681,8 +3681,8 @@
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
-      maxRuntimeTargets = 5;
+      scope = "FS-400-HDS-010-SDS-010-SMS-010 SMT construction verifier";
+      maxRuntimeTargets = 0;
     };
 
     "FS-400-HDS-010-SDS-010-SMS-030" = {
@@ -3704,7 +3704,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-030.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      scope = "FS-400-HDS-010-SDS-010-SMS-030 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3727,7 +3727,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-050.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      scope = "FS-400-HDS-010-SDS-010-SMS-050 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -3750,7 +3750,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-060.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      scope = "FS-400-HDS-010-SDS-010-SMS-060 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
@@ -10919,15 +10919,15 @@
       source = {
         kind = "intent-source";
         intent = ../FS-400-HDS-010-SDS-010-SMS-020/intent.nix;
-        expectedRelationIds = [ "FS-400-HDS-010-SDS-010-SMS-020__mini-verify" ];
+        expectedRelationIds = [ "FS-400-HDS-010-SDS-010-SMS-020__mini-ula-nat66-tenant-to-wan" ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-020.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
-      maxRuntimeTargets = 5;
+      scope = "FS-400-HDS-010-SDS-010-SMS-020 SMT construction verifier";
+      maxRuntimeTargets = 0;
     };
 
     "FS-400-HDS-010-SDS-010-SMS-040" = {
@@ -10949,7 +10949,7 @@
       script = "../network-codex-agent/scripts/smt-live-FS-400-HDS-010-SDS-010-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "Auto-generated SMT live verifier for FS-400.010.010";
+      scope = "FS-400-HDS-010-SDS-010-SMS-040 SMT live verifier";
       maxRuntimeTargets = 5;
     };
 
