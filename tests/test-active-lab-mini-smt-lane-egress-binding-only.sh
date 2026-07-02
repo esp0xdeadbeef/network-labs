@@ -4,11 +4,12 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+trace_id="FS-370-HDS-010-SDS-010-SMS-050"
 mini_file="${repo_root}/GAMP/SMT/mini-smt/default.nix"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 
 fail() {
-  echo "FAIL active-lab-mini-smt-lane-egress-binding-only: $*" >&2
+  echo "FAIL ${trace_id} active-lab-mini-smt-lane-egress-binding-only: $*" >&2
   exit 1
 }
 
@@ -112,4 +113,4 @@ nix eval --impure --expr "
       \"valid lane egress relation must expect access-uplink lane kind\"
 " >/dev/null || fail "mini SMT lane egress binding contract failed"
 
-echo "PASS active-lab-mini-smt-lane-egress-binding-only"
+echo "PASS ${trace_id} active-lab-mini-smt-lane-egress-binding-only"
