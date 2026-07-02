@@ -1,9 +1,9 @@
 {
-  layer = "SIT";
-  selector = "FS-380-HDS-020-SDS-010";
-  traceId = "FS-380-HDS-020-SDS-010";
-  sourceKind = "sds-integration-source";
-  sourceRoot = "GAMP/SIT/FS-380-HDS-020-SDS-010";
-  sourcePath = "GAMP/SIT/FS-380-HDS-020-SDS-010/default.nix";
-  selectedBy = "scripts/select-current-lab.sh SIT FS-380-HDS-020-SDS-010";
+  layer = "SMT";
+  selector = "FS-390-HDS-010-SDS-010-SMS-010";
+  traceId = "FS-390-HDS-010-SDS-010-SMS-010";
+  sourceKind = "intent-source";
+  sourceRoot = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-010";
+  sourcePath = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-010/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT FS-390-HDS-010-SDS-010-SMS-010";
 }
