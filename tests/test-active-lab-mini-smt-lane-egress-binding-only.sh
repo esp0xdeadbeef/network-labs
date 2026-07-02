@@ -19,9 +19,31 @@ nix eval --impure --expr "
   let
     mini = import ${mini_file};
     manifest = import ${manifest_file};
+    rowIntent = import ${repo_root}/GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/intent.nix;
+    rowInventories = [
+      (import ${repo_root}/GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/inventory-nixos.nix)
+      (import ${repo_root}/GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/inventory-clab.nix)
+      (import ${repo_root}/GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-050/inventory-test-clients.nix)
+    ];
     lab = mini.labs.\"FS-370-HDS-010-SDS-010-SMS-050\";
     entry = manifest.tests.\"FS-370-HDS-010-SDS-010-SMS-050\";
     relation = builtins.head lab.laneEgressRelations;
+    rowSite = rowIntent.\"mini-smt\".\"FS-370-HDS-010-SDS-010-SMS-050\";
+    rowUplinkNames = builtins.concatMap
+      (node: builtins.attrNames (node.uplinks or { }))
+      (builtins.attrValues (rowSite.topology.nodes or { }));
+    rowInventoryUplinkBridgeConflicts = builtins.concatMap
+      (inventory:
+        let
+          hosts = (inventory.deploymentHosts or { }) // ((inventory.deployment or { }).hosts or { });
+        in
+        builtins.concatMap
+          (host:
+            builtins.filter
+              (bridgeName: builtins.elem bridgeName rowUplinkNames)
+              (builtins.attrNames (host.bridgeNetworks or { })))
+          (builtins.attrValues hosts))
+      rowInventories;
     expectedTargets = [
       \"client-edge\"
       \"downstream-selector\"
@@ -64,6 +86,8 @@ nix eval --impure --expr "
       \"lane-egress upstream-selector must bind the testnet uplink surface\"
     && require (lab.runtimeTargets.testnet-edge.role == \"core\" && lab.runtimeTargets.testnet-edge.external == \"testnet\")
       \"lane-egress testnet-edge must be the modeled external core\"
+    && require (rowInventoryUplinkBridgeConflicts == [ ])
+      \"lane-egress source inventories must not declare uplink bridge names as generic bridgeNetworks\"
     && require (builtins.length lab.laneEgressRelations == 1)
       \"lane-egress mini SMT must test exactly one lane egress relation\"
     && require (lab.testsOnly == [

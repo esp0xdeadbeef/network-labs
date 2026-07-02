@@ -199,11 +199,12 @@ selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
   `FS-800-HDS-030-SDS-030-SMS-040`.
 - `network-labs/GAMP/SDS` and `network-labs/GAMP/SIT` trace directories: 176
   each, all mirrored from canonical parent SDS rows.
-- SMT defaults explicitly marked `source-stub-only`: 405. SIT defaults
-  explicitly marked `source-stub-only`: 116. These are not runnable mini-SMT or
-  SIT evidence until a focused runner or owning repository proof is registered.
-- Active mini-SMT selectors in `GAMP/SMT/mini-smt/tests.nix`: 15.
-- Selectable active-lab SIT selectors derived from the mini-SMT manifest: 8.
+- SMT defaults explicitly marked `source-stub-only`: 403. SIT defaults
+  explicitly marked `source-stub-only`: 116. These row-local defaults remain
+  mirror metadata until their manifest row, focused wrapper, and owning proof
+  are checked for the selected trace.
+- Active mini-SMT selectors in `GAMP/SMT/mini-smt/tests.nix`: 518.
+- Selectable active-lab SIT selectors derived from the mini-SMT manifest: 176.
 - HAT/SAT source selectors: one HAT source
   `GAMP/HAT/emulated-isp-residential-testnet` and one SAT source `GAMP/SAT`.
 

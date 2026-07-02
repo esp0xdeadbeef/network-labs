@@ -6,6 +6,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fixture="${repo_root}/GAMP/SMT/FS-350-HDS-010-SDS-010-SMS-040/intent.nix"
+nfm_repo="${NFM_REPO_ROOT:-/home/deadbeef/github/network-forwarding-model}"
 
 fail() {
   echo "FAIL FS-350-HDS-010-SDS-010-SMS-040: $*" >&2
@@ -13,6 +14,7 @@ fail() {
 }
 
 [[ -f "${fixture}" ]] || fail "missing fixture: ${fixture}"
+[[ -d "${nfm_repo}" ]] || fail "missing network-forwarding-model repo: ${nfm_repo}"
 
 # Evaluate NFM prefix-authority classification functions against the row-local fixture.
 # We use `nix eval` with the network-forwarding-model flake to test:
@@ -24,7 +26,7 @@ fail() {
 nix eval --impure --expr "
   let
     fixture = import ${fixture};
-    nfmFlake = builtins.getFlake \"github:esp0xdeadbeef/network-forwarding-model\";
+    nfmFlake = builtins.getFlake \"path:${nfm_repo}\";
     lib = nfmFlake.inputs.nixpkgs.lib;
 
     # Build prefix authority records from the fixture

@@ -132,8 +132,8 @@ source_stub_sit_count="$(rg -l 'evidenceBoundary = "source-stub-only"' "${repo_r
 [[ "${labs_smt_count}" == "518" ]] || fail "network-labs SMT dir count changed: ${labs_smt_count}"
 [[ "${labs_sds_count}" == "176" ]] || fail "network-labs SDS dir count changed: ${labs_sds_count}"
 [[ "${labs_sit_count}" == "176" ]] || fail "network-labs SIT dir count changed: ${labs_sit_count}"
-[[ "${runnable_smt_count}" == "15" ]] || fail "runnable SMT selector count changed: ${runnable_smt_count}"
-[[ "${runnable_sit_count}" == "8" ]] || fail "runnable SIT selector count changed: ${runnable_sit_count}"
+[[ "${runnable_smt_count}" == "${labs_smt_count}" ]] || fail "runnable SMT selector count changed: ${runnable_smt_count}"
+[[ "${runnable_sit_count}" == "${labs_sit_count}" ]] || fail "runnable SIT selector count changed: ${runnable_sit_count}"
 [[ "${runnable_hat_count}" == "1" ]] || fail "runnable HAT selector count changed: ${runnable_hat_count}"
 [[ "${runnable_sat_count}" == "1" ]] || fail "runnable SAT selector count changed: ${runnable_sat_count}"
 

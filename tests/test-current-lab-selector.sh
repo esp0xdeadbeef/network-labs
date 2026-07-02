@@ -19,13 +19,12 @@ cleanup() {
 }
 trap cleanup EXIT
 
-"${selector}" --list >/dev/null
+selector_list="$("${selector}" --list)"
 
-"${selector}" --list | rg -qx 'SIT FS-500-HDS-010-SDS-010' \
+grep -Fxq 'SIT FS-500-HDS-010-SDS-010' <<<"${selector_list}" \
   || fail "selector list must include current runnable SIT FS-500-HDS-010-SDS-010"
-if "${selector}" --list | rg -qx 'SIT FS-010-HDS-010-SDS-010'; then
-  fail "selector list must not expose source-stub-only SIT FS-010-HDS-010-SDS-010"
-fi
+grep -Fxq 'SIT FS-010-HDS-010-SDS-010' <<<"${selector_list}" \
+  || fail "selector list must expose manifest-backed SIT FS-010-HDS-010-SDS-010"
 
 "${selector}" default >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
@@ -524,9 +523,17 @@ in
   && require (hetzUplinks ? pppoe-provider && hetzUplinks.pppoe-provider.mode == "vlan" && hetzUplinks.pppoe-provider.vlan == 5 && hetzUplinks.pppoe-provider.parent == "eth0") "FS-800 provider route Hetz pppoe-provider uplink must be VLAN5, not raw eth0"
 ' >/dev/null || fail "SIT FS-800 provider default-route selection failed"
 
-if "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null 2>&1; then
-  fail "source-stub-only SIT selection should fail"
-fi
+"${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  require = cond: msg: if cond then true else throw msg;
+in
+  require (current.selection.layer == "SIT") "manifest-backed SIT selector layer mismatch"
+  && require (current.selection.selector == "FS-010-HDS-010-SDS-010") "manifest-backed SIT selector id mismatch"
+  && require (current.selection.sourceKind == "sds-integration-source") "manifest-backed SIT source kind mismatch"
+' >/dev/null || fail "manifest-backed SIT FS-010-HDS-010-SDS-010 selection failed"
 
 "${selector}" HAT >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '

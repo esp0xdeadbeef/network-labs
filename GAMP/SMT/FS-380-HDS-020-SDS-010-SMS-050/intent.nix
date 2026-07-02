@@ -3,11 +3,12 @@
     FS-380-HDS-020-SDS-010-SMS-050 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
+          external-emulated-isp = "emulated-isp";
           tenant-client = "client";
         };
-        relations = [ {
-            id = "FS-380-HDS-020-SDS-010-SMS-050__mini-verify";
+        relations = [
+          {
+            id = "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp";
             action = "allow";
             from = {
               kind = "tenant";
@@ -15,27 +16,59 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [
+                "isp"
+                "pppoe-provider"
+              ];
             };
             trafficType = "any";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
+      internetModeRecords = [
+        {
+          accessHandoff = {
+            kind = "pppoe";
+            client = "client-edge";
+            server = "emulated-isp";
+          };
+          upstream = {
+            kind = "emulated-isp";
+            internetUplinks = [
+              {
+                vlan = 4;
+                mode = "dhcp";
+              }
+              {
+                vlan = 5;
+                mode = "dhcp";
+              }
+            ];
+          };
+        }
+      ];
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
             name = "client";
             ipv4 = "10.1.124.0/24";
             ipv6 = "fd42:017c:50::/64";
-          } ];
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -49,18 +82,36 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "emulated-isp"
+          ]
         ];
         nodes = {
           client-edge = {
             role = "access";
-            attachments = [ {
+            accessHandoff = {
+              kind = "pppoe";
+              server = "emulated-isp";
+            };
+            attachments = [
+              {
                 kind = "tenant";
                 name = "client";
-              } ];
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";
@@ -71,11 +122,21 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          testnet-edge = {
+          emulated-isp = {
             role = "core";
-            external = "testnet";
+            external = "emulated-isp";
+            accessServices = [
+              {
+                kind = "pppoe-server";
+                client = "client-edge";
+              }
+            ];
             uplinks = {
-              testnet = {
+              isp = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+              pppoe-provider = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };

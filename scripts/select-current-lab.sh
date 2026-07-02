@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-current_dir="${repo_root}/current-lab"
+current_dir="${NETWORK_LABS_CURRENT_LAB_DIR:-${repo_root}/current-lab}"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 
 usage() {
@@ -999,7 +999,21 @@ sit_command_for() {
 let
   row = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
 in
-  row.evidence.command or \"\"
+  if (row.evidence.command or null) == null then \"\" else row.evidence.command
+"
+}
+
+first_manifest_mini_key_for_sit() {
+  local sds="$1"
+  nix eval --impure --raw --expr "
+let
+  manifest = import ${manifest_file};
+  ids = builtins.attrNames manifest.tests;
+  traceFor = id: (builtins.getAttr id manifest.tests).traceId;
+  sdsFor = trace: builtins.elemAt (builtins.match \"(FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+)-SMS-[0-9]+.*\" trace) 0;
+  matches = builtins.filter (id: sdsFor (traceFor id) == \"${sds}\") ids;
+in
+  if matches == [ ] then \"\" else builtins.head matches
 "
 }
 
@@ -1009,6 +1023,15 @@ first_manifest_mini_for_sit() {
   command="$(sit_command_for "${sds}")"
   case "${command}" in
     "tests/run-active-lab-mini-smt.sh "*) ;;
+    "")
+      mini_id="$(first_manifest_mini_key_for_sit "${sds}")"
+      if [[ -n "${mini_id}" ]]; then
+        printf '%s\n' "${mini_id}"
+        return 0
+      fi
+      echo "SIT row has no registered mini-SMT selector in ${manifest_file}: ${sds}" >&2
+      return 2
+      ;;
     *)
       echo "SIT row is not a current active-lab SIT shim: ${sds}" >&2
       echo "SIT row command: ${command:-<none>}" >&2

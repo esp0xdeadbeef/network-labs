@@ -3,20 +3,19 @@
   traceId = "FS-370-HDS-010-SDS-010-SMS-030";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-030-host-only-source-prefix-denial.md";
   titleSlug = "host-only-source-prefix-denial";
+  evidenceBoundary = "construction-only";
   source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-030/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-030/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-030/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-030/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
+    kind = "intent-source";
+    intent = ./intent.nix;
+    expectedRelationIds = [ "FS-370-HDS-010-SDS-010-SMS-030__mini-verify" ];
   };
-  status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "network-forwarding-model";
+    focusedTest = "tests/fs-370-hds-010-sds-010-sms-030.sh";
+    activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-030";
+    smtRow = "GAMP/SMT/README.md row 228";
+    status = "OK";
+    verifiedAt = "network-forwarding-model local HEAD b3012dd plus working tree (2026-07-02)";
+    scope = "host-only source-prefix denial: classifies IPv4 /32 and IPv6 /128 source-file authorities as host-only-provider-prefix, preserves prefix-authority records, and denies downstream export while leaving modeled routed-public-ipv4 semantics intact (construction-only, NFM-owned). Active-lab live script currently reports host artifact context and does not promote runtime acceptance.";
   };
 }

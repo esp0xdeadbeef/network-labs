@@ -1,16 +1,15 @@
 {
   meta = {
     traceId = "FS-540-HDS-010-SDS-010-SMS-020";
-    scope = "mini-smt-auto";
+    scope = "row-local-test-client-endpoint-source";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
-    s-router-nixos = {
+    s-router-test-clients = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        "br-mini-smt-dns-resolver-config-tenant-client" = { };
       };
     };
   };
+  realization.nodes = { };
 }

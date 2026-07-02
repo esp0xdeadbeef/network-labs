@@ -1,15 +1,15 @@
 {
   meta = {
     traceId = "FS-800-HDS-010-SDS-020-SMS-040";
-    scope = "mini-smt-auto";
+    scope = "provider-access-default-route";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-nixos = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        provider-handoff-a = { };
       };
     };
   };

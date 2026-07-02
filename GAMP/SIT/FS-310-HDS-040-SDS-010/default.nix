@@ -34,8 +34,8 @@
       smtRow = ../../SMT/FS-310-HDS-040-SDS-010-SMS-150;
       sourcePath = "GAMP/SMT/FS-310-HDS-040-SDS-010-SMS-150/intent.nix";
       canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-150-cpm-platform-abstention.md";
-      role = "canonical-sms-source-stub";
-      evidenceBoundary = "source-stub-only";
+      role = "cpm-platform-abstention";
+      evidenceBoundary = "active mini-SMT runtime wrapper plus owning CPM construction proof";
     };
     "FS-310-HDS-040-SDS-010-SMS-160" = {
       smtRow = ../../SMT/FS-310-HDS-040-SDS-010-SMS-160;
@@ -60,7 +60,18 @@
     };
   };
   evidence = {
-    command = null;
-    observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
+    command = "tests/run-active-lab-mini-smt.sh FS-310-HDS-040-SDS-010-SMS-150";
+    liveCommand = ''
+      cd /home/deadbeef/github/network-codex-agent &&
+      NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
+      S_ROUTER_NIXOS=s-router-nixos \
+      S_ROUTER_CLAB=s-router-clab \
+      S_ROUTER_TEST_CLIENTS=s-router-test-clients \
+      bash scripts/smt-live-FS-310-HDS-040-SDS-010-SMS-150.sh
+    '';
+    sourcePaths = [
+      "GAMP/SMT/FS-310-HDS-040-SDS-010-SMS-150/intent.nix"
+    ];
+    observedResult = "registered runtime wrapper for the SMS-150 mini profile; row remains unpromoted until the live wrapper passes after the selected active-lab build and the owning CPM construction test remains passing";
   };
 }

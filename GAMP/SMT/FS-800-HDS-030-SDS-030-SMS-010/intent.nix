@@ -3,39 +3,55 @@
     FS-800-HDS-030-SDS-030-SMS-010 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
-          tenant-client = "client";
+          pppoe-customer = "pppoe-client";
+          pppoe-provider = "pppoe-provider";
         };
-        relations = [ {
-            id = "FS-800-HDS-030-SDS-030-SMS-010__mini-verify";
+        relations = [
+          {
+            id = "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider";
             action = "allow";
             from = {
-              kind = "tenant";
-              name = "client";
+              kind = "pppoe-customer";
+              name = "pppoe-client";
             };
             to = {
-              kind = "external";
-              uplinks = [ "testnet" ];
+              kind = "pppoe-provider";
+              name = "pppoe-provider";
+              uplinks = [ "pppoe-provider" ];
             };
-            trafficType = "any";
+            trafficType = "pppoe-session";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
-            name = "any";
-            match = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
+            name = "pppoe-session";
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
-      ownership = {
-        prefixes = [ {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.3.32.0/24";
-            ipv6 = "fd42:0320:50::/64";
-          } ];
+      pppoePairs = {
+        primary = {
+          provider = {
+            target = "pppoe-provider";
+            handoff = "pppoe";
+            routeDeliveryClass = "connected";
+          };
+          customer = {
+            target = "pppoe-client";
+            coreInterface = "wan0";
+            runtimeInterface = "ppp0";
+            routeAuthority = "connected";
+          };
+          fallback = false;
+          transportClassification = "pppoe";
+        };
       };
       pools = {
         loopback = {
@@ -49,18 +65,28 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [
+            "pppoe-client"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "pppoe-provider"
+          ]
         ];
         nodes = {
-          client-edge = {
-            role = "access";
-            attachments = [ {
-                kind = "tenant";
-                name = "client";
-              } ];
+          pppoe-client = {
+            role = "pppoe-client";
+            interface = "wan0";
+            runtimeInterface = "ppp0";
           };
           downstream-selector = {
             role = "downstream-selector";
@@ -71,11 +97,10 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          testnet-edge = {
-            role = "core";
-            external = "testnet";
+          pppoe-provider = {
+            role = "pppoe-provider";
             uplinks = {
-              testnet = {
+              pppoe-provider = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };

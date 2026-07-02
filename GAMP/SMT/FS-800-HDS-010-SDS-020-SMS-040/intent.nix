@@ -3,39 +3,48 @@
     FS-800-HDS-010-SDS-020-SMS-040 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
-          tenant-client = "client";
+          external-isp = "isp";
+          external-pppoe-provider = "pppoe-provider";
+          tenant-provider-handoff-a = "provider-handoff-a";
         };
-        relations = [ {
-            id = "FS-800-HDS-010-SDS-020-SMS-040__mini-verify";
+        relations = [
+          {
+            id = "FS-800-HDS-010-SDS-020-SMS-040__mini-provider-handoff-to-internet";
             action = "allow";
             from = {
               kind = "tenant";
-              name = "client";
+              name = "provider-handoff-a";
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [ "isp" ];
             };
             trafficType = "any";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
-            name = "client";
-            ipv4 = "10.3.32.0/24";
-            ipv6 = "fd42:0320:50::/64";
-          } ];
+            name = "provider-handoff-a";
+            ipv4 = "203.0.113.0/24";
+            ipv6 = "2001:db8:800:20::/64";
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -49,18 +58,36 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [
+            "provider-handoff-access-a"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "fabric-core"
+          ]
+          [
+            "upstream-selector"
+            "pppoe-core"
+          ]
         ];
         nodes = {
-          client-edge = {
+          provider-handoff-access-a = {
             role = "access";
-            attachments = [ {
+            attachments = [
+              {
                 kind = "tenant";
-                name = "client";
-              } ];
+                name = "provider-handoff-a";
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";
@@ -71,11 +98,21 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          testnet-edge = {
+          fabric-core = {
             role = "core";
-            external = "testnet";
+            external = "isp";
             uplinks = {
-              testnet = {
+              isp = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+          pppoe-core = {
+            role = "core";
+            external = "pppoe-provider";
+            uplinks = {
+              pppoe-provider = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };

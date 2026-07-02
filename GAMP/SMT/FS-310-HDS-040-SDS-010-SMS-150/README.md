@@ -1,12 +1,15 @@
-# SMT Source Stub: FS-310-HDS-040-SDS-010-SMS-150
+# SMT Source: FS-310-HDS-040-SDS-010-SMS-150
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-150-cpm-platform-abstention.md`
 
-Status: NOT OK - source stub only.
+Status: ACTIVE MINI-SMT - registered runtime wrapper.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row is registered in `GAMP/SMT/mini-smt/tests.nix` and is selected through
+`scripts/select-current-lab.sh SMT FS-310-HDS-040-SDS-010-SMS-150`.
+
+The canonical SMS is construction/RaTM-scoped CPM platform abstention. The
+active-lab wrapper is therefore a runtime evidence guard for the selected mini
+profile: it must fail when the live `s-router-*` hosts do not carry this trace,
+relation, and target shape. It is not by itself HAT/SAT acceptance.
 
 Title slug: `cpm-platform-abstention`
