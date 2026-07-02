@@ -235,8 +235,9 @@ else
   done
 fi
 
-run_root="$(mktemp -d)"
-trap 'rm -rf "${run_root}"' EXIT
+run_stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+run_root="${MINI_SMT_RUN_ROOT:-${TMPDIR:-/tmp}/active-lab-mini-smt-runs/${run_stamp}-$$}"
+mkdir -p "${run_root}"
 
 for key in "${selected[@]}"; do
   trace_id="$(trace_for_key "${key}")"
@@ -254,9 +255,10 @@ for key in "${selected[@]}"; do
   cpm_path="$(cpm_path_for "${key}")"
   case_dir="${run_root}/${trace_id}"
   mkdir -p "${case_dir}"
-  script_log="${case_dir}/script.log"
-  offline_log="${case_dir}/offline.log"
-  pinned_log="${case_dir}/pinned-nixos.log"
+  script_log="${case_dir}/${trace_id}.script.log"
+  offline_log="${case_dir}/${trace_id}.offline.log"
+  pinned_log="${case_dir}/${trace_id}.pinned-nixos.log"
+  echo "RUNROOT ${trace_id}: ${run_root}"
   echo "WORKDIR ${trace_id}: ${case_dir}"
   echo "LOGS ${trace_id}: script=${script_log} offline=${offline_log} pinned=${pinned_log}"
 
