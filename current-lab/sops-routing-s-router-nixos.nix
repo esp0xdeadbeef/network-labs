@@ -1,1 +1,8 @@
-import ../GAMP/SAT/sops-routing-s-router-nixos.nix
+{ ... }:
+
+{
+  _module.args.activeLabSopsStub = {
+    kind = "current-lab-empty-sops-stub";
+    hostName = "s-router-nixos";
+  };
+}

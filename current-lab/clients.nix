@@ -1,1 +1,1 @@
-import ../GAMP/SAT/clients.nix
+import ./inventory-test-clients.nix
