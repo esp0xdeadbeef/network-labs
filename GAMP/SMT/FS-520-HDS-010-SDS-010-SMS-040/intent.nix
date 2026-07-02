@@ -1,88 +1,105 @@
 {
-  "mini-smt" = {
-    "fs_520_hds_010_sds_010_sms_040" = {
-      communicationContract = {
-        interfaceTags = {
-          external-testnet = "testnet";
-          tenant-client = "client";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.2.8.0/24",
+          "ipv6": "fd42:0208::/64"
+        },
+        "tenant": {
+          "ipv4": "10.2.8.0/24",
+          "ipv6": "fd42:0208:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.8.0/24",
+          "ipv6": "fd42:0208:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-520-HDS-010-SDS-010-SMS-040__mini-client-to-testnet";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              name = "testnet";
-            };
-            trafficType = "any";
-            priority = 100;
+            "id": "FS-520-HDS-010-SDS-010-SMS-040__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
-        ];
-        services = [ ];
-        trafficTypes = [
+        ],
+        "trafficTypes": [
           {
-            name = "any";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "any";
-                proto = "any";
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.16.10.0/24";
-            ipv6 = "fd42:mini:16::/64";
-          }
-        ];
-      };
-      pools = {
-        loopback = {
-          ipv4 = "10.16.0.0/24";
-          ipv6 = "fd42:mini:16:ff::/118";
-        };
-        p2p = {
-          ipv4 = "10.0.16.0/30";
-          ipv6 = "fd42:mini:16:fe::/126";
-        };
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "client-edge"
+            "client-edge",
+            "downstream-selector"
+          ],
+          [
+            "downstream-selector",
+            "policy"
+          ],
+          [
+            "policy",
+            "upstream-selector"
+          ],
+          [
+            "upstream-selector",
             "testnet-edge"
           ]
-        ];
-        nodes = {
-          client-edge = {
-            role = "access";
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          testnet-edge = {
-            role = "core";
-            uplinks = {
-              testnet = {
-                ipv4 = [ "10.16.0.0/24" ];
-                ipv6 = [ "fd42:mini:16:20::/64" ];
-              };
-            };
-          };
-        };
-      };
-    };
-  };
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

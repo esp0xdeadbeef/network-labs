@@ -1,105 +1,105 @@
 {
-  "mini-smt" = {
-    "endpoint-harness-consumption" = {
-      communicationContract = {
-        interfaceTags = {
-          tenant-client = "client";
-          tenant-printer = "printer";
-          tenant-receiver = "receiver";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.2.208.0/24",
+          "ipv6": "fd42:02d0::/64"
+        },
+        "tenant": {
+          "ipv4": "10.2.208.0/24",
+          "ipv6": "fd42:02d0:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.208.0/24",
+          "ipv6": "fd42:02d0:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-720-HDS-010-SDS-020-SMS-020__mini-client-harness-consumption";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "tenant";
-              name = "printer";
-            };
-            trafficType = "any";
-            priority = 100;
+            "id": "FS-720-HDS-010-SDS-020-SMS-020__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
-        ];
-        services = [ ];
-        trafficTypes = [
+        ],
+        "trafficTypes": [
           {
-            name = "any";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "any";
-                proto = "any";
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.50.20.0/24";
-            ipv6 = "fd42:mini:720:20::/64";
-          }
-          {
-            kind = "tenant";
-            name = "printer";
-            ipv4 = "10.50.30.0/24";
-            ipv6 = "fd42:mini:720:30::/64";
-          }
-          {
-            kind = "tenant";
-            name = "receiver";
-            ipv4 = "10.50.40.0/24";
-            ipv6 = "fd42:mini:720:40::/64";
-          }
-        ];
-      };
-      pools = {
-        loopback = {
-          ipv4 = "10.50.0.0/24";
-          ipv6 = "fd42:mini:720:ff::/118";
-        };
-        p2p = {
-          ipv4 = "10.50.255.0/24";
-          ipv6 = "fd42:mini:720:fe::/118";
-        };
-      };
-      topology = {
-        links = [ ];
-        nodes = {
-          client-edge = {
-            role = "access";
-            attachments = [
+        ]
+      },
+      "topology": {
+        "links": [
+          [
+            "client-edge",
+            "downstream-selector"
+          ],
+          [
+            "downstream-selector",
+            "policy"
+          ],
+          [
+            "policy",
+            "upstream-selector"
+          ],
+          [
+            "upstream-selector",
+            "testnet-edge"
+          ]
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          printer-edge = {
-            role = "access";
-            attachments = [
-              {
-                kind = "tenant";
-                name = "printer";
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
               }
-            ];
-          };
-          receiver-edge = {
-            role = "access";
-            attachments = [
-              {
-                kind = "tenant";
-                name = "receiver";
-              }
-            ];
-          };
-        };
-      };
-    };
-  };
+            }
+          }
+        }
+      }
+    }
+  }
 }

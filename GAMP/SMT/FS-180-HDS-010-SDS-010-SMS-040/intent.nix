@@ -1,91 +1,105 @@
 {
-  "mini-smt" = {
-    "bidirectional-nft" = {
-      communicationContract = {
-        interfaceTags = {
-          tenant-tenant-a = "tenant-a";
-          tenant-tenant-b = "tenant-b";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.0.180.0/24",
+          "ipv6": "fd42:00b4::/64"
+        },
+        "tenant": {
+          "ipv4": "10.0.180.0/24",
+          "ipv6": "fd42:00b4:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.180.0/24",
+          "ipv6": "fd42:00b4:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web";
-            action = "allow";
-            returnBehavior = "symmetric";
-            from = {
-              kind = "tenant";
-              name = "tenant-a";
-            };
-            to = {
-              kind = "tenant";
-              name = "tenant-b";
-            };
-            trafficType = "web";
+            "id": "FS-180-HDS-010-SDS-010-SMS-040__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
-        ];
-        services = [ ];
-        trafficTypes = [
+        ],
+        "trafficTypes": [
           {
-            name = "web";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "ipv4";
-                proto = "tcp";
-                port = 443;
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "tenant-a";
-            ipv4 = "10.180.10.0/24";
-            ipv6 = "fd42:180:4010::/64";
-          }
-          {
-            kind = "tenant";
-            name = "tenant-b";
-            ipv4 = "10.180.20.0/24";
-            ipv6 = "fd42:180:4020::/64";
-          }
-        ];
-      };
-      pools = {
-        p2p = {
-          ipv4 = "10.180.0.0/24";
-          ipv6 = "fd42:180:40ff::/118";
-        };
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "router-a"
-            "router-b"
+            "client-edge",
+            "downstream-selector"
+          ],
+          [
+            "downstream-selector",
+            "policy"
+          ],
+          [
+            "policy",
+            "upstream-selector"
+          ],
+          [
+            "upstream-selector",
+            "testnet-edge"
           ]
-        ];
-        nodes = {
-          router-a = {
-            role = "access";
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "tenant-a";
+                "kind": "tenant",
+                "name": "client"
               }
-            ];
-          };
-          router-b = {
-            role = "access";
-            attachments = [
-              {
-                kind = "tenant";
-                name = "tenant-b";
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
               }
-            ];
-          };
-        };
-      };
-    };
-  };
+            }
+          }
+        }
+      }
+    }
+  }
 }

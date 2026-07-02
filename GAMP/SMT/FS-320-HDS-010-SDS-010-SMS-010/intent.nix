@@ -1,113 +1,105 @@
 {
-  "mini-smt" = {
-    "renderer-layout-preservation" = {
-      communicationContract = {
-        interfaceTags = {
-          tenant-client = "client";
-          tenant-mgmt = "mgmt";
-          external-testnet = "testnet";
-        };
-        relations = [
+  "mini-smt": {
+    "auto": {
+      "addressPools": {
+        "p2p": {
+          "ipv4": "100.1.64.0/24",
+          "ipv6": "fd42:0140::/64"
+        },
+        "tenant": {
+          "ipv4": "10.1.64.0/24",
+          "ipv6": "fd42:0140:1::/64"
+        },
+        "local": {
+          "ipv4": "10.127.64.0/24",
+          "ipv6": "fd42:0140:7f::/64"
+        }
+      },
+      "communicationContract": {
+        "relations": [
           {
-            id = "FS-320-HDS-010-SDS-010-SMS-010__mini-client-to-testnet-allow";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              name = "testnet";
-            };
-            trafficType = "any";
-            priority = 100;
+            "id": "FS-320-HDS-010-SDS-010-SMS-010__mini-verify",
+            "action": "allow",
+            "from": {
+              "kind": "tenant",
+              "name": "client"
+            },
+            "to": {
+              "kind": "external",
+              "uplinks": [
+                "testnet"
+              ]
+            },
+            "trafficType": "any",
+            "priority": 100
           }
+        ],
+        "trafficTypes": [
           {
-            id = "FS-320-HDS-010-SDS-010-SMS-010__mini-mgmt-deny-internet";
-            action = "deny";
-            from = {
-              kind = "tenant";
-              name = "mgmt";
-            };
-            to = {
-              kind = "external";
-              name = "testnet";
-            };
-            trafficType = "any";
-            priority = 90;
-          }
-        ];
-        services = [ ];
-        trafficTypes = [
-          {
-            name = "any";
-            match = [
+            "name": "any",
+            "match": [
               {
-                family = "any";
-                proto = "any";
+                "family": "any",
+                "proto": "any"
               }
-            ];
+            ]
           }
-        ];
-      };
-      ownership = {
-        prefixes = [
-          {
-            kind = "tenant";
-            name = "client";
-            ipv4 = "10.50.10.0/24";
-            ipv6 = "fd42:mini:320:10::/64";
-          }
-          {
-            kind = "tenant";
-            name = "mgmt";
-            ipv4 = "10.50.20.0/24";
-            ipv6 = "fd42:mini:320:20::/64";
-          }
-        ];
-      };
-      pools = {
-        loopback = {
-          ipv4 = "10.50.0.0/24";
-          ipv6 = "fd42:mini:320:ff::/118";
-        };
-        p2p = {
-          ipv4 = "10.0.0.0/30";
-          ipv6 = "fd42:mini:320:fe::/126";
-        };
-      };
-      topology = {
-        links = [
+        ]
+      },
+      "topology": {
+        "links": [
           [
-            "access-cohost"
-            "core-exit"
+            "client-edge",
+            "downstream-selector"
+          ],
+          [
+            "downstream-selector",
+            "policy"
+          ],
+          [
+            "policy",
+            "upstream-selector"
+          ],
+          [
+            "upstream-selector",
+            "testnet-edge"
           ]
-        ];
-        nodes = {
-          access-cohost = {
-            role = "access";
-            attachments = [
+        ],
+        "nodes": {
+          "client-edge": {
+            "role": "access",
+            "attachments": [
               {
-                kind = "tenant";
-                name = "client";
+                "kind": "tenant",
+                "name": "client"
               }
-              {
-                kind = "tenant";
-                name = "mgmt";
+            ]
+          },
+          "downstream-selector": {
+            "role": "downstream-selector"
+          },
+          "policy": {
+            "role": "policy"
+          },
+          "upstream-selector": {
+            "role": "upstream-selector"
+          },
+          "testnet-edge": {
+            "role": "core",
+            "external": "testnet",
+            "uplinks": {
+              "testnet": {
+                "ipv4": [
+                  "0.0.0.0/0"
+                ],
+                "ipv6": [
+                  "::/0"
+                ]
               }
-            ];
-          };
-          core-exit = {
-            role = "core";
-            uplinks = {
-              testnet = {
-                ipv4 = [ "10.20.0.0/24" ];
-                ipv6 = [ "fd42:mini:320:20::/64" ];
-              };
-            };
-          };
-        };
-      };
-    };
-  };
+            }
+          }
+        }
+      }
+    }
+  }
 }

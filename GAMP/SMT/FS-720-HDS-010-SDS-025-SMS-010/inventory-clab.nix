@@ -1,11 +1,17 @@
 {
-  meta = {
-    traceId = "FS-720-HDS-010-SDS-025-SMS-010";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010-dhcp-bridge-provisioning.md";
-    renderer = "clab";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-720-HDS-010-SDS-025-SMS-010",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

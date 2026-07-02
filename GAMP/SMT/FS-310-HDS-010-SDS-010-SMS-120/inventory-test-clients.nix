@@ -1,15 +1,17 @@
 {
-  meta = {
-    traceId = "FS-310-HDS-010-SDS-010-SMS-120";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-120-renderer-no-naming-inference.md";
-    renderer = "test-clients";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = { };
-    };
-  };
+  "meta": {
+    "traceId": "FS-310-HDS-010-SDS-010-SMS-120",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

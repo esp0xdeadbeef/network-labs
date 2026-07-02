@@ -1,10 +1,17 @@
 {
-  meta = {
-    traceId = "FS-720-HDS-010-SDS-020-SMS-040";
-    renderer = "clab";
-    scope = "row-local-smt-sit-inventory-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-720-HDS-010-SDS-020-SMS-040",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

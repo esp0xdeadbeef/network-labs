@@ -1,11 +1,17 @@
 {
-  meta = {
-    traceId = "FS-940-HDS-010-SDS-020-SMS-080";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-080-route-cardinality-equivalence-diagnostics.md";
-    renderer = "clab";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-940-HDS-010-SDS-020-SMS-080",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }

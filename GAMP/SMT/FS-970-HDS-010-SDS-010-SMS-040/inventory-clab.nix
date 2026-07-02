@@ -1,11 +1,17 @@
 {
-  meta = {
-    traceId = "FS-970-HDS-010-SDS-010-SMS-040";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-040-static-reservation-renderer-record-boundary.md";
-    renderer = "clab";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
-  };
-  hosts = { };
-  deploymentHosts = { };
+  "meta": {
+    "traceId": "FS-970-HDS-010-SDS-010-SMS-040",
+    "scope": "mini-smt-auto"
+  },
+  "hosts": {},
+  "deploymentHosts": {
+    "s-router-nixos": {
+      "bridgeNetworks": {
+        "admin": {},
+        "branch": {},
+        "client": {},
+        "testnet": {}
+      }
+    }
+  }
 }
