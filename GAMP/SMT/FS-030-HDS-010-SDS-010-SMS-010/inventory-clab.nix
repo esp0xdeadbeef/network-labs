@@ -1,6 +1,7 @@
 {
   meta = {
     traceId = "FS-030-HDS-010-SDS-010-SMS-010";
+    renderer = "clab";
     scope = "mini-smt-auto";
   };
   hosts = {};

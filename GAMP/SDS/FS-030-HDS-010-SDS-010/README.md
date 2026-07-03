@@ -1,5 +1,7 @@
-# FS-030-HDS-010-SDS-010 SDS Template
+# SDS Mini Source: FS-030-HDS-010-SDS-010
 
-SDS template row for FS-030-HDS-010-SDS-010 software design — construction-only validation chain.
+Software design mirror for the FS-030 intent-authority boundary mini-SMT rows.
 
-Construction-only validation chain for SMS-040 and sibling traces.
+The `FS-030-HDS-010-SDS-010-SMS-010` child is an active row-local mini-SMT/SIT
+source. Current validation evidence must come from the locked active-lab full
+loop and the row-specific network-codex-agent live wrapper.
