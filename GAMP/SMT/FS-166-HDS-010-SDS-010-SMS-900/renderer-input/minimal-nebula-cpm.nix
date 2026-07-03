@@ -95,7 +95,7 @@ rec {
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
-              listenHost = "100.96.90.1";
+              listenHost = "0.0.0.0";
               port = 4242;
               mtu = 1300;
             };
@@ -106,7 +106,7 @@ rec {
             service = {
               name = "nebula-layer-entry";
               interface = "nebula1";
-              listenHost = "100.96.90.2";
+              listenHost = "0.0.0.0";
               port = 4242;
               mtu = 1300;
             };
