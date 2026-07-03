@@ -12,6 +12,10 @@
   };
   evidence = {
     command = "bash ../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh";
-    observedResult = "mini-SMT registration exists and construction evidence is current; integrated live artifact evidence is pending the active-lab shutdown loop";
+    observedResult = "2026-07-04 active-lab shutdown loop PASS for child SMS; NixOS/CLAB artifacts carry the five expected runtime targets and test-clients carries zero";
+    liveEvidence = [
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-050-SMS-010/20260703T230438Z"
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-050-SMS-010/20260703T230541Z"
+    ];
   };
 }
