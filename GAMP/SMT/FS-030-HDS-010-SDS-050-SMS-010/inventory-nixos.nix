@@ -1,6 +1,7 @@
 {
   meta = {
     traceId = "FS-030-HDS-010-SDS-050-SMS-010";
+    renderer = "nixos";
     scope = "mini-smt-auto";
   };
   hosts = {};
