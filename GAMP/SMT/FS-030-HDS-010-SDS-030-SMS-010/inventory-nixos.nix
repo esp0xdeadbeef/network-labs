@@ -31,6 +31,18 @@
         branch = {};
         client = {};
       };
+      uplinks = {
+        east-west = {
+          mode = "vlan";
+          parent = "eth0";
+          vlan = 5;
+        };
+        testnet = {
+          mode = "vlan";
+          parent = "eth0";
+          vlan = 4;
+        };
+      };
     };
   };
 }
