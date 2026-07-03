@@ -5,15 +5,13 @@
     "FS-030-HDS-010-SDS-030-SMS-010" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-030-SMS-010;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-030-SMS-010/intent.nix";
-      role = "row-local-source-stub";
-      evidenceBoundary = "source-stub-only";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-030-SMS-010-overlay-underlay-separation.md";
+      role = "row-local-mini-smt";
+      evidenceBoundary = "row-local-mini-smt";
     };
   };
   evidence = {
-    command = "bash tests/test-gamp-row-source-stubs.sh";
-    sourcePaths = [
-      "GAMP/SMT/FS-030-HDS-010-SDS-030-SMS-010/intent.nix"
-    ];
-    observedResult = "Row-local SMT/SIT source stubs are parseable and addressable from network-labs.";
+    command = "tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-030-SMS-010";
+    observedResult = "row-local mini-SMT registered; live closure requires locked active-lab artifacts on s-router-nixos, s-router-clab, and s-router-test-clients";
   };
 }
