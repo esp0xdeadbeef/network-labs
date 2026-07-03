@@ -236,6 +236,34 @@
       maxRuntimeTargets = 2;
     };
 
+    "FS-380-HDS-020-SDS-010-SMS-120" = {
+      id = "FS-380-HDS-020-SDS-010-SMS-120";
+      traceId = "FS-380-HDS-020-SDS-010-SMS-120";
+      rowDirectories = {
+        SDS = ../../SDS/FS-380-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-380-HDS-020-SDS-010-SMS-120;
+        SMT = ../FS-380-HDS-020-SDS-010-SMS-120;
+        SIT = ../../SIT/FS-380-HDS-020-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-380-HDS-020-SDS-010-SMS-120/intent.nix;
+        expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-120__prod-like-client-to-vlan4-internet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/FS-380-HDS-020-SDS-010-SMS-120-prod-like-vlan4-client-egress.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "SMT/SIT-only prod-like IPv4 client egress over access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core with real s-router-test-clients endpoint and VLAN4 NAT upstream";
+      maxRuntimeTargets = 5;
+    };
+
     "FS-166-HDS-010-SDS-010-SMS-901" = {
       id = "FS-166-HDS-010-SDS-010-SMS-901";
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";
