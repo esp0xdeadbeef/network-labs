@@ -6,7 +6,7 @@
   };
   hosts = {};
   deploymentHosts = {
-    s-router-nixos = {
+    s-router-test-clients = {
       bridgeNetworks = {
         admin = {};
         branch = {};
