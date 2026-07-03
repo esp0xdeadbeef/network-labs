@@ -1,6 +1,8 @@
 let
-  clientBridge = "client";
-  clientVlan = 302;
+  nixosClientBridge = "client";
+  nixosClientVlan = 302;
+  clabClientBridge = "client-clab";
+  clabClientVlan = 303;
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {
@@ -31,10 +33,15 @@ in
   deploymentHosts = {
     s-router-test-clients = {
       bridgeNetworks = {
-        ${clientBridge} = {
+        ${nixosClientBridge} = {
           mode = "vlan";
           parent = "eth0";
-          vlan = clientVlan;
+          vlan = nixosClientVlan;
+        };
+        ${clabClientBridge} = {
+          mode = "vlan";
+          parent = "eth0";
+          vlan = clabClientVlan;
         };
       };
       uplinks.management = managementVlan2;

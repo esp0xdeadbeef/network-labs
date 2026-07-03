@@ -72,6 +72,8 @@ let
   accessDnsEndpoint = findOne \"ownership service endpoint access-dns\" (endpoint: endpoint.name == \"access-dns\") (site.ownership.endpoints or [ ]);
   clientEndpoint =
     intentClients.control_plane_model.data.\"mini-smt\".\"${trace_id}\".endpointAssignment.\"prod-like-vlan4-client01\";
+  clabClientEndpoint =
+    intentClients.control_plane_model.data.\"mini-smt\".\"${trace_id}\".endpointAssignment.\"prod-like-vlan4-clab-client01\";
   vlan4Ok = uplink:
     uplink.mode == \"vlan\"
     && uplink.parent == \"eth0\"
@@ -84,6 +86,10 @@ let
     host.bridgeNetworks.client.mode == \"vlan\"
     && host.bridgeNetworks.client.parent == \"eth0\"
     && host.bridgeNetworks.client.vlan == 302;
+  clabClientBridgeOk = host:
+    host.bridgeNetworks.\"client-clab\".mode == \"vlan\"
+    && host.bridgeNetworks.\"client-clab\".parent == \"eth0\"
+    && host.bridgeNetworks.\"client-clab\".vlan == 303;
   managementUplinkOk = host:
     host.uplinks.management.mode == \"vlan\"
     && host.uplinks.management.parent == \"eth0\"
@@ -94,9 +100,9 @@ let
     && host.uplinks.management.ipv4.method == \"dhcp\"
     && host.uplinks.management.ipv6.enable == false
     && host.uplinks.management.ipv6.acceptRA == false;
-  accessPortOk = inventory:
+  accessPortOk = expectedBridge: inventory:
     let port = inventory.realization.nodes.\"mini-smt-${trace_id}-access-vlan2\".ports.tenant-client;
-    in port.attach.kind == \"bridge\" && port.attach.bridge == \"client\" && port.interface.name == \"lan2\";
+    in port.attach.kind == \"bridge\" && port.attach.bridge == expectedBridge && port.interface.name == \"lan2\";
   accessDnsOk = inventory:
     let
       node = inventory.realization.nodes.\"mini-smt-${trace_id}-access-vlan2\";
@@ -157,10 +163,12 @@ in
     \"mini row endpoint must run on s-router-test-clients and attach to client bridge\"
   && require (clientBridgeOk inventoryNixos.deploymentHosts.s-router-nixos)
     \"NixOS router host must expose shared VLAN302 client bridge\"
-  && require (clientBridgeOk inventoryClab.deploymentHosts.s-router-clab)
-    \"CLAB host must expose shared VLAN302 client bridge\"
+  && require (clabClientBridgeOk inventoryClab.deploymentHosts.s-router-clab)
+    \"CLAB host must expose isolated VLAN303 client-clab bridge\"
   && require (clientBridgeOk inventoryClients.deploymentHosts.s-router-test-clients)
     \"test-client host must expose shared VLAN302 client bridge\"
+  && require (clabClientBridgeOk inventoryClients.deploymentHosts.s-router-test-clients)
+    \"test-client host must expose isolated VLAN303 client-clab bridge for CLAB\"
   && require (managementUplinkOk inventoryClients.deploymentHosts.s-router-test-clients)
     \"test-client inventory must expose management VLAN2 as CPM host uplink source\"
   && require (managementUplinkOk intentClients.control_plane_model.deployment.hosts.s-router-test-clients)
@@ -169,10 +177,10 @@ in
     \"NixOS router host must expose VLAN4 DHCP upstream\"
   && require (vlan4Ok inventoryClab.deploymentHosts.s-router-clab.uplinks.internet-vlan4)
     \"CLAB host must expose VLAN4 DHCP upstream\"
-  && require (accessPortOk inventoryNixos)
+  && require (accessPortOk \"client\" inventoryNixos)
     \"NixOS access-vlan2 tenant port must attach to the shared client bridge\"
-  && require (accessPortOk inventoryClab)
-    \"CLAB access-vlan2 tenant port must attach to the shared client bridge\"
+  && require (accessPortOk \"client-clab\" inventoryClab)
+    \"CLAB access-vlan2 tenant port must attach to the isolated client-clab bridge\"
   && require (accessDnsOk inventoryNixos)
     \"NixOS access-vlan2 must carry explicit IPv4 DNS forwarder/source authority\"
   && require (accessDnsOk inventoryClab)
@@ -181,6 +189,10 @@ in
     \"test-client endpoint must attach to the shared client bridge as a static endpoint\"
   && require (clientEndpoint.static.address == \"10.38.120.10\" && clientEndpoint.static.gateway4 == \"10.38.120.1\" && clientEndpoint.static.prefixLength == 24)
     \"test-client endpoint must carry explicit IPv4 address, prefix, and gateway\"
+  && require (clabClientEndpoint.bridge == \"client-clab\" && clabClientEndpoint.mode == \"static\")
+    \"CLAB test-client endpoint must attach to the isolated client-clab bridge as a static endpoint\"
+  && require (clabClientEndpoint.static.address == \"10.38.120.10\" && clabClientEndpoint.static.gateway4 == \"10.38.120.1\" && clabClientEndpoint.static.prefixLength == 24)
+    \"CLAB test-client endpoint must carry explicit IPv4 address, prefix, and gateway\"
   && require (smsDefault.titleSlug == \"prod-like-vlan4-client-egress\")
     \"SMS template must identify the prod-like VLAN4 egress row\"
   && require (lab.expectedPath == expectedPath)
@@ -307,6 +319,7 @@ let
 in
 {
   endpoint = intentClients.control_plane_model.data.\"mini-smt\".\"${trace_id}\".endpointAssignment.\"prod-like-vlan4-client01\";
+  clabEndpoint = intentClients.control_plane_model.data.\"mini-smt\".\"${trace_id}\".endpointAssignment.\"prod-like-vlan4-clab-client01\";
   host = intentClients.control_plane_model.deployment.hosts.s-router-test-clients;
   inventoryHost = inventoryClients.deploymentHosts.s-router-test-clients;
 }
@@ -316,8 +329,15 @@ in
   and .endpoint.static.address == "10.38.120.10"
   and .endpoint.static.gateway4 == "10.38.120.1"
   and .endpoint.static.prefixLength == 24
+  and .clabEndpoint.bridge == "client-clab"
+  and .clabEndpoint.mode == "static"
+  and .clabEndpoint.static.address == "10.38.120.10"
+  and .clabEndpoint.static.gateway4 == "10.38.120.1"
+  and .clabEndpoint.static.prefixLength == 24
   and .host.bridgeNetworks.client.mode == "vlan"
   and .host.bridgeNetworks.client.vlan == 302
+  and .host.bridgeNetworks."client-clab".mode == "vlan"
+  and .host.bridgeNetworks."client-clab".vlan == 303
   and .inventoryHost.uplinks.management.vlan == 2
 ' >/dev/null || fail "test-client endpoint current-lab artifact failed"
 

@@ -9,3 +9,6 @@ emulated VLAN4 upstream, avoiding PPPoE so IPv4 forwarding and NAT can be
 tested when the real ISP handoff is unavailable. The row also models access DNS
 as an explicit service-origin flow from the lab-only tenant gateway address so
 recursive resolver traffic does not rely on an unscoped default-route source.
+The CLAB realization is bound to a separate `client-clab`/VLAN303 test-client
+bridge so it cannot answer ARP for the NixOS router's VLAN302 gateway while both
+surfaces are online.

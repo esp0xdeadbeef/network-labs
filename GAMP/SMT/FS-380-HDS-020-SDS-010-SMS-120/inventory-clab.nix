@@ -1,8 +1,8 @@
 let
   traceId = "FS-380-HDS-020-SDS-010-SMS-120";
   accessNode = "mini-smt-${traceId}-access-vlan2";
-  clientBridge = "client";
-  clientVlan = 302;
+  clientBridge = "client-clab";
+  clientVlan = 303;
   vlan4Uplink = {
     bridge = "internet-vlan4";
     ipv4 = {
