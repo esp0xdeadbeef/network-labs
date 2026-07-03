@@ -1,7 +1,8 @@
-# FS-030-HDS-010-SDS-010 SIT Integration
+# SIT Mini Source: FS-030-HDS-010-SDS-010
 
-SIT integration container for FS-030-HDS-010-SDS-010 SMS-040 and sibling traces.
+SIT integration source for FS-030-HDS-010-SDS-010 active mini-SMT rows.
 
-**Evidence Boundary:** construction-only.
+**Evidence Boundary:** row-local mini-SMT.
 
-Integrates SMS-040 with sibling SMS atom traces.
+`FS-030-HDS-010-SDS-010-SMS-010` requires locked active-lab artifacts on
+`s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.

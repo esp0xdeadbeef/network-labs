@@ -1,13 +1,22 @@
 {
   layer = "SMT";
   traceId = "FS-030-HDS-010-SDS-010-SMS-010";
-  evidenceBoundary = "construction-only";
-  source = null;
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010-intent-authority-boundary.md";
+  titleSlug = "intent-authority-boundary";
+  source = {
+    kind = "canonical-sms-source-stub";
+    sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/intent.nix";
+    inventories = {
+      clab = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
+      nixos = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
+      testClients = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
+    };
+    evidenceBoundary = "row-local-mini-smt";
+  };
+  status = "ACTIVE";
   evidence = {
-    owningRepo = "network-compiler";
-    focusedTest = "tests/test_intent_authority_boundary.py";
-    smtRow = "GAMP/SMT/README.md row for FS-030-HDS-010-SDS-010-SMS-010";
-    status = "NOT OK";
-    scope = "Compiler intent authority boundary: rejects non-intent source material (realization-only provider metadata, technology selectors) before behavior-model emission";
+    command = "tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-010";
+    focusedTest = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-010.sh";
+    observedResult = "row-local mini-SMT registered; live closure requires the locked active-lab full loop on s-router-nixos, s-router-clab, and s-router-test-clients";
   };
 }
