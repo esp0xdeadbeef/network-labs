@@ -22,3 +22,14 @@ Run:
 ```bash
 tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-045
 ```
+
+Executed evidence:
+
+- 2026-07-03 locked active-lab full loop passed with
+  `S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-540-HDS-010-SDS-010-SMS-045`.
+- Evidence directory:
+  `/tmp/s-router-live-smoke/FS-540-HDS-010-SDS-010-SMS-045/20260703T200952Z`.
+- Manual enumeration proved both `prod-like-dns-client01` and
+  `prod-like-dns-clab-client01` use `10.54.45.1` as gateway and resolver,
+  resolve `cache.nixos.org`, and trace through
+  `access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core`.
