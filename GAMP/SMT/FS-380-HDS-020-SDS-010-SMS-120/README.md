@@ -7,12 +7,15 @@ This row models the `s-router-prod` IPv4 shape without PPPoE:
 `access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core`
 
 The client tenant uses lab-only `10.38.120.0/24`, the router access gateway is
-`10.38.120.1`, the test endpoint is `10.38.120.10`, and `core` exits through
-the emulated upstream `internet-vlan4` on VLAN4 with private NAT44.
+`10.38.120.1`, the NixOS test endpoint is `10.38.120.10`, and `core` exits
+through the emulated upstream `internet-vlan4` on VLAN4 with private NAT44.
 
 `s-router-test-clients` is part of this row. It receives a real endpoint
-container on the shared VLAN-backed `client` bridge so live checks can prove a
-client-originated packet path instead of a router self-source probe.
+container on the VLAN-backed `client` bridge so live checks can prove a
+client-originated packet path instead of a router self-source probe. The CLAB
+realization uses the separate `client-clab` bridge on VLAN303 so both router
+surfaces can run at the same time without duplicate ARP ownership for
+`10.38.120.1` on one L2 segment.
 
 Run:
 

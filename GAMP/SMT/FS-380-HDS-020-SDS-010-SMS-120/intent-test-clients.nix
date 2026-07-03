@@ -47,6 +47,30 @@ rec {
         };
         tenant = "client";
       };
+      endpointAssignment."prod-like-vlan4-clab-client01" = {
+        bridge = "client-clab";
+        enterprise = "mini-smt";
+        family = "dual";
+        gampIds = [
+          "FS-380-HDS-020-SDS-010-SMS-120"
+          "FS-720-HDS-030-SDS-010-SMS-041"
+          "FS-983-HDS-010-SDS-010-SMS-010"
+        ];
+        mode = "static";
+        name = "prod-like-vlan4-clab-client01";
+        namespaceOwner = "access-vlan2";
+        owningSubstrate = "s-router-test-clients";
+        site = traceId;
+        static = {
+          address = "10.38.120.10";
+          address6 = "fd42:380:120::10";
+          gateway4 = "10.38.120.1";
+          gateway6 = "fd42:380:120::1";
+          prefixLength = 24;
+          prefixLength6 = 64;
+        };
+        tenant = "client";
+      };
     };
   };
   deployment = control_plane_model.deployment;
