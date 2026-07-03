@@ -4,19 +4,26 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-020-public-ipv4-shortcut-policy.md";
   titleSlug = "public-ipv4-shortcut-policy";
   source = {
-    kind = "canonical-sms-source-stub";
+    kind = "intent-source";
     sourcePath = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/intent.nix";
+    miniSmtId = "FS-390-HDS-010-SDS-010-SMS-020";
+    expectedRelationIds = [
+      "FS-390-HDS-010-SDS-010-SMS-020__mini-verify"
+      "FS-390-HDS-010-SDS-010-SMS-020__client-to-tenant-api"
+      "FS-390-HDS-010-SDS-010-SMS-020__testnet-to-public-web"
+    ];
     inventories = {
       clab = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/inventory-clab.nix";
       nixos = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "intent-source-to-forwarding-policy";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/test.sh";
+    focusedTest = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/test.sh";
+    liveScript = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-020.sh";
+    observedResult = "fixture compiles explicit service/public-ingress public IPv4 shortcuts into NFM shortcutAuthorizations";
   };
 }
