@@ -4,10 +4,12 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stag
 
 Status: Source OK - row-local mini-SMT fixture is selectable and renderable.
 Overall SMT status remains governed by
-`network-codex-agent/GAMP/SMT/README.md`; at the time of this source update
-`FS-030-HDS-010-SDS-020-SMS-010` remains `NOT OK` because the owning compiler
-construction test still records pairwise-adjacent multi-hop policy-bypass known
-gaps (`core -> upstream -> core` and `access -> downstream -> access`).
+`network-codex-agent/GAMP/SMT/README.md`; as of the 2026-07-03 construction
+recheck, `FS-030-HDS-010-SDS-020-SMS-010` is `OK`. The earlier
+pairwise-adjacent graph notes (`core -> upstream -> core` and
+`access -> downstream -> access`) were reclassified as valid selector fanout,
+not policy authority, and the owning compiler test now proves those fanouts do
+not emit unmodeled traffic-path authority.
 
 This row provides a small intent-source fixture that exercises the compiler
 stage-topology boundary and active-lab artifact path for the canonical
