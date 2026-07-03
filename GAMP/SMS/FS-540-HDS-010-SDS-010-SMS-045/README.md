@@ -12,3 +12,10 @@ recursive resolver traffic does not rely on an unscoped default-route source.
 The NixOS realization uses the `dnsclient` VLAN304 test-client bridge. The CLAB
 realization is bound to the separate `dnsclab` VLAN305 bridge so it cannot
 answer ARP for the NixOS router's gateway while both surfaces are online.
+
+Executed evidence on 2026-07-03: locked active-lab full loop passed for
+`FS-540-HDS-010-SDS-010-SMS-045`; evidence was written under
+`/tmp/s-router-live-smoke/FS-540-HDS-010-SDS-010-SMS-045/20260703T200952Z`.
+Manual enumeration from both NixOS and CLAB test-client containers confirmed
+gateway and resolver `10.54.45.1`, successful recursive DNS for
+`cache.nixos.org`, IPv4 egress, and the prod-like selector/core tracepath.
