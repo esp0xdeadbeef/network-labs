@@ -858,8 +858,9 @@ write_wireguard_sops_nixos() {
   write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
 {
   sops.secrets."wireguard-mini-provider-private-key" = {
+    group = "systemd-network";
     key = "wireguard-mini-provider-private-key";
-    mode = "0400";
+    mode = "0440";
     sopsFile = ${sops_file};
   };
 }
