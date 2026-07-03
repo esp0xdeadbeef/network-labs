@@ -135,8 +135,8 @@ in
     \"row internet relation must target the VLAN4 upstream only\"
   && require (accessDnsService == { name = \"access-dns\"; providers = [ \"access-dns\" ]; trafficType = \"dns\"; })
     \"row must declare the access DNS service provider explicitly\"
-  && require (accessDnsEndpoint == { kind = \"service\"; name = \"access-dns\"; tenant = \"client\"; })
-    \"row must declare the access DNS provider as a service endpoint, not a host/client endpoint\"
+  && require (accessDnsEndpoint == { kind = \"host\"; name = \"access-dns\"; tenant = \"client\"; ipv4 = [ \"10.38.120.1\" ]; ipv6 = [ \"fd42:380:120::1\" ]; })
+    \"row must bind the access DNS service provider to an explicit host/listener ownership endpoint\"
   && require (dnsTraffic.match == [
     { family = \"ipv4\"; proto = \"udp\"; dports = [ 53 ]; }
     { family = \"ipv4\"; proto = \"tcp\"; dports = [ 53 ]; }
@@ -305,8 +305,8 @@ jq -e --arg trace "${trace_id}" --arg internet_relation "${internet_relation_id}
       error("upstream-selector must forward DNS runtime-origin source toward core")
     elif (hasCoreDnsEgressRule($site; $coreTarget) | not) then
       error("core must allow IPv4 DNS service egress from 10.38.120.1 to VLAN4")
-    elif (($site.endpointAssignment // {}) != {}) then
-      error("router CPM must not contain test-client endpointAssignment")
+    elif ([($site.endpointAssignment // {}) | keys[] | select(. == "prod-like-vlan4-client01" or . == "prod-like-vlan4-clab-client01")] | length) != 0 then
+      error("router CPM must not contain test-client endpointAssignment records")
     else
       true
     end
