@@ -27,7 +27,18 @@ in
     inherit traceId;
     scope = "prod-like-ipv4-vlan4-client-egress";
   };
-  hosts = { };
+  deployment.hosts = {
+    s-router-nixos = {
+      bridgeNetworks = {
+        ${clientBridge} = {
+          mode = "vlan";
+          parent = "eth0";
+          vlan = clientVlan;
+        };
+      };
+      uplinks.internet-vlan4 = vlan4Uplink;
+    };
+  };
   endpoints = {
     access-dns = {
       ipv4 = [ "10.38.120.1" ];
@@ -46,6 +57,13 @@ in
     };
   };
   realization.nodes.${accessNode} = {
+    host = "s-router-nixos";
+    logicalNode = {
+      enterprise = "mini-smt";
+      site = traceId;
+      name = "access-vlan2";
+    };
+    platform = "nixos-container";
     ports.tenant-client = {
       logicalInterface = "tenant-client";
       attach = {
