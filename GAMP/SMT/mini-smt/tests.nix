@@ -630,7 +630,11 @@
       source = {
         kind = "intent-source";
         intent = ../FS-030-HDS-010-SDS-030-SMS-010/intent.nix;
-        expectedRelationIds = [ "FS-030-HDS-010-SDS-030-SMS-010__mini-verify" ];
+        expectedRelationIds = [
+          "FS-030-HDS-010-SDS-030-SMS-010__overlay-payload"
+          "FS-030-HDS-010-SDS-030-SMS-010__overlay-underlay"
+          "FS-030-HDS-010-SDS-030-SMS-010__underlay-access-egress"
+        ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;
@@ -638,7 +642,7 @@
       independent = true;
       aggregateOnly = false;
       scope = "FS-030-HDS-010-SDS-030-SMS-010 SMT live verifier";
-      maxRuntimeTargets = 5;
+      maxRuntimeTargets = 6;
     };
 
     "FS-030-HDS-010-SDS-040-SMS-010" = {

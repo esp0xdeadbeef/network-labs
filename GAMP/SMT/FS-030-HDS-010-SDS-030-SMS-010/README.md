@@ -26,10 +26,16 @@ Run:
 tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-030-SMS-010
 ```
 
-This row may start at most 5 runtime targets.
+This row may start at most 6 runtime targets: client-edge,
+downstream-selector, policy, upstream-selector, overlay-core, and testnet-edge.
+Its row intent includes three explicit relation IDs: overlay payload,
+overlay underlay/control, and client underlay-access egress to the testnet
+external. The third relation is required so `underlayAccess` has modeled WAN
+egress instead of borrowing authority from inventory or renderer behavior.
 
 ## Status
 
-SMT row: OK - row-local mini-SMT source with compiler construction evidence.
+SMT row: OK - row-local mini-SMT source with compiler construction evidence
+and overlay-real runtime source predicates.
 
 This is SMT construction evidence only and does not promote SIT/HAT/SAT.
