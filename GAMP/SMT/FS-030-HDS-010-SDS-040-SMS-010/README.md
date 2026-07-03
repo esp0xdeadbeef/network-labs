@@ -8,7 +8,7 @@ Row-local construction-only documentation anchor for the compiler platform indep
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-fs030-hds010-sds040-sms010-compiler-boundary.sh`
+`tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010-platform-independence-contract.md):
 - Refuses intent payload fields carrying downstream side-channel material or realization technology selectors
@@ -18,10 +18,17 @@ Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010-platfo
 
 ## Evidence Boundary
 
-Construction-only — all predicates are provable via unit tests in the compiler repo. No live host or runtime surface needed.
+Construction-only — all predicates are provable via unit tests in the compiler repo. Live
+host checks may confirm pinned artifact trace presence, but they are not the evidence
+authority for the platform-independence predicate.
 
 ## Status
 
-SMT row: NOT OK (construction test exists and passes at HEAD per SMT evidence column; status not yet flipped).
+SMT row: OK.
+
+2026-07-03 evidence:
+- `network-compiler` commit `2096e1a` implements the platform-independence gate.
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh` PASS.
+- `NETWORK_REPO_DIRECT_TEST_OK=1 TEST_ASYNC_JOBS=4 bash run-all-tests.sh` PASS, 50/50 tests.
 
 This is SMT construction evidence only and does not promote SIT/HAT/SAT.
