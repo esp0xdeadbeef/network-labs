@@ -1,6 +1,6 @@
 # FS-030-HDS-010-SDS-010-SMS-040 SMT
 
-Row-local construction-only documentation anchor for the CPM binder source audit module.
+Row-local source for the mini CPM binder source audit SMT.
 
 **Trace**: FS-030-HDS-010-SDS-010-SMS-040
 **Purpose**: Audit every CPM realization-binding output field for a binder source-class audit reference plus upstream behavior reference; reject fields with missing or cross-stage audit records before renderer handoff.
@@ -8,7 +8,7 @@ Row-local construction-only documentation anchor for the CPM binder source audit
 ## Construction Evidence
 
 The authoritative construction test lives in `network-control-plane-model`:
-`tests/test-cpm-realization-binder-source-audit.sh`
+`tests/FS-030-HDS-010-SDS-010-SMS-020-cpm-realization-binder-source-audit.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040-cpm-binder-source-audit.md):
 - Proves every CPM realization-binding output carries binder source audit plus upstream behavior reference
@@ -21,12 +21,21 @@ Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040-cpm-bi
 - **SN1**: Missing binder source-class audit reference → REJECTED with `CPM_BINDER_SOURCE_AUDIT_MISSING` diagnostic; recovery: adding audit reference passes upstream-behavior check
 - **SN2**: Missing upstream behavior reference → REJECTED with `CPM_UPSTREAM_BEHAVIOR_REF_MISSING` diagnostic
 
-## Evidence Boundary
+This row provides a small intent-source fixture that exercises the CPM pipeline
+for binder source audit testing: one tenant-to-external allow relation through
+access -> external stages.
 
-Construction-only — all predicates are provable via unit tests in the CPM repo. No live host or runtime surface needed.
+Run:
+
+```bash
+tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-010-SMS-040
+```
+
+This row may start at most 5 runtime targets.
 
 ## Status
 
-SMT row: NOT OK (evidence accepted but status not yet flipped; test exists and passes at HEAD per SMT evidence column).
+SMT row: OK after the CPM construction test proves the SMS-040 seeded
+negatives and the active-lab artifacts carry the full trace ID.
 
-This is SMT construction evidence only and does not promote SIT/HAT/SAT.
+This is SMT/SIT row-local evidence only and does not promote HAT or SAT.
