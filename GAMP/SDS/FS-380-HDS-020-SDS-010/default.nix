@@ -8,6 +8,11 @@
       miniSmtIds = [ "FS-380-HDS-020-SDS-010-SMS-050" ];
       inputKinds = [ "intent-source" ];
     };
+    "FS-380-HDS-020-SDS-010-SMS-120" = {
+      smsRow = ../../SMS/FS-380-HDS-020-SDS-010-SMS-120;
+      miniSmtIds = [ "FS-380-HDS-020-SDS-010-SMS-120" ];
+      inputKinds = [ "intent-source" ];
+    };
   };
   templateTests = [
     "tests/test-gamp-sds-sms-template-mapping.sh"
