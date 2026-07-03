@@ -30,5 +30,10 @@ SMT row: OK.
 - `network-compiler` commit `2096e1a` implements the platform-independence gate.
 - `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh` PASS.
 - `NETWORK_REPO_DIRECT_TEST_OK=1 TEST_ASYNC_JOBS=4 bash run-all-tests.sh` PASS, 50/50 tests.
+- Shutdown-loop live artifact sanity evidence:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260703T222816Z`
+  and `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260703T222918Z`
+  PASS. Both NixOS and CLAB artifacts contained the full trace ID and five
+  expected runtime targets; test-clients contained zero runtime targets.
 
 This is SMT construction evidence only and does not promote SIT/HAT/SAT.
