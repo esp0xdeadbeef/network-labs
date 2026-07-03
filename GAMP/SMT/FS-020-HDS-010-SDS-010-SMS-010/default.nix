@@ -11,12 +11,12 @@
       nixos = "GAMP/SMT/FS-020-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-020-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "row-local-mini-smt";
   };
-  status = "NOT OK";
+  status = "ACTIVE";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "tests/run-active-lab-mini-smt.sh FS-020-HDS-010-SDS-010-SMS-010";
+    focusedTest = "../network-codex-agent/scripts/smt-live-FS-020-HDS-010-SDS-010-SMS-010.sh";
+    observedResult = "row-local mini-SMT registered; live closure requires the locked active-lab full loop on s-router-nixos, s-router-clab, and s-router-test-clients";
   };
 }
