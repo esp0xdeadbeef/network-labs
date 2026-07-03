@@ -18,8 +18,9 @@
     "FS-030-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-020/intent.nix";
-      role = "row-local-source-stub";
-      evidenceBoundary = "source-stub-only";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-020-realization-binder-authority.md";
+      role = "row-local-mini-smt";
+      evidenceBoundary = "row-local-mini-smt";
     };
     "FS-030-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-030;

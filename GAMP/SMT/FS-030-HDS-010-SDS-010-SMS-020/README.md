@@ -15,4 +15,4 @@ Run:
 tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-010-SMS-020
 ```
 
-This row may start at most 2 runtime targets.
+This row may start at most 5 runtime targets.
