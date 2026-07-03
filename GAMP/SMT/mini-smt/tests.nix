@@ -266,6 +266,37 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-540-HDS-010-SDS-010-SMS-045" = {
+      id = "FS-540-HDS-010-SDS-010-SMS-045";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-045";
+      rowDirectories = {
+        SDS = ../../SDS/FS-540-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-540-HDS-010-SDS-010-SMS-045;
+        SMT = ../FS-540-HDS-010-SDS-010-SMS-045;
+        SIT = ../../SIT/FS-540-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-045/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-access-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-access-dns-to-vlan4"
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-vlan4-internet"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
+      liveScript = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-045.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "SMT/SIT-only prod-like recursive DNS over access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core with real s-router-test-clients endpoints and VLAN4 upstream";
+      maxRuntimeTargets = 5;
+    };
+
     "FS-166-HDS-010-SDS-010-SMS-901" = {
       id = "FS-166-HDS-010-SDS-010-SMS-901";
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";

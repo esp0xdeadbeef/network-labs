@@ -127,6 +127,7 @@ validation surfaces is not allowed.
 | `FS-500-HDS-010-SDS-010-SMS-040` | `FS-500-HDS-010-SDS-010-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-p2p-next-hop-only.sh` |
 | `FS-370-HDS-010-SDS-010-SMS-050` | `FS-370-HDS-010-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-lane-egress-binding-only.sh` |
 | `FS-540-HDS-010-SDS-010-SMS-020` | `FS-540-HDS-010-SDS-010-SMS-020` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` |
+| `FS-540-HDS-010-SDS-010-SMS-045` | `FS-540-HDS-010-SDS-010-SMS-045` | ✓ | ✓ | ✓ | ✓ | `tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh` |
 | `FS-380-HDS-020-SDS-010-SMS-050` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
 | `FS-800-HDS-010-SDS-020-SMS-040` | `FS-800-HDS-010-SDS-020-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-901` | `FS-166-HDS-010-SDS-010-SMS-901` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
@@ -137,25 +138,24 @@ validation surfaces is not allowed.
 | `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
-All 15 manifest mini-SMT entries now have complete row-directory infrastructure
-(SDS template rows, SMS template rows, SIT integration containers, and
-SMT construction stubs). The authoritative manifest is
+All 16 tabled mini-SMT rows above have complete row-directory infrastructure
+(SDS template rows, SMS template rows, SIT integration containers, and SMT
+construction stubs). The full generated manifest is
 `GAMP/SMT/mini-smt/tests.nix`.
 
 ## GAMP SMS Universe Classification
 
-As of 2026-06-30, `tests/test-gamp-canonical-sms-mirror.sh` verifies 510
+As of 2026-07-03, `tests/test-gamp-canonical-sms-mirror.sh` verifies 512
 canonical SMS trace IDs mirrored from `network-codex-agent/GAMP/SMS`, with no
 `RDR` matches and no duplicate canonical SMS IDs. `network-labs/GAMP/SMS` and
-`network-labs/GAMP/SMT` contain 518 SMS-scoped row directories: the 510
+`network-labs/GAMP/SMT` contain 520 SMS-scoped row directories: the 512
 canonical mirrors plus eight lab-local rows (`FS-166-HDS-010-SDS-010-SMS-901`
 through `FS-166-HDS-010-SDS-010-SMS-906`,
 `FS-720-HDS-010-SDS-020-SMS-040`, and
 `FS-800-HDS-030-SDS-030-SMS-040`).
 
-Current active-lab runnable SMT shims are exactly the 15 IDs in
-`GAMP/SMT/mini-smt/tests.nix`, listed in the table above. They cover ten SMS
-rows: `FS-166-HDS-010-SDS-010-SMS-900`,
+The table above lists the maintained active-lab/live runner subset. It covers
+eleven SMS rows: `FS-166-HDS-010-SDS-010-SMS-900`,
 `FS-370-HDS-010-SDS-010-SMS-050`,
 `FS-380-HDS-020-SDS-010-SMS-050`,
 `FS-470-HDS-010-SDS-010-SMS-010`,
@@ -163,6 +163,7 @@ rows: `FS-166-HDS-010-SDS-010-SMS-900`,
 `FS-500-HDS-010-SDS-010-SMS-030`,
 `FS-500-HDS-010-SDS-010-SMS-040`,
 `FS-540-HDS-010-SDS-010-SMS-020`,
+`FS-540-HDS-010-SDS-010-SMS-045`,
 `FS-800-HDS-010-SDS-020-SMS-040`, and
 `FS-800-HDS-030-SDS-030-SMS-010`.
 
@@ -172,8 +173,9 @@ Standalone row-local SMT checks outside the active-lab runner include
 They are construction/local-build evidence only and are not selected by
 `tests/run-active-lab-mini-smt.sh`.
 
-All remaining SMS-scoped rows are source-stub-only or prepared-only until a
-focused command or owning repository proof is registered and passes.
+SMS-scoped rows outside the table remain mirror/source rows for documentation
+purposes until their own focused command or owning repository proof is
+registered and passes.
 `FS-720-HDS-010-SDS-020-SMS-020` is the construction-only exception: its
 source fixture exists in this repo, the owning proof is
 `network-codex-agent@d7f20211`, and it is intentionally not registered in
@@ -189,10 +191,10 @@ selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
 2026-06-30 classification refresh:
 
 - Guard command: `bash tests/test-active-lab-shim-classification.sh` (PASS).
-- Canonical `network-codex-agent/GAMP/SMS` traces: 510, with zero `RDR`
+- Canonical `network-codex-agent/GAMP/SMS` traces: 512, with zero `RDR`
   matches and zero duplicate canonical SMS IDs.
-- `network-labs/GAMP/SMS` and `network-labs/GAMP/SMT` trace directories: 518
-  each, consisting of the 510 canonical mirrors plus lab-local
+- `network-labs/GAMP/SMS` and `network-labs/GAMP/SMT` trace directories: 520
+  each, consisting of the 512 canonical mirrors plus lab-local
   `FS-166-HDS-010-SDS-010-SMS-901` through
   `FS-166-HDS-010-SDS-010-SMS-906`,
   `FS-720-HDS-010-SDS-020-SMS-040`, and
@@ -203,7 +205,7 @@ selectors for later host/site validation; they do not make any SMT/SIT row `OK`.
   explicitly marked `source-stub-only`: 116. These row-local defaults remain
   mirror metadata until their manifest row, focused wrapper, and owning proof
   are checked for the selected trace.
-- Active mini-SMT selectors in `GAMP/SMT/mini-smt/tests.nix`: 518.
+- Active mini-SMT selectors in `GAMP/SMT/mini-smt/tests.nix`: 520.
 - Selectable active-lab SIT selectors derived from the mini-SMT manifest: 176.
 - HAT/SAT source selectors: one HAT source
   `GAMP/HAT/emulated-isp-residential-testnet` and one SAT source `GAMP/SAT`.

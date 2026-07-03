@@ -5,6 +5,7 @@ let
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
+  prodLikeRecursiveDnsTraceId = "FS-540-HDS-010-SDS-010-SMS-045";
   wireguardRemoteEgressTraceId = "FS-470-HDS-010-SDS-010-SMS-010";
   dnsResolverRelationIds = [
     "${dnsResolverConfigTraceId}__mini-client-to-access-dns"
@@ -908,6 +909,86 @@ in
       ];
       liveSurfaces = [
         "s-router-nixos"
+        "s-router-test-clients"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "HAT"
+        "SAT"
+      ];
+    };
+
+    "${prodLikeRecursiveDnsTraceId}" = {
+      kind = "mini-smt";
+      traceId = prodLikeRecursiveDnsTraceId;
+      smsAtom = "prod-like recursive DNS from a real access-vlan2 client through downstream-selector, policy, upstream-selector, and core to VLAN4";
+      evidenceBoundary = "split: source contract plus live runtime evidence from s-router-nixos, s-router-clab, and s-router-test-clients";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-540-HDS-010-SDS-010-SMS-045/intent.nix;
+        expectedRelationIds = [
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-access-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-access-dns-to-vlan4"
+          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-vlan4-internet"
+        ];
+      };
+      maxRuntimeTargets = 5;
+      runtimeTargets = {
+        access-vlan2 = {
+          role = "access";
+          tenant = "client";
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
+          external = "internet-vlan4";
+        };
+        core = {
+          role = "core";
+          external = "internet-vlan4";
+          internetUplinks = [
+            {
+              name = "internet-vlan4";
+              vlan = 4;
+              mode = "dhcp";
+            }
+          ];
+        };
+      };
+      expectedPath = [
+        "access-vlan2"
+        "downstream-selector"
+        "policy"
+        "upstream-selector"
+        "core"
+      ];
+      clientEndpoint = {
+        host = "s-router-test-clients";
+        name = "prod-like-dns-client01";
+        bridge = "dnsclient";
+        address4 = "10.54.45.10";
+        gateway4 = "10.54.45.1";
+        resolver4 = "10.54.45.1";
+      };
+      testsOnly = [
+        "prod-like-five-node-recursive-dns-chain"
+        "explicit-client-to-access-dns-relation"
+        "explicit-access-dns-to-vlan4-egress-relation"
+        "real-s-router-test-clients-endpoint"
+        "vlan4-dhcp-upstream"
+        "access-dns-runtime-origin-egress"
+        "client-resolver-advertisement-to-access-gateway"
+        "no-pppoe-dependency"
+        "no-prod-lan-cidr"
+      ];
+      liveSurfaces = [
+        "s-router-nixos"
+        "s-router-clab"
         "s-router-test-clients"
       ];
       forbiddenScope = [
