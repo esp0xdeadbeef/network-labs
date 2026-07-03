@@ -155,6 +155,13 @@ jq -e --arg trace "${trace_id}" --arg relation "${relation_id}" '
   .control_plane_model.data."mini-smt"[$trace] as $site
   | ($site.runtimeTargets | keys | sort) as $targets
   | [
+      "10.10.0.0/31",
+      "10.10.0.2/31",
+      "10.10.0.4/31",
+      "10.10.0.6/31",
+      "10.38.120.0/24"
+    ] as $requiredNatPrefixes
+  | [
       "mini-smt-\($trace)-access-vlan2",
       "mini-smt-\($trace)-core",
       "mini-smt-\($trace)-downstream-selector",
@@ -173,8 +180,12 @@ jq -e --arg trace "${trace_id}" --arg relation "${relation_id}" '
       error("privateNat44 must use only internet-vlan4")
     elif (($site.ipv4.internetModes.privateNat44[0].sourcePrefixes // []) | index("10.38.120.0/24")) == null then
       error("privateNat44 must include the client tenant source prefix")
+    elif (($requiredNatPrefixes - ($site.ipv4.internetModes.privateNat44[0].sourcePrefixes // [])) | length) != 0 then
+      error("privateNat44 must include routed fabric transit source prefixes")
     elif (($site.hostNat.hostMasqueradePrefixes4 // []) | index("10.38.120.0/24")) == null then
       error("hostNat must include the client tenant source prefix")
+    elif (($requiredNatPrefixes - ($site.hostNat.hostMasqueradePrefixes4 // [])) | length) != 0 then
+      error("hostNat must include routed fabric transit source prefixes")
     elif ($site.hostNat.egressBridge != "internet-vlan4") then
       error("hostNat egress bridge must be internet-vlan4")
     elif (($site.endpointAssignment // {}) != {}) then
