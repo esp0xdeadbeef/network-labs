@@ -4,15 +4,15 @@
   parentSds = ../../SDS/FS-040-HDS-010-SDS-010;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.md";
   titleSlug = "public-inventory-boundary";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "Active-lab public-inventory boundary source and evidence template.";
+  evidenceBoundary = "construction-plus-live-active-lab-artifact";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "FS-040-HDS-010-SDS-010-SMS-010" = {
       traceId = "FS-040-HDS-010-SDS-010-SMS-010";
-      kind = "source-reference";
+      kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
-      maxRuntimeTargets = 0;
+      test = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
+      maxRuntimeTargets = 5;
     };
   };
   templateTests = [

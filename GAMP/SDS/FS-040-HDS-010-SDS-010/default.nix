@@ -5,9 +5,9 @@
   smsInputs = {
     "FS-040-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-040-HDS-010-SDS-010-SMS-010;
-      miniSmtIds = [ "canonical-source-stub" ];
-      inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      miniSmtIds = [ "FS-040-HDS-010-SDS-010-SMS-010" ];
+      inputKinds = [ "intent-source" "nixos-inventory" "clab-inventory" "test-client-inventory" ];
+      evidenceBoundary = "construction-plus-live-active-lab-artifact";
     };
   };
   templateTests = [
