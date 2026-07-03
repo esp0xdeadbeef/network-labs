@@ -6,7 +6,8 @@
           external-testnet = "testnet";
           tenant-client = "client";
         };
-        relations = [ {
+        allowedRelations = [
+          {
             id = "FS-390-HDS-010-SDS-010-SMS-010__mini-verify";
             action = "allow";
             from = {
@@ -19,8 +20,125 @@
             };
             trafficType = "any";
             priority = 100;
-          } ];
-        services = [];
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-tenant-api";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "service";
+              name = "tenant-api";
+            };
+            trafficType = "any";
+            priority = 80;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-fixture-missing-output";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "service";
+              name = "fixture-missing-output";
+            };
+            trafficType = "any";
+            priority = 81;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "testnet" ];
+            };
+            to = {
+              kind = "service";
+              name = "public-web";
+            };
+            trafficType = "any";
+            priority = 82;
+          }
+        ];
+        relations = [
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__mini-verify";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "external";
+              uplinks = [ "testnet" ];
+            };
+            trafficType = "any";
+            priority = 100;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-tenant-api";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "service";
+              name = "tenant-api";
+            };
+            trafficType = "any";
+            priority = 80;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-fixture-missing-output";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "service";
+              name = "fixture-missing-output";
+            };
+            trafficType = "any";
+            priority = 81;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "testnet" ];
+            };
+            to = {
+              kind = "service";
+              name = "public-web";
+            };
+            trafficType = "any";
+            priority = 82;
+          }
+        ];
+        services = [
+          {
+            name = "tenant-api";
+            publicIpv4 = "198.51.100.11/32";
+          }
+          {
+            name = "fixture-missing-output";
+            publicIpv4 = "203.0.113.50/32";
+          }
+          {
+            name = "public-web";
+            publicIngress = {
+              enabled = true;
+              ipv4 = "198.51.100.14/32";
+            };
+          }
+        ];
         trafficTypes = [ {
             name = "any";
             match = [ {
@@ -35,6 +153,19 @@
             name = "client";
             ipv4 = "10.1.134.0/24";
             ipv6 = "fd42:0186:50::/64";
+            publicIpv4 = "198.51.100.10/32";
+          } ];
+        endpoints = [
+          {
+            kind = "local";
+            name = "locally-routed-endpoint";
+            publicIpv4 = "198.51.100.12/32";
+          }
+          {
+            kind = "provider";
+            name = "provider-owned-endpoint";
+            providerOwned = true;
+            publicIpv4 = "198.51.100.13/32";
           } ];
       };
       pools = {

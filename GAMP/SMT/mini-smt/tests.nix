@@ -3635,7 +3635,12 @@
       source = {
         kind = "intent-source";
         intent = ../FS-390-HDS-010-SDS-010-SMS-010/intent.nix;
-        expectedRelationIds = [ "FS-390-HDS-010-SDS-010-SMS-010__mini-verify" ];
+        expectedRelationIds = [
+          "FS-390-HDS-010-SDS-010-SMS-010__mini-verify"
+          "FS-390-HDS-010-SDS-010-SMS-010__client-to-tenant-api"
+          "FS-390-HDS-010-SDS-010-SMS-010__client-to-fixture-missing-output"
+          "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web"
+        ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;
