@@ -131,12 +131,6 @@ rec {
                 useRelays = true;
                 relays = [ "lab-lighthouse" ];
               };
-              unsafeRoutes = [
-                {
-                  route = "10.90.0.0/24";
-                  via = "100.96.90.1";
-                }
-              ];
             };
           };
         };
