@@ -357,6 +357,7 @@ in
   && require (overlay.runtimeNodes.lab-client-nebula.service.interface == "nebula1") "renderer-nebula client service interface mismatch"
   && require (overlay.runtimeNodes.lab-client-nebula.service.listenHost == "0.0.0.0") "renderer-nebula client listen host mismatch"
   && require (overlay.runtimeNodes.lab-client-nebula.service.port == 4242) "renderer-nebula client listen port mismatch"
+  && require ((overlay.nebula.runtimeNodes.lab-client-nebula.unsafeRoutes or [ ]) == [ ]) "renderer-nebula row must not inject unsafe payload routes"
   && require (secrets."nebula-profile-lab-lighthouse-ca-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/ca.crt") "renderer-nebula lighthouse CA secret path mismatch"
   && require (builtins.match ".*GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-906/secrets/sops-s-router-nixos.yaml" (toString secrets."nebula-profile-lab-lighthouse-ca-crt".sopsFile) != null) "renderer-nebula must use the FS-166 row-owned SOPS file"
   && require (secrets."nebula-profile-lab-lighthouse-crt".path == "/persist/nebula-runtime/profiles/lab-lighthouse/lab-lighthouse.crt") "renderer-nebula lighthouse cert secret path mismatch"
