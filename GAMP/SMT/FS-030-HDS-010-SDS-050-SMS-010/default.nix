@@ -14,10 +14,14 @@
       testClients = "GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/inventory-test-clients.nix";
     };
   };
-  status = "PENDING LIVE REVALIDATION";
+  status = "OK";
   evidence = {
     command = "bash ../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh";
     focusedTest = "network-compiler/tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh";
-    observedResult = "mini-SMT registration exists; current construction proof is network-compiler commit 11afb39 PASS, but live artifact evidence is pending the active-lab shutdown loop";
+    observedResult = "2026-07-04 active-lab shutdown loop PASS; construction PASS; NixOS and CLAB artifacts expose five expected runtime targets; test-clients exposes zero runtime targets";
+    liveEvidence = [
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-050-SMS-010/20260703T230438Z"
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-050-SMS-010/20260703T230541Z"
+    ];
   };
 }
