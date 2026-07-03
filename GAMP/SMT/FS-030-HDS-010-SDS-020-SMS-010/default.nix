@@ -4,19 +4,17 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stage-topology-enforcement.md";
   titleSlug = "stage-topology-enforcement";
   source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-020-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-030-HDS-010-SDS-020-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-030-HDS-010-SDS-020-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-030-HDS-010-SDS-020-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
+    kind = "intent-source";
+    intent = ./intent.nix;
+    expectedRelationIds = [
+      "FS-030-HDS-010-SDS-020-SMS-010__mini-verify"
+    ];
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-020-SMS-010";
+    focusedTest = "network-compiler/tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh";
+    maxRuntimeTargets = 5;
+    observedResult = "compiler stage-topology construction test passes and row-local mini-SMT artifacts are expected on nixos/clab with zero test-client runtime targets";
   };
 }
