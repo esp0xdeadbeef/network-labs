@@ -1,7 +1,7 @@
-# SIT Source Stub: FS-020-HDS-010-SDS-010
+# SIT Mini Source: FS-020-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: Active mini-SMT/SIT source; current live evidence required for closure.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+This SDS-scoped SIT row uses the row-local mini-SMT source and the
+network-codex-agent live wrapper to prove that the locked active-lab artifacts
+carry the source-class assignment trace on all three s-router lab hosts.
