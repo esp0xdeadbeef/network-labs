@@ -44,6 +44,7 @@ rec {
           gateway6 = "fd42:380:120::1";
           prefixLength = 24;
           prefixLength6 = 64;
+          dnsServers = [ "10.38.120.1" ];
         };
         tenant = "client";
       };
@@ -68,6 +69,7 @@ rec {
           gateway6 = "fd42:380:120::1";
           prefixLength = 24;
           prefixLength6 = 64;
+          dnsServers = [ "10.38.120.1" ];
         };
         tenant = "client";
       };
