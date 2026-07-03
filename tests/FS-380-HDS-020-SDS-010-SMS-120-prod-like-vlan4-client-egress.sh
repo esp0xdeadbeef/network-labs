@@ -63,6 +63,16 @@ let
     host.bridgeNetworks.client.mode == \"vlan\"
     && host.bridgeNetworks.client.parent == \"eth0\"
     && host.bridgeNetworks.client.vlan == 302;
+  managementUplinkOk = host:
+    host.uplinks.management.mode == \"vlan\"
+    && host.uplinks.management.parent == \"eth0\"
+    && host.uplinks.management.vlan == 2
+    && host.uplinks.management.bridge == \"vlan2\"
+    && host.uplinks.management.ipv4.enable == true
+    && host.uplinks.management.ipv4.dhcp == true
+    && host.uplinks.management.ipv4.method == \"dhcp\"
+    && host.uplinks.management.ipv6.enable == false
+    && host.uplinks.management.ipv6.acceptRA == false;
   accessPortOk = inventory:
     let port = inventory.realization.nodes.\"mini-smt-${trace_id}-access-vlan2\".ports.tenant-client;
     in port.attach.kind == \"bridge\" && port.attach.bridge == \"client\" && port.interface.name == \"lan2\";
@@ -106,6 +116,10 @@ in
     \"CLAB host must expose shared VLAN302 client bridge\"
   && require (clientBridgeOk inventoryClients.deploymentHosts.s-router-test-clients)
     \"test-client host must expose shared VLAN302 client bridge\"
+  && require (managementUplinkOk inventoryClients.deploymentHosts.s-router-test-clients)
+    \"test-client inventory must expose management VLAN2 as CPM host uplink source\"
+  && require (managementUplinkOk intentClients.control_plane_model.deployment.hosts.s-router-test-clients)
+    \"test-client endpoint CPM source must carry management VLAN2 host uplink\"
   && require (vlan4Ok inventoryNixos.deploymentHosts.s-router-nixos.uplinks.internet-vlan4)
     \"NixOS router host must expose VLAN4 DHCP upstream\"
   && require (vlan4Ok inventoryClab.deploymentHosts.s-router-clab.uplinks.internet-vlan4)
