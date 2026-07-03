@@ -79,6 +79,19 @@ script_for() {
     "let manifest = import ${manifest_file}; in manifest.tests.\"${key}\".script"
 }
 
+script_path_for() {
+  local script="$1"
+  case "${script}" in
+    ../network-codex-agent/*)
+      local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+      printf '%s/%s\n' "${agent_root}" "${script#../network-codex-agent/}"
+      ;;
+    *)
+      printf '%s/%s\n' "${repo_root}" "${script}"
+      ;;
+  esac
+}
+
 source_kind_for() {
   local key="$1"
   nix eval --impure --raw --expr \
@@ -242,7 +255,7 @@ mkdir -p "${run_root}"
 for key in "${selected[@]}"; do
   trace_id="$(trace_for_key "${key}")"
   script="$(script_for "${key}")"
-  script_path="${repo_root}/${script}"
+  script_path="$(script_path_for "${script}")"
 
   if [[ ! -x "${script_path}" ]]; then
     echo "Mini SMT script is missing or not executable: ${script}" >&2
