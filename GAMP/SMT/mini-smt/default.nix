@@ -844,12 +844,14 @@ in
     "${prodLikeVlan4TraceId}" = {
       kind = "mini-smt";
       traceId = prodLikeVlan4TraceId;
-      smsAtom = "prod-like IPv4 client egress through the five-node selector chain to a VLAN4 NAT upstream";
+      smsAtom = "prod-like IPv4 client egress and access DNS recursion through the five-node selector chain to a VLAN4 NAT upstream";
       evidenceBoundary = "mini-lab shape; runtime evidence must use a live mini runner that starts exactly these router targets plus the s-router-test-clients endpoint";
       source = {
         kind = "intent-source";
         intent = ../FS-380-HDS-020-SDS-010-SMS-120/intent.nix;
         expectedRelationIds = [
+          "FS-380-HDS-020-SDS-010-SMS-120__prod-like-client-to-access-dns"
+          "FS-380-HDS-020-SDS-010-SMS-120__prod-like-access-dns-to-vlan4"
           "FS-380-HDS-020-SDS-010-SMS-120__prod-like-client-to-vlan4-internet"
         ];
       };
@@ -900,6 +902,7 @@ in
         "real-s-router-test-clients-endpoint"
         "vlan4-dhcp-upstream"
         "private-nat44-source-prefix"
+        "access-dns-runtime-origin-egress"
         "no-pppoe-dependency"
         "no-prod-lan-cidr"
       ];
