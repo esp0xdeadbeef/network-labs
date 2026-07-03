@@ -483,7 +483,7 @@
         kind = "intent-source";
         intent = ../FS-010-HDS-010-SDS-010-SMS-010/intent.nix;
         expectedRelationIds = [
-          "FS-010-HDS-010-SDS-010-SMS-010__mini-verify-source"
+          "FS-010-HDS-010-SDS-010-SMS-010__mini-verify"
         ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
