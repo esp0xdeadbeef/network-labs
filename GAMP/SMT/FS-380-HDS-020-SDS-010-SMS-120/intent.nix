@@ -98,9 +98,11 @@
         ];
         endpoints = [
           {
-            kind = "service";
+            kind = "host";
             name = "access-dns";
             tenant = "client";
+            ipv4 = [ "10.38.120.1" ];
+            ipv6 = [ "fd42:380:120::1" ];
           }
         ];
       };
