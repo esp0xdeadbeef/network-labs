@@ -28,6 +28,11 @@ in
     scope = "prod-like-ipv4-vlan4-client-egress";
   };
   hosts = { };
+  endpoints = {
+    access-dns = {
+      ipv4 = [ "10.38.120.1" ];
+    };
+  };
   deploymentHosts = {
     s-router-clab = {
       bridgeNetworks = {
@@ -40,12 +45,22 @@ in
       uplinks.internet-vlan4 = vlan4Uplink;
     };
   };
-  realization.nodes.${accessNode}.ports.tenant-client = {
-    logicalInterface = "tenant-client";
-    attach = {
-      kind = "bridge";
-      bridge = clientBridge;
+  realization.nodes.${accessNode} = {
+    ports.tenant-client = {
+      logicalInterface = "tenant-client";
+      attach = {
+        kind = "bridge";
+        bridge = clientBridge;
+      };
+      interface.name = "lan2";
     };
-    interface.name = "lan2";
+    services.dns = {
+      forwarders = [
+        "1.1.1.1"
+        "9.9.9.9"
+      ];
+      outgoingInterfaces = [ "10.38.120.1" ];
+      roles.recursion.outgoingInterfaces = [ "10.38.120.1" ];
+    };
   };
 }
