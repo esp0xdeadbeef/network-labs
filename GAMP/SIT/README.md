@@ -82,7 +82,7 @@ SIT row at the SDS-scoped level. The current SIT row inventory:
 | `FS-380-HDS-020-SDS-010` | Internet mode verification | `FS-380-HDS-020-SDS-010-SMS-050` |
 | `FS-470-HDS-010-SDS-010` | WireGuard remote egress | `FS-470-HDS-010-SDS-010-SMS-010` |
 | `FS-500-HDS-010-SDS-010` | Reachability + diagnostics + p2p | `FS-500-HDS-010-SDS-010-SMS-010`, `FS-500-HDS-010-SDS-010-SMS-030`, `FS-500-HDS-010-SDS-010-SMS-040` |
-| `FS-540-HDS-010-SDS-010` | DNS resolver config | `FS-540-HDS-010-SDS-010-SMS-020` |
+| `FS-540-HDS-010-SDS-010` | DNS resolver config and prod-like recursive DNS | `FS-540-HDS-010-SDS-010-SMS-020`, `FS-540-HDS-010-SDS-010-SMS-045` |
 | `FS-800-HDS-010-SDS-020` | Provider-access default route | `FS-800-HDS-010-SDS-020-SMS-040` |
 | `FS-800-HDS-030-SDS-030` | PPPoE pairing | `FS-800-HDS-030-SDS-030-SMS-010` |
 

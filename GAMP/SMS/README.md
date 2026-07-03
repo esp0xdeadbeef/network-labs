@@ -28,6 +28,7 @@ SAT approval evidence.
 | `FS-500-HDS-010-SDS-010-SMS-030` | `FS-500-HDS-010-SDS-010` | `decision-reason-diagnostic` |
 | `FS-500-HDS-010-SDS-010-SMS-040` | `FS-500-HDS-010-SDS-010` | `p2p-next-hop` |
 | `FS-540-HDS-010-SDS-010-SMS-020` | `FS-540-HDS-010-SDS-010` | `dns-resolver-config` |
+| `FS-540-HDS-010-SDS-010-SMS-045` | `FS-540-HDS-010-SDS-010` | `prod-like-access-recursive-dns` |
 | `FS-800-HDS-030-SDS-030-SMS-010` | `FS-800-HDS-030-SDS-030` | `pppoe-pairing` |
 
 Rows outside that table are source-stub-only or prepared-only unless their own
