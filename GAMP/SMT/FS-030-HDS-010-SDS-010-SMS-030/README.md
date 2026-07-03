@@ -1,6 +1,6 @@
 # FS-030-HDS-010-SDS-010-SMS-030 SMT
 
-Row-local construction-only documentation anchor for the compiler behavior source audit module.
+Row-local mini-SMT source for the compiler behavior source audit module.
 
 **Trace**: FS-030-HDS-010-SDS-010-SMS-030
 **Purpose**: Audit every compiler behavior-creating output field for a user-intent source-class reference; reject fields with missing, non-intent, or conflicting audit references.
@@ -8,7 +8,7 @@ Row-local construction-only documentation anchor for the compiler behavior sourc
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test_behavior_source_audit.py`
+`tests/test-FS-030-HDS-010-SDS-010-SMS-030.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compiler-behavior-source-audit.md):
 1. Iterates over all behavior-creating compiler output fields, asserts each carries `sourceClass: "user-intent"`
@@ -23,10 +23,13 @@ Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compil
 
 ## Evidence Boundary
 
-Construction-only — all predicates are provable via unit tests in the compiler repo. No live host or runtime surface needed.
+Construction plus active-lab artifact proof. The compiler predicates are proved
+by focused construction tests in the compiler repo; the active-lab wrapper
+checks pinned nixos/clab artifacts carry this full trace and the expected
+runtime-target shape.
 
 ## Status
 
-SMT row: NOT OK (evidence accepted but status not yet flipped; test exists and passes at HEAD per SMT evidence column).
+SMT row: OK.
 
 This is SMT construction evidence only and does not promote SIT/HAT/SAT.
