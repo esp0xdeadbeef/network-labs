@@ -1,12 +1,18 @@
-# SMT Source Stub: FS-390-HDS-010-SDS-010-SMS-030
+# FS-390-HDS-010-SDS-010-SMS-030 SMT
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-030-broad-wan-public-ipv4-denial.md`
 
-Status: NOT OK - source stub only.
+Status: OK - runnable intent-source fixture.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row proves that a broad-WAN allow does not authorize model-owned public IPv4
+destinations. The intent uses compiler-owned `public-ipv4` targets so the NFM
+receives explicit public destination addresses without inventing compiler or CPM
+data in a renderer.
 
 Title slug: `broad-wan-public-ipv4-denial`
+
+Focused source check:
+
+```sh
+GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-030/test.sh
+```

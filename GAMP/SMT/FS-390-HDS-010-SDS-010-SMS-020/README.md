@@ -1,12 +1,19 @@
-# SMT Source Stub: FS-390-HDS-010-SDS-010-SMS-020
+# FS-390-HDS-010-SDS-010-SMS-020 SMT
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-020-public-ipv4-shortcut-policy.md`
 
-Status: NOT OK - source stub only.
+Status: OK - runnable intent-source fixture.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row proves that explicit service and public-ingress relations over modeled
+public IPv4 addresses become forwarding-model shortcut authorizations. The
+seeded missing-return negative is owned by the NFM construction test because the
+compiler-input shape intentionally defaults ordinary allow relations to
+`returnBehavior = "symmetric"`.
 
 Title slug: `public-ipv4-shortcut-policy`
+
+Focused source check:
+
+```sh
+GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/test.sh
+```
