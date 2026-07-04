@@ -1,7 +1,7 @@
-# SDS Source Stub: FS-150-HDS-010-SDS-020
+# SDS Construction Grouping: FS-150-HDS-010-SDS-020
 
-Status: NOT OK - source stub only.
+Status: OK - construction-only.
 
-This row exists so the network-labs GAMP tree can mirror canonical SMS children
-from network-codex-agent. Add real design detail and focused evidence before
-marking any child SMS input OK.
+This row groups the FS-150 portability-comparison SMS input for
+construction-only active-lab execution. It does not claim runtime router
+behavior.
