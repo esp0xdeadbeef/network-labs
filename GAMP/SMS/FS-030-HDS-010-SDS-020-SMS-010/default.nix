@@ -4,18 +4,22 @@
   parentSds = ../../SDS/FS-030-HDS-010-SDS-020;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stage-topology-enforcement.md";
   titleSlug = "stage-topology-enforcement";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "Active row-local mini-SMT input template for compiler stage-topology enforcement.";
+  evidenceBoundary = "row-local-mini-smt";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "FS-030-HDS-010-SDS-020-SMS-010" = {
       traceId = "FS-030-HDS-010-SDS-020-SMS-010";
-      kind = "source-reference";
+      kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-020-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
-      maxRuntimeTargets = 0;
+      constructionTest = "network-compiler/tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh";
+      liveWrapper = "network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-020-SMS-010.sh";
+      test = "tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-020-SMS-010";
+      maxRuntimeTargets = 5;
     };
   };
   templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
+    "tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-020-SMS-010"
+    "network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-020-SMS-010.sh"
+    "network-compiler/tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh"
   ];
 }
