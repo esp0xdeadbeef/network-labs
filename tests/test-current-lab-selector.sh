@@ -385,6 +385,43 @@ in
   && require (inventoryNixos.deploymentHosts ? s-router-nixos) "SIT selection must install runnable NixOS inventory"
 ' >/dev/null || fail "SIT selection failed"
 
+"${selector}" SIT FS-060-HDS-010-SDS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  active = import (repoRoot + "/active-lab");
+  manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  require = cond: msg: if cond then true else throw msg;
+  expectedNodes = [
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-client-edge"
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-downstream-selector"
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-policy"
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-testnet-edge"
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-upstream-selector"
+  ];
+  nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
+  clabNodes = builtins.attrNames inventoryClab.realization.nodes;
+  clientNodes = builtins.attrNames inventoryClients.realization.nodes;
+in
+  require (current.selection.layer == "SIT") "FS-060 SIT selector layer mismatch"
+  && require (current.selection.selector == "FS-060-HDS-010-SDS-010") "FS-060 SIT selector id mismatch"
+  && require (current.selection.sourceRoot == "GAMP/SIT/FS-060-HDS-010-SDS-010") "FS-060 SIT source root mismatch"
+  && require (current.selection.sourcePath == "GAMP/SIT/FS-060-HDS-010-SDS-010/default.nix") "FS-060 SIT source path mismatch"
+  && require (active.intent ? "mini-smt") "FS-060 SIT selection must install the row-local mini-SMT source"
+  && require (active.intent."mini-smt" ? "FS-060-HDS-010-SDS-010-SMS-010") "FS-060 SIT must select the runtime-fact mini source"
+  && require (manifest.tests."FS-060-HDS-010-SDS-010-SMS-010".maxRuntimeTargets == 5) "FS-060 runtime-fact mini cap must be five targets"
+  && require (nixosNodes == expectedNodes) "FS-060 NixOS SIT must realize exactly the five-node runtime-fact path"
+  && require (clabNodes == expectedNodes) "FS-060 CLAB SIT must realize exactly the five-node runtime-fact path"
+  && require (clientNodes == expectedNodes) "FS-060 test-client SIT must realize exactly the five-node runtime-fact path"
+  && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-060 NixOS mini nodes must stay on s-router-nixos"
+  && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-060 CLAB mini nodes must stay on s-router-clab"
+  && require (builtins.all (name: inventoryClients.realization.nodes.${name}.host == "s-router-test-clients") clientNodes) "FS-060 test-client mini nodes must stay on s-router-test-clients"
+' >/dev/null || fail "SIT FS-060 selection failed"
+
 "${selector}" SIT FS-370-HDS-010-SDS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
