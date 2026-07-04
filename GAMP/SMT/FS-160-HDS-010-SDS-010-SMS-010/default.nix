@@ -3,20 +3,15 @@
   traceId = "FS-160-HDS-010-SDS-010-SMS-010";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-160-HDS-010-SDS-010-SMS-010-portability-limitation-reporting.md";
   titleSlug = "portability-limitation-reporting";
-  source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-160-HDS-010-SDS-010-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-160-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-160-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-160-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
-  };
-  status = "NOT OK";
+  evidenceBoundary = "construction-only";
+  source = null;
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "network-control-plane-model";
+    focusedTest = "tests/test-renderer-contract-boundary.sh";
+    smtRow = "network-codex-agent/GAMP/SMT/README.md";
+    status = "OK";
+    verifiedAt = "network-control-plane-model focused construction proof via network-codex-agent active-lab wrapper";
+    scope = "CPM portability limitation reporting: unsupported required capabilities emit limitation reports and block renderer emission instead of changing intent";
   };
 }

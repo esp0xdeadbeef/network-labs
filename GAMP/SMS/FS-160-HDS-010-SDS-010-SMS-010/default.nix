@@ -4,18 +4,18 @@
   parentSds = ../../SDS/FS-160-HDS-010-SDS-010;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-160-HDS-010-SDS-010-SMS-010-portability-limitation-reporting.md";
   titleSlug = "portability-limitation-reporting";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "Portability Limitation Reporting (construction-only).";
+  evidenceBoundary = "construction-only";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "row-local" = {
       traceId = "FS-160-HDS-010-SDS-010-SMS-010";
       kind = "source-reference";
       sourcePath = "GAMP/SMT/FS-160-HDS-010-SDS-010-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
+      test = "tests/test-gamp-sds-sms-template-mapping.sh";
       maxRuntimeTargets = 0;
     };
   };
   templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
+    "tests/test-gamp-sds-sms-template-mapping.sh"
   ];
 }
