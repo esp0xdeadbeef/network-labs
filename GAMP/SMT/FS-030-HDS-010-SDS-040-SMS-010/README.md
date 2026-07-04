@@ -1,6 +1,6 @@
 # FS-030-HDS-010-SDS-040-SMS-010 SMT
 
-Row-local construction-only documentation anchor for the compiler platform independence contract module.
+Row-local mini-SMT source for the compiler platform independence contract module.
 
 **Trace**: FS-030-HDS-010-SDS-040-SMS-010
 **Purpose**: Guarantee compiled output is platform-independent — refuse renderer-specific, deployment-platform-specific, or vendor-specific concepts in compiler output; reject intent fields selecting specific renderers or technologies.
@@ -16,24 +16,39 @@ Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010-platfo
 - Keeps compiler output free of host uplink assignments, bridge names, VLAN IDs, container runtime names, renderer-specific syntax
 - Diagnoses and rejects any compiler output field leaking platform-specific identifiers
 
-## Evidence Boundary
+## Active-Lab Source
 
-Construction-only — all predicates are provable via unit tests in the compiler repo. Live
-host checks may confirm pinned artifact trace presence, but they are not the evidence
-authority for the platform-independence predicate.
+Run:
+
+```bash
+MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-040-SMS-010
+```
+
+This row may start at most 5 runtime targets: client-edge,
+downstream-selector, policy, upstream-selector, and testnet-edge. The runtime
+checks prove that both NixOS and Containerlab can consume the same
+platform-independent source without renderer-specific intent fields. The
+compiler construction test remains the authority for platform-independence
+predicates.
 
 ## Status
 
-SMT row: OK.
+SMT row: OK - row-local mini-SMT source with compiler construction evidence,
+live NixOS and CLAB runtime enumeration, and pinned `s-router-nixos` build
+evidence.
 
-2026-07-03 evidence:
-- `network-compiler` commit `2096e1a` implements the platform-independence gate.
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh` PASS.
-- `NETWORK_REPO_DIRECT_TEST_OK=1 TEST_ASYNC_JOBS=4 bash run-all-tests.sh` PASS, 50/50 tests.
-- Shutdown-loop live artifact sanity evidence:
-  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260703T222816Z`
-  and `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260703T222918Z`
-  PASS. Both NixOS and CLAB artifacts contained the full trace ID and five
-  expected runtime targets; test-clients contained zero runtime targets.
+Current evidence, 2026-07-04:
 
-This is SMT construction evidence only and does not promote SIT/HAT/SAT.
+- Direct live wrapper:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260704T053321Z`
+- Mini-SMT runner wrapper log:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-040-SMS-010/20260704T053649Z`
+- Mini-SMT run root:
+  `/tmp/active-lab-mini-smt-runs/20260704T053642Z-2913672/FS-030-HDS-010-SDS-040-SMS-010`
+- Offline verifier status: skipped by `MINI_SMT_OFFLINE_VERIFY=0`.
+- Runtime targets: five on `s-router-nixos`, five on `s-router-clab`, zero on
+  `s-router-test-clients`.
+
+This is SMT row evidence with live mini-SMT runtime enumeration. SIT evidence is
+recorded under `GAMP/SIT/FS-030-HDS-010-SDS-040`; this row does not promote HAT
+or SAT.
