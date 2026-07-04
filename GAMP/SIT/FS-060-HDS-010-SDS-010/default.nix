@@ -15,8 +15,15 @@
     liveCommand = ''
       cd /home/deadbeef/github/network-codex-agent &&
       S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-060-HDS-010-SDS-010 \
+      RUN_NETWORK_REPO_TESTS=0 \
+      RUN_CONTAINERLAB_TESTS=0 \
+      LAUNCH_HETZNER_MACHINE=0 \
+      REBOOT_S_ROUTER_TEST_CLIENTS=1 \
+      RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 \
+      NETWORK_REPO_DIRECT_TEST_OK=1 \
+      MINI_SMT_OFFLINE_VERIFY=0 \
       bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos
     '';
-    observedResult = "SIT parent row selects the FS-060-HDS-010-SDS-010-SMS-010 runtime-fact mini path and must be closed by the network-codex-agent parent live wrapper scripts/sit-live-FS-060-HDS-010-SDS-010.sh. The live wrapper writes parent trace evidence under /tmp/s-router-live-smoke/FS-060-HDS-010-SDS-010 while reusing the child full-trace artifact checks for s-router-nixos, s-router-clab, and s-router-test-clients.";
+    observedResult = "OK live on 2026-07-04: locked source /nix/store/vbzqy75frpjhzh5lr2ypmmdxz282h2v6-source selected SIT FS-060-HDS-010-SDS-010 and full-loop evidence /tmp/s-router-live-smoke/FS-060-HDS-010-SDS-010/20260704T020402Z passed. s-router-clab active-lab readiness reported active-targets=5. The parent wrapper scripts/sit-live-FS-060-HDS-010-SDS-010.sh reused child full-trace artifact checks and verified five bounded runtime targets on s-router-nixos and s-router-clab, zero router runtime targets on s-router-test-clients, CPM provider endpoint construction, and the CPM-to-NixOS-renderer boundary rejecting endpoint invention. This is SMT/SIT live evidence only, not HAT/SAT or production readiness.";
   };
 }
