@@ -7,7 +7,7 @@
   sourceInputs = {
     "row-local" = {
       traceId = "FS-100-HDS-010-SDS-010-SMS-040";
-      kind = "intent-source";
+      kind = "source-reference";
       sourcePath = "GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-040/intent.nix";
       test = "tests/test-gamp-row-source-stubs.sh";
       maxRuntimeTargets = 0;

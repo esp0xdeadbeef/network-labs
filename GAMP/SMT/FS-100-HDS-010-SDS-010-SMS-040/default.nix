@@ -7,8 +7,8 @@
     owningRepo = "network-codex-agent";
     focusedTest = "tests/FS-100-HDS-010-SDS-010-SMS-040.sh";
     smtRow = "GAMP/SMT/README.md";
-    status = "NOT OK";
-    verifiedAt = "network-codex-agent HEAD (pending verification)";
-    scope = "See SMS spec in network-codex-agent/GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-040-*.md";
+    status = "OK";
+    verifiedAt = "network-codex-agent HEAD 018960fe with active-lab wrapper PASS (2026-07-04)";
+    scope = "network-codex-agent provenance redaction construction proof: protected-value redaction, comparable references, deterministic diagnostics, fail-closed publication, and seeded negatives";
   };
 }

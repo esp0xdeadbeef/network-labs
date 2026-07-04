@@ -24,6 +24,7 @@
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-040;
       sourcePath = "GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-040/intent.nix";
       role = "provenance-redaction";
+      evidenceBoundary = "construction-only";
     };
     "FS-100-HDS-010-SDS-010-SMS-050" = {
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-050;

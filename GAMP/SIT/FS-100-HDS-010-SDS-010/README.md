@@ -29,3 +29,8 @@ passed at `network-compiler` HEAD `19d66ef` on 2026-07-04.
 signed-output source containment evidence from the compiler provenance module
 and does not create router runtime targets. The current focused compiler proof
 passed at `network-compiler` HEAD `878f54c` on 2026-07-04.
+
+`FS-100-HDS-010-SDS-010-SMS-040` is construction-only: it contributes
+provenance redaction evidence from the network-codex-agent construction helper
+and does not create router runtime targets. The current focused proof passed at
+`network-codex-agent` HEAD `018960fe` on 2026-07-04.
