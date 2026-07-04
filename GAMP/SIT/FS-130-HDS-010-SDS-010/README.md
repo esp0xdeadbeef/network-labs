@@ -1,7 +1,19 @@
-# SIT Source Stub: FS-130-HDS-010-SDS-010
+# FS-130-HDS-010-SDS-010 SIT
 
-Status: NOT OK - source stub only.
+SIT row stub for the scoped request contract chain.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+`FS-130-HDS-010-SDS-010-SMS-010` is construction-only: it contributes scoped
+request validation evidence from the network-codex-agent construction helper
+and does not create router runtime targets.
+
+The current focused proof is:
+
+```text
+bash tests/FS-130-HDS-010-SDS-010-SMS-010.sh
+```
+
+The active-lab wrapper command is:
+
+```text
+MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh FS-130-HDS-010-SDS-010-SMS-010
+```

@@ -1,12 +1,15 @@
-# SMT Source Stub: FS-130-HDS-010-SDS-010-SMS-010
+# FS-130-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-130-HDS-010-SDS-010-SMS-010-scoped-request-contract.md`
+Layer: SMT
 
-Status: NOT OK - source stub only.
+This row-local SMT selector is construction-only. It delegates the scoped
+request contract proof to `network-codex-agent`:
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+```text
+bash tests/FS-130-HDS-010-SDS-010-SMS-010.sh
+```
 
-Title slug: `scoped-request-contract`
+The active-lab wrapper verifies `source = null`,
+`evidenceBoundary = "construction-only"`, and `maxRuntimeTargets = 0`; live
+`s-router-*` artifacts are context only. This row does not claim HAT, SAT,
+production readiness, or router runtime behavior.
