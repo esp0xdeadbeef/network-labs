@@ -5,7 +5,7 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-165-HDS-010-SDS-010-SMS-030-downstream-contract-gap-diagnostic.md";
   titleSlug = "downstream-contract-gap-diagnostic";
   purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  evidenceBoundary = "construction-only";
   sourceInputs = {
     "canonical-source-stub" = {
       traceId = "FS-165-HDS-010-SDS-010-SMS-030";

@@ -17,6 +17,7 @@
       smtRow = ../../SMT/FS-165-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-030/intent.nix";
       role = "downstream-contract-gap-diagnostic";
+      evidenceBoundary = "construction-only";
     };
   };
   evidence = {
