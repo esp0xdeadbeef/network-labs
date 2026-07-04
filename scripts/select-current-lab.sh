@@ -1027,26 +1027,127 @@ write_construction_only_stub() {
   local target
 
   write_file "${current_dir}/intent.nix" cat <<EOF
-{
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
+rec {
   activeLabConstructionOnly = {
     traceId = "${trace}";
     rowDirectory = ../${row_dir};
     evidenceBoundary = "construction-only";
     note = "This active-lab selection has no runtime topology. Run tests/run-active-lab-mini-smt.sh ${trace} for the owning construction check.";
   };
+
+  control_plane_model = {
+    meta = {
+      traceId = "${trace}";
+      source = "network-labs current-lab construction-only renderer-input stub";
+      evidenceBoundary = "construction-only";
+      expectedRuntimeTargets = [ ];
+      constructionOnly = true;
+    };
+
+    endpoints = { };
+    deployment.hosts = {
+      s-router-nixos = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-clab = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-test-clients = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+    };
+    render.hosts = {
+      s-router-nixos.deploymentHost = "s-router-nixos";
+      s-router-clab.deploymentHost = "s-router-clab";
+      s-router-test-clients.deploymentHost = "s-router-test-clients";
+    };
+    realization.nodes = { };
+    data.active-lab.construction-only = {
+      enterprise = "active-lab";
+      siteName = "construction-only";
+      runtimeTargets = { };
+    };
+  };
+
+  deploymentHosts = control_plane_model.deployment.hosts;
+  deployment = control_plane_model.deployment;
+  realization = control_plane_model.realization;
 }
 EOF
 
   for target in inventory-nixos.nix inventory-clab.nix inventory-hetz.nix inventory-test-clients.nix clients.nix; do
     write_file "${current_dir}/${target}" cat <<EOF
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
 {
+  meta = {
+    traceId = "${trace}";
+    evidenceBoundary = "construction-only";
+    constructionOnly = true;
+  };
   activeLabConstructionOnly = {
     traceId = "${trace}";
     rowDirectory = ../${row_dir};
     evidenceBoundary = "construction-only";
   };
-  deployment = { hosts = { }; };
-  deploymentHosts = { };
+  deployment = {
+    hosts = {
+      s-router-nixos = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-clab = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-test-clients = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+    };
+  };
+  deploymentHosts = deployment.hosts;
   endpoints = { };
   realization = { nodes = { }; };
   clients = { };
