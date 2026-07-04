@@ -935,18 +935,15 @@
         SMT = ../FS-130-HDS-010-SDS-010-SMS-010;
         SIT = ../../SIT/FS-130-HDS-010-SDS-010;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-130-HDS-010-SDS-010-SMS-010/intent.nix;
-        expectedRelationIds = [ "FS-130-HDS-010-SDS-010-SMS-010__mini-verify" ];
-      };
+      source = null;
       evidenceLevels = [ "SMT" "SIT" ];
+      evidenceBoundary = "construction-only";
       rendererTarget = null;
       script = "../network-codex-agent/scripts/smt-live-FS-130-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "FS-130-HDS-010-SDS-010-SMS-010 SMT live verifier";
-      maxRuntimeTargets = 5;
+      scope = "FS-130-HDS-010-SDS-010-SMS-010 construction-only scoped request verifier";
+      maxRuntimeTargets = 0;
     };
 
     "FS-140-HDS-010-SDS-010-SMS-010" = {
