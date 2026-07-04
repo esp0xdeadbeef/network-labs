@@ -2,14 +2,15 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-050-network-labs-sops-configuration-validation.md`
 
-Status: OK - focused CMC construction guard verified.
+Status: NOT OK until the current active-lab runtime artifact proof passes.
 
-Focused evidence: `NETWORK_REPO_DIRECT_TEST_OK=1 bash
-tests/FS-820-HDS-010-SDS-010-SMS-050.sh` passed on 2026-06-30. The guard rejects
-network-labs `sops.defaultSopsFile` overrides, host-owned keys such as
-`deadbeef-passwd`, unmodeled arbitrary host-owned keys such as `qqqqabc`, and
-encrypted YAML payload ownership under `active-lab/secrets`. The accepted path
-keeps lab-runtime secrets in owning HAT, SAT, SIT, or SMT row/fixture
-directories with per-secret `sopsFile` references.
+The construction guard `NETWORK_REPO_DIRECT_TEST_OK=1 bash
+tests/FS-820-HDS-010-SDS-010-SMS-050.sh` passed on 2026-06-30. This row now
+also requires `../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-050.sh`
+to prove the selected full trace on `s-router-nixos`, `s-router-clab`, and
+`s-router-test-clients`.
 
-Title slug: `network-labs-sops-configuration-validation`
+Expected runtime target split: `s-router-nixos=5`, `s-router-clab=5`,
+`s-router-test-clients=0`. This is SMT/SIT active-lab artifact evidence only;
+secret decryptability, DHCP/DNS behavior, HAT, SAT, and production readiness
+remain separate evidence.

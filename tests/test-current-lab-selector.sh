@@ -37,6 +37,7 @@ let
   activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
   inventory = import (repoRoot + "/active-lab/inventory-nixos.nix");
   inventoryHost = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+  sopsNixos = import (repoRoot + "/active-lab/sops-routing-s-router-nixos.nix");
   require = cond: msg: if cond then true else throw msg;
 in
   require (current.selection.selector == "FS-166-HDS-010-SDS-010-SMS-901") "default current-lab selector mismatch"
@@ -50,6 +51,11 @@ in
   && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "default s-router-test-clients host intent must keep host substrate"
   && require (inventory.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default selection must preserve VLAN2 management"
   && require (inventoryHost.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default host-specific NixOS inventory alias must preserve VLAN2 management"
+  && require (sopsNixos.sops.secrets ? "hat-pppoe-username") "default s-router-nixos SOPS routing must expose the HAT PPPoE username secret"
+  && require (sopsNixos.sops.secrets ? "hat-pppoe-password") "default s-router-nixos SOPS routing must expose the HAT PPPoE password secret"
+  && require (sopsNixos.sops.secrets ? "hetzner-public-ipv4") "default s-router-nixos SOPS routing must expose HAT public runtime facts"
+  && require (builtins.match ".*GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."hat-pppoe-username".sopsFile) != null) "default s-router-nixos PPPoE username must come from the HAT s-router-nixos SOPS file"
+  && require (builtins.match ".*GAMP/HAT/emulated-isp-residential-testnet/secrets/sops-s-router-nixos.yaml" (toString sopsNixos.sops.secrets."hetzner-public-ipv4".sopsFile) != null) "default s-router-nixos public runtime facts must come from the HAT s-router-nixos SOPS file"
 ' >/dev/null || fail "default selection failed"
 
 "${selector}" SMT FS-050-HDS-010-SDS-010-SMS-010 >/dev/null

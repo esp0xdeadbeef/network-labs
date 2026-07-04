@@ -848,7 +848,7 @@ EOF
 write_default_sops() {
   write_import "sops.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops.nix"
   write_import "sops-routing-s-router-clab.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix"
-  write_empty_sops "sops-routing-s-router-nixos.nix" "s-router-nixos"
+  write_import "sops-routing-s-router-nixos.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-nixos.nix"
   write_import "sops-routing-s-router-test-clients.nix" "../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix"
   write_empty_sops "sops-routing-s-router-hetz.nix" "s-router-hetz"
 }

@@ -1,12 +1,14 @@
-# SMT Source Stub: FS-860-HDS-010-SDS-010-SMS-030
+# SMT Source: FS-860-HDS-010-SDS-010-SMS-030
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030-scoped-storage-binding-emission.md`
 
-Status: NOT OK - source stub only.
+Status: NOT OK until the current active-lab runtime artifact proof passes.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row is registered in `GAMP/SMT/mini-smt/tests.nix` and uses
+`../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-030.sh`
+for active-lab SMT/SIT artifact validation on `s-router-nixos`,
+`s-router-clab`, and `s-router-test-clients`.
 
-Title slug: `scoped-storage-binding-emission`
+Expected runtime target split: `s-router-nixos=5`, `s-router-clab=5`,
+`s-router-test-clients=0`. Service restart persistence and lease/database
+survival remain HAT/SAT evidence.

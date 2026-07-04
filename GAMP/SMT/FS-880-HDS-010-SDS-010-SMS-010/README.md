@@ -1,12 +1,14 @@
-# SMT Source Stub: FS-880-HDS-010-SDS-010-SMS-010
+# SMT Source: FS-880-HDS-010-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-010-lease-namespace-ownership.md`
 
-Status: NOT OK - source stub only.
+Status: NOT OK until the current active-lab runtime artifact proof passes.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row is registered in `GAMP/SMT/mini-smt/tests.nix` and uses
+`../network-codex-agent/scripts/smt-live-FS-880-HDS-010-SDS-010-SMS-010.sh`
+for active-lab SMT/SIT artifact validation on `s-router-nixos`,
+`s-router-clab`, and `s-router-test-clients`.
 
-Title slug: `lease-namespace-ownership`
+Expected runtime target split: `s-router-nixos=5`, `s-router-clab=5`,
+`s-router-test-clients=0`. Actual Kea lease allocation and namespace answer
+behavior remain HAT/SAT evidence.
