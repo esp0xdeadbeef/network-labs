@@ -17,3 +17,21 @@ Current validation evidence must include:
 
 This is SIT active-lab child-row evidence only and does not promote HAT/SAT or
 production readiness.
+
+Latest validation, 2026-07-04, for `FS-030-HDS-010-SDS-020-SMS-010`:
+
+- `s-router-nixos` current system:
+  `/nix/store/xrzgj3p38iqlaw2d8nsm9xdji3mnwlm6-nixos-system-s-router-nixos-26.05.20260630.95ca1e2`;
+  `/etc/network-artifacts/control-plane.json` had 5 runtime targets and 29
+  full-trace hits.
+- `s-router-clab` current system:
+  `/nix/store/7a58zp8bwyqybxgp9bimbmg12g46gd2c-nixos-system-s-router-clab-26.05.20260630.95ca1e2`;
+  `/etc/network-artifacts/control-plane.json` had 5 runtime targets and 29
+  full-trace hits.
+- `s-router-test-clients` current system:
+  `/nix/store/njsq1nkk5g1r4hf5hmmxw8fjc3p7n4yn-nixos-system-s-router-test-clients-26.05.20260630.95ca1e2`;
+  `/etc/network-artifacts/control-plane.json` had 0 runtime targets and 1
+  full-trace hit.
+- Manual runtime-debugger enumeration passed for p2p, routes, and runtime
+  signals; CLAB artifacts were taken from
+  `/persist/s-router-clab/live-boot/network-artifacts`.
