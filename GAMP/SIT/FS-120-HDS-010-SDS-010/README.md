@@ -1,7 +1,7 @@
-# SIT Source Stub: FS-120-HDS-010-SDS-010
+# SIT Construction Boundary: FS-120-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: construction-only deterministic diagnostics input mapping.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+This SDS-scoped SIT row records that `FS-120-HDS-010-SDS-010-SMS-010` has no
+router runtime surface. The active-lab wrapper validates the row mapping and
+runs the owning construction proof.

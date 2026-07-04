@@ -3,20 +3,14 @@
   traceId = "FS-120-HDS-010-SDS-010-SMS-010";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-120-HDS-010-SDS-010-SMS-010-deterministic-diagnostics.md";
   titleSlug = "deterministic-diagnostics";
-  source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
-  };
-  status = "NOT OK";
+  evidenceBoundary = "construction-only";
+  source = null;
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "network-codex-agent";
+    focusedTest = "tests/FS-120-HDS-010-SDS-010-SMS-010.sh";
+    smtRow = "GAMP/SMT/README.md";
+    status = "OK";
+    verifiedAt = "network-codex-agent code commit af279a8b with active-lab wrapper PASS (2026-07-04)";
+    scope = "network-codex-agent deterministic diagnostics construction proof: required diagnostic fields, repeat-run stable diagnostics, protected-value leak rejection, and missing-field internal-gap rejection";
   };
 }
