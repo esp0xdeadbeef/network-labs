@@ -1,13 +1,13 @@
 {
   layer = "SDS";
   traceId = "FS-080-HDS-010-SDS-010";
-  purpose = "Canonical SMS mirror source-stub grouping.";
+  purpose = "Missing-or-ambiguous fact failure active-lab input grouping.";
   smsInputs = {
     "FS-080-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-080-HDS-010-SDS-010-SMS-010;
-      miniSmtIds = [ "canonical-source-stub" ];
-      inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      miniSmtIds = [ "FS-080-HDS-010-SDS-010-SMS-010" ];
+      inputKinds = [ "intent-source" "runtime-active-lab" ];
+      evidenceBoundary = "runtime";
     };
   };
   templateTests = [

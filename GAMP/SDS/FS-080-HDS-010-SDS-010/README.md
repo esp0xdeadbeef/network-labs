@@ -1,7 +1,8 @@
-# SDS Source Stub: FS-080-HDS-010-SDS-010
+# SDS Runtime Evidence: FS-080-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: OK - active-lab SMT/SIT runtime evidence recorded.
 
-This row exists so the network-labs GAMP tree can mirror canonical SMS children
-from network-codex-agent. Add real design detail and focused evidence before
-marking any child SMS input OK.
+This row groups the `FS-080-HDS-010-SDS-010-SMS-010` missing-or-ambiguous fact
+failure SMS input for active-lab runtime validation. Evidence is bounded to
+SMT/SIT active-lab proof on the full trace ID and does not promote HAT/SAT or
+production readiness.
