@@ -11,11 +11,13 @@
       traceId = "FS-040-HDS-010-SDS-010-SMS-010";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/intent.nix";
-      test = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
+      test = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh";
+      liveRunner = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
       maxRuntimeTargets = 5;
     };
   };
   templateTests = [
+    "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh"
     "tests/test-gamp-canonical-sms-mirror.sh"
   ];
 }
