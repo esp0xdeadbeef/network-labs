@@ -4,8 +4,9 @@ Row-local source for the mini internet mode verification SMT.
 
 Tests the SMT/SIT-only internet-mode source fixture: tenant client -> emulated
 PPPoE provider -> emulated ISP upstream. The emulated ISP receives internet only
-from VLAN4/VLAN5 DHCP uplinks. Skipping internet coverage, NAT, and VLAN2 are
-rejected for this mini-lab source.
+from the semantic `isp` and `pppoe-provider` uplinks. The row-local inventories
+realize those uplinks as VLAN4/VLAN5 DHCP links. Skipping internet coverage,
+NAT, and VLAN2 are rejected for this mini-lab source.
 
 Run:
 

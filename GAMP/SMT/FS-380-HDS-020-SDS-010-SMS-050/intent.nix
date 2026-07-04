@@ -49,11 +49,11 @@
             kind = "emulated-isp";
             internetUplinks = [
               {
-                vlan = 4;
+                name = "isp";
                 mode = "dhcp";
               }
               {
-                vlan = 5;
+                name = "pppoe-provider";
                 mode = "dhcp";
               }
             ];
