@@ -14,3 +14,8 @@ currently consumes:
 All five SMS traces have independent SMT construction evidence in their
 owning repositories. SIT integration would consume them as a group for
 end-to-end provenance chain verification.
+
+`FS-100-HDS-010-SDS-010-SMS-010` was re-verified on 2026-07-04 through
+`tests/run-active-lab-mini-smt.sh FS-100-HDS-010-SDS-010-SMS-010`. The active
+lab selected it as construction-only with zero runtime targets; this SIT input
+therefore contributes emitter-provenance construction evidence only.

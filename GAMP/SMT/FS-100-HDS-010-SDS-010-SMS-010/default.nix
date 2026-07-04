@@ -8,7 +8,7 @@
     focusedTest = "tests/test-emitter-provenance-repo-boundary.sh";
     smtRow = "GAMP/SMT/README.md row 49";
     status = "OK";
-    verifiedAt = "network-compiler HEAD 478da9e (2026-06-19)";
+    verifiedAt = "network-compiler HEAD aedc0f1 and active-lab wrapper PASS (2026-07-04)";
     scope = "compiler emitter provenance: repository identity, foreign-caller isolation, worktree path preservation";
   };
 }
