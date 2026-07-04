@@ -67,6 +67,7 @@ let
   ];
   sourceNames = builtins.attrNames sms.sourceInputs;
   sourceTraceIds = map (id: sms.sourceInputs.${id}.traceId) expectedIds;
+  parentEntry = manifest.tests."FS-166-HDS-010-SDS-010-SMS-900";
   sdsMiniIds =
     builtins.concatLists
       (map (traceId: sds.smsInputs.${traceId}.miniSmtIds) sourceTraceIds);
@@ -201,6 +202,10 @@ let
 in
   require (sms.layer == "SMS") "FS-166 SMS row must declare SMS layer"
   && require (sms.traceId == "FS-166-HDS-010-SDS-010-SMS-900") "FS-166 SMS row trace mismatch"
+  && require (parentEntry.source == null) "FS-166 SMS-900 parent row must not masquerade as an intent-source"
+  && require (parentEntry.evidenceBoundary == "construction-only") "FS-166 SMS-900 parent row must be construction-only"
+  && require (parentEntry.maxRuntimeTargets == 0) "FS-166 SMS-900 parent row must not claim runtime targets"
+  && require (parentEntry.rendererTarget == null) "FS-166 SMS-900 parent row must not target a renderer directly"
   && require (sourceNames == expectedSortedIds) "FS-166 SMS row must enumerate every renderer-entry source"
   && require (sdsMiniIds == sourceTraceIds) "SDS row must enumerate every FS-166 mini SMT trace ID"
   && require (builtins.all (id: builtins.hasAttr id sms.sourceInputs) expectedIds) "SMS row missing an SDS mini SMT input"

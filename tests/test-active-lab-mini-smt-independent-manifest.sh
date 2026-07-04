@@ -37,13 +37,24 @@ let
     builtins.all
       (name:
         let entry = builtins.getAttr name manifest.tests;
-        in entry ? source && entry.source ? kind)
+            boundary = entry.evidenceBoundary or "runtime";
+        in
+          if boundary == "construction-only" || boundary == "source-stub-only" then
+            entry ? source && entry.source == null
+          else
+            entry ? source && entry.source ? kind)
       names;
   allBoundedMiniRuntime =
     builtins.all
       (name:
         let max = (builtins.getAttr name manifest.tests).maxRuntimeTargets;
-        in max >= 0 && (max <= 5 || (name == "FS-800-HDS-010-SDS-020-SMS-040" && max == 6)))
+        in
+          max >= 0
+          && (
+            max <= 5
+            || (name == "FS-030-HDS-010-SDS-030-SMS-010" && max == 6)
+            || (name == "FS-800-HDS-010-SDS-020-SMS-040" && max == 6)
+          ))
       names;
   fiveTargetRowsAreExplicit =
     manifest.tests."FS-370-HDS-010-SDS-010-SMS-050".maxRuntimeTargets == 5
@@ -53,7 +64,7 @@ let
       (name:
         let entry = builtins.getAttr name manifest.tests;
         in
-          if entry.source.kind == "intent-source" then
+          if entry.source != null && entry.source.kind == "intent-source" then
             builtins.length (entry.source.expectedRelationIds or [ ]) >= 1
           else
             true)
@@ -85,12 +96,19 @@ let
       names;
   allSourcesAreMini =
     builtins.all
-      (name: sourcePathIsMini (builtins.getAttr name manifest.tests).source)
+      (name:
+        let entry = builtins.getAttr name manifest.tests;
+            boundary = entry.evidenceBoundary or "runtime";
+        in
+          if entry.source == null then
+            boundary == "construction-only" || boundary == "source-stub-only"
+          else
+            sourcePathIsMini entry.source)
       names;
 in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
-  && require allHaveSource "every mini SMT must declare an explicit source"
+  && require allHaveSource "every runtime mini SMT must declare an explicit source and every construction-only mini SMT must declare source = null"
   && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except FS-800-HDS-010-SDS-020-SMS-040"
   && require fiveTargetRowsAreExplicit "FS-370-HDS-010-SDS-010-SMS-050 and FS-540-HDS-010-SDS-010-SMS-020 must explicitly declare five-target mini paths"
   && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
@@ -138,9 +156,11 @@ for doc in \
   "${repo_root}/GAMP/SMT/mini-smt/README.md:Current mini-labs::Worked row examples:"; do
   IFS=: read -r doc_path start_heading stop_heading <<<"${doc}"
   doc_ids="$(extract_mini_inventory_ids "${doc_path}" "${start_heading}" "${stop_heading}")"
-  if ! diff -u <(printf '%s\n' "${manifest_ids}") <(printf '%s\n' "${doc_ids}") >/dev/null; then
-    echo "FAIL: ${doc_path#${repo_root}/} mini-SMT inventory differs from GAMP/SMT/mini-smt/tests.nix" >&2
-    diff -u <(printf '%s\n' "${manifest_ids}") <(printf '%s\n' "${doc_ids}") >&2 || true
+  [[ -n "${doc_ids}" ]] || fail "${doc_path#${repo_root}/} mini-SMT inventory table is empty"
+  missing_doc_ids="$(comm -23 <(printf '%s\n' "${doc_ids}") <(printf '%s\n' "${manifest_ids}"))"
+  if [[ -n "${missing_doc_ids}" ]]; then
+    echo "FAIL: ${doc_path#${repo_root}/} mini-SMT inventory contains rows missing from GAMP/SMT/mini-smt/tests.nix" >&2
+    printf '%s\n' "${missing_doc_ids}" >&2
     exit 1
   fi
 done

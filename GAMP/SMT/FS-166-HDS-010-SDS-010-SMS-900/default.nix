@@ -3,7 +3,15 @@
   traceId = "FS-166-HDS-010-SDS-010-SMS-900";
   smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
   sitRow = ../../SIT/FS-166-HDS-010-SDS-010;
+  evidenceBoundary = "construction-only";
+  source = null;
   purpose = "Renderer-entry mini POC source inputs owned by the FS-166 SMS-900 SMT row.";
+  evidence = {
+    owningRepo = "network-labs";
+    focusedTest = "tests/test-active-lab-mini-smt-sms-input-templates.sh";
+    status = "OK";
+    scope = "FS-166 renderer-entry source map only; runtime materialization is owned by child rows FS-166-HDS-010-SDS-010-SMS-901 through FS-166-HDS-010-SDS-010-SMS-906.";
+  };
   sourceInputs = {
     "FS-166-HDS-010-SDS-010-SMS-901" = {
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";
