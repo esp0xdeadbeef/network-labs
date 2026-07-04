@@ -35,6 +35,12 @@ rg -q -F 'RUNROOT ${trace_id}: ${run_root}' "${runner}" \
   || fail "runner must print full-trace persistent runroot locations"
 rg -q -F 'SELECT ${trace_id}: scripts/select-current-lab.sh SMT ${trace_id}' "${runner}" \
   || fail "runner must select the requested full trace before runtime/build checks"
+rg -q -F 'PASS ${trace_id}: current-lab selected in read-only source' "${runner}" \
+  || fail "runner must verify an already-selected read-only current-lab source without writing into it"
+rg -q -F 'FAIL ${trace_id}: read-only current-lab source is selected to ${current_trace:-<none>}' "${runner}" \
+  || fail "runner must fail when a read-only current-lab source selects a different trace"
+rg -q -F 'FAIL ${trace_id}: current-lab selection left trace ${current_trace:-<none>}' "${runner}" \
+  || fail "runner must verify writable selector output before claiming success"
 rg -q -F '${case_dir}/${trace_id}.select-current-lab.log' "${runner}" \
   || fail "runner selection log filename must include full trace ID"
 rg -q -F '${case_dir}/${trace_id}.script.log' "${runner}" \
