@@ -11,6 +11,7 @@
       smtRow = ../../SMT/FS-165-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-020/intent.nix";
       role = "readable-normalized-source-form";
+      evidenceBoundary = "construction-only";
     };
     "FS-165-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-165-HDS-010-SDS-010-SMS-030;

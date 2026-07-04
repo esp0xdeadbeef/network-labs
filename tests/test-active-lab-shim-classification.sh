@@ -127,6 +127,22 @@ runnable_sat_count="$(wc -l <"${tmp_dir}/selector-sat.txt")"
 source_stub_smt_count="$(rg -l 'evidenceBoundary = "source-stub-only"' "${repo_root}"/GAMP/SMT/*/default.nix | wc -l)"
 source_stub_sit_count="$(rg -l 'evidenceBoundary = "source-stub-only"' "${repo_root}"/GAMP/SIT/*/default.nix | wc -l)"
 
+fs165_source="$("${repo_root}/tests/run-active-lab-mini-smt.sh" --source FS-165-HDS-010-SDS-010-SMS-020)"
+grep -Fx 'kind=construction-only' <<<"${fs165_source}" >/dev/null \
+  || fail "FS-165-HDS-010-SDS-010-SMS-020 must be classified as construction-only despite stale manifest source"
+grep -Fx 'evidenceBoundary=construction-only' <<<"${fs165_source}" >/dev/null \
+  || fail "FS-165-HDS-010-SDS-010-SMS-020 effective boundary must be construction-only"
+grep -Fx 'maxRuntimeTargets=0' <<<"${fs165_source}" >/dev/null \
+  || fail "FS-165-HDS-010-SDS-010-SMS-020 construction-only shim must expose zero runtime targets"
+
+fs165_current="${tmp_dir}/fs165-current-lab"
+NETWORK_LABS_CURRENT_LAB_DIR="${fs165_current}" \
+  "${repo_root}/scripts/select-current-lab.sh" SMT FS-165-HDS-010-SDS-010-SMS-020 >/dev/null
+grep -F 'sourceKind = "construction-only";' "${fs165_current}/metadata.nix" >/dev/null \
+  || fail "FS-165-HDS-010-SDS-010-SMS-020 selector metadata must use construction-only sourceKind"
+grep -F 'constructionOnly = true;' "${fs165_current}/intent.nix" >/dev/null \
+  || fail "FS-165-HDS-010-SDS-010-SMS-020 selector must write construction-only active-lab stub"
+
 [[ "${canonical_sms_count}" == "512" ]] || fail "canonical SMS count changed: ${canonical_sms_count}"
 [[ "${labs_sms_count}" == "520" ]] || fail "network-labs SMS dir count changed: ${labs_sms_count}"
 [[ "${labs_smt_count}" == "520" ]] || fail "network-labs SMT dir count changed: ${labs_smt_count}"
