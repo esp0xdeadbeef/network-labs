@@ -1065,6 +1065,29 @@ in
 "
 }
 
+sit_construction_command_for() {
+  local sds="$1"
+  nix eval --impure --raw --expr "
+let
+  row = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
+in
+  if (row.evidence.constructionCommand or null) == null then \"\" else row.evidence.constructionCommand
+"
+}
+
+normalize_mini_smt_command() {
+  local raw="$1"
+  if [[ "${raw}" == tests/run-active-lab-mini-smt.sh\ * ]]; then
+    printf '%s\n' "${raw}"
+    return 0
+  fi
+  if [[ "${raw}" == *"tests/run-active-lab-mini-smt.sh "* ]]; then
+    printf 'tests/run-active-lab-mini-smt.sh %s\n' "${raw#*tests/run-active-lab-mini-smt.sh }"
+    return 0
+  fi
+  return 1
+}
+
 first_manifest_mini_key_for_sit() {
   local sds="$1"
   nix eval --impure --raw --expr "
@@ -1081,8 +1104,14 @@ in
 
 first_manifest_mini_for_sit() {
   local sds="$1"
-  local command rest mini_id
+  local command construction_command normalized rest mini_id
   command="$(sit_command_for "${sds}")"
+  construction_command="$(sit_construction_command_for "${sds}")"
+  if normalized="$(normalize_mini_smt_command "${command}")"; then
+    command="${normalized}"
+  elif normalized="$(normalize_mini_smt_command "${construction_command}")"; then
+    command="${normalized}"
+  fi
   case "${command}" in
     "tests/run-active-lab-mini-smt.sh "*) ;;
     "")

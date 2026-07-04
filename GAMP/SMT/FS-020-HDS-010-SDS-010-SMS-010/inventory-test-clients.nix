@@ -5,13 +5,9 @@
     scope = "mini-smt-auto";
   };
   hosts = {};
+  clients = {};
   deploymentHosts = {
-    s-router-nixos = {
-      bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
-      };
-    };
+    s-router-test-clients = {};
   };
+  realization.nodes = {};
 }
