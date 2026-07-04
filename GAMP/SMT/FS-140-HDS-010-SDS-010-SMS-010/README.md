@@ -1,12 +1,11 @@
-# SMT Source Stub: FS-140-HDS-010-SDS-010-SMS-010
+# SMT Construction Row: FS-140-HDS-010-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010-scoped-output-boundary.md`
 
-Status: NOT OK - source stub only.
+Status: OK - construction-only.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+This row registers the construction-only active-lab wrapper for the
+`network-control-plane-model` scoped renderer contract boundary proof. It does
+not create router runtime targets; live artifacts are recorded only as context.
 
 Title slug: `scoped-output-boundary`

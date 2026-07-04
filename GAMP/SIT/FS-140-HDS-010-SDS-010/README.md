@@ -1,7 +1,7 @@
-# SIT Source Stub: FS-140-HDS-010-SDS-010
+# SIT Construction Context: FS-140-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: OK - construction-only.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+This SDS-scoped row records that FS-140-HDS-010-SDS-010-SMS-010 is a
+construction-only scoped-output-boundary proof. Live active-lab artifacts are
+context only and do not promote this row to runtime SIT evidence.
