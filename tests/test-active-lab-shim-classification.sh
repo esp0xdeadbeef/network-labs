@@ -134,6 +134,12 @@ grep -Fx 'evidenceBoundary=construction-only' <<<"${fs165_source}" >/dev/null \
   || fail "FS-165-HDS-010-SDS-010-SMS-020 effective boundary must be construction-only"
 grep -Fx 'maxRuntimeTargets=0' <<<"${fs165_source}" >/dev/null \
   || fail "FS-165-HDS-010-SDS-010-SMS-020 construction-only shim must expose zero runtime targets"
+grep -q '^intent=' <<<"${fs165_source}" \
+  && fail "FS-165-HDS-010-SDS-010-SMS-020 construction-only shim must not expose a runtime intent source"
+grep -q '^cpm=' <<<"${fs165_source}" \
+  && fail "FS-165-HDS-010-SDS-010-SMS-020 construction-only shim must not expose a runtime CPM source"
+grep -F 'MINI_SMT_OFFLINE_VERIFY:-0' "${repo_root}/tests/run-active-lab-mini-smt.sh" >/dev/null \
+  || fail "offline compiler/NFM/CPM verifier must be opt-in, not default"
 
 fs165_current="${tmp_dir}/fs165-current-lab"
 NETWORK_LABS_CURRENT_LAB_DIR="${fs165_current}" \
