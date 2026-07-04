@@ -52,6 +52,30 @@ in
   && require (inventoryHost.activeLabInventoryStub.runtimeManagement.vlan2 == "management-only") "default host-specific NixOS inventory alias must preserve VLAN2 management"
 ' >/dev/null || fail "default selection failed"
 
+"${selector}" SMT FS-050-HDS-010-SDS-010-SMS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  cpmLib = (builtins.getFlake ("path:" + repoRoot + "/../network-control-plane-model")).libBySystem.${builtins.currentSystem};
+  built = cpmLib.compileAndBuildFromPaths {
+    inputPath = repoRoot + "/current-lab/intent-s-router-nixos.nix";
+    inventoryPath = repoRoot + "/current-lab/inventory-s-router-nixos.nix";
+  };
+  require = cond: msg: if cond then true else throw msg;
+in
+  require (current.selection.selector == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only selector mismatch"
+  && require (current.selection.sourceKind == "construction-only") "construction-only source kind mismatch"
+  && require (current.intent.control_plane_model.meta.traceId == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only current intent must keep full trace"
+  && require (current.intent.control_plane_model.meta.evidenceBoundary == "construction-only") "construction-only current intent must keep evidence boundary"
+  && require (current.intent.control_plane_model.data.active-lab.construction-only.runtimeTargets == { }) "construction-only current intent must not define runtime targets"
+  && require (activeIntentNixos.control_plane_model.meta.traceId == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only active host intent must keep full trace"
+  && require (built.control_plane_model.meta.traceId == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only CPM pass-through must keep full trace"
+  && require (built.control_plane_model.meta.evidenceBoundary == "construction-only") "construction-only CPM pass-through must keep boundary"
+  && require (built.control_plane_model.data.active-lab.construction-only.runtimeTargets == { }) "construction-only CPM pass-through must keep empty runtime target set"
+' >/dev/null || fail "construction-only selection failed"
+
 "${selector}" SMT FS-380-HDS-020-SDS-010-SMS-050 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
