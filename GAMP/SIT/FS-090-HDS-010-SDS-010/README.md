@@ -1,7 +1,11 @@
-# SIT Source Stub: FS-090-HDS-010-SDS-010
+# SIT Runtime Evidence: FS-090-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: OK - active-lab SMT/SIT runtime evidence recorded.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+The full-loop active-lab run on 2026-07-04 selected
+`FS-090-HDS-010-SDS-010-SMS-010` and verified the locked runtime artifacts on
+`s-router-nixos`, `s-router-clab`, and `s-router-test-clients`. Router hosts
+had five bounded runtime targets and no downstream repair, downstream
+invention, name-shortcut, or default-inference records. Test-clients exposed
+the trace with zero router runtime targets. This is SIT integration evidence
+for the active lab only; it does not promote HAT/SAT.

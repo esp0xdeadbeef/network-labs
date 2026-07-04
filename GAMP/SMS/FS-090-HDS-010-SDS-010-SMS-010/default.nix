@@ -4,15 +4,15 @@
   parentSds = ../../SDS/FS-090-HDS-010-SDS-010;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010-no-downstream-heuristic-repair.md";
   titleSlug = "no-downstream-heuristic-repair";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "No-downstream-heuristic-repair template (active-lab runtime SMT OK).";
+  evidenceBoundary = "runtime";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "row-local" = {
       traceId = "FS-090-HDS-010-SDS-010-SMS-010";
-      kind = "source-reference";
+      kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-090-HDS-010-SDS-010-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
-      maxRuntimeTargets = 0;
+      test = "tests/run-active-lab-mini-smt.sh";
+      maxRuntimeTargets = 5;
     };
   };
   templateTests = [
