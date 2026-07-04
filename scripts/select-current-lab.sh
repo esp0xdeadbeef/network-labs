@@ -1120,7 +1120,7 @@ let
     vlan = 2;
   };
 in
-{
+rec {
   meta = {
     traceId = "${trace}";
     evidenceBoundary = "construction-only";
