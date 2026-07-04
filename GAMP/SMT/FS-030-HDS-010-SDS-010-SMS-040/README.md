@@ -1,4 +1,8 @@
-# FS-030-HDS-010-SDS-010-SMS-040 SMT
+# SMT Mini Source: FS-030-HDS-010-SDS-010-SMS-040
+
+Canonical SMS: `network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040-cpm-binder-source-audit.md`
+
+Status: OK - active-lab mini-SMT runtime evidence.
 
 Row-local source for the mini CPM binder source audit SMT.
 
@@ -25,17 +29,17 @@ This row provides a small intent-source fixture that exercises the CPM pipeline
 for binder source audit testing: one tenant-to-external allow relation through
 access -> external stages.
 
-Run:
+## 2026-07-04 Verification
 
-```bash
-tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-010-SMS-040
-```
+- `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-040` passed.
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash ../network-control-plane-model/tests/FS-030-HDS-010-SDS-010-SMS-020-cpm-realization-binder-source-audit.sh` passed inside the live wrapper, proving missing binder source audit, missing upstream behavior reference, and cross-stage authority seeded negatives fail closed.
+- `../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-040.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
+- Evidence directory:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-010-SMS-040/20260704T042319Z`.
+- Runtime target counts were `s-router-nixos=5`, `s-router-clab=5`, and
+  `s-router-test-clients=0`.
 
-This row may start at most 5 runtime targets.
+This is SMT active-lab child-row evidence only and does not promote HAT/SAT or
+production readiness.
 
-## Status
-
-SMT row: OK after the CPM construction test proves the SMS-040 seeded
-negatives and the active-lab artifacts carry the full trace ID.
-
-This is SMT/SIT row-local evidence only and does not promote HAT or SAT.
+Title slug: `cpm-binder-source-audit`
