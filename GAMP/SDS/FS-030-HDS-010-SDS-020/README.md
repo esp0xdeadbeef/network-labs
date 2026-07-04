@@ -1,7 +1,16 @@
-# SDS Source Stub: FS-030-HDS-010-SDS-020
+# SDS Mini Source: FS-030-HDS-010-SDS-020
 
-Status: NOT OK - source stub only.
+Software design mirror for FS-030 stage-topology enforcement.
 
-This row exists so the network-labs GAMP tree can mirror canonical SMS children
-from network-codex-agent. Add real design detail and focused evidence before
-marking any child SMS input OK.
+The canonical design is
+`network-codex-agent/GAMP/SDS/FS-030-HDS-010-SDS-020-stage-topology-enforcement.md`.
+This network-labs row carries the row-local active-lab source that exercises the
+compiler stage-topology boundary across the canonical five-stage path:
+`access -> downstream-selector -> policy -> upstream-selector -> core`.
+
+**Evidence Boundary:** active-lab mini-SMT runtime plus the compiler
+construction test for `FS-030-HDS-010-SDS-020-SMS-010`.
+
+The `FS-030-HDS-010-SDS-020-SMS-010` child is an active row-local mini-SMT/SIT
+source. Current validation evidence must come from the locked active-lab full
+loop and the row-specific network-codex-agent live wrapper.
