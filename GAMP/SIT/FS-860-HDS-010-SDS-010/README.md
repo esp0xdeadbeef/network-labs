@@ -1,7 +1,8 @@
-# SIT Source Stub: FS-860-HDS-010-SDS-010
+# SIT: FS-860-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: NOT OK until the current active-lab runtime artifact proof passes.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+SIT input FS-860-HDS-010-SDS-010-SMS-030 uses
+`../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-030.sh`.
+The selected artifact must be present on `s-router-nixos`, `s-router-clab`, and
+`s-router-test-clients` with runtime target split 5/5/0.

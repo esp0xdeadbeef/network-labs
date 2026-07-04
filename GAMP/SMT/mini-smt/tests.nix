@@ -315,10 +315,10 @@
         "SIT"
       ];
       rendererTarget = "nixos";
-      script = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
+      script = "../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-901.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "NixOS renderer materializes one runtime container from explicit CPM input";
+      scope = "NixOS renderer materializes one runtime container from explicit CPM input through the full-trace live wrapper";
       maxRuntimeTargets = 1;
     };
 
