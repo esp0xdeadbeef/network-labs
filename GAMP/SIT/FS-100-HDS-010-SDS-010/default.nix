@@ -30,6 +30,7 @@
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-050;
       sourcePath = "GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-050/intent.nix";
       role = "output-artifact-binding";
+      evidenceBoundary = "construction-only";
     };
   };
   evidence = {

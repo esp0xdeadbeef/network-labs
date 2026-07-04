@@ -34,3 +34,11 @@ passed at `network-compiler` HEAD `878f54c` on 2026-07-04.
 provenance redaction evidence from the network-codex-agent construction helper
 and does not create router runtime targets. The current focused proof passed at
 `network-codex-agent` HEAD `018960fe` on 2026-07-04.
+
+`FS-100-HDS-010-SDS-010-SMS-050` is construction-only: it contributes output
+artifact baseline binding evidence from the network-codex-agent construction
+helper and does not create router runtime targets. The current focused proof
+passed at `network-codex-agent` code commit `f06e03c2` on 2026-07-04, and
+`MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh
+FS-100-HDS-010-SDS-010-SMS-050` selected construction-only metadata with zero
+runtime targets.
