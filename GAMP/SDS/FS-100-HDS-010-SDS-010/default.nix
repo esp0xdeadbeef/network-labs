@@ -31,6 +31,7 @@
       smsRow = ../../SMS/FS-100-HDS-010-SDS-010-SMS-050;
       miniSmtIds = [ "row-local" ];
       inputKinds = [ "source-reference" ];
+      evidenceBoundary = "construction-only";
     };
   };
   templateTests = [
