@@ -221,9 +221,41 @@ run_pinned_active_lab_build() {
 
 select_current_lab() {
   local trace_id="$1"
+  local current_trace
 
   echo "SELECT ${trace_id}: scripts/select-current-lab.sh SMT ${trace_id}"
+  if [[ "${repo_root}" == /nix/store/* || ! -w "${repo_root}/current-lab" ]]; then
+    current_trace="$(
+      REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
+        let
+          repoRoot = builtins.getEnv "REPO_ROOT";
+          metadata = import (repoRoot + "/current-lab/metadata.nix");
+        in
+          metadata.traceId or ""
+      '
+    )"
+    if [[ "${current_trace}" != "${trace_id}" ]]; then
+      echo "FAIL ${trace_id}: read-only current-lab source is selected to ${current_trace:-<none>}" >&2
+      return 1
+    fi
+    echo "PASS ${trace_id}: current-lab selected in read-only source"
+    return 0
+  fi
+
   bash "${repo_root}/scripts/select-current-lab.sh" SMT "${trace_id}"
+  current_trace="$(
+    REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
+      let
+        repoRoot = builtins.getEnv "REPO_ROOT";
+        metadata = import (repoRoot + "/current-lab/metadata.nix");
+      in
+        metadata.traceId or ""
+    '
+  )"
+  if [[ "${current_trace}" != "${trace_id}" ]]; then
+    echo "FAIL ${trace_id}: current-lab selection left trace ${current_trace:-<none>}" >&2
+    return 1
+  fi
   echo "PASS ${trace_id}: current-lab selected"
 }
 
