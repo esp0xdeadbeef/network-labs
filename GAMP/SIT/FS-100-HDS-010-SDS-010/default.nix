@@ -18,6 +18,7 @@
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-030/intent.nix";
       role = "signed-output-containment";
+      evidenceBoundary = "construction-only";
     };
     "FS-100-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-040;

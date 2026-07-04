@@ -24,3 +24,8 @@ therefore contributes emitter-provenance construction evidence only.
 deterministic source identity evidence from the compiler provenance module and
 does not create router runtime targets. The current focused compiler proof
 passed at `network-compiler` HEAD `19d66ef` on 2026-07-04.
+
+`FS-100-HDS-010-SDS-010-SMS-030` is also construction-only: it contributes
+signed-output source containment evidence from the compiler provenance module
+and does not create router runtime targets. The current focused compiler proof
+passed at `network-compiler` HEAD `878f54c` on 2026-07-04.
