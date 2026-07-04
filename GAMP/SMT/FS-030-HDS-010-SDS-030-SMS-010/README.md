@@ -23,7 +23,7 @@ Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-030-SMS-010-overla
 Run:
 
 ```bash
-tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-030-SMS-010
+MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-030-SMS-010
 ```
 
 This row may start at most 6 runtime targets: client-edge,
@@ -35,7 +35,20 @@ egress instead of borrowing authority from inventory or renderer behavior.
 
 ## Status
 
-SMT row: OK - row-local mini-SMT source with compiler construction evidence
-and overlay-real runtime source predicates.
+SMT row: OK - row-local mini-SMT source with compiler construction evidence,
+overlay-real runtime source predicates, live NixOS and CLAB runtime
+enumeration, and pinned `s-router-nixos` build evidence.
+
+Current evidence, 2026-07-04:
+
+- Direct live wrapper:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-030-SMS-010/20260704T051250Z`
+- Mini-SMT runner wrapper log:
+  `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-030-SMS-010/20260704T051319Z`
+- Mini-SMT run root:
+  `/tmp/active-lab-mini-smt-runs/20260704T051312Z-2891933/FS-030-HDS-010-SDS-030-SMS-010`
+- Offline verifier status: skipped by `MINI_SMT_OFFLINE_VERIFY=0`.
+- Runtime targets: six on `s-router-nixos`, six on `s-router-clab`, zero on
+  `s-router-test-clients`.
 
 This is SMT construction evidence only and does not promote SIT/HAT/SAT.
