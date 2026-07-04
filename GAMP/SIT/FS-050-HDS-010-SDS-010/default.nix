@@ -10,6 +10,6 @@
     };
   };
   evidence = {
-    observedResult = "SMT construction row OK at network-control-plane-model commit 8c0cafd. SIT remains a construction-only integration declaration for protected inventory boundary composition alongside FS-040 and FS-030; no runtime topology is claimed.";
+    observedResult = "SMT construction row OK at network-control-plane-model commit eade1c264d61db68d02aa8ade64b9ddfe975c4fd. SIT remains a construction-only integration declaration for protected inventory boundary composition alongside FS-040 and FS-030; no runtime topology is claimed.";
   };
 }
