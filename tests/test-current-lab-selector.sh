@@ -395,6 +395,7 @@ let
   inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
   inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
     "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-client-edge"
@@ -416,10 +417,13 @@ in
   && require (manifest.tests."FS-060-HDS-010-SDS-010-SMS-010".maxRuntimeTargets == 5) "FS-060 runtime-fact mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-060 NixOS SIT must realize exactly the five-node runtime-fact path"
   && require (clabNodes == expectedNodes) "FS-060 CLAB SIT must realize exactly the five-node runtime-fact path"
-  && require (clientNodes == expectedNodes) "FS-060 test-client SIT must realize exactly the five-node runtime-fact path"
+  && require (clientNodes == [ ]) "FS-060 test-client SIT must not realize router runtime targets"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-060 test-client SIT inventory must keep s-router-test-clients host substrate"
+  && require (!(inventoryClients.deploymentHosts ? s-router-nixos)) "FS-060 test-client SIT inventory must not carry router host substrate"
+  && require (activeInventoryClients == inventoryClients) "FS-060 test-client SIT host inventory must preserve row-local client inventory"
+  && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-060 test-client SIT inventory must preserve VLAN2 management"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-060 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-060 CLAB mini nodes must stay on s-router-clab"
-  && require (builtins.all (name: inventoryClients.realization.nodes.${name}.host == "s-router-test-clients") clientNodes) "FS-060 test-client mini nodes must stay on s-router-test-clients"
 ' >/dev/null || fail "SIT FS-060 selection failed"
 
 "${selector}" SIT FS-370-HDS-010-SDS-010 >/dev/null
