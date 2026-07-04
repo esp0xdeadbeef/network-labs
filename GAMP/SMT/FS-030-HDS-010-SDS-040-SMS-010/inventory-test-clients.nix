@@ -2,14 +2,15 @@
   meta = {
     traceId = "FS-030-HDS-010-SDS-040-SMS-010";
     scope = "mini-smt-auto";
+    renderer = "test-clients";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
-    s-router-nixos = {
+    s-router-test-clients = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
     };
   };

@@ -1,16 +1,22 @@
 {
   layer = "SDS";
   traceId = "FS-030-HDS-010-SDS-040";
-  purpose = "Canonical SMS mirror source-stub grouping.";
+  purpose = "Platform-independence row-local mini-SMT grouping.";
   smsInputs = {
     "FS-030-HDS-010-SDS-040-SMS-010" = {
       smsRow = ../../SMS/FS-030-HDS-010-SDS-040-SMS-010;
-      miniSmtIds = [ "canonical-source-stub" ];
-      inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      miniSmtIds = [ "FS-030-HDS-010-SDS-040-SMS-010" ];
+      inputKinds = [
+        "intent-source"
+        "compiler-construction-test"
+        "active-lab-runtime"
+      ];
+      evidenceBoundary = "row-local-mini-smt";
     };
   };
   templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
+    "tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-040-SMS-010"
+    "network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-040-SMS-010.sh"
+    "network-compiler/tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh"
   ];
 }
