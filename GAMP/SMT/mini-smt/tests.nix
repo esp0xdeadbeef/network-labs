@@ -1081,18 +1081,15 @@
         SMT = ../FS-166-HDS-010-SDS-010-SMS-900;
         SIT = ../../SIT/FS-166-HDS-010-SDS-010;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-166-HDS-010-SDS-010-SMS-900/intent.nix;
-        expectedRelationIds = [ "FS-166-HDS-010-SDS-010-SMS-900__mini-verify" ];
-      };
+      source = null;
       evidenceLevels = [ "SMT" "SIT" ];
+      evidenceBoundary = "construction-only";
       rendererTarget = null;
       script = "../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-900.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "FS-166-HDS-010-SDS-010-SMS-900 SMT live verifier";
-      maxRuntimeTargets = 5;
+      scope = "FS-166-HDS-010-SDS-010-SMS-900 construction-only renderer-entry source-map verifier; child rows FS-166-HDS-010-SDS-010-SMS-901 through FS-166-HDS-010-SDS-010-SMS-906 own runtime materialization";
+      maxRuntimeTargets = 0;
     };
 
     "FS-170-HDS-010-SDS-010-SMS-010" = {

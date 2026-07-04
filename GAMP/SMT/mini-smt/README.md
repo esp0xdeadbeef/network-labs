@@ -11,8 +11,9 @@ The rule is:
 
 - one trace-chain ID per mini-lab;
 - one behavior under test;
-- one explicit source entry per mini-lab (`intent-source`, `control-plane-input`,
-  or `renderer-input`);
+- one explicit source entry per runtime mini-lab (`intent-source`,
+  `control-plane-input`, or `renderer-input`), or `source = null` with
+  `evidenceBoundary = "construction-only"` for rows with no runtime topology;
 - one focused script per mini-lab, runnable through
   `tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id>`;
 - a declared maximum runtime-target count;
@@ -79,6 +80,7 @@ Current mini-labs:
 | `FS-540-HDS-010-SDS-010-SMS-020` | `FS-540-HDS-010-SDS-010-SMS-020` | `tests/test-active-lab-mini-smt-dns-resolver-config-only.sh` | Five-target DNS resolver configuration authority. |
 | `FS-380-HDS-020-SDS-010-SMS-050` | `FS-380-HDS-020-SDS-010-SMS-050` | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` | SMT/SIT-only emulated PPPoE provider with semantic ISP uplinks realized as VLAN4/VLAN5 DHCP in inventory; skips, NAT, and VLAN2 rejected. |
 | `FS-800-HDS-010-SDS-020-SMS-040` | `FS-800-HDS-010-SDS-020-SMS-040` | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` | Provider-access default route selection over the smallest canonical policy path plus PPPoE-side core. |
+| `FS-166-HDS-010-SDS-010-SMS-900` | `FS-166-HDS-010-SDS-010-SMS-900` | `../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-900.sh` | Construction-only source-map umbrella for renderer-entry child rows `FS-166-HDS-010-SDS-010-SMS-901` through `FS-166-HDS-010-SDS-010-SMS-906`; zero runtime targets. |
 | `FS-166-HDS-010-SDS-010-SMS-901` | `FS-166-HDS-010-SDS-010-SMS-901` | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` | One `poc-router` NixOS runtime container from explicit CPM input. |
 | `FS-166-HDS-010-SDS-010-SMS-902` | `FS-166-HDS-010-SDS-010-SMS-902` | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` | Two NixOS runtime containers on one p2p bridge from explicit CPM input. |
 | `FS-166-HDS-010-SDS-010-SMS-903` | `FS-166-HDS-010-SDS-010-SMS-903` | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` | One endpoint client container from explicit CPM input. |
@@ -87,7 +89,7 @@ Current mini-labs:
 | `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` | WireGuard remote-egress provider runtime imported into one active-lab container from explicit CPM providerContracts. |
 | `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
 
-All 15 manifest rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
+All tabled mini-SMT rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
 See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,
 `GAMP/SMS/README.md` for the template row indexes.
 

@@ -130,6 +130,7 @@ validation surfaces is not allowed.
 | `FS-540-HDS-010-SDS-010-SMS-045` | `FS-540-HDS-010-SDS-010-SMS-045` | ✓ | ✓ | ✓ | ✓ | `tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh` |
 | `FS-380-HDS-020-SDS-010-SMS-050` | `FS-380-HDS-020-SDS-010-SMS-050` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-internet-mode-verification-only.sh` |
 | `FS-800-HDS-010-SDS-020-SMS-040` | `FS-800-HDS-010-SDS-020-SMS-040` | ✓ | ✓ | ✓ | ✓ | `tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh` |
+| `FS-166-HDS-010-SDS-010-SMS-900` | `FS-166-HDS-010-SDS-010-SMS-900` | ✓ | ✓ | ✓ | ✓ | `../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-900.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-901` | `FS-166-HDS-010-SDS-010-SMS-901` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-902` | `FS-166-HDS-010-SDS-010-SMS-902` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-903` | `FS-166-HDS-010-SDS-010-SMS-903` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh` |
@@ -138,7 +139,7 @@ validation surfaces is not allowed.
 | `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
 
-All 16 tabled mini-SMT rows above have complete row-directory infrastructure
+All 17 tabled mini-SMT rows above have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and SMT
 construction stubs). The full generated manifest is
 `GAMP/SMT/mini-smt/tests.nix`.
