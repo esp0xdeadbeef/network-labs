@@ -1008,7 +1008,7 @@ trace_for_mini_key() {
 
 source_kind_for_mini_key() {
   local key="$1"
-  mini_attr "${key}" "row.source.kind or \"unspecified\""
+  mini_attr "${key}" "let source = row.source or null; in if source == null then row.evidenceBoundary or \"unspecified\" else source.kind or row.evidenceBoundary or \"unspecified\""
 }
 
 renderer_target_for_mini_key() {
@@ -1018,7 +1018,41 @@ renderer_target_for_mini_key() {
 
 source_path_for_mini_key() {
   local key="$1"
-  mini_attr "${key}" "let source = row.source or {}; in if source ? cpm then toString source.cpm else if source ? intent then toString source.intent else \"\""
+  mini_attr "${key}" "let source = row.source or null; in if source != null && source ? cpm then toString source.cpm else if source != null && source ? intent then toString source.intent else \"\""
+}
+
+write_construction_only_stub() {
+  local trace="$1"
+  local row_dir="$2"
+  local target
+
+  write_file "${current_dir}/intent.nix" cat <<EOF
+{
+  activeLabConstructionOnly = {
+    traceId = "${trace}";
+    rowDirectory = ../${row_dir};
+    evidenceBoundary = "construction-only";
+    note = "This active-lab selection has no runtime topology. Run tests/run-active-lab-mini-smt.sh ${trace} for the owning construction check.";
+  };
+}
+EOF
+
+  for target in inventory-nixos.nix inventory-clab.nix inventory-hetz.nix inventory-test-clients.nix clients.nix; do
+    write_file "${current_dir}/${target}" cat <<EOF
+{
+  activeLabConstructionOnly = {
+    traceId = "${trace}";
+    rowDirectory = ../${row_dir};
+    evidenceBoundary = "construction-only";
+  };
+  deployment = { hosts = { }; };
+  deploymentHosts = { };
+  endpoints = { };
+  realization = { nodes = { }; };
+  clients = { };
+}
+EOF
+  done
 }
 
 sit_command_for() {
@@ -1113,6 +1147,14 @@ select_smt() {
     echo "SMT row directory not found: ${row_dir}" >&2
     exit 2
   }
+
+  if [[ "${source_kind}" == "construction-only" ]]; then
+    write_construction_only_stub "${trace}" "${row_dir}"
+    write_default_sops
+    write_current_host_entrypoints
+    write_metadata "SMT" "${trace}" "${trace}" "${source_kind}" "${row_dir}" "${row_dir}/default.nix" "${selected_by}"
+    return 0
+  fi
 
   if [[ "${source_kind}" == "renderer-input" ]]; then
     if [[ "${renderer_target}" == "nixos" ]]; then

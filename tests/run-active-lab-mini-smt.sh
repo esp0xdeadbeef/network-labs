@@ -76,7 +76,7 @@ resolve_key() {
 script_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; in manifest.tests.\"${key}\".script"
+    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in if (entry.script or null) == null then \"\" else entry.script"
 }
 
 script_path_for() {
@@ -95,19 +95,36 @@ script_path_for() {
 source_kind_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in entry.source.kind or \"unspecified\""
+    "let
+       manifest = import ${manifest_file};
+       entry = manifest.tests.\"${key}\";
+       source = entry.source or null;
+     in
+       if source == null then entry.evidenceBoundary or \"unspecified\" else source.kind or entry.evidenceBoundary or \"unspecified\""
 }
 
 intent_path_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; source = manifest.tests.\"${key}\".source or {}; in if source ? intent then toString source.intent else \"\""
+    "let manifest = import ${manifest_file}; source = manifest.tests.\"${key}\".source or null; in if source != null && source ? intent then toString source.intent else \"\""
 }
 
 cpm_path_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; source = manifest.tests.\"${key}\".source or {}; in if source ? cpm then toString source.cpm else \"\""
+    "let manifest = import ${manifest_file}; source = manifest.tests.\"${key}\".source or null; in if source != null && source ? cpm then toString source.cpm else \"\""
+}
+
+evidence_boundary_for() {
+  local key="$1"
+  nix eval --impure --raw --expr \
+    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in entry.evidenceBoundary or \"runtime\""
+}
+
+max_runtime_targets_for() {
+  local key="$1"
+  nix eval --impure --raw --expr \
+    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in builtins.toString (entry.maxRuntimeTargets or 0)"
 }
 
 run_script_validator() {
@@ -232,6 +249,8 @@ if [[ "$1" == "--source" ]]; then
   trace_id="$(trace_for_key "${key}")"
   echo "traceId=${trace_id}"
   echo "kind=$(source_kind_for "${key}")"
+  echo "evidenceBoundary=$(evidence_boundary_for "${key}")"
+  echo "maxRuntimeTargets=$(max_runtime_targets_for "${key}")"
   intent_path="$(intent_path_for "${key}")"
   cpm_path="$(cpm_path_for "${key}")"
   [[ -z "${intent_path}" ]] || echo "intent=${intent_path}"
@@ -254,7 +273,13 @@ mkdir -p "${run_root}"
 
 for key in "${selected[@]}"; do
   trace_id="$(trace_for_key "${key}")"
+  evidence_boundary="$(evidence_boundary_for "${key}")"
+  max_runtime_targets="$(max_runtime_targets_for "${key}")"
   script="$(script_for "${key}")"
+  if [[ -z "${script}" ]]; then
+    echo "Mini SMT script is not registered for ${trace_id}" >&2
+    exit 1
+  fi
   script_path="$(script_path_for "${script}")"
 
   if [[ ! -x "${script_path}" ]]; then
@@ -263,6 +288,7 @@ for key in "${selected[@]}"; do
   fi
 
   echo "RUN ${trace_id}: ${script}"
+  echo "BOUNDARY ${trace_id}: ${evidence_boundary}, maxRuntimeTargets=${max_runtime_targets}"
   source_kind="$(source_kind_for "${key}")"
   intent_path="$(intent_path_for "${key}")"
   cpm_path="$(cpm_path_for "${key}")"
@@ -284,15 +310,27 @@ for key in "${selected[@]}"; do
     "${script_path}" >"${script_log}" 2>&1 &
   script_pid=$!
 
-  run_offline_verifier \
-    "${trace_id}" \
-    "${source_kind}" \
-    "${case_dir}/offline-current-lab" >"${offline_log}" 2>&1 &
+  if [[ "${evidence_boundary}" == "construction-only" || "${max_runtime_targets}" == "0" ]]; then
+    {
+      echo "INFO ${trace_id}: offline compiler/NFM/CPM runtime verifier not applicable to construction-only row"
+    } >"${offline_log}" 2>&1 &
+  else
+    run_offline_verifier \
+      "${trace_id}" \
+      "${source_kind}" \
+      "${case_dir}/offline-current-lab" >"${offline_log}" 2>&1 &
+  fi
   offline_pid=$!
 
-  run_pinned_active_lab_build \
-    "${trace_id}" \
-    "${case_dir}/pinned-nixos" >"${pinned_log}" 2>&1 &
+  if [[ "${evidence_boundary}" == "construction-only" || "${max_runtime_targets}" == "0" ]]; then
+    {
+      echo "INFO ${trace_id}: pinned s-router-nixos runtime build not applicable to construction-only row"
+    } >"${pinned_log}" 2>&1 &
+  else
+    run_pinned_active_lab_build \
+      "${trace_id}" \
+      "${case_dir}/pinned-nixos" >"${pinned_log}" 2>&1 &
+  fi
   pinned_pid=$!
 
   script_rc=0

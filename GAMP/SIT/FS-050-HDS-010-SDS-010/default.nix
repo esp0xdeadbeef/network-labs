@@ -4,12 +4,12 @@
   smsInputs = {
     "FS-050-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-050-HDS-010-SDS-010-SMS-010;
-      sourcePath = "GAMP/SMT/FS-050-HDS-010-SDS-010-SMS-010/intent.nix";
+      sourcePath = "GAMP/SMT/FS-050-HDS-010-SDS-010-SMS-010/default.nix";
       role = "protected-inventory-boundary";
       evidenceBoundary = "construction-only";
     };
   };
   evidence = {
-    observedResult = "SMT row NOT OK — no dedicated RaTM test at CPM HEAD. SIT integration path declared for end-to-end inventory boundary verification alongside FS-040 and FS-030.";
+    observedResult = "SMT construction row OK at network-control-plane-model commit 8c0cafd. SIT remains a construction-only integration declaration for protected inventory boundary composition alongside FS-040 and FS-030; no runtime topology is claimed.";
   };
 }

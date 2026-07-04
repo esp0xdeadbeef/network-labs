@@ -3,8 +3,16 @@
 Row-local source stub for protected inventory boundary.
 
 Construction-only — no active-lab mini-SMT runtime targets.
-Existing CMC code in `network-control-plane-model` (`binder-source-audit.nix`)
-handles protected-inventory source class. Dedicated RaTM test with FS-050-specific
-seeded negatives (SN1 unauthorized consumer, SN2 plaintext leak) required.
+CMC code in `network-control-plane-model` commit `8c0cafd` implements the
+protected-inventory boundary in `src/cpm/secret-source-contract.nix`.
 
-SMT row 108: NOT OK (no dedicated test at HEAD).
+Focused construction proof:
+
+```bash
+NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-050-HDS-010-SDS-010-SMS-010-protected-inventory-boundary.sh
+```
+
+The test proves redacted reference emission, SN1 unauthorized consumer
+rejection, SN2 `plaintextMaterial=true` public-surface rejection, and
+DNS/NAT/public exposure/trust non-authority. No live host, container, HAT, or
+SAT evidence is claimed for this construction-only row.
