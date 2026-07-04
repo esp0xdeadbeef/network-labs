@@ -18,7 +18,7 @@ let
     vlan = 2;
   };
 in
-{
+rec {
   meta = {
     traceId = "FS-050-HDS-010-SDS-010-SMS-010";
     evidenceBoundary = "construction-only";

@@ -58,6 +58,9 @@ let
   repoRoot = builtins.getEnv "REPO_ROOT";
   current = import (repoRoot + "/current-lab");
   activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   cpmLib = (builtins.getFlake ("path:" + repoRoot + "/../network-control-plane-model")).libBySystem.${builtins.currentSystem};
   built = cpmLib.compileAndBuildFromPaths {
     inputPath = repoRoot + "/current-lab/intent-s-router-nixos.nix";
@@ -71,6 +74,9 @@ in
   && require (current.intent.control_plane_model.meta.evidenceBoundary == "construction-only") "construction-only current intent must keep evidence boundary"
   && require (current.intent.control_plane_model.data.active-lab.construction-only.runtimeTargets == { }) "construction-only current intent must not define runtime targets"
   && require (activeIntentNixos.control_plane_model.meta.traceId == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only active host intent must keep full trace"
+  && require (inventoryNixos.deploymentHosts ? s-router-nixos) "construction-only NixOS inventory must evaluate deploymentHosts"
+  && require (inventoryClab.deploymentHosts ? s-router-clab) "construction-only clab inventory must evaluate deploymentHosts"
+  && require (inventoryClients.deploymentHosts ? s-router-test-clients) "construction-only test-client inventory must evaluate deploymentHosts"
   && require (built.control_plane_model.meta.traceId == "FS-050-HDS-010-SDS-010-SMS-010") "construction-only CPM pass-through must keep full trace"
   && require (built.control_plane_model.meta.evidenceBoundary == "construction-only") "construction-only CPM pass-through must keep boundary"
   && require (built.control_plane_model.data.active-lab.construction-only.runtimeTargets == { }) "construction-only CPM pass-through must keep empty runtime target set"
