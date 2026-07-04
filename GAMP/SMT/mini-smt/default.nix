@@ -221,16 +221,19 @@ let
       upstream = record.upstream or { };
       uplinks = upstream.internetUplinks or [ ];
       allowedVlan = vlan: vlan == 4 || vlan == 5;
+      allowedUplinkName = name: name == "isp" || name == "pppoe-provider";
       allowedHandoffKind =
         kind:
         kind == "pppoe" || kind == "dhcp-provider" || kind == "routed-testnet";
       uplinkOk =
         uplink:
-        uplink ? vlan
-        && allowedVlan uplink.vlan
+        uplink ? name
+        && allowedUplinkName uplink.name
         && (uplink.mode or null) == "dhcp";
-      hasVlan2 = builtins.any (uplink: (uplink.vlan or null) == 2) uplinks;
+      hasVlan2 = builtins.any (uplink: (uplink.vlan or null) == 2 || (uplink.name or null) == "vlan2") uplinks;
       hasBadVlan = builtins.any (uplink: uplink ? vlan && !(allowedVlan uplink.vlan)) uplinks;
+      hasBadUplinkName =
+        builtins.any (uplink: uplink ? name && !(allowedUplinkName uplink.name)) uplinks;
       hasBadMode = builtins.any (uplink: (uplink.mode or null) != "dhcp") uplinks;
     in
     if hasSkip then {
@@ -263,6 +266,9 @@ let
     } else if hasBadVlan then {
       ok = false;
       diagnostic = "internet-vlan-not-allowed";
+    } else if hasBadUplinkName then {
+      ok = false;
+      diagnostic = "internet-uplink-not-allowed";
     } else if hasBadMode then {
       ok = false;
       diagnostic = "internet-uplink-must-use-dhcp";
@@ -813,11 +819,11 @@ in
             kind = "emulated-isp";
             internetUplinks = [
               {
-                vlan = 4;
+                name = "isp";
                 mode = "dhcp";
               }
               {
-                vlan = 5;
+                name = "pppoe-provider";
                 mode = "dhcp";
               }
             ];

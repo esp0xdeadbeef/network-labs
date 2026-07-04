@@ -49,6 +49,13 @@ nix eval --impure --expr "
         (builtins.attrValues uplinks);
     uplinksNoVlan2 = uplinks:
       builtins.all (uplink: (uplink.vlan or null) != 2) (builtins.attrValues uplinks);
+    recordUplinksUseOnlySemanticNames = uplinks:
+      builtins.all
+        (uplink:
+          (uplink.name == \"isp\" || uplink.name == \"pppoe-provider\")
+          && !(uplink ? vlan)
+          && uplink.mode == \"dhcp\")
+        uplinks;
     handoffOk = host: host.accessHandoff.kind == \"pppoe\" && host.accessHandoff.server == \"emulated-isp\";
     noRealizationNodes = inventory: ((inventory.realization or { }).nodes or { }) == { };
     skippedRecord = record // { skipInternetTest = true; };
@@ -56,13 +63,15 @@ nix eval --impure --expr "
     missingHandoffRecord = builtins.removeAttrs record [ \"accessHandoff\" ];
     opaqueHandoffRecord = record // { accessHandoff = record.accessHandoff // { kind = \"opaque\"; }; };
     vlan2Record = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { vlan = 2; mode = \"dhcp\"; } ]; }; };
-    routedWanRecord = record // { upstream = { kind = \"wan-core\"; internetUplinks = [ { vlan = 4; mode = \"dhcp\"; } ]; }; };
-    staticModeRecord = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { vlan = 4; mode = \"static\"; } ]; }; };
+    badNameRecord = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { name = \"unexpected-uplink\"; mode = \"dhcp\"; } ]; }; };
+    routedWanRecord = record // { upstream = { kind = \"wan-core\"; internetUplinks = [ { name = \"isp\"; mode = \"dhcp\"; } ]; }; };
+    staticModeRecord = record // { upstream = { kind = \"emulated-isp\"; internetUplinks = [ { name = \"isp\"; mode = \"static\"; } ]; }; };
     skippedCheck = mini.validators.internetModeVerification skippedRecord;
     natCheck = mini.validators.internetModeVerification natRecord;
     missingHandoffCheck = mini.validators.internetModeVerification missingHandoffRecord;
     opaqueHandoffCheck = mini.validators.internetModeVerification opaqueHandoffRecord;
     vlan2Check = mini.validators.internetModeVerification vlan2Record;
+    badNameCheck = mini.validators.internetModeVerification badNameRecord;
     routedWanCheck = mini.validators.internetModeVerification routedWanRecord;
     staticModeCheck = mini.validators.internetModeVerification staticModeRecord;
   in
@@ -109,8 +118,8 @@ nix eval --impure --expr "
       \"internet-mode record must exercise emulated PPPoE access instead of skipping internet\"
     && require ((record.upstream or {}).kind == \"emulated-isp\")
       \"internet-mode upstream must be an emulated ISP\"
-    && require (builtins.all (uplink: (uplink.vlan == 4 || uplink.vlan == 5) && uplink.mode == \"dhcp\") record.upstream.internetUplinks)
-      \"internet-mode upstream may only use VLAN4/VLAN5 DHCP uplinks\"
+    && require (recordUplinksUseOnlySemanticNames record.upstream.internetUplinks)
+      \"internet-mode record must use semantic upstream names; VLAN4/VLAN5 realization belongs in inventory\"
     && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks)
       \"internet-mode NixOS inventory must expose only VLAN4/VLAN5 links with DHCP addressing\"
     && require (handoffOk inventoryNixos.deploymentHosts.s-router-nixos)
@@ -159,6 +168,8 @@ nix eval --impure --expr "
       \"internet-mode mini SMT must reject opaque access handoffs\"
     && require (!vlan2Check.ok && vlan2Check.diagnostic == \"vlan2-not-allowed\")
       \"internet-mode mini SMT must reject VLAN2\"
+    && require (!badNameCheck.ok && badNameCheck.diagnostic == \"internet-uplink-not-allowed\")
+      \"internet-mode mini SMT must reject unexpected semantic upstream names\"
     && require (!routedWanCheck.ok && routedWanCheck.diagnostic == \"upstream-not-emulated-isp\")
       \"internet-mode mini SMT must reject non-emulated-ISP upstreams\"
     && require (!staticModeCheck.ok && staticModeCheck.diagnostic == \"internet-uplink-must-use-dhcp\")
