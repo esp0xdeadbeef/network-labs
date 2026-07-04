@@ -205,6 +205,70 @@ in
   && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "FS-010 accepted-source-set test-client inventory must preserve VLAN2 management"
 ' >/dev/null || fail "SMT FS-010-HDS-010-SDS-010-SMS-010 selection failed"
 
+"${selector}" SMT FS-020-HDS-010-SDS-010-SMS-010 >/dev/null
+REPO_ROOT="${repo_root}" nix eval --impure --expr '
+let
+  repoRoot = builtins.getEnv "REPO_ROOT";
+  current = import (repoRoot + "/current-lab");
+  inventoryNixos = import (repoRoot + "/current-lab/inventory-nixos.nix");
+  inventoryClab = import (repoRoot + "/current-lab/inventory-clab.nix");
+  inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
+  activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
+  activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
+  activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
+  activeInventoryNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+  activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
+  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+  require = cond: msg: if cond then true else throw msg;
+  sorted = builtins.sort (left: right: left < right);
+  names = attrs: sorted (builtins.attrNames attrs);
+  expectedNodes = [
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-client-edge"
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-downstream-selector"
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-policy"
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-testnet-edge"
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-upstream-selector"
+  ];
+  noRealizationNodes = inventory: (((inventory.realization or { }).nodes or { }) == { });
+  noEndpointClientIntent = intent:
+    ((intent.control_plane_model.data.active-lab.test-clients.runtimeTargets or { }) == { })
+    && ((intent.control_plane_model.data.active-lab.test-clients.endpointAssignment or { }) == { });
+  managementOk = uplinks:
+    uplinks.management.vlan == 2
+    && uplinks.management.bridge == "vlan2"
+    && uplinks.management.ipv4.dhcp == true
+    && uplinks.management.ipv6.acceptRA == false;
+  rowSourceOk = intent:
+    intent ? mini-smt
+    && intent.mini-smt ? "FS-020-HDS-010-SDS-010-SMS-010"
+    && builtins.any
+      (relation: relation.id == "FS-020-HDS-010-SDS-010-SMS-010__mini-verify")
+      intent.mini-smt."FS-020-HDS-010-SDS-010-SMS-010".communicationContract.relations;
+in
+  require (current.selection.layer == "SMT") "FS-020 source-class-assignment SMT selector layer mismatch"
+  && require (current.selection.selector == "FS-020-HDS-010-SDS-010-SMS-010") "FS-020 source-class-assignment SMT selector id mismatch"
+  && require (current.selection.traceId == "FS-020-HDS-010-SDS-010-SMS-010") "FS-020 source-class-assignment SMT trace mismatch"
+  && require (names inventoryNixos.realization.nodes == expectedNodes) "FS-020 source-class-assignment NixOS inventory must realize exactly the five-node mini path"
+  && require (names inventoryClab.realization.nodes == expectedNodes) "FS-020 source-class-assignment CLAB inventory must realize exactly the five-node mini path"
+  && require (noRealizationNodes inventoryClients) "FS-020 source-class-assignment test-client inventory must not realize router nodes"
+  && require (names inventoryNixos.deploymentHosts == [ "s-router-nixos" ]) "FS-020 source-class-assignment NixOS inventory must only expose s-router-nixos"
+  && require (names inventoryClab.deploymentHosts == [ "s-router-clab" ]) "FS-020 source-class-assignment CLAB inventory must only expose s-router-clab"
+  && require (names inventoryClients.deploymentHosts == [ "s-router-test-clients" ]) "FS-020 source-class-assignment test-client inventory must only expose s-router-test-clients"
+  && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") expectedNodes) "FS-020 source-class-assignment NixOS mini nodes must stay on s-router-nixos"
+  && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") expectedNodes) "FS-020 source-class-assignment CLAB mini nodes must stay on s-router-clab"
+  && require (activeIntentNixos == activeIntentClab) "FS-020 source-class-assignment router host-specific intent aliases must share the selected row intent"
+  && require (rowSourceOk activeIntentNixos) "FS-020 source-class-assignment router host-specific intent must preserve the row mini-smt source"
+  && require (noEndpointClientIntent activeIntentClients) "FS-020 source-class-assignment test-client host-specific intent must be a no-endpoint source"
+  && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "FS-020 source-class-assignment test-client host-specific intent must keep s-router-test-clients"
+  && require (activeInventoryNixos == inventoryNixos) "FS-020 source-class-assignment s-router-nixos inventory alias must preserve the selected row inventory"
+  && require (activeInventoryClab == inventoryClab) "FS-020 source-class-assignment s-router-clab inventory alias must preserve the selected row inventory"
+  && require (activeInventoryClients == inventoryClients) "FS-020 source-class-assignment s-router-test-clients inventory alias must preserve the selected row inventory"
+  && require ((import (repoRoot + "/active-lab/clients-s-router-test-clients.nix")) == inventoryClients) "FS-020 source-class-assignment clients alias must preserve the no-router client inventory"
+  && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "FS-020 source-class-assignment NixOS inventory must preserve VLAN2 management"
+  && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "FS-020 source-class-assignment CLAB inventory must preserve VLAN2 management"
+  && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "FS-020 source-class-assignment test-client inventory must preserve VLAN2 management"
+' >/dev/null || fail "SMT FS-020-HDS-010-SDS-010-SMS-010 selection failed"
+
 "${selector}" SMT FS-166-HDS-010-SDS-010-SMS-902 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
