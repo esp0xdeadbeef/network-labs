@@ -2,14 +2,11 @@
   layer = "SMT";
   traceId = "FS-165-HDS-010-SDS-010-SMS-030";
   evidenceBoundary = "construction-only";
-  source = {
-    kind = "intent-source";
-    intent = ./intent.nix;
-  };
+  source = null;
   evidence = {
-    owningRepo = "network-labs";
-    focusedTest = "tests/test-gamp-row-source-stubs.sh";
-    status = "NOT OK";
-    scope = "Row-local SMT/SIT source stub exists so the SMS can be addressed by the controlled network-labs source tree.";
+    owningRepo = "network-codex-agent";
+    focusedTest = "tests/test-gamp-fs165-source-form-minimality.sh";
+    status = "OK";
+    scope = "Downstream-contract gap diagnostic checker rejects ambiguous distinctions that cannot be represented through normalized declarations, shared structured data, or named relationships before downstream consumers can infer from ad hoc source padding.";
   };
 }

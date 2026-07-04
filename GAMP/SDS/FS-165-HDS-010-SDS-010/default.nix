@@ -19,7 +19,7 @@
       smsRow = ../../SMS/FS-165-HDS-010-SDS-010-SMS-030;
       miniSmtIds = [ "canonical-source-stub" ];
       inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      evidenceBoundary = "construction-only";
     };
   };
   templateTests = [
