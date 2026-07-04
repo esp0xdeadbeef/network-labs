@@ -126,6 +126,15 @@ cpm_path_for() {
     "let manifest = import ${manifest_file}; source = manifest.tests.\"${key}\".source or null; in if source != null && source ? cpm then toString source.cpm else \"\""
 }
 
+runtime_applicable() {
+  local key="$1"
+  local evidence_boundary max_runtime_targets
+
+  evidence_boundary="$(evidence_boundary_for "${key}")"
+  max_runtime_targets="$(max_runtime_targets_for "${key}")"
+  [[ "${evidence_boundary}" != "construction-only" && "${max_runtime_targets}" != "0" ]]
+}
+
 evidence_boundary_for() {
   local key="$1"
   nix eval --impure --raw --expr \
@@ -183,7 +192,7 @@ run_offline_verifier() {
   local source_kind="$2"
   local work_dir="$3"
 
-  if [[ "${MINI_SMT_OFFLINE_VERIFY:-1}" == "0" ]]; then
+  if [[ "${MINI_SMT_OFFLINE_VERIFY:-0}" != "1" ]]; then
     echo "SKIP ${trace_id}: offline compiler/NFM/CPM verifier disabled"
     return 0
   fi
@@ -326,10 +335,12 @@ if [[ "$1" == "--source" ]]; then
   echo "kind=$(source_kind_for "${key}")"
   echo "evidenceBoundary=$(evidence_boundary_for "${key}")"
   echo "maxRuntimeTargets=$(max_runtime_targets_for "${key}")"
-  intent_path="$(intent_path_for "${key}")"
-  cpm_path="$(cpm_path_for "${key}")"
-  [[ -z "${intent_path}" ]] || echo "intent=${intent_path}"
-  [[ -z "${cpm_path}" ]] || echo "cpm=${cpm_path}"
+  if runtime_applicable "${key}"; then
+    intent_path="$(intent_path_for "${key}")"
+    cpm_path="$(cpm_path_for "${key}")"
+    [[ -z "${intent_path}" ]] || echo "intent=${intent_path}"
+    [[ -z "${cpm_path}" ]] || echo "cpm=${cpm_path}"
+  fi
   exit 0
 fi
 
@@ -376,6 +387,11 @@ for key in "${selected[@]}"; do
   echo "RUNROOT ${trace_id}: ${run_root}"
   echo "WORKDIR ${trace_id}: ${case_dir}"
   echo "LOGS ${trace_id}: select=${select_log} script=${script_log} offline=${offline_log} pinned=${pinned_log}"
+
+  if [[ "${evidence_boundary}" == "construction-only" || "${max_runtime_targets}" == "0" ]]; then
+    intent_path=""
+    cpm_path=""
+  fi
 
   if select_current_lab "${trace_id}" >"${select_log}" 2>&1; then
     cat "${select_log}"
