@@ -1,6 +1,6 @@
 # SDS Source Stub: FS-040-HDS-010-SDS-010
 
-Status: NOT OK - active-lab evidence pending.
+Status: OK - active-lab evidence recorded 2026-07-04.
 
 This row groups the public-inventory boundary SMS for active-lab execution.
 The canonical design remains in `network-codex-agent`; this lab row records
