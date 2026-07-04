@@ -19,3 +19,8 @@ end-to-end provenance chain verification.
 `tests/run-active-lab-mini-smt.sh FS-100-HDS-010-SDS-010-SMS-010`. The active
 lab selected it as construction-only with zero runtime targets; this SIT input
 therefore contributes emitter-provenance construction evidence only.
+
+`FS-100-HDS-010-SDS-010-SMS-020` is likewise construction-only: it contributes
+deterministic source identity evidence from the compiler provenance module and
+does not create router runtime targets. The current focused compiler proof
+passed at `network-compiler` HEAD `19d66ef` on 2026-07-04.

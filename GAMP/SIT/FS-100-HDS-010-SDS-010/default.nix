@@ -12,6 +12,7 @@
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-020/intent.nix";
       role = "deterministic-source-identity";
+      evidenceBoundary = "construction-only";
     };
     "FS-100-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-100-HDS-010-SDS-010-SMS-030;
