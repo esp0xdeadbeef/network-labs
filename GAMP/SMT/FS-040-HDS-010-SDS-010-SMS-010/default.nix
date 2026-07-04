@@ -18,6 +18,13 @@
     command = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
     focusedTest = "network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh";
     sourceTest = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh";
-    observedResult = "2026-07-04 full s-router-nixos rebuild loop passed active-lab post-reboot checks; direct rerun after CPM tmpdir fix also passed; s-router-nixos and s-router-clab artifacts each had runtimeTargets=5 publicInventoryAudits=15 traceHits=29, and s-router-test-clients had runtimeTargets=0 traceHits=1";
+    runtimeComparer = "python3 scripts/runtime-debugger/main.py --s-router-nixos s-router-nixos --s-router-clab s-router-clab --s-router-test-clients s-router-test-clients --check p2p --check routes --check runtime_signals";
+    selectedNetworkLabsRev = "6114bae73b6431ed7953a5f61857fa6ba93fade4";
+    activeLabRun = "/tmp/active-lab-mini-smt-runs/20260704T062015Z-2938737/FS-040-HDS-010-SDS-010-SMS-010";
+    liveEvidence = [
+      "/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T061645Z"
+      "/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T062022Z"
+    ];
+    observedResult = "2026-07-04 direct live verifier and active-lab runner PASS; construction PASS; NixOS and CLAB artifacts expose five public-inventory-audited runtime targets, test-clients exposes zero router runtime targets, manual runtime enumeration captures interfaces/routes, and runtime-debugger p2p/routes/runtime_signals passes for the focused row";
   };
 }
