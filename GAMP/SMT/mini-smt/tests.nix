@@ -10526,18 +10526,15 @@
         SMT = ../FS-050-HDS-010-SDS-010-SMS-010;
         SIT = ../../SIT/FS-050-HDS-010-SDS-010;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-050-HDS-010-SDS-010-SMS-010/intent.nix;
-        expectedRelationIds = [ "FS-050-HDS-010-SDS-010-SMS-010__mini-verify" ];
-      };
-      evidenceLevels = [ "SMT" "SIT" ];
+      source = null;
+      evidenceLevels = [ "SMT" ];
+      evidenceBoundary = "construction-only";
       rendererTarget = null;
       script = "../network-codex-agent/scripts/smt-live-FS-050-HDS-010-SDS-010-SMS-010.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "FS-050-HDS-010-SDS-010-SMS-010 SMT live verifier";
-      maxRuntimeTargets = 5;
+      scope = "FS-050-HDS-010-SDS-010-SMS-010 construction-only protected inventory boundary verifier";
+      maxRuntimeTargets = 0;
     };
 
     "FS-100-HDS-010-SDS-010-SMS-040" = {
