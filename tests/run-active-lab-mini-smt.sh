@@ -219,6 +219,14 @@ run_pinned_active_lab_build() {
   echo "PASS ${trace_id}: pinned s-router-nixos build"
 }
 
+select_current_lab() {
+  local trace_id="$1"
+
+  echo "SELECT ${trace_id}: scripts/select-current-lab.sh SMT ${trace_id}"
+  bash "${repo_root}/scripts/select-current-lab.sh" SMT "${trace_id}"
+  echo "PASS ${trace_id}: current-lab selected"
+}
+
 usage() {
   cat <<'EOF'
 Usage:
@@ -294,12 +302,21 @@ for key in "${selected[@]}"; do
   cpm_path="$(cpm_path_for "${key}")"
   case_dir="${run_root}/${trace_id}"
   mkdir -p "${case_dir}"
+  select_log="${case_dir}/${trace_id}.select-current-lab.log"
   script_log="${case_dir}/${trace_id}.script.log"
   offline_log="${case_dir}/${trace_id}.offline.log"
   pinned_log="${case_dir}/${trace_id}.pinned-nixos.log"
   echo "RUNROOT ${trace_id}: ${run_root}"
   echo "WORKDIR ${trace_id}: ${case_dir}"
-  echo "LOGS ${trace_id}: script=${script_log} offline=${offline_log} pinned=${pinned_log}"
+  echo "LOGS ${trace_id}: select=${select_log} script=${script_log} offline=${offline_log} pinned=${pinned_log}"
+
+  if select_current_lab "${trace_id}" >"${select_log}" 2>&1; then
+    cat "${select_log}"
+  else
+    cat "${select_log}" >&2
+    echo "FAIL ${trace_id}: current-lab selection failed" >&2
+    exit 1
+  fi
 
   run_script_validator \
     "${trace_id}" \

@@ -33,13 +33,17 @@ rg -q -F 'WORKDIR ${trace_id}: ${case_dir}' "${runner}" \
   || fail "runner must print full-trace workdir locations"
 rg -q -F 'RUNROOT ${trace_id}: ${run_root}' "${runner}" \
   || fail "runner must print full-trace persistent runroot locations"
+rg -q -F 'SELECT ${trace_id}: scripts/select-current-lab.sh SMT ${trace_id}' "${runner}" \
+  || fail "runner must select the requested full trace before runtime/build checks"
+rg -q -F '${case_dir}/${trace_id}.select-current-lab.log' "${runner}" \
+  || fail "runner selection log filename must include full trace ID"
 rg -q -F '${case_dir}/${trace_id}.script.log' "${runner}" \
   || fail "runner script log filename must include full trace ID"
 rg -q -F '${case_dir}/${trace_id}.offline.log' "${runner}" \
   || fail "runner offline log filename must include full trace ID"
 rg -q -F '${case_dir}/${trace_id}.pinned-nixos.log' "${runner}" \
   || fail "runner pinned log filename must include full trace ID"
-rg -q -F 'LOGS ${trace_id}: script=${script_log} offline=${offline_log} pinned=${pinned_log}' "${runner}" \
+rg -q -F 'LOGS ${trace_id}: select=${select_log} script=${script_log} offline=${offline_log} pinned=${pinned_log}' "${runner}" \
   || fail "runner must print full-trace log locations"
 if rg -n "trap 'rm -rf" "${runner}" >&2; then
   fail "runner must keep trace-labeled logs after exit for grepability"
