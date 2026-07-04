@@ -3,20 +3,14 @@
   traceId = "FS-110-HDS-010-SDS-010-SMS-010";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010-deterministic-evaluation.md";
   titleSlug = "deterministic-evaluation";
-  source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-110-HDS-010-SDS-010-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-110-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-110-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-110-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
-  };
-  status = "NOT OK";
+  evidenceBoundary = "construction-only";
+  source = null;
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "network-codex-agent";
+    focusedTest = "tests/FS-110-HDS-010-SDS-010-SMS-010.sh";
+    smtRow = "GAMP/SMT/README.md";
+    status = "OK";
+    verifiedAt = "network-codex-agent code commit 3af8b6dc with active-lab wrapper PASS (2026-07-04)";
+    scope = "network-codex-agent deterministic evaluation construction proof: stable platform-neutral output, stable renderer input contract, stable diagnostics, undeclared host-state rejection, and seeded non-determinism negatives";
   };
 }
