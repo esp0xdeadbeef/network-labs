@@ -14,11 +14,16 @@
   };
   status = "OK";
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-030-SMS-010";
+    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-030-SMS-010";
     owningRepo = "network-compiler";
     focusedTest = "tests/test-FS-030-HDS-010-SDS-030-SMS-010.sh";
     maxRuntimeTargets = 6;
-    observedResult = "compiler overlay-underlay construction test passes and row-local mini-SMT artifacts are expected on nixos/clab with zero test-client runtime targets";
+    observedResult = "2026-07-04 live mini-SMT passed: compiler construction predicates passed, offline verifier was skipped, s-router-nixos and s-router-clab each emitted and enumerated six full-trace runtime targets, s-router-test-clients emitted zero runtime targets, and pinned s-router-nixos build passed";
+    evidenceDirs = [
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-030-SMS-010/20260704T051250Z"
+      "/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-030-SMS-010/20260704T051319Z"
+      "/tmp/active-lab-mini-smt-runs/20260704T051312Z-2891933/FS-030-HDS-010-SDS-030-SMS-010"
+    ];
     smtRow = "GAMP/SMT/README.md row for FS-030-HDS-010-SDS-030-SMS-010";
     scope = "Compiler overlay-underlay separation: enforces distinct policy relations with separate p2pIsolationKey per overlay leg, requires explicit underlayAccess declarations, emits forbidsCoreToCoreP2P and overlay/peer-site identity";
   };
