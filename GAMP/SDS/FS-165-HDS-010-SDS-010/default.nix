@@ -13,7 +13,7 @@
       smsRow = ../../SMS/FS-165-HDS-010-SDS-010-SMS-020;
       miniSmtIds = [ "canonical-source-stub" ];
       inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      evidenceBoundary = "construction-only";
     };
     "FS-165-HDS-010-SDS-010-SMS-030" = {
       smsRow = ../../SMS/FS-165-HDS-010-SDS-010-SMS-030;

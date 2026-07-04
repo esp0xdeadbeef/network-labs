@@ -1008,7 +1008,23 @@ trace_for_mini_key() {
 
 source_kind_for_mini_key() {
   local key="$1"
-  mini_attr "${key}" "let source = row.source or null; in if source == null then row.evidenceBoundary or \"unspecified\" else source.kind or row.evidenceBoundary or \"unspecified\""
+  mini_attr "${key}" "
+let
+  rowDefault =
+    if row ? rowDirectories
+      && row.rowDirectories ? SMT
+      && builtins.pathExists (row.rowDirectories.SMT + \"/default.nix\")
+    then import (row.rowDirectories.SMT + \"/default.nix\")
+    else {};
+  boundary = row.evidenceBoundary or rowDefault.evidenceBoundary or \"unspecified\";
+  source = row.source or null;
+in
+  if boundary == \"construction-only\" || boundary == \"source-stub-only\"
+  then \"construction-only\"
+  else if source == null
+  then boundary
+  else source.kind or boundary
+"
 }
 
 renderer_target_for_mini_key() {

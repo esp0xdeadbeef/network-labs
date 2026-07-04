@@ -98,9 +98,20 @@ source_kind_for() {
     "let
        manifest = import ${manifest_file};
        entry = manifest.tests.\"${key}\";
+       rowDefault =
+         if entry ? rowDirectories
+           && entry.rowDirectories ? SMT
+           && builtins.pathExists (entry.rowDirectories.SMT + \"/default.nix\")
+         then import (entry.rowDirectories.SMT + \"/default.nix\")
+         else {};
+       boundary = entry.evidenceBoundary or rowDefault.evidenceBoundary or \"unspecified\";
        source = entry.source or null;
      in
-       if source == null then entry.evidenceBoundary or \"unspecified\" else source.kind or entry.evidenceBoundary or \"unspecified\""
+       if boundary == \"construction-only\" || boundary == \"source-stub-only\"
+       then \"construction-only\"
+       else if source == null
+       then boundary
+       else source.kind or boundary"
 }
 
 intent_path_for() {
@@ -118,13 +129,37 @@ cpm_path_for() {
 evidence_boundary_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in entry.evidenceBoundary or \"runtime\""
+    "let
+       manifest = import ${manifest_file};
+       entry = manifest.tests.\"${key}\";
+       rowDefault =
+         if entry ? rowDirectories
+           && entry.rowDirectories ? SMT
+           && builtins.pathExists (entry.rowDirectories.SMT + \"/default.nix\")
+         then import (entry.rowDirectories.SMT + \"/default.nix\")
+         else {};
+       boundary = entry.evidenceBoundary or rowDefault.evidenceBoundary or \"runtime\";
+     in
+       if boundary == \"source-stub-only\" then \"construction-only\" else boundary"
 }
 
 max_runtime_targets_for() {
   local key="$1"
   nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in builtins.toString (entry.maxRuntimeTargets or 0)"
+    "let
+       manifest = import ${manifest_file};
+       entry = manifest.tests.\"${key}\";
+       rowDefault =
+         if entry ? rowDirectories
+           && entry.rowDirectories ? SMT
+           && builtins.pathExists (entry.rowDirectories.SMT + \"/default.nix\")
+         then import (entry.rowDirectories.SMT + \"/default.nix\")
+         else {};
+       boundary = entry.evidenceBoundary or rowDefault.evidenceBoundary or \"runtime\";
+     in
+       if boundary == \"construction-only\" || boundary == \"source-stub-only\"
+       then \"0\"
+       else builtins.toString (entry.maxRuntimeTargets or 0)"
 }
 
 run_script_validator() {

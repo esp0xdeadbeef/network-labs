@@ -2,14 +2,11 @@
   layer = "SMT";
   traceId = "FS-165-HDS-010-SDS-010-SMS-020";
   evidenceBoundary = "construction-only";
-  source = {
-    kind = "intent-source";
-    intent = ./intent.nix;
-  };
+  source = null;
   evidence = {
-    owningRepo = "network-labs";
-    focusedTest = "tests/test-gamp-row-source-stubs.sh";
-    status = "NOT OK";
-    scope = "Row-local SMT/SIT source stub exists so the SMS can be addressed by the controlled network-labs source tree.";
+    owningRepo = "network-codex-agent";
+    focusedTest = "tests/test-gamp-fs165-source-form-minimality.sh";
+    status = "OK";
+    scope = "Readable normalized source-form checker rejects duplicated classification, parallel naming, target labels, fixture/renderer hints, copied platform metadata, and downstream-derivable source padding before runtime consumers can infer behavior from it.";
   };
 }
