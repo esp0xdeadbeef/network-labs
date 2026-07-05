@@ -9,6 +9,9 @@
     targetEndpoint = "nixos-hostile01";
     targetPort = 4444;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-east-west";
     deniedVariants = [
       "wrong-source-scope"
@@ -35,6 +38,9 @@
     targetEndpoint = "nixos-hostile01";
     targetPort = 4444;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-east-west";
     deniedVariants = [
       "wrong-source-scope"
@@ -61,6 +67,9 @@
     targetEndpoint = "clab-client01";
     targetPort = 4445;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-east-west";
     deniedVariants = [
       "wrong-source-scope"
@@ -87,6 +96,9 @@
     targetEndpoint = "clab-client01";
     targetPort = 4445;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-east-west";
     deniedVariants = [
       "wrong-source-scope"
@@ -113,6 +125,9 @@
     targetEndpoint = "hetz-client01";
     targetPort = 4446;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-local";
     deniedVariants = [
       "wrong-source-scope"
@@ -136,6 +151,9 @@
     targetEndpoint = "hetz-client01";
     targetPort = 4446;
     translationBehavior = "provider-port-forward";
+    translationMode = "napt";
+    sourcePreservation = "rewritten";
+    asymmetricRouting = false;
     returnPath = "hetz-local";
     deniedVariants = [
       "wrong-source-scope"
