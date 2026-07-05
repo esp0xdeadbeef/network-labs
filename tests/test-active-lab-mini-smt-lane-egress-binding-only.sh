@@ -49,7 +49,7 @@ nix eval --impure --expr "
       \"client-edge\"
       \"downstream-selector\"
       \"policy\"
-      \"vlan4-client-dhcp-slaac\"
+      \"core-vlan4-client-dhcp-slaac\"
       \"upstream-selector\"
     ];
     require = cond: msg: if cond then true else throw msg;
@@ -85,8 +85,8 @@ nix eval --impure --expr "
       \"lane-egress policy target missing\"
     && require (lab.runtimeTargets.upstream-selector.role == \"upstream-selector\" && lab.runtimeTargets.upstream-selector.external == \"testnet\")
       \"lane-egress upstream-selector must bind the testnet uplink surface\"
-    && require (lab.runtimeTargets.vlan4-client-dhcp-slaac.role == \"core\" && lab.runtimeTargets.vlan4-client-dhcp-slaac.external == \"testnet\")
-      \"lane-egress vlan4-client-dhcp-slaac must be the modeled external core\"
+    && require (lab.runtimeTargets.core-vlan4-client-dhcp-slaac.role == \"core\" && lab.runtimeTargets.core-vlan4-client-dhcp-slaac.external == \"testnet\")
+      \"lane-egress core-vlan4-client-dhcp-slaac must be the modeled external core\"
     && require (rowInventoryUplinkBridgeConflicts == [ ])
       \"lane-egress source inventories must not declare uplink bridge names as generic bridgeNetworks\"
     && require (builtins.length lab.laneEgressRelations == 1)

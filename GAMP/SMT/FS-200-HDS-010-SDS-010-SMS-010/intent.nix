@@ -50,7 +50,7 @@
       };
       topology = {
         links = [
-          [ "client-edge" "vlan4-client-dhcp-slaac" ]
+          [ "client-edge" "core-vlan4-client-dhcp-slaac" ]
         ];
         nodes = {
           client-edge = {
@@ -60,7 +60,7 @@
                 name = "client";
               } ];
           };
-          vlan4-client-dhcp-slaac = {
+          core-vlan4-client-dhcp-slaac = {
             role = "core";
             external = "testnet";
             uplinks = {

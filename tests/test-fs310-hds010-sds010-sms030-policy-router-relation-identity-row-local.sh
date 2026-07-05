@@ -59,8 +59,8 @@ nix eval --impure --expr '
     # Topology checks
     && require (topo ? links && builtins.length topo.links == 1)
       "FS-310-HDS-010-SDS-010-SMS-030: must define exactly one link"
-    && require (builtins.elemAt topo.links 0 == [ "client-edge" "vlan4-client-dhcp-slaac" ])
-      "FS-310-HDS-010-SDS-010-SMS-030: link must connect client-edge and vlan4-client-dhcp-slaac"
+    && require (builtins.elemAt topo.links 0 == [ "client-edge" "core-vlan4-client-dhcp-slaac" ])
+      "FS-310-HDS-010-SDS-010-SMS-030: link must connect client-edge and core-vlan4-client-dhcp-slaac"
     && require (topo ? nodes && builtins.length (builtins.attrNames topo.nodes) == 2)
       "FS-310-HDS-010-SDS-010-SMS-030: must define exactly two nodes"
     && require (topo.nodes ? "client-edge" && topo.nodes."client-edge".role == "access")
@@ -69,10 +69,10 @@ nix eval --impure --expr '
       "FS-310-HDS-010-SDS-010-SMS-030: client-edge must have exactly one tenant attachment"
     && require (builtins.elemAt topo.nodes."client-edge".attachments 0 == { kind = "tenant"; name = "client"; })
       "FS-310-HDS-010-SDS-010-SMS-030: client-edge attachment must be tenant client"
-    && require (topo.nodes ? "vlan4-client-dhcp-slaac" && topo.nodes."vlan4-client-dhcp-slaac".role == "external")
-      "FS-310-HDS-010-SDS-010-SMS-030: vlan4-client-dhcp-slaac must be an external node"
-    && require (topo.nodes."vlan4-client-dhcp-slaac" ? external && topo.nodes."vlan4-client-dhcp-slaac".external == "testnet")
-      "FS-310-HDS-010-SDS-010-SMS-030: vlan4-client-dhcp-slaac must declare external=testnet"
+    && require (topo.nodes ? "core-vlan4-client-dhcp-slaac" && topo.nodes."core-vlan4-client-dhcp-slaac".role == "external")
+      "FS-310-HDS-010-SDS-010-SMS-030: core-vlan4-client-dhcp-slaac must be an external node"
+    && require (topo.nodes."core-vlan4-client-dhcp-slaac" ? external && topo.nodes."core-vlan4-client-dhcp-slaac".external == "testnet")
+      "FS-310-HDS-010-SDS-010-SMS-030: core-vlan4-client-dhcp-slaac must declare external=testnet"
 
     # Seeded negative: relation without id
     && require (let relNoId = builtins.removeAttrs rel [ "id" ]; in !(relNoId ? id))

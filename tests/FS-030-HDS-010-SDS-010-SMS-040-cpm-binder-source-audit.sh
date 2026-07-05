@@ -36,14 +36,14 @@ nix eval --impure --expr "
       \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
     && require (builtins.elem \"client-edge\" nodes)
       \"P1 FAIL: missing client-edge node\"
-    && require (builtins.elem \"vlan4-client-dhcp-slaac\" nodes)
-      \"P1 FAIL: missing vlan4-client-dhcp-slaac node\"
+    && require (builtins.elem \"core-vlan4-client-dhcp-slaac\" nodes)
+      \"P1 FAIL: missing core-vlan4-client-dhcp-slaac node\"
 
     # P2: One link between nodes
     && require (builtins.length links == 1)
       \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"client-edge\" \"vlan4-client-dhcp-slaac\" ])
-      \"P2 FAIL: link must be client-edge <-> vlan4-client-dhcp-slaac\"
+    && require (builtins.head links == [ \"client-edge\" \"core-vlan4-client-dhcp-slaac\" ])
+      \"P2 FAIL: link must be client-edge <-> core-vlan4-client-dhcp-slaac\"
 
     # P3: Client-edge has one tenant attachment
     && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
@@ -52,8 +52,8 @@ nix eval --impure --expr "
       \"P3 FAIL: missing client tenant attachment on client-edge\"
 
     # P4: Testnet-edge has uplink
-    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\" ? uplinks)
-      \"P4 FAIL: vlan4-client-dhcp-slaac missing uplinks\"
+    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
+      \"P4 FAIL: core-vlan4-client-dhcp-slaac missing uplinks\"
 
     # P5: One communication relation with correct ID
     && require (builtins.length relations == 1)
@@ -78,8 +78,8 @@ nix eval --impure --expr "
       \"P9 FAIL: client-edge role must be access\"
 
     # P10: Testnet-edge role is core
-    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\".role == \"core\")
-      \"P10 FAIL: vlan4-client-dhcp-slaac role must be core\"
+    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".role == \"core\")
+      \"P10 FAIL: core-vlan4-client-dhcp-slaac role must be core\"
 " >/dev/null || fail "intent.nix structural validation failed"
 
 echo "PASS ${trace_id} cpm-binder-source-audit (structural)"

@@ -34,15 +34,15 @@ nix eval --impure --expr "
       \"P1 FAIL: missing policy node\"
     && require (builtins.elem \"upstream-selector\" nodes)
       \"P1 FAIL: missing upstream-selector node\"
-    && require (builtins.elem \"vlan4-client-dhcp-slaac\" nodes)
-      \"P1 FAIL: missing vlan4-client-dhcp-slaac node\"
+    && require (builtins.elem \"core-vlan4-client-dhcp-slaac\" nodes)
+      \"P1 FAIL: missing core-vlan4-client-dhcp-slaac node\"
     && require (builtins.length links == 4)
       \"P2 FAIL: expected 4 links, got \${toString (builtins.length links)}\"
     && require (links == [
       [ \"client-edge\" \"downstream-selector\" ]
       [ \"downstream-selector\" \"policy\" ]
       [ \"policy\" \"upstream-selector\" ]
-      [ \"upstream-selector\" \"vlan4-client-dhcp-slaac\" ]
+      [ \"upstream-selector\" \"core-vlan4-client-dhcp-slaac\" ]
     ])
       \"P2 FAIL: links must preserve access-selector-policy-core chain\"
     && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
@@ -55,10 +55,10 @@ nix eval --impure --expr "
       \"P4 FAIL: policy role mismatch\"
     && require (lab.topology.nodes.\"upstream-selector\".role == \"upstream-selector\")
       \"P4 FAIL: upstream-selector role mismatch\"
-    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\" ? uplinks)
-      \"P5 FAIL: vlan4-client-dhcp-slaac missing uplinks\"
-    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\".uplinks ? testnet)
-      \"P5 FAIL: vlan4-client-dhcp-slaac missing testnet uplink\"
+    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
+      \"P5 FAIL: core-vlan4-client-dhcp-slaac missing uplinks\"
+    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks ? testnet)
+      \"P5 FAIL: core-vlan4-client-dhcp-slaac missing testnet uplink\"
     && require (builtins.length relations == 1)
       \"P6 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-verify\")
