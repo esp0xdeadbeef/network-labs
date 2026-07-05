@@ -9,7 +9,7 @@
       kind = "renderer-input";
       rendererTarget = "nixos";
       sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix";
-      test = "tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh";
+      test = "../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-901.sh";
       maxRuntimeTargets = 1;
     };
 
