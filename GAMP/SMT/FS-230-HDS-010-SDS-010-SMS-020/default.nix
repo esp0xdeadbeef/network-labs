@@ -11,12 +11,12 @@
       nixos = "GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-020/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-020/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "construction-only";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs230-hds010-sds010-sms020-public-ingress-translation-binding.sh";
+    focusedTest = "tests/test-fs230-hds010-sds010-sms020-public-ingress-translation-binding.sh";
+    observedResult = "PASS: every fixture row using translation binds explicit translationMode (napt), sourcePreservation (rewritten), and asymmetricRouting (false); seeded negatives SN1 (missing translationMode) and SN2 (hairpin without hairpinAuthorized) fail closed with correct diagnostics";
   };
 }
