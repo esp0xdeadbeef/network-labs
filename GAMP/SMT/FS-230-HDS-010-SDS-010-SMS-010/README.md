@@ -2,11 +2,7 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-010-public-ingress-return-translation.md`
 
-Status: NOT OK - source stub only.
-
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Status: OK - focused construction test registered at
+  `tests/test-fs230-hds010-sds010-sms010-public-ingress-return-translation.sh`.
 
 Title slug: `public-ingress-return-translation`

@@ -13,10 +13,10 @@
     };
     evidenceBoundary = "source-stub-only";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs230-hds010-sds010-sms010-public-ingress-return-translation.sh";
+    focusedTest = "tests/test-fs230-hds010-sds010-sms010-public-ingress-return-translation.sh";
+    observedResult = "PASS: all 6 fixture rows validated, SN1 (MISSING_RETURN_BEHAVIOR) and SN2 (HAIRPIN_RETURN_NOT_MODELED) seeded negatives pass, live wrapper 0 targets on both hosts";
   };
 }
