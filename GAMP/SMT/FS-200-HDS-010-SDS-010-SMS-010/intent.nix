@@ -1,13 +1,13 @@
 {
   mini-smt = {
-    FS-200-HDS-010-SDS-010-SMS-010 = {
+    shared-service-exposure-boundary = {
       communicationContract = {
         interfaceTags = {
           external-testnet = "testnet";
           tenant-client = "client";
         };
         relations = [ {
-            id = "FS-200-HDS-010-SDS-010-SMS-010__mini-verify";
+            id = "FS-200-HDS-010-SDS-010-SMS-010__mini-client-to-testnet";
             action = "allow";
             from = {
               kind = "tenant";
@@ -15,6 +15,7 @@
             };
             to = {
               kind = "external";
+              name = "testnet";
               uplinks = [ "testnet" ];
             };
             trafficType = "any";
@@ -49,10 +50,7 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "testnet-edge" ]
+          [ "client-edge" "testnet-edge" ]
         ];
         nodes = {
           client-edge = {
@@ -61,15 +59,6 @@
                 kind = "tenant";
                 name = "client";
               } ];
-          };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          upstream-selector = {
-            role = "upstream-selector";
           };
           testnet-edge = {
             role = "core";
