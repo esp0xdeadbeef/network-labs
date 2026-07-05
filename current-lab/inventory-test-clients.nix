@@ -14,6 +14,7 @@ let
       enable = false;
       method = "none";
     };
+    management = true;
     mode = "vlan";
     parent = "eth0";
     vlan = 2;
