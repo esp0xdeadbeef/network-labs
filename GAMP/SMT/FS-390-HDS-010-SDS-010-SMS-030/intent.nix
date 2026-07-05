@@ -151,7 +151,7 @@
           [ "client-edge" "downstream-selector" ]
           [ "downstream-selector" "policy" ]
           [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "vlan4-client-dhcp-slaac" ]
+          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
         ];
         nodes = {
           client-edge = {
@@ -170,7 +170,7 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          vlan4-client-dhcp-slaac = {
+          core-vlan4-client-dhcp-slaac = {
             role = "core";
             external = "testnet";
             uplinks = {

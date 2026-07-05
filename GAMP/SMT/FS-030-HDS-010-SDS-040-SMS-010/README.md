@@ -25,7 +25,7 @@ MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-S
 ```
 
 This row may start at most 5 runtime targets: client-edge,
-downstream-selector, policy, upstream-selector, and vlan4-client-dhcp-slaac. The runtime
+downstream-selector, policy, upstream-selector, and core-vlan4-client-dhcp-slaac. The runtime
 checks prove that both NixOS and Containerlab can consume the same
 platform-independent source without renderer-specific intent fields. The
 compiler construction test remains the authority for platform-independence

@@ -50,7 +50,7 @@ nix eval --impure --expr "
       \"client-edge\"
       \"downstream-selector\"
       \"policy\"
-      \"vlan4-client-dhcp-slaac\"
+      \"core-vlan4-client-dhcp-slaac\"
       \"upstream-selector\"
     ])
       \"reachability mini SMT must use the five-node policy path required by NFM\"

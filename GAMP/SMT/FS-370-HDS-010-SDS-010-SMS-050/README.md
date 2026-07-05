@@ -13,4 +13,4 @@ tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-050
 
 This row declares the five-target lane path that the active-lab selector must
 realize: `client-edge`, `downstream-selector`, `policy`, `upstream-selector`,
-and `vlan4-client-dhcp-slaac`.
+and `core-vlan4-client-dhcp-slaac`.
