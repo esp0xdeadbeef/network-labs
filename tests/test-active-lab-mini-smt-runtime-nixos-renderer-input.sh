@@ -42,7 +42,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
       \"renderer-nixos SMS source must target the NixOS renderer\"
     && require (row.sourcePath == \"GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix\")
       \"renderer-nixos SMS source path mismatch\"
-    && require (row.test == \"tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh\")
+    && require (row.test == \"../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-901.sh\")
       \"renderer-nixos SMS source test mismatch\"
     && require (traceId == \"FS-166-HDS-010-SDS-010-SMS-901\")
       \"active-lab runtime CPM must carry the mini runtime trace id\"

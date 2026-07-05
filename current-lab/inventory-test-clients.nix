@@ -18,35 +18,17 @@ let
     vlan = 2;
   };
 in
-rec {
+{
   meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    evidenceBoundary = "construction-only";
-    constructionOnly = true;
+    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
+    renderer = "test-clients";
+    scope = "active-lab-current-selection";
   };
-  activeLabConstructionOnly = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    rowDirectory = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900;
-    evidenceBoundary = "construction-only";
-  };
-  deployment = {
-    hosts = {
-      s-router-nixos = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-test-clients = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
+  clients = { };
+  deploymentHosts = {
+    s-router-test-clients = {
+      hat.endpointClients = { };
+      uplinks.management = managementVlan2;
     };
   };
-  deploymentHosts = deployment.hosts;
-  endpoints = { };
-  realization = { nodes = { }; };
-  clients = { };
 }
