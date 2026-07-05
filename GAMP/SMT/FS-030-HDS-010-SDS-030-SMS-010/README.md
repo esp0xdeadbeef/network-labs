@@ -27,7 +27,7 @@ MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-S
 ```
 
 This row may start at most 6 runtime targets: client-edge,
-downstream-selector, policy, upstream-selector, overlay-core, and testnet-edge.
+downstream-selector, policy, upstream-selector, overlay-core, and vlan4-client-dhcp-slaac.
 Its row intent includes three explicit relation IDs: overlay payload,
 overlay underlay/control, and client underlay-access egress to the testnet
 external. The third relation is required so `underlayAccess` has modeled WAN

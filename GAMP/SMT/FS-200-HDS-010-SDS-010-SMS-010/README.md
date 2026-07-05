@@ -8,7 +8,7 @@ authentication boundary, denied paths, cloud dependency).
 
 ## Row-local files only
 
-- `intent.nix` — mini topology with client-edge → testnet-edge, one allow relation
+- `intent.nix` — mini topology with client-edge → vlan4-client-dhcp-slaac, one allow relation
 - `default.nix` — metadata
 - Focused test: `tests/FS-200-HDS-010-SDS-010-SMS-010-shared-service-exposure-boundary.sh`
 

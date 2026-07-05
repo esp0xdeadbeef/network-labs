@@ -41,7 +41,7 @@
         "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-client-edge"
         "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-downstream-selector"
         "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-policy"
-        "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-testnet-edge"
+        "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-vlan4-client-dhcp-slaac"
         "mini-smt-FS-070-HDS-010-SDS-010-SMS-010-upstream-selector"
       ];
       s-router-nixos = {

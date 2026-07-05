@@ -28,20 +28,20 @@ nix eval --impure --expr "
       \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
     && require (builtins.elem \"client-edge\" nodes)
       \"P1 FAIL: missing client-edge node\"
-    && require (builtins.elem \"testnet-edge\" nodes)
-      \"P1 FAIL: missing testnet-edge node\"
+    && require (builtins.elem \"vlan4-client-dhcp-slaac\" nodes)
+      \"P1 FAIL: missing vlan4-client-dhcp-slaac node\"
     && require (builtins.length links == 1)
       \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"client-edge\" \"testnet-edge\" ])
-      \"P2 FAIL: link must be client-edge <-> testnet-edge\"
+    && require (builtins.head links == [ \"client-edge\" \"vlan4-client-dhcp-slaac\" ])
+      \"P2 FAIL: link must be client-edge <-> vlan4-client-dhcp-slaac\"
     && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
       \"P3 FAIL: client-edge must have 1 attachment\"
     && require (builtins.any (a: a.kind == \"tenant\" && a.name == \"client\") lab.topology.nodes.\"client-edge\".attachments)
       \"P3 FAIL: missing client tenant attachment\"
-    && require (lab.topology.nodes.\"testnet-edge\" ? uplinks)
-      \"P4 FAIL: testnet-edge missing uplinks\"
-    && require (lab.topology.nodes.\"testnet-edge\".uplinks ? testnet)
-      \"P4 FAIL: testnet-edge missing testnet uplink\"
+    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\" ? uplinks)
+      \"P4 FAIL: vlan4-client-dhcp-slaac missing uplinks\"
+    && require (lab.topology.nodes.\"vlan4-client-dhcp-slaac\".uplinks ? testnet)
+      \"P4 FAIL: vlan4-client-dhcp-slaac missing testnet uplink\"
     && require (builtins.length relations == 1)
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"FS-981-HDS-010-SDS-010-SMS-040__mini-client-to-testnet\")

@@ -388,7 +388,7 @@ in
           role = "upstream-selector";
           external = "testnet";
         };
-        testnet-edge = {
+        vlan4-client-dhcp-slaac = {
           role = "core";
           external = "testnet";
         };
@@ -538,7 +538,7 @@ in
           role = "upstream-selector";
           external = "testnet";
         };
-        testnet-edge = {
+        vlan4-client-dhcp-slaac = {
           role = "core";
           external = "testnet";
         };
@@ -603,7 +603,7 @@ in
         upstream-selector = {
           role = "upstream-selector";
         };
-        testnet-edge = {
+        vlan4-client-dhcp-slaac = {
           role = "external";
           external = "testnet";
         };
