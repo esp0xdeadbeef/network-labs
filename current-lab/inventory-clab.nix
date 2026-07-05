@@ -1,52 +1,24 @@
 let
-  managementVlan2 = {
-    bridge = "vlan2";
-    ipv4 = {
-      dhcp = true;
-      enable = true;
-      method = "dhcp";
-    };
-    ipv6 = {
-      acceptRA = false;
-      dhcp = false;
-      dhcpv6PD = false;
-      enable = false;
-      method = "none";
-    };
-    mode = "vlan";
-    parent = "eth0";
-    vlan = 2;
-  };
+  source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
+  cpm = import source;
 in
-rec {
-  meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    evidenceBoundary = "construction-only";
-    constructionOnly = true;
+{
+  activeLabInventoryStub = {
+    kind = "runtime-clab-inventory-stub";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-904";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-904";
+    rendererTarget = "clab";
+    entryBoundary = "renderer-input";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-904";
+    inherit source;
+    cpmInput = source;
+    test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;
+    runner = ../tests/run-active-lab-mini-smt.sh;
+    note = "Inventory is provenance for FS-166-HDS-010-SDS-010-SMS-904. The source fixture carries the on-prem VLAN2 management adapter required by the s-router-clab runtime consumer.";
+    runtimeManagement.vlan2 = "management-only";
   };
-  activeLabConstructionOnly = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    rowDirectory = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900;
-    evidenceBoundary = "construction-only";
-  };
-  deployment = {
-    hosts = {
-      s-router-nixos = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-test-clients = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-    };
-  };
-  deploymentHosts = deployment.hosts;
-  endpoints = { };
-  realization = { nodes = { }; };
-  clients = { };
+
+  deployment = cpm.control_plane_model.deployment;
+  deploymentHosts = cpm.deploymentHosts;
+  realization = cpm.control_plane_model.realization or { nodes = { }; };
 }
