@@ -62,7 +62,7 @@
           ],
           [
             "upstream-selector",
-            "testnet-edge"
+            "vlan4-client-dhcp-slaac"
           ]
         ],
         "nodes": {
@@ -84,7 +84,7 @@
           "upstream-selector": {
             "role": "upstream-selector"
           },
-          "testnet-edge": {
+          "vlan4-client-dhcp-slaac": {
             "role": "core",
             "external": "testnet",
             "uplinks": {

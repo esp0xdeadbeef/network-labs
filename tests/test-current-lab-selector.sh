@@ -198,7 +198,7 @@ let
     "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-client-edge"
     "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-downstream-selector"
     "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-testnet-edge"
+    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-vlan4-client-dhcp-slaac"
     "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-upstream-selector"
   ];
   noRealizationNodes = inventory: (((inventory.realization or { }).nodes or { }) == { });
@@ -262,7 +262,7 @@ let
     "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-client-edge"
     "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-downstream-selector"
     "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-testnet-edge"
+    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-vlan4-client-dhcp-slaac"
     "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-upstream-selector"
   ];
   noRealizationNodes = inventory: (((inventory.realization or { }).nodes or { }) == { });
@@ -565,7 +565,7 @@ let
     "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-client-edge"
     "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-downstream-selector"
     "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-testnet-edge"
+    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-vlan4-client-dhcp-slaac"
     "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
@@ -606,7 +606,7 @@ let
     "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-client-edge"
     "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-downstream-selector"
     "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-policy"
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-testnet-edge"
+    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-vlan4-client-dhcp-slaac"
     "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;

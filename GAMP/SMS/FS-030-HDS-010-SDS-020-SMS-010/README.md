@@ -8,7 +8,7 @@ Template row for Stage Topology Enforcement.
 evidence.
 
 This row provides the row-local mini-SMT source for the canonical
-`client-edge -> downstream-selector -> policy -> upstream-selector -> testnet-edge`
+`client-edge -> downstream-selector -> policy -> upstream-selector -> vlan4-client-dhcp-slaac`
 path. It mirrors the canonical `network-codex-agent` SMS so lab-source coverage
 cannot silently omit the stage-topology enforcement trace.
 

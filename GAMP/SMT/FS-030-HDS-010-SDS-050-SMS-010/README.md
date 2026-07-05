@@ -53,7 +53,7 @@ runtime targets for this row.
   `network-labs` rev `58836c92e9d96d16e0ee073b7771a855afff0014` and full trace
   `FS-030-HDS-010-SDS-050-SMS-010`.
 - Manual enumeration confirmed NixOS nspawn containers `client-edge`,
-  `downstream-selector`, `policy`, `upstream-selector`, and `testnet-edge`
+  `downstream-selector`, `policy`, `upstream-selector`, and `vlan4-client-dhcp-slaac`
   exist with p2p interfaces up, and CLAB containers
   `clab-fabric-mini-smt-FS-030-HDS-010-SDS-050-SMS-010-*` are up with routes
   along the canonical access -> downstream-selector -> policy ->

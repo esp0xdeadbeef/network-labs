@@ -33,6 +33,6 @@
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix"
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix"
     ];
-    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifiers passed for reachability-decision, decision-reason-diagnostic, and p2p-next-hop against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19. Reachability and decision-reason rows exposed exactly client-edge, downstream-selector, policy, upstream-selector, and testnet-edge; p2p-next-hop exposed exactly router-a, downstream-selector, policy, upstream-selector, and router-b. s-router-test-clients 192.168.1.18 remained a client/substrate surface with no row router containers.";
+    observedResult = "2026-06-30: focused mini runner verifies the SDS with explicit row-local SMS inputs without full HAT/SAT deployment. Live verifiers passed for reachability-decision, decision-reason-diagnostic, and p2p-next-hop against s-router-nixos 192.168.1.17 and s-router-clab 192.168.1.19. Reachability and decision-reason rows exposed exactly client-edge, downstream-selector, policy, upstream-selector, and vlan4-client-dhcp-slaac; p2p-next-hop exposed exactly router-a, downstream-selector, policy, upstream-selector, and router-b. s-router-test-clients 192.168.1.18 remained a client/substrate surface with no row router containers.";
   };
 }

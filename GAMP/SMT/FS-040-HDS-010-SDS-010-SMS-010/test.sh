@@ -38,8 +38,8 @@ in
     \"policy role mismatch\"
   && require (nodeRoles.upstream-selector == \"upstream-selector\")
     \"upstream-selector role mismatch\"
-  && require (nodeRoles.testnet-edge == \"core\")
-    \"testnet-edge must stay core\"
+  && require (nodeRoles.vlan4-client-dhcp-slaac == \"core\")
+    \"vlan4-client-dhcp-slaac must stay core\"
   && require (nixos.meta.traceId == trace && clab.meta.traceId == trace && testClients.meta.traceId == trace)
     \"inventory trace metadata mismatch\"
   && require (bridges ? admin && bridges ? branch && bridges ? client)

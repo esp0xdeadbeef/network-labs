@@ -30,7 +30,7 @@ Both live passes showed `s-router-nixos` and `s-router-clab` artifacts with
 runtimeTargets=5, publicInventoryAudits=15, traceHits=29; `s-router-test-clients`
 had runtimeTargets=0, publicInventoryAudits=0, traceHits=1. Manual enumeration
 captured `ip -br addr` and `ip -4 route show` for `client-edge`,
-`downstream-selector`, `policy`, `upstream-selector`, and `testnet-edge` in
+`downstream-selector`, `policy`, `upstream-selector`, and `vlan4-client-dhcp-slaac` in
 both NixOS and CLAB.
 
 Title slug: `public-inventory-boundary`
