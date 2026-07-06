@@ -3,7 +3,7 @@
     FS-760-HDS-020-SDS-010-SMS-010 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet = "testnet";
+          external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
         relations = [ {
@@ -15,7 +15,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [ "internet-vlan4" ];
             };
             trafficType = "any";
             priority = 100;
@@ -73,9 +73,9 @@
           };
           core-vlan4-client-dhcp-slaac = {
             role = "core";
-            external = "testnet";
+            external = "internet-vlan4";
             uplinks = {
-              testnet = {
+              internet-vlan4 = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };

@@ -3,7 +3,7 @@
     FS-540-HDS-010-SDS-010-SMS-020 = {
       communicationContract = {
         interfaceTags = {
-          external-testnet-vlan4 = "testnet-vlan4";
+          external-internet-vlan4-vlan4 = "testnet-vlan4";
           service-access-dns = "access-dns";
           tenant-client = "client";
         };

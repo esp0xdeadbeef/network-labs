@@ -4,7 +4,7 @@
       communicationContract = {
         interfaceTags = {
           external-east-west = "east-west";
-          external-testnet = "testnet";
+          external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
         relations = [
@@ -31,7 +31,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [ "internet-vlan4" ];
             };
             trafficType = "nebula";
             priority = 110;
@@ -45,7 +45,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "testnet" ];
+              uplinks = [ "internet-vlan4" ];
             };
             trafficType = "nebula";
             priority = 105;
@@ -132,9 +132,9 @@
           };
           core-vlan4-client-dhcp-slaac = {
             role = "core";
-            external = "testnet";
+            external = "internet-vlan4";
             uplinks = {
-              testnet = {
+              internet-vlan4 = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };
