@@ -10,7 +10,9 @@
         "admin": {},
         "branch": {},
         "client": {},
-        "testnet": {}
+        "testnet": {
+                    "hostAddresses": ["10.11.0.1/24"],
+                }
       }
     }
   }
