@@ -16,9 +16,6 @@
         admin = { };
         branch = { };
         client = { };
-        testnet = {
-          hostAddresses = ["10.11.0.1/24"];
-        };
       };
     };
   };
