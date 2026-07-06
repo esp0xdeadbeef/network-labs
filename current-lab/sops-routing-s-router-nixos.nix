@@ -1,8 +1,21 @@
+{ ... }:
+
+let
+  sopsFile = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-906/secrets/sops-s-router-nixos.yaml;
+  mkProfileSecret = nodeName: fileName: {
+    inherit sopsFile;
+    owner = "root";
+    mode = "0400";
+    path = "/persist/nebula-runtime/profiles/${nodeName}/${fileName}";
+  };
+in
 {
-  sops.secrets."wireguard-mini-provider-private-key" = {
-    group = "systemd-network";
-    key = "wireguard-mini-provider-private-key";
-    mode = "0440";
-    sopsFile = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-905/secrets/sops-s-router-nixos.yaml;
+  sops.secrets = {
+    "nebula-profile-lab-lighthouse-ca-crt" = mkProfileSecret "lab-lighthouse" "ca.crt";
+    "nebula-profile-lab-lighthouse-crt" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.crt";
+    "nebula-profile-lab-lighthouse-key" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.key";
+    "nebula-profile-lab-client-nebula-ca-crt" = mkProfileSecret "lab-client-nebula" "ca.crt";
+    "nebula-profile-lab-client-nebula-crt" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.crt";
+    "nebula-profile-lab-client-nebula-key" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.key";
   };
 }
