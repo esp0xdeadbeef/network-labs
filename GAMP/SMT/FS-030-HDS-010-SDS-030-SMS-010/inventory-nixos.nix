@@ -32,6 +32,16 @@
         client = {};
       };
       uplinks = {
+        internet-vlan4 = {
+          bridge = "internet-vlan4";
+          parent = "eth0";
+          vlan = 4;
+          mode = "vlan";
+          ipv4 = { enable = false; };
+          ipv6 = { enable = false; };
+        };
+      };
+      uplinks = {
         east-west = {
           mode = "vlan";
           parent = "eth0";
