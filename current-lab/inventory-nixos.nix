@@ -1,52 +1,24 @@
-let
-  managementVlan2 = {
-    bridge = "vlan2";
-    ipv4 = {
-      dhcp = true;
-      enable = true;
-      method = "dhcp";
-    };
-    ipv6 = {
-      acceptRA = false;
-      dhcp = false;
-      dhcpv6PD = false;
-      enable = false;
-      method = "none";
-    };
-    mode = "vlan";
-    parent = "eth0";
-    vlan = 2;
-  };
-in
-rec {
-  meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    evidenceBoundary = "construction-only";
-    constructionOnly = true;
-  };
-  activeLabConstructionOnly = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    rowDirectory = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900;
-    evidenceBoundary = "construction-only";
-  };
-  deployment = {
-    hosts = {
-      s-router-nixos = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-test-clients = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
+{
+  activeLabInventoryStub = {
+    kind = "mini-smt-renderer-input-stub";
+    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-901";
+    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-901";
+    rendererTarget = "nixos";
+    entryBoundary = "renderer-input";
+    traceId = "FS-166-HDS-010-SDS-010-SMS-901";
+
+    cpmInput = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix;
+    test = ../tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh;
+    runner = ../tests/run-active-lab-mini-smt.sh;
+
+    note = "Inventory is provenance for FS-166-HDS-010-SDS-010-SMS-901. The source fixture carries the on-prem VLAN2 management adapter required by the s-router runtime consumers.";
+
+    runtimeManagement = {
+      vlan2 = "management-only";
+      testDhcpUplinks = [
+        "vlan4"
+        "vlan5"
+      ];
     };
   };
-  deploymentHosts = deployment.hosts;
-  endpoints = { };
-  realization = { nodes = { }; };
-  clients = { };
 }
