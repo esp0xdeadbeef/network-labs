@@ -72,9 +72,6 @@ cat >"${tmp_dir}/expected-extra-sms.txt" <<'EOF'
 FS-166-HDS-010-SDS-010-SMS-901
 FS-166-HDS-010-SDS-010-SMS-902
 FS-166-HDS-010-SDS-010-SMS-903
-FS-166-HDS-010-SDS-010-SMS-904
-FS-166-HDS-010-SDS-010-SMS-905
-FS-166-HDS-010-SDS-010-SMS-906
 FS-720-HDS-010-SDS-020-SMS-040
 FS-800-HDS-030-SDS-030-SMS-040
 EOF
@@ -159,11 +156,11 @@ do
     || fail "${fs165_trace} selector must write construction-only active-lab stub"
 done
 
-[[ "${canonical_sms_count}" == "512" ]] || fail "canonical SMS count changed: ${canonical_sms_count}"
-[[ "${labs_sms_count}" == "520" ]] || fail "network-labs SMS dir count changed: ${labs_sms_count}"
-[[ "${labs_smt_count}" == "520" ]] || fail "network-labs SMT dir count changed: ${labs_smt_count}"
-[[ "${labs_sds_count}" == "176" ]] || fail "network-labs SDS dir count changed: ${labs_sds_count}"
-[[ "${labs_sit_count}" == "176" ]] || fail "network-labs SIT dir count changed: ${labs_sit_count}"
+[[ "${canonical_sms_count}" == "517" ]] || fail "canonical SMS count changed: ${canonical_sms_count}"
+[[ "${labs_sms_count}" == "522" ]] || fail "network-labs SMS dir count changed: ${labs_sms_count}"
+[[ "${labs_smt_count}" == "522" ]] || fail "network-labs SMT dir count changed: ${labs_smt_count}"
+[[ "${labs_sds_count}" == "177" ]] || fail "network-labs SDS dir count changed: ${labs_sds_count}"
+[[ "${labs_sit_count}" == "177" ]] || fail "network-labs SIT dir count changed: ${labs_sit_count}"
 [[ "${runnable_smt_count}" == "${labs_smt_count}" ]] || fail "runnable SMT selector count changed: ${runnable_smt_count}"
 [[ "${runnable_sit_count}" == "${labs_sit_count}" ]] || fail "runnable SIT selector count changed: ${runnable_sit_count}"
 [[ "${runnable_hat_count}" == "1" ]] || fail "runnable HAT selector count changed: ${runnable_hat_count}"
