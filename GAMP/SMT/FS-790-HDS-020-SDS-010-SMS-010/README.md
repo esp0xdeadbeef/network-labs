@@ -1,12 +1,17 @@
-# SMT Source Stub: FS-790-HDS-020-SDS-010-SMS-010
+# SMT Source: FS-790-HDS-020-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.md`
 
-Status: NOT OK - source stub only.
+Status: OK - SMT construction evidence proven.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
+Focused construction test `tests/test-FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.sh` validates:
+- 6 fixture rows atomized (2 per site: tcp + udp)
+- Each row has single publicSurface, protocol, publicPort, targetService,
+  targetEndpoint, targetPort, returnPath
+- Every row emits denied-variant records
+- Every row requires external provider
+- Every row references explicit public-exposure policy
+- Seeded negative: multi-leg row rejected
+- Seeded negative: provider-binding-without-policy rejected
 
-Title slug: `public-ingress-row-atomization`
+Evidence boundary: construction-only. No live host required.
