@@ -6,7 +6,7 @@
     kind = "intent-source";
     intent = ./intent.nix;
     expectedRelationIds = [
-      "FS-180-HDS-010-SDS-010-SMS-040__mini-bidirectional-web"
+      "FS-180-HDS-010-SDS-010-SMS-040__mini-verify"
     ];
   };
   evidence = {
