@@ -13,10 +13,10 @@
     };
     evidenceBoundary = "source-stub-only";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh";
+    focusedTest = "tests/test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh";
+    observedResult = "All 6 checks PASS at HEAD 4cc95123: Check 1 NixOS endpoints present, Check 2 CLAB endpoints present, Check 3 both substrates declare endpoints, SN1 CLAB-inventory-not-consumed, Recovery N1 both inventories carry endpoints, SN2 script-invented-endpoint detected. SMT construction evidence only.";
   };
 }
