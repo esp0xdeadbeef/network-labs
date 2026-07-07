@@ -6272,6 +6272,26 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-705-HDS-010-SDS-010-SMS-010" = {
+      id = "FS-705-HDS-010-SDS-010-SMS-010";
+      traceId = "FS-705-HDS-010-SDS-010-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-705-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-705-HDS-010-SDS-010-SMS-010;
+        SMT = ../FS-705-HDS-010-SDS-010-SMS-010;
+        SIT = ../../SIT/FS-705-HDS-010-SDS-010;
+      };
+      source = null;
+      evidenceLevels = [ "SMT" ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-705-HDS-010-SDS-010-SMS-010.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "FS-705-HDS-010-SDS-010-SMS-010 construction-only lab profile selection metadata verifier";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-710-HDS-010-SDS-010-SMS-005" = {
       id = "FS-710-HDS-010-SDS-010-SMS-005";
       traceId = "FS-710-HDS-010-SDS-010-SMS-005";
