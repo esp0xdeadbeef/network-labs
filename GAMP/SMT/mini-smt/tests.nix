@@ -6292,6 +6292,26 @@
       maxRuntimeTargets = 0;
     };
 
+    "FS-705-HDS-010-SDS-010-SMS-020" = {
+      id = "FS-705-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-705-HDS-010-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-705-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-705-HDS-010-SDS-010-SMS-020;
+        SMT = ../FS-705-HDS-010-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-705-HDS-010-SDS-010;
+      };
+      source = null;
+      evidenceLevels = [ "SMT" ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-705-HDS-010-SDS-010-SMS-020.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "FS-705-HDS-010-SDS-010-SMS-020 construction-only active-lab shim output boundary verifier";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-710-HDS-010-SDS-010-SMS-005" = {
       id = "FS-710-HDS-010-SDS-010-SMS-005";
       traceId = "FS-710-HDS-010-SDS-010-SMS-005";
