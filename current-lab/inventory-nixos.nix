@@ -20,13 +20,13 @@ let
 in
 rec {
   meta = {
-    traceId = "FS-100-HDS-010-SDS-010-SMS-020";
+    traceId = "FS-100-HDS-010-SDS-010-SMS-030";
     evidenceBoundary = "construction-only";
     constructionOnly = true;
   };
   activeLabConstructionOnly = {
-    traceId = "FS-100-HDS-010-SDS-010-SMS-020";
-    rowDirectory = ../GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-020;
+    traceId = "FS-100-HDS-010-SDS-010-SMS-030";
+    rowDirectory = ../GAMP/SMT/FS-100-HDS-010-SDS-010-SMS-030;
     evidenceBoundary = "construction-only";
   };
   deployment = {
