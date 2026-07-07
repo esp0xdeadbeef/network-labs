@@ -20,15 +20,15 @@ let
 in
 rec {
   activeLabConstructionOnly = {
-    traceId = "FS-705-HDS-010-SDS-010-SMS-020";
-    rowDirectory = ../GAMP/SMT/FS-705-HDS-010-SDS-010-SMS-020;
+    traceId = "FS-640-HDS-010-SDS-010-SMS-040";
+    rowDirectory = ../GAMP/SMT/FS-640-HDS-010-SDS-010-SMS-040;
     evidenceBoundary = "construction-only";
-    note = "This active-lab selection has no runtime topology. Run tests/run-active-lab-mini-smt.sh FS-705-HDS-010-SDS-010-SMS-020 for the owning construction check.";
+    note = "This active-lab selection has no runtime topology. Run tests/run-active-lab-mini-smt.sh FS-640-HDS-010-SDS-010-SMS-040 for the owning construction check.";
   };
 
   control_plane_model = {
     meta = {
-      traceId = "FS-705-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-640-HDS-010-SDS-010-SMS-040";
       source = "network-labs current-lab construction-only renderer-input stub";
       evidenceBoundary = "construction-only";
       expectedRuntimeTargets = [ ];
