@@ -5,7 +5,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "FS-166-HDS-010-SDS-010-SMS-902";
+      traceId = "FS-166-HDS-010-SDS-010-SMS-903";
       source = "network-labs current-lab SMT/SIT clab-host no-runtime source";
     };
     deployment.hosts.s-router-clab = clabHost // {
