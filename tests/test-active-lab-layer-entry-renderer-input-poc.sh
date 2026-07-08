@@ -190,26 +190,7 @@ if [[ "$(nix run --no-write-lock-file --extra-experimental-features 'nix-command
   fail "renderer-entry POC checks failed"
 fi
 
-nix eval --impure --json --expr \
-  "import ${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix" \
-  >"${clab_dir}/cpm.json"
+# CLAB renderer invocation removed per FS-985-HDS-010-SDS-010-SMS-020 (repo-local test boundary).
+# CLAB rendering validation belongs in network-renderer-containerlab-linux-backend/tests/.
 
-nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \
-  "path:${clab_renderer_root}#generate-clab-config" -- \
-  "${clab_dir}/cpm.json" \
-  "${clab_dir}/fabric.clab.yml" \
-  "${clab_dir}/bridges.nix" \
-  >"${clab_dir}/clab.stdout" 2>"${clab_dir}/clab.stderr" \
-  || {
-    cat "${clab_dir}/clab.stderr" >&2
-    fail "CLAB renderer did not accept network-labs renderer-input CPM"
-  }
-
-grep -Fq "acme-lab-edge-a:" "${clab_dir}/fabric.clab.yml" \
-  || fail "CLAB renderer did not materialize edge-a node"
-grep -Fq "acme-lab-edge-b:" "${clab_dir}/fabric.clab.yml" \
-  || fail "CLAB renderer did not materialize edge-b node"
-grep -Fq "clab.link.bridge: br-layer-entry" "${clab_dir}/fabric.clab.yml" \
-  || fail "CLAB renderer did not materialize the explicit p2p bridge"
-
-echo "PASS active-lab-layer-entry-renderer-input-poc"
+echo "PASS active-lab layer-entry renderer-input POC (data validation only, CLAB invocation removed per SMS-020)"

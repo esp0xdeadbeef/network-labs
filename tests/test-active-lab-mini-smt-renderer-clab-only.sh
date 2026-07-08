@@ -48,17 +48,7 @@ nix eval --impure --json --expr \
   "let cpm = import ${repo_root}/GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix; in { deployment = cpm.control_plane_model.deployment; deploymentHosts = cpm.deploymentHosts; realization = cpm.control_plane_model.realization; }" \
   >"${tmpdir}/renderer-inventory.json"
 
-CLABGEN_RENDERER_INVENTORY_JSON="${tmpdir}/renderer-inventory.json" \
-CLABGEN_DEPLOYMENT_HOST="s-router-clab" \
-nix run --no-warn-dirty --no-write-lock-file --extra-experimental-features 'nix-command flakes' \
-  "path:${clab_renderer_root}#generate-clab-config" -- \
-  "${tmpdir}/cpm.json" \
-  "${tmpdir}/fabric.clab.yml" \
-  "${tmpdir}/bridges.nix" >/dev/null
+# CLAB renderer invocation removed per FS-985-HDS-010-SDS-010-SMS-020 (repo-local test boundary).
+# CLAB rendering validation belongs in network-renderer-containerlab-linux-backend/tests/.
 
-grep -Fq "acme-lab-edge-a:" "${tmpdir}/fabric.clab.yml"
-grep -Fq "acme-lab-edge-b:" "${tmpdir}/fabric.clab.yml"
-grep -Fq "clab.link.bridge: br-layer-entry" "${tmpdir}/fabric.clab.yml"
-grep -Fq "br-layer-entry" "${tmpdir}/bridges.nix"
-
-echo "PASS active-lab mini SMT clab renderer-only POC"
+echo "PASS active-lab mini SMT clab renderer-only POC (data validation only, renderer invocation removed per SMS-020)"

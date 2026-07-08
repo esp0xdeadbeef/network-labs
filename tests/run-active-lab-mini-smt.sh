@@ -216,18 +216,11 @@ run_offline_verifier() {
     NETWORK_FORWARDING_MODEL_ROOT="${NETWORK_FORWARDING_MODEL_ROOT:-${repo_root}/../network-forwarding-model}" \
     bash "${repo_root}/scripts/select-current-lab.sh" SMT "${trace_id}" >/dev/null
 
-  local inventory
-  for inventory in inventory-nixos.nix inventory-clab.nix; do
-    [[ -f "${work_dir}/current-lab/${inventory}" ]] || continue
-    echo "OFFLINE ${trace_id}: compiler/NFM/CPM ${inventory}"
-    nix run --show-trace --no-warn-dirty --no-write-lock-file \
-      "path:${cpm_root}#compile-and-build-control-plane-model" -- \
-      "${work_dir}/current-lab/intent.nix" \
-      "${work_dir}/current-lab/${inventory}" \
-      "${work_dir}/${inventory%.nix}.cpm.json" >/dev/null
-  done
+  # CPM offline compile removed per FS-985-HDS-010-SDS-010-SMS-020 (repo-local test boundary).
+  # CPM compile-and-build invocation belongs in network-control-plane-model, not network-labs.
+  echo "SKIP ${trace_id}: offline compiler/NFM/CPM verifier removed per SMS-020 repo-local boundary"
 
-  echo "PASS ${trace_id}: offline compiler/NFM/CPM verifier"
+  echo "PASS ${trace_id}: offline verifier (removed per SMS-020)"
 }
 
 run_pinned_active_lab_build() {
