@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "FS-260-HDS-010-SDS-010-SMS-015";
-  traceId = "FS-260-HDS-010-SDS-010-SMS-015";
-  sourceKind = "intent-source";
-  sourceRoot = "GAMP/SMT/FS-260-HDS-010-SDS-010-SMS-015";
-  sourcePath = "GAMP/SMT/FS-260-HDS-010-SDS-010-SMS-015/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh SMT FS-260-HDS-010-SDS-010-SMS-015";
+  selector = "FS-650-HDS-010-SDS-010-SMS-040";
+  traceId = "FS-650-HDS-010-SDS-010-SMS-040";
+  sourceKind = "construction-only";
+  sourceRoot = "GAMP/SMT/FS-650-HDS-010-SDS-010-SMS-040";
+  sourcePath = "GAMP/SMT/FS-650-HDS-010-SDS-010-SMS-040/default.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT FS-650-HDS-010-SDS-010-SMS-040";
 }
