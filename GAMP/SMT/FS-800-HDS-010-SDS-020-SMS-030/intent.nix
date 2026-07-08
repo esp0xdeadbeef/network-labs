@@ -20,7 +20,7 @@
             trafficType = "any";
             priority = 100;
           } ];
-        services = [];
+        services = [ ];
         trafficTypes = [ {
             name = "any";
             match = [ {
@@ -49,13 +49,13 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
+          [ "access-PPPoE-Server" "downstream-selector" ]
           [ "downstream-selector" "policy" ]
           [ "policy" "upstream-selector" ]
           [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
         ];
         nodes = {
-          client-edge = {
+          access-PPPoE-Server = {
             role = "access";
             attachments = [ {
                 kind = "tenant";
