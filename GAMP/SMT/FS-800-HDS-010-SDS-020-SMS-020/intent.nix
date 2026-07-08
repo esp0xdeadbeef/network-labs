@@ -3,7 +3,7 @@
     FS-800-HDS-010-SDS-020-SMS-020 = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4 = "internet-vlan4";
+          external-fake-isp = "fake-isp";
           tenant-client = "client";
         };
         relations = [ {
@@ -15,12 +15,12 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "internet-vlan4" ];
+              uplinks = [ "fake-isp" ];
             };
             trafficType = "any";
             priority = 100;
           } ];
-        services = [];
+        services = [ ];
         trafficTypes = [ {
             name = "any";
             match = [ {
@@ -52,7 +52,7 @@
           [ "client-edge" "downstream-selector" ]
           [ "downstream-selector" "policy" ]
           [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [ "upstream-selector" "core-fake-isp" ]
         ];
         nodes = {
           client-edge = {
@@ -71,13 +71,13 @@
           upstream-selector = {
             role = "upstream-selector";
           };
-          core-vlan4-client-dhcp-slaac = {
+          core-fake-isp = {
             role = "core";
-            external = "internet-vlan4";
+            external = "fake-isp";
             uplinks = {
-              internet-vlan4 = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
+              fake-isp = {
+                ipv4 = [ "203.0.113.1/32" ];
+                ipv6 = [ "2001:db8:113::1/128" ];
               };
             };
           };
