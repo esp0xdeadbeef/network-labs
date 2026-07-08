@@ -4,19 +4,19 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-050-receiver-multicast-flooding-denial.md";
   titleSlug = "receiver-multicast-flooding-denial";
   source = {
-    kind = "canonical-sms-source-stub";
+    kind = "intent-source";
     sourcePath = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-050/intent.nix";
     inventories = {
       clab = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-050/inventory-clab.nix";
       nixos = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-050/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-050/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "runtime";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "bash tests/run-active-lab-mini-smt.sh FS-760-HDS-010-SDS-010-SMS-050";
+    focusedTest = "tests/test-FS-760-HDS-010-SDS-010-SMS-050-receiver-multicast-flooding-denial.sh";
+    observedResult = "Focused SMS-050 construction test PASS (7/7 predicates, 2/2 seeded negatives active). Live mini-SMT runtime verified: s-router-nixos (192.168.1.17) artifacts OK, s-router-clab (192.168.1.19) artifacts OK. Both hosts carry mini-smt topology section in control-plane.json with 1 target each. Pinned nixos-shell build PASS.";
   };
 }
