@@ -5,7 +5,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "FS-900-HDS-010-SDS-010-SMS-020";
+      traceId = "FS-950-HDS-010-SDS-010-SMS-030";
       source = "network-labs current-lab SMT/SIT client-host no-endpoint source";
     };
     deployment.hosts.s-router-test-clients = testClientHost // {
