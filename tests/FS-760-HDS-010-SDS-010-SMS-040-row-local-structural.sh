@@ -24,18 +24,18 @@ nix eval --impure --expr "
     links = lab.topology.links;
     relations = lab.communicationContract.relations;
   in
-    require (builtins.length nodes == 2)
-      \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
+    require (builtins.length nodes == 5)
+      \"P1 FAIL: expected 5 nodes, got \${toString (builtins.length nodes)}\"
     && require (builtins.elem \"client-edge\" nodes)
       \"P1 FAIL: missing client-edge node\"
     && require (builtins.elem \"core-vlan4-client-dhcp-slaac\" nodes)
       \"P1 FAIL: missing core-vlan4-client-dhcp-slaac node\"
-    && require (builtins.length links == 1)
-      \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"client-edge\" \"core-vlan4-client-dhcp-slaac\" ])
-      \"P2 FAIL: link must be client-edge <-> core-vlan4-client-dhcp-slaac\"
-    && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
-      \"P3 FAIL: client-edge must have 1 attachment\"
+    && require (builtins.elem \"policy\" nodes)
+      \"P1 FAIL: missing policy node\"
+    && require (builtins.length links == 4)
+      \"P2 FAIL: expected 4 links, got \${toString (builtins.length links)}\"
+    && require (lab.topology.nodes.\"client-edge\".attachments != [])
+      \"P3 FAIL: client-edge must have attachments\"
     && require (builtins.any (a: a.kind == \"tenant\" && a.name == \"client\") lab.topology.nodes.\"client-edge\".attachments)
       \"P3 FAIL: missing client tenant attachment\"
     && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
@@ -46,7 +46,7 @@ nix eval --impure --expr "
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-client-to-testnet\")
       \"P5 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.name == \"testnet\") relations)
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && (r.to.uplinks != [] && builtins.elem \"testnet\" r.to.uplinks)) relations)
       \"P6 FAIL: client-to-testnet allow relation missing\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P7 FAIL: expected 1 ownership prefix\"

@@ -12,8 +12,8 @@
         client = {};
       };
       uplinks = {
-        internet-vlan4 = {
-          bridge = "internet-vlan4";
+        testnet = {
+          bridge = "testnet";
           parent = "eth0";
           vlan = 4;
           mode = "vlan";
