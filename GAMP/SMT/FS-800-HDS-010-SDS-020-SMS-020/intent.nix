@@ -70,7 +70,6 @@
           [ "core-vlan4-client-dhcp-slaac" "upstream-selector" ]
           [ "upstream-selector" "policy" ]
           [ "policy" "downstream-selector" ]
-          [ "downstream-selector" "client-edge" ]
           [ "downstream-selector" "access-PPPoE-Server" ]
         ];
         nodes = {
@@ -102,9 +101,6 @@
           };
           downstream-selector = {
             role = "downstream-selector";
-          };
-          client-edge = {
-            role = "access";
           };
           access-PPPoE-Server = {
             role = "access";
