@@ -1,13 +1,13 @@
 {
   mini-smt = {
-    FS-760-HDS-010-SDS-010-SMS-040 = {
+    fs_760_hds_010_sds_010_sms_040 = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4 = "internet-vlan4";
+          testnet = "testnet-vlan4";
           tenant-client = "client";
         };
         relations = [ {
-            id = "FS-760-HDS-010-SDS-010-SMS-040__mini-verify";
+            id = "FS-760-HDS-010-SDS-010-SMS-040__mini-client-to-testnet";
             action = "allow";
             from = {
               kind = "tenant";
@@ -15,7 +15,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "internet-vlan4" ];
+              uplinks = [ "testnet" ];
             };
             trafficType = "any";
             priority = 100;
@@ -33,18 +33,18 @@
         prefixes = [ {
             kind = "tenant";
             name = "client";
-            ipv4 = "10.2.248.0/24";
-            ipv6 = "fd42:02f8:50::/64";
+            ipv4 = "10.3.248.0/24";
+            ipv6 = "fd43:03f8:40::/64";
           } ];
       };
       pools = {
         loopback = {
-          ipv4 = "10.2.0.0/24";
-          ipv6 = "fd42:02f8:ff::/118";
+          ipv4 = "10.3.0.0/24";
+          ipv6 = "fd43:03f8:ff::/118";
         };
         p2p = {
-          ipv4 = "10.2.255.0/24";
-          ipv6 = "fd42:02f8:fe::/118";
+          ipv4 = "10.3.255.0/24";
+          ipv6 = "fd43:03f8:fe::/118";
         };
       };
       topology = {
@@ -73,9 +73,9 @@
           };
           core-vlan4-client-dhcp-slaac = {
             role = "core";
-            external = "internet-vlan4";
+            external = "testnet";
             uplinks = {
-              internet-vlan4 = {
+              testnet = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };
