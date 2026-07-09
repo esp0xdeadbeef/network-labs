@@ -472,7 +472,14 @@ ${forwarding_enterprise_json}
   deployment = source.deployment or { };
   deploymentHosts = (deployment.hosts or { }) // (source.deploymentHosts or { });
   realization = source.realization or { };
-  sanitize = value: builtins.replaceStrings [ "." "_" ":" "/" " " ] [ "-" "-" "-" "-" "-" ] value;
+  sanitize = value:
+    let
+      lower = builtins.replaceStrings
+        [ "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" ]
+        [ "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z" ];
+      cleaned = builtins.replaceStrings [ "." "_" ":" "/" " " ] [ "-" "-" "-" "-" "-" ] value;
+    in
+    lower cleaned;
   indexedMap = f: values:
     builtins.genList (index: f index (builtins.elemAt values index)) (builtins.length values);
   linksForSite = enterpriseName: siteName:
