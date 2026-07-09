@@ -5,7 +5,12 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-020-file
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.
 
-Status: Source stub only - not validation evidence.
+## Validation Evidence Boundary
 
-The canonical SMS title slug is `file-reachability-index`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+Validation Evidence Boundary: construction-only — mirrored from canonical SMS.
+
+Status: CMC complete | SMT construction test PASS.
+
+The canonical SMS title slug is `file-reachability-index`. Focused
+construction test at `network-codex-agent/tests/FS-981-HDS-010-SDS-010-SMS-020.sh`.
+No live host or runtime targets are required.
