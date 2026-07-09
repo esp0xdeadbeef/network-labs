@@ -1,1 +1,1 @@
-import ../GAMP/SMT/FS-940-HDS-010-SDS-020-SMS-070/intent.nix
+import ../GAMP/SMT/FS-680-HDS-010-SDS-010-SMS-050/intent.nix
