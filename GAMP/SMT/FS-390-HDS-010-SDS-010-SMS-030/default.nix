@@ -11,6 +11,8 @@
       "FS-390-HDS-010-SDS-010-SMS-030__mini-verify"
       "FS-390-HDS-010-SDS-010-SMS-030__client-to-tenant-service-public-via-broad-wan"
       "FS-390-HDS-010-SDS-010-SMS-030__client-to-public-ingress-via-broad-wan"
+      "FS-390-HDS-010-SDS-010-SMS-030__tenant-service-exposure-allow"
+      "FS-390-HDS-010-SDS-010-SMS-030__public-web-public-ingress-exposure-allow"
     ];
     inventories = {
       clab = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-030/inventory-clab.nix";
