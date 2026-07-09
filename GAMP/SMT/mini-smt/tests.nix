@@ -7888,7 +7888,7 @@
       source = {
         kind = "intent-source";
         intent = ../FS-800-HDS-010-SDS-020-SMS-030/intent.nix;
-        expectedRelationIds = [ "FS-800-HDS-010-SDS-020-SMS-030__mini-verify" ];
+        expectedRelationIds = [ "FS-800-HDS-010-SDS-020-SMS-030__mini-provider-egress" "FS-800-HDS-010-SDS-020-SMS-030__mini-customer-nat" ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;

@@ -1,12 +1,20 @@
-# SMT Source Stub: FS-800-HDS-010-SDS-020-SMS-030
+# SMT Source: FS-800-HDS-010-SDS-020-SMS-030
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-030-pppoe-pairing-and-fallback-rejection.md`
 
-Status: NOT OK - source stub only.
-
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
-
 Title slug: `pppoe-pairing-and-fallback-rejection`
+
+This row provides the mini-SMT intent source for PPPoE pairing and fallback
+rejection module testing. The intent uses `pppoe-client`/`pppoe-provider` roles
+with a `pppoePairs` section to exercise the CPM-level pairing validation.
+
+Focused CPM construction test:
+`network-control-plane-model/tests/test-FS-800-HDS-010-SDS-020-SMS-030-sat-pppoe-pairing-fallback-rejection.sh`
+(4 seeded negatives + positive control: SN1 missing-handoff, SN2 wrong-address,
+SN3 missing-credentials, SN4 killswitch-bypass).
+
+Focused CPM contract test:
+`network-control-plane-model/tests/FS-800-HDS-010-SDS-020-SMS-030-provider-access-pppoe-negative-contract.sh`
+
+Lab-side test:
+`network-labs/tests/test-s-sigma-pppoe-pairing-fallback-rejection.sh`
