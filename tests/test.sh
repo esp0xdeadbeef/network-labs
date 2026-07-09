@@ -62,6 +62,7 @@ tests=(
   test-s-sigma-sat-source-contract-comments.sh
   test-fs200-shared-service-source-matrix.sh
   test-fs650-fs690-profile-matrices.sh
+  FS-660-HDS-010-SDS-010-SMS-020.sh
   FS-670-HDS-010-SDS-010-SMS-040.sh
   test-fs690-support-view-provenance-non-authority.sh
   test-fs810-fs820-secret-source-records.sh
