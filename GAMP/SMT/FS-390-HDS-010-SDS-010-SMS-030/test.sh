@@ -28,6 +28,8 @@ let
     \"${trace_id}__mini-verify\"
     \"${trace_id}__client-to-tenant-service-public-via-broad-wan\"
     \"${trace_id}__client-to-public-ingress-via-broad-wan\"
+    \"${trace_id}__tenant-service-exposure-allow\"
+    \"${trace_id}__public-web-public-ingress-exposure-allow\"
   ];
   relationIds = map (relation: relation.id) site.communicationContract.relations;
   allowedRelationIds = map (relation: relation.id) site.communicationContract.allowedRelations;
@@ -41,7 +43,7 @@ in
     \"row default must list every full-trace relation id\"
   && require (relationIds == expectedRelations && allowedRelationIds == expectedRelations)
     \"intent must carry every allow relation in relations and allowedRelations\"
-  && require (targetKinds == [ \"external\" \"public-ipv4\" \"public-ipv4\" ])
+  && require (targetKinds == [ \"external\" \"public-ipv4\" \"public-ipv4\" \"service\" \"service\" ])
     \"intent must model public IPv4 destinations as compiler-owned targets\"
   && require (!(site ? trafficPaths))
     \"intent-source row must not hand-code compiler-derived trafficPaths\"

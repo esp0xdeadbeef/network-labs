@@ -49,6 +49,36 @@
             trafficType = "any";
             priority = 111;
           }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-030__tenant-service-exposure-allow";
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "tenant-service-without-shortcut-policy";
+            };
+            to = {
+              kind = "service";
+              name = "tenant-service-without-shortcut-policy";
+            };
+            trafficType = "any";
+            priority = 200;
+            returnBehavior = null;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-030__public-web-public-ingress-exposure-allow";
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "internet-vlan4" ];
+            };
+            to = {
+              kind = "service";
+              name = "public-web-without-ingress-policy";
+            };
+            trafficType = "any";
+            priority = 201;
+            returnBehavior = null;
+          }
         ];
         relations = [
           {
@@ -92,6 +122,36 @@
             };
             trafficType = "any";
             priority = 111;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-030__tenant-service-exposure-allow";
+            action = "allow";
+            from = {
+              kind = "service";
+              name = "tenant-service-without-shortcut-policy";
+            };
+            to = {
+              kind = "service";
+              name = "tenant-service-without-shortcut-policy";
+            };
+            trafficType = "any";
+            priority = 200;
+            returnBehavior = null;
+          }
+          {
+            id = "FS-390-HDS-010-SDS-010-SMS-030__public-web-public-ingress-exposure-allow";
+            action = "allow";
+            from = {
+              kind = "external";
+              uplinks = [ "internet-vlan4" ];
+            };
+            to = {
+              kind = "service";
+              name = "public-web-without-ingress-policy";
+            };
+            trafficType = "any";
+            priority = 201;
+            returnBehavior = null;
           }
         ];
         services = [
