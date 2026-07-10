@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # GAMP-ID: FS-780-HDS-010-SDS-010-SMS-010
-# GAMP-ID: FS-800-HDS-010-SDS-010-SMS-010
+# GAMP-ID: FS-800-HDS-010-SDS-012-SMS-010
 # GAMP-SCOPE: software-module-test
 set -euo pipefail
 
