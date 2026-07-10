@@ -105,6 +105,10 @@
           };
           client-edge = {
             role = "access";
+            attachments = [ {
+                kind = "tenant";
+                name = "client";
+              } ];
           };
           downstream-selector-customer = {
             role = "downstream-selector";
