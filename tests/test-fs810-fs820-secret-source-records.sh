@@ -65,11 +65,16 @@ jq -e '
         "routeAuthority",
         "firewallAuthority",
         "firewallPolicy",
+        "allowFirewall",
         "dnsAuthority",
         "dnsPolicy",
         "publicIngress",
         "tenantReachability",
-        "trustBoundary"
+        "trustBoundary",
+        "trustAnchor",
+        "neededForUsers",
+        "hashedPasswordFile",
+        "defaultSopsFile"
       )
     );
   def policy_neutral:
