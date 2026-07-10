@@ -18,36 +18,48 @@ fail() {
 nix eval --impure --expr "
   let
     intent = import ${intent_file};
-    lab = intent.\"mini-smt\".\"fs_560_hds_010_sds_010_sms_040\";
+    lab = intent.\"mini-smt\".\"FS-560-HDS-010-SDS-010-SMS-040\";
     require = cond: msg: if cond then true else throw msg;
     nodes = builtins.attrNames lab.topology.nodes;
     links = lab.topology.links;
     relations = lab.communicationContract.relations;
   in
-    require (builtins.length nodes == 2)
-      \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
+    require (builtins.length nodes == 5)
+      \"P1 FAIL: expected 5 nodes, got \${toString (builtins.length nodes)}\"
     && require (builtins.elem \"client-edge\" nodes)
       \"P1 FAIL: missing client-edge node\"
+    && require (builtins.elem \"downstream-selector\" nodes)
+      \"P1 FAIL: missing downstream-selector node\"
+    && require (builtins.elem \"policy\" nodes)
+      \"P1 FAIL: missing policy node\"
+    && require (builtins.elem \"upstream-selector\" nodes)
+      \"P1 FAIL: missing upstream-selector node\"
     && require (builtins.elem \"core-vlan4-client-dhcp-slaac\" nodes)
       \"P1 FAIL: missing core-vlan4-client-dhcp-slaac node\"
-    && require (builtins.length links == 1)
-      \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"client-edge\" \"core-vlan4-client-dhcp-slaac\" ])
-      \"P2 FAIL: link must be client-edge <-> core-vlan4-client-dhcp-slaac\"
+    && require (builtins.length links == 4)
+      \"P2 FAIL: expected 4 links, got \${toString (builtins.length links)}\"
+    && require (builtins.any (l: l == [ \"client-edge\" \"downstream-selector\" ]) links)
+      \"P2 FAIL: missing client-edge <-> downstream-selector link\"
+    && require (builtins.any (l: l == [ \"downstream-selector\" \"policy\" ]) links)
+      \"P2 FAIL: missing downstream-selector <-> policy link\"
+    && require (builtins.any (l: l == [ \"policy\" \"upstream-selector\" ]) links)
+      \"P2 FAIL: missing policy <-> upstream-selector link\"
+    && require (builtins.any (l: l == [ \"upstream-selector\" \"core-vlan4-client-dhcp-slaac\" ]) links)
+      \"P2 FAIL: missing upstream-selector <-> core-vlan4-client-dhcp-slaac link\"
     && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
       \"P3 FAIL: client-edge must have 1 attachment\"
     && require (builtins.any (a: a.kind == \"tenant\" && a.name == \"client\") lab.topology.nodes.\"client-edge\".attachments)
       \"P3 FAIL: missing client tenant attachment\"
     && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
       \"P4 FAIL: core-vlan4-client-dhcp-slaac missing uplinks\"
-    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks ? testnet)
-      \"P4 FAIL: core-vlan4-client-dhcp-slaac missing testnet uplink\"
+    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks ? \"internet-vlan4\")
+      \"P4 FAIL: core-vlan4-client-dhcp-slaac missing internet-vlan4 uplink\"
     && require (builtins.length relations == 1)
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
-    && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-client-to-testnet\")
+    && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-verify\")
       \"P5 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.name == \"testnet\") relations)
-      \"P6 FAIL: client-to-testnet allow relation missing\"
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.kind == \"external\") relations)
+      \"P6 FAIL: client-to-external allow relation missing\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P7 FAIL: expected 1 ownership prefix\"
     && require (lab.pools ? loopback && lab.pools ? p2p)
