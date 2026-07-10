@@ -119,6 +119,7 @@ tests=(
   test-fs720-hds010-sds010-sms010-test-clients-substrate.sh
   test-fs720-hds010-sds010-sms020-assignment-address.sh
   test-fs720-hds010-sds010-sms030-service-surfaces.sh
+  FS-720-HDS-010-SDS-010-SMS-040.sh
   test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh
   test-fs720-hds040-sds010-sms010-runtime-observation-boundary.sh
   test-fs770-hds020-sds010-sms010-common-source-inventory-split.sh
