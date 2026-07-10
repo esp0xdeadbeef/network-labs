@@ -4,19 +4,19 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-810-HDS-010-SDS-010-SMS-010-secret-material-declaration.md";
   titleSlug = "secret-material-declaration";
   source = {
-    kind = "canonical-sms-source-stub";
+    kind = "intent-source";
     sourcePath = "GAMP/SMT/FS-810-HDS-010-SDS-010-SMS-010/intent.nix";
     inventories = {
       clab = "GAMP/SMT/FS-810-HDS-010-SDS-010-SMS-010/inventory-clab.nix";
       nixos = "GAMP/SMT/FS-810-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-810-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "runtime";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs810-fs820-secret-source-records.sh";
+    focusedTest = "tests/test-fs810-fs820-secret-source-records.sh";
+    observedResult = "Construction PASS: all SMS-010 predicates proven (MR1-MR2, CI1-CI3, EI1-EI2, FC1-FC3, CH1, SN1-SN3). Live SMT PASS: s-router-nixos 5 targets/35 hits, s-router-clab 5 targets/35 hits, s-router-test-clients 0 targets/1 hit. Evidence file: network-codex-agent/GAMP/SMT/FS-810-HDS-010-SDS-010-SMS-010-online-eval.txt";
   };
 }
