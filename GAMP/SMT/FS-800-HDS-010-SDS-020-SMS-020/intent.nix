@@ -3,13 +3,27 @@
     FS-800-HDS-010-SDS-020-SMS-020 = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4 = "internet-vlan4";
           external-fake-isp = "fake-isp";
+          external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
         relations = [
           {
-            id = "FS-800-HDS-010-SDS-020-SMS-020__mini-provider-egress";
+            id = "FS-800-HDS-010-SDS-020-SMS-020__fake-isp";
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            to = {
+              kind = "external";
+              uplinks = [ "fake-isp" ];
+            };
+            trafficType = "any";
+            priority = 100;
+          }
+          {
+            id = "FS-800-HDS-010-SDS-020-SMS-020__internet-vlan4";
             action = "allow";
             from = {
               kind = "tenant";
@@ -21,20 +35,6 @@
             };
             trafficType = "any";
             priority = 100;
-          }
-          {
-            id = "FS-800-HDS-010-SDS-020-SMS-020__mini-customer-nat";
-            action = "allow";
-            from = {
-              kind = "tenant";
-              name = "client";
-            };
-            to = {
-              kind = "external";
-              uplinks = [ "fake-isp" ];
-            };
-            trafficType = "any";
-            priority = 90;
           }
         ];
         services = [ ];
@@ -66,22 +66,32 @@
       };
       topology = {
         links = [
-          [ "core-fake-isp" "upstream-selector" ]
-          [ "core-vlan4-client-dhcp-slaac" "upstream-selector" ]
-          [ "upstream-selector" "policy" ]
-          [ "policy" "downstream-selector" ]
-          [ "downstream-selector" "access-PPPoE-Server" ]
+          [ "access-PPPoE-Server" "downstream-selector-provider" ]
+          [ "downstream-selector-provider" "policy" ]
+          [ "policy" "upstream-selector-provider" ]
+          [ "upstream-selector-provider" "core-vlan4-client-dhcp-slaac" ]
+          [ "client-edge" "downstream-selector-customer" ]
+          [ "downstream-selector-customer" "policy" ]
+          [ "policy" "upstream-selector-customer" ]
+          [ "upstream-selector-customer" "core-fake-isp" ]
+          [ "access-PPPoE-Server" "core-fake-isp" ]
         ];
         nodes = {
-          core-fake-isp = {
-            role = "core";
-            external = "fake-isp";
-            uplinks = {
-              fake-isp = {
-                ipv4 = [ "203.0.113.1/32" ];
-                ipv6 = [ "2001:db8:113::1/128" ];
-              };
-            };
+          access-PPPoE-Server = {
+            role = "access";
+            attachments = [ {
+                kind = "tenant";
+                name = "client";
+              } ];
+          };
+          downstream-selector-provider = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector-provider = {
+            role = "upstream-selector";
           };
           core-vlan4-client-dhcp-slaac = {
             role = "core";
@@ -93,21 +103,32 @@
               };
             };
           };
-          upstream-selector = {
-            role = "upstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          access-PPPoE-Server = {
+          client-edge = {
             role = "access";
             attachments = [ {
                 kind = "tenant";
                 name = "client";
               } ];
+          };
+          downstream-selector-customer = {
+            role = "downstream-selector";
+          };
+          upstream-selector-customer = {
+            role = "upstream-selector";
+          };
+          core-fake-isp = {
+            role = "core";
+            external = "fake-isp";
+            attachments = [ {
+                kind = "tenant";
+                name = "client";
+              } ];
+            uplinks = {
+              fake-isp = {
+                ipv4 = [ "203.0.113.1/32" ];
+                ipv6 = [ "2001:db8:113::1/128" ];
+              };
+            };
           };
         };
       };
