@@ -11,12 +11,12 @@
       nixos = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-010/inventory-nixos.nix";
       testClients = "GAMP/SMT/FS-760-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix";
     };
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "construction";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-760-HDS-010-SDS-010-SMS-010-receiver-discovery-access-policy.sh";
+    focusedTest = "tests/test-FS-760-HDS-010-SDS-010-SMS-010-receiver-discovery-access-policy.sh";
+    observedResult = "PASS: all 14 SMS predicates verified (P1-P14), SN1/SN2 active seeded negatives proven. Aggregate test-hat-printer-receiver-policy-source.sh PASS. Live mini-SMT runtime artifacts present on s-router-nixos and s-router-clab.";
   };
 }
