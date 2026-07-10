@@ -115,6 +115,10 @@
           core-fake-isp = {
             role = "core";
             external = "fake-isp";
+            attachments = [ {
+                kind = "tenant";
+                name = "client";
+              } ];
             uplinks = {
               fake-isp = {
                 ipv4 = [ "203.0.113.1/32" ];
