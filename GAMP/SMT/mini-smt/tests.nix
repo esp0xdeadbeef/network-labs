@@ -7842,7 +7842,7 @@
       source = {
         kind = "intent-source";
         intent = ../FS-800-HDS-010-SDS-020-SMS-010/intent.nix;
-        expectedRelationIds = [ "FS-800-HDS-010-SDS-020-SMS-010__mini-verify" ];
+        expectedRelationIds = [ "FS-800-HDS-010-SDS-020-SMS-010__fake-isp" "FS-800-HDS-010-SDS-020-SMS-010__internet-vlan4" ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;
