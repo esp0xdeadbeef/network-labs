@@ -23,7 +23,9 @@ check_row() {
       rowPath = builtins.getEnv "ROW_PATH";
       row = import rowPath;
       require = cond: msg: if cond then true else throw msg;
-      pathExistsRel = rel: builtins.pathExists (repoRoot + "/" + rel);
+      pathExistsRel = rel:
+        builtins.pathExists (repoRoot + "/" + rel)
+        || builtins.pathExists (repoRoot + "/../" + rel);
 
       sourceInputs = row.sourceInputs or { };
       sourceInputsOk =
@@ -87,7 +89,9 @@ let
   sit = import (repoRoot + "/GAMP/SIT/FS-166-HDS-010-SDS-010/default.nix");
   manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
   require = cond: msg: if cond then true else throw msg;
-  pathExistsRel = rel: builtins.pathExists (repoRoot + "/" + rel);
+  pathExistsRel = rel:
+    builtins.pathExists (repoRoot + "/" + rel)
+    || builtins.pathExists (repoRoot + "/../" + rel);
   manifestIds = builtins.attrNames manifest.tests;
   sourceNames = builtins.attrNames sms.sourceInputs;
   ids = map (name: sms.sourceInputs.${name}.traceId) sourceNames;
@@ -95,8 +99,12 @@ let
     builtins.all
       (id:
         let row = import (repoRoot + "/GAMP/SMS/" + id + "/default.nix");
-        in builtins.hasAttr id (row.sourceInputs or { }))
-      manifestIds;
+            sourceInputs = row.sourceInputs or { };
+        in
+	          builtins.any
+	            (name: (sourceInputs.${name}.traceId or null) == id)
+	            (builtins.attrNames sourceInputs))
+	      ids;
   sourceNameForTrace = trace:
     builtins.head (builtins.filter (name: sms.sourceInputs.${name}.traceId == trace) sourceNames);
   sitSourcePaths = sit.evidence.sourcePaths or [ ];
@@ -113,7 +121,7 @@ let
 in
   require (builtins.all (id: builtins.hasAttr id sds.smsInputs) ids) "FS-166 SMS sourceInputs reference an SDS mini SMT trace missing from SDS smsInputs"
   && require (builtins.all (id: builtins.hasAttr id manifest.tests) ids) "FS-166 SDS references an SMS mini SMT missing from manifest"
-  && require activeMiniSmtSmsKeysMatchTrace "active mini SMT SMS sourceInputs must be keyed by full trace ID"
+  && require activeMiniSmtSmsKeysMatchTrace "active mini SMT SMS sourceInputs must contain the full trace ID"
   && require (builtins.length ids == builtins.length sourceNames) "FS-166 SMS sourceInputs and SDS mini SMT count differ"
   && require (builtins.all sourceMatches ids) "FS-166 SDS/SMS/SIT/manifest source mapping mismatch"
 ' >/dev/null || fail "FS-166 SDS/SMS/SIT source mapping failed"

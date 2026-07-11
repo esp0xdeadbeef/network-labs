@@ -561,8 +561,24 @@ ${forwarding_enterprise_json}
     left // right // nested;
   realizationNodeName = enterpriseName: siteName: nodeName:
     sanitize "\${enterpriseName}-\${siteName}-\${nodeName}";
+  legacyRealizationNodeName = enterpriseName: siteName: nodeName:
+    "\${enterpriseName}-\${siteName}-\${nodeName}";
   existingRealizationNodeFor = enterpriseName: siteName: nodeName:
-    (realization.nodes or { }).\${realizationNodeName enterpriseName siteName nodeName} or { };
+    let
+      nodes = realization.nodes or { };
+      legacy = nodes.\${legacyRealizationNodeName enterpriseName siteName nodeName} or { };
+      canonical = nodes.\${realizationNodeName enterpriseName siteName nodeName} or { };
+    in
+    mergeRecursive legacy canonical;
+  existingPortsFor = enterpriseName: siteName: nodeName:
+    (existingRealizationNodeFor enterpriseName siteName nodeName).ports or { };
+  existingPortHasSelector = enterpriseName: siteName: nodeName: selectorName: selectorValue:
+    let
+      ports = existingPortsFor enterpriseName siteName nodeName;
+    in
+    builtins.any
+      (portName: (ports.\${portName}.\${selectorName} or null) == selectorValue)
+      (builtins.attrNames ports);
   portForLink = enterpriseName: siteName: nodeName: index: linkName:
     let
       endpoint = (linksForSite enterpriseName siteName).\${linkName}.endpoints.\${nodeName};
@@ -605,15 +621,28 @@ ${forwarding_enterprise_json}
     };
   portsForNode = enterpriseName: siteName: nodeName:
     let
+      existingPorts = existingPortsFor enterpriseName siteName nodeName;
+      generatedLinkNames =
+        builtins.filter
+          (linkName: !(existingPortHasSelector enterpriseName siteName nodeName "link" linkName))
+          (linkNamesForNode enterpriseName siteName nodeName);
+      generatedTenantInterfaceNames =
+        builtins.filter
+          (interfaceName: !(existingPortHasSelector enterpriseName siteName nodeName "logicalInterface" interfaceName))
+          (tenantInterfaceNamesForNode enterpriseName siteName nodeName);
+      generatedUplinkNames =
+        builtins.filter
+          (uplinkName: !(existingPortHasSelector enterpriseName siteName nodeName "uplink" uplinkName))
+          (uplinkNamesForNode enterpriseName siteName nodeName);
       linkPorts = builtins.listToAttrs (
         indexedMap
           (index: linkName: portForLink enterpriseName siteName nodeName index linkName)
-          (linkNamesForNode enterpriseName siteName nodeName)
+          generatedLinkNames
       );
       tenantPorts = builtins.listToAttrs (
         indexedMap
           (index: interfaceName: portForTenantInterface enterpriseName siteName nodeName index interfaceName)
-          (tenantInterfaceNamesForNode enterpriseName siteName nodeName)
+          generatedTenantInterfaceNames
       );
       uplinkPorts = builtins.listToAttrs (
         indexedMap
@@ -626,10 +655,10 @@ ${forwarding_enterprise_json}
               };
             };
           })
-          (uplinkNamesForNode enterpriseName siteName nodeName)
+          generatedUplinkNames
       );
     in
-    mergeRecursive (linkPorts // tenantPorts // uplinkPorts) ((existingRealizationNodeFor enterpriseName siteName nodeName).ports or { });
+    mergeRecursive (linkPorts // tenantPorts // uplinkPorts) existingPorts;
   tenantInterfaceNamesForNode = enterpriseName: siteName: nodeName:
     let
       interfaces = (nodeForSite enterpriseName siteName nodeName).interfaces or { };
@@ -811,7 +840,7 @@ source // {
   deploymentHosts = managedDeploymentHosts;
   deployment = managedDeployment;
   realization = realization // {
-    nodes = (realization.nodes or { }) // generatedRealizationNodes;
+    nodes = generatedRealizationNodes;
   };
 }
 EOF

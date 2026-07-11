@@ -778,7 +778,7 @@ in
           "FS-380-HDS-020-SDS-010-SMS-050__mini-client-to-emulated-isp"
         ];
       };
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
       runtimeTargets = {
         client-edge = {
           role = "access";
@@ -787,6 +787,15 @@ in
             kind = "pppoe";
             server = "emulated-isp";
           };
+        };
+        downstream-selector = {
+          role = "downstream-selector";
+        };
+        policy = {
+          role = "policy";
+        };
+        upstream-selector = {
+          role = "upstream-selector";
         };
         emulated-isp = {
           role = "emulated-isp";
