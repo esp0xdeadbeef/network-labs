@@ -22,6 +22,8 @@ nix eval --impure --expr "
     lab = mini.labs.\"FS-500-HDS-010-SDS-010-SMS-030\";
     entry = manifest.tests.\"FS-500-HDS-010-SDS-010-SMS-030\";
     require = cond: msg: if cond then true else throw msg;
+    sorted = builtins.sort (a: b: a < b);
+    sameMembers = left: right: sorted left == sorted right;
     validPath = mini.validators.decisionReasonDiagnostic {
       relationId = \"FS-500-HDS-010-SDS-010-SMS-030__mini-decision-reason-diagnostic\";
       action = \"allow\";
@@ -54,7 +56,7 @@ nix eval --impure --expr "
       \"manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [
+    && require (sameMembers (builtins.attrNames lab.runtimeTargets) [
       \"client-edge\"
       \"downstream-selector\"
       \"policy\"

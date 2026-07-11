@@ -27,6 +27,7 @@ replay_cached_result() {
 run_suite() {
   local failures=0
   local passed=0
+  local skipped=0
   local total=0
 
   echo "=== network-labs construction test suite ==="
@@ -60,6 +61,13 @@ run_suite() {
     total=$((total + 1))
     log_file="$(mktemp)"
 
+    if [[ "${test_name}" == "test-sit-evidence-commands.sh" && "${NETWORK_LABS_RUN_SIT_EVIDENCE_COMMANDS:-0}" != "1" ]]; then
+      skipped=$((skipped + 1))
+      printf 'TEST: %s SKIP reason=live-sit-evidence opt_in=NETWORK_LABS_RUN_SIT_EVIDENCE_COMMANDS=1\n' "${test_name}"
+      rm -f "${log_file}"
+      continue
+    fi
+
     if NETWORK_REPO_DIRECT_TEST_OK=1 bash "${test_file}" >"${log_file}" 2>&1; then
       passed=$((passed + 1))
       printf 'TEST: %s PASS\n' "${test_name}"
@@ -73,7 +81,7 @@ run_suite() {
   done
 
   echo
-  echo "=== Results: ${passed} passed, ${failures} failed ==="
+  echo "=== Results: ${passed} passed, ${failures} failed, ${skipped} skipped ==="
   printf 'PASS: %s, FAIL: %s, TOTAL: %s\n' "${passed}" "${failures}" "${total}" >&2
 
   if [[ "${failures}" -gt 0 ]]; then

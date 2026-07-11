@@ -23,6 +23,8 @@ nix eval --impure --expr "
     entry = manifest.tests.\"FS-500-HDS-010-SDS-010-SMS-010\";
     relation = builtins.head lab.reachabilityRelations;
     require = cond: msg: if cond then true else throw msg;
+    sorted = builtins.sort (a: b: a < b);
+    sameMembers = left: right: sorted left == sorted right;
     valid = mini.validators.reachabilityDecision relation;
     denied = mini.validators.reachabilityDecision (relation // { action = \"deny\"; });
     missingId = mini.validators.reachabilityDecision (builtins.removeAttrs relation [ \"id\" ]);
@@ -46,7 +48,7 @@ nix eval --impure --expr "
       \"reachability manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"reachability mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [
+    && require (sameMembers (builtins.attrNames lab.runtimeTargets) [
       \"client-edge\"
       \"downstream-selector\"
       \"policy\"

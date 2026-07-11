@@ -93,10 +93,22 @@ nix eval --impure --expr "
       \"internet-mode manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"internet-mode mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == [ \"client-edge\" \"emulated-isp\" ])
-      \"internet-mode mini SMT may start only client-edge and emulated-isp\"
-    && require (lab.maxRuntimeTargets == 2)
-      \"internet-mode mini SMT must stay capped at two runtime targets\"
+    && require (builtins.attrNames lab.runtimeTargets == [
+      \"client-edge\"
+      \"downstream-selector\"
+      \"emulated-isp\"
+      \"policy\"
+      \"upstream-selector\"
+    ])
+      \"internet-mode mini SMT may start only the five-node staged path\"
+    && require (lab.maxRuntimeTargets == 5)
+      \"internet-mode mini SMT must stay capped at five runtime targets\"
+    && require (lab.runtimeTargets.downstream-selector.role == \"downstream-selector\")
+      \"internet-mode downstream-selector target must preserve staged role\"
+    && require (lab.runtimeTargets.policy.role == \"policy\")
+      \"internet-mode policy target must preserve staged role\"
+    && require (lab.runtimeTargets.upstream-selector.role == \"upstream-selector\")
+      \"internet-mode upstream-selector target must preserve staged role\"
     && require (builtins.length lab.internetModeRecords == 1)
       \"internet-mode mini SMT must test exactly one internet mode record\"
     && require (lab.testsOnly == [

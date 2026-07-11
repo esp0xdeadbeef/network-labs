@@ -233,7 +233,7 @@
       independent = true;
       aggregateOnly = false;
       scope = "SMT/SIT-only internet-mode emulated PPPoE provider with VLAN4/VLAN5 DHCP upstream verification; no skips, NAT, or VLAN2";
-      maxRuntimeTargets = 2;
+      maxRuntimeTargets = 5;
     };
 
     "FS-380-HDS-020-SDS-010-SMS-120" = {

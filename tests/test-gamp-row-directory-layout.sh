@@ -168,7 +168,9 @@ nix eval --impure --expr "
         in if match == null then null else builtins.head match;
     intentRows =
       builtins.filter
-        (name: (builtins.getAttr name manifest.tests).source.kind == \"intent-source\")
+        (name:
+          let entry = builtins.getAttr name manifest.tests;
+          in entry ? source && entry.source != null && (entry.source.kind or null) == \"intent-source\")
         names;
     rowOk =
       name:
@@ -179,6 +181,22 @@ nix eval --impure --expr "
           sdsDir = toString entry.rowDirectories.SDS;
           smsDir = toString entry.rowDirectories.SMS;
           smsRow = import (entry.rowDirectories.SMS + \"/default.nix\");
+          sourceInputs = smsRow.sourceInputs or {};
+          sourceInputNames = builtins.attrNames sourceInputs;
+          hasMatchingSourceInput =
+            builtins.any
+              (sourceName: ((builtins.getAttr sourceName sourceInputs).traceId or null) == entry.traceId)
+              sourceInputNames;
+          isConstructionSourceMap =
+            (entry.source or null) == null
+            && (entry.evidenceBoundary or null) == \"construction-only\"
+            && (entry.maxRuntimeTargets or null) == 0
+            && sourceInputNames != [ ]
+            && builtins.all
+              (sourceName:
+                let childTrace = (builtins.getAttr sourceName sourceInputs).traceId or null;
+                in childTrace != null && smsTracePrefix childTrace == sdsTrace)
+              sourceInputNames;
         in
           entry ? rowDirectories
           && entry.rowDirectories ? SDS
@@ -187,7 +205,7 @@ nix eval --impure --expr "
           && sdsTrace != null
           && sdsDir == \"${repo_root}/GAMP/SDS/\" + sdsTrace
           && smsDir == \"${repo_root}/GAMP/SMS/\" + entrySmsTrace
-          && builtins.hasAttr name smsRow.sourceInputs;
+          && (hasMatchingSourceInput || isConstructionSourceMap);
     intentRowOk =
       name:
         let
@@ -205,7 +223,7 @@ nix eval --impure --expr "
           && toString entry.source.intent == smtDir + \"/intent.nix\";
   in
     require (intentRows != [ ]) \"manifest must have at least one intent-source row\"
-    && require (builtins.all rowOk names) \"all mini SMT inputs must map to SDS and SMS template dirs\"
+    && require (builtins.all rowOk names) \"all mini SMT inputs must map to SDS and SMS template dirs or a construction-only child source map\"
     && require (builtins.all intentRowOk intentRows) \"intent-source rows must use SMT SMS dirs and SIT SDS dirs\"
 " >/dev/null || fail "mini SMT manifest row-directory contract failed"
 

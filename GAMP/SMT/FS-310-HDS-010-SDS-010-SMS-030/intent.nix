@@ -1,13 +1,13 @@
 {
   mini-smt = {
-    FS-310-HDS-010-SDS-010-SMS-030 = {
+    policy-router-relation-identity = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4 = "internet-vlan4";
+          external-testnet = "testnet";
           tenant-client = "client";
         };
         relations = [ {
-            id = "FS-310-HDS-010-SDS-010-SMS-030__mini-verify";
+            id = "FS-310-HDS-010-SDS-010-SMS-030__mini-allow-client-to-testnet";
             action = "allow";
             from = {
               kind = "tenant";
@@ -15,7 +15,7 @@
             };
             to = {
               kind = "external";
-              uplinks = [ "internet-vlan4" ];
+              name = "testnet";
             };
             trafficType = "any";
             priority = 100;
@@ -49,10 +49,7 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [ "client-edge" "core-vlan4-client-dhcp-slaac" ]
         ];
         nodes = {
           client-edge = {
@@ -62,20 +59,11 @@
                 name = "client";
               } ];
           };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          upstream-selector = {
-            role = "upstream-selector";
-          };
           core-vlan4-client-dhcp-slaac = {
-            role = "core";
-            external = "internet-vlan4";
+            role = "external";
+            external = "testnet";
             uplinks = {
-              internet-vlan4 = {
+              testnet = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
               };

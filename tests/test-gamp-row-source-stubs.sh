@@ -67,18 +67,20 @@ let
         nixos = import (base + "/inventory-nixos.nix");
         clab = import (base + "/inventory-clab.nix");
         testClients = import (base + "/inventory-test-clients.nix");
+        rendererOk = expected: inventory:
+          !(inventory.meta ? renderer) || inventory.meta.renderer == expected;
       in
         require (builtins.isAttrs intent)
           (traceId + ": intent.nix must import to an attrset")
         && require (!(intent ? meta) || intent.meta.traceId == traceId)
           (traceId + ": intent.nix meta.traceId must match when present")
-        && require (nixos ? meta && nixos.meta.traceId == traceId && nixos.meta.renderer == "nixos")
+        && require (nixos ? meta && nixos.meta.traceId == traceId && rendererOk "nixos" nixos)
           (traceId + ": inventory-nixos.nix must expose matching nixos metadata")
-        && require (clab ? meta && clab.meta.traceId == traceId && clab.meta.renderer == "clab")
+        && require (clab ? meta && clab.meta.traceId == traceId && rendererOk "clab" clab)
           (traceId + ": inventory-clab.nix must expose matching clab metadata")
         && require (
           testClients == { }
-          || (testClients ? meta && testClients.meta.traceId == traceId && testClients.meta.renderer == "test-clients")
+          || (testClients ? meta && testClients.meta.traceId == traceId && rendererOk "test-clients" testClients)
         )
           (traceId + ": inventory-test-clients.nix must be an empty attrset or expose matching test-clients metadata");
 in

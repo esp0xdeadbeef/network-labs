@@ -11,12 +11,11 @@
             id = "FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider";
             action = "allow";
             from = {
-              kind = "pppoe-customer";
+              kind = "tenant";
               name = "pppoe-client";
             };
             to = {
-              kind = "pppoe-provider";
-              name = "pppoe-provider";
+              kind = "external";
               uplinks = [ "pppoe-provider" ];
             };
             trafficType = "pppoe-session";
@@ -36,22 +35,15 @@
           }
         ];
       };
-      pppoePairs = {
-        primary = {
-          provider = {
-            target = "pppoe-provider";
-            handoff = "pppoe";
-            routeDeliveryClass = "connected";
-          };
-          customer = {
-            target = "pppoe-client";
-            coreInterface = "wan0";
-            runtimeInterface = "ppp0";
-            routeAuthority = "connected";
-          };
-          fallback = false;
-          transportClassification = "pppoe";
-        };
+      ownership = {
+        prefixes = [
+          {
+            kind = "tenant";
+            name = "pppoe-client";
+            ipv4 = "10.3.80.0/24";
+            ipv6 = "fd42:0320:50::/64";
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -84,9 +76,13 @@
         ];
         nodes = {
           pppoe-client = {
-            role = "pppoe-client";
-            interface = "wan0";
-            runtimeInterface = "ppp0";
+            role = "access";
+            attachments = [
+              {
+                kind = "tenant";
+                name = "pppoe-client";
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";
@@ -98,7 +94,8 @@
             role = "upstream-selector";
           };
           pppoe-provider = {
-            role = "pppoe-provider";
+            role = "core";
+            external = "pppoe-provider";
             uplinks = {
               pppoe-provider = {
                 ipv4 = [ "0.0.0.0/0" ];

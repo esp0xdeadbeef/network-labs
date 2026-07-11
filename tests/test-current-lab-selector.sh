@@ -103,6 +103,8 @@ let
   activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
+  sorted = builtins.sort (left: right: left < right);
+  names = attrs: sorted (builtins.attrNames attrs);
   testUplinkNames = uplinks: builtins.filter (name: name != "management") (builtins.attrNames uplinks);
   uplinksOk = uplinks:
     builtins.all
@@ -120,8 +122,18 @@ let
     && uplinks.management.bridge == "vlan2"
     && uplinks.management.ipv4.dhcp == true
     && uplinks.management.ipv6.acceptRA == false;
-  internetModeNode = "mini-smt-FS-380-HDS-020-SDS-010-SMS-050-client-edge";
-  tenantBridge = "br-mini-smt-FS-380-HDS-020-SDS-010-SMS-050-tenant-client";
+  internetModeNode = "mini-smt-fs-380-hds-020-sds-010-sms-050-client-edge";
+  internetModeProviderNode = "mini-smt-fs-380-hds-020-sds-010-sms-050-emulated-isp";
+  expectedInternetModeNodes = sorted [
+    internetModeNode
+    "mini-smt-fs-380-hds-020-sds-010-sms-050-downstream-selector"
+    internetModeProviderNode
+    "mini-smt-fs-380-hds-020-sds-010-sms-050-policy"
+    "mini-smt-fs-380-hds-020-sds-010-sms-050-upstream-selector"
+  ];
+  internetModeNodesOk = inventory:
+    names inventory.realization.nodes == expectedInternetModeNodes;
+  tenantBridge = "br-mini-smt-fs-380-hds-020-sds-010-sms-050-tenant-client";
   tenantPortOk = inventory:
     inventory.realization.nodes.${internetModeNode}.ports.tenant-client.logicalInterface == "tenant-client"
     && inventory.realization.nodes.${internetModeNode}.ports.tenant-client.attach.kind == "bridge"
@@ -133,6 +145,18 @@ let
     && ((intent.control_plane_model.data.active-lab.test-clients.endpointAssignment or { }) == { });
   noRouterRealizationIntent = intent:
     ((intent.control_plane_model.realization or { }).nodes or { }) == { };
+  traceSiteOk = inventory:
+    inventory.realization.nodes.${internetModeNode}.logicalNode.site == "FS-380-HDS-020-SDS-010-SMS-050";
+  pppoeFactsOk = inventory:
+    let
+      client = inventory.realization.nodes.${internetModeNode};
+      provider = inventory.realization.nodes.${internetModeProviderNode};
+    in
+    client.services.pppoe.client.interface == "pppoe-handoff-client-edge-emulated-isp"
+    && client.services.pppoe.client.runtimeInterface == "ppp0"
+    && provider.services.pppoe.server.interface == "pppoe-handoff-client-edge-emulated-isp"
+    && provider.services.pppoe.server.providerAddress == "203.0.113.9"
+    && provider.services.pppoe.server.customerAddress == "203.0.113.10";
   handoffOk = host:
     (host.accessHandoff.kind or null) == "pppoe"
     && (host.accessHandoff.server or null) == "emulated-isp";
@@ -150,13 +174,19 @@ in
   && require (managementOk activeInventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos host-specific inventory alias must preserve VLAN2 management"
   && require (!(activeInventoryNixos.deploymentHosts ? s-router-test-clients)) "SMT/SIT NixOS host-specific inventory must not share test-client deployment host data"
   && require (managementOk inventoryNixos.deployment.hosts.s-router-nixos.uplinks) "nixos internet-mode must expose deployment.hosts management"
+  && require (internetModeNodesOk inventoryNixos) "nixos internet-mode realization must expose exactly the canonical five-node staged path"
   && require (inventoryNixos.realization.nodes.${internetModeNode}.host == "s-router-nixos") "nixos internet-mode realization host mismatch"
+  && require (traceSiteOk inventoryNixos) "nixos internet-mode realization must retain full trace site binding"
+  && require (pppoeFactsOk inventoryNixos) "nixos internet-mode PPPoE facts must migrate onto canonical realization nodes"
   && require (uplinksOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "nixos internet-mode test uplinks must not use VLAN2"
   && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode must preserve VLAN2 management"
   && require (managementOk activeInventoryClab.deploymentHosts.s-router-clab.uplinks) "clab host-specific inventory alias must preserve VLAN2 management"
   && require (managementOk inventoryClab.deployment.hosts.s-router-clab.uplinks) "clab internet-mode must expose deployment.hosts management"
+  && require (internetModeNodesOk inventoryClab) "clab internet-mode realization must expose exactly the canonical five-node staged path"
   && require (inventoryClab.realization.nodes.${internetModeNode}.host == "s-router-clab") "clab internet-mode realization host mismatch"
+  && require (traceSiteOk inventoryClab) "clab internet-mode realization must retain full trace site binding"
+  && require (pppoeFactsOk inventoryClab) "clab internet-mode PPPoE facts must migrate onto canonical realization nodes"
   && require (tenantPortOk inventoryClab) "clab internet-mode tenant bridge realization missing"
   && require (uplinksOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode uplinks must be VLAN4/VLAN5 links with DHCP addressing"
   && require (noTestVlan2 inventoryClab.deploymentHosts.s-router-clab.uplinks) "clab internet-mode test uplinks must not use VLAN2"
@@ -188,19 +218,29 @@ let
   activeIntentNixos = import (repoRoot + "/active-lab/intent-s-router-nixos.nix");
   activeIntentClab = import (repoRoot + "/active-lab/intent-s-router-clab.nix");
   activeIntentClients = import (repoRoot + "/active-lab/intent-s-router-test-clients.nix");
-  activeInventoryNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
-  activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
-  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
-  require = cond: msg: if cond then true else throw msg;
-  sorted = builtins.sort (left: right: left < right);
-  names = attrs: sorted (builtins.attrNames attrs);
-  expectedNodes = [
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-client-edge"
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-downstream-selector"
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-core-vlan4-client-dhcp-slaac"
-    "mini-smt-FS-010-HDS-010-SDS-010-SMS-010-upstream-selector"
-  ];
+	  activeInventoryNixos = import (repoRoot + "/active-lab/inventory-s-router-nixos.nix");
+	  activeInventoryClab = import (repoRoot + "/active-lab/inventory-s-router-clab.nix");
+	  activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
+	  cpmLib = (builtins.getFlake ("path:" + repoRoot + "/../network-control-plane-model")).libBySystem.${builtins.currentSystem};
+	  builtNixos = cpmLib.compileAndBuildFromPaths {
+	    inputPath = repoRoot + "/current-lab/intent-s-router-nixos.nix";
+	    inventoryPath = repoRoot + "/current-lab/inventory-s-router-nixos.nix";
+	  };
+	  builtClab = cpmLib.compileAndBuildFromPaths {
+	    inputPath = repoRoot + "/current-lab/intent-s-router-clab.nix";
+	    inventoryPath = repoRoot + "/current-lab/inventory-s-router-clab.nix";
+	  };
+	  require = cond: msg: if cond then true else throw msg;
+	  sorted = builtins.sort (left: right: left < right);
+	  names = attrs: sorted (builtins.attrNames attrs);
+	  clientEdgeNode = "mini-smt-fs-010-hds-010-sds-010-sms-010-client-edge";
+	  expectedNodes = [
+	    clientEdgeNode
+	    "mini-smt-fs-010-hds-010-sds-010-sms-010-core-vlan4-client-dhcp-slaac"
+	    "mini-smt-fs-010-hds-010-sds-010-sms-010-downstream-selector"
+	    "mini-smt-fs-010-hds-010-sds-010-sms-010-policy"
+	    "mini-smt-fs-010-hds-010-sds-010-sms-010-upstream-selector"
+	  ];
   noRealizationNodes = inventory: (((inventory.realization or { }).nodes or { }) == { });
   noEndpointClientIntent = intent:
     ((intent.control_plane_model.data.active-lab.test-clients.runtimeTargets or { }) == { })
@@ -210,21 +250,49 @@ let
     && uplinks.management.bridge == "vlan2"
     && uplinks.management.ipv4.dhcp == true
     && uplinks.management.ipv6.acceptRA == false;
-  rowSourceOk = intent:
-    intent ? mini-smt
-    && intent.mini-smt ? "FS-010-HDS-010-SDS-010-SMS-010"
-    && builtins.any
-      (relation: relation.id == "FS-010-HDS-010-SDS-010-SMS-010__mini-verify")
-      intent.mini-smt."FS-010-HDS-010-SDS-010-SMS-010".communicationContract.relations;
-in
-  require (current.selection.layer == "SMT") "FS-010 accepted-source-set SMT selector layer mismatch"
-  && require (current.selection.selector == "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set SMT selector id mismatch"
-  && require (current.selection.traceId == "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set SMT trace mismatch"
-  && require (names inventoryNixos.realization.nodes == expectedNodes) "FS-010 accepted-source-set NixOS inventory must realize exactly the five-node mini path"
-  && require (names inventoryClab.realization.nodes == expectedNodes) "FS-010 accepted-source-set CLAB inventory must realize exactly the five-node mini path"
-  && require (noRealizationNodes inventoryClients) "FS-010 accepted-source-set test-client inventory must not realize router nodes"
-  && require (names inventoryNixos.deploymentHosts == [ "s-router-nixos" ]) "FS-010 accepted-source-set NixOS inventory must only expose s-router-nixos"
-  && require (names inventoryClab.deploymentHosts == [ "s-router-clab" ]) "FS-010 accepted-source-set CLAB inventory must only expose s-router-clab"
+	  rowSourceOk = intent:
+	    intent ? mini-smt
+	    && intent.mini-smt ? "FS-010-HDS-010-SDS-010-SMS-010"
+	    && builtins.any
+	      (relation: relation.id == "FS-010-HDS-010-SDS-010-SMS-010__mini-verify")
+	      intent.mini-smt."FS-010-HDS-010-SDS-010-SMS-010".communicationContract.relations;
+	  selectorCount = selectorName: selectorValue: ports:
+	    builtins.length (
+	      builtins.filter
+	        (portName: (ports.${portName}.${selectorName} or null) == selectorValue)
+	        (builtins.attrNames ports)
+	    );
+	  singleClientEdgeDownstreamLink = inventory:
+	    let
+	      ports = inventory.realization.nodes.${clientEdgeNode}.ports;
+	    in
+	    selectorCount "link" "p2p-client-edge-downstream-selector" ports == 1;
+	  explicitNixosClientEdgePortOk = inventory:
+	    let
+	      ports = inventory.realization.nodes.${clientEdgeNode}.ports;
+	    in
+	    singleClientEdgeDownstreamLink inventory
+	    && builtins.hasAttr "transit-downstream-selector" ports
+	    && ports."transit-downstream-selector".link == "p2p-client-edge-downstream-selector"
+	    && ports."transit-downstream-selector".interface.name == "ens3"
+	    && !(builtins.hasAttr "p2p-client-edge-downstream-selector" ports);
+	  generatedClabClientEdgePortOk = inventory:
+	    let
+	      ports = inventory.realization.nodes.${clientEdgeNode}.ports;
+	    in
+	    singleClientEdgeDownstreamLink inventory
+	    && builtins.hasAttr "p2p-client-edge-downstream-selector" ports;
+	in
+	  require (current.selection.layer == "SMT") "FS-010 accepted-source-set SMT selector layer mismatch"
+	  && require (current.selection.selector == "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set SMT selector id mismatch"
+	  && require (current.selection.traceId == "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set SMT trace mismatch"
+	  && require (names inventoryNixos.realization.nodes == expectedNodes) "FS-010 accepted-source-set NixOS inventory must realize exactly the five-node mini path"
+	  && require (names inventoryClab.realization.nodes == expectedNodes) "FS-010 accepted-source-set CLAB inventory must realize exactly the five-node mini path"
+	  && require (explicitNixosClientEdgePortOk inventoryNixos) "FS-010 accepted-source-set NixOS inventory must preserve explicit downstream selector port without generated duplicate"
+	  && require (generatedClabClientEdgePortOk inventoryClab) "FS-010 accepted-source-set CLAB inventory must keep exactly one generated downstream selector port"
+	  && require (noRealizationNodes inventoryClients) "FS-010 accepted-source-set test-client inventory must not realize router nodes"
+	  && require (names inventoryNixos.deploymentHosts == [ "s-router-nixos" ]) "FS-010 accepted-source-set NixOS inventory must only expose s-router-nixos"
+	  && require (names inventoryClab.deploymentHosts == [ "s-router-clab" ]) "FS-010 accepted-source-set CLAB inventory must only expose s-router-clab"
   && require (names inventoryClients.deploymentHosts == [ "s-router-test-clients" ]) "FS-010 accepted-source-set test-client inventory must only expose s-router-test-clients"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") expectedNodes) "FS-010 accepted-source-set NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") expectedNodes) "FS-010 accepted-source-set CLAB mini nodes must stay on s-router-clab"
@@ -234,12 +302,14 @@ in
   && require (activeIntentClients.control_plane_model.deployment.hosts ? s-router-test-clients) "FS-010 accepted-source-set test-client host-specific intent must keep s-router-test-clients"
   && require (activeInventoryNixos == inventoryNixos) "FS-010 accepted-source-set s-router-nixos inventory alias must preserve the selected row inventory"
   && require (activeInventoryClab == inventoryClab) "FS-010 accepted-source-set s-router-clab inventory alias must preserve the selected row inventory"
-  && require (activeInventoryClients == inventoryClients) "FS-010 accepted-source-set s-router-test-clients inventory alias must preserve the selected row inventory"
-  && require ((import (repoRoot + "/active-lab/clients-s-router-test-clients.nix")) == inventoryClients) "FS-010 accepted-source-set clients alias must preserve the no-router client inventory"
-  && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "FS-010 accepted-source-set NixOS inventory must preserve VLAN2 management"
-  && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "FS-010 accepted-source-set CLAB inventory must preserve VLAN2 management"
-  && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "FS-010 accepted-source-set test-client inventory must preserve VLAN2 management"
-' >/dev/null || fail "SMT FS-010-HDS-010-SDS-010-SMS-010 selection failed"
+	  && require (activeInventoryClients == inventoryClients) "FS-010 accepted-source-set s-router-test-clients inventory alias must preserve the selected row inventory"
+	  && require ((import (repoRoot + "/active-lab/clients-s-router-test-clients.nix")) == inventoryClients) "FS-010 accepted-source-set clients alias must preserve the no-router client inventory"
+	  && require (managementOk inventoryNixos.deploymentHosts.s-router-nixos.uplinks) "FS-010 accepted-source-set NixOS inventory must preserve VLAN2 management"
+	  && require (managementOk inventoryClab.deploymentHosts.s-router-clab.uplinks) "FS-010 accepted-source-set CLAB inventory must preserve VLAN2 management"
+	  && require (managementOk inventoryClients.deploymentHosts.s-router-test-clients.uplinks) "FS-010 accepted-source-set test-client inventory must preserve VLAN2 management"
+	  && require (builtNixos.control_plane_model.data.mini-smt ? "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set NixOS CPM evaluation must keep full trace data"
+	  && require (builtClab.control_plane_model.data.mini-smt ? "FS-010-HDS-010-SDS-010-SMS-010") "FS-010 accepted-source-set CLAB CPM evaluation must keep full trace data"
+	' >/dev/null || fail "SMT FS-010-HDS-010-SDS-010-SMS-010 selection failed"
 
 "${selector}" SMT FS-020-HDS-010-SDS-010-SMS-010 >/dev/null
 REPO_ROOT="${repo_root}" nix eval --impure --expr '
@@ -259,11 +329,11 @@ let
   sorted = builtins.sort (left: right: left < right);
   names = attrs: sorted (builtins.attrNames attrs);
   expectedNodes = [
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-client-edge"
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-downstream-selector"
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-core-vlan4-client-dhcp-slaac"
-    "mini-smt-FS-020-HDS-010-SDS-010-SMS-010-upstream-selector"
+    "mini-smt-fs-020-hds-010-sds-010-sms-010-client-edge"
+    "mini-smt-fs-020-hds-010-sds-010-sms-010-core-vlan4-client-dhcp-slaac"
+    "mini-smt-fs-020-hds-010-sds-010-sms-010-downstream-selector"
+    "mini-smt-fs-020-hds-010-sds-010-sms-010-policy"
+    "mini-smt-fs-020-hds-010-sds-010-sms-010-upstream-selector"
   ];
   noRealizationNodes = inventory: (((inventory.realization or { }).nodes or { }) == { });
   noEndpointClientIntent = intent:
@@ -562,11 +632,11 @@ let
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-client-edge"
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-downstream-selector"
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-policy"
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-core-vlan4-client-dhcp-slaac"
-    "mini-smt-FS-060-HDS-010-SDS-010-SMS-010-upstream-selector"
+    "mini-smt-fs-060-hds-010-sds-010-sms-010-client-edge"
+    "mini-smt-fs-060-hds-010-sds-010-sms-010-core-vlan4-client-dhcp-slaac"
+    "mini-smt-fs-060-hds-010-sds-010-sms-010-downstream-selector"
+    "mini-smt-fs-060-hds-010-sds-010-sms-010-policy"
+    "mini-smt-fs-060-hds-010-sds-010-sms-010-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
@@ -603,11 +673,11 @@ let
   activeInventoryClients = import (repoRoot + "/active-lab/inventory-s-router-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-client-edge"
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-downstream-selector"
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-policy"
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-core-vlan4-client-dhcp-slaac"
-    "mini-smt-FS-370-HDS-010-SDS-010-SMS-050-upstream-selector"
+    "mini-smt-fs-370-hds-010-sds-010-sms-050-client-edge"
+    "mini-smt-fs-370-hds-010-sds-010-sms-050-core-vlan4-client-dhcp-slaac"
+    "mini-smt-fs-370-hds-010-sds-010-sms-050-downstream-selector"
+    "mini-smt-fs-370-hds-010-sds-010-sms-050-policy"
+    "mini-smt-fs-370-hds-010-sds-010-sms-050-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
@@ -646,11 +716,11 @@ let
   sopsHetz = import (repoRoot + "/active-lab/sops-routing-s-router-hetz.nix") {};
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-access-dns"
-    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-downstream-selector"
-    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-policy"
-    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-resolver-node"
-    "mini-smt-FS-540-HDS-010-SDS-010-SMS-020-upstream-selector"
+    "mini-smt-fs-540-hds-010-sds-010-sms-020-access-dns"
+    "mini-smt-fs-540-hds-010-sds-010-sms-020-downstream-selector"
+    "mini-smt-fs-540-hds-010-sds-010-sms-020-policy"
+    "mini-smt-fs-540-hds-010-sds-010-sms-020-resolver-node"
+    "mini-smt-fs-540-hds-010-sds-010-sms-020-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
@@ -709,12 +779,12 @@ let
   inventoryClients = import (repoRoot + "/current-lab/inventory-test-clients.nix");
   require = cond: msg: if cond then true else throw msg;
   expectedNodes = [
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-downstream-selector"
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-fabric-core"
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-policy"
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-pppoe-core"
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-provider-handoff-access-a"
-    "mini-smt-FS-800-HDS-010-SDS-020-SMS-040-upstream-selector"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-downstream-selector"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-fabric-core"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-policy"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-pppoe-core"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-provider-handoff-access-a"
+    "mini-smt-fs-800-hds-010-sds-020-sms-040-upstream-selector"
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;

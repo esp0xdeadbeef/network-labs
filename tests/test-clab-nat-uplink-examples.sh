@@ -13,12 +13,12 @@ from pathlib import Path
 root = Path(sys.argv[1])
 
 expected = {
-    "single-wan": "198.51.100.1/24",
-    "single-wan-bgp": "198.51.100.1/24",
-    "policy-any-to-any-fw": "198.51.100.1/24",
+    "single-wan": ("198.51.100.1/24", "dhcp"),
+    "single-wan-bgp": ("198.51.100.1/24", "dhcp"),
+    "policy-any-to-any-fw": ("198.51.100.1/24", "static"),
 }
 
-for example, address in sorted(expected.items()):
+for example, (address, method) in sorted(expected.items()):
     text = (root / "examples" / example / "inventory-clab.nix").read_text()
     match = re.search(r'uplink0 = \{([^{}]|\{[^{}]*\})*bridge = "br-uplink0";([^{}]|\{[^{}]*\})*\};', text)
     if not match:
@@ -28,7 +28,7 @@ for example, address in sorted(expected.items()):
         'mode = "nat";',
         'parent = "eth0";',
         f'address = "{address}";',
-        'method = "dhcp";',
+        f'method = "{method}";',
     ]
     missing = [needle for needle in required if needle not in block]
     if missing:

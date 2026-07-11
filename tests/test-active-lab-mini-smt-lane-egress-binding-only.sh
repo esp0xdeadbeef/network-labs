@@ -53,6 +53,8 @@ nix eval --impure --expr "
       \"upstream-selector\"
     ];
     require = cond: msg: if cond then true else throw msg;
+    sorted = builtins.sort (a: b: a < b);
+    sameMembers = left: right: sorted left == sorted right;
     valid = mini.validators.laneEgressBinding relation;
   in
     require (lab.kind == \"mini-smt\")
@@ -73,7 +75,7 @@ nix eval --impure --expr "
       \"lane-egress manifest runtime cap must match the mini-lab runtime cap\"
     && require (entry.rendererTarget == null)
       \"lane-egress mini SMT must not be routed through a renderer aggregate target\"
-    && require (builtins.attrNames lab.runtimeTargets == expectedTargets)
+    && require (sameMembers (builtins.attrNames lab.runtimeTargets) expectedTargets)
       \"lane-egress mini SMT must declare the five-node lane runtime path\"
     && require (lab.maxRuntimeTargets == 5)
       \"lane-egress mini SMT must stay capped at five runtime targets\"

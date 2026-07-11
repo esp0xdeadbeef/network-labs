@@ -172,7 +172,7 @@ if ! env \
             builtins.attrNames nebulaPlan.overlays == [ "acme::lab::nebula-layer-entry" ]
             && builtins.attrNames nebulaPlan.nodes == [ "lab-client-nebula" "lab-lighthouse" ]
             && nebulaPlan.nodes.lab-client-nebula.relay.relays == [ "100.96.90.1" ]
-            && builtins.length nebulaPlan.nodes.lab-client-nebula.unsafeRoutes == 1;
+            && nebulaPlan.nodes.lab-client-nebula.unsafeRoutes == [ ];
         };
       in
       {

@@ -14,6 +14,7 @@ Run:
 tests/run-active-lab-mini-smt.sh FS-380-HDS-020-SDS-010-SMS-050
 ```
 
-This row is limited to `client-edge` and `emulated-isp` runtime targets.
+This row is limited to the five-node staged path `client-edge`,
+`downstream-selector`, `policy`, `upstream-selector`, and `emulated-isp`.
 The row-local inventories carry only the mini-SMT source facts required by the
 test: emulated PPPoE handoff and VLAN4/VLAN5 DHCP upstreams.
