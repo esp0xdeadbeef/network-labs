@@ -3,6 +3,32 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
+current_lab_restore_dir=""
+
+cleanup_current_lab_restore() {
+  local status=$?
+
+  if [[ -n "${current_lab_restore_dir}" && -d "${current_lab_restore_dir}" ]]; then
+    find "${repo_root}/current-lab" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+    cp -a "${current_lab_restore_dir}/." "${repo_root}/current-lab/"
+    rm -rf "${current_lab_restore_dir}"
+  fi
+
+  exit "${status}"
+}
+
+prepare_current_lab_restore() {
+  if [[ -n "${current_lab_restore_dir}" ]]; then
+    return 0
+  fi
+  if [[ "${repo_root}" == /nix/store/* || ! -w "${repo_root}/current-lab" ]]; then
+    return 0
+  fi
+
+  current_lab_restore_dir="$(mktemp -d -t active-lab-mini-smt-current-lab.XXXXXX)"
+  cp -a "${repo_root}/current-lab/." "${current_lab_restore_dir}/"
+  trap cleanup_current_lab_restore EXIT
+}
 
 list_keys() {
   nix eval --impure --raw --expr \
@@ -349,6 +375,7 @@ fi
 run_stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 run_root="${MINI_SMT_RUN_ROOT:-${TMPDIR:-/tmp}/active-lab-mini-smt-runs/${run_stamp}-$$}"
 mkdir -p "${run_root}"
+prepare_current_lab_restore
 
 for key in "${selected[@]}"; do
   trace_id="$(trace_for_key "${key}")"
