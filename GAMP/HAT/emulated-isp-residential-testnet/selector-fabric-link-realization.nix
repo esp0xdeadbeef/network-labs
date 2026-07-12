@@ -1,6 +1,6 @@
 inventory:
 let
-  selectorNodeNames = [
+  legacySelectorNodeNames = [
     "clab-downstream-selector"
     "clab-upstream-selector"
     "nixos-downstream-selector"
@@ -10,9 +10,33 @@ let
   realization = inventory.realization or { };
   nodes = realization.nodes or { };
 
+  asString = value: if builtins.isString value then value else "";
+
+  selectorLogicalName =
+    target:
+    asString ((target.logicalNode or { }).name or "");
+
+  selectorRole =
+    target:
+    let
+      logicalRole = (target.logicalNode or { }).role or null;
+      targetRole = target.role or null;
+    in
+    asString (if logicalRole != null then logicalRole else targetRole);
+
+  isSelectorRole = role: role == "downstream-selector" || role == "upstream-selector";
+
+  isSelectorLogicalName =
+    name:
+    builtins.elem name legacySelectorNodeNames
+    || name == "downstream-selector"
+    || name == "upstream-selector"
+    || builtins.match ".*-downstream-selector" name != null
+    || builtins.match ".*-upstream-selector" name != null;
+
   isSelectorTarget =
     target:
-    builtins.elem ((target.logicalNode or { }).name or null) selectorNodeNames;
+    isSelectorRole (selectorRole target) || isSelectorLogicalName (selectorLogicalName target);
 
   linkPorts =
     target:
