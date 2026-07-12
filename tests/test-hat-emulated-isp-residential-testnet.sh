@@ -34,6 +34,8 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
     clabNodes = clabSite.topology.nodes;
     relations = site.communicationContract.relations;
     clabHost = clab.deployment.hosts.s-router-clab;
+    clabNixosHost = clab.deployment.hosts.s-router-nixos;
+    clabHetzHost = clab.deployment.hosts.s-router-hetz;
     nixosHost = nixos.deployment.hosts.s-router-nixos;
     nixosClientHost = nixos.deployment.hosts.s-router-test-clients;
     siteHostManagementOk = site:
@@ -553,6 +555,30 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB SAT-compat legacy wan uplink must not use renderer NAT mode"
     && require (!(clabHost.uplinks.wan ? vlan))
       "CLAB SAT-compat legacy wan uplink must not be tagged through HAT BGP VLAN"
+    && require ((nixosHost.uplinks.isp-a.bridge or null) == "br-uplink0")
+      "NixOS SAT-compat legacy isp-a uplink must bind to br-uplink0"
+    && require ((nixosHost.uplinks.isp-a.ipv4.method or null) == "dhcp")
+      "NixOS SAT-compat legacy isp-a uplink must remain DHCPv4, not inherit HAT static BGP"
+    && require ((nixosHost.uplinks.isp-a.ipv6.method or null) == "slaac")
+      "NixOS SAT-compat legacy isp-a uplink must remain SLAAC, not inherit HAT static BGP"
+    && require ((nixosHost.uplinks.isp-a.vlan or null) == 4)
+      "NixOS SAT-compat legacy isp-a uplink must use VLAN 4, not inherit HAT BGP VLAN 5"
+    && require (!(nixosHost.uplinks.isp-a.ipv4 ? address))
+      "NixOS SAT-compat legacy isp-a uplink must not inherit a static BGP IPv4 address"
+    && require ((clabNixosHost.uplinks.isp-a.bridge or null) == "br-uplink0")
+      "CLAB view of NixOS SAT-compat legacy isp-a uplink must bind to br-uplink0"
+    && require ((clabNixosHost.uplinks.isp-a.ipv4.method or null) == "dhcp")
+      "CLAB view of NixOS SAT-compat legacy isp-a uplink must remain DHCPv4"
+    && require (!(clabNixosHost.uplinks.isp-a.ipv4 ? address))
+      "CLAB view of NixOS SAT-compat legacy isp-a uplink must not inherit static BGP IPv4"
+    && require ((clabHetzHost.uplinks.inter-site.bridge or null) == "br-wan")
+      "HAT SAT-compat inter-site uplink must bind through the explicit WAN bridge"
+    && require ((clabHetzHost.uplinks.inter-site.mode or null) == "native")
+      "HAT SAT-compat inter-site uplink must not inherit management VLAN mode"
+    && require ((clabHetzHost.uplinks.inter-site.ipv6.method or null) == "slaac")
+      "HAT SAT-compat inter-site uplink must not inherit management IPv6 disablement"
+    && require (!(clabHetzHost.uplinks.inter-site ? vlan))
+      "HAT SAT-compat inter-site uplink must not inherit management VLAN 2"
     && require ((nixosHost.uplinks.uplink-isp-a.bridge or null) == "br-uplink0")
       "NixOS HAT core internet uplink must use br-uplink0"
     && require ((nixosHost.uplinks.uplink-isp-a.mode or null) == "vlan")

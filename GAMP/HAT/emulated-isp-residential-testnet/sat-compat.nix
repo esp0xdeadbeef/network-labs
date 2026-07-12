@@ -174,7 +174,29 @@ let
         let
           host = result.${entry.host} or { };
           uplinks = host.uplinks or { };
-          fallback = uplinks.uplink-isp-b or uplinks.uplink-isp-a or uplinks.management or { };
+          firstExisting = names:
+            let
+              matches = builtins.filter (name: builtins.hasAttr name uplinks) names;
+            in
+            if matches == [ ] then null else builtins.head matches;
+          sourceName =
+            firstExisting (
+              if entry.uplink == "isp-a" then
+                [ "uplink-isp-a" ]
+              else if entry.uplink == "isp-b" then
+                [ "uplink-isp-b" ]
+              else if entry.uplink == "inter-site" then
+                [ "wan" ]
+              else if entry.uplink == "wan" then
+                [ "wan" ]
+              else
+                [ ]
+            );
+          sourceUplink =
+            if sourceName == null then
+              throw "HAT SAT-compat missing explicit source uplink for ${entry.host}.${entry.uplink}; declare the uplink or a supported compatibility alias in public inventory"
+            else
+              uplinks.${sourceName};
         in
         if builtins.hasAttr entry.uplink uplinks then
           result
@@ -184,7 +206,7 @@ let
             ${entry.host} = mergeHost host {
               uplinks = {
                 ${entry.uplink} =
-                  fallback
+                  sourceUplink
                   // {
                     bridge = entry.bridge;
                     upstream = entry.uplink;
