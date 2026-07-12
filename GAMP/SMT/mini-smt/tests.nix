@@ -6749,6 +6749,30 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-720-HDS-040-SDS-010-SMS-020" = {
+      id = "FS-720-HDS-040-SDS-010-SMS-020";
+      traceId = "FS-720-HDS-040-SDS-010-SMS-020";
+      rowDirectories = {
+        SDS = ../../SDS/FS-720-HDS-040-SDS-010;
+        SMS = ../../SMS/FS-720-HDS-040-SDS-010-SMS-020;
+        SMT = ../FS-720-HDS-040-SDS-010-SMS-020;
+        SIT = ../../SIT/FS-720-HDS-040-SDS-010;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-720-HDS-040-SDS-010-SMS-020/intent.nix;
+        expectedRelationIds = [ "FS-720-HDS-040-SDS-010-SMS-020__mini-verify" ];
+      };
+      evidenceLevels = [ "SMT" "SIT" ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "tests/test-fs720-hds040-sds010-sms020-clab-client-origin-probes.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "CLAB client-origin runtime probe construction test: proves probe plan represents NixOS and CLAB substrates, requires client-origin metadata, rejects seeded negatives";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-725-HDS-010-SDS-010-SMS-010" = {
       id = "FS-725-HDS-010-SDS-010-SMS-010";
       traceId = "FS-725-HDS-010-SDS-010-SMS-010";
