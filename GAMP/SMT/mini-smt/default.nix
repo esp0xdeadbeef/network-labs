@@ -3,6 +3,7 @@ let
   reachabilityTraceId = "FS-500-HDS-010-SDS-010-SMS-010";
   decisionReasonTraceId = "FS-500-HDS-010-SDS-010-SMS-030";
   p2pTraceId = "FS-500-HDS-010-SDS-010-SMS-040";
+  p2pColocationTraceId = "FS-500-HDS-010-SDS-010-SMS-050";
   laneEgressBindingTraceId = "FS-370-HDS-010-SDS-010-SMS-050";
   dnsResolverConfigTraceId = "FS-540-HDS-010-SDS-010-SMS-020";
   prodLikeRecursiveDnsTraceId = "FS-540-HDS-010-SDS-010-SMS-045";
@@ -507,6 +508,31 @@ in
         "s-router-nixos"
         "s-router-clab"
         "s-router-test-clients"
+      ];
+    };
+
+    "${p2pColocationTraceId}" = {
+      kind = "mini-smt";
+      traceId = p2pColocationTraceId;
+      smsAtom = "runtime point-to-point bridge co-location";
+      evidenceBoundary = "construction-only: focused tests in network-renderer-nixos and network-renderer-containerlab-linux-backend prove both endpoints of one modeled p2p selector fabric link share the same runtime L2 attachment; live HAT evidence covers runtime bridge and peer reachability";
+      source = null;
+      maxRuntimeTargets = 0;
+      constructionHandoff = {
+        nixos = "test-FS-500-HDS-010-SDS-010-SMS-050-nixos-bridge-colocation.sh";
+        clab = "test-FS-500-HDS-010-SDS-010-SMS-050-clab-bridge-colocation.sh";
+      };
+      testsOnly = [
+        "nixos-bridge-colocation"
+        "clab-link-colocation"
+        "split-bridge-rejection"
+        "cpm-fabric-link-repair-rejection"
+        "name-derived-repair-rejection"
+      ];
+      forbiddenScope = [
+        "active-lab/full"
+        "HAT"
+        "SAT"
       ];
     };
 
