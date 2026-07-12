@@ -1,9 +1,9 @@
 {
-  layer = "HAT";
-  selector = "emulated-isp-residential-testnet";
-  traceId = "emulated-isp-residential-testnet";
-  sourceKind = "hat-source";
-  sourceRoot = "GAMP/HAT/emulated-isp-residential-testnet";
-  sourcePath = "GAMP/HAT/emulated-isp-residential-testnet/intent.nix";
-  selectedBy = "scripts/select-current-lab.sh HAT emulated-isp-residential-testnet";
+  layer = "SMT";
+  selector = "FS-650-HDS-010-SDS-010-SMS-020";
+  traceId = "FS-650-HDS-010-SDS-010-SMS-020";
+  sourceKind = "intent-source";
+  sourceRoot = "GAMP/SMT/FS-650-HDS-010-SDS-010-SMS-020";
+  sourcePath = "GAMP/SMT/FS-650-HDS-010-SDS-010-SMS-020/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT FS-650-HDS-010-SDS-010-SMS-020";
 }
