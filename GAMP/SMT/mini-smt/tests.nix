@@ -11133,6 +11133,26 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-500-HDS-010-SDS-010-SMS-050" = {
+      id = "FS-500-HDS-010-SDS-010-SMS-050";
+      traceId = "FS-500-HDS-010-SDS-010-SMS-050";
+      rowDirectories = {
+        SDS = ../../SDS/FS-500-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-500-HDS-010-SDS-010-SMS-050;
+        SMT = ../FS-500-HDS-010-SDS-010-SMS-050;
+        SIT = ../../SIT/FS-500-HDS-010-SDS-010;
+      };
+      source = null;
+      evidenceLevels = [ "SMT" ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "tests/test-active-lab-mini-smt-p2p-bridge-colocation.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "FS-500-HDS-010-SDS-010-SMS-050 p2p bridge co-location: both endpoints of one modeled p2p selector fabric link share the same runtime L2 attachment";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-510-HDS-010-SDS-010-SMS-040" = {
       id = "FS-510-HDS-010-SDS-010-SMS-040";
       traceId = "FS-510-HDS-010-SDS-010-SMS-040";
