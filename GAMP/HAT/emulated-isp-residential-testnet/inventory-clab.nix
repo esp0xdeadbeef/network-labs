@@ -397,6 +397,19 @@ withSatEspRuntimeTargets (selectorFabricLinkRealization {
             parent = "eth0";
             upstream = "isp-b";
           };
+          wan = {
+            bridge = "br-uplink1";
+            ipv4 = {
+              dhcp = true;
+              method = "dhcp";
+            };
+            ipv6 = {
+              acceptRA = true;
+              method = "slaac";
+            };
+            parent = "eth0";
+            upstream = "wan";
+          };
           uplink-testnet-host-isp = {
             bridge = "br-t-host";
             ipv4 = {

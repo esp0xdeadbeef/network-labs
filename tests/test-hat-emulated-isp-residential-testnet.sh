@@ -543,6 +543,16 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "NixOS routed testnet ISP must not use renderer NAT mode"
     && require (!(nixosHost.uplinks.uplink-testnet-host-isp ? mode))
       "NixOS host testnet ISP must not use renderer NAT mode"
+    && require ((clabHost.uplinks.wan.bridge or null) == "br-uplink1")
+      "CLAB SAT-compat legacy wan uplink must use the legacy br-uplink1 bridge"
+    && require ((clabHost.uplinks.wan.ipv4.method or null) == "dhcp")
+      "CLAB SAT-compat legacy wan uplink must remain DHCPv4, not inherit HAT static BGP"
+    && require ((clabHost.uplinks.wan.ipv6.method or null) == "slaac")
+      "CLAB SAT-compat legacy wan uplink must remain SLAAC, not inherit HAT static BGP"
+    && require (!(clabHost.uplinks.wan ? mode))
+      "CLAB SAT-compat legacy wan uplink must not use renderer NAT mode"
+    && require (!(clabHost.uplinks.wan ? vlan))
+      "CLAB SAT-compat legacy wan uplink must not be tagged through HAT BGP VLAN"
     && require ((nixosHost.uplinks.uplink-isp-a.bridge or null) == "br-uplink0")
       "NixOS HAT core internet uplink must use br-uplink0"
     && require ((nixosHost.uplinks.uplink-isp-a.mode or null) == "vlan")
