@@ -1,4 +1,5 @@
 let
+  source = import ../GAMP/SMT/FS-800-HDS-010-SDS-010-SMS-010/inventory-test-clients.nix;
   managementVlan2 = {
     bridge = "vlan2";
     ipv4 = {
@@ -17,36 +18,24 @@ let
     parent = "eth0";
     vlan = 2;
   };
-in
-rec {
-  meta = {
-    traceId = "FS-720-HDS-040-SDS-010-SMS-020";
-    evidenceBoundary = "construction-only";
-    constructionOnly = true;
-  };
-  activeLabConstructionOnly = {
-    traceId = "FS-720-HDS-040-SDS-010-SMS-020";
-    rowDirectory = ../GAMP/SMT/FS-720-HDS-040-SDS-010-SMS-020;
-    evidenceBoundary = "construction-only";
-  };
-  deployment = {
-    hosts = {
-      s-router-nixos = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-clab = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
-      s-router-test-clients = {
-        uplinks.management = managementVlan2;
-        bridgeNetworks = { };
-      };
+  deployment = source.deployment or { };
+  baseDeploymentHosts = (deployment.hosts or { }) // (source.deploymentHosts or { });
+  testClientHost = baseDeploymentHosts.s-router-test-clients or { };
+  managedTestClientHost = testClientHost // {
+    uplinks = (testClientHost.uplinks or { }) // {
+      management = managementVlan2;
     };
   };
-  deploymentHosts = deployment.hosts;
-  endpoints = { };
-  realization = { nodes = { }; };
-  clients = { };
+  deploymentHosts = baseDeploymentHosts // {
+    s-router-test-clients = managedTestClientHost;
+  };
+in
+source // {
+  inherit deploymentHosts;
+  deployment = deployment // {
+    hosts = (deployment.hosts or { }) // deploymentHosts;
+  };
+  realization = (source.realization or { }) // {
+    nodes = ((source.realization or { }).nodes or { });
+  };
 }
