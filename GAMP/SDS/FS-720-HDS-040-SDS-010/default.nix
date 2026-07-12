@@ -9,6 +9,12 @@
       inputKinds = [ "source-reference" ];
       evidenceBoundary = "source-stub-only";
     };
+    "FS-720-HDS-040-SDS-010-SMS-020" = {
+      smsRow = ../../SMS/FS-720-HDS-040-SDS-010-SMS-020;
+      miniSmtIds = [ "canonical-source-stub" ];
+      inputKinds = [ "source-reference" ];
+      evidenceBoundary = "construction-only";
+    };
   };
   templateTests = [
     "tests/test-gamp-canonical-sms-mirror.sh"
