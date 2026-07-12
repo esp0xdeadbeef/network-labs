@@ -1,1 +1,1 @@
-import ../GAMP/HAT/emulated-isp-residential-testnet/intent.nix
+import ../GAMP/SMT/FS-650-HDS-010-SDS-010-SMS-020/intent.nix
