@@ -23,6 +23,13 @@
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
+    "FS-970-HDS-010-SDS-020-SMS-040" = {
+      smtRow = ../../SMT/FS-970-HDS-010-SDS-020-SMS-040;
+      sourcePath = "GAMP/SMT/FS-970-HDS-010-SDS-020-SMS-040/intent.nix";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md";
+      role = "canonical-sms-source-stub";
+      evidenceBoundary = "source-stub-only";
+    };
   };
   evidence = {
     command = null;
