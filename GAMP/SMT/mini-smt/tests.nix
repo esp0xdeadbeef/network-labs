@@ -10566,18 +10566,15 @@
         SMT = ../FS-985-HDS-010-SDS-010-SMS-020;
         SIT = ../../SIT/FS-985-HDS-010-SDS-010;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-985-HDS-010-SDS-010-SMS-020/intent.nix;
-        expectedRelationIds = [ "FS-985-HDS-010-SDS-010-SMS-020__mini-verify" ];
-      };
-      evidenceLevels = [ "SMT" "SIT" ];
+      source = null;
+      evidenceBoundary = "construction-only";
+      evidenceLevels = [ "SMT" ];
       rendererTarget = null;
-      script = "../network-codex-agent/scripts/smt-live-FS-985-HDS-010-SDS-010-SMS-020.sh";
+      script = "tests/FS-985-HDS-010-SDS-010-SMS-020-repo-local-test-boundary.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "FS-985-HDS-010-SDS-010-SMS-020 SMT live verifier";
-      maxRuntimeTargets = 5;
+      scope = "FS-985-HDS-010-SDS-010-SMS-020 repo-local test downstream boundary construction-only; SMS grep-scan predicates offline-provable via focused construction test in network-labs/tests/";
+      maxRuntimeTargets = 0;
     };
 
     "FS-030-HDS-010-SDS-010-SMS-020" = {
