@@ -10053,6 +10053,30 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-970-HDS-010-SDS-020-SMS-040" = {
+      id = "FS-970-HDS-010-SDS-020-SMS-040";
+      traceId = "FS-970-HDS-010-SDS-020-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-970-HDS-010-SDS-020;
+        SMS = ../../SMS/FS-970-HDS-010-SDS-020-SMS-040;
+        SMT = ../FS-970-HDS-010-SDS-020-SMS-040;
+        SIT = ../../SIT/FS-970-HDS-010-SDS-020;
+      };
+      source = {
+        kind = "intent-source";
+        intent = ../FS-970-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-970-HDS-010-SDS-020-SMS-040__mini-verify" ];
+      };
+      evidenceBoundary = "construction-only";
+      evidenceLevels = [ "SMT" ];
+      rendererTarget = null;
+      script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "FS-970-HDS-010-SDS-020-SMS-040 SMT live verifier (construction-only; owning-repo focused tests)";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-980-HDS-010-SDS-010-SMS-010" = {
       id = "FS-980-HDS-010-SDS-010-SMS-010";
       traceId = "FS-980-HDS-010-SDS-010-SMS-010";
