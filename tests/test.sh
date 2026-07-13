@@ -76,6 +76,7 @@ tests=(
   test-fs860-fs870-sat-state-contract.sh
   test-fs880-lease-namespace-source-contract.sh
   test-fs910-fs920-fs930-sat-source-contracts.sh
+  FS-985-HDS-010-SDS-010-SMS-020-repo-local-test-boundary.sh
   test-s-sigma-pppoe-upstream-emulation-source.sh
   test-s-sigma-provider-access-source-module-boundary.sh
   FS-800-HDS-010-SDS-012-SMS-010-provider-access-non-authority.sh
