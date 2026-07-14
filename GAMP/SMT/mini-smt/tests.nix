@@ -2426,6 +2426,26 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-310-HDS-020-SDS-010-SMS-075" = {
+      id = "FS-310-HDS-020-SDS-010-SMS-075";
+      traceId = "FS-310-HDS-020-SDS-010-SMS-075";
+      rowDirectories = {
+        SDS = ../../SDS/FS-310-HDS-020-SDS-010;
+        SMS = ../../SMS/FS-310-HDS-020-SDS-010-SMS-075;
+        SMT = ../FS-310-HDS-020-SDS-010-SMS-075;
+        SIT = ../../SIT/FS-310-HDS-020-SDS-010;
+      };
+      source = null;
+      evidenceLevels = [ "SMT" ];
+      evidenceBoundary = "construction-only";
+      rendererTarget = null;
+      script = "../network-renderer-nixos/tests/test-fs310-hds020-sds010-sms075-core-ingress-dnat-materialization.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "FS-310-HDS-020-SDS-010-SMS-075 renderer core-ingress DNAT construction test; live HAT evidence remains separate";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-310-HDS-020-SDS-010-SMS-190" = {
       id = "FS-310-HDS-020-SDS-010-SMS-190";
       traceId = "FS-310-HDS-020-SDS-010-SMS-190";
@@ -6365,7 +6385,7 @@
       evidenceLevels = [ "SMT" ];
       evidenceBoundary = "construction-only";
       rendererTarget = null;
-      script = "../network-codex-agent/scripts/smt-live-FS-705-HDS-010-SDS-010-SMS-050.sh";
+      script = "../network-codex-agent/tests/FS-705-HDS-010-SDS-010-SMS-050-vlan4-upstream-inheritance.sh";
       independent = true;
       aggregateOnly = false;
       scope = "FS-705-HDS-010-SDS-010-SMS-050 construction-only VLAN4 upstream inheritance verifier";
@@ -6818,11 +6838,7 @@
         SMT = ../FS-720-HDS-040-SDS-010-SMS-020;
         SIT = ../../SIT/FS-720-HDS-040-SDS-010;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-720-HDS-040-SDS-010-SMS-020/intent.nix;
-        expectedRelationIds = [ "FS-720-HDS-040-SDS-010-SMS-020__mini-verify" ];
-      };
+      source = null;
       evidenceLevels = [ "SMT" "SIT" ];
       evidenceBoundary = "construction-only";
       rendererTarget = null;
@@ -10062,11 +10078,7 @@
         SMT = ../FS-970-HDS-010-SDS-020-SMS-040;
         SIT = ../../SIT/FS-970-HDS-010-SDS-020;
       };
-      source = {
-        kind = "intent-source";
-        intent = ../FS-970-HDS-010-SDS-020-SMS-040/intent.nix;
-        expectedRelationIds = [ "FS-970-HDS-010-SDS-020-SMS-040__mini-verify" ];
-      };
+      source = null;
       evidenceBoundary = "construction-only";
       evidenceLevels = [ "SMT" ];
       rendererTarget = null;

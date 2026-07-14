@@ -68,6 +68,13 @@ run_suite() {
       continue
     fi
 
+    if [[ "${test_name}" == "test-hat-policy-nft-rules.sh" && "${NETWORK_LABS_RUN_HAT_EVIDENCE_COMMANDS:-0}" != "1" ]]; then
+      skipped=$((skipped + 1))
+      printf 'TEST: %s SKIP reason=live-hat-evidence-after-runtime-readiness opt_in=NETWORK_LABS_RUN_HAT_EVIDENCE_COMMANDS=1\n' "${test_name}"
+      rm -f "${log_file}"
+      continue
+    fi
+
     if NETWORK_REPO_DIRECT_TEST_OK=1 bash "${test_file}" >"${log_file}" 2>&1; then
       passed=$((passed + 1))
       printf 'TEST: %s PASS\n' "${test_name}"
