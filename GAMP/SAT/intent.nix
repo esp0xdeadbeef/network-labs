@@ -1,6 +1,52 @@
 # SAT-SRC-INTENT-001: URS-190 / URS-190-FS-010. This is the controlled
 # s-router SAT intent source. Examples under network-labs/examples are
 # lower-layer fixtures only and are not SAT source evidence by themselves.
+let
+  # FS-180-HDS-010-SDS-010-SMS-010: these controlled SAT relations make an
+  # explicit one-way decision. Stateful replies remain covered by the generic
+  # established/related rule; public-ingress relations retain their separately
+  # modeled nested stateful-return authority.
+  explicitOneWayRelationIds = [
+    "allow-admin-to-mgmt"
+    "allow-clab-overlay-icmp-anywhere"
+    "allow-clab-site-dns-service-to-wan"
+    "allow-clab-wan-icmp-anywhere"
+    "allow-client-to-cast-control"
+    "allow-client-to-cast-discovery"
+    "allow-east-west-to-site-dns"
+    "allow-hetz-client-to-dmz-dns"
+    "allow-hetz-client-to-wan"
+    "allow-hetz-dns-service-to-east-west"
+    "allow-hetz-dns-service-to-wan"
+    "allow-hetz-overlay-icmp-anywhere"
+    "allow-hetz-wan-icmp-anywhere"
+    "allow-hostile-dns-to-hetz-public-dns"
+    "allow-hostile-egress-to-hetz-overlay"
+    "allow-hostile-overlay-egress-to-wan"
+    "allow-nebula-runtime-underlay-to-uplinks"
+    "allow-nebula-underlay-to-uplinks"
+    "allow-nebula-underlay-to-wan"
+    "allow-normal-tenants-to-clab-dns"
+    "allow-normal-tenants-to-wan"
+    "allow-overlay-to-hostile-public-dns"
+    "allow-site-dns-service-to-uplinks"
+    "allow-site-overlay-icmp-anywhere"
+    "allow-site-wan-icmp-anywhere"
+    "allow-tenants-to-site-dns"
+    "allow-user-tenants-to-uplinks"
+    "allow-wan-to-wireguard-host128"
+    "allow-wan-to-wireguard-routed64"
+    "allow-wireguard-host128-provider-control-to-wan"
+    "allow-wireguard-host128-provider-egress-to-wan"
+    "allow-wireguard-routed64-public-ingress-to-hetz-client"
+  ];
+
+  withExplicitReturnBehavior = relation:
+    if builtins.elem (relation.id or null) explicitOneWayRelationIds then
+      relation // { returnBehavior = "one-way"; }
+    else
+      relation;
+in
 {
   esp = {
     # SAT-SRC-INTENT-NIXOS-SITE: s-router SAT behavior source for the NixOS
@@ -168,7 +214,7 @@
           tenant-mgmt = "mgmt";
           tenant-streaming = "streaming";
         };
-        relations = [
+        relations = map withExplicitReturnBehavior [
           {
             action = "allow";
             from = {
@@ -1056,7 +1102,7 @@
           tenant-client = "client";
           tenant-dmz = "dmz";
         };
-        relations = [
+        relations = map withExplicitReturnBehavior [
           {
             action = "allow";
             from = {
@@ -1949,7 +1995,7 @@
           tenant-mgmt = "mgmt";
           tenant-streaming = "streaming";
         };
-        relations = [
+        relations = map withExplicitReturnBehavior [
           {
             action = "allow";
             from = {

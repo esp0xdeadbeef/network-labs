@@ -18,6 +18,7 @@
               uplinks = [ "internet-vlan4" ];
             };
             trafficType = "any";
+            returnBehavior = "one-way";
             priority = 100;
           } ];
         services = [];
