@@ -151,6 +151,149 @@ nix eval --impure --expr '
     sn2RecoveryInput = sn2Input // { hairpinAuthorized = true; };
     sn2RecoveryPass = (builtins.tryEval (validateHairpinBinding "SN2-recovery" sn2RecoveryInput)).success;
 
+    # ── SMS-020 translation decision emission ──
+    # Module emission surface for the explicit no-translation decision and the
+    # tuple-owned translation contract. translationMode = "none" is an explicit
+    # no-translation decision: no DNAT, SNAT, or masquerade primitive may be
+    # requested for that tuple. A DNAT-capable mode emits a translation
+    # contract only when the tuple supplies the translated endpoint,
+    # sourcePreservation, and return fields.
+    dnatCapableModes = [ "napt" "nat" "nat66" ];
+
+    emitTranslationDecision = rowName: row:
+      let
+        tm = row.translationMode or null;
+      in
+      if tm == "none" then
+        {
+          decision = "no-translation";
+          ingressPath = rowName;
+          owner = rowName;
+          translationPrimitives = [ ];
+        }
+      else if builtins.elem tm dnatCapableModes then
+        let
+          te = row.translatedEndpoint or null;
+          sp = row.sourcePreservation or null;
+          rp = row.returnPath or null;
+        in
+        if te == null then
+          failForwarding "${rowName}.translatedEndpoint"
+            "MISSING_TRANSLATED_ENDPOINT: translationMode=${tm} requires an explicit translated endpoint before a translation contract may be emitted"
+        else if sp == null || !builtins.elem sp [ "preserved" "rewritten" ] then
+          failForwarding "${rowName}.sourcePreservation"
+            "MISSING_SOURCE_PRESERVATION: translationMode=${tm} requires explicit sourcePreservation before a translation contract may be emitted"
+        else if rp == null || rp == "" then
+          failForwarding "${rowName}.returnPath"
+            "MISSING_RETURN_FIELDS: translationMode=${tm} requires explicit return fields before a translation contract may be emitted"
+        else
+          {
+            decision = "translation-contract";
+            ingressPath = rowName;
+            owner = rowName;
+            mode = tm;
+            sourcePreservation = sp;
+            returnPath = rp;
+            translatedEndpoint = te;
+            translationPrimitives =
+              [ "dnat" ] ++ (if sp == "rewritten" then [ "snat" ] else [ ]);
+          }
+      else
+        failForwarding "${rowName}.translationMode"
+          "AMBIGUOUS_TRANSLATION_MODE: cannot emit a translation decision without an explicit translationMode (none or a DNAT-capable mode)";
+
+    translationPrimitiveNames = [ "dnat" "snat" "masquerade" ];
+
+    validateNoTranslationEmission = rowName: row: emitted:
+      if (row.translationMode or null) == "none" then
+        if builtins.any (p: builtins.elem p translationPrimitiveNames)
+          (emitted.translationPrimitives or [ ]) then
+          failForwarding "${rowName}.translationMode"
+            "NO_TRANSLATION_DECISION_VIOLATED: translationMode=none for ingress path ${rowName} but a DNAT/SNAT/masquerade primitive was emitted"
+        else if (emitted.decision or null) != "no-translation" then
+          failForwarding "${rowName}.translationMode"
+            "NO_TRANSLATION_DECISION_VIOLATED: translationMode=none for ingress path ${rowName} requires an explicit no-translation decision"
+        else
+          true
+      else
+        true;
+
+    # ── SMS-020 Seeded Negative 3: Explicit no-translation mode emits DNAT ──
+    # Otherwise complete public-ingress tuple with translationMode = "none".
+    sn3Input = {
+      site = "site-hetz";
+      publicSurface = "hetz-wan";
+      sourceScope = "internet";
+      protocol = "tcp";
+      publicPort = 7777;
+      targetService = "hetz-client-7777";
+      targetEndpoint = "hetz-client01";
+      targetPort = 7777;
+      translationBehavior = "direct";
+      translationMode = "none";
+      returnPath = "hetz-local";
+      asymmetricRouting = false;
+      deniedVariants = [ "wrong-source-scope" "missing-return-path" ];
+      externalProviderRequired = false;
+      localEmulationAllowed = true;
+      policyRefs = [ "allow-wan-to-hetz-client-7777" ];
+    };
+
+    # Good emission: explicit no-translation decision, zero primitives.
+    sn3Decision = emitTranslationDecision "SN3-no-translation" sn3Input;
+    sn3DecisionExplicit =
+      sn3Decision.decision == "no-translation"
+      && sn3Decision.translationPrimitives == [ ]
+      && sn3Decision.ingressPath == "SN3-no-translation";
+    sn3GoodAccepted =
+      (builtins.tryEval
+        (validateNoTranslationEmission "SN3-no-translation" sn3Input sn3Decision)).success;
+
+    # Active negative: a contaminated artifact set that carries a DNAT request
+    # under translationMode=none must be rejected with a diagnostic naming the
+    # ingress path (any translation artifact is a failure).
+    sn3ContaminatedDnat = sn3Decision // { translationPrimitives = [ "dnat" ]; };
+    sn3DnatRejected =
+      !(builtins.tryEval
+        (validateNoTranslationEmission "SN3-no-translation" sn3Input sn3ContaminatedDnat)).success;
+    sn3ContaminatedMasq = sn3Decision // { translationPrimitives = [ "masquerade" ]; };
+    sn3MasqRejected =
+      !(builtins.tryEval
+        (validateNoTranslationEmission "SN3-no-translation" sn3Input sn3ContaminatedMasq)).success;
+    sn3ContaminatedContract = sn3Decision // { decision = "translation-contract"; };
+    sn3ContractRejected =
+      !(builtins.tryEval
+        (validateNoTranslationEmission "SN3-no-translation" sn3Input sn3ContaminatedContract)).success;
+
+    # Recovery: change only the translation mode of the same tuple to an
+    # explicit DNAT-capable mode and supply translated endpoint,
+    # sourcePreservation, and return fields. Only then may the tuple-owned
+    # translation contract emit.
+    sn3RecoveryInput = sn3Input // {
+      translationBehavior = "provider-port-forward";
+      translationMode = "napt";
+      translatedEndpoint = "hetz-client01";
+      sourcePreservation = "rewritten";
+      returnPath = "hetz-local";
+    };
+    sn3RecoveryDecision = emitTranslationDecision "SN3-recovery" sn3RecoveryInput;
+    sn3RecoveryContract =
+      sn3RecoveryDecision.decision == "translation-contract"
+      && sn3RecoveryDecision.mode == "napt"
+      && sn3RecoveryDecision.owner == "SN3-recovery"
+      && sn3RecoveryDecision.sourcePreservation == "rewritten"
+      && sn3RecoveryDecision.returnPath == "hetz-local"
+      && builtins.elem "dnat" sn3RecoveryDecision.translationPrimitives;
+
+    # Guard: explicit selection alone is not enough — a DNAT-capable mode
+    # without the translated endpoint must fail closed, not emit a contract.
+    sn3IncompleteRejected =
+      !(builtins.tryEval
+        (builtins.deepSeq
+          (emitTranslationDecision "SN3-incomplete"
+            (builtins.removeAttrs sn3RecoveryInput [ "translatedEndpoint" ]))
+          true)).success;
+
     # ── Cross-check: all real fixture rows must pass validation ──
     expectedKeys = [
       "site-clab-tcp-4445"
@@ -194,6 +337,34 @@ nix eval --impure --expr '
     # SN2 recovery: Same row with hairpinAuthorized must pass
     && require sn2RecoveryPass
       "SN2 recovery must accept fixture row after adding hairpinAuthorized=true"
+
+    # SN3: translationMode=none must emit an explicit no-translation decision
+    # with zero translation primitives
+    && require sn3DecisionExplicit
+      "SN3 must emit an explicit no-translation decision with no translation primitives for translationMode=none"
+
+    && require sn3GoodAccepted
+      "SN3 no-translation decision with zero primitives must be accepted"
+
+    # SN3 active negative: any DNAT/SNAT/masquerade artifact under
+    # translationMode=none is a failure (NO_TRANSLATION_DECISION_VIOLATED)
+    && require sn3DnatRejected
+      "SN3 must reject a DNAT request emitted for translationMode=none (NO_TRANSLATION_DECISION_VIOLATED)"
+
+    && require sn3MasqRejected
+      "SN3 must reject a masquerade request emitted for translationMode=none (NO_TRANSLATION_DECISION_VIOLATED)"
+
+    && require sn3ContractRejected
+      "SN3 must reject a translation contract emitted for translationMode=none (NO_TRANSLATION_DECISION_VIOLATED)"
+
+    # SN3 recovery: explicit DNAT-capable mode plus translated endpoint,
+    # sourcePreservation, and return fields emits the tuple-owned contract
+    && require sn3RecoveryContract
+      "SN3 recovery must emit tuple-owned translation contract only after explicit DNAT-capable mode with translated endpoint, sourcePreservation, and return fields"
+
+    # SN3 guard: DNAT-capable mode without translated endpoint fails closed
+    && require sn3IncompleteRejected
+      "SN3 guard must fail closed when a DNAT-capable mode lacks the translated endpoint (MISSING_TRANSLATED_ENDPOINT)"
 
     # Boundary: rows with translationBehavior that does NOT use translation
     # (e.g. "direct" or "none") must not require translationMode or sourcePreservation
