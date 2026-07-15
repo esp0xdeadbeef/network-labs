@@ -271,6 +271,135 @@ nix eval --impure --expr '
         require accepted
           "SN2 recovery must accept row with valid ingress policyRef";
 
+    # ── SMS-030 stateful-return source predicate ──
+    # Return authorization is stateful return for the owned forward tuple:
+    # every public-ingress relation in the controlled source requests nested
+    # stateful-return and never carries a conflicting top-level symmetric
+    # return that could be converted into reverse-new-flow authority.
+    ingressRelations = builtins.filter
+      (rel: rel ? publicIngressTupleAuthority)
+      allRelations;
+
+    statefulReturnSource = builtins.all
+      (rel:
+        let
+          nested = (rel.publicIngressTupleAuthority.returnBehavior or null);
+          topLevel = (rel.returnBehavior or null);
+        in
+          if nested != "stateful-return" then
+            failForwarding "${rel.id}.returnBehavior"
+              "STATEFUL_RETURN_SOURCE_GAP: public-ingress relation must request nested returnBehavior = stateful-return, found ${builtins.toJSON nested}"
+          else if topLevel == "symmetric" then
+            failForwarding "${rel.id}.returnBehavior"
+              "REVERSE_NEW_FLOW_AUTHORITY_INVENTION: public-ingress relation carries conflicting top-level symmetric return alongside nested stateful-return"
+          else
+            true)
+      ingressRelations;
+
+    # ── SMS-030 Seeded Negative 3: reverse-new-flow authority invention ──
+    # `returnBehavior = symmetric` converted into an unconditional reverse
+    # interface-pair accept must be rejected. A reverse authorization is
+    # either (A) stateful return for the owned forward tuple (connection-state
+    # restricted) or (B) a distinct modeled reverse relation whose source,
+    # destination, protocol, port, direction, and path are independently
+    # authorized.
+    validateReverseAuthorization = ruleName: record:
+      let
+        isDerivedReturn =
+          (record.returnRule or false) == true
+          || (record.direction or "") == "relation-reverse";
+        connectionState = record.connectionState or "";
+        boundedTupleFields = [ "id" "from" "to" "protocol" "port" "direction" "path" ];
+        missingTupleFields = builtins.filter
+          (field: !(builtins.hasAttr field record))
+          boundedTupleFields;
+      in
+        if isDerivedReturn && connectionState == "" then
+          failForwarding "${ruleName}.reverseNewFlow"
+            "REVERSE_NEW_FLOW_AUTHORITY_INVENTION: symmetric return converted into an unconditional reverse interface-pair accept without connection-state restriction — encode stateful return or model a distinct reverse relation"
+        else if isDerivedReturn && connectionState != "established,related" then
+          failForwarding "${ruleName}.reverseNewFlow"
+            "REVERSE_NEW_FLOW_AUTHORITY_INVENTION: derived return must be connection-state restricted to established,related, found ${builtins.toJSON connectionState}"
+        else if !isDerivedReturn && missingTupleFields != [] then
+          failForwarding "${ruleName}.reverseNewFlow"
+            "REVERSE_NEW_FLOW_AUTHORITY_INVENTION: distinct reverse relation is missing independently authorized tuple field(s): ${builtins.concatStringsSep ", " missingTupleFields}"
+        else
+          true;
+
+    ingressRel = if ingressRelations == [] then null else builtins.head ingressRelations;
+
+    # SN3: reverse interface-pair accept derived from symmetric return with
+    # the connection-state restriction stripped — must be rejected.
+    sn3 = if ingressRel == null then true else
+      let
+        unsafeReverse = {
+          id = ingressRel.id;
+          from = ingressRel.to;
+          to = ingressRel.from;
+          direction = "relation-reverse";
+          returnRule = true;
+        };
+        rejected = !(builtins.tryEval
+          (validateReverseAuthorization "SN3-unconditional-reverse-accept" unsafeReverse
+           || throw "SN3 must not pass")).success;
+      in
+        require rejected
+          "SN3 must reject symmetric return converted into an unconditional reverse interface-pair accept (REVERSE_NEW_FLOW_AUTHORITY_INVENTION)";
+
+    # SN3 Recovery A: stateful return for the owned forward tuple.
+    sn3RecoveryStateful = if ingressRel == null then true else
+      let
+        statefulReverse = {
+          id = ingressRel.id;
+          from = ingressRel.to;
+          to = ingressRel.from;
+          direction = "relation-reverse";
+          returnRule = true;
+          connectionState = "established,related";
+        };
+        accepted = (builtins.tryEval
+          (validateReverseAuthorization "SN3-recovery-stateful-return" statefulReverse)).success;
+      in
+        require accepted
+          "SN3 recovery A must accept a connection-state restricted stateful return";
+
+    # SN3 Recovery B: distinct modeled reverse relation with its own bounded
+    # tuple — source, destination, protocol, port, direction, and path
+    # independently authorized.
+    sn3RecoveryDistinct = if ingressRel == null then true else
+      let
+        distinctReverse = {
+          id = "${ingressRel.id}-reverse-bounded";
+          from = ingressRel.to;
+          to = ingressRel.from;
+          protocol = "tcp";
+          port = 4444;
+          direction = "relation-forward";
+          path = "hetz-east-west";
+        };
+        accepted = (builtins.tryEval
+          (validateReverseAuthorization "SN3-recovery-distinct-relation" distinctReverse)).success;
+      in
+        require accepted
+          "SN3 recovery B must accept a distinct reverse relation with an independently authorized bounded tuple";
+
+    # SN3 Recovery B guard: an incomplete reverse relation (unbounded tuple)
+    # must still be rejected — the recovery is not a blanket allow.
+    sn3DistinctIncomplete = if ingressRel == null then true else
+      let
+        unboundedReverse = {
+          id = "${ingressRel.id}-reverse-unbounded";
+          from = ingressRel.to;
+          to = ingressRel.from;
+          direction = "relation-forward";
+        };
+        rejected = !(builtins.tryEval
+          (validateReverseAuthorization "SN3-distinct-unbounded" unboundedReverse
+           || throw "SN3 unbounded distinct relation must not pass")).success;
+      in
+        require rejected
+          "SN3 must reject a distinct reverse relation whose tuple is not independently bounded (missing protocol/port/path)";
+
     # ── Cross-check all real fixture rows ──
     expectedKeys = [
       "site-clab-tcp-4445"
@@ -307,6 +436,21 @@ nix eval --impure --expr '
 
     # SN2 recovery: valid ingress policyRef must pass
     && sn2Recovery
+
+    # Source predicate: public-ingress return authority is nested stateful-return
+    && statefulReturnSource
+
+    # SN3: reverse-new-flow authority invention must be rejected
+    && sn3
+
+    # SN3 recovery A: stateful return encoding must pass
+    && sn3RecoveryStateful
+
+    # SN3 recovery B: distinct bounded reverse relation must pass
+    && sn3RecoveryDistinct
+
+    # SN3 recovery B guard: unbounded distinct reverse relation must be rejected
+    && sn3DistinctIncomplete
 ' >/dev/null
 
 echo "PASS FS-230-HDS-010-SDS-010-SMS-030 public ingress return authority separation"
