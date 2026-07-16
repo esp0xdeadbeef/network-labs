@@ -17,6 +17,7 @@
               kind = "external";
               uplinks = [ "internet-vlan4" ];
             };
+            returnBehavior = "one-way";
             trafficType = "any";
             priority = 100;
           } ];
