@@ -10078,15 +10078,19 @@
         SMT = ../FS-970-HDS-010-SDS-020-SMS-040;
         SIT = ../../SIT/FS-970-HDS-010-SDS-020;
       };
-      source = null;
-      evidenceBoundary = "construction-only";
+      source = {
+        kind = "intent-source";
+        intent = ../FS-970-HDS-010-SDS-020-SMS-040/intent.nix;
+        expectedRelationIds = [ "FS-970-HDS-010-SDS-020-SMS-040__mini-verify" ];
+      };
+      evidenceBoundary = "live-protected-reservation";
       evidenceLevels = [ "SMT" ];
       rendererTarget = null;
       script = "../network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "FS-970-HDS-010-SDS-020-SMS-040 SMT live verifier (construction-only; owning-repo focused tests)";
-      maxRuntimeTargets = 0;
+      scope = "FS-970-HDS-010-SDS-020-SMS-040 protected SOPS-backed dual-stack reservation verifier";
+      maxRuntimeTargets = 5;
     };
 
     "FS-980-HDS-010-SDS-010-SMS-010" = {

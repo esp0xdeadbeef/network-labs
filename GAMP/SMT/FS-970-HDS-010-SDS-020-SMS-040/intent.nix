@@ -6,9 +6,10 @@
           external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
-        relations = [ {
+          relations = [ {
             id = "FS-970-HDS-010-SDS-020-SMS-040__mini-verify";
             action = "allow";
+            returnBehavior = "stateful-return";
             from = {
               kind = "tenant";
               name = "client";

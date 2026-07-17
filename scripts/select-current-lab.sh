@@ -889,6 +889,21 @@ write_default_sops() {
   write_empty_sops "sops-routing-s-router-hetz.nix" "s-router-hetz"
 }
 
+write_smt_row_sops_overrides() {
+  local row_dir="$1"
+  local target
+
+  for target in \
+    sops-routing-s-router-clab.nix \
+    sops-routing-s-router-nixos.nix \
+    sops-routing-s-router-test-clients.nix \
+    sops-routing-s-router-hetz.nix; do
+    if [[ -f "${repo_root}/${row_dir}/${target}" ]]; then
+      write_import "${target}" "../${row_dir}/${target}"
+    fi
+  done
+}
+
 write_wireguard_sops_nixos() {
   local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
   write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
@@ -1333,6 +1348,7 @@ select_smt() {
   if [[ "${source_kind}" == "construction-only" ]]; then
     write_construction_only_stub "${trace}" "${row_dir}"
     write_default_sops
+    write_smt_row_sops_overrides "${row_dir}"
     write_current_host_entrypoints
     write_metadata "SMT" "${trace}" "${trace}" "${source_kind}" "${row_dir}" "${row_dir}/default.nix" "${selected_by}"
     return 0
@@ -1360,6 +1376,7 @@ select_smt() {
     write_default_hetz_inventory
   fi
   write_default_sops
+  write_smt_row_sops_overrides "${row_dir}"
   write_current_host_entrypoints
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
