@@ -1,0 +1,11 @@
+{
+  "comment": "FS-950-HDS-010-SDS-010-SMS-050 source baseline pins. Derived only from versioned repository lock metadata: nixos repo flake.lock *-prod input nodes (s-router-prod production stack). No running host, VM, service, runtime path, or secret store was inspected.",
+  "derivedFrom": "versioned nixos repo flake.lock (-prod input nodes)",
+  "pins": {
+    "network-compiler": "878f54c735165d37f73156a445cbe688db743f0a",
+    "network-control-plane-model": "c2d6ea82cda48cb13afcef1f6e346a69d8eea2d7",
+    "network-forwarding-model": "c351590f7d47791b0da2c6b7caac54cefa60334a",
+    "network-renderer-nixos": "e9bf98b526275f2d5e01ac28ca0aaee79d875723",
+    "nixos-network-compiler": "878f54c735165d37f73156a445cbe688db743f0a"
+  }
+}

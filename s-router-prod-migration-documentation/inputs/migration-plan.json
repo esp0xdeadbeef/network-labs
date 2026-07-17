@@ -1,0 +1,42 @@
+{
+  "comment": "FS-950-HDS-010-SDS-010-SMS-050 ordered offline migration plan with backup, checksum, idempotence, rollback and abort. Documentation/planning only: every step is a future, separately authorized maintenance operation. No step is executed by the module or its construction test.",
+  "steps": [
+    "Freeze the source baseline: record the versioned nixos repo flake.lock *-prod input nodes as the source pin manifest (already captured in inputs/source-pins.json).",
+    "Bump flake.lock to the candidate coherent target pin set (flake.nix keeps floating refs per FS-985; flake.lock stays the sole authoritative revision-pinning surface).",
+    "Build the candidate offline artifact from the target pins without registering or starting any image.",
+    "Review this documentation package (parity matrix, override disposition ledger, semantic deltas, durable-state map) as the offline artifact review gate.",
+    "Authorize and perform the separately approved export of durable state into the declared offline-export root (Kea leases per VLAN, redacted reservation-override references, Nebula secret references); record sha256 checksums in the provenance manifest.",
+    "Verify exported artifact checksums against the provenance manifest before any restore is planned.",
+    "Define the s-tau canary VM from the candidate artifact with autoStart=false; do not start it from this plan.",
+    "After explicit human approval recorded outside this package, schedule the production migration as a separately authorized maintenance operation: restore durable state to the identical path classes, regenerate all derived configuration from the target pins, and re-verify checksums.",
+    "Re-run the offline parity predicates (Nebula 4242 ingress, stateful return semantics, policy routes, QEMU NIC cardinality, Kea state locations, secret-reference preservation, host/container equivalence) against the regenerated artifact before declaring the migration attempt complete."
+  ],
+  "rollback": {
+    "steps": [
+      "Stop the migration attempt at the failed step; do not proceed to later steps.",
+      "Restore flake.lock to the recorded source pin manifest revision set (inputs/source-pins.json).",
+      "Restore durable state from the backup artifacts in the declared offline-export root to their identical source path classes.",
+      "Re-verify every restored artifact against its recorded sha256 checksum before declaring rollback complete.",
+      "Regenerate derived configuration from the restored source pins; never restore generated routes, nftables, networkd, renderer output, Nix store paths, or VM images as authoritative data."
+    ],
+    "backupArtifacts": [
+      "offline-export/kea-leases-<vlan>.tar",
+      "offline-export/kea-reservation-overrides.redacted.json",
+      "offline-export/nebula-secret-references.json",
+      "versioned repo history at the source pin revisions (flake.lock lineage)"
+    ],
+    "idempotenceKeys": [
+      "kea-leases-per-vlan-memfile-v1",
+      "kea-reservation-overrides-refs-v1",
+      "nebula-secret-references-v1",
+      "qemu-contract-parity-v1",
+      "flake-lock-source-pin-set-v1"
+    ],
+    "checksumVerification": "sha256 comparison of every restored artifact against the checksums recorded in the provenance manifest of the declared offline-export root; a mismatch stops the rollback step and escalates to the abort plan"
+  },
+  "abort": {
+    "trigger": "any failed checksum verification, missing backup artifact, unclassified override encountered mid-plan, or unapproved semantic delta discovered during review",
+    "procedure": "halt all remaining steps, keep the source baseline pins authoritative, leave durable state untouched, and route the finding back to this documentation package for a new review cycle",
+    "authority": "abort requires no approval; resuming after abort requires a new explicit human authorization recorded outside this package"
+  }
+}
