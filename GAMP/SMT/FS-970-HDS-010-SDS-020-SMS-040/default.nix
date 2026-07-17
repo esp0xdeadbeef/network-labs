@@ -13,10 +13,10 @@
     };
     evidenceBoundary = "live-protected-reservation";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = "FS970_ENROLLMENT_IDENTITY_FILE=<protected-file> FS970_ENROLLMENT_IPV6_FILE=<protected-file> network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
+    command = "network-codex-agent/tests/test-sit-FS-970-HDS-010-SDS-020-protected-reservation-live.sh with row-owned protected enrollment inputs";
     focusedTest = "network-codex-agent/tests/test-smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
-    observedResult = "The s-router-nixos and reservation-probe branch passed. The separate VLAN398 s-router-clab and reservation-probe-clab branch is construction-complete but remains NOT OK until real identity enrollment and a clean live rebuild prove the same predicates.";
+    observedResult = "After a pushed-revision cold stage, real s-router-nixos/VLAN397 and s-router-clab/VLAN398 branches both passed exact SOPS runtime delivery, UDP 67/547 readiness, stable MAC/DUID/IAID/IID, predictable IPv4/IPv6 leases, zero extra global addresses, and public/build redaction on s-router-test-clients.";
   };
 }

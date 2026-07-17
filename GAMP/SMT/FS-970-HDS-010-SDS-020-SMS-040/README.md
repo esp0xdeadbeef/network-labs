@@ -2,7 +2,8 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
-Status: NOT OK - NixOS passed; the equivalent CLAB live run is pending.
+Status: OK - the same protected-reservation predicate passed live on NixOS and
+CLAB after a controlled cold stage.
 
 This row creates one opaque dual-stack DHCP client on `s-router-test-clients`
 and connects it to the matching access scope on `s-router-nixos` through the
@@ -24,13 +25,10 @@ DUID. The endpoint renderer now requests a link-layer DUID, and the protected
 record was re-enrolled from that real client interface before the successful
 rebuild comparison.
 
-The live recovery also exposed four independent NixOS renderer defects before
-the row could pass: Kea startup raced interface readiness, modeled DHCP ingress
-was absent from the container firewall, out-of-pool protected reservations were
-not enabled, and the DHCPv6 subnet was not bound to its link-local-only access
-interface. The final locked renderer commit `7e7758e2` includes those
-recoveries; the endpoint identity fix is `2e144e5d`, the protected model
-contract is `ad284acb`, and this protected enrollment source is `05df957a`.
+The final locked chain additionally reconciles CLAB Kea after Containerlab has
+installed the definitive interface, requires real UDP 67/547 sockets, requests
+stateful DHCPv6 with a link-layer DUID, and disables temporary IPv6 addresses
+for the deterministic reservation probes.
 
 The redacted live verifier proved:
 
@@ -57,11 +55,10 @@ The production migration procedure derived from this row is documented in
 reservation records encrypted at rest and materializes them only within the
 target runtime boundary.
 
-The row now also defines `s-router-clab` on isolated VLAN 398 with a separate
-`reservation-probe-clab` and encrypted source. Construction proves that the
-current CPM and CLAB renderer emit one read-only secret bind, runtime-only Kea
-DHCPv4/DHCPv6 materialization and managed, non-autonomous RA. This second
-branch remains NOT OK until its real client MAC, link-layer DUID, IAID and IID
-have been enrolled and the same post-rebuild lease predicates pass live.
+The row also defines `s-router-clab` on isolated VLAN 398 with a separate
+`reservation-probe-clab` and encrypted source. Its real MAC, link-layer DUID,
+IAID and IID were enrolled from that interface; after the cold rebuild it
+passed the same exact IPv4/IPv6 lease and redaction predicates as the NixOS
+branch on VLAN 397.
 
 Title slug: `runtime-secret-reservation-materialization`
