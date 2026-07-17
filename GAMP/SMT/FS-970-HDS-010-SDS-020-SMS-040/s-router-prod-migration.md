@@ -31,13 +31,14 @@ or logs.
 
 The migration requires at least these owning-layer revisions:
 
-- `network-forwarding-model` `af528b2` for complete runtime delegated-route
-  identity and derivation metadata through route grouping;
-- `network-control-plane-model` `afadaa3` for both opaque protected
-  reservation-set sources and complete runtime delegated-route metadata; and
-- `network-renderer-nixos` `6d7a2fe` for read-only protected reservation
-  materialization plus runtime derivation of exact delegated tenant-prefix
-  routes.
+- `network-forwarding-model` `58c6ad1` for complete runtime delegated-route
+  metadata and explicit public-ingress target-lane derivation;
+- `network-control-plane-model` `4bf8698` for opaque protected reservation-set
+  sources, complete delegated-route metadata, native public-ingress NAPT and
+  exact per-hop forwarding; and
+- `network-renderer-nixos` `7fa1a85` for protected reservation
+  materialization, runtime delegated-prefix derivation, native public-ingress
+  nftables/route realization, and the `publicIngressNatIntent` capability.
 
 The `*-prod` flake inputs and lock nodes must resolve to those revisions or a
 reviewed descendant containing the same contracts. Update NFM, CPM, and the
@@ -124,6 +125,37 @@ contract. A read-only check of the live mode-`0400` SOPS materializations proved
 one canonical parent and three distinct contained child results; no prefix
 value was printed or retained.
 
+## Native public-ingress migration
+
+The production intent remains the sole authority for the TCP and UDP Nebula
+ingress tuples. Public inventory adds only the explicit VLAN3 selector/policy
+lane realization needed to carry the modeled target path; it contains no
+public-facing address, protected endpoint identity, or secret value.
+
+After pinning the coherent stack above, the NixOS profile shall:
+
+- require `network-renderer-nixos` capability
+  `publicIngressNatIntent = true`;
+- pass the unmodified CPM artifact to the renderer;
+- omit `nebula-public-ingress-hotpatch.nix` and its systemd service;
+- retain the bounded compatibility path only when the pinned renderer does not
+  declare the native capability; and
+- keep public-interface address binding at runtime rather than copying a
+  public-facing address literal into evaluation or the Nix store.
+
+The native output shall contain independent TCP and UDP prerouting DNAT,
+translation-owner forwarding constrained by ingress, egress, DNAT state,
+target `/32`, protocol and target port, the authorized source rewrite, and
+exact target reachability/forwarding through upstream selector, policy,
+downstream selector and access. Unrelated VLAN2 and VLAN7 lanes shall receive
+no public-ingress new-flow rule. Stateful return remains separate from reverse
+new-flow authority.
+
+The 2026-07-17 non-activating production candidate proved that the capability
+is present, the hotpatch service is absent, every profile assertion passes, the
+complete host closure builds, and all seven container rulesets pass isolated
+`nft --check`. No production activation or public traffic probe was performed.
+
 ## Preflight and promotion gates
 
 Before activation:
@@ -147,12 +179,17 @@ Before activation:
    route services. Compare only redacted properties and counts.
 7. Confirm that public source, evaluation output, Nix-store Kea templates,
    diagnostics, and logs contain none of the protected record values.
-8. Obtain explicit production activation and reboot authorization. A successful
+8. Require the native public-ingress capability, zero hotpatch services, exact
+   TCP/UDP DNAT/source rewrite and per-hop target continuity, no unrelated-lane
+   accept, and syntax-valid rulesets for all seven containers.
+9. Obtain explicit production activation and reboot authorization. A successful
    preflight does not grant it.
 
 The 2026-07-17 preflight passed profile evaluation, the full system build, exact
 runtime materialization for both scopes, file-mode checks, and Kea 3.0.3 parser
-validation. It did not activate or reboot `s-router-prod`.
+validation. The later native-ingress candidate also passed the complete host
+build and all seven nftables syntax checks without the hotpatch. Neither
+candidate activated or rebooted `s-router-prod`.
 
 ## Post-activation acceptance
 
@@ -176,8 +213,9 @@ migration complete:
 ## Abort and rollback
 
 Abort before activation if decryption, normalized parity, evaluation, build,
-materialization, route derivation, route-table coverage, Kea parsing, redaction,
-backup, or authorization fails. Do not repair a protected reservation or prefix
+materialization, route derivation, route-table coverage, native-ingress
+continuity, nftables syntax, Kea parsing, redaction, backup, or authorization
+fails. Do not repair a protected reservation, prefix, or public-address binding
 by copying its values into public inventory or a host-local Nix override.
 
 If post-activation acceptance fails, roll back atomically to the backed-up
