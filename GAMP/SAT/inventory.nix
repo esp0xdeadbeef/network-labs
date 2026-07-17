@@ -242,7 +242,10 @@ let
     "mgmt"
     "streaming"
   ];
-  clabEastWestTenants = [ "hostile" ];
+  clabEastWestTenants = [
+    "client"
+    "hostile"
+  ];
 
   # SAT-SRC-INVENTORY-WIREGUARD-PROVIDER-CONTRACTS: controlled WireGuard
   # provider contracts for host-only /128 egress, provider-owned /64 routing,
@@ -3244,6 +3247,28 @@ in
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
           };
+          upstream-dmz-isp-a = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-dmz-a";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
+          };
+          upstream-dmz-isp-b = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-upstream-dmz-isp-b";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-dmz-b";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
+          };
           upstream-hostile-east-west = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
             attach = {
@@ -3386,6 +3411,28 @@ in
               name = "pol-client-b";
             };
             link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
+          };
+          policy-dmz-isp-a = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-dmz-a";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
+          };
+          policy-dmz-isp-b = {
+            adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-policy-dmz-isp-b";
+            attach = {
+              bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-dmz-b";
+            };
+            link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
           };
           policy-hostile-east-west = {
             adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-policy-hostile-east-west";
