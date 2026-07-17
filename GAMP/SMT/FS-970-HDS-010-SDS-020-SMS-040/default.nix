@@ -13,10 +13,10 @@
     };
     evidenceBoundary = "live-protected-reservation";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "live source is present, but no successful SOPS-backed IPv4/IPv6 reservation run has been recorded yet";
+    command = "FS970_ENROLLMENT_IDENTITY_FILE=<protected-file> FS970_ENROLLMENT_IPV6_FILE=<protected-file> network-codex-agent/scripts/smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
+    focusedTest = "network-codex-agent/tests/test-smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
+    observedResult = "SOPS runtime source, stable enrolled interface identity, predictable IPv4 and IPv6 leases, and public/build-template redaction all passed after a clean client rebuild";
   };
 }
