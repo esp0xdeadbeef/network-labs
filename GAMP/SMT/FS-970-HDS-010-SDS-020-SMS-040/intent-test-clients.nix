@@ -37,6 +37,19 @@ let
       };
       gampIds = [ "FS-970-HDS-010-SDS-020-SMS-040" ];
     };
+    reservation-probe-clab = {
+      mode = "dhcp";
+      name = "reservation-probe-clab";
+      bridge = "rsv970-clab";
+      tenant = "client";
+      owningSubstrate = "s-router-test-clients";
+      namespaceOwner = "s-router-test-clients";
+      dhcp = {
+        servedPrefix4 = "10.3.202.0/24";
+        servedPrefix6 = "fd42:03ca:50::/64";
+      };
+      gampIds = [ "FS-970-HDS-010-SDS-020-SMS-040" ];
+    };
   };
 in
 rec {

@@ -10,5 +10,10 @@
       parent = "eth0";
       vlan = 397;
     };
+    bridgeNetworks.rsv970-clab = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 398;
+    };
   };
 }
