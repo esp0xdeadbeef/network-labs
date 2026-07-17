@@ -1,0 +1,11 @@
+{
+  "comment": "FS-950-HDS-010-SDS-010-SMS-050 candidate target pins. User-supplied initial candidate/audit baseline recorded at specification time; parameterized input, not a hardcoded requirement.",
+  "suppliedBy": "user (SMS Initial Candidate / Audit Baseline)",
+  "pins": {
+    "network-compiler": "e2da177f747d295b2616ae26285a0c74aa568772",
+    "network-control-plane-model": "15f8190ebf1ec7319301dbb64ee580539326acb4",
+    "network-forwarding-model": "8894c5413f81d04d1c111e65581eecbe3f804423",
+    "network-renderer-nixos": "ebbb3b0fea48f31ed2f16cd0b3a5cab70001f7e1",
+    "nixos-network-compiler": "e2da177f747d295b2616ae26285a0c74aa568772"
+  }
+}

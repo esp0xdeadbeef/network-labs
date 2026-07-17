@@ -1,0 +1,12 @@
+{
+  "comment": "FS-950-HDS-010-SDS-010-SMS-050 coherent-stack relationship declaration: the target pins form a compatible set (candidate coherent stack evaluated together by the user-supplied candidate build).",
+  "relation": "latest coherent network-stack pin set: compiler, control-plane model, forwarding model, and NixOS renderer locked together via the versioned lab flake.lock lineage; NixOS compiler input tracks network-compiler",
+  "members": [
+    "network-compiler",
+    "network-control-plane-model",
+    "network-forwarding-model",
+    "network-renderer-nixos",
+    "nixos-network-compiler"
+  ],
+  "coherent": true
+}

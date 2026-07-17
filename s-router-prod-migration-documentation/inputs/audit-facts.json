@@ -1,0 +1,60 @@
+{
+  "comment": "FS-950-HDS-010-SDS-010-SMS-050 user-supplied audit facts: override classifications, semantic delta summary, and candidate evaluation observations. Recorded, not validated; no production readiness is claimed from this record.",
+  "overrides": [
+    {
+      "name": "hostName-lib.mkForce",
+      "classification": "remove",
+      "rationale": "audit-fact:candidate-evaluation — effective hostname remains s-router-prod after removing the lib.mkForce hostname override; removal is safe and approved by user audit facts"
+    },
+    {
+      "name": "qemu-mkForce",
+      "classification": "retain",
+      "rationale": "audit-fact:candidate-evaluation — removal adds default user networking and duplicate vmbr4 NICs; retained conservatively"
+    },
+    {
+      "name": "kea-legacy-lease-paths",
+      "classification": "retain",
+      "rationale": "audit-fact:candidate-evaluation — removal loses StateDirectory=kea and /var/lib/kea/<vlan>.leases semantics; retained per FS-860/FS-880 durable-state contracts"
+    },
+    {
+      "name": "nebula-public-ingress-hotpatch",
+      "classification": "retain",
+      "rationale": "audit-fact:candidate-evaluation — removal loses all 4242 DNAT/SNAT/forward rules and required return routes; retained until parity assertions are constructed upstream"
+    },
+    {
+      "name": "reservation-overrides-runtime-secret-bindings",
+      "classification": "retain",
+      "rationale": "audit-fact:candidate-evaluation — reservation overrides bind runtime secret material; retained as protected references, never copied in plaintext"
+    },
+    {
+      "name": "vlan2-vlan3-return-hotpatch",
+      "classification": "conditional",
+      "rationale": "audit-fact:candidate-evaluation — removal is blocked until the exact offline parity predicate for VLAN2->VLAN3 return traffic passes"
+    }
+  ],
+  "semanticDeltas": [
+    {
+      "id": "policy-broad-table-routes",
+      "description": "candidate output loses some broad policy-table routes relative to the current production output",
+      "reference": "audit-fact:2026-07-16-user-candidate-evaluation"
+    },
+    {
+      "id": "stateful-return-rules",
+      "description": "policy and upstream-selector gain correct stateful 'ct state established,related' return rules",
+      "reference": "FS-950-HDS-010-SDS-010-SMS-050"
+    },
+    {
+      "id": "host-container-equivalence",
+      "description": "host networking, the QEMU contract, and the remaining containers stay equivalent within the supplied controlled snapshot",
+      "reference": "audit-fact:2026-07-16-user-candidate-evaluation"
+    }
+  ],
+  "parityObservations": [
+    "candidate is not byte-identical to the current output; every allowed semantic delta carries an owning reference",
+    "Nebula 4242 DNAT/SNAT/forward and return-route assertions were previously missing and are asserted in this package's parity matrix"
+  ],
+  "knownGaps": [
+    "Nebula 4242 DNAT/SNAT/forward and return-route assertions are currently missing upstream and must be asserted before the ingress hotpatch removal can be considered",
+    "VLAN2->VLAN3 return hotpatch removal remains blocked pending the exact offline parity predicate"
+  ]
+}
