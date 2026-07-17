@@ -30,6 +30,11 @@
       dhcp4.tenant-client = {
         dnsServers = [ "router-self" ];
         domain = "lan.";
+        reservationSource = {
+          schema = "gamp-protected-reservation-set-v1";
+          sourceClass = "protected";
+          sourceFile = "/run/secrets/fs970-protected-reservations.json";
+        };
       };
       dhcpv6.tenant-client = {
         dnsServers = [ "router-self" ];
@@ -38,6 +43,11 @@
           start = "fd42:03ca:50::100";
           end = "fd42:03ca:50::1ff";
         };
+        reservationSource = {
+          schema = "gamp-protected-reservation-set-v1";
+          sourceClass = "protected";
+          sourceFile = "/run/secrets/fs970-protected-reservations.json";
+        };
       };
       ipv6Ra.tenant-client = {
         dnssl = [ "lan." ];
@@ -45,7 +55,7 @@
         managed = true;
         otherConfig = true;
         onLink = true;
-        autonomous = true;
+        autonomous = false;
       };
     };
     services.dns = { };
