@@ -22,6 +22,7 @@
               ];
             };
             trafficType = "any";
+            returnBehavior = "stateful-return";
             priority = 100;
           }
         ];

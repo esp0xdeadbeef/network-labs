@@ -20,6 +20,7 @@
               name = "access-dns";
             };
             trafficType = "dns";
+            returnBehavior = "stateful-return";
             priority = 80;
           }
           {
@@ -35,6 +36,7 @@
               uplinks = [ "internet-vlan4" ];
             };
             trafficType = "dns";
+            returnBehavior = "stateful-return";
             priority = 90;
           }
           {
@@ -50,6 +52,7 @@
               uplinks = [ "internet-vlan4" ];
             };
             trafficType = "ipv4-any";
+            returnBehavior = "stateful-return";
             priority = 100;
           }
         ];

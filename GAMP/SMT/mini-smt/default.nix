@@ -747,6 +747,7 @@ in
             name = "access-dns";
           };
           trafficType = "dns";
+          returnBehavior = "stateful-return";
         }
         {
           id = "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet";
@@ -760,6 +761,7 @@ in
             uplinks = [ "testnet-vlan4" ];
           };
           trafficType = "dns";
+          returnBehavior = "stateful-return";
         }
         {
           id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
@@ -773,6 +775,7 @@ in
             uplinks = [ "testnet-vlan4" ];
           };
           trafficType = "any";
+          returnBehavior = "stateful-return";
         }
       ];
       testsOnly = [
