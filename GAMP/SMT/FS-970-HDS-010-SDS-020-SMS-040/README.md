@@ -52,4 +52,9 @@ Public source intentionally contains no per-client reservation handle,
 hostname, MAC, IID, DUID, IAID, or reserved address. Those values belong only
 to the protected runtime source and redacted live evidence.
 
+The production migration procedure derived from this row is documented in
+[`s-router-prod-migration.md`](./s-router-prod-migration.md). It keeps all
+reservation records encrypted at rest and materializes them only within the
+target runtime boundary.
+
 Title slug: `runtime-secret-reservation-materialization`
