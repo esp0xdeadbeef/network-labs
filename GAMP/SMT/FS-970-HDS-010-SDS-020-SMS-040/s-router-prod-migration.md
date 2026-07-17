@@ -1,225 +1,74 @@
-# s-router-prod Protected Reservation Migration
+# s-router-prod: minimale migratienotitie
 
-This note describes how to replace the local VLAN2 and VLAN3 Kea reservation
-overrides in `s-router-prod` with the protected runtime-source contract proven
-by `FS-970-HDS-010-SDS-020-SMS-040`. It is an operator migration record, not a
-module specification and not production activation authorization.
+Dit is een operatornotitie voor de migratie van lokale `s-router-prod`-
+overwrites naar de gepinde `network-*`-keten. Het is geen activatiegoedkeuring.
+De NixOS-wijziging is alleen lokaal gecompileerd vanuit
+`github/.worktrees/nixos-s-router-prod-reservations/`; deze repo is niet gepusht.
 
-## Privacy boundary
+## Pins en verwijderde overwrites
 
-The complete reservation records remain protected. This includes each opaque
-record handle, private hostname or serial-bearing name, MAC address, reserved
-IPv4 address, and every mapping between those fields. Public inventory carries
-only the served scope and these opaque runtime paths:
+De gewone en `*-prod` lock-nodes moeten dezelfde keten gebruiken:
 
-- `/run/secrets/s-router-prod-vlan2-reservations.json`
-- `/run/secrets/s-router-prod-vlan3-reservations.json`
+| Flake-input | Pin | Gevolg |
+| --- | --- | --- |
+| `network-compiler(-prod)` | `e2da177f747d` | compileert de expliciete intent zonder prod-profielinterpretatie |
+| `network-forwarding-model(-prod)` | `58c6ad13d994` | bewaart delegated-prefixmetadata en leidt de public-ingress-doellane af |
+| `network-control-plane-model(-prod)` | `4bf86985903b` | draagt protected reservation-bronnen, runtime prefixafleiding en tuple-scoped ingress door |
+| `nixos-network-compiler(-prod)` | `e2da177f747d` | bindt dezelfde compilerketen aan de NixOS-consument |
+| `network-renderer-nixos(-prod)` | `7fa1a85d1b56` | materialiseert reservations en prefixes pas runtime en rendert native DNAT/SNAT/forwarding |
 
-The corresponding repository files are SOPS binary envelopes:
+Met deze samenhangende pins vervallen drie profielhacks:
 
-- `secrets/s-router-prod-vlan2-reservations.json.age`
-- `secrets/s-router-prod-vlan3-reservations.json.age`
+- `vlan2-kea-reservations-override.nix` en
+  `vlan3-kea-reservations-override.nix`;
+- de lokale `s-router-prod-ipv6-routes` prefixderiver; en
+- `nebula-public-ingress-hotpatch.nix`.
 
-No plaintext conversion file may be created in a repository or Nix store. Kea
-must see the protected addresses and identities in its runtime-local config to
-serve the reservations; the privacy guarantee is that this necessary service
-input is delivered after evaluation inside the target runtime boundary, with
-mode `0600`, and is not published through inventory, build output, diagnostics,
-or logs.
+Dit zegt niet dat iedere overige profieloverride is opgelost. De QEMU-NIC- en
+Kea-leasepadcompatibiliteit vallen buiten deze drie bewezen contracten en mogen
+niet stilzwijgend worden verwijderd.
 
-## Required network stack
+## Protected reservation migreren
 
-The migration requires at least these owning-layer revisions:
+1. Lees de bestaande reservation alleen binnen een mode-`0700` werkdirectory.
+2. Noteer van een echte, geïsoleerde test-clientinterface:
+   - voor IPv4: MAC-adres;
+   - voor IPv6: stabiele IID, link-layer DUID en IAID;
+   - daarnaast een opaque record-ID, private hostname, gereserveerd IPv4-adres
+     en gereserveerd IPv6-adres.
+3. Plaats het volledige record in SOPS. Hostname/serial, adressen en identifiers
+   horen niet in publieke `inventory.nix`, buildoutput, logs of de Nix store.
+4. Public inventory bevat alleen
+   `reservationSource = { schema = "gamp-protected-reservation-set-v1";
+   sourceClass = "protected"; sourceFile = "/run/secrets/..."; };`.
+5. Lever de bron mode `0400` en read-only aan de access-runtime. Alleen de
+   renderer-materializer mag hieruit de runtime Kea-config schrijven.
+6. Vergelijk oud en nieuw met hashes, aantallen en gelijkheidspredicaten; print
+   nooit de records. Verwijder plaintext tijdelijke bestanden.
 
-- `network-forwarding-model` `58c6ad1` for complete runtime delegated-route
-  metadata and explicit public-ingress target-lane derivation;
-- `network-control-plane-model` `4bf8698` for opaque protected reservation-set
-  sources, complete delegated-route metadata, native public-ingress NAPT and
-  exact per-hop forwarding; and
-- `network-renderer-nixos` `7fa1a85` for protected reservation
-  materialization, runtime delegated-prefix derivation, native public-ingress
-  nftables/route realization, and the `publicIngressNatIntent` capability.
+Een willekeurige vendor-DUID is niet voorspelbaar na een rebuild. Gebruik de
+werkelijk opgevraagde link-layer DUID en bewijs na een schone clientrebuild dat
+MAC, DUID, IAID en IID gelijk blijven voordat het record wordt gepromoveerd.
 
-The `*-prod` flake inputs and lock nodes must resolve to those revisions or a
-reviewed descendant containing the same contracts. Update NFM, CPM, and the
-renderer as one coherent set; do not migrate only one side of either interface.
+## Bewijs en toegestane testgrens
 
-## Source conversion
+De URS scheidt controlled-lab bewijs van productie-input. Deze migratie is
+daarom getest op de rij-eigen test-VLAN `397` en documentatieprefixen, nooit op
+VLAN2, een prod-subnet of een publiek productieadres.
 
-Perform conversion only on an authorized target or workstation that can read
-the existing runtime secrets and write the new SOPS recipients. Use a private
-mode-`0700` temporary directory with a cleanup trap.
+| Contract | Context en actuele status |
+| --- | --- |
+| `FS-970-HDS-010-SDS-020-SMS-040` | `OK`: `s-router-nixos` leverde SOPS read-only aan Kea en `s-router-test-clients/reservation-probe` kreeg na rebuild exact voorspelbare IPv4/IPv6; MAC, DUID, IAID en IID bleven stabiel. `s-router-clab` is geen NixOS-Kea-bewijscontext voor deze rij. |
+| `FS-350-HDS-010-SDS-010-SMS-060` | `OK` construction/local-candidate bewijs: complete `/48` -> slot-`/64` metadata, runtime afleiding en geen lokale route-override. Geen productieactivatie. |
+| `FS-310-HDS-020-SDS-010-SMS-075` | `OK` construction/local-candidate bewijs: native TCP/UDP ingress, exacte per-hop route/forwarding en zeven syntaxgeldige rulesets. Geen publieke live probe. |
+| `GAMP/SIT/FS-970-HDS-010-SDS-020` | `NOT OK`: nog source-stub; de praktische SMS-run promoveert de SDS-brede SIT niet. |
+| `GAMP/SIT/FS-350-HDS-010-SDS-010` | Integratiegap: SMS-060 is nog niet als geïntegreerde SIT-input gesloten. |
+| `GAMP/SIT/FS-310-HDS-020-SDS-010` | Integratiegap: SMS-075 is nog niet met een controlled-lab SIT-run gesloten. |
 
-1. Read the existing VLAN2 Kea reservation set and the existing VLAN3 protected
-   MAC source without printing either value.
-2. For each VLAN2 record, create one protected record containing an opaque ID,
-   scope `vlan2`, the existing IPv4 address and MAC address, and the existing
-   hostname when present.
-3. Create the VLAN3 protected record with an opaque ID, scope `vlan3`, its
-   existing modeled reservation address, the existing protected MAC address,
-   and its private hostname.
-4. Reject unknown fields, invalid MAC or address syntax, wrong scope, addresses
-   outside the served subnet, and duplicate IDs, identities, addresses, or
-   hostnames.
-5. Encrypt each validated JSON list directly as a SOPS binary envelope for the
-   repository recipients. Remove all plaintext temporary files before leaving
-   the conversion boundary.
-6. On `s-router-prod`, decrypt the candidate envelopes in a fresh private
-   temporary directory and compare normalized protected records to the existing
-   runtime sources. Emit only equality results and counts, never field values.
+## Uitvoering en rollback
 
-The 2026-07-17 conversion and non-activating preflight proved exact source
-parity for 48 VLAN2 records and one VLAN3 record. Both candidate envelopes were
-decryptable by the production host key; no plaintext values were emitted.
-
-## NixOS profile change
-
-The target profile must:
-
-- declare both SOPS binary envelopes at the exact `/run/secrets/...` paths;
-- set only `reservationSource.sourceFile` on the public VLAN2 and VLAN3 served
-  advertisements;
-- bind-mount each source read-only into its access container;
-- use the renderer-owned runtime materializer as the sole Kea reservation
-  writer;
-- remove `vlan2-kea-reservations-override.nix` and
-  `vlan3-kea-reservations-override.nix`; and
-- retain private VLAN2 A/PTR parity through a separate runtime-only Unbound
-  generator that consumes the same protected source, rather than coupling DNS
-  parity to a Kea post-render hook.
-
-The profile contract must fail evaluation if either protected source, renderer
-materializer, read-only mount, or no-override invariant is absent.
-
-## Delegated-prefix route migration
-
-The existing protected runtime sources remain at:
-
-- `/run/secrets/subnet-ipv6-vlan2`;
-- `/run/secrets/subnet-ipv6-vlan3`; and
-- `/run/secrets/subnet-ipv6-vlan7`.
-
-Each source contains the protected delegated parent, not a public inventory
-literal and not a precomputed tenant destination. Public routed-prefix records
-declare only `sourceFile`, IPv6 family, delegated parent length `/48`, tenant
-length `/64`, tenant identity, and explicit slots `2`, `3`, and `7`. Prefix
-values and members must remain absent from public inventory, evaluation output,
-Nix-store templates, diagnostics, and migration evidence.
-
-With the coherent stack above, NFM and CPM preserve the complete derivation
-record on main-table and policy-table route copies. The renderer validates the
-protected parent and derives only the selected `/64` at runtime. It must fail
-closed on a missing source, wrong family or length, non-canonical parent, or
-invalid slot, without printing the rejected value.
-
-The target NixOS profile must preserve the three SOPS declarations and
-read-only container delivery, enable the renderer capability, and remove the
-host-local `s-router-prod-ipv6-routes` compatibility realization. It must not
-replace missing route metadata with interface-name parsing, a second prefix
-deriver, or static public routes.
-
-The 2026-07-17 non-activating candidate proved 22 complete CPM runtime route
-instances, 39 renderer-native route units, and zero local compatibility units.
-Realized VLAN2/3/7 units used the modeled slots and exact `/48` to `/64`
-contract. A read-only check of the live mode-`0400` SOPS materializations proved
-one canonical parent and three distinct contained child results; no prefix
-value was printed or retained.
-
-## Native public-ingress migration
-
-The production intent remains the sole authority for the TCP and UDP Nebula
-ingress tuples. Public inventory adds only the explicit VLAN3 selector/policy
-lane realization needed to carry the modeled target path; it contains no
-public-facing address, protected endpoint identity, or secret value.
-
-After pinning the coherent stack above, the NixOS profile shall:
-
-- require `network-renderer-nixos` capability
-  `publicIngressNatIntent = true`;
-- pass the unmodified CPM artifact to the renderer;
-- omit `nebula-public-ingress-hotpatch.nix` and its systemd service;
-- retain the bounded compatibility path only when the pinned renderer does not
-  declare the native capability; and
-- keep public-interface address binding at runtime rather than copying a
-  public-facing address literal into evaluation or the Nix store.
-
-The native output shall contain independent TCP and UDP prerouting DNAT,
-translation-owner forwarding constrained by ingress, egress, DNAT state,
-target `/32`, protocol and target port, the authorized source rewrite, and
-exact target reachability/forwarding through upstream selector, policy,
-downstream selector and access. Unrelated VLAN2 and VLAN7 lanes shall receive
-no public-ingress new-flow rule. Stateful return remains separate from reverse
-new-flow authority.
-
-The 2026-07-17 non-activating production candidate proved that the capability
-is present, the hotpatch service is absent, every profile assertion passes, the
-complete host closure builds, and all seven container rulesets pass isolated
-`nft --check`. No production activation or public traffic probe was performed.
-
-## Preflight and promotion gates
-
-Before activation:
-
-1. Confirm both current production secret sources are readable, without
-   displaying their contents.
-2. Back up the active system profile, current encrypted sources, Kea lease
-   state, and private DNS runtime data. Record checksums in protected operator
-   evidence.
-3. Evaluate `nixosConfigurations.s-router-prod` and require exactly two opaque
-   reservation-source references, two renderer materializers, two read-only
-   source mounts, and zero reservation post-render overrides.
-4. Build the complete `s-router-prod` system closure.
-5. In a temporary directory on the production host, decrypt and materialize
-   both candidate sources with the built renderer. Require source-to-output
-   parity, mode `0600`, explicit in-subnet lookup, derived out-of-pool lookup,
-   and successful parsing by the production `kea-dhcp4 -t` executable.
-6. Require complete delegated-route metadata in every CPM route instance,
-   renderer-native runtime route units for every modeled main and policy table,
-   exact slot-derived VLAN2/3/7 `/64` results, and zero host-local compatibility
-   route services. Compare only redacted properties and counts.
-7. Confirm that public source, evaluation output, Nix-store Kea templates,
-   diagnostics, and logs contain none of the protected record values.
-8. Require the native public-ingress capability, zero hotpatch services, exact
-   TCP/UDP DNAT/source rewrite and per-hop target continuity, no unrelated-lane
-   accept, and syntax-valid rulesets for all seven containers.
-9. Obtain explicit production activation and reboot authorization. A successful
-   preflight does not grant it.
-
-The 2026-07-17 preflight passed profile evaluation, the full system build, exact
-runtime materialization for both scopes, file-mode checks, and Kea 3.0.3 parser
-validation. The later native-ingress candidate also passed the complete host
-build and all seven nftables syntax checks without the hotpatch. Neither
-candidate activated or rebooted `s-router-prod`.
-
-## Post-activation acceptance
-
-After authorized activation, run scopes independently before declaring the
-migration complete:
-
-- verify both generator units succeed and the Kea services remain active;
-- compare runtime reservations to the protected sources using redacted equality
-  predicates;
-- renew representative VLAN2 and VLAN3 clients and require their predictable
-  reserved IPv4 addresses;
-- resolve representative private VLAN2 forward and reverse names locally;
-- verify dynamic clients still lease from the modeled pools;
-- verify the exact VLAN2/3/7 routes exist in every modeled main and policy
-  table, the raw delegated parent is not installed as a tenant destination, and
-  routed client traffic uses the intended return path;
-- verify no new public or Nix-store disclosure surface exists; and
-- run the complete post-reboot `s-router` regression loop required by the
-  production cutover process.
-
-## Abort and rollback
-
-Abort before activation if decryption, normalized parity, evaluation, build,
-materialization, route derivation, route-table coverage, native-ingress
-continuity, nftables syntax, Kea parsing, redaction, backup, or authorization
-fails. Do not repair a protected reservation, prefix, or public-address binding
-by copying its values into public inventory or a host-local Nix override.
-
-If post-activation acceptance fails, roll back atomically to the backed-up
-system profile and encrypted source set, restore lease and private DNS state
-when their checksums changed, restart the former services, and re-run the
-pre-migration client checks. Preserve only redacted failure classes in public
-evidence; investigate protected values inside the authorized operator boundary.
+Pin eerst de hele keten, evalueer daarna zonder overrides en bouw de volledige
+lokale kandidaat. Controleer redaction, SOPS-mounts, Kea-parser, afgeleide
+routes en `nft --check`. Activeer pas na afzonderlijke toestemming en gesloten
+SIT/HAT-gates. Bij enige afwijking: niet activeren; behoud het vorige systeem,
+de encrypted bronnen en Kea-state en herstel die atomair.
