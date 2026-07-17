@@ -31,15 +31,17 @@ or logs.
 
 The migration requires at least these owning-layer revisions:
 
-- `network-control-plane-model` `ad284acb58627f3bcb74d6ec423742c571651c57`
-  for an opaque protected reservation-set source on the served advertisement;
-- `network-renderer-nixos` `1ea9d7bad189b7a5db490cf44f81fc5cf45985f3`
-  for read-only runtime delivery, redacted materialization, and mixed in-pool
-  and out-of-pool Kea reservation allocation.
+- `network-forwarding-model` `af528b2` for complete runtime delegated-route
+  identity and derivation metadata through route grouping;
+- `network-control-plane-model` `afadaa3` for both opaque protected
+  reservation-set sources and complete runtime delegated-route metadata; and
+- `network-renderer-nixos` `6d7a2fe` for read-only protected reservation
+  materialization plus runtime derivation of exact delegated tenant-prefix
+  routes.
 
 The `*-prod` flake inputs and lock nodes must resolve to those revisions or a
-reviewed descendant containing the same contract. Do not migrate only one side
-of the CPM-to-renderer interface.
+reviewed descendant containing the same contracts. Update NFM, CPM, and the
+renderer as one coherent set; do not migrate only one side of either interface.
 
 ## Source conversion
 
@@ -88,6 +90,40 @@ The target profile must:
 The profile contract must fail evaluation if either protected source, renderer
 materializer, read-only mount, or no-override invariant is absent.
 
+## Delegated-prefix route migration
+
+The existing protected runtime sources remain at:
+
+- `/run/secrets/subnet-ipv6-vlan2`;
+- `/run/secrets/subnet-ipv6-vlan3`; and
+- `/run/secrets/subnet-ipv6-vlan7`.
+
+Each source contains the protected delegated parent, not a public inventory
+literal and not a precomputed tenant destination. Public routed-prefix records
+declare only `sourceFile`, IPv6 family, delegated parent length `/48`, tenant
+length `/64`, tenant identity, and explicit slots `2`, `3`, and `7`. Prefix
+values and members must remain absent from public inventory, evaluation output,
+Nix-store templates, diagnostics, and migration evidence.
+
+With the coherent stack above, NFM and CPM preserve the complete derivation
+record on main-table and policy-table route copies. The renderer validates the
+protected parent and derives only the selected `/64` at runtime. It must fail
+closed on a missing source, wrong family or length, non-canonical parent, or
+invalid slot, without printing the rejected value.
+
+The target NixOS profile must preserve the three SOPS declarations and
+read-only container delivery, enable the renderer capability, and remove the
+host-local `s-router-prod-ipv6-routes` compatibility realization. It must not
+replace missing route metadata with interface-name parsing, a second prefix
+deriver, or static public routes.
+
+The 2026-07-17 non-activating candidate proved 22 complete CPM runtime route
+instances, 39 renderer-native route units, and zero local compatibility units.
+Realized VLAN2/3/7 units used the modeled slots and exact `/48` to `/64`
+contract. A read-only check of the live mode-`0400` SOPS materializations proved
+one canonical parent and three distinct contained child results; no prefix
+value was printed or retained.
+
 ## Preflight and promotion gates
 
 Before activation:
@@ -105,9 +141,13 @@ Before activation:
    both candidate sources with the built renderer. Require source-to-output
    parity, mode `0600`, explicit in-subnet lookup, derived out-of-pool lookup,
    and successful parsing by the production `kea-dhcp4 -t` executable.
-6. Confirm that public source, evaluation output, Nix-store Kea templates,
+6. Require complete delegated-route metadata in every CPM route instance,
+   renderer-native runtime route units for every modeled main and policy table,
+   exact slot-derived VLAN2/3/7 `/64` results, and zero host-local compatibility
+   route services. Compare only redacted properties and counts.
+7. Confirm that public source, evaluation output, Nix-store Kea templates,
    diagnostics, and logs contain none of the protected record values.
-7. Obtain explicit production activation and reboot authorization. A successful
+8. Obtain explicit production activation and reboot authorization. A successful
    preflight does not grant it.
 
 The 2026-07-17 preflight passed profile evaluation, the full system build, exact
@@ -126,6 +166,9 @@ migration complete:
   reserved IPv4 addresses;
 - resolve representative private VLAN2 forward and reverse names locally;
 - verify dynamic clients still lease from the modeled pools;
+- verify the exact VLAN2/3/7 routes exist in every modeled main and policy
+  table, the raw delegated parent is not installed as a tenant destination, and
+  routed client traffic uses the intended return path;
 - verify no new public or Nix-store disclosure surface exists; and
 - run the complete post-reboot `s-router` regression loop required by the
   production cutover process.
@@ -133,9 +176,9 @@ migration complete:
 ## Abort and rollback
 
 Abort before activation if decryption, normalized parity, evaluation, build,
-materialization, Kea parsing, redaction, backup, or authorization fails. Do not
-repair a protected record by copying its values into public inventory or a
-host-local Nix override.
+materialization, route derivation, route-table coverage, Kea parsing, redaction,
+backup, or authorization fails. Do not repair a protected reservation or prefix
+by copying its values into public inventory or a host-local Nix override.
 
 If post-activation acceptance fails, roll back atomically to the backed-up
 system profile and encrypted source set, restore lease and private DNS state
