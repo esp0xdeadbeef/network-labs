@@ -73,6 +73,7 @@ tests=(
   FS-820-HDS-010-SDS-010-SMS-050.sh
   test-hat-sops-runtime-fact-bindings.sh
   test-fs830-hds010-sds010-sms010-controlled-secret-preparation.sh
+  FS-970-HDS-010-SDS-020-SMS-040-protected-reservation-clab-source.sh
   test-fs860-fs870-sat-state-contract.sh
   test-fs880-lease-namespace-source-contract.sh
   test-fs910-fs920-fs930-sat-source-contracts.sh

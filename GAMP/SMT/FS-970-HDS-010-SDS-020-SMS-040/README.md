@@ -2,7 +2,7 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
-Status: OK - SOPS-backed dual-stack reservation proven after clean rebuild.
+Status: NOT OK - NixOS passed; the equivalent CLAB live run is pending.
 
 This row creates one opaque dual-stack DHCP client on `s-router-test-clients`
 and connects it to the matching access scope on `s-router-nixos` through the
@@ -56,5 +56,12 @@ The production migration procedure derived from this row is documented in
 [`s-router-prod-migration.md`](./s-router-prod-migration.md). It keeps all
 reservation records encrypted at rest and materializes them only within the
 target runtime boundary.
+
+The row now also defines `s-router-clab` on isolated VLAN 398 with a separate
+`reservation-probe-clab` and encrypted source. Construction proves that the
+current CPM and CLAB renderer emit one read-only secret bind, runtime-only Kea
+DHCPv4/DHCPv6 materialization and managed, non-autonomous RA. This second
+branch remains NOT OK until its real client MAC, link-layer DUID, IAID and IID
+have been enrolled and the same post-rebuild lease predicates pass live.
 
 Title slug: `runtime-secret-reservation-materialization`
