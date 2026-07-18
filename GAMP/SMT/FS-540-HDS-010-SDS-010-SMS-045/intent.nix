@@ -251,6 +251,22 @@
           "access-recursive"
         ];
       };
+      returnPath = {
+        source = {
+          kind = "service";
+          name = "local-dns";
+        };
+        destination = {
+          kind = "tenant";
+          name = "recursive-client";
+        };
+        addressFamilies = [
+          "ipv4"
+          "ipv6"
+        ];
+        packetOrigin = "local-service";
+        requiresIngressInterface = false;
+      };
       providerPolicy = {
         source = "local-dns";
         action = "refuse_non_local";

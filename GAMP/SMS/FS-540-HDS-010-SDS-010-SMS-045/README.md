@@ -46,6 +46,16 @@ output-hook-only mark does not pass when the socket fails before packet
 emission; completed recursion does not pass when a process-wide provider
 selector loses the internal reply.
 
+The local-only sharing path is dual stack in both directions. The request must
+leave the local resolver with the modeled `local-dns` service address and
+traverse the declared policy path to the recursive resolver. Its locally
+generated reply has no incoming-interface identity: for IPv4 and IPv6 it must
+select the modeled return path from the `local-dns` source and recursive-client
+destination alone. A populated route table is insufficient when no matching
+local source rule exists; an IPv4-only rule or an `iif`-dependent rule is a
+seeded negative. Acceptance requires a real reverse-zone query from each
+isolated test client to return over the same relation on NixOS and CLAB.
+
 The live protocol must derive the controlled authority endpoints and trust
 material from the staged fixture artifact. A public name, an Internet root
 server, host resolver state, or a transparent recursive proxy is invalid

@@ -188,6 +188,13 @@ in
       \"access-recursive\"
     ];
   }) \"local sharing must declare the exact staged policy request path and symmetric return\"
+  && require (localIntent.returnPath == {
+    source = { kind = \"service\"; name = \"local-dns\"; };
+    destination = { kind = \"tenant\"; name = \"recursive-client\"; };
+    addressFamilies = [ \"ipv4\" \"ipv6\" ];
+    packetOrigin = \"local-service\";
+    requiresIngressInterface = false;
+  }) \"local sharing replies must select a dual-stack relation return path without incoming-interface context\"
   && require (localSharingRelation.from == localIntent.relation.from
     && localSharingRelation.to == localIntent.relation.to
     && localSharingRelation.trafficType == \"dns\"
