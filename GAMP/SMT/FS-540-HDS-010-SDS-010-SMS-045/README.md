@@ -23,6 +23,12 @@ sufficient. The live protocol also proves that the resolver process and
 authorized listeners remain present and that unchanged dynamic next-hop state
 converges without continuous refresh activity.
 
+The selected path is direction-scoped. Under the core resolver's real runtime
+UID, upstream destinations must use the selected provider while internal
+access/client destinations must retain the modeled return path. A process-wide
+UID rule that sends both classes to the provider is a seeded negative, even
+when core completes recursion internally.
+
 The local-only resolver may forward only `lab.` and its modeled reverse zone to
 the recursive access resolver. The opposite reachable direction is also
 source-scoped `refuse_non_local`: local records work, public recursion and
@@ -39,4 +45,5 @@ all three lab guests, verify their new boot/system/source pins, and run the
 row-local live protocol from `network-codex-agent`. Previous 2026-07-03
 IPv4-only evidence is superseded and cannot promote this revised atom. A
 successful launcher or visible route without successful first-attempt
-recursion, persistent listeners, and quiescent route state is also insufficient.
+recursion, an identity-correct internal reply route, persistent listeners, and
+quiescent route state is also insufficient.
