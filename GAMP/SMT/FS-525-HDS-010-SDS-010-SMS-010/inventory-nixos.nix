@@ -17,7 +17,7 @@ let
   };
   p2pPort = link: bridge: interfaceName: {
     inherit link;
-    adapterName = "adp-${traceId}-${interfaceName}";
+    adapterName = "fs525-${interfaceName}";
     attach = {
       kind = "bridge";
       inherit bridge;
