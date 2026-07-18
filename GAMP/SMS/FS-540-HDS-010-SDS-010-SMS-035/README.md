@@ -7,5 +7,8 @@ coverage cannot silently omit it.
 
 Status: Source stub only - not validation evidence.
 
-The canonical SMS title slug is `renderer-dns-nft-materialization`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The canonical SMS title slug is `renderer-dns-nft-materialization`. The
+renderer must preserve the exact emitted relation endpoint and
+forwarding-compatible namespace mode without loopback substitution or local
+rediscovery. Add row-specific lab source and focused validation evidence in
+the SMT/SIT row before marking this trace OK.

@@ -7,5 +7,8 @@ coverage cannot silently omit it.
 
 Status: Source stub only - not validation evidence.
 
-The canonical SMS title slug is `recursive-authority-separation`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The canonical SMS title slug is `recursive-authority-separation`. The revised
+row requires source classification in both reachable lateral resolver
+directions and forbids a static local zone from shadowing an authorized
+forwarded namespace. Add row-specific lab source and focused validation
+evidence in the SMT/SIT row before marking this trace OK.

@@ -1,5 +1,7 @@
 # FS-540-HDS-010-SDS-010-SMS-045 SMT
 
+Status: NOT OK for the revised acceptance atom.
+
 Row-local source for prod-like recursive DNS over the routed selector chain.
 
 This row models the `s-router-prod` IPv4 shape without PPPoE:
@@ -23,7 +25,7 @@ Run:
 tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-045
 ```
 
-Executed evidence:
+Historical evidence for the superseded IPv4-only atom:
 
 - 2026-07-03 locked active-lab full loop passed with
   `S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-540-HDS-010-SDS-010-SMS-045`.
@@ -33,3 +35,8 @@ Executed evidence:
   `prod-like-dns-clab-client01` use `10.54.45.1` as gateway and resolver,
   resolve `cache.nixos.org`, and trace through
   `access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core`.
+
+That run did not prove exact relation-terminal core listeners, IPv6 UDP/TCP,
+bilateral local-only isolation, warning-code parity, multi-egress permutation,
+or a zero-warning valid profile. A new cold stage is required after the owning
+repositories implement those predicates.
