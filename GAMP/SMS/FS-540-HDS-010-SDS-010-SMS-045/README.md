@@ -25,6 +25,9 @@ for the resolver's first upstream route decision, the resolver process and
 authorized listeners to remain present throughout the live protocol, and
 unchanged dynamic next-hop state to converge to stable, quiescent operation.
 Selected egress applies only to upstream resolver-origin requests: a route
-probe under the resolver UID must still send replies for internal access/client
-destinations over the modeled relationship return path. Completed recursion on
-core does not pass when a process-wide provider selector loses that reply.
+probe under the resolver UID plus UDP/TCP destination port 53 must select the
+provider during the initial socket route lookup, while replies for internal
+access/client destinations retain the modeled relationship return path. An
+output-hook-only mark does not pass when the socket fails before packet
+emission; completed recursion does not pass when a process-wide provider
+selector loses the internal reply.

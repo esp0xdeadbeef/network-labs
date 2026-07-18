@@ -13,5 +13,9 @@ forwarding-compatible namespace mode without loopback substitution or local
 rediscovery. The selected egress must already govern the resolver's first
 upstream route decision, the resolver and authorized listeners must remain
 available, and unchanged dynamic next-hop state must converge without
-self-sustaining refresh activity. Add row-specific lab source and focused
-validation evidence in the SMT/SIT row before marking this trace OK.
+self-sustaining refresh activity. That first decision must use a pre-socket
+policy selector combining resolver runtime identity, UDP/TCP, and destination
+port 53. An nft output mark alone is too late when the unselected table has no
+route, while a process-wide UID selector incorrectly captures internal DNS
+replies. Add row-specific lab source and focused validation evidence in the
+SMT/SIT row before marking this trace OK.

@@ -10,7 +10,9 @@ focused runner or the owning repository records construction evidence for this
 trace.
 
 The focused runner must prove exact listener/forwarder endpoint identity,
-warning preservation, bilateral local-only ACLs, and forwarding-compatible
-namespace materialization on both NixOS and CLAB.
+warning preservation, bilateral local-only ACLs, forwarding-compatible
+namespace materialization, and a pre-socket selected-egress rule scoped by
+resolver identity plus UDP/TCP destination port 53 on both NixOS and CLAB. It
+shall reject both output-mark-only selection and a process-wide UID rule.
 
 Title slug: `renderer-dns-nft-materialization`
