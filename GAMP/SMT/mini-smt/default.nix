@@ -965,22 +965,31 @@ in
     "${prodLikeRecursiveDnsTraceId}" = {
       kind = "mini-smt";
       traceId = prodLikeRecursiveDnsTraceId;
-      smsAtom = "prod-like recursive DNS from a real access-vlan2 client through downstream-selector, policy, upstream-selector, and core to VLAN4";
+      smsAtom = "isolated dual-stack recursive and local-only DNS from real NixOS and CLAB clients through a named iterative core resolver";
       evidenceBoundary = "split: source contract plus live runtime evidence from s-router-nixos, s-router-clab, and s-router-test-clients";
       source = {
         kind = "intent-source";
         intent = ../FS-540-HDS-010-SDS-010-SMS-045/intent.nix;
         expectedRelationIds = [
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-access-dns"
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-access-dns-to-vlan4"
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-vlan4-internet"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-access"
+          "FS-540-HDS-010-SDS-010-SMS-045__local-client-to-access"
+          "FS-540-HDS-010-SDS-010-SMS-045__local-dns-to-recursive-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-local-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-web-egress"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-dns-to-core"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-core"
+          "FS-540-HDS-010-SDS-010-SMS-045__core-dns-to-provider"
         ];
       };
-      maxRuntimeTargets = 5;
+      maxRuntimeTargets = 6;
       runtimeTargets = {
-        access-vlan2 = {
+        access-recursive = {
           role = "access";
-          tenant = "client";
+          tenant = "recursive-client";
+        };
+        access-local = {
+          role = "access";
+          tenant = "local-client";
         };
         downstream-selector = {
           role = "downstream-selector";
@@ -990,45 +999,45 @@ in
         };
         upstream-selector = {
           role = "upstream-selector";
-          external = "internet-vlan4";
+          external = "isp-primary";
         };
-        core = {
+        core-primary = {
           role = "core";
-          external = "internet-vlan4";
+          external = "isp-primary";
           internetUplinks = [
             {
-              name = "internet-vlan4";
+              name = "isp-primary";
               vlan = 4;
+              mode = "dhcp";
+            }
+            {
+              name = "overlay-secondary";
+              vlan = 5;
               mode = "dhcp";
             }
           ];
         };
       };
       expectedPath = [
-        "access-vlan2"
+        "access-recursive"
         "downstream-selector"
         "policy"
         "upstream-selector"
-        "core"
+        "core-primary"
       ];
-      clientEndpoint = {
-        host = "s-router-test-clients";
-        name = "prod-like-dns-client01";
-        bridge = "dnsclient";
-        address4 = "10.54.45.10";
-        gateway4 = "10.54.45.1";
-        resolver4 = "10.54.45.1";
-      };
+      clientEndpoints = [
+        "recursive-dns-nixos-client"
+        "local-dns-nixos-client"
+        "recursive-dns-clab-client"
+        "local-dns-clab-client"
+      ];
       testsOnly = [
-        "prod-like-five-node-recursive-dns-chain"
-        "explicit-client-to-access-dns-relation"
-        "explicit-access-dns-to-vlan4-egress-relation"
-        "real-s-router-test-clients-endpoint"
-        "vlan4-dhcp-upstream"
-        "access-dns-runtime-origin-egress"
-        "client-resolver-advertisement-to-access-gateway"
-        "no-pppoe-dependency"
-        "no-prod-lan-cidr"
+        "dual-stack-access-to-core-recursion"
+        "bilateral-local-only-authority"
+        "explicit-multi-egress-selection"
+        "relation-terminal-core-listener"
+        "four-real-s-router-test-clients-endpoints"
+        "no-production-vlan2"
       ];
       liveSurfaces = [
         "s-router-nixos"
