@@ -84,6 +84,15 @@ the recursive access resolver. The opposite reachable direction is also
 source-scoped `refuse_non_local`: local records work, public recursion and
 borrowed/transitive egress do not.
 
+That sharing relation has an exact forward direction. A new UDP or TCP
+destination-port-53 request sourced by `local-dns` must traverse
+`access-local -> downstream-selector -> access-recursive`; it must not be sent
+through the policy router or be mistaken for the reverse leg. Only the reply
+from `recursive-dns` uses the symmetric established/related return direction.
+Swapping the two access lanes, requiring established state on the new request,
+or hairpinning the request through policy are seeded negatives even when the
+same relation ID and both endpoint addresses remain visible in emitted data.
+
 Run the construction contract with:
 
 ```bash

@@ -48,6 +48,9 @@ let
   serviceByName = name:
     builtins.head (builtins.filter (service: service.name == name)
       site.recursiveDnsIntent.services);
+  relationById = id:
+    builtins.head (builtins.filter (relation: relation.id == id)
+      site.communicationContract.relations);
   endpointNames = builtins.attrNames
     clients.control_plane_model.data.mini-smt.\${trace}.endpointAssignment;
   inventoryNodeNames = inventory:
@@ -110,6 +113,8 @@ let
     && authority.trust.mode == \"insecure-controlled-root\";
   selectedBinding = builtins.head site.recursiveDnsIntent.bindings;
   localIntent = site.localDnsSharingIntent;
+  localSharingRelation = relationById
+    \"FS-540-HDS-010-SDS-010-SMS-045__local-dns-to-recursive-dns\";
   nixosAuthority = authorityFor nixos;
   clabAuthority = authorityFor clab;
 in
@@ -167,6 +172,24 @@ in
     && localIntent.lateralPolicy.transitiveEgress == false
     && localIntent.lateralPolicy.action == \"refuse_non_local\")
     \"local-only authority must be bilateral and non-transitive\"
+  && require (localIntent.relation == {
+    id = \"FS-540-HDS-010-SDS-010-SMS-045__local-dns-to-recursive-dns\";
+    from = { kind = \"service\"; name = \"local-dns\"; };
+    to = { kind = \"service\"; name = \"recursive-dns\"; };
+    trafficType = \"dns\";
+    returnBehavior = \"symmetric\";
+    resolverPath = [
+      \"access-local\"
+      \"downstream-selector\"
+      \"access-recursive\"
+    ];
+  }) \"local sharing must declare the exact direct access-lane request path and symmetric return\"
+  && require (localSharingRelation.from == localIntent.relation.from
+    && localSharingRelation.to == localIntent.relation.to
+    && localSharingRelation.trafficType == \"dns\"
+    && localSharingRelation.action == \"allow\"
+    && localSharingRelation.returnBehavior == \"symmetric\")
+    \"communication relation must preserve the local-dns to recursive-dns forward direction\"
   && require (noLiteralForwarders nixos && noLiteralForwarders clab)
     \"inventories must not hardcode public or core forwarders\"
   && require (authorityIsControlled nixosAuthority && nixosAuthority == clabAuthority)
