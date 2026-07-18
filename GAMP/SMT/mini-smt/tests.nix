@@ -279,9 +279,14 @@
         kind = "intent-source";
         intent = ../FS-540-HDS-010-SDS-010-SMS-045/intent.nix;
         expectedRelationIds = [
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-access-dns"
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-access-dns-to-vlan4"
-          "FS-540-HDS-010-SDS-010-SMS-045__prod-like-client-to-vlan4-internet"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-access"
+          "FS-540-HDS-010-SDS-010-SMS-045__local-client-to-access"
+          "FS-540-HDS-010-SDS-010-SMS-045__local-dns-to-recursive-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-local-dns"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-web-egress"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-dns-to-core"
+          "FS-540-HDS-010-SDS-010-SMS-045__recursive-client-to-core"
+          "FS-540-HDS-010-SDS-010-SMS-045__core-dns-to-provider"
         ];
       };
       evidenceLevels = [
@@ -293,8 +298,8 @@
       liveScript = "../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-045.sh";
       independent = true;
       aggregateOnly = false;
-      scope = "SMT/SIT-only prod-like recursive DNS over access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core with real s-router-test-clients endpoints and VLAN4 upstream";
-      maxRuntimeTargets = 5;
+      scope = "SMT/SIT-only isolated dual-stack recursive and local-only DNS with equivalent NixOS/CLAB roles and four real s-router-test-clients endpoints";
+      maxRuntimeTargets = 6;
     };
 
     "FS-166-HDS-010-SDS-010-SMS-901" = {

@@ -1,42 +1,35 @@
 # FS-540-HDS-010-SDS-010-SMS-045 SMT
 
-Status: NOT OK for the revised acceptance atom.
+Status: NOT OK until the new cold-staged live protocol passes.
 
-Row-local source for prod-like recursive DNS over the routed selector chain.
+This isolated acceptance row mirrors the `s-router-prod` DNS roles without
+using VLAN2 or any production client/network. It realizes the same six logical
+roles on NixOS and CLAB: recursive access, local-only access, downstream
+selector, policy, upstream selector, and a named iterative core resolver.
 
-This row models the `s-router-prod` IPv4 shape without PPPoE:
+The row uses lab VLANs 413/414 for the NixOS recursive/local clients and
+415/416 for their CLAB equivalents. All four probes originate from real
+containers on `s-router-test-clients`. Both IPv4 and IPv6, and both UDP and TCP
+DNS, are acceptance predicates.
 
-`access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core`
+The core exposes two eligible-looking egresses (`isp-primary` and
+`overlay-secondary`), while DNS selects only `isp-primary` by modeled identity.
+The access resolver binds `core-dns` by service/node identity; no core address
+or public forwarder is present in the inventory. CPM derives the listener and
+forwarder from the provider-side terminal attachment of the selected relation.
 
-The client tenant uses lab-only `10.54.45.0/24`, the router access gateway is
-`10.54.45.1`, the NixOS test endpoint is `10.54.45.10`, and `core` exits
-through the emulated upstream `internet-vlan4` on VLAN4 with private NAT44.
+The local-only resolver may forward only `lab.` and its modeled reverse zone to
+the recursive access resolver. The opposite reachable direction is also
+source-scoped `refuse_non_local`: local records work, public recursion and
+borrowed/transitive egress do not.
 
-`s-router-test-clients` is part of this row. It receives a real endpoint
-container on the VLAN-backed `dnsclient` bridge so live checks can prove a
-client-originated DNS query instead of a router self-source probe. The CLAB
-realization uses the separate `dnsclab` bridge on VLAN305 so both router
-surfaces can run at the same time without duplicate ARP ownership for
-`10.54.45.1` on one L2 segment.
-
-Run:
+Run the construction contract with:
 
 ```bash
-tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-045
+tests/run-active-lab-mini-smt.sh --source FS-540-HDS-010-SDS-010-SMS-045
 ```
 
-Historical evidence for the superseded IPv4-only atom:
-
-- 2026-07-03 locked active-lab full loop passed with
-  `S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-540-HDS-010-SDS-010-SMS-045`.
-- Evidence directory:
-  `/tmp/s-router-live-smoke/FS-540-HDS-010-SDS-010-SMS-045/20260703T200952Z`.
-- Manual enumeration proved both `prod-like-dns-client01` and
-  `prod-like-dns-clab-client01` use `10.54.45.1` as gateway and resolver,
-  resolve `cache.nixos.org`, and trace through
-  `access-vlan2 -> downstream-selector -> policy -> upstream-selector -> core`.
-
-That run did not prove exact relation-terminal core listeners, IPv6 UDP/TCP,
-bilateral local-only isolation, warning-code parity, multi-egress permutation,
-or a zero-warning valid profile. A new cold stage is required after the owning
-repositories implement those predicates.
+After every owning `network-*` revision is pushed, select this row, cold-stage
+all three lab guests, verify their new boot/system/source pins, and run the
+row-local live protocol from `network-codex-agent`. Previous 2026-07-03
+IPv4-only evidence is superseded and cannot promote this revised atom.
