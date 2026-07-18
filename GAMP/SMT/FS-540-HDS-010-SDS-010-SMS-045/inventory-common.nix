@@ -39,11 +39,9 @@ let
     site = traceId;
     inherit name;
   };
-  uplink = vlan: {
-    bridge = if vlan == 4 then "isp-primary" else "overlay-secondary";
-    parent = "eth0";
-    inherit vlan;
-    mode = "vlan";
+  uplink = name: {
+    bridge = name;
+    mode = "isolated";
     ipv4 = {
       enable = true;
       method = "dhcp";
@@ -56,6 +54,48 @@ let
       dhcp = false;
       dhcpv6PD = false;
     };
+  };
+  validationAuthority = {
+    kind = "controlled-iterative-hierarchy";
+    scope = "harness";
+    inherit traceId;
+    selectedUplink = "isp-primary";
+    alternateUplinks = [ "overlay-secondary" ];
+    provider = {
+      bridge = "isp-primary";
+      ipv4 = {
+        address = "198.18.45.1/24";
+        router = "198.18.45.1";
+        clientAddress = "198.18.45.20";
+        rangeStart = "198.18.45.20";
+        rangeEnd = "198.18.45.99";
+        leaseTime = "5m";
+      };
+      ipv6 = {
+        address = "fd42:540:45:ff::1/64";
+        router = "fd42:540:45:ff::1";
+        prefix = "fd42:540:45:ff::/64";
+        leaseTime = "5m";
+      };
+    };
+    root = {
+      zone = ".";
+      nameServer = "root.dns-validation.test.";
+      ipv4 = [ "198.18.45.53" ];
+      ipv6 = [ "fd42:540:45:ff::53" ];
+    };
+    delegation = {
+      zone = "dns-validation.test.";
+      nameServer = "ns.dns-validation.test.";
+      ipv4 = [ "198.18.45.54" ];
+      ipv6 = [ "fd42:540:45:ff::54" ];
+    };
+    terminal = {
+      name = "answer.dns-validation.test.";
+      ipv4 = [ "198.18.45.80" ];
+      ipv6 = [ "fd42:540:45:ff::80" ];
+    };
+    trust.mode = "insecure-controlled-root";
   };
   bridgeNetworks = {
     ${recursiveClientBridge} = {
@@ -78,8 +118,8 @@ let
   deploymentHosts.${host} = {
     inherit bridgeNetworks;
     uplinks = {
-      isp-primary = uplink 4;
-      overlay-secondary = uplink 5;
+      isp-primary = uplink "isp-primary";
+      overlay-secondary = uplink "overlay-secondary";
     };
   };
   accessAdvertisement = tenantInterface: {
@@ -232,6 +272,7 @@ in
           interface.name = "wan1";
         };
       };
+      services.dns.validationAuthority = validationAuthority;
     };
   };
 }

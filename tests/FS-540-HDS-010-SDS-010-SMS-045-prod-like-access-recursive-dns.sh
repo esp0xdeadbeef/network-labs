@@ -60,8 +60,34 @@ let
       (builtins.attrValues inventory.realization.nodes);
   noLiteralForwarders = inventory:
     builtins.all (dns: (dns.forwarders or [ ]) == [ ]) (allInventoryDns inventory);
+  authorityFor = inventory:
+    (builtins.head (builtins.filter
+      (dns: (dns.validationAuthority.kind or null) == \"controlled-iterative-hierarchy\")
+      (allInventoryDns inventory))).validationAuthority;
+  authorityIsControlled = authority:
+    authority.scope == \"harness\"
+    && authority.traceId == trace
+    && authority.selectedUplink == \"isp-primary\"
+    && authority.alternateUplinks == [ \"overlay-secondary\" ]
+    && authority.provider.bridge == \"isp-primary\"
+    && authority.provider.ipv4.clientAddress != authority.provider.ipv4.router
+    && authority.provider.ipv6.prefix != \"\"
+    && authority.root.zone == \".\"
+    && authority.root.nameServer != \"\"
+    && authority.root.ipv4 != [ ]
+    && authority.root.ipv6 != [ ]
+    && authority.delegation.zone == \"dns-validation.test.\"
+    && authority.delegation.nameServer != authority.root.nameServer
+    && authority.delegation.ipv4 != [ ]
+    && authority.delegation.ipv6 != [ ]
+    && authority.terminal.name == \"answer.dns-validation.test.\"
+    && authority.terminal.ipv4 != [ ]
+    && authority.terminal.ipv6 != [ ]
+    && authority.trust.mode == \"insecure-controlled-root\";
   selectedBinding = builtins.head site.recursiveDnsIntent.bindings;
   localIntent = site.localDnsSharingIntent;
+  nixosAuthority = authorityFor nixos;
+  clabAuthority = authorityFor clab;
 in
   require (row.traceId == trace && row.miniSmtId == trace)
     \"trace identity mismatch\"
@@ -117,6 +143,8 @@ in
     \"local-only authority must be bilateral and non-transitive\"
   && require (noLiteralForwarders nixos && noLiteralForwarders clab)
     \"inventories must not hardcode public or core forwarders\"
+  && require (authorityIsControlled nixosAuthority && nixosAuthority == clabAuthority)
+    \"both substrates must carry the same controlled dual-stack iterative authority realization\"
   && require (inventoryNodeNames nixos == nodeNames && inventoryNodeNames clab == nodeNames)
     \"NixOS and CLAB inventories must realize the same logical roles\"
   && require (builtins.attrNames (hostUplinks nixos \"s-router-nixos\") == [
@@ -126,6 +154,12 @@ in
     \"isp-primary\"
     \"overlay-secondary\"
   ]) \"both substrates must realize the same two egress candidates\"
+  && require (
+    (hostUplinks nixos \"s-router-nixos\").isp-primary.mode == \"isolated\"
+    && (hostUplinks nixos \"s-router-nixos\").overlay-secondary.mode == \"isolated\"
+    && (hostUplinks clab \"s-router-clab\").isp-primary.mode == \"isolated\"
+    && (hostUplinks clab \"s-router-clab\").overlay-secondary.mode == \"isolated\"
+  ) \"the acceptance authority must not share either provider surface with a public or host uplink\"
   && require (endpointNames == [
     \"local-dns-clab-client\"
     \"local-dns-nixos-client\"
