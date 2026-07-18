@@ -41,7 +41,11 @@ route during the first cold boot. The selected provider must also be a
 functional IPv6 router surface: receipt or logging of a Router Solicitation,
 or a syntactically correct authority configuration, is not proof that an RA
 crossed the selected provider bridge. Provider forwarding state must permit
-the RA to leave that bridge.
+the RA to leave that bridge. The provider-facing bridge must own a valid IPv6
+link-local source for RA, and a packet capture on the core-facing port must
+observe an advertisement sourced from that link-local address. A provider
+without a link-local address, or a daemon log that claims `RTR-ADVERT` while no
+packet is emitted, is a seeded negative.
 
 Both ends of that bridge are part of the acceptance boundary. On NixOS the
 controlled authority and core port must exchange the RS/RA on the selected
