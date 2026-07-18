@@ -55,6 +55,20 @@ let
       (builtins.attrValues inventory.realization.nodes);
   hostUplinks = inventory: host:
     inventory.deploymentHosts.\${host}.uplinks;
+  corePortsFor = inventory:
+    (builtins.head (builtins.filter
+      (node: node.logicalNode.name == \"core-primary\")
+      (builtins.attrValues inventory.realization.nodes))).ports;
+  providerPortMatches = port: uplink: interfaceName:
+    port == {
+      attach = {
+        bridge = uplink;
+        kind = \"bridge\";
+      };
+      external = true;
+      interface.name = interfaceName;
+      inherit uplink;
+    };
   dualStackSlaacUplink = uplink:
     uplink.mode == \"isolated\"
     && uplink.ipv4.enable == true
@@ -172,6 +186,13 @@ in
       (hostUplinks clab \"s-router-clab\").overlay-secondary
     ]
   ) \"each isolated provider must preserve DHCPv4 plus autonomous IPv6 SLAAC intent; RA-only is not sufficient\"
+  && require (builtins.all (ports:
+    providerPortMatches ports.isp-primary \"isp-primary\" \"wan0\"
+    && providerPortMatches ports.overlay-secondary \"overlay-secondary\" \"wan1\") [
+      (corePortsFor nixos)
+      (corePortsFor clab)
+    ])
+    \"both substrates must attach core wan0/wan1 explicitly to the selected/alternate provider bridges; labels without real bridge membership are insufficient\"
   && require (endpointNames == [
     \"local-dns-clab-client\"
     \"local-dns-nixos-client\"
@@ -213,6 +234,20 @@ let
   providerUplinks =
     providerUplinksFor nixosInventory "s-router-nixos"
     ++ providerUplinksFor clabInventory "s-router-clab";
+  corePortsFor = selectedInventory:
+    (builtins.head (builtins.filter
+      (node: node.logicalNode.name == "core-primary")
+      (builtins.attrValues selectedInventory.realization.nodes))).ports;
+  providerPortMatches = port: uplink: interfaceName:
+    port == {
+      attach = {
+        bridge = uplink;
+        kind = "bridge";
+      };
+      external = true;
+      interface.name = interfaceName;
+      inherit uplink;
+    };
 in
   require (builtins.all
     (uplink:
@@ -224,6 +259,13 @@ in
       && uplink.ipv6.dhcp == false)
     providerUplinks)
     "active-lab selection must preserve isolated autonomous-SLAAC provider uplinks without inventing a physical parent"
+  && require (builtins.all (ports:
+    providerPortMatches ports.isp-primary "isp-primary" "wan0"
+    && providerPortMatches ports.overlay-secondary "overlay-secondary" "wan1") [
+      (corePortsFor nixosInventory)
+      (corePortsFor clabInventory)
+    ])
+    "active-lab selection must preserve explicit core membership of both isolated provider bridges"
   && require (host.uplinks.management.vlan == 2)
     "selected test-client CPM must inherit the shared management VLAN"
   && require (host.uplinks.management.bridge == "vlan2")

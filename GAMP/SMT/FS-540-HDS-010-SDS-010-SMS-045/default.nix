@@ -21,6 +21,6 @@
     focusedTest = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
     maxRuntimeTargets = 6;
     scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
-    observedResult = "NOT OK: the 2026-07-18 exact-source cold stage reached selected-egress6-nixos without a selected-table IPv6 default; both substrate fixtures exposed RA-only provider configuration without autonomous SLAAC, so the dual-stack first-attempt predicate remains unmet";
+    observedResult = "NOT OK: after autonomous SLAAC was configured, the 2026-07-18 exact-source cold stage still lacked the selected IPv6 address/default on first boot; NixOS emitted RS toward the controlled provider but returned no RA, while CLAB rendered the core wan0 host veth outside isp-primary despite the bridge label, so provider forwarding and real L2 membership remain unproven";
   };
 }
