@@ -9,6 +9,16 @@ blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
 
+- All reusable example allow relations now carry an explicit recognized
+  `returnBehavior`. Ordinary compatibility-fixture flows use `one-way`, while
+  relations with an existing public-ingress authority retain their explicit
+  nested `stateful-return`. `tests/test-example-explicit-return-behavior.sh`
+  guards every `examples/*/intent.nix` input before compiler/NFM/CPM tests can
+  discover the omission one fixture at a time. The focused source checks
+  `test-example-explicit-return-behavior.sh`,
+  `test-readable-examples-and-labs.sh`,
+  `test-clab-nat-uplink-examples.sh`, and
+  `test-overlay-underlay-service-reachability-examples.sh` pass.
 - `s-router-overlay-dns-lane-policy` and the prod-like
   `labs/lab-s-sigma/s-router-test-three-site` now keep the hostile branch
   public-exit default on `b-router-core-nebula` east-west, while removing
