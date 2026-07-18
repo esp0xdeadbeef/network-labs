@@ -368,7 +368,28 @@ write_row_test_client_entrypoints() {
   local trace_id="${row_dir##*/}"
 
   if [[ -f "${repo_root}/${row_dir}/intent-test-clients.nix" ]]; then
-    write_import "intent-s-router-test-clients.nix" "../${row_dir}/intent-test-clients.nix"
+    write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<EOF
+let
+  source = import ../${row_dir}/intent-test-clients.nix;
+  inventory = import ./inventory-test-clients.nix;
+  sourceCpm = source.control_plane_model or source;
+  sourceDeployment = sourceCpm.deployment or { };
+  testClientHost = inventory.deploymentHosts.s-router-test-clients;
+  managedDeployment = sourceDeployment // {
+    hosts = (sourceDeployment.hosts or { }) // {
+      s-router-test-clients = testClientHost;
+    };
+  };
+  managedCpm = sourceCpm // {
+    deployment = managedDeployment;
+  };
+in
+source // {
+  control_plane_model = managedCpm;
+  deployment = managedDeployment;
+  deploymentHosts = managedDeployment.hosts;
+}
+EOF
   else
     write_file "${current_dir}/intent-s-router-test-clients.nix" cat <<EOF
 let

@@ -6,6 +6,12 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 trace="FS-540-HDS-010-SDS-010-SMS-045"
 row="${repo_root}/GAMP/SMT/${trace}"
+selection_root="$(mktemp -d)"
+
+cleanup() {
+  rm -rf "${selection_root}"
+}
+trap cleanup EXIT
 
 fail() {
   printf 'NOT OK %s: check=%s\n' "${trace}" "$1" >&2
@@ -141,6 +147,34 @@ in
     == [ 413 414 415 416 ])
     \"acceptance clients must use only the isolated row VLANs\"
 " >/dev/null || fail source-contract
+
+ln -s "${repo_root}/GAMP" "${selection_root}/GAMP"
+NETWORK_LABS_CURRENT_LAB_DIR="${selection_root}/current-lab" \
+  "${repo_root}/scripts/select-current-lab.sh" SMT "${trace}" >/dev/null
+
+CURRENT_LAB="${selection_root}/current-lab" nix eval --impure --expr '
+let
+  currentLab = builtins.getEnv "CURRENT_LAB";
+  inventory = import (currentLab + "/inventory-test-clients.nix");
+  intent = import (currentLab + "/intent-s-router-test-clients.nix");
+  host = intent.control_plane_model.deployment.hosts.s-router-test-clients;
+  require = condition: message: if condition then true else throw message;
+in
+  require (host.uplinks.management.vlan == 2)
+    "selected test-client CPM must inherit the shared management VLAN"
+  && require (host.uplinks.management.bridge == "vlan2")
+    "selected test-client CPM must inherit the shared management bridge"
+  && require (builtins.attrNames host.bridgeNetworks == [
+    "dns545cl"
+    "dns545cr"
+    "dns545nl"
+    "dns545nr"
+  ]) "management injection must preserve the four isolated test bridges"
+  && require (intent.deploymentHosts.s-router-test-clients == host)
+    "selected test-client deployment alias must match the managed CPM host"
+  && require (inventory.deploymentHosts.s-router-test-clients == host)
+    "selected inventory and endpoint CPM must expose the same managed host"
+' >/dev/null || fail selected-test-client-management
 
 if rg -n --glob '*.nix' \
   'forwarders[[:space:]]*=[[:space:]]*\[[[:space:]]*"(1\.1\.1\.1|9\.9\.9\.9)' \
