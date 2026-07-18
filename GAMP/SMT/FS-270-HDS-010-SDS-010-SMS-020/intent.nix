@@ -117,6 +117,14 @@
           "downstream-selector"
           "policy"
         ]
+        [
+          "policy"
+          "upstream-selector"
+        ]
+        [
+          "upstream-selector"
+          "core-vlan4"
+        ]
       ];
       nodes = {
         access-source = {
@@ -139,6 +147,15 @@
         };
         downstream-selector.role = "downstream-selector";
         policy.role = "policy";
+        upstream-selector.role = "upstream-selector";
+        core-vlan4 = {
+          role = "core";
+          external = "internet-vlan4";
+          uplinks.internet-vlan4 = {
+            ipv4 = [ "0.0.0.0/0" ];
+            ipv6 = [ "::/0" ];
+          };
+        };
       };
     };
   };

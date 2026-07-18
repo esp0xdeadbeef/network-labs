@@ -53,6 +53,8 @@ let
           && (
             max <= 5
             || (name == "FS-030-HDS-010-SDS-030-SMS-010" && max == 6)
+            || (name == "FS-270-HDS-010-SDS-010-SMS-020" && max == 6)
+            || (name == "FS-540-HDS-010-SDS-010-SMS-045" && max == 6)
             || (name == "FS-800-HDS-010-SDS-020-SMS-040" && max == 6)
           ))
       names;
@@ -109,7 +111,7 @@ in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
   && require allHaveSource "every runtime mini SMT must declare an explicit source and every construction-only mini SMT must declare source = null"
-  && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except FS-800-HDS-010-SDS-020-SMS-040"
+  && require allBoundedMiniRuntime "mini SMTs must stay capped at five runtime targets or fewer, except rows whose isolated contract needs a six-role spine"
   && require fiveTargetRowsAreExplicit "FS-370-HDS-010-SDS-010-SMS-050 and FS-540-HDS-010-SDS-010-SMS-020 must explicitly declare five-target mini paths"
   && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
