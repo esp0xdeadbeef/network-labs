@@ -162,6 +162,15 @@ in
       };
       advertisements = accessAdvertisement "tenant-local-client";
       services.dns = {
+        # Seed the host-profile shape seen by s-router-prod: local records make
+        # the namespace static before local-sharing authority is applied. CPM
+        # must normalize the overlapping forwarded namespace to transparent.
+        localZones = [
+          {
+            name = "lab.";
+            type = "static";
+          }
+        ];
         localRecords = [
           {
             name = "local.lab.";
