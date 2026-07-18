@@ -1,16 +1,28 @@
 {
   meta = {
     traceId = "FS-540-HDS-010-SDS-010-SMS-030";
-    scope = "mini-smt-auto";
+    scope = "isolated-dns-client-attachments";
   };
-  hosts = {};
-  deploymentHosts = {
-    s-router-nixos = {
-      bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
-      };
+  deploymentHosts.s-router-test-clients.bridgeNetworks = {
+    dns530nr = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 403;
+    };
+    dns530nl = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 404;
+    };
+    dns530cr = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 405;
+    };
+    dns530cl = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 406;
     };
   };
 }

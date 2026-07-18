@@ -1,12 +1,14 @@
-# SMT Source Stub: FS-540-HDS-010-SDS-010-SMS-030
+# FS-540-HDS-010-SDS-010-SMS-030 SMT
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-030-recursive-authority-separation.md`
+Isolated dual-stack source for recursive-authority separation. It models a
+recursive access resolver, a local-only access resolver, a named iterative core
+resolver, and two eligible-looking egress surfaces with one explicit selection.
 
-Status: NOT OK - source stub only.
+The local-only resolver may query only the modeled `lab.` and reverse
+namespaces through the recursive access resolver. It has no direct or
+transitive core/public recursion authority. NixOS uses VLANs 403/404 and CLAB
+uses VLANs 405/406; production VLANs and provider networks are out of scope.
 
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
-
-Title slug: `recursive-authority-separation`
+The row remains `NOT OK` until CPM and both renderers pass their focused
+construction predicates and a cold-staged live protocol uses the real isolated
+test clients.
