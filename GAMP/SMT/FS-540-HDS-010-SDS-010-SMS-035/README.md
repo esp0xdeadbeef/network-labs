@@ -9,4 +9,8 @@ It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
 focused runner or the owning repository records construction evidence for this
 trace.
 
+The focused runner must prove exact listener/forwarder endpoint identity,
+warning preservation, bilateral local-only ACLs, and forwarding-compatible
+namespace materialization on both NixOS and CLAB.
+
 Title slug: `renderer-dns-nft-materialization`

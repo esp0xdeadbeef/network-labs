@@ -11,10 +11,12 @@ dual-stack model-allocated service endpoints, and explicitly selects
 of the intent binding.
 
 Seeded profiles shall cover every FS-525 warning code, including the permitted
-warning for an explicitly static provider-bound core upstream. Missing,
-literal, invalid, ambiguous, family-incomplete, or substrate-divergent binding
-must remain fail-closed. Warning records may contain modeled identities but no
-addresses or protected client identity.
+warning for an explicitly static provider-bound core upstream and
+`DNS_CORE_ENDPOINT_PATH_MISMATCH` when an ownership loopback replaces the
+selected relation endpoint. Missing, literal, invalid, ambiguous,
+family-incomplete, path-mismatched, or substrate-divergent binding must remain
+fail-closed. Warning records may contain modeled identities but no addresses or
+protected client identity.
 
 The focused compiler test covers the positive profile plus missing, literal,
 invalid, ambiguous, and provider-bound static-upstream warnings. NFM, CPM,

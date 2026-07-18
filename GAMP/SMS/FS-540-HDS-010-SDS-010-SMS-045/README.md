@@ -13,9 +13,11 @@ The NixOS realization uses the `dnsclient` VLAN304 test-client bridge. The CLAB
 realization is bound to the separate `dnsclab` VLAN305 bridge so it cannot
 answer ARP for the NixOS router's gateway while both surfaces are online.
 
-Executed evidence on 2026-07-03: locked active-lab full loop passed for
-`FS-540-HDS-010-SDS-010-SMS-045`; evidence was written under
-`/tmp/s-router-live-smoke/FS-540-HDS-010-SDS-010-SMS-045/20260703T200952Z`.
-Manual enumeration from both NixOS and CLAB test-client containers confirmed
-gateway and resolver `10.54.45.1`, successful recursive DNS for
-`cache.nixos.org`, IPv4 egress, and the prod-like selector/core tracepath.
+Status: NOT OK for the revised contract.
+
+The 2026-07-03 run is historical evidence for the earlier IPv4 recursion atom
+only. It did not prove exact provider-side terminal listener identity,
+dual-stack UDP/TCP, bilateral local-only isolation, deterministic multi-egress
+warnings, or a zero-warning valid profile. Those predicates require new pushed
+construction followed by a cold-staged NixOS and CLAB run with real isolated
+test clients.
