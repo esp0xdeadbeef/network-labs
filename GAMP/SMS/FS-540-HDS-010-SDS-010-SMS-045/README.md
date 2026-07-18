@@ -60,3 +60,10 @@ server, host resolver state, or a transparent recursive proxy is invalid
 evidence. The alternate eligible-looking provider shall not be able to answer
 the accepted hierarchy; otherwise the row has not proved deterministic DNS
 egress selection.
+
+Controlled-provider readiness is a service predicate, not a launcher-exit
+predicate. The selected attachment addresses must be usable, the root and
+delegated authority processes must remain present after launcher exit, and all
+modeled IPv4/IPv6 listeners must accept queries before recursive acceptance
+begins. A cold stage that reports success while an authority process has
+already terminated is a seeded negative.
