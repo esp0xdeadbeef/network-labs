@@ -37,9 +37,23 @@ converges without continuous refresh activity.
 For IPv6, a visible Router Advertisement is not sufficient evidence. The
 selected provider must advertise an autonomous SLAAC prefix (A-bit set), and
 the core must acquire both its global address and the selected-table default
-route during the first cold boot. An RA-only provider mode that omits SLAAC is
-a seeded negative, even when solicit/advertise messages are visible and IPv4
-DHCP succeeds. This predicate applies identically to NixOS and CLAB.
+route during the first cold boot. The selected provider must also be a
+functional IPv6 router surface: receipt or logging of a Router Solicitation,
+or a syntactically correct authority configuration, is not proof that an RA
+crossed the selected provider bridge. Provider forwarding state must permit
+the RA to leave that bridge.
+
+Both ends of that bridge are part of the acceptance boundary. On NixOS the
+controlled authority and core port must exchange the RS/RA on the selected
+bridge. On CLAB, the core `wan0` host veth and the controlled-authority sidecar
+veth must both be actual forwarding members of `isp-primary`; a topology label
+without runtime L2 membership is insufficient. The same attachment invariant
+applies to core `wan1` and `overlay-secondary`, while no authority sidecar is
+allowed on that alternate deny/decoy surface. An RA-only provider mode that
+omits SLAAC, provider forwarding that suppresses the RA, or a bridge label
+whose core endpoint is unattached are independent seeded negatives, even when
+solicit/advertise messages are logged and IPv4 DHCP succeeds. These predicates
+apply identically to the first cold boot of NixOS and CLAB.
 
 The selected path is direction-scoped. Under the core resolver's real runtime
 UID, UDP/TCP destination-port-53 socket lookups must use the selected provider
