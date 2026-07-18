@@ -20,4 +20,7 @@ only. It did not prove exact provider-side terminal listener identity,
 dual-stack UDP/TCP, bilateral local-only isolation, deterministic multi-egress
 warnings, or a zero-warning valid profile. Those predicates require new pushed
 construction followed by a cold-staged NixOS and CLAB run with real isolated
-test clients.
+test clients. Acceptance also requires the selected multi-egress path to work
+for the resolver's first upstream route decision, the resolver process and
+authorized listeners to remain present throughout the live protocol, and
+unchanged dynamic next-hop state to converge to stable, quiescent operation.
