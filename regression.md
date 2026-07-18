@@ -594,6 +594,15 @@ blobs, or shared example fragments.
 
 ## Still Broken
 
+- FS-540-HDS-010-SDS-010-SMS-045 cold restage14 on 2026-07-18 proved the
+  resolver's scoped pre-socket UDP/TCP port-53 rules emit traffic on the
+  selected NixOS provider, but the row still queried external root authority.
+  Provider-side refusal/rate-limit/filter state therefore decided the result.
+  This is not reproducible multi-egress evidence. The row remains NOT OK until
+  `network-labs` stages a harness-scoped dual-stack authoritative hierarchy on
+  only the selected emulated provider and the live protocol derives its target
+  and validation material from the staged artifact without public or host DNS.
+
 - The prod-like s-sigma lab models Chromecast-like streaming internet access:
   `allow-nixos-streaming-to-uplinks` allows tenant `streaming` to `isp-a` /
   `isp-b` with `trafficType = "any"`. Live evidence from

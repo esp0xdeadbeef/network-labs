@@ -1,12 +1,18 @@
 # FS-540-HDS-010-SDS-010-SMS-045
 
-Template row for prod-like access recursive DNS over VLAN4.
+Template row for prod-like access recursive DNS over controlled lab provider
+surfaces.
 
 The SMT source is
 `GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/`. It models the production-style
 five-node router chain with a real `s-router-test-clients` endpoint and an
-emulated VLAN4 upstream, avoiding PPPoE so recursive resolver behavior can be
-tested when the real ISP handoff is unavailable. The row models access DNS as
+emulated provider, avoiding PPPoE and public DNS dependencies so recursive
+resolver behavior remains deterministic when the real ISP handoff or public
+authority is unavailable. The selected provider owns a harness-scoped
+dual-stack authoritative hierarchy with root, delegated test namespace, and
+terminal record. The core remains iterative: the fixture replaces only the
+provider-side authority realization, not DNS policy or the production
+resolver mode. The row models access DNS as
 an explicit service-origin flow from the lab-only tenant gateway address so
 recursive resolver traffic does not rely on an unscoped default-route source.
 The NixOS realization uses the `dnsclient` VLAN304 test-client bridge. The CLAB
@@ -31,3 +37,10 @@ access/client destinations retain the modeled relationship return path. An
 output-hook-only mark does not pass when the socket fails before packet
 emission; completed recursion does not pass when a process-wide provider
 selector loses the internal reply.
+
+The live protocol must derive the controlled authority endpoints and trust
+material from the staged fixture artifact. A public name, an Internet root
+server, host resolver state, or a transparent recursive proxy is invalid
+evidence. The alternate eligible-looking provider shall not be able to answer
+the accepted hierarchy; otherwise the row has not proved deterministic DNS
+egress selection.

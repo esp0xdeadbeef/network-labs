@@ -33,4 +33,8 @@ state, bounded DNS recursion from NixOS and CLAB runtime targets, real
 test-client recursive DNS, resolver-identity route selection that distinguishes
 upstream UDP/TCP destination-port-53 socket lookups from internal replies,
 rejection of output-mark-only and process-wide UID selection, and absence of
-Docker/host public resolver fallback on the CLAB core recursive path.
+Docker/host public resolver fallback on the CLAB core recursive path. The
+accepted recursive name shall come from the row's staged dual-stack
+authoritative hierarchy on the selected emulated provider. Internet root
+servers, public names, and host resolver state are not acceptance dependencies;
+the unselected provider must be unable to complete that hierarchy.
