@@ -15,9 +15,9 @@ let
     policyUpstream = "p2p-policy-upstream-selector--access-access-dns--uplink-isp-primary";
     upstreamCore = "p2p-core-primary-upstream-selector";
   };
-  p2pPort = link: bridge: interfaceName: {
+  p2pPort = link: bridge: adapterName: interfaceName: {
     inherit link;
-    adapterName = "fs525-${interfaceName}";
+    adapterName = "fs525-${adapterName}";
     attach = {
       kind = "bridge";
       inherit bridge;
@@ -89,7 +89,9 @@ in
           };
           interface.name = "lan0";
         };
-        transit-downstream-selector = p2pPort links.accessDownstream bridges.accessDownstream "transit0";
+        transit-downstream-selector =
+          p2pPort links.accessDownstream bridges.accessDownstream "ad"
+            "transit0";
       };
       advertisements = {
         dhcp4.tenant-client = {
@@ -120,8 +122,8 @@ in
       logicalNode = logicalNode "downstream-selector";
       platform = "nixos-container";
       ports = {
-        access-dns = p2pPort links.accessDownstream bridges.accessDownstream "access0";
-        policy-access-dns = p2pPort links.downstreamPolicy bridges.downstreamPolicy "policy0";
+        access-dns = p2pPort links.accessDownstream bridges.accessDownstream "da" "access0";
+        policy-access-dns = p2pPort links.downstreamPolicy bridges.downstreamPolicy "dp" "policy0";
       };
     };
     "${prefix}-policy" = {
@@ -129,8 +131,8 @@ in
       logicalNode = logicalNode "policy";
       platform = "nixos-container";
       ports = {
-        downstream-access-dns = p2pPort links.downstreamPolicy bridges.downstreamPolicy "down0";
-        upstream-access-dns = p2pPort links.policyUpstream bridges.policyUpstream "up0";
+        downstream-access-dns = p2pPort links.downstreamPolicy bridges.downstreamPolicy "pd" "down0";
+        upstream-access-dns = p2pPort links.policyUpstream bridges.policyUpstream "pu" "up0";
       };
     };
     "${prefix}-upstream-selector" = {
@@ -138,8 +140,8 @@ in
       logicalNode = logicalNode "upstream-selector";
       platform = "nixos-container";
       ports = {
-        policy-access-dns = p2pPort links.policyUpstream bridges.policyUpstream "policy0";
-        core-primary = p2pPort links.upstreamCore bridges.upstreamCore "core0";
+        policy-access-dns = p2pPort links.policyUpstream bridges.policyUpstream "up" "policy0";
+        core-primary = p2pPort links.upstreamCore bridges.upstreamCore "uc" "core0";
       };
     };
     "${prefix}-core-primary" = {
@@ -147,7 +149,7 @@ in
       logicalNode = logicalNode "core-primary";
       platform = "nixos-container";
       ports = {
-        upstream-selector = p2pPort links.upstreamCore bridges.upstreamCore "transit0";
+        upstream-selector = p2pPort links.upstreamCore bridges.upstreamCore "cu" "transit0";
         isp-primary = {
           uplink = "isp-primary";
           external = true;
