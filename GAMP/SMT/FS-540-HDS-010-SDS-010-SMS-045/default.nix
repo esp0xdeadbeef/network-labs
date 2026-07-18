@@ -20,7 +20,7 @@
     command = "tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-045";
     focusedTest = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
     maxRuntimeTargets = 6;
-    scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints; production VLANs excluded";
-    observedResult = "pending cold-staged live protocol against pushed network-* revisions";
+    scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
+    observedResult = "pending cold-staged first-attempt, persistence, convergence, and DNS live protocol against pushed network-* revisions";
   };
 }

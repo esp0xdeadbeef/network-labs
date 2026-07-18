@@ -17,6 +17,11 @@ The core exposes two eligible-looking egresses (`isp-primary` and
 The access resolver binds `core-dns` by service/node identity; no core address
 or public forwarder is present in the inventory. CPM derives the listener and
 forwarder from the provider-side terminal attachment of the selected relation.
+The selected path must govern the core resolver's first upstream route decision
+for both families; observing the selected table after a failed request is not
+sufficient. The live protocol also proves that the resolver process and
+authorized listeners remain present and that unchanged dynamic next-hop state
+converges without continuous refresh activity.
 
 The local-only resolver may forward only `lab.` and its modeled reverse zone to
 the recursive access resolver. The opposite reachable direction is also
@@ -32,4 +37,6 @@ tests/run-active-lab-mini-smt.sh --source FS-540-HDS-010-SDS-010-SMS-045
 After every owning `network-*` revision is pushed, select this row, cold-stage
 all three lab guests, verify their new boot/system/source pins, and run the
 row-local live protocol from `network-codex-agent`. Previous 2026-07-03
-IPv4-only evidence is superseded and cannot promote this revised atom.
+IPv4-only evidence is superseded and cannot promote this revised atom. A
+successful launcher or visible route without successful first-attempt
+recursion, persistent listeners, and quiescent route state is also insufficient.
