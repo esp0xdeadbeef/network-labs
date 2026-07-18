@@ -19,17 +19,15 @@ The NixOS realization uses the `dnsclient` VLAN304 test-client bridge. The CLAB
 realization is bound to the separate `dnsclab` VLAN305 bridge so it cannot
 answer ARP for the NixOS router's gateway while both surfaces are online.
 
-Status: NOT OK for the revised contract.
+Status: specification source only. Construction and cold-staged validation
+status belong to the matching SMT/SIT records.
 
-The 2026-07-03 run is historical evidence for the earlier IPv4 recursion atom
-only. It did not prove exact provider-side terminal listener identity,
+The contract requires exact provider-side terminal listener identity,
 dual-stack UDP/TCP, bilateral local-only isolation, deterministic multi-egress
-warnings, or a zero-warning valid profile. Those predicates require new pushed
-construction followed by a cold-staged NixOS and CLAB run with real isolated
-test clients. Acceptance also requires the selected multi-egress path to work
-for the resolver's first upstream route decision, the resolver process and
-authorized listeners to remain present throughout the live protocol, and
-unchanged dynamic next-hop state to converge to stable, quiescent operation.
+warnings, and a zero-warning valid profile. The selected multi-egress path must
+work for the resolver's first upstream route decision, the resolver process and
+authorized listeners must remain present throughout the live protocol, and
+unchanged dynamic next-hop state must converge to stable, quiescent operation.
 For routed IPv6, the cold-boot predicate is functional RA consumption: the
 selected core interface must acquire a global address from the controlled
 provider and install the provider default in the selected policy table while
