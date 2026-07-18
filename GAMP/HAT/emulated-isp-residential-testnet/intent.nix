@@ -391,6 +391,7 @@ in
               name = "client";
             };
             id = "allow-client-to-hat-site-dns";
+            returnBehavior = "one-way";
             priority = 70;
             to = {
               kind = "service";
@@ -405,6 +406,7 @@ in
               name = "hat-site-dns";
             };
             id = "allow-hat-site-dns-service-to-client-uplinks";
+            returnBehavior = "one-way";
             priority = 71;
             to = {
               kind = "external";
@@ -439,6 +441,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-printer-admin";
+            returnBehavior = "one-way";
             priority = 73;
             to = {
               kind = "service";
@@ -453,6 +456,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-printer-ipp";
+            returnBehavior = "one-way";
             priority = 74;
             to = {
               kind = "service";
@@ -467,6 +471,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-receiver-control";
+            returnBehavior = "one-way";
             priority = 75;
             to = {
               kind = "service";
@@ -481,6 +486,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-receiver-discovery";
+            returnBehavior = "one-way";
             priority = 76;
             to = {
               kind = "service";
@@ -495,6 +501,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-a";
+            returnBehavior = "one-way";
             priority = 80;
             to = {
               kind = "external";
@@ -509,6 +516,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-to-isp-a";
+            returnBehavior = "one-way";
             priority = 81;
             to = {
               kind = "external";
@@ -523,6 +531,7 @@ in
               name = "management";
             };
             id = "allow-management-icmp-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 96;
             to = {
               kind = "external";
@@ -537,6 +546,7 @@ in
               name = "management";
             };
             id = "allow-management-icmp-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 97;
             to = {
               kind = "external";
@@ -551,6 +561,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 98;
             to = {
               kind = "external";
@@ -565,6 +576,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 99;
             to = {
               kind = "external";
@@ -579,6 +591,7 @@ in
               name = "client";
             };
             id = "allow-client-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 100;
             to = {
               kind = "external";
@@ -593,6 +606,7 @@ in
               name = "client";
             };
             id = "allow-client-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 101;
             to = {
               kind = "external";
@@ -607,6 +621,7 @@ in
               name = "iot";
             };
             id = "allow-iot-underlay-to-nebula-egress";
+            returnBehavior = "one-way";
             priority = 110;
             to = {
               kind = "external";
@@ -621,6 +636,7 @@ in
               name = "iot";
             };
             id = "allow-iot-underlay-to-wireguard-egress";
+            returnBehavior = "one-way";
             priority = 111;
             to = {
               kind = "external";
@@ -635,6 +651,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-shared-services";
+            returnBehavior = "one-way";
             priority = 120;
             to = {
               kind = "tenant-set";
@@ -652,6 +669,7 @@ in
               name = "guest";
             };
             id = "allow-guest-to-isp-a";
+            returnBehavior = "one-way";
             priority = 130;
             to = {
               kind = "external";
@@ -666,6 +684,7 @@ in
               name = "work";
             };
             id = "allow-work-to-isp-a";
+            returnBehavior = "one-way";
             priority = 131;
             to = {
               kind = "external";
@@ -680,6 +699,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-b";
+            returnBehavior = "one-way";
             priority = 82;
             to = {
               kind = "external";
@@ -694,6 +714,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-to-isp-b";
+            returnBehavior = "one-way";
             priority = 83;
             to = {
               kind = "external";
@@ -708,6 +729,7 @@ in
               name = "guest";
             };
             id = "allow-guest-to-isp-b";
+            returnBehavior = "one-way";
             priority = 132;
             to = {
               kind = "external";
@@ -722,6 +744,7 @@ in
               name = "work";
             };
             id = "allow-work-to-isp-b";
+            returnBehavior = "one-way";
             priority = 133;
             to = {
               kind = "external";
@@ -1538,6 +1561,7 @@ in
               name = "client";
             };
             id = "allow-client-to-hat-site-dns";
+            returnBehavior = "one-way";
             priority = 70;
             to = {
               kind = "service";
@@ -1552,6 +1576,7 @@ in
               name = "hat-site-dns";
             };
             id = "allow-hat-site-dns-service-to-client-uplinks";
+            returnBehavior = "one-way";
             priority = 71;
             to = {
               kind = "external";
@@ -1586,6 +1611,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-printer-admin";
+            returnBehavior = "one-way";
             priority = 73;
             to = {
               kind = "service";
@@ -1600,6 +1626,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-printer-ipp";
+            returnBehavior = "one-way";
             priority = 74;
             to = {
               kind = "service";
@@ -1614,6 +1641,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-receiver-control";
+            returnBehavior = "one-way";
             priority = 75;
             to = {
               kind = "service";
@@ -1628,6 +1656,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-hat-receiver-discovery";
+            returnBehavior = "one-way";
             priority = 76;
             to = {
               kind = "service";
@@ -1642,6 +1671,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-a";
+            returnBehavior = "one-way";
             priority = 80;
             to = {
               kind = "external";
@@ -1656,6 +1686,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-to-isp-a";
+            returnBehavior = "one-way";
             priority = 81;
             to = {
               kind = "external";
@@ -1670,6 +1701,7 @@ in
               name = "management";
             };
             id = "allow-management-icmp-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 96;
             to = {
               kind = "external";
@@ -1684,6 +1716,7 @@ in
               name = "management";
             };
             id = "allow-management-icmp-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 97;
             to = {
               kind = "external";
@@ -1698,6 +1731,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 98;
             to = {
               kind = "external";
@@ -1712,6 +1746,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 99;
             to = {
               kind = "external";
@@ -1726,6 +1761,7 @@ in
               name = "client";
             };
             id = "allow-client-to-testnet-host-isp";
+            returnBehavior = "one-way";
             priority = 100;
             to = {
               kind = "external";
@@ -1740,6 +1776,7 @@ in
               name = "client";
             };
             id = "allow-client-to-testnet-routed-isp";
+            returnBehavior = "one-way";
             priority = 101;
             to = {
               kind = "external";
@@ -1754,6 +1791,7 @@ in
               name = "iot";
             };
             id = "allow-iot-underlay-to-nebula-egress";
+            returnBehavior = "one-way";
             priority = 110;
             to = {
               kind = "external";
@@ -1768,6 +1806,7 @@ in
               name = "iot";
             };
             id = "allow-iot-underlay-to-wireguard-egress";
+            returnBehavior = "one-way";
             priority = 111;
             to = {
               kind = "external";
@@ -1782,6 +1821,7 @@ in
               name = "trusted";
             };
             id = "allow-trusted-to-shared-services";
+            returnBehavior = "one-way";
             priority = 120;
             to = {
               kind = "tenant-set";
@@ -1799,6 +1839,7 @@ in
               name = "guest";
             };
             id = "allow-guest-to-isp-a";
+            returnBehavior = "one-way";
             priority = 130;
             to = {
               kind = "external";
@@ -1813,6 +1854,7 @@ in
               name = "work";
             };
             id = "allow-work-to-isp-a";
+            returnBehavior = "one-way";
             priority = 131;
             to = {
               kind = "external";
@@ -1827,6 +1869,7 @@ in
               name = "provider-handoff-a";
             };
             id = "allow-provider-handoff-a-to-isp-b";
+            returnBehavior = "one-way";
             priority = 82;
             to = {
               kind = "external";
@@ -1841,6 +1884,7 @@ in
               name = "provider-handoff-b";
             };
             id = "allow-provider-handoff-b-to-isp-b";
+            returnBehavior = "one-way";
             priority = 83;
             to = {
               kind = "external";
@@ -1855,6 +1899,7 @@ in
               name = "guest";
             };
             id = "allow-guest-to-isp-b";
+            returnBehavior = "one-way";
             priority = 132;
             to = {
               kind = "external";
@@ -1869,6 +1914,7 @@ in
               name = "work";
             };
             id = "allow-work-to-isp-b";
+            returnBehavior = "one-way";
             priority = 133;
             to = {
               kind = "external";
