@@ -14,6 +14,11 @@ DNS, are acceptance predicates.
 
 The core exposes two eligible-looking egresses (`isp-primary` and
 `overlay-secondary`), while DNS selects only `isp-primary` by modeled identity.
+Both provider surfaces remain isolated host bridges during active-lab
+selection. The selector must not infer a physical parent such as `eth0` for
+either surface; only the separately modeled management VLAN may use that
+parent. A selected inventory that converts either provider into a native or
+DHCP host uplink is a construction failure before live DNS evidence is run.
 The selected emulated provider shall expose a harness-scoped dual-stack
 authoritative hierarchy: root, delegated `dns-validation.test.` namespace, and
 terminal record. Only that selected provider may complete the hierarchy. The

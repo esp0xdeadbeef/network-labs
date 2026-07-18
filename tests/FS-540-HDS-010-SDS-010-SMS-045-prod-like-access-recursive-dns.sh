@@ -189,12 +189,24 @@ NETWORK_LABS_CURRENT_LAB_DIR="${selection_root}/current-lab" \
 CURRENT_LAB="${selection_root}/current-lab" nix eval --impure --expr '
 let
   currentLab = builtins.getEnv "CURRENT_LAB";
+  nixosInventory = import (currentLab + "/inventory-s-router-nixos.nix");
+  clabInventory = import (currentLab + "/inventory-s-router-clab.nix");
   inventory = import (currentLab + "/inventory-test-clients.nix");
   intent = import (currentLab + "/intent-s-router-test-clients.nix");
   host = intent.control_plane_model.deployment.hosts.s-router-test-clients;
   require = condition: message: if condition then true else throw message;
+  providerUplinksFor = selectedInventory: hostName:
+    let uplinks = selectedInventory.deploymentHosts.${hostName}.uplinks;
+    in [ uplinks.isp-primary uplinks.overlay-secondary ];
+  providerUplinks =
+    providerUplinksFor nixosInventory "s-router-nixos"
+    ++ providerUplinksFor clabInventory "s-router-clab";
 in
-  require (host.uplinks.management.vlan == 2)
+  require (builtins.all
+    (uplink: uplink.mode == "isolated" && !(uplink ? parent))
+    providerUplinks)
+    "active-lab selection must preserve isolated provider uplinks without inventing a physical parent"
+  && require (host.uplinks.management.vlan == 2)
     "selected test-client CPM must inherit the shared management VLAN"
   && require (host.uplinks.management.bridge == "vlan2")
     "selected test-client CPM must inherit the shared management bridge"
