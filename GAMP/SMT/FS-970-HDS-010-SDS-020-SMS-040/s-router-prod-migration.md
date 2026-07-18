@@ -24,21 +24,32 @@ bronreferentie. De NixOS- en CLAB-renderers mounten die bron read-only en
 materialiseren Kea pas runtime. De inventory declareert daarnaast het normale
 Kea-leasepad, waardoor een post-render leasepad-rewrite niet meer nodig is.
 
-Geteste revisions:
+Lokaal samen gebouwde revisions (2026-07-18):
 
 | Repository | Revision |
 | --- | --- |
-| `network-labs` | `e6a757284aad` |
-| `network-compiler` / `nixos-network-compiler` | `f267ab67b866` |
-| `network-forwarding-model` | `d1290e8606f4` |
-| `network-control-plane-model` | `9e78e2ca078e` |
-| `network-renderer-nixos` | `85d433856bc6` |
-| `network-renderer-containerlab-linux-backend` | `3aa56a0759ea` |
-| `network-renderer-access-endpoint-nixos` | `697cb43c8d17` |
+| `network-labs` | `260ad0a32e6a` |
+| `network-compiler` / `nixos-network-compiler` | `688fe9e201fb` |
+| `network-forwarding-model` | `1ab37e18a20c` |
+| `network-control-plane-model` | `406de6f4dcda` |
+| `network-renderer-nixos` | `007c8ce8abfa` |
+| `network-renderer-containerlab-linux-backend` | `6f7a8671a2e4` |
+| `network-renderer-access-endpoint-nixos` | `237b709048f2` |
 
-Deze keten maakt uitsluitend de reservation- en Kea-leasepad-overwrites
-overbodig. Zij is geen bewijs dat overige `s-router-prod`-compatibiliteitslagen
-kunnen verdwijnen.
+Deze keten maakt de VLAN2/VLAN3 reservation- en Kea-leasepad-overwrites
+overbodig. `FS-270-HDS-010-SDS-010-SMS-020` voegt daarnaast de begrensde
+VLAN2-naar-VLAN3-policyselector en beide relation-scoped handoffs native toe.
+In de lokale kandidaat bleef exact de CPM-selector met prioriteit 1000 over;
+de priority-900-regel en beide host-specifieke nft-commentregels waren afwezig.
+Alle vier NixOS-toplevels (`s-router-prod`, `s-router-nixos`, `s-router-clab` en
+`s-router-test-clients`) bouwden met deze pins.
+
+Dit bewijs geldt niet automatisch voor iedere compatibiliteitslaag. De
+host-DHCP- en QEMU-contracten blijven staan. Ook de tijdelijke DNS-projecties
+mogen pas weg wanneer de herziene
+`FS-540-HDS-010-SDS-010-SMS-045`-SIT op dezelfde gepushte pins cold-staged
+slaagt voor NixOS én CLAB. Een werkende productiequery vervangt die geïsoleerde
+dual-stack/multi-egress-acceptatie niet.
 
 ## Identiteit opnemen en migreren
 
@@ -57,7 +68,7 @@ kunnen verdwijnen.
    redacted runtimevergelijking slagen. Vergelijk hashes en predicaten; print
    geen protected waarden.
 
-## Bewezen grens
+## Bewezen grens en staging
 
 `FS-970-HDS-010-SDS-020-SMS-040` is live uitgevoerd via
 `GAMP/SIT/FS-970-HDS-010-SDS-020` op:
@@ -73,6 +84,23 @@ actieve UDP 67/547-sockets, exact SOPS-naar-runtime materiaal, stabiele
 MAC/DUID/IAID/IID en precies één voorspelbaar IPv4- en IPv6-adres zonder extra
 globale adressen. Protected waarden bleven afwezig uit publieke bron en
 buildtemplates.
+
+De actuele pinset voegt nieuw construction-bewijs toe:
+
+- `FS-970-HDS-010-SDS-020-SMS-040` en SIT
+  `FS-970-HDS-010-SDS-020` bewaken de echte clientidentiteit en SOPS-runtimebron;
+- `FS-270-HDS-010-SDS-010-SMS-020` en SIT
+  `FS-270-HDS-010-SDS-010` bewaken dezelfde dual-stack policy-state-owner voor
+  request en reply, zonder geleende/transitieve egress; en
+- `FS-540-HDS-010-SDS-010-SMS-045` en SIT
+  `FS-540-HDS-010-SDS-010` bewaken reproduceerbare DNS-selectie bij meerdere
+  egresses en blijven NOT OK totdat de nieuwe cold-stage slaagt.
+
+Voor promotie moeten de huidige GitHub-revisions eerst op alle drie hosts zijn
+gestaged. Daarna: alle drie volledig uit, offline toestand vaststellen, nieuwe
+boot-ID's en exacte source revisions controleren, en de rows één voor één met
+echte clients uitvoeren. Een oude live run of alleen lokale compilatie is geen
+stagingbewijs.
 
 Er is niet op VLAN2, een productiesubnet of een publiek productieadres getest.
 Een lokale `s-router-prod`-build bewijst alleen dat de migratiekandidaat
