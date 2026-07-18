@@ -75,16 +75,16 @@ FS270_ROW="${row}" nix eval --impure --expr '
       && endpoint.ipv4 == [ "10.27.71.10" ]
       && endpoint.ipv6 == [ "fd42:270:71::10" ])
       "service provider must be the isolated destination endpoint"
-    && require (nodeNames == [ "access-destination" "access-source" "downstream-selector" "policy" ])
-      "logical fixture must contain only two access nodes, one selector, and one policy owner"
+    && require (nodeNames == [ "access-destination" "access-source" "core-vlan4" "downstream-selector" "policy" "upstream-selector" ])
+      "logical fixture must contain two access nodes, one policy owner, and the complete site spine"
     && require (routerVlans nixos == [ 408 407 ])
       "NixOS router inventory must use only isolated VLANs 407 and 408"
     && require (routerVlans clab == [ 410 409 ])
       "CLAB router inventory must use only isolated VLANs 409 and 410"
-    && require (builtins.length (realizedNodeNames nixos) == 4)
-      "NixOS inventory must explicitly realize four runtime nodes"
-    && require (builtins.length (realizedNodeNames clab) == 4)
-      "CLAB inventory must explicitly realize four runtime nodes"
+    && require (builtins.length (realizedNodeNames nixos) == 6)
+      "NixOS inventory must explicitly realize six runtime nodes"
+    && require (builtins.length (realizedNodeNames clab) == 6)
+      "CLAB inventory must explicitly realize six runtime nodes"
     && require (builtins.length clientAssignments == 4)
       "test-client intent must define four substrate-specific endpoints"
     && require (builtins.all

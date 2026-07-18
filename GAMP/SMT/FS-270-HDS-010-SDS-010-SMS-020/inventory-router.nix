@@ -40,6 +40,8 @@ let
     f270-access-source-ds = { };
     f270-ds-policy-destination = { };
     f270-ds-policy-source = { };
+    f270-policy-us-source-vlan4 = { };
+    f270-core-us = { };
   };
   deploymentHost = {
     bridgeNetworks = linkBridges // {
@@ -54,11 +56,30 @@ let
         vlan = destinationVlan;
       };
     };
+    uplinks.internet-vlan4 = {
+      bridge = "internet-vlan4";
+      parent = "eth0";
+      vlan = 4;
+      mode = "vlan";
+      ipv4 = {
+        enable = false;
+        method = "none";
+      };
+      ipv6 = {
+        enable = false;
+        method = "none";
+        acceptRA = false;
+        dhcp = false;
+        dhcpv6PD = false;
+      };
+    };
   };
   accessDestinationLink = "p2p-access-destination-downstream-selector";
   accessSourceLink = "p2p-access-source-downstream-selector";
   destinationPolicyLink = "p2p-downstream-selector-policy--access-access-destination";
   sourcePolicyLink = "p2p-downstream-selector-policy--access-access-source";
+  sourceUplinkLink = "p2p-policy-upstream-selector--access-access-source--uplink-internet-vlan4";
+  coreLink = "p2p-core-vlan4-upstream-selector";
 in
 {
   meta = {
@@ -158,6 +179,45 @@ in
         adapterName = "f270-policy-destination";
         interfaceName = "destination";
       };
+      upstream-access-source-internet-vlan4 = mkTransitPort {
+        link = sourceUplinkLink;
+        bridge = "f270-policy-us-source-vlan4";
+        adapterName = "f270-policy-us";
+        interfaceName = "upstream";
+      };
+    };
+
+    ${nodeId "upstream-selector"} = mkNode "upstream-selector" {
+      policy-access-source-internet-vlan4 = mkTransitPort {
+        link = sourceUplinkLink;
+        bridge = "f270-policy-us-source-vlan4";
+        adapterName = "f270-us-policy";
+        interfaceName = "policy";
+      };
+      core-internet-vlan4 = mkTransitPort {
+        link = coreLink;
+        bridge = "f270-core-us";
+        adapterName = "f270-us-core";
+        interfaceName = "core";
+      };
+    };
+
+    ${nodeId "core-vlan4"} = mkNode "core-vlan4" {
+      upstream-selector = mkTransitPort {
+        link = coreLink;
+        bridge = "f270-core-us";
+        adapterName = "f270-core-us";
+        interfaceName = "upstream";
+      };
+      internet-vlan4 = {
+        uplink = "internet-vlan4";
+        external = true;
+        attach = {
+          kind = "bridge";
+          bridge = "internet-vlan4";
+        };
+        interface.name = "internet-vlan4";
+      };
     };
   };
 }
@@ -168,6 +228,8 @@ in
         access.forwarding.disable_eth0 = true;
         downstream-selector.forwarding.disable_eth0 = true;
         policy.forwarding.disable_eth0 = true;
+        upstream-selector.forwarding.disable_eth0 = true;
+        core.forwarding.disable_eth0 = false;
       };
     }
   else

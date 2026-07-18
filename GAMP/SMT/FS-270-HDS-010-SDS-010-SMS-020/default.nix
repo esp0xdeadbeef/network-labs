@@ -16,7 +16,7 @@
       "FS-270-HDS-010-SDS-010-SMS-020__deny-reverse-new-flow"
       "FS-270-HDS-010-SDS-010-SMS-020__source-to-destination-icmp"
     ];
-    evidenceBoundary = "isolated-dual-substrate-access-service-policy-state-owner";
+    evidenceBoundary = "isolated-dual-substrate-access-service-policy-state-owner-with-complete-site-spine";
   };
   status = "NOT OK";
   evidence = {

@@ -2040,7 +2040,7 @@
       independent = true;
       aggregateOnly = false;
       scope = "FS-270-HDS-010-SDS-010-SMS-020 SMT live verifier";
-      maxRuntimeTargets = 4;
+      maxRuntimeTargets = 6;
     };
 
     "FS-270-HDS-010-SDS-010-SMS-030" = {
