@@ -53,6 +53,7 @@ let
       site.communicationContract.relations);
   endpointNames = builtins.attrNames
     clients.control_plane_model.data.mini-smt.\${trace}.endpointAssignment;
+  localDnsEndpointFor = inventory: inventory.endpoints.local-dns;
   inventoryNodeNames = inventory:
     map (node: node.logicalNode.name)
       (builtins.attrValues inventory.realization.nodes);
@@ -166,6 +167,7 @@ in
   && require (selectedBinding.directPublicFallback == false)
     \"access resolver must not use a public fallback\"
   && require (localIntent.requester.recursion == false
+    && localIntent.requester.service == localIntent.relation.from.name
     && localIntent.requester.publicFallback == false
     && localIntent.providerPolicy.action == \"refuse_non_local\"
     && localIntent.lateralPolicy.recursion == false
@@ -181,15 +183,21 @@ in
     resolverPath = [
       \"access-local\"
       \"downstream-selector\"
+      \"policy\"
+      \"downstream-selector\"
       \"access-recursive\"
     ];
-  }) \"local sharing must declare the exact direct access-lane request path and symmetric return\"
+  }) \"local sharing must declare the exact staged policy request path and symmetric return\"
   && require (localSharingRelation.from == localIntent.relation.from
     && localSharingRelation.to == localIntent.relation.to
     && localSharingRelation.trafficType == \"dns\"
     && localSharingRelation.action == \"allow\"
     && localSharingRelation.returnBehavior == \"symmetric\")
     \"communication relation must preserve the local-dns to recursive-dns forward direction\"
+  && require (builtins.all
+    (endpoint: endpoint.ipv4 != [ ] && endpoint.ipv6 != [ ])
+    [ (localDnsEndpointFor nixos) (localDnsEndpointFor clab) ])
+    \"the local-dns requester service must own a dual-stack source identity on both substrates\"
   && require (noLiteralForwarders nixos && noLiteralForwarders clab)
     \"inventories must not hardcode public or core forwarders\"
   && require (authorityIsControlled nixosAuthority && nixosAuthority == clabAuthority)

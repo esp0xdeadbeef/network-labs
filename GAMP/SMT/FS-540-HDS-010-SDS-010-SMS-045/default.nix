@@ -21,6 +21,6 @@
     focusedTest = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
     maxRuntimeTargets = 6;
     scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
-    observedResult = "NOT OK: the pushed dns-validation.gamp. fixture passed NixOS dual-stack iterative recursion, then local-only sharing failed. Emitted policy data reversed the local-dns to recursive-dns access lanes and required established state on the new forward DNS request, so the request was dropped. The row now makes the exact new-request and symmetric-return directions explicit; an owning-layer correction and a new pushed cold stage remain required on NixOS and CLAB";
+    observedResult = "NOT OK: the pushed dns-validation.gamp. fixture passed NixOS dual-stack iterative recursion, then local-only sharing failed. The staged policy path and source-selected routes were present, but the local-only resolver had no outgoing source binding; route lookup without the modeled local-dns address therefore failed before a packet was emitted. The row now requires the exact policy path plus dual-stack resolver source binding; an owning-layer correction and a new pushed cold stage remain required on NixOS and CLAB";
   };
 }

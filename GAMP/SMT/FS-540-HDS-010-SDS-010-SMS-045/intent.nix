@@ -246,6 +246,8 @@
         resolverPath = [
           "access-local"
           "downstream-selector"
+          "policy"
+          "downstream-selector"
           "access-recursive"
         ];
       };
