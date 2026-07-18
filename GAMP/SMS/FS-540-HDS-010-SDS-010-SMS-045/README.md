@@ -35,6 +35,9 @@ selected core interface must acquire a global address from the controlled
 provider and install the provider default in the selected policy table while
 forwarding remains enabled. A source flag, a kernel sysctl value, or visible
 RS/RA traffic without that address and route is not sufficient evidence.
+The controlled provider must originate RA from a valid link-local address and
+the packet must be observed on the core-facing bridge port; an authority log
+claiming `RTR-ADVERT` without a transmitted packet does not pass.
 Selected egress applies only to upstream resolver-origin requests: a route
 probe under the resolver UID plus UDP/TCP destination port 53 must select the
 provider during the initial socket route lookup, while replies for internal
