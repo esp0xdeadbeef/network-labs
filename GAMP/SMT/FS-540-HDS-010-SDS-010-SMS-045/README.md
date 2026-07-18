@@ -63,8 +63,8 @@ apply identically to the first cold boot of NixOS and CLAB.
 
 The SLAAC consumer remains a routed core, not an IPv6 host. Consequently, an
 `acceptRA = true` source field, a rendered network setting, or a particular
-kernel `accept_ra` value is not sufficient. The implementation may consume RA
-in the kernel or in a userspace network manager; those mechanisms expose
+kernel `accept_ra` value is not sufficient. RA may be consumed in the kernel
+or in a userspace network manager; those mechanisms expose
 different kernel sysctl values. The substrate-independent first-boot proof is
 that forwarding remains enabled while the selected interface acquires a
 global address from the controlled provider prefix and installs the provider

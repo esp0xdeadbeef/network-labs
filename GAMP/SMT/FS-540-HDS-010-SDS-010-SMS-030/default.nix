@@ -25,6 +25,6 @@
   evidence = {
     command = null;
     focusedTest = null;
-    observedResult = "dual-stack isolated recursive and local-only source implemented; CPM and renderer construction predicates remain NOT OK until the owning CMC tests pass";
+    observedResult = "NOT OK: the isolated dual-stack recursive and local-only source is present, but acceptance remains open until the row-specific CPM and renderer predicates and the cold-staged NixOS/CLAB protocol pass";
   };
 }
