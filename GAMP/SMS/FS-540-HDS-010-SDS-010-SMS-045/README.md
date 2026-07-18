@@ -24,3 +24,7 @@ test clients. Acceptance also requires the selected multi-egress path to work
 for the resolver's first upstream route decision, the resolver process and
 authorized listeners to remain present throughout the live protocol, and
 unchanged dynamic next-hop state to converge to stable, quiescent operation.
+Selected egress applies only to upstream resolver-origin requests: a route
+probe under the resolver UID must still send replies for internal access/client
+destinations over the modeled relationship return path. Completed recursion on
+core does not pass when a process-wide provider selector loses that reply.
