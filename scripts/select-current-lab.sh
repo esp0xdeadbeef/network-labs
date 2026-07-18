@@ -531,11 +531,16 @@ ${forwarding_enterprise_json}
     let
       generated = generatedUplinks.\${uplinkName} or { };
       existing = existingUplinks.\${uplinkName} or { };
+      generatedForMode =
+        if (existing.mode or null) == "isolated" then
+          builtins.removeAttrs generated [ "parent" "vlan" ]
+        else
+          generated;
     in
-    generated
+    generatedForMode
     // existing
-    // mergeFamily generated existing "ipv4"
-    // mergeFamily generated existing "ipv6";
+    // mergeFamily generatedForMode existing "ipv4"
+    // mergeFamily generatedForMode existing "ipv6";
   mergeUplinks = existingUplinks:
     let
       names = builtins.attrNames (generatedUplinks // existingUplinks // { management = managementVlan2; });
