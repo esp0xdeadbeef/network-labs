@@ -14,6 +14,12 @@ DNS, are acceptance predicates.
 
 The core exposes two eligible-looking egresses (`isp-primary` and
 `overlay-secondary`), while DNS selects only `isp-primary` by modeled identity.
+The selected emulated provider shall expose a harness-scoped dual-stack
+authoritative hierarchy: root, delegated `dns-validation.test.` namespace, and
+terminal record. Only that selected provider may complete the hierarchy. The
+alternate provider is a deny/decoy surface and cannot accidentally make the
+lookup pass.
+
 The access resolver binds `core-dns` by service/node identity; no core address
 or public forwarder is present in the inventory. CPM derives the listener and
 forwarder from the provider-side terminal attachment of the selected relation.
@@ -48,4 +54,7 @@ IPv4-only evidence is superseded and cannot promote this revised atom. A
 successful launcher or visible route without successful first-attempt
 recursion, scoped resolver-identity UDP/TCP port-53 socket rules, an
 identity-correct internal reply route, persistent listeners, and quiescent
-route state is also insufficient.
+route state is also insufficient. Public root availability, `example.com`, a
+host resolver, or a transparent recursive provider is not a valid test oracle;
+missing or external authority fails the row before protocol success is
+evaluated.
