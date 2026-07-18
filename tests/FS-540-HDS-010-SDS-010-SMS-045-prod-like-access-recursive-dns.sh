@@ -100,11 +100,11 @@ let
     && authority.root.nameServer != \"\"
     && authority.root.ipv4 != [ ]
     && authority.root.ipv6 != [ ]
-    && authority.delegation.zone == \"dns-validation.test.\"
+    && authority.delegation.zone == \"dns-validation.gamp.\"
     && authority.delegation.nameServer != authority.root.nameServer
     && authority.delegation.ipv4 != [ ]
     && authority.delegation.ipv6 != [ ]
-    && authority.terminal.name == \"answer.dns-validation.test.\"
+    && authority.terminal.name == \"answer.dns-validation.gamp.\"
     && authority.terminal.ipv4 != [ ]
     && authority.terminal.ipv6 != [ ]
     && authority.trust.mode == \"insecure-controlled-root\";

@@ -80,18 +80,18 @@ let
     };
     root = {
       zone = ".";
-      nameServer = "root.dns-validation.test.";
+      nameServer = "root.dns-validation.gamp.";
       ipv4 = [ "198.18.45.53" ];
       ipv6 = [ "fd42:540:45:ff::53" ];
     };
     delegation = {
-      zone = "dns-validation.test.";
-      nameServer = "ns.dns-validation.test.";
+      zone = "dns-validation.gamp.";
+      nameServer = "ns.dns-validation.gamp.";
       ipv4 = [ "198.18.45.54" ];
       ipv6 = [ "fd42:540:45:ff::54" ];
     };
     terminal = {
-      name = "answer.dns-validation.test.";
+      name = "answer.dns-validation.gamp.";
       ipv4 = [ "198.18.45.80" ];
       ipv6 = [ "fd42:540:45:ff::80" ];
     };

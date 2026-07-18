@@ -20,10 +20,12 @@ either surface; only the separately modeled management VLAN may use that
 parent. A selected inventory that converts either provider into a native or
 DHCP host uplink is a construction failure before live DNS evidence is run.
 The selected emulated provider shall expose a harness-scoped dual-stack
-authoritative hierarchy: root, delegated `dns-validation.test.` namespace, and
+authoritative hierarchy: root, delegated `dns-validation.gamp.` namespace, and
 terminal record. Only that selected provider may complete the hierarchy. The
 alternate provider is a deny/decoy surface and cannot accidentally make the
-lookup pass.
+lookup pass. A resolver special-use suffix such as `.test` is invalid for this
+fixture because an iterative resolver may synthesize a local negative answer
+without consulting the controlled root; that is a seeded negative.
 
 The access resolver binds `core-dns` by service/node identity; no core address
 or public forwarder is present in the inventory. CPM derives the listener and
