@@ -72,7 +72,7 @@
         services = [
           {
             name = "dns-site";
-            providers = [ ];
+            providers = [ "stable-dns" ];
             trafficType = "dns";
           }
         ];
@@ -95,6 +95,13 @@
         ];
       };
       ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "stable-dns";
+            tenant = "mgmt";
+          }
+        ];
         prefixes = [
           {
             ipv4 = "10.20.10.0/24";

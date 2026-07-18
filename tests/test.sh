@@ -38,6 +38,8 @@ tests=(
   test-nebula-runtime-node-intent-contract.sh
   test-tri-site-bgp-overlay-realization.sh
   test-modeling-contract-docs.sh
+  test-example-explicit-return-behavior.sh
+  test-example-dns-provider-bindings.sh
   test-smt-traceability-docs.sh
   test-hat-traceability-docs.sh
   test-sit-traceability-docs.sh
