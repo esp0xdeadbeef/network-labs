@@ -88,7 +88,7 @@
         services = [
           {
             name = "dns-site";
-            providers = [ ];
+            providers = [ "site-a-dns" ];
             trafficType = "dns";
           }
           {
@@ -126,6 +126,13 @@
         ];
       };
       ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "site-a-dns";
+            tenant = "mgmt";
+          }
+        ];
         prefixes = [
           {
             ipv4 = "10.20.10.0/24";
@@ -323,7 +330,7 @@
         services = [
           {
             name = "dns-site";
-            providers = [ ];
+            providers = [ "site-b-dns" ];
             trafficType = "dns";
           }
           {
@@ -361,6 +368,13 @@
         ];
       };
       ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "site-b-dns";
+            tenant = "mgmt";
+          }
+        ];
         prefixes = [
           {
             ipv4 = "10.30.10.0/24";
