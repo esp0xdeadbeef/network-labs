@@ -602,6 +602,10 @@ blobs, or shared example fragments.
   `network-labs` stages a harness-scoped dual-stack authoritative hierarchy on
   only the selected emulated provider and the live protocol derives its target
   and validation material from the staged artifact without public or host DNS.
+  The row source now supplies that identical root/delegation/terminal
+  realization to both substrates and makes both provider candidates isolated
+  from host/public uplinks. CPM and both renderers still have to consume it,
+  and the cold live row still has to pass before this entry can be closed.
 
 - The prod-like s-sigma lab models Chromecast-like streaming internet access:
   `allow-nixos-streaming-to-uplinks` allows tenant `streaming` to `isp-a` /
