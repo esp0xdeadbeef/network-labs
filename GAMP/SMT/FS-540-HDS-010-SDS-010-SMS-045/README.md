@@ -55,6 +55,14 @@ whose core endpoint is unattached are independent seeded negatives, even when
 solicit/advertise messages are logged and IPv4 DHCP succeeds. These predicates
 apply identically to the first cold boot of NixOS and CLAB.
 
+The SLAAC consumer remains a routed core, not an IPv6 host. Consequently, an
+`acceptRA = true` source field or rendered networkd setting is not sufficient:
+while IPv6 forwarding is enabled, the effective selected-interface
+`accept_ra` value must be `2`. Values `0` and `1` are seeded negatives for this
+row because Linux otherwise suppresses router advertisements on a forwarding
+node. The first-boot proof must observe this effective runtime state before the
+global address and selected-table default, on both NixOS and CLAB.
+
 The selected path is direction-scoped. Under the core resolver's real runtime
 UID, UDP/TCP destination-port-53 socket lookups must use the selected provider
 before packet emission, while internal access/client replies to ephemeral

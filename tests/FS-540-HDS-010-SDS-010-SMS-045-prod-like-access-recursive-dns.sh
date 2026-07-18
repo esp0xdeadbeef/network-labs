@@ -156,6 +156,8 @@ in
     \"isp-primary\"
     \"overlay-secondary\"
   ]) \"acceptance source must expose two eligible-looking egresses\"
+  && require (site.topology.nodes.core-primary.role == \"core\")
+    \"the SLAAC consumer must remain a routed core; acceptRA must materialize as effective router acceptance rather than host-only acceptance\"
   && require (selectedBinding.directPublicFallback == false)
     \"access resolver must not use a public fallback\"
   && require (localIntent.requester.recursion == false
