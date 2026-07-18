@@ -127,6 +127,7 @@ tests=(
   test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh
   test-fs720-hds040-sds010-sms010-runtime-observation-boundary.sh
   FS-260-HDS-010-SDS-010-SMS-010-policy-required-access-return-source.sh
+  FS-270-HDS-010-SDS-010-SMS-020-access-service-policy-state-owner-source.sh
   test-fs770-hds020-sds010-sms010-common-source-inventory-split.sh
   test-fs750-hds020-sds010-sms010-receiver-service-surfaces.sh
   test-fs760-hds020-sds010-sms010-receiver-discovery-surface.sh

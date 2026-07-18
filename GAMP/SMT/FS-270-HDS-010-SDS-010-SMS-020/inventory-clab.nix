@@ -1,16 +1,8 @@
-{
-  meta = {
-    traceId = "FS-270-HDS-010-SDS-010-SMS-020";
-    scope = "mini-smt-auto";
-  };
-  hosts = {};
-  deploymentHosts = {
-    s-router-nixos = {
-      bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
-      };
-    };
-  };
+import ./inventory-router.nix {
+  host = "s-router-clab";
+  sourceBridge = "f270csrc";
+  sourceVlan = 409;
+  destinationBridge = "f270cdst";
+  destinationVlan = 410;
+  containerlab = true;
 }

@@ -2029,7 +2029,10 @@
       source = {
         kind = "intent-source";
         intent = ../FS-270-HDS-010-SDS-010-SMS-020/intent.nix;
-        expectedRelationIds = [ "FS-270-HDS-010-SDS-010-SMS-020__mini-verify" ];
+        expectedRelationIds = [
+          "FS-270-HDS-010-SDS-010-SMS-020__deny-reverse-new-flow"
+          "FS-270-HDS-010-SDS-010-SMS-020__source-to-destination-icmp"
+        ];
       };
       evidenceLevels = [ "SMT" "SIT" ];
       rendererTarget = null;
@@ -2037,7 +2040,7 @@
       independent = true;
       aggregateOnly = false;
       scope = "FS-270-HDS-010-SDS-010-SMS-020 SMT live verifier";
-      maxRuntimeTargets = 5;
+      maxRuntimeTargets = 4;
     };
 
     "FS-270-HDS-010-SDS-010-SMS-030" = {
