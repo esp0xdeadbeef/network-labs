@@ -56,12 +56,15 @@ solicit/advertise messages are logged and IPv4 DHCP succeeds. These predicates
 apply identically to the first cold boot of NixOS and CLAB.
 
 The SLAAC consumer remains a routed core, not an IPv6 host. Consequently, an
-`acceptRA = true` source field or rendered networkd setting is not sufficient:
-while IPv6 forwarding is enabled, the effective selected-interface
-`accept_ra` value must be `2`. Values `0` and `1` are seeded negatives for this
-row because Linux otherwise suppresses router advertisements on a forwarding
-node. The first-boot proof must observe this effective runtime state before the
-global address and selected-table default, on both NixOS and CLAB.
+`acceptRA = true` source field, a rendered network setting, or a particular
+kernel `accept_ra` value is not sufficient. The implementation may consume RA
+in the kernel or in a userspace network manager; those mechanisms expose
+different kernel sysctl values. The substrate-independent first-boot proof is
+that forwarding remains enabled while the selected interface acquires a
+global address from the controlled provider prefix and installs the provider
+default in the selected policy table. Configuration-only evidence, visible
+RS/RA traffic without both artifacts, and any post-boot sysctl or interface
+reconfiguration are seeded negatives on both NixOS and CLAB.
 
 The selected path is direction-scoped. Under the core resolver's real runtime
 UID, UDP/TCP destination-port-53 socket lookups must use the selected provider
