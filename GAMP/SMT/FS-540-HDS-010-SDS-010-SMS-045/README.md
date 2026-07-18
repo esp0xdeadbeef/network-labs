@@ -91,10 +91,17 @@ access-recursive`. Only the reply from `recursive-dns` uses the symmetric
 established/related return direction. The requester resolver must bind the
 modeled `local-dns` service address as its outgoing source for both families;
 merely installing a source-selected route is insufficient because an
-unconstrained resolver socket has no usable route in this staged fabric.
-Swapping the two access lanes, requiring established state on the new request,
-or omitting that source binding are seeded negatives even when the same
-relation ID and both endpoint addresses remain visible in emitted data.
+unconstrained resolver socket has no usable route in this staged fabric. The
+locally generated DNS reply has no incoming-interface context. For both
+address families, a reply sourced by `local-dns` and destined for the recursive
+client must therefore select the modeled relation return path using service
+and destination identity alone. A route-table entry without a matching local
+source rule, an IPv4-only source rule, or a rule that requires an `iif` is not
+return-path proof. Swapping the two access lanes, requiring established state
+on the new request, omitting the resolver source binding, or losing the IPv6
+reply before it leaves `access-local` are seeded negatives even when the same
+relation ID, route table, and both endpoint addresses remain visible in
+emitted data.
 
 Run the construction contract with:
 
