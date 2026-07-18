@@ -31,5 +31,6 @@ S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab \
 The live probe must verify resolver-source artifacts, local recursive resolver
 state, bounded DNS recursion from NixOS and CLAB runtime targets, real
 test-client recursive DNS, resolver-identity route selection that distinguishes
-upstream requests from internal replies, and absence of Docker/host public
-resolver fallback on the CLAB core recursive path.
+upstream UDP/TCP destination-port-53 socket lookups from internal replies,
+rejection of output-mark-only and process-wide UID selection, and absence of
+Docker/host public resolver fallback on the CLAB core recursive path.

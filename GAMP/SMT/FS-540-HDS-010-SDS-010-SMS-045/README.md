@@ -24,10 +24,11 @@ authorized listeners remain present and that unchanged dynamic next-hop state
 converges without continuous refresh activity.
 
 The selected path is direction-scoped. Under the core resolver's real runtime
-UID, upstream destinations must use the selected provider while internal
-access/client destinations must retain the modeled return path. A process-wide
-UID rule that sends both classes to the provider is a seeded negative, even
-when core completes recursion internally.
+UID, UDP/TCP destination-port-53 socket lookups must use the selected provider
+before packet emission, while internal access/client replies to ephemeral
+ports retain the modeled return path. An output-hook-only mark and a
+process-wide UID rule are independent seeded negatives, even when the selected
+table exists or core completes recursion internally.
 
 The local-only resolver may forward only `lab.` and its modeled reverse zone to
 the recursive access resolver. The opposite reachable direction is also
@@ -45,5 +46,6 @@ all three lab guests, verify their new boot/system/source pins, and run the
 row-local live protocol from `network-codex-agent`. Previous 2026-07-03
 IPv4-only evidence is superseded and cannot promote this revised atom. A
 successful launcher or visible route without successful first-attempt
-recursion, an identity-correct internal reply route, persistent listeners, and
-quiescent route state is also insufficient.
+recursion, scoped resolver-identity UDP/TCP port-53 socket rules, an
+identity-correct internal reply route, persistent listeners, and quiescent
+route state is also insufficient.
