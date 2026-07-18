@@ -21,6 +21,6 @@
     focusedTest = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
     maxRuntimeTargets = 6;
     scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
-    observedResult = "pending cold-staged first-attempt, persistence, convergence, and DNS live protocol against pushed network-* revisions";
+    observedResult = "NOT OK: the 2026-07-18 exact-source cold stage reached selected-egress6-nixos without a selected-table IPv6 default; both substrate fixtures exposed RA-only provider configuration without autonomous SLAAC, so the dual-stack first-attempt predicate remains unmet";
   };
 }

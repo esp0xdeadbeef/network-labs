@@ -34,6 +34,13 @@ sufficient. The live protocol also proves that the resolver process and
 authorized listeners remain present and that unchanged dynamic next-hop state
 converges without continuous refresh activity.
 
+For IPv6, a visible Router Advertisement is not sufficient evidence. The
+selected provider must advertise an autonomous SLAAC prefix (A-bit set), and
+the core must acquire both its global address and the selected-table default
+route during the first cold boot. An RA-only provider mode that omits SLAAC is
+a seeded negative, even when solicit/advertise messages are visible and IPv4
+DHCP succeeds. This predicate applies identically to NixOS and CLAB.
+
 The selected path is direction-scoped. Under the core resolver's real runtime
 UID, UDP/TCP destination-port-53 socket lookups must use the selected provider
 before packet emission, while internal access/client replies to ephemeral

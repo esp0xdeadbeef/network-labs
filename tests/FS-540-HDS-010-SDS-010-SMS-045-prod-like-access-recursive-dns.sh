@@ -55,6 +55,16 @@ let
       (builtins.attrValues inventory.realization.nodes);
   hostUplinks = inventory: host:
     inventory.deploymentHosts.\${host}.uplinks;
+  dualStackSlaacUplink = uplink:
+    uplink.mode == \"isolated\"
+    && uplink.ipv4.enable == true
+    && uplink.ipv4.method == \"dhcp\"
+    && uplink.ipv4.dhcp == true
+    && uplink.ipv6.enable == true
+    && uplink.ipv6.method == \"slaac\"
+    && uplink.ipv6.acceptRA == true
+    && uplink.ipv6.dhcp == false
+    && uplink.ipv6.dhcpv6PD == false;
   allInventoryDns = inventory:
     map (node: node.services.dns or { })
       (builtins.attrValues inventory.realization.nodes);
@@ -155,11 +165,13 @@ in
     \"overlay-secondary\"
   ]) \"both substrates must realize the same two egress candidates\"
   && require (
-    (hostUplinks nixos \"s-router-nixos\").isp-primary.mode == \"isolated\"
-    && (hostUplinks nixos \"s-router-nixos\").overlay-secondary.mode == \"isolated\"
-    && (hostUplinks clab \"s-router-clab\").isp-primary.mode == \"isolated\"
-    && (hostUplinks clab \"s-router-clab\").overlay-secondary.mode == \"isolated\"
-  ) \"the acceptance authority must not share either provider surface with a public or host uplink\"
+    builtins.all dualStackSlaacUplink [
+      (hostUplinks nixos \"s-router-nixos\").isp-primary
+      (hostUplinks nixos \"s-router-nixos\").overlay-secondary
+      (hostUplinks clab \"s-router-clab\").isp-primary
+      (hostUplinks clab \"s-router-clab\").overlay-secondary
+    ]
+  ) \"each isolated provider must preserve DHCPv4 plus autonomous IPv6 SLAAC intent; RA-only is not sufficient\"
   && require (endpointNames == [
     \"local-dns-clab-client\"
     \"local-dns-nixos-client\"
@@ -203,9 +215,15 @@ let
     ++ providerUplinksFor clabInventory "s-router-clab";
 in
   require (builtins.all
-    (uplink: uplink.mode == "isolated" && !(uplink ? parent))
+    (uplink:
+      uplink.mode == "isolated"
+      && !(uplink ? parent)
+      && uplink.ipv6.enable == true
+      && uplink.ipv6.method == "slaac"
+      && uplink.ipv6.acceptRA == true
+      && uplink.ipv6.dhcp == false)
     providerUplinks)
-    "active-lab selection must preserve isolated provider uplinks without inventing a physical parent"
+    "active-lab selection must preserve isolated autonomous-SLAAC provider uplinks without inventing a physical parent"
   && require (host.uplinks.management.vlan == 2)
     "selected test-client CPM must inherit the shared management VLAN"
   && require (host.uplinks.management.bridge == "vlan2")
