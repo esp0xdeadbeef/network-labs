@@ -37,6 +37,7 @@ FS270_ROW="${row}" nix eval --impure --expr '
       intent.communicationContract.relations);
     allow = relationById.FS-270-HDS-010-SDS-010-SMS-020__source-to-destination-icmp;
     reverseDeny = relationById.FS-270-HDS-010-SDS-010-SMS-020__deny-reverse-new-flow;
+    externalAllow = relationById.FS-270-HDS-010-SDS-010-SMS-020__source-to-test-uplink;
     service = builtins.head intent.communicationContract.services;
     endpoint = builtins.head intent.ownership.endpoints;
     nodeNames = builtins.attrNames intent.topology.nodes;
@@ -54,8 +55,8 @@ FS270_ROW="${row}" nix eval --impure --expr '
   in
     require (rowRecord.status == "NOT OK")
       "row must remain NOT OK before construction and cold-stage evidence"
-    && require (builtins.length intent.communicationContract.relations == 2)
-      "fixture must contain exactly one forward allow and one reverse new-flow deny"
+    && require (builtins.length intent.communicationContract.relations == 3)
+      "fixture must contain the lateral pair plus one required isolated external allow"
     && require (
       allow.from == { kind = "tenant"; name = "source"; }
       && allow.to == { kind = "service"; name = "destination-icmp"; }
@@ -68,6 +69,12 @@ FS270_ROW="${row}" nix eval --impure --expr '
       && reverseDeny.to == { kind = "tenant"; name = "source"; }
       && reverseDeny.action == "deny")
       "independently initiated reverse traffic must remain denied"
+    && require (
+      externalAllow.from == { kind = "tenant"; name = "source"; }
+      && externalAllow.to == { kind = "external"; uplinks = [ "internet-vlan4" ]; }
+      && externalAllow.action == "allow"
+      && externalAllow.returnBehavior == "symmetric")
+      "complete site source must keep its external allow on the isolated lab uplink"
     && require (
       service.providers == [ "destination-endpoint" ]
       && endpoint.name == "destination-endpoint"

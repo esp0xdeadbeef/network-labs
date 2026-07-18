@@ -2,6 +2,7 @@
   mini-smt.FS-270-HDS-010-SDS-010-SMS-020 = {
     communicationContract = {
       interfaceTags = {
+        external-internet-vlan4 = "internet-vlan4";
         tenant-source = "source";
         tenant-destination = "destination";
       };
@@ -32,6 +33,21 @@
             name = "destination-icmp";
           };
           trafficType = "icmp";
+          action = "allow";
+          returnBehavior = "symmetric";
+        }
+        {
+          id = "FS-270-HDS-010-SDS-010-SMS-020__source-to-test-uplink";
+          priority = 200;
+          from = {
+            kind = "tenant";
+            name = "source";
+          };
+          to = {
+            kind = "external";
+            uplinks = [ "internet-vlan4" ];
+          };
+          trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";
         }

@@ -15,6 +15,7 @@
     expectedRelationIds = [
       "FS-270-HDS-010-SDS-010-SMS-020__deny-reverse-new-flow"
       "FS-270-HDS-010-SDS-010-SMS-020__source-to-destination-icmp"
+      "FS-270-HDS-010-SDS-010-SMS-020__source-to-test-uplink"
     ];
     evidenceBoundary = "isolated-dual-substrate-access-service-policy-state-owner-with-complete-site-spine";
   };
