@@ -30,6 +30,11 @@ test clients. Acceptance also requires the selected multi-egress path to work
 for the resolver's first upstream route decision, the resolver process and
 authorized listeners to remain present throughout the live protocol, and
 unchanged dynamic next-hop state to converge to stable, quiescent operation.
+For routed IPv6, the cold-boot predicate is functional RA consumption: the
+selected core interface must acquire a global address from the controlled
+provider and install the provider default in the selected policy table while
+forwarding remains enabled. A source flag, a kernel sysctl value, or visible
+RS/RA traffic without that address and route is not sufficient evidence.
 Selected egress applies only to upstream resolver-origin requests: a route
 probe under the resolver UID plus UDP/TCP destination port 53 must select the
 provider during the initial socket route lookup, while replies for internal
