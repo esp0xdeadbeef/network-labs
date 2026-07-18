@@ -60,6 +60,7 @@ flowchart LR
 | `LAB-SMT-023` | `examples/single-wan-uplink-ebgp` | `network-renderer-nixos/tests/test-bgp-rendering.sh` | NixOS renderer | NixOS renders selected BGP routing mode, eBGP/iBGP neighbors, route-reflector clients, and tenant networks from CPM. | It renders NixOS containers from the example and checks FRR output, proving routing-mode projection without a live lab. |
 | `LAB-SMT-024` | `examples/single-wan-uplink-ebgp` | `network-renderer-containerlab-linux-backend/tests/test-bgp-example.sh` | CLAB renderer | CLAB renders selected BGP routing mode, eBGP/iBGP neighbors, route-reflector clients, and tenant networks from CPM. | It builds CPM and CLAB artifacts from the example and checks generated topology output. |
 | `LAB-SMT-025` | `examples/single-wan` | `network-renderer-containerlab-linux-backend/tests/test-routing-mode-required.sh` | CLAB renderer | CLAB fails when CPM runtime targets omit required `routingMode`. | It mutates example-derived CPM output by deleting `routingMode` and expects renderer failure, proving CLAB does not choose static/BGP locally. |
+| `LAB-SMT-026` | `examples/*/intent.nix` | `network-labs/tests/test-example-explicit-return-behavior.sh` | Intent fixture review | Every allow relation declares a recognized return-flow decision, with matching top-level and public-ingress authority when both are present. | It imports only example intent and fails before compiler, NFM, CPM, or renderers can default or invent return semantics. |
 
 ## URS Coverage Audit
 
