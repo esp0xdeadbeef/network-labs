@@ -68,6 +68,7 @@ done
 ROW="${row}" nix eval --impure --expr '
   let
     row = builtins.getEnv "ROW";
+    rowDefault = import (row + "/default.nix");
     intent = import (row + "/intent.nix");
     nixos = import (row + "/inventory-nixos.nix");
     clab = import (row + "/inventory-clab.nix");
@@ -93,6 +94,11 @@ ROW="${row}" nix eval --impure --expr '
       interfaceName = "eth0";
     };
   in
+  assert rowDefault.runtimeHosts == [
+    "s-router-nixos"
+    "s-router-clab"
+    "s-router-test-clients"
+  ];
   assert !(authority ? publicSurface);
   assert !(authority ? targetEndpoint);
   assert !(authority ? runtimePrefix);
