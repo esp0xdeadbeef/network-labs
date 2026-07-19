@@ -265,6 +265,7 @@ let
   nixosInventory = import (currentLab + "/inventory-s-router-nixos.nix");
   clabInventory = import (currentLab + "/inventory-s-router-clab.nix");
   hetzInventory = import (currentLab + "/inventory-hetz.nix");
+  hetzIntent = import (currentLab + "/intent-s-router-hetz.nix");
   inventory = import (currentLab + "/inventory-test-clients.nix");
   intent = import (currentLab + "/intent-s-router-test-clients.nix");
   host = intent.control_plane_model.deployment.hosts.s-router-test-clients;
@@ -316,6 +317,10 @@ in
     traceId = "FS-540-HDS-010-SDS-010-SMS-045";
     hostName = "s-router-hetz";
   }) "unsupported runtime host must retain explicit row provenance"
+  && require (hetzIntent.control_plane_model.realization.nodes == { })
+    "unsupported s-router-hetz intent must not carry runtime realization nodes"
+  && require (hetzIntent.control_plane_model.data.active-lab.hetz.runtimeTargets == { })
+    "unsupported s-router-hetz intent must expose an explicit no-runtime contract"
   && require (host.uplinks.management.vlan == 2)
     "selected test-client CPM must inherit the shared management VLAN"
   && require (host.uplinks.management.bridge == "vlan2")

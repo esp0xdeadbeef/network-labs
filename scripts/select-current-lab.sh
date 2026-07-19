@@ -36,6 +36,7 @@ write_import() {
 write_current_host_entrypoints() {
   write_import "intent-s-router-nixos.nix" "./intent.nix"
   write_import "intent-s-router-clab.nix" "./intent.nix"
+  write_import "intent-s-router-hetz.nix" "./intent.nix"
   write_import "intent-s-router-test-clients.nix" "./intent.nix"
 
   write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
@@ -285,6 +286,37 @@ rec {
     data.active-lab.clab = {
       enterprise = "active-lab";
       siteName = "clab";
+      runtimeTargets = { };
+    };
+  };
+  deploymentHosts = control_plane_model.deployment.hosts;
+  deployment = control_plane_model.deployment;
+  realization = control_plane_model.realization;
+}
+EOF
+}
+
+write_empty_hetz_intent() {
+  local trace_id="$1"
+  write_file "${current_dir}/intent-s-router-hetz.nix" cat <<EOF
+let
+  inventory = import ./inventory-hetz.nix;
+  hetzHost = (inventory.deploymentHosts or { }).s-router-hetz or { };
+in
+rec {
+  control_plane_model = {
+    meta = {
+      traceId = "${trace_id}";
+      source = "network-labs current-lab SMT/SIT hetz-host no-runtime source";
+    };
+    deployment.hosts.s-router-hetz = hetzHost // {
+      bridgeNetworks = hetzHost.bridgeNetworks or { };
+    };
+    render.hosts.s-router-hetz.deploymentHost = "s-router-hetz";
+    realization.nodes = { };
+    data.active-lab.hetz = {
+      enterprise = "active-lab";
+      siteName = "hetz";
       runtimeTargets = { };
     };
   };
@@ -1418,7 +1450,7 @@ in
 
 select_smt() {
   local requested="$1"
-  local mini_key trace row_trace source_kind source_path renderer_target row_dir selected_by
+  local mini_key trace row_trace source_kind source_path renderer_target row_dir selected_by hetz_runtime_supported
   mini_key="$(mini_key_for_selector "${requested}")"
   trace="$(trace_for_mini_key "${mini_key}")"
   row_trace="${trace%%__*}"
@@ -1430,6 +1462,7 @@ select_smt() {
   fi
   row_dir="GAMP/SMT/${row_trace}"
   selected_by="scripts/select-current-lab.sh SMT ${trace}"
+  hetz_runtime_supported=true
 
   [[ -d "${repo_root}/${row_dir}" ]] || {
     echo "SMT row directory not found: ${row_dir}" >&2
@@ -1465,6 +1498,7 @@ select_smt() {
       write_smt_inventory_with_management "inventory-hetz.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-hetz"
     else
       write_no_runtime_inventory "inventory-hetz.nix" "${trace}" "s-router-hetz"
+      hetz_runtime_supported=false
     fi
   fi
   if [[ "${source_kind}" == "renderer-input" ]]; then
@@ -1473,6 +1507,9 @@ select_smt() {
   write_default_sops
   write_smt_row_sops_overrides "${row_dir}"
   write_current_host_entrypoints
+  if [[ "${hetz_runtime_supported}" == "false" ]]; then
+    write_empty_hetz_intent "${trace}"
+  fi
   if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos" ]]; then
     write_import "intent-s-router-nixos.nix" "../${source_path}"
     write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"

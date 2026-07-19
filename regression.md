@@ -9,13 +9,6 @@ blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
 
-- FS-540-HDS-010-SDS-010-SMS-045 now declares its supported runtime hosts,
-  and the active-lab selector emits an explicit no-runtime inventory with row
-  provenance for unsupported hosts. This prevents the NixOS/CLAB-only DNS lab
-  from projecting `dns545*` bridges and realization nodes onto
-  `s-router-hetz`. The focused construction test now rejects such projection;
-  `tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh`
-  passes.
 - All reusable example allow relations now carry an explicit recognized
   `returnBehavior`. Ordinary compatibility-fixture flows use `one-way`, while
   relations with an existing public-ingress authority retain their explicit
@@ -600,6 +593,14 @@ blobs, or shared example fragments.
   or SAT acceptance.
 
 ## Still Broken
+
+- FS-540-HDS-010-SDS-010-SMS-045 now emits a no-runtime Hetz inventory, but
+  the consuming Hetz profile still compiles the shared row intent. The full
+  NixOS all-systems check therefore correctly rejects six intent targets with
+  no realization. The unsupported-host boundary needs a matching trace-tagged
+  no-runtime host intent, and the Hetz consumer must use the host-specific
+  active-lab intent entrypoint just like the NixOS, CLAB, and test-client
+  consumers.
 
 - FS-540-HDS-010-SDS-010-SMS-045 cold restage14 on 2026-07-18 proved the
   resolver's scoped pre-socket UDP/TCP port-53 rules emit traffic on the
