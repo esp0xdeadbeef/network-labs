@@ -41,16 +41,40 @@ De drie geïsoleerde cold stages gebruikten exact deze gepushte flake-pins. De
 
 De keten levert de protected reservationbron, dual-stack Kea-materialisatie en
 leasepaden native. Dezelfde pins leveren ook de symmetrische VLAN2/VLAN3-
-policyhandoffs en reproduceerbare core-DNS-selectie; de hostprofiel-overwrites
-zijn daardoor geen bron van waarheid meer. Nebula/WireGuard-pins zijn als
-onderdeel van dezelfde totale build vastgezet, maar verlenen geen impliciete
-policy- of DNS-authoriteit.
+policyhandoffs en reproduceerbare core-DNS-selectie. De oude Kea- en DNS-
+post-renderoverwrites zijn daardoor geen bron van waarheid meer. Een beperkt
+hostmanagementprofiel en enkele nog niet native gematerialiseerde IPv6-
+functies zijn afzonderlijk geclassificeerd hieronder. Nebula/WireGuard-pins
+zijn als onderdeel van dezelfde totale build vastgezet, maar verlenen geen
+impliciete policy- of DNS-authoriteit.
 
 De brede lokale `nix flake check --all-systems` gebruikte daarnaast in de
 toegestane NixOS-worktree het host-specifieke
 `active-lab/intent-s-router-hetz.nix`-entrypoint. Canonical NixOS bleef schoon;
 die consumerregel moet dus upstream beschikbaar zijn voordat deze kandidaat
 buiten de lokale compilatieboundary wordt gebruikt.
+
+## Configuratiefeit of pipeline-gap
+
+Niet ieder concreet gegeven in `intent.nix` of `inventory.nix` is een fout. De
+intent bepaalt welke verbinding of dienst is toegestaan; inventory levert de
+site- en hostgebonden realization-input. Een pipeline-defect bestaat pas als
+een downstreamlaag die expliciete invoer verliest, zelf nieuwe autoriteit
+verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
+
+| Onderwerp | Eigenaar en migratie | Classificatie |
+| --- | --- | --- |
+| VLAN2-hostmanagement met DHCPv4 en `UseDNS = false` | Het minimale hostprofiel mag vereiste managementbereikbaarheid vastleggen. Beschrijf de interface in inventory/hostprofiel; leid er geen tenantpolicy uit af. | Realization-input, geen defect. |
+| QEMU-bridges, NIC-volgorde en bestaande host-MAC's | Dit zijn eigenschappen van de productiehost en hypervisorhandoff. Houd ze in de host/inventory-boundary en gebruik ze niet als generiek SMS-voorbeeld. | Realization-input, geen defect. |
+| Adressen van `core-dns`, access-resolvers en listeners | Dit zijn toegewezen endpointadressen. Intent verwijst naar de benoemde service; inventory bindt die service aan concrete adressen. Meerdere geldige core/egress-kandidaten moeten door de FS-540-selectie exact één reproduceerbare binding opleveren of een warning/failure geven. | Realization-input; alleen ambigue of downstream verzonnen selectie is een defect. |
+| `reservationSource.sourceFile` en SOPS-mount | Inventory mag alleen schema, classificatie en runtimepad leveren. Hostname, MAC, IPv4, IPv6-IID en DUID/IAID blijven volledig protected. | Secret-delivery en datamigratie, geen policydefect. |
+| Reservationnamen naar lokale A/AAAA/PTR-data | De protected bron mag runtime ook de gemodelleerde lokale naamruimte voeden. Een NixOS-profielscript dat zelf Unbound-records maakt is geen blijvende eigenaar. | Pipeline-gap: `FS-560-HDS-010-SDS-010-SMS-050`. |
+| PPPoE IPv6/Prefix Delegation | Interface, provider, IAID en PD-request-ID zijn inventoryfeiten. De IPv6-default, DHCPv6-PD-client, ordering en exacte reply-firewall horen uit CPM en de NixOS/CLAB-renderers te komen. | Invoer is geen defect; native gap: `FS-800-HDS-030-SDS-020-SMS-020`. |
+| Nebula public ingress | De toegestane tuple staat in intent; endpoint en protected runtimeadres/prefix staan in inventory. Stateful forwarding en eventuele expliciet geautoriseerde translation horen native uit model en renderers te komen. | Invoer is geen defect; native gap: `FS-230-HDS-010-SDS-010-SMS-040`. |
+
+Een literal is dus niet op zichzelf verboden. Zij is fout geplaatst wanneer zij
+policyautoriteit vervangt, protected clientdata lekt of in een downstreamlaag
+een waarde dupliceert die al door de benoemde upstreambron wordt geleverd.
 
 ## Migratie
 
@@ -67,6 +91,10 @@ buiten de lokale compilatieboundary wordt gebruikt.
 5. Verwijder de lokale reservation-/leasepad-overwrites pas nadat de kandidaat
    bouwt en een redacted runtimevergelijking exact slaagt. Bij afwijking:
    fail-closed, niet activeren en de vorige generatie behouden.
+6. Verwijder host-lokale IPv6/DNS-compatibiliteitscode alleen nadat de owning
+   `network-*`-laag dezelfde expliciete intent- en inventory-input native
+   materialiseert voor zowel NixOS als CLAB. Verplaats host- of sitefeiten niet
+   naar intent om alleen een lokaal bestand te kunnen verwijderen.
 
 ## Niet-productie-bewijs
 
