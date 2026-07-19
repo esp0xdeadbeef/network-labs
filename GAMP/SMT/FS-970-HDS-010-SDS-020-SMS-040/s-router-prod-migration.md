@@ -12,13 +12,13 @@ De lokale consumerkandidaat gebruikt deze gepushte revisions:
 
 | Flake-input | Revision | Verantwoordelijkheid |
 | --- | --- | --- |
-| `network-labs` | `109c3dfe8eee` | geïsoleerde rows, SOPS-delivery en migratienotitie |
+| `network-labs` | `562f749038ef` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en migratienotitie |
 | `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | expliciete ingress-only intent zonder fictieve egress behouden |
 | `network-forwarding-model-prod` | `a114b33ae555` | fysieke ingress-anchor scheiden van egress-/NAT-authority |
 | `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
 | `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea/DNS/routes/firewall en vijf-node ingressbewijs |
 | `network-renderer-containerlab-linux-backend` | `15264eb1e7e5` | equivalente CLAB-materialisatie en runtime-regelvalidatie |
-| `network-renderer-access-endpoint-nixos` | `237b709048f2` | echte geïsoleerde test-clients |
+| `network-renderer-access-endpoint-nixos` | `d2d78859130a` | echte geïsoleerde test-clients met runtime-only protected `/128` |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay-output, zonder extra policy- of DNS-autoriteit |
 
 Met deze pinset bouwt `s-router-prod` zonder de lokale reservation-DNS-parser,
