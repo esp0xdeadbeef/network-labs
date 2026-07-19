@@ -1,11 +1,9 @@
-{
-  meta = {
-    traceId = "FS-560-HDS-010-SDS-010-SMS-050";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-560-HDS-010-SDS-010-SMS-050-protected-reservation-name-materialization.md";
+let
+  nixos = import ./inventory-nixos.nix;
+in
+nixos
+// {
+  meta = nixos.meta // {
     renderer = "clab";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
   };
-  hosts = { };
-  deploymentHosts = { };
 }
