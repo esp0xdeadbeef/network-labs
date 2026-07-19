@@ -1,27 +1,52 @@
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+    role = "management";
+    ipv4 = {
+      enable = true;
+      dhcp = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      enable = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      acceptRA = false;
+      method = "none";
+    };
+  };
+in
 {
   meta = {
     traceId = "FS-230-HDS-010-SDS-010-SMS-040";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md";
-    renderer = "test-clients";
-    scope = "isolated-construction-candidate";
-    evidenceBoundary = "construction-only";
+    scope = "isolated-protected-ipv6-public-ingress-test-clients";
   };
-  clients = {
-    public-nebula-probe = {
-      family = "ipv6";
-      protocol = "udp";
-      port = 4242;
-      expectedReturn = "stateful";
-    };
-  };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = {
-        public-nebula-probe = {
-          network = "isolated-fs230-public";
-          addressClass = "documentation-only";
-        };
+  deploymentHosts.s-router-test-clients = {
+    bridgeNetworks = {
+      f230nwan = {
+        mode = "vlan";
+        parent = "eth0";
+        vlan = 401;
+      };
+      f230ndmz = {
+        mode = "vlan";
+        parent = "eth0";
+        vlan = 402;
+      };
+      f230cwan = {
+        mode = "vlan";
+        parent = "eth0";
+        vlan = 403;
+      };
+      f230cdmz = {
+        mode = "vlan";
+        parent = "eth0";
+        vlan = 404;
       };
     };
+    uplinks.management = managementVlan2;
   };
 }
