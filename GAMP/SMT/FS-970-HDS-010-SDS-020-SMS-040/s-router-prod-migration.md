@@ -99,6 +99,10 @@ intent bepaalt welke verbinding of dienst is toegestaan; inventory levert de
 site- en hostgebonden realization-input. Een pipeline-defect bestaat pas als
 een downstreamlaag die expliciete invoer verliest, zelf nieuwe autoriteit
 verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
+Voor `s-router-prod` zijn wijzigingen aan
+`prod-network/s-router-prod/{intent,inventory}.nix` daarom normale
+consumer-migratie zolang zij uitsluitend die twee soorten invoer vastleggen;
+ze worden hieronder niet als network-*-bug opgevoerd.
 
 | Onderwerp | Eigenaar en migratie | Classificatie |
 | --- | --- | --- |
