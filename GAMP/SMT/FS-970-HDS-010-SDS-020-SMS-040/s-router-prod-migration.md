@@ -56,6 +56,12 @@ De daaropvolgende native FS-560-implementatiekandidaat staat gepusht als CPM
 `59bc38e9fbd7`. Zij telt pas als nieuwe stage nadat de consumerpins zijn
 bijgewerkt en dezelfde cold-stageprocedure opnieuw is geslaagd.
 
+De native FS-800-implementatiekandidaat staat gepusht als CPM
+`cb67a88234b1`, NixOS-renderer `108966e` en CLAB-renderer `f3b67ef`. De
+PPPoE-interface, IAID en PD-request-ID blijven expliciete site-input; de
+IPv6-default, DHCPv6-PD-client, ordering en reply-firewall worden door die
+native keten gemaakt. Ook deze kandidaat is nog geen live stagebewijs.
+
 De gestagede keten levert de protected reservationbron, dual-stack
 Kea-materialisatie en leasepaden native. Dezelfde pins leveren ook de
 symmetrische VLAN2/VLAN3-policyhandoffs en reproduceerbare
@@ -88,7 +94,7 @@ verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
 | `reservationSource.sourceFile` en SOPS-mount | Inventory mag alleen schema, classificatie en runtimepad leveren. Hostname, MAC, IPv4, IPv6-IID en DUID/IAID blijven volledig protected. | Secret-delivery en datamigratie, geen policydefect. |
 | Reservationnamen naar lokale A/AAAA/PTR-data | Inventory declareert alleen de bovenstaande lokale publicatiepolicy en opaque bron. Dat expliciete `namePublication`-blok is vereiste migratie-invoer, geen fout. CPM en beide renderers materialiseren de records pas runtime; een NixOS-profielscript dat zelf Unbound-records maakt is geen blijvende eigenaar. | Native kandidaat gepusht onder `FS-560-HDS-010-SDS-010-SMS-050`; de row blijft `NOT OK` totdat consumerpin, cold stage en live NixOS/CLAB-bewijs zijn afgerond. |
 | PPPoE IPv6/Prefix Delegation | Interface, provider, IAID en PD-request-ID zijn inventoryfeiten. De IPv6-default, DHCPv6-PD-client, ordering en exacte reply-firewall horen uit CPM en de NixOS/CLAB-renderers te komen. | Invoer is geen defect; native gap: `FS-800-HDS-030-SDS-020-SMS-020`. |
-| Nebula public ingress | De toegestane tuple staat in intent; endpoint en protected runtimeadres/prefix staan in inventory. Stateful forwarding en eventuele expliciet geautoriseerde translation horen native uit model en renderers te komen. | Invoer is geen defect; native gap: `FS-230-HDS-010-SDS-010-SMS-040`. |
+| Nebula public ingress | Maak van de bestaande gemengde familie-neutrale NAPT-relatie twee expliciete authorities: behoud IPv4-NAPT alleen voor de afzonderlijk benoemde IPv4-tuples en declareer IPv6 als `family = "ipv6"`, UDP/4242, `translationMode = "none"`, `sourcePreservation = "preserve-source"` en stateful return. Bind de provider aan de bestaande VLAN3-endpoint, diens stabiele IID en exact één protected runtime routed-prefix. Provider-interface, next hop, gateway en geselecteerde routetabellen blijven inventory/site-realization. | Dit is vereiste intent/inventory-migratie, geen fout. Het defect onder `FS-230-HDS-010-SDS-010-SMS-040` is dat CPM en beide renderers die expliciete IPv6-tuple nog niet native materialiseren. |
 
 Een literal is dus niet op zichzelf verboden. Zij is fout geplaatst wanneer zij
 policyautoriteit vervangt, protected clientdata lekt of in een downstreamlaag
@@ -115,6 +121,10 @@ een waarde dupliceert die al door de benoemde upstreambron wordt geleverd.
    `network-*`-laag dezelfde expliciete intent- en inventory-input native
    materialiseert voor zowel NixOS als CLAB. Verplaats host- of sitefeiten niet
    naar intent om alleen een lokaal bestand te kunnen verwijderen.
+7. Splits voor Nebula de IPv4-NAPT- en IPv6-no-translation-authority. Gebruik
+   voor IPv6 alleen UDP/4242 en koppel de bestaande protected VLAN3-prefix aan
+   de stabiele IID van de endpoint. Neem geen afgeleide GUA, wildcard-prefix,
+   TCP-toestemming of NAT66 op in plain inventory of intent.
 
 ## Niet-productie-bewijs
 
