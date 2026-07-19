@@ -29,7 +29,7 @@ De drie geïsoleerde cold stages gebruikten exact deze gepushte flake-pins. De
 
 | Input | Revision |
 | --- | --- |
-| `network-labs` | `665bdc0e2f91` (FS-970), `c7b47da3bb63` (FS-270), `3639443eabf8` (FS-540) |
+| `network-labs` | `665bdc0e2f91` (FS-970), `c7b47da3bb63` (FS-270), `720f3958c3b3` (FS-540) |
 | `network-compiler-prod` | `688fe9e201fb` |
 | `network-forwarding-model-prod` | `1ab37e18a20c` |
 | `network-control-plane-model{,-prod}` | `406de6f4dcda` |
@@ -45,6 +45,12 @@ policyhandoffs en reproduceerbare core-DNS-selectie; de hostprofiel-overwrites
 zijn daardoor geen bron van waarheid meer. Nebula/WireGuard-pins zijn als
 onderdeel van dezelfde totale build vastgezet, maar verlenen geen impliciete
 policy- of DNS-authoriteit.
+
+De brede lokale `nix flake check --all-systems` gebruikte daarnaast in de
+toegestane NixOS-worktree het host-specifieke
+`active-lab/intent-s-router-hetz.nix`-entrypoint. Canonical NixOS bleef schoon;
+die consumerregel moet dus upstream beschikbaar zijn voordat deze kandidaat
+buiten de lokale compilatieboundary wordt gebruikt.
 
 ## Migratie
 

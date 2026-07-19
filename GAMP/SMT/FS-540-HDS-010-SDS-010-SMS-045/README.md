@@ -15,8 +15,8 @@ queries, local namespace sharing, lateral `REFUSED`, denied unauthorized
 direct paths, persistent authority/resolver listeners, quiescent refresh
 state, and zero reproducibility warnings on both substrates. Redacted evidence
 is held under
-`/tmp/s-router-stage-FS-540-HDS-010-SDS-010-SMS-045-final-nebula`. That restage
-selected `network-labs` revision `3639443eabf8` and common
+`/tmp/s-router-stage-FS-540-HDS-010-SDS-010-SMS-045-final-all-systems`. That
+restage selected `network-labs` revision `720f3958c3b3` and common
 `network-renderer-nebula` revision `0e6ee9367b40`.
 
 The row uses lab VLANs 413/414 for the NixOS recursive/local clients and
