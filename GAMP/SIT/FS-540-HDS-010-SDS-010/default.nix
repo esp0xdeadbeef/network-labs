@@ -17,7 +17,7 @@
       smtRow = ../../SMT/FS-540-HDS-010-SDS-010-SMS-045;
       sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/intent.nix";
       role = "prod-like-access-recursive-dns";
-      evidenceBoundary = "source-stub-plus-live-script";
+      evidenceBoundary = "isolated-dual-substrate-live-dns-reproducibility";
     };
     "FS-540-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-540-HDS-010-SDS-010-SMS-010;
@@ -25,7 +25,7 @@
       role = "row-local-source-stub";
       evidenceBoundary = "source-stub-only";
     };
-};
+  };
   evidence = {
     command = ''
       tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020 &&
@@ -54,6 +54,6 @@
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/inventory-clab.nix"
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/inventory-test-clients.nix"
     ];
-    observedResult = "NOT OK on the current revised atom. Historical 2026-06-30 and 2026-07-03 public-name runs proved an earlier IPv4 path only. Cold restage14 on 2026-07-18 proved that NixOS materializes the selected resolver-identity UDP/TCP port-53 rules and emits upstream packets, but external root behavior determined the result. That is invalid evidence for reproducible multi-egress DNS. Acceptance remains open until both NixOS and CLAB complete first-attempt dual-stack UDP/TCP recursion against the staged controlled authoritative hierarchy on only the selected provider, with no public or host resolver dependency.";
+    observedResult = "2026-07-19 OK at the isolated SMS-045 boundary. After every owning revision was pushed, all three lab guests were shut down together, observed offline, and returned with new boot IDs/closures, exact staged source hashes and pins, and zero failed units. NixOS and CLAB both passed first-attempt IPv4/IPv6 UDP/TCP recursion through only the model-selected provider, direct-core access, local namespace sharing, deterministic lateral REFUSED behavior, denied unauthorized direct paths, persistent listeners, convergent route state, and zero reproducibility warnings. Sibling SMS rows retain their own evidence boundaries; this does not promote HAT, SAT, or production.";
   };
 }
