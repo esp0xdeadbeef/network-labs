@@ -25,6 +25,8 @@ Status: OK.
 
 On 2026-07-19 all three guests were shut down together, observed offline, and
 started with new boot IDs, exact source hashes, and exact pushed network pins.
+The final restage selected `network-labs` revision `c7b47da3bb63` and common
+`network-renderer-nebula` revision `0e6ee9367b40`.
 The focused construction checks and live client protocol passed on both NixOS
 and CLAB for IPv4 and IPv6: the forward flow crossed the same policy-state
 owner, the allowed return was stateful, independently initiated reverse flows

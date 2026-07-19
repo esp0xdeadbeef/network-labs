@@ -32,6 +32,9 @@ FS970_INTEGRATION=PASS substrates=nixos,clab client=s-router-test-clients
 OK FS-970-HDS-010-SDS-020
 ```
 
+The final restage selected `network-labs` revision `665bdc0e2f91` and common
+`network-renderer-nebula` revision `0e6ee9367b40`.
+
 Both substrates exposed real UDP 67/547 services, delivered the secret
 read-only with mode `0400`, materialized equivalent Kea reservations only at
 runtime, and gave the same clients exactly one predictable IPv4 and one
