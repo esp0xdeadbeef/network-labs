@@ -15,6 +15,17 @@ reservationSource = {
   schema = "gamp-protected-reservation-set-v1";
   sourceClass = "protected";
   sourceFile = "/run/secrets/<scope>-reservations.json";
+  namePublication = {
+    namespace = "<scope>.lan.";
+    ownerScope = "<scope>";
+    requesterScopes = [ "<scope>" ];
+    recordClasses = [ "A" "AAAA" "PTR" ];
+    fallbackBehavior = "local-only";
+    publicationDenialDiagnostic =
+      "diagnostic.protected-reservation-name-publication-denied";
+    source = "protected-reservation-set";
+    sourceFamily = "ipv4";
+  };
 };
 ```
 
@@ -39,14 +50,21 @@ De drie geïsoleerde cold stages gebruikten exact deze gepushte flake-pins. De
 | `network-renderer-nebula` | `0e6ee9367b40` |
 | `network-renderer-wireguard` | `a12d75b229ce` |
 
-De keten levert de protected reservationbron, dual-stack Kea-materialisatie en
-leasepaden native. Dezelfde pins leveren ook de symmetrische VLAN2/VLAN3-
-policyhandoffs en reproduceerbare core-DNS-selectie. De oude Kea- en DNS-
-post-renderoverwrites zijn daardoor geen bron van waarheid meer. Een beperkt
-hostmanagementprofiel en enkele nog niet native gematerialiseerde IPv6-
-functies zijn afzonderlijk geclassificeerd hieronder. Nebula/WireGuard-pins
-zijn als onderdeel van dezelfde totale build vastgezet, maar verlenen geen
-impliciete policy- of DNS-authoriteit.
+Die tabel is historische stage-evidence en wordt niet stilzwijgend herschreven.
+De daaropvolgende native FS-560-implementatiekandidaat staat gepusht als CPM
+`56eaa3119f4c`, NixOS-renderer `c4be339150dc` en CLAB-renderer
+`59bc38e9fbd7`. Zij telt pas als nieuwe stage nadat de consumerpins zijn
+bijgewerkt en dezelfde cold-stageprocedure opnieuw is geslaagd.
+
+De gestagede keten levert de protected reservationbron, dual-stack
+Kea-materialisatie en leasepaden native. Dezelfde pins leveren ook de
+symmetrische VLAN2/VLAN3-policyhandoffs en reproduceerbare
+core-DNS-selectie. De oude Kea-overwrites zijn daardoor geen bron van waarheid
+meer. De lokale protected-reservation-DNS-projectie kan pas weg op de nieuwe
+FS-560-pins; andere DNS-, hostmanagement- en IPv6-compatibiliteit blijft
+afzonderlijk geclassificeerd en mag niet onder deze reservationmigratie worden
+meeverwijderd. Nebula/WireGuard-pins verlenen geen impliciete policy- of
+DNS-authoriteit.
 
 De brede lokale `nix flake check --all-systems` gebruikte daarnaast in de
 toegestane NixOS-worktree het host-specifieke
@@ -68,7 +86,7 @@ verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
 | QEMU-bridges, NIC-volgorde en bestaande host-MAC's | Dit zijn eigenschappen van de productiehost en hypervisorhandoff. Houd ze in de host/inventory-boundary en gebruik ze niet als generiek SMS-voorbeeld. | Realization-input, geen defect. |
 | Adressen van `core-dns`, access-resolvers en listeners | Dit zijn toegewezen endpointadressen. Intent verwijst naar de benoemde service; inventory bindt die service aan concrete adressen. Meerdere geldige core/egress-kandidaten moeten door de FS-540-selectie exact één reproduceerbare binding opleveren of een warning/failure geven. | Realization-input; alleen ambigue of downstream verzonnen selectie is een defect. |
 | `reservationSource.sourceFile` en SOPS-mount | Inventory mag alleen schema, classificatie en runtimepad leveren. Hostname, MAC, IPv4, IPv6-IID en DUID/IAID blijven volledig protected. | Secret-delivery en datamigratie, geen policydefect. |
-| Reservationnamen naar lokale A/AAAA/PTR-data | De protected bron mag runtime ook de gemodelleerde lokale naamruimte voeden. Een NixOS-profielscript dat zelf Unbound-records maakt is geen blijvende eigenaar. | Pipeline-gap: `FS-560-HDS-010-SDS-010-SMS-050`. |
+| Reservationnamen naar lokale A/AAAA/PTR-data | Inventory declareert alleen de bovenstaande lokale publicatiepolicy en opaque bron. Dat expliciete `namePublication`-blok is vereiste migratie-invoer, geen fout. CPM en beide renderers materialiseren de records pas runtime; een NixOS-profielscript dat zelf Unbound-records maakt is geen blijvende eigenaar. | Native kandidaat gepusht onder `FS-560-HDS-010-SDS-010-SMS-050`; de row blijft `NOT OK` totdat consumerpin, cold stage en live NixOS/CLAB-bewijs zijn afgerond. |
 | PPPoE IPv6/Prefix Delegation | Interface, provider, IAID en PD-request-ID zijn inventoryfeiten. De IPv6-default, DHCPv6-PD-client, ordering en exacte reply-firewall horen uit CPM en de NixOS/CLAB-renderers te komen. | Invoer is geen defect; native gap: `FS-800-HDS-030-SDS-020-SMS-020`. |
 | Nebula public ingress | De toegestane tuple staat in intent; endpoint en protected runtimeadres/prefix staan in inventory. Stateful forwarding en eventuele expliciet geautoriseerde translation horen native uit model en renderers te komen. | Invoer is geen defect; native gap: `FS-230-HDS-010-SDS-010-SMS-040`. |
 
@@ -87,7 +105,9 @@ een waarde dupliceert die al door de benoemde upstreambron wordt geleverd.
    adressen, in SOPS. Print of kopieer geen recordvelden naar inventory, logs,
    diagnostics, evaluatie-output of de Nix store.
 4. Lever het gedecrypte bestand mode `0400` read-only aan de juiste runtime en
-   laat alleen de renderer de Kea-config maken.
+   laat alleen de renderer de Kea- en lokale Unbound-data maken. Declareer de
+   gewenste naamruimte en A/AAAA/PTR-klassen via `namePublication`; kopieer
+   daarvoor geen hostnaam of adres naar `inventory.nix`.
 5. Verwijder de lokale reservation-/leasepad-overwrites pas nadat de kandidaat
    bouwt en een redacted runtimevergelijking exact slaagt. Bij afwijking:
    fail-closed, niet activeren en de vorige generatie behouden.
