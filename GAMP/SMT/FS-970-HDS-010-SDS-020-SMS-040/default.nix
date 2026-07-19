@@ -16,7 +16,8 @@
   status = "OK";
   evidence = {
     command = "network-codex-agent/tests/test-sit-FS-970-HDS-010-SDS-020-protected-reservation-live.sh with row-owned protected enrollment inputs";
+    enrollmentCommand = "network-codex-agent/scripts/capture-FS-970-HDS-010-SDS-020-SMS-040-enrollment.sh --output-dir <private-directory>";
     focusedTest = "network-codex-agent/tests/test-smt-live-FS-970-HDS-010-SDS-020-SMS-040.sh";
-    observedResult = "After a pushed-revision cold stage, real s-router-nixos/VLAN397 and s-router-clab/VLAN398 branches both passed exact SOPS runtime delivery, UDP 67/547 readiness, stable MAC/DUID/IAID/IID, predictable IPv4/IPv6 leases, zero extra global addresses, and public/build redaction on s-router-test-clients.";
+    observedResult = "On 2026-07-19, private enrollment followed by a second pushed-revision cold stage made real s-router-nixos/VLAN397 and s-router-clab/VLAN398 branches both pass exact SOPS runtime delivery, UDP 67/547 readiness, stable MAC/DUID/IAID/IID, predictable IPv4/IPv6 leases, zero extra global addresses, and public/build redaction on s-router-test-clients.";
   };
 }
