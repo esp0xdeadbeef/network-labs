@@ -11,13 +11,16 @@ nfm="${github_root}/network-forwarding-model"
 compiler="${github_root}/network-compiler"
 nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
+access_endpoint_renderer="${github_root}/network-renderer-access-endpoint-nixos"
 
 compiler_revision="6dea1cd4315da82036fa46b68382586c9c01eda0"
 nfm_revision="a114b33ae5555485f3e5b49a9d586ad8bf67bfa5"
 cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
 nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
 clab_revision="15264eb1e7e598cbce270f494b6b275b6a1d021c"
-labs_fixture_revision="109c3dfe8eee79688629d5c2d01a8485494a7257"
+access_endpoint_revision="d2d78859130a14f0bfc5261a9dd29cc1fce3a251"
+router_fixture_revision="109c3dfe8eee79688629d5c2d01a8485494a7257"
+endpoint_fixture_revision="562f749038ef08b840ce95615acfa595cae60943"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
@@ -30,7 +33,8 @@ for spec in \
   "${cpm}:${cpm_revision}" \
   "${nixos_renderer}:${nixos_revision}" \
   "${clab_renderer}:${clab_revision}" \
-  "${repo_root}:${labs_fixture_revision}"
+  "${access_endpoint_renderer}:${access_endpoint_revision}" \
+  "${repo_root}:${endpoint_fixture_revision}"
 do
   repo="${spec%%:*}"
   revision="${spec##*:}"
@@ -55,9 +59,11 @@ locked_input_revision() {
 for renderer in "${nixos_renderer}" "${clab_renderer}"; do
   [[ "$(locked_input_revision "${renderer}/flake.lock" network-forwarding-model)" == "${nfm_revision}" ]] \
     || fail "$(basename "${renderer}") does not pin the candidate NFM revision"
-  [[ "$(locked_input_revision "${renderer}/flake.lock" network-labs)" == "${labs_fixture_revision}" ]] \
+  [[ "$(locked_input_revision "${renderer}/flake.lock" network-labs)" == "${router_fixture_revision}" ]] \
     || fail "$(basename "${renderer}") does not pin the isolated row fixture"
 done
+[[ "$(locked_input_revision "${access_endpoint_renderer}/flake.lock" network-labs)" == "${endpoint_fixture_revision}" ]] \
+  || fail "access-endpoint renderer does not pin the protected endpoint fixture"
 
 ROW="${row}" nix eval --impure --expr '
   let
@@ -129,6 +135,10 @@ ROW="${row}" nix eval --impure --expr '
   cd "${clab_renderer}"
   NETWORK_REPO_DIRECT_TEST_OK=1 \
     bash tests/test-fs230-hds010-sds010-sms040-nebula-ipv6-public-ingress.sh
+)
+(
+  cd "${access_endpoint_renderer}"
+  bash tests/FS-230-HDS-010-SDS-010-SMS-040-protected-runtime-service-address.sh
 )
 
 echo "PASS FS-230-HDS-010-SDS-010-SMS-040 native protected IPv6 ingress construction candidate"
