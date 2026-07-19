@@ -12,7 +12,7 @@
       smtRow = ../../SMT/FS-270-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-270-HDS-010-SDS-010-SMS-020/intent.nix";
       role = "client-tenant-policy-transit";
-      evidenceBoundary = "construction-only";
+      evidenceBoundary = "isolated-dual-substrate-live-policy-state-owner";
     };
     "FS-270-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-270-HDS-010-SDS-010-SMS-030;
@@ -28,6 +28,6 @@
     };
   };
   evidence = {
-    observedResult = "Construction-only trace chain. SMT rows 125, 204, 205, 468: all NOT OK but individual construction tests exist and passed in locked proofs. SIT locked-artifact evidence from 2026-06-13: compiler→NFM→CPM pipeline produces deterministic policy-point transit artifacts.";
+    observedResult = "The locked compiler-to-NFM-to-CPM integration evidence remains row-scoped. FS-270-HDS-010-SDS-010-SMS-020 additionally passed its 2026-07-19 isolated cold-stage protocol on NixOS and CLAB for IPv4 and IPv6 with one policy-state owner, stateful return, reverse-new denial, no shortcut, and no transitive egress. Sibling SMS rows retain their own evidence boundaries; this does not promote HAT or SAT.";
   };
 }

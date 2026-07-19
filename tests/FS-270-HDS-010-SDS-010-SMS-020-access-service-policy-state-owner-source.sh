@@ -31,6 +31,7 @@ FS270_ROW="${row}" nix eval --impure --expr '
     clab = import (row + "/inventory-clab.nix");
     clients = import (row + "/intent-test-clients.nix");
     rowRecord = import (row + "/default.nix");
+    evidence = rowRecord.evidence;
     require = condition: message: if condition then true else throw message;
     relationById = builtins.listToAttrs (map
       (relation: { name = relation.id; value = relation; })
@@ -53,8 +54,14 @@ FS270_ROW="${row}" nix eval --impure --expr '
     clientAssignments = builtins.attrValues clients.endpointAssignment;
     destinationClients = builtins.filter (client: client.tenant == "destination") clientAssignments;
   in
-    require (rowRecord.status == "NOT OK")
-      "row must remain NOT OK before construction and cold-stage evidence"
+    require (
+      rowRecord.status == "OK"
+      && builtins.match ".*S_ROUTER_STAGE_EVIDENCE_DIR=.*" evidence.command != null
+      && builtins.match ".*s-router-nixos.*" evidence.observedResult != null
+      && builtins.match ".*s-router-clab.*" evidence.observedResult != null
+      && builtins.match ".*IPv4 and IPv6.*" evidence.observedResult != null
+      && builtins.match ".*no runtime mutation.*" evidence.observedResult != null)
+      "OK row must bind the cold-staged dual-substrate live evidence without runtime mutation"
     && require (builtins.length intent.communicationContract.relations == 3)
       "fixture must contain the lateral pair plus one required isolated external allow"
     && require (
