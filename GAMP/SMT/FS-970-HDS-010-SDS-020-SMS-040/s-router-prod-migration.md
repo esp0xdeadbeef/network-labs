@@ -23,18 +23,20 @@ MAC, stabiele IPv6-IID en, waar DHCPv6 die gebruikt, DUID/IAID. Publieke
 inventory bevat geen per-client record. De renderer mount de bron read-only en
 maakt de Kea-config pas runtime.
 
-De geïsoleerde stage gebruikte exact deze gepushte flake-pins:
+De drie geïsoleerde cold stages gebruikten exact deze gepushte flake-pins. De
+`network-labs`-pin wisselde uitsluitend om iedere row afzonderlijk als
+`current-lab` te starten:
 
 | Input | Revision |
 | --- | --- |
-| `network-labs` | `ce9bbe29053b` |
+| `network-labs` | `665bdc0e2f91` (FS-970), `c7b47da3bb63` (FS-270), `3639443eabf8` (FS-540) |
 | `network-compiler-prod` | `688fe9e201fb` |
 | `network-forwarding-model-prod` | `1ab37e18a20c` |
 | `network-control-plane-model{,-prod}` | `406de6f4dcda` |
 | `network-renderer-nixos{,-prod}` | `69a4e773880b` |
 | `network-renderer-containerlab-linux-backend` | `ed56aa15d0d8` |
 | `network-renderer-access-endpoint-nixos` | `237b709048f2` |
-| `network-renderer-nebula` | `02afc0a2240d` |
+| `network-renderer-nebula` | `0e6ee9367b40` |
 | `network-renderer-wireguard` | `a12d75b229ce` |
 
 De keten levert de protected reservationbron, dual-stack Kea-materialisatie en
