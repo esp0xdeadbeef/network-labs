@@ -133,6 +133,49 @@ in
 EOF
 }
 
+write_no_runtime_inventory() {
+  local target="$1"
+  local trace="$2"
+  local host="$3"
+  write_file "${current_dir}/${target}" cat <<EOF
+let
+  managementVlan2 = {
+    bridge = "vlan2";
+    ipv4 = {
+      dhcp = true;
+      enable = true;
+      method = "dhcp";
+    };
+    ipv6 = {
+      acceptRA = false;
+      dhcp = false;
+      dhcpv6PD = false;
+      enable = false;
+      method = "none";
+    };
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 2;
+  };
+in
+rec {
+  activeLabInventoryStub = {
+    kind = "unsupported-runtime-host-stub";
+    traceId = "${trace}";
+    hostName = "${host}";
+  };
+  deployment.hosts."${host}" = {
+    uplinks.management = managementVlan2;
+    bridgeNetworks = { };
+  };
+  deploymentHosts = deployment.hosts;
+  realization.nodes = { };
+  endpoints = { };
+  clients = { };
+}
+EOF
+}
+
 write_default_clients() {
   write_file "${current_dir}/clients.nix" cat <<'EOF'
 {
@@ -1114,6 +1157,28 @@ source_path_for_mini_key() {
   mini_attr "${key}" "let source = row.source or null; in if source != null && source ? cpm then toString source.cpm else if source != null && source ? intent then toString source.intent else \"\""
 }
 
+runtime_host_supported_for_mini_key() {
+  local key="$1"
+  local host="$2"
+  mini_attr "${key}" "
+let
+  rowDefault =
+    if row ? rowDirectories
+      && row.rowDirectories ? SMT
+      && builtins.pathExists (row.rowDirectories.SMT + \"/default.nix\")
+    then import (row.rowDirectories.SMT + \"/default.nix\")
+    else {};
+  runtimeHosts = rowDefault.runtimeHosts or [
+    \"s-router-nixos\"
+    \"s-router-clab\"
+    \"s-router-hetz\"
+    \"s-router-test-clients\"
+  ];
+in
+  if builtins.elem \"${host}\" runtimeHosts then \"true\" else \"false\"
+"
+}
+
 write_construction_only_stub() {
   local trace="$1"
   local row_dir="$2"
@@ -1396,7 +1461,11 @@ select_smt() {
     write_import "intent.nix" "../${row_dir}/intent.nix"
     write_smt_inventory_with_management "inventory-nixos.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-nixos"
     write_smt_inventory_with_management "inventory-clab.nix" "../${row_dir}/inventory-clab.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-clab"
-    write_smt_inventory_with_management "inventory-hetz.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-hetz"
+    if [[ "$(runtime_host_supported_for_mini_key "${mini_key}" "s-router-hetz")" == "true" ]]; then
+      write_smt_inventory_with_management "inventory-hetz.nix" "../${row_dir}/inventory-nixos.nix" "../${row_dir}/intent.nix" "${forwarding_enterprise_json}" "s-router-hetz"
+    else
+      write_no_runtime_inventory "inventory-hetz.nix" "${trace}" "s-router-hetz"
+    fi
   fi
   if [[ "${source_kind}" == "renderer-input" ]]; then
     write_default_hetz_inventory

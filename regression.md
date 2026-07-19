@@ -9,6 +9,13 @@ blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
 
+- FS-540-HDS-010-SDS-010-SMS-045 now declares its supported runtime hosts,
+  and the active-lab selector emits an explicit no-runtime inventory with row
+  provenance for unsupported hosts. This prevents the NixOS/CLAB-only DNS lab
+  from projecting `dns545*` bridges and realization nodes onto
+  `s-router-hetz`. The focused construction test now rejects such projection;
+  `tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh`
+  passes.
 - All reusable example allow relations now carry an explicit recognized
   `returnBehavior`. Ordinary compatibility-fixture flows use `one-way`, while
   relations with an existing public-ingress authority retain their explicit

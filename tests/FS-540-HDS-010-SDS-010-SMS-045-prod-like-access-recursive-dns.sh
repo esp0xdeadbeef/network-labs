@@ -264,6 +264,7 @@ let
   currentLab = builtins.getEnv "CURRENT_LAB";
   nixosInventory = import (currentLab + "/inventory-s-router-nixos.nix");
   clabInventory = import (currentLab + "/inventory-s-router-clab.nix");
+  hetzInventory = import (currentLab + "/inventory-hetz.nix");
   inventory = import (currentLab + "/inventory-test-clients.nix");
   intent = import (currentLab + "/intent-s-router-test-clients.nix");
   host = intent.control_plane_model.deployment.hosts.s-router-test-clients;
@@ -306,6 +307,15 @@ in
       (corePortsFor clabInventory)
     ])
     "active-lab selection must preserve explicit core membership of both isolated provider bridges"
+  && require (hetzInventory.realization.nodes == { })
+    "NixOS/CLAB-only DNS acceptance must not project runtime nodes onto s-router-hetz"
+  && require (hetzInventory.deploymentHosts.s-router-hetz.bridgeNetworks == { })
+    "unsupported s-router-hetz must not inherit row-local lab bridges"
+  && require (hetzInventory.activeLabInventoryStub == {
+    kind = "unsupported-runtime-host-stub";
+    traceId = "FS-540-HDS-010-SDS-010-SMS-045";
+    hostName = "s-router-hetz";
+  }) "unsupported runtime host must retain explicit row provenance"
   && require (host.uplinks.management.vlan == 2)
     "selected test-client CPM must inherit the shared management VLAN"
   && require (host.uplinks.management.bridge == "vlan2")
