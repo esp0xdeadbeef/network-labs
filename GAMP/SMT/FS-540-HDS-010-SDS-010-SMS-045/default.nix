@@ -21,6 +21,6 @@
     focusedTest = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
     maxRuntimeTargets = 6;
     scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
-    observedResult = "NOT OK: after the dual-stack local resolver source binding was corrected, the pushed cold stage passed NixOS recursive/core and local-sharing UDP/TCP checks. The IPv6 reverse local query then timed out because the locally generated reply from the local-dns service address had no source-policy rule usable without incoming-interface context; IPv4 had that rule and passed. The row now requires the exact request path plus a dual-stack local-service return path, followed by a new pushed cold stage on NixOS and CLAB";
+    observedResult = "2026-07-19 OK after the exact three-guest cold-stage protocol: both NixOS and CLAB passed first-attempt IPv4/IPv6 UDP/TCP recursion through only the modeled selected provider, direct-core access, local namespace sharing, deterministic lateral REFUSED behavior, blocked unauthorized direct paths, persistent authority/resolver listeners, convergent route state, and zero reproducibility warnings. No production VLAN, public resolver, host resolver, or external authority was an acceptance dependency.";
   };
 }
