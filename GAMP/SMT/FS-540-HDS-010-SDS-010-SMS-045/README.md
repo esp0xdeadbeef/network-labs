@@ -1,11 +1,21 @@
 # FS-540-HDS-010-SDS-010-SMS-045 SMT
 
-Status: NOT OK until the new cold-staged live protocol passes.
+Status: OK - the revised cold-staged protocol passed on NixOS and CLAB.
 
 This isolated acceptance row mirrors the `s-router-prod` DNS roles without
 using VLAN2 or any production client/network. It realizes the same six logical
 roles on NixOS and CLAB: recursive access, local-only access, downstream
 selector, policy, upstream selector, and a named iterative core resolver.
+
+The 2026-07-19 acceptance run simultaneously shut down all three lab guests,
+observed them offline, and then verified new boot IDs, new system closures,
+exact source hashes, exact pushed pins, and zero failed units. The canonical
+live validator passed first-attempt IPv4/IPv6 UDP/TCP recursion, direct-core
+queries, local namespace sharing, lateral `REFUSED`, denied unauthorized
+direct paths, persistent authority/resolver listeners, quiescent refresh
+state, and zero reproducibility warnings on both substrates. Redacted evidence
+is held under
+`/tmp/s-router-stage-FS-540-HDS-010-SDS-010-SMS-045-dns-input`.
 
 The row uses lab VLANs 413/414 for the NixOS recursive/local clients and
 415/416 for their CLAB equivalents. All four probes originate from real
