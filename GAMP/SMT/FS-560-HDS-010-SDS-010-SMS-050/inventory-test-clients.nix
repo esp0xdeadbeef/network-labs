@@ -1,15 +1,24 @@
 {
   meta = {
     traceId = "FS-560-HDS-010-SDS-010-SMS-050";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-560-HDS-010-SDS-010-SMS-050-protected-reservation-name-materialization.md";
     renderer = "test-clients";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
+    evidenceBoundary = "isolated-lab-only";
   };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = { };
+  clients.lab-client = {
+    interface = "tenant";
+    identifiersToEnroll = [
+      "mac"
+      "stable-ipv6-iid"
+      "duid"
+      "iaid"
+    ];
+    assertions = {
+      assignedIpv4Predictable = true;
+      assignedIpv6Predictable = true;
+      publishedAaaaPtr = true;
+      unknownNamespaceNameTerminatesLocally = true;
+      publicRecursionAuthorityUnchanged = true;
+      protectedValuesRedacted = true;
     };
   };
 }
