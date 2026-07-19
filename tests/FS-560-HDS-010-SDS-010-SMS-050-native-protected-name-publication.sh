@@ -43,22 +43,35 @@ ROW="${row}" nix eval --impure --expr '
     nixos = import (row + "/inventory-nixos.nix");
     clab = import (row + "/inventory-clab.nix");
     clients = import (row + "/inventory-test-clients.nix");
-    source = nixos.realization.reservationSource;
-    publication = source.namePublication;
+    intentSite = intent.mini-smt.FS-560-HDS-010-SDS-010-SMS-050;
+    nixosNode = builtins.head (builtins.attrValues nixos.realization.nodes);
+    clabNode = builtins.head (builtins.attrValues clab.realization.nodes);
+    nixos4 = nixosNode.advertisements.dhcp4.tenant-client.reservationSource;
+    nixos6 = nixosNode.advertisements.dhcpv6.tenant-client.reservationSource;
+    clab4 = clabNode.advertisements.dhcp4.tenant-client.reservationSource;
+    clab6 = clabNode.advertisements.dhcpv6.tenant-client.reservationSource;
+    publication = nixos4.namePublication;
+    inventoryPublication = source: builtins.removeAttrs source [ "sourceFile" ];
   in
-  assert nixos.realization == clab.realization;
-  assert source.schema == "gamp-protected-reservation-set-v1";
-  assert source.sourceClass == "protected";
-  assert source.sourceFile == "/run/secrets/fs560-lab-client-reservations.json";
+  assert inventoryPublication nixos4 == inventoryPublication clab4;
+  assert inventoryPublication nixos6 == inventoryPublication clab6;
+  assert nixos4.schema == "gamp-protected-reservation-set-v1";
+  assert nixos4.sourceClass == "protected";
+  assert nixos4.sourceFile == "/run/secrets/fs560-protected-reservations.json";
+  assert clab4.sourceFile == "/run/secrets/fs560-clab-protected-reservations.json";
+  assert !(nixos4 ? source);
+  assert !(nixos4 ? sourceFamily);
   assert !(publication ? source);
   assert !(publication ? sourceFamily);
-  assert publication.ownerScope == nixos.realization.scopeId;
-  assert publication.requesterScopes == [ nixos.realization.scopeId ];
+  assert publication.ownerScope == "client";
+  assert publication.requesterScopes == [ "client" ];
   assert publication.recordClasses == [ "A" "AAAA" "PTR" ];
   assert publication.fallbackBehavior == "local-only";
-  assert intent.communicationContract.recursionAuthority == "unchanged";
-  assert intent.communicationContract.publicEgressAuthority == false;
-  assert intent.communicationContract.transitiveEgress == false;
+  assert builtins.length intentSite.communicationContract.relations == 1;
+  assert (builtins.head intentSite.communicationContract.relations).id ==
+    "FS-560-HDS-010-SDS-010-SMS-050__mini-verify";
+  assert (builtins.head intentSite.communicationContract.relations).to.kind == "external";
+  assert (builtins.head intentSite.communicationContract.relations).action == "allow";
   assert clients.clients.lab-client.identifiersToEnroll == [
     "mac"
     "stable-ipv6-iid"
