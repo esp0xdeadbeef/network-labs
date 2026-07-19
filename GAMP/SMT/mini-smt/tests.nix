@@ -208,6 +208,34 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-230-HDS-010-SDS-010-SMS-040" = {
+      id = "FS-230-HDS-010-SDS-010-SMS-040";
+      traceId = "FS-230-HDS-010-SDS-010-SMS-040";
+      rowDirectories = {
+        SDS = ../../SDS/FS-230-HDS-010-SDS-010;
+        SMS = ../../SMS/FS-230-HDS-010-SDS-010-SMS-040;
+        SMT = ../FS-230-HDS-010-SDS-010-SMS-040;
+        SIT = ../../SIT/FS-230-HDS-010-SDS-010;
+      };
+      source = {
+        kind = "intent-and-inventory-source";
+        intent = ../FS-230-HDS-010-SDS-010-SMS-040/intent.nix;
+        expectedRelationIds = [
+          "FS-230-HDS-010-SDS-010-SMS-040__lab-wan-to-nebula-ipv6"
+        ];
+      };
+      evidenceLevels = [
+        "SMT"
+        "SIT"
+      ];
+      rendererTarget = null;
+      script = "tests/FS-230-HDS-010-SDS-010-SMS-040-native-protected-ipv6-ingress.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "equivalent five-node NixOS and CLAB protected IPv6 UDP/4242 ingress with stateful return, no translation, and no outbound authority";
+      maxRuntimeTargets = 5;
+    };
+
     "FS-380-HDS-020-SDS-010-SMS-050" = {
       id = "FS-380-HDS-020-SDS-010-SMS-050";
       traceId = "FS-380-HDS-020-SDS-010-SMS-050";

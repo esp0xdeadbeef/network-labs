@@ -7,12 +7,17 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 github_root="$(dirname "${repo_root}")"
 row="${repo_root}/GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-040"
 cpm="${github_root}/network-control-plane-model"
+nfm="${github_root}/network-forwarding-model"
+compiler="${github_root}/network-compiler"
 nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
 
-cpm_revision="f130cdc6f4c1932944fffb0d007f10087af9c87c"
-nixos_revision="4055fbb489b720ea8b197a3a780ae870676e9089"
-clab_revision="7c0ec1132f607806b0cbf653914cb7a6218cb789"
+compiler_revision="6dea1cd4315da82036fa46b68382586c9c01eda0"
+nfm_revision="a114b33ae5555485f3e5b49a9d586ad8bf67bfa5"
+cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
+nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
+clab_revision="15264eb1e7e598cbce270f494b6b275b6a1d021c"
+labs_fixture_revision="109c3dfe8eee79688629d5c2d01a8485494a7257"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
@@ -20,9 +25,12 @@ fail() {
 }
 
 for spec in \
+  "${compiler}:${compiler_revision}" \
+  "${nfm}:${nfm_revision}" \
   "${cpm}:${cpm_revision}" \
   "${nixos_renderer}:${nixos_revision}" \
-  "${clab_renderer}:${clab_revision}"
+  "${clab_renderer}:${clab_revision}" \
+  "${repo_root}:${labs_fixture_revision}"
 do
   repo="${spec%%:*}"
   revision="${spec##*:}"
@@ -32,10 +40,24 @@ do
     || fail "$(basename "${repo}") candidate is not on GitHub main"
 done
 
-[[ "$(jq -r '.nodes["network-control-plane-model"].locked.rev' "${nixos_renderer}/flake.lock")" == "${cpm_revision}" ]] \
+locked_input_revision() {
+  local lock_file="$1"
+  local input_name="$2"
+  jq -r --arg input "${input_name}" \
+    '.nodes.root.inputs[$input] as $node | .nodes[$node].locked.rev' \
+    "${lock_file}"
+}
+
+[[ "$(locked_input_revision "${nixos_renderer}/flake.lock" network-control-plane-model)" == "${cpm_revision}" ]] \
   || fail "NixOS renderer does not pin the candidate CPM revision"
-[[ "$(jq -r '.nodes["network-control-plane-model"].locked.rev' "${clab_renderer}/flake.lock")" == "${cpm_revision}" ]] \
+[[ "$(locked_input_revision "${clab_renderer}/flake.lock" network-control-plane-model)" == "${cpm_revision}" ]] \
   || fail "CLAB renderer does not pin the candidate CPM revision"
+for renderer in "${nixos_renderer}" "${clab_renderer}"; do
+  [[ "$(locked_input_revision "${renderer}/flake.lock" network-forwarding-model)" == "${nfm_revision}" ]] \
+    || fail "$(basename "${renderer}") does not pin the candidate NFM revision"
+  [[ "$(locked_input_revision "${renderer}/flake.lock" network-labs)" == "${labs_fixture_revision}" ]] \
+    || fail "$(basename "${renderer}") does not pin the isolated row fixture"
+done
 
 ROW="${row}" nix eval --impure --expr '
   let
@@ -44,11 +66,15 @@ ROW="${row}" nix eval --impure --expr '
     nixos = import (row + "/inventory-nixos.nix");
     clab = import (row + "/inventory-clab.nix");
     clients = import (row + "/inventory-test-clients.nix");
-    relation = builtins.head intent.communicationContract.relations;
+    siteIntent = intent."mini-smt"."FS-230-HDS-010-SDS-010-SMS-040";
+    relation = builtins.head siteIntent.communicationContract.relations;
     authority = relation.publicIngressTupleAuthority;
-    router = nixos.realization;
-    endpoint = builtins.head (builtins.head router.services).providerEndpoints;
-    prefix = builtins.head router.routedPrefixesByTenant.lab-dmz;
+    endpoint = nixos.endpoints.nebula-lab-endpoint;
+    prefix = builtins.head (builtins.head siteIntent.ownership.prefixes).routedPrefixes;
+    nixosNodes = nixos.realization.nodes;
+    clabNodes = clab.realization.nodes;
+    nodeNames = builtins.attrNames nixosNodes;
+    logicalNames = nodes: map (name: nodes.${name}.logicalNode.name) (builtins.attrNames nodes);
   in
   assert !(authority ? publicSurface);
   assert !(authority ? targetEndpoint);
@@ -61,13 +87,16 @@ ROW="${row}" nix eval --impure --expr '
   assert authority.translationMode == "none";
   assert authority.sourcePreservation == "preserve-source";
   assert authority.returnBehavior == "stateful-return";
-  assert nixos.realization == clab.realization;
-  assert router.providerSurface.name == "lab-wan";
-  assert endpoint.name == "nebula-lab-endpoint";
+  assert builtins.length nodeNames == 5;
+  assert nodeNames == builtins.attrNames clabNodes;
+  assert logicalNames nixosNodes == logicalNames clabNodes;
+  assert builtins.attrNames nixos.deployment.hosts == [ "s-router-nixos" ];
+  assert builtins.attrNames clab.deployment.hosts == [ "s-router-clab" ];
   assert endpoint.ipv6 == [ "fd00:230::4242" ];
-  assert prefix.sourceClass == "protected";
+  assert prefix.allocation == "runtime";
   assert prefix.sourceFile == "/run/secrets/fs230-lab-dmz-ipv6-prefix";
-  assert clients.clients.public-nebula-probe.protocol == "udp";
+  assert prefix.slot == 35;
+  assert clients.meta.traceId == "FS-230-HDS-010-SDS-010-SMS-040";
   true
 ' >/dev/null || fail "row-local intent/inventory ownership contract failed"
 

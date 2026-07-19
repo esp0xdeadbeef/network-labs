@@ -10,9 +10,9 @@ cpm="${github_root}/network-control-plane-model"
 nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
 
-cpm_revision="f130cdc6f4c1932944fffb0d007f10087af9c87c"
-nixos_revision="4055fbb489b720ea8b197a3a780ae870676e9089"
-clab_revision="7c0ec1132f607806b0cbf653914cb7a6218cb789"
+cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
+nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
+clab_revision="15264eb1e7e598cbce270f494b6b275b6a1d021c"
 
 fail() {
   printf 'FAIL FS-560-HDS-010-SDS-010-SMS-050: %s\n' "$*" >&2
@@ -31,9 +31,16 @@ for spec in \
     || fail "$(basename "${repo}") candidate is not on GitHub main"
 done
 
-[[ "$(jq -r '.nodes["network-control-plane-model"].locked.rev' "${nixos_renderer}/flake.lock")" == "${cpm_revision}" ]] \
+locked_cpm_revision() {
+  local lock_file="$1"
+  jq -r \
+    '.nodes.root.inputs["network-control-plane-model"] as $node | .nodes[$node].locked.rev' \
+    "${lock_file}"
+}
+
+[[ "$(locked_cpm_revision "${nixos_renderer}/flake.lock")" == "${cpm_revision}" ]] \
   || fail "NixOS renderer does not pin the candidate CPM revision"
-[[ "$(jq -r '.nodes["network-control-plane-model"].locked.rev' "${clab_renderer}/flake.lock")" == "${cpm_revision}" ]] \
+[[ "$(locked_cpm_revision "${clab_renderer}/flake.lock")" == "${cpm_revision}" ]] \
   || fail "CLAB renderer does not pin the candidate CPM revision"
 
 ROW="${row}" nix eval --impure --expr '
