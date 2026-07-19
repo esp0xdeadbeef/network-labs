@@ -12,12 +12,12 @@ De lokale consumerkandidaat gebruikt deze gepushte revisions:
 
 | Flake-input | Revision | Verantwoordelijkheid |
 | --- | --- | --- |
-| `network-labs` | `8f5ecf877794` | geïsoleerde rows, SOPS-delivery en migratienotitie |
-| `network-compiler-prod` / `nixos-network-compiler-prod` | `688fe9e201fb` | expliciete intent behouden |
-| `network-forwarding-model-prod` | `1ab37e18a20c` | geselecteerde vijf-node paden behouden |
-| `network-control-plane-model{,-prod}` | `f130cdc6f4c` | protected reservations/namen, IPv6-ingress en routecontracten |
-| `network-renderer-nixos{,-prod}` | `4055fbb489b7` | native NixOS Kea/DNS/routes/firewall |
-| `network-renderer-containerlab-linux-backend` | `7c0ec1132f60` | equivalente CLAB-materialisatie |
+| `network-labs` | `109c3dfe8eee` | geïsoleerde rows, SOPS-delivery en migratienotitie |
+| `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | expliciete ingress-only intent zonder fictieve egress behouden |
+| `network-forwarding-model-prod` | `a114b33ae555` | fysieke ingress-anchor scheiden van egress-/NAT-authority |
+| `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
+| `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea/DNS/routes/firewall en vijf-node ingressbewijs |
+| `network-renderer-containerlab-linux-backend` | `15264eb1e7e5` | equivalente CLAB-materialisatie en runtime-regelvalidatie |
 | `network-renderer-access-endpoint-nixos` | `237b709048f2` | echte geïsoleerde test-clients |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay-output, zonder extra policy- of DNS-autoriteit |
 
@@ -25,8 +25,10 @@ Met deze pinset bouwt `s-router-prod` zonder de lokale reservation-DNS-parser,
 DNS-projecties, IPv6/Nebula-compatibiliteitsmodule of VLAN2-policy-override.
 Kea, lokale protected A/AAAA/PTR-publicatie, DNS-paden, protected IPv6-routes
 en de exacte firewallhandoffs komen uit CPM plus renderers. Host-DHCPv4,
-QEMU-bridges/NIC-volgorde en host-MAC’s blijven normale hostrealization; die
-hoeven niet naar een generieke network-*-laag.
+QEMU-bridges, NIC-volgorde en de MAC’s van de VM-facing host-NICs blijven
+normale hostrealization; die hoeven niet naar een generieke network-*-laag.
+Client-MAC’s die een reservation identificeren blijven daarentegen uitsluitend
+in de protected SOPS-recordset.
 
 ## Configuratie of defect
 
@@ -36,6 +38,15 @@ return- en translation-authority. Inventory/site-realization bezit host,
 interface, endpoint, secretpad en providerbinding. Een pipeline-defect bestaat
 pas wanneer een downstreamlaag die invoer verliest, zelf nieuwe autoriteit
 verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
+
+| Vereiste consumentinvoer | Hoort in | Geen pipelinebug omdat |
+| --- | --- | --- |
+| aparte IPv4-NAPT- en IPv6-no-translation-Nebula-relaties | `intent.nix` | alleen de operator ingress-authority kan verlenen |
+| VLAN2→core DNS, VLAN3 local-only sharing en expliciete denies | `intent.nix` | laterale toegang mag nooit impliciet recursie of egress erven |
+| core-DNS-provider, access-listeners en provider/uplinkbinding | `inventory.nix` | dit zijn site- en endpointfacts |
+| PPPoE DHCPv6-PD-modus, IAID/request-ID en reserverings-publicatieschema | `inventory.nix` | dit zijn expliciete site-/protocolinputs, geen rendererdefaults |
+| hostmanagement-DHCP en VM-facing bridge/NIC/MAC | hostrealization | dit beschrijft de fysieke consumerhost |
+| private hostname, client-MAC, IPv4, IPv6/IID, DUID en IAID | SOPS-runtimebron | deze waarden mogen evaluatie en Nix store niet in |
 
 - De Nebula-migratie splitst IPv4-NAPT en IPv6-no-translation. IPv6 staat op
   UDP/4242, `preserve-source` en stateful return. De provider-uplink bindt aan

@@ -7,8 +7,10 @@ staged on the isolated three-host lab.
 
 The `s-router-prod` intent tuple and inventory endpoint/protected-source facts
 are valid migration input. They are not defects. The row fixture deliberately
-keeps policy in `intent.nix` and the provider surface, endpoint address/IID and
-protected prefix source in `inventory-router.nix`.
+keeps policy plus the current-schema opaque routed-prefix allocation reference
+in `intent.nix`, while `inventory-router.nix` owns the provider surface,
+endpoint IID and host/interface realization. The protected prefix value itself
+exists only in the SOPS-delivered runtime file.
 
 The pushed CPM and renderer candidates now prove equivalent construction for
 the exact protected-runtime IPv6 UDP/4242 tuple, routes, no-translation and
