@@ -12,7 +12,7 @@ De lokale consumerkandidaat gebruikt deze gepushte revisions:
 
 | Flake-input | Revision | Verantwoordelijkheid |
 | --- | --- | --- |
-| `network-labs` | `b1a84a5c8cbd` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en actieve FS-230-labselectie |
+| `network-labs` | `386966ad63d6` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en een FS-230-stage die expliciet geen Hetzner-/productiehost projecteert |
 | `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | expliciete ingress-only intent zonder fictieve egress behouden |
 | `network-forwarding-model-prod` | `a114b33ae555` | fysieke ingress-anchor scheiden van egress-/NAT-authority |
 | `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
