@@ -23,9 +23,16 @@
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
+    "FS-230-HDS-010-SDS-010-SMS-040" = {
+      smtRow = ../../SMT/FS-230-HDS-010-SDS-010-SMS-040;
+      sourcePath = "GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-040/intent.nix";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md";
+      role = "construction-candidate";
+      evidenceBoundary = "construction-green-live-cold-stage-pending";
+    };
   };
   evidence = {
     command = null;
-    observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
+    observedResult = "SMS-040 construction is green, but no integrated cold-stage SIT runner or live artifact evidence is registered yet";
   };
 }
