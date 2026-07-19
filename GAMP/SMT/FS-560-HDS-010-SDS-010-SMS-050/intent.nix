@@ -1,11 +1,17 @@
+let
+  base = import ../FS-970-HDS-010-SDS-020-SMS-040/intent.nix;
+  baseSite = base.mini-smt.FS-970-HDS-010-SDS-020-SMS-040;
+in
 {
-  traceId = "FS-560-HDS-010-SDS-010-SMS-050";
-  communicationContract = {
-    requesterScope = "lab-client";
-    providerService = "lab-client-dns";
-    localNamePublication = true;
-    recursionAuthority = "unchanged";
-    publicEgressAuthority = false;
-    transitiveEgress = false;
+  mini-smt.FS-560-HDS-010-SDS-010-SMS-050 = baseSite // {
+    communicationContract = baseSite.communicationContract // {
+      relations = map (
+        relation:
+        relation
+        // {
+          id = "FS-560-HDS-010-SDS-010-SMS-050__mini-verify";
+        }
+      ) baseSite.communicationContract.relations;
+    };
   };
 }

@@ -113,6 +113,12 @@ verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
 Een literal is dus niet op zichzelf verboden. Zij is fout geplaatst wanneer zij
 policyautoriteit vervangt, protected clientdata lekt of in een downstreamlaag
 een waarde dupliceert die al door de benoemde upstreambron wordt geleverd.
+Concreet: het splitsen van de Nebula-relatie in `intent.nix`, het koppelen van
+de provider/service en protected bron in `inventory.nix`, de DHCPv6-PD-keuze en
+de lokale DNS-namespace zijn migratiestappen. Deze notitie noemt ze daarom niet
+als bugs. Alleen het eerdere onvermogen van CPM/renderers om die geldige invoer
+native, scoped en gelijkwaardig voor NixOS en CLAB te materialiseren was een
+owning-layerdefect.
 
 ## Migratie
 
@@ -159,8 +165,9 @@ De bewijsset gebruikt uitsluitend echte clients en geïsoleerde labnetwerken:
   modelgeselecteerde core-egress, met lokaal delen, laterale `REFUSED`,
   geblokkeerde directe paden en nul reproduceerbaarheidswaarschuwingen;
 - `FS-560-HDS-010-SDS-010-SMS-050`: de gepushte cross-repo construction row
-  bewijst CPM-afleiding, lokale namespace-authority, redacted conflicts en
-  equivalente NixOS/CLAB-materialisatie; en
+  en echte geïsoleerde NixOS/CLAB/test-clientbron bewijzen CPM-afleiding,
+  lokale namespace-authority, redacted conflicts en equivalente
+  materialisatie; en
 - `FS-230-HDS-010-SDS-010-SMS-040`: de gepushte cross-repo construction row
   bewijst exact IPv6 UDP/4242, stateful return, geen NAT66/TCP en geen artifacts
   op een niet-geselecteerde access-node.
