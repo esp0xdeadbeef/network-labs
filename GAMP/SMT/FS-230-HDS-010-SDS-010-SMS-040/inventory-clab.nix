@@ -1,14 +1,8 @@
-let
-  router = import ./inventory-router.nix;
-in
-{
-  meta = {
-    traceId = "FS-230-HDS-010-SDS-010-SMS-040";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md";
-    renderer = "clab";
-    scope = "isolated-construction-candidate";
-    evidenceBoundary = "construction-only";
-  };
-  renderer = "clab";
-  realization = router;
+import ./inventory-router.nix {
+  host = "s-router-clab";
+  wanBridge = "f230cwan";
+  wanVlan = 403;
+  dmzBridge = "f230cdmz";
+  dmzVlan = 404;
+  containerlab = true;
 }
