@@ -104,6 +104,13 @@ Voor `s-router-prod` zijn wijzigingen aan
 consumer-migratie zolang zij uitsluitend die twee soorten invoer vastleggen;
 ze worden hieronder niet als network-*-bug opgevoerd.
 
+De huidige consumer-schema-ingang bewaart de protected `routedPrefixes`, hun
+slot/prefixlengtes en het opaque `sourceFile` onder `ownership` in
+`intent.nix`. Ondanks de bestandsnaam zijn dat allocation-/site-inputs, geen
+allow- of egresspolicy. Verplaats ze niet alleen om de bestandsnaam: een latere
+schema-splitsing naar inventory mag hun betekenis niet wijzigen. Het geheime
+prefix zelf blijft uitsluitend runtime in SOPS.
+
 | Onderwerp | Eigenaar en migratie | Classificatie |
 | --- | --- | --- |
 | VLAN2-hostmanagement met DHCPv4 en `UseDNS = false` | Het minimale hostprofiel mag vereiste managementbereikbaarheid vastleggen. Beschrijf de interface in inventory/hostprofiel; leid er geen tenantpolicy uit af. | Realization-input, geen defect. |
@@ -112,7 +119,7 @@ ze worden hieronder niet als network-*-bug opgevoerd.
 | `reservationSource.sourceFile` en SOPS-mount | Inventory mag alleen schema, classificatie en runtimepad leveren. Hostname, MAC, IPv4, IPv6-IID en DUID/IAID blijven volledig protected. | Secret-delivery en datamigratie, geen policydefect. |
 | Reservationnamen naar lokale A/AAAA/PTR-data | Inventory declareert alleen namespace-eigendom, requester-scope, recordklassen, local-only fallback en de opaque bron. CPM voegt de afgeleide bronsoort/familie toe. De bekende private IPv4-reverse-zone is gewone site-input; protected recordwaarden blijven runtime. | Native kandidaat gepusht onder `FS-560-HDS-010-SDS-010-SMS-050`; lokale consumerbuild groen, maar de row blijft `NOT OK` totdat cold stage en live NixOS/CLAB-bewijs zijn afgerond. |
 | PPPoE IPv6/Prefix Delegation | Interface, provider, IAID en PD-request-ID zijn inventoryfeiten. De IPv6-default, DHCPv6-PD-client, ordering en exacte reply-firewall horen uit CPM en de NixOS/CLAB-renderers te komen. | Invoer is geen defect; native kandidaat onder `FS-800-HDS-030-SDS-020-SMS-020`, lokaal in de consumer gebouwd, live cold stage nog open. |
-| Nebula public ingress | Maak van de bestaande gemengde familie-neutrale NAPT-relatie twee expliciete authorities: behoud IPv4-NAPT alleen voor de afzonderlijk benoemde IPv4-tuples en declareer IPv6 als `family = "ipv6"`, UDP/4242, `translationMode = "none"`, `sourcePreservation = "preserve-source"` en stateful return. Bind in inventory de benoemde provider-uplink aan exact één bestaande VLAN3-service-endpoint; de lage 64 bits van diens inventory-adres vormen de stabiele IID. Lever daarnaast exact één protected runtime routed-prefix. Provider-interface, next hop, gateway en geselecteerde routetabellen blijven inventory/site-realization. Zet `publicSurface`, `targetEndpoint`, IID of prefixwaarde niet nogmaals als policyautoriteit in de relation. | De wijziging aan `intent.nix`/`inventory.nix` is migratie, geen fout. De native constructiekandidaat onder `FS-230-HDS-010-SDS-010-SMS-040` is gepusht en groen; alleen consumerpin, cold stage en live NixOS/CLAB-bewijs staan nog open. |
+| Nebula public ingress | Maak van de bestaande gemengde familie-neutrale NAPT-relatie twee expliciete authorities: behoud IPv4-NAPT alleen voor de afzonderlijk benoemde IPv4-tuples en declareer IPv6 als `family = "ipv6"`, UDP/4242, `translationMode = "none"`, `sourcePreservation = "preserve-source"` en stateful return. Bind de benoemde provider-uplink aan exact één bestaande VLAN3-service-endpoint; de lage 64 bits van diens endpointadres vormen de stabiele IID. Lever daarnaast exact één protected runtime routed-prefix. In het huidige schema staat die allocation onder `ownership` in `intent.nix`; provider-interface, next hop, gateway en geselecteerde routetabellen blijven inventory/site-realization. Zet `publicSurface`, `targetEndpoint`, IID of prefixwaarde niet nogmaals als policyautoriteit in de relation. | De wijziging aan `intent.nix`/`inventory.nix` is migratie, geen fout. De native constructiekandidaat onder `FS-230-HDS-010-SDS-010-SMS-040` is gepusht en groen; alleen consumerpin, cold stage en live NixOS/CLAB-bewijs staan nog open. |
 
 Een literal is dus niet op zichzelf verboden. Zij is fout geplaatst wanneer zij
 policyautoriteit vervangt, protected clientdata lekt of in een downstreamlaag
