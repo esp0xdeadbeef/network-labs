@@ -1,5 +1,5 @@
 let
-  source = import ../GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/intent-test-clients.nix;
+  source = import ../GAMP/SMT/FS-270-HDS-010-SDS-010-SMS-020/intent-test-clients.nix;
   inventory = import ./inventory-test-clients.nix;
   sourceCpm = source.control_plane_model or source;
   sourceDeployment = sourceCpm.deployment or { };
