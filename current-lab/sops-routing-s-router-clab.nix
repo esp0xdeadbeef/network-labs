@@ -1,1 +1,1 @@
-import ../GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-clab.nix
+import ../GAMP/SMT/FS-560-HDS-010-SDS-010-SMS-050/sops-routing-s-router-clab.nix

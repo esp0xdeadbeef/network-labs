@@ -21,7 +21,7 @@ in
 rec {
   activeLabInventoryStub = {
     kind = "unsupported-runtime-host-stub";
-    traceId = "FS-540-HDS-010-SDS-010-SMS-045";
+    traceId = "FS-560-HDS-010-SDS-010-SMS-050";
     hostName = "s-router-hetz";
   };
   deployment.hosts."s-router-hetz" = {
