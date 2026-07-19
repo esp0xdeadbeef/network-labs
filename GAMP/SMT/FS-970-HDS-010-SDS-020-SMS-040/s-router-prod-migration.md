@@ -63,8 +63,8 @@ IPv6-default, DHCPv6-PD-client, ordering en reply-firewall worden door die
 native keten gemaakt. Ook deze kandidaat is nog geen live stagebewijs.
 
 De native FS-230-implementatiekandidaat staat gepusht als CPM
-`4a28239803ec`, NixOS-renderer `e665b9475b7e` en CLAB-renderer
-`1ebfa486465c`. De intent bezit alleen de IPv6 UDP/4242-allow, service,
+`4a493b53b1c`, NixOS-renderer `de4d81c94f0c` en CLAB-renderer
+`c3dfd1343f30`. De intent bezit alleen de IPv6 UDP/4242-allow, service,
 stateful return en no-translation-authority. Inventory bezit de ene provider-
 uplink, de ene service-endpointbinding en de protected runtime-prefixbron. De
 CPM-uitkomst en beide rendererconstructies zijn groen; consumerpin en cold
