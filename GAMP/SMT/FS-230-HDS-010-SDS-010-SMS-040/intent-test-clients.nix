@@ -34,11 +34,41 @@ let
     fs230-nixos-public =
       mkEndpoint "fs230-nixos-public" "f230nwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2" "10.230.40.1" "fd42:0230:40:1::1";
     fs230-nixos-service =
-      mkEndpoint "fs230-nixos-service" "f230ndmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1";
+      (mkEndpoint "fs230-nixos-service" "f230ndmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1")
+      // {
+        runtimeAddressAssignments = [
+          {
+            family = "ipv6";
+            sourceClass = "protected";
+            sourceFile = "/run/secrets/fs230-lab-dmz-ipv6-prefix";
+            delegatedPrefixLength = 48;
+            perTenantPrefixLength = 64;
+            slot = 35;
+            interfaceIdentifier = "0000:0000:0000:4242";
+            prefixLength = 128;
+            interfaceName = "eth0";
+          }
+        ];
+      };
     fs230-clab-public =
       mkEndpoint "fs230-clab-public" "f230cwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2" "10.230.40.1" "fd42:0230:40:1::1";
     fs230-clab-service =
-      mkEndpoint "fs230-clab-service" "f230cdmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1";
+      (mkEndpoint "fs230-clab-service" "f230cdmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1")
+      // {
+        runtimeAddressAssignments = [
+          {
+            family = "ipv6";
+            sourceClass = "protected";
+            sourceFile = "/run/secrets/fs230-lab-dmz-ipv6-prefix";
+            delegatedPrefixLength = 48;
+            perTenantPrefixLength = 64;
+            slot = 35;
+            interfaceIdentifier = "0000:0000:0000:4242";
+            prefixLength = 128;
+            interfaceName = "eth0";
+          }
+        ];
+      };
   };
 in
 rec {

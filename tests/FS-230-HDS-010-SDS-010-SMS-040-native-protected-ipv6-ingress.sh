@@ -65,7 +65,7 @@ ROW="${row}" nix eval --impure --expr '
     intent = import (row + "/intent.nix");
     nixos = import (row + "/inventory-nixos.nix");
     clab = import (row + "/inventory-clab.nix");
-    clients = import (row + "/inventory-test-clients.nix");
+    clients = import (row + "/intent-test-clients.nix");
     siteIntent = intent."mini-smt"."FS-230-HDS-010-SDS-010-SMS-040";
     relation = builtins.head siteIntent.communicationContract.relations;
     authority = relation.publicIngressTupleAuthority;
@@ -75,6 +75,17 @@ ROW="${row}" nix eval --impure --expr '
     clabNodes = clab.realization.nodes;
     nodeNames = builtins.attrNames nixosNodes;
     logicalNames = nodes: map (name: nodes.${name}.logicalNode.name) (builtins.attrNames nodes);
+    protectedClientAddress = {
+      family = "ipv6";
+      sourceClass = "protected";
+      sourceFile = "/run/secrets/fs230-lab-dmz-ipv6-prefix";
+      delegatedPrefixLength = 48;
+      perTenantPrefixLength = 64;
+      slot = 35;
+      interfaceIdentifier = "0000:0000:0000:4242";
+      prefixLength = 128;
+      interfaceName = "eth0";
+    };
   in
   assert !(authority ? publicSurface);
   assert !(authority ? targetEndpoint);
@@ -96,7 +107,11 @@ ROW="${row}" nix eval --impure --expr '
   assert prefix.allocation == "runtime";
   assert prefix.sourceFile == "/run/secrets/fs230-lab-dmz-ipv6-prefix";
   assert prefix.slot == 35;
-  assert clients.meta.traceId == "FS-230-HDS-010-SDS-010-SMS-040";
+  assert clients.control_plane_model.meta.traceId == "FS-230-HDS-010-SDS-010-SMS-040";
+  assert clients.endpointAssignment.fs230-nixos-service.runtimeAddressAssignments == [ protectedClientAddress ];
+  assert clients.endpointAssignment.fs230-clab-service.runtimeAddressAssignments == [ protectedClientAddress ];
+  assert !(clients.endpointAssignment.fs230-nixos-public ? runtimeAddressAssignments);
+  assert !(clients.endpointAssignment.fs230-clab-public ? runtimeAddressAssignments);
   true
 ' >/dev/null || fail "row-local intent/inventory ownership contract failed"
 
