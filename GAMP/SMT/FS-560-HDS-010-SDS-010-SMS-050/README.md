@@ -30,7 +30,14 @@ NETWORK_REPO_DIRECT_TEST_OK=1 \
   tests/FS-560-HDS-010-SDS-010-SMS-050-native-protected-name-publication.sh
 ```
 
-Live verifier after staging:
+Cold-stage SIT verifier (after recording pre-stage boot IDs, guest closures,
+source hashes and pushed revisions):
+
+```sh
+network-codex-agent/tests/test-sit-FS-560-HDS-010-SDS-010-protected-name-publication-live.sh
+```
+
+Its row-local runtime predicate executes both of these substrate probes:
 
 ```sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=nixos \
