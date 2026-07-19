@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-800-HDS-030-SDS-020-SMS-020";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020-s-router-prod-pppoe-ipv6-prefix-delegation.md";
-  titleSlug = "s-router-prod-pppoe-ipv6-prefix-delegation";
+  titleSlug = "native-pppoe-ipv6-prefix-delegation-materialization";
   source = {
     kind = "canonical-sms-source-stub";
     sourcePath = "GAMP/SMT/FS-800-HDS-030-SDS-020-SMS-020/intent.nix";
@@ -17,6 +17,6 @@
   evidence = {
     command = null;
     focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "inventory realization facts are valid; native CPM plus equivalent NixOS and CLAB IPv6/PD materialization and isolated staging remain unproven";
   };
 }
