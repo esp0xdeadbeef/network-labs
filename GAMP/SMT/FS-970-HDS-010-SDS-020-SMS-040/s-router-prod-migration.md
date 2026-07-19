@@ -12,7 +12,7 @@ De lokale consumerkandidaat gebruikt deze gepushte revisions:
 
 | Flake-input | Revision | Verantwoordelijkheid |
 | --- | --- | --- |
-| `network-labs` | `562f749038ef` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en migratienotitie |
+| `network-labs` | `b1a84a5c8cbd` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en actieve FS-230-labselectie |
 | `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | expliciete ingress-only intent zonder fictieve egress behouden |
 | `network-forwarding-model-prod` | `a114b33ae555` | fysieke ingress-anchor scheiden van egress-/NAT-authority |
 | `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
@@ -38,6 +38,10 @@ return- en translation-authority. Inventory/site-realization bezit host,
 interface, endpoint, secretpad en providerbinding. Een pipeline-defect bestaat
 pas wanneer een downstreamlaag die invoer verliest, zelf nieuwe autoriteit
 verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
+Ontbreekt de gewenste s-router-prod-authority of sitefact nog in deze twee
+consumerbestanden, dan is het toevoegen of corrigeren daarvan dus gewone
+migratieconfiguratie. Dat wordt in deze notitie benoemd en niet als een
+network-*-defect geregistreerd.
 
 | Vereiste consumentinvoer | Hoort in | Geen pipelinebug omdat |
 | --- | --- | --- |
@@ -76,16 +80,20 @@ verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
 
 1. Start een client op een geïsoleerde access-scope. Noteer van dezelfde
    interface MAC, stabiele niet-tijdelijke IPv6-IID en zo nodig DUID/IAID.
-   Reboot de client en accepteer alleen identieke identifiers.
+   Reboot de client en accepteer alleen identieke identifiers. Gebruik geen
+   productie-VLAN of productieadres voor deze opname.
 2. Zet één volledig record met private hostname, gewenste IPv4/IPv6 en de
-   identifiers in SOPS. Print of kopieer geen recordveld naar inventory, logs,
-   diagnostics, evaluatie-output of de Nix store.
+   identifiers in SOPS. Een hostname kan een serienummer bevatten en is daarom
+   net zo protected als MAC, IID, DUID en IAID. Print of kopieer geen recordveld
+   naar inventory, logs, diagnostics, evaluatie-output of de Nix store.
 3. Declareer uitsluitend het opaque schema, `sourceClass = "protected"`,
    `/run/secrets/...`-pad en de owner-scoped `namePublication`. Lever het
    gedecrypte bestand mode `0400`, read-only, aan de geselecteerde runtime.
 4. Laat dezelfde protected recordset pas runtime Kea én lokale Unbound-data
    maken. De namespace is authoritative/static: een onbekende lokale naam of
    reverse-entry eindigt lokaal en valt nooit door naar publieke recursie.
+   Bewijs na een reboot dat dezelfde MAC een voorspelbare IPv4-reservation en
+   dezelfde IID/prefixbinding een voorspelbare IPv6-`/128` opleveren.
 5. Verwijder host-lokale generators/overrides pas nadat NixOS én CLAB dezelfde
    row uit gepushte pins bouwen, alle drie labhosts tegelijk uit zijn geweest,
    offline zijn waargenomen en met nieuwe boot-ID/closure plus exacte
