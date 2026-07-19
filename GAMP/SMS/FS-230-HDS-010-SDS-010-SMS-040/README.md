@@ -5,7 +5,11 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-ro
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.
 
-Status: Source stub only - not validation evidence.
+Status: Construction candidate only - SMT and SIT remain NOT OK pending the
+isolated cold stage.
 
-The canonical SMS title slug is `s-router-prod-nebula-ipv6-ingress-compatibility`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The canonical SMS title slug is
+`s-router-prod-nebula-ipv6-ingress-compatibility`. The row-specific source
+separates policy intent from inventory-owned endpoint/protected-source facts.
+Its focused cross-repo construction test is green; it is not live validation
+evidence and cannot mark this trace OK.
