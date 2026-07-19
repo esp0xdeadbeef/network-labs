@@ -18,7 +18,7 @@ De lokale consumerkandidaat gebruikt deze gepushte revisions:
 | `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
 | `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea/DNS/routes/firewall en vijf-node ingressbewijs |
 | `network-renderer-containerlab-linux-backend` | `15264eb1e7e5` | equivalente CLAB-materialisatie en runtime-regelvalidatie |
-| `network-renderer-access-endpoint-nixos` | `d2d78859130a` | echte geïsoleerde test-clients met runtime-only protected `/128` |
+| `network-renderer-access-endpoint-nixos` | `104e00047240` | echte geïsoleerde test-clients met runtime-only protected `/128` en compositie van de expliciete consumer-SOPS-module |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay-output, zonder extra policy- of DNS-autoriteit |
 
 Met deze pinset bouwt `s-router-prod` zonder de lokale reservation-DNS-parser,
@@ -50,6 +50,7 @@ network-*-defect geregistreerd.
 | core-DNS-provider, access-listeners en provider/uplinkbinding | `inventory.nix` | dit zijn site- en endpointfacts |
 | PPPoE DHCPv6-PD-modus, IAID/request-ID en reserverings-publicatieschema | `inventory.nix` | dit zijn expliciete site-/protocolinputs, geen rendererdefaults |
 | hostmanagement-DHCP en VM-facing bridge/NIC/MAC | hostrealization | dit beschrijft de fysieke consumerhost |
+| geselecteerde SOPS-deliverymodule, secretpad, key en mode | hostrealization/SOPS-module | dit bindt protected runtime-input aan de gekozen NixOS-host zonder de waarde openbaar te maken |
 | private hostname, client-MAC, IPv4, IPv6/IID, DUID en IAID | SOPS-runtimebron | deze waarden mogen evaluatie en Nix store niet in |
 
 - De Nebula-migratie splitst IPv4-NAPT en IPv6-no-translation. IPv6 staat op
@@ -75,6 +76,15 @@ network-*-defect geregistreerd.
 - PPPoE-interface, IAID en DHCPv6-PD-request-ID zijn site-input. Default route,
   PD-client, ordering en reply-firewall horen native uit CPM/renderers te
   komen.
+- Een consumer die een bestaand SOPS-modulepad aan de endpointrenderer meegeeft
+  doet normale hostrealization; dat pad hoort niet in intent en de secretwaarde
+  hoort niet in inventory. Een ontbrekend of verkeerd gekozen pad is een
+  consumerconfiguratiefout. Een renderer die het expliciet ontvangen modulepad
+  stil negeert is daarentegen een pipeline-/rendererdefect. De eerste FS-230
+  cold-stage maakte precies dat onderscheid zichtbaar: de hostconfig koos de
+  juiste protected bron, maar revision `d2d78859130a` composeerde de module niet.
+  Revision `104e00047240` repareert dit generiek en de constructiontest evalueert
+  nu ook de gedeclareerde secretmetadata; er wordt geen secretwaarde gelezen.
 
 ## Migratie van reservations en compatibiliteit
 
