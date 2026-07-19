@@ -10,9 +10,9 @@ cpm="${github_root}/network-control-plane-model"
 nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
 
-cpm_revision="4a28239803ec91a71fb4f244ce5f00eb32c50981"
-nixos_revision="e665b9475b7e03fe736ac2a58e368c3b8188ad08"
-clab_revision="1ebfa486465ceb9602eee0ec4df116880c7ab5ca"
+cpm_revision="4a493b53b1c04949cb94c13315216048b306fefa"
+nixos_revision="de4d81c94f0c4559576189f3378bef2cdee627f4"
+clab_revision="c3dfd1343f306c1574993918ad1d2cf0b2923799"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
