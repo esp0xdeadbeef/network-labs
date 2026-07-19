@@ -2,6 +2,11 @@
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-045";
   miniSmtId = "FS-540-HDS-010-SDS-010-SMS-045";
+  runtimeHosts = [
+    "s-router-nixos"
+    "s-router-clab"
+    "s-router-test-clients"
+  ];
   source = {
     kind = "intent-source";
     intent = ./intent.nix;
