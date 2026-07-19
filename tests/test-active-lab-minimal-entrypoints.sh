@@ -26,6 +26,7 @@ for required in \
   clients.nix \
   clients-s-router-test-clients.nix \
   intent-s-router-clab.nix \
+  intent-s-router-hetz.nix \
   intent-s-router-nixos.nix \
   intent-s-router-test-clients.nix \
   inventory-clab.nix \
