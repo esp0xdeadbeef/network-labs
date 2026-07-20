@@ -11,10 +11,6 @@
     };
   };
   evidence = {
-    command = ''
-      bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh &&
-      bash tests/FS-800-HDS-020-SDS-021-SIT-live-secret-presence.sh s-router-nixos
-    '';
     observedResult = "OK live on 2026-06-29: source SMT verifies host-specific active-lab SOPS routing, live s-router-nixos can decrypt sops-s-router-nixos.yaml, and bash tests/FS-800-HDS-020-SDS-021-SIT-live-secret-presence.sh s-router-nixos passes with both /run/secrets/hat-pppoe-username and /run/secrets/hat-pppoe-password present under root-only boundary";
   };
 }

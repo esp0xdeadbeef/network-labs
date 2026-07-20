@@ -11,12 +11,7 @@
       traceId = "FS-230-HDS-010-SDS-010-SMS-040";
       kind = "intent-and-inventory-source";
       sourcePath = "GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-040/intent.nix";
-      test = "tests/FS-230-HDS-010-SDS-010-SMS-040-native-protected-ipv6-ingress.sh";
       maxRuntimeTargets = 0;
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-    "tests/FS-230-HDS-010-SDS-010-SMS-040-native-protected-ipv6-ingress.sh"
-  ];
 }

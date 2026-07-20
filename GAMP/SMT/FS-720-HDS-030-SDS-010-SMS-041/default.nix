@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh";
-    focusedTest = "tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh";
     observedResult = "active-lab HAT source inventories expose explicit tenant attach.bridge fields for CLAB/NixOS core tenant surfaces and provider handoff surfaces before the CLAB renderer fail-closed bridge-field contract is exercised; source fixture evidence only, not live HAT/SAT session proof";
   };
 }

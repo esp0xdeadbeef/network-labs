@@ -19,12 +19,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-codex-agent";
-    focusedTest = "tests/test-gamp-sms-input-contracts.sh";
-    liveScript = "network-codex-agent/scripts/smt-live-FS-070-HDS-010-SDS-010-SMS-010.sh";
-    sitLiveScript = "network-codex-agent/scripts/sit-live-FS-070-HDS-010-SDS-010.sh";
-    scriptContractTest = "network-codex-agent/tests/test-smt-live-FS-070-HDS-010-SDS-010-SMS-010.sh";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh FS-070-HDS-010-SDS-010-SMS-010";
-    fullLoopCommand = "S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-070-HDS-010-SDS-010-SMS-010 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 NETWORK_REPO_DIRECT_TEST_OK=1 MINI_SMT_OFFLINE_VERIFY=0 bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos";
     networkLabsRev = "8ef4117d91bad97c33ac02f61f00d6bbd6f79583";
     nixosLockCommit = "eba94e93";
     networkCodexAgentCommit = "c4c62045";

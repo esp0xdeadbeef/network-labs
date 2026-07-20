@@ -10,7 +10,6 @@
     };
   };
   evidence = {
-    command = null;
     observedResult = "source specification only; integration has not executed";
   };
 }

@@ -21,7 +21,6 @@
     };
   };
   evidence = {
-    command = "bash tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh";
     repo = "network-labs with network-codex-agent checker";
     sourcePaths = [
       "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-010/intent.nix"

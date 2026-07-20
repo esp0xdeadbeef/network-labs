@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh";
-    focusedTest = "tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh";
     observedResult = "focused HAT source construction test verifies non-production PPPoE test-secret declarations, root-only runtime paths, selected fixture scoping, protected-inventory non-promotion, and seeded negatives";
   };
 }

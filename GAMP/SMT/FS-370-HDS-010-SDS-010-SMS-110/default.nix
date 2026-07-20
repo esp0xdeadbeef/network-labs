@@ -16,9 +16,7 @@
   };
   status = "OK";
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-110";
     owningRepo = "network-renderer-containerlab-linux-backend";
-    focusedTest = "tests/test-fs370-hds010-sds010-sms110-clab-forwarding-materialization.sh";
     activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-110";
     smtRow = "GAMP/SMT/README.md row 230";
     status = "OK";

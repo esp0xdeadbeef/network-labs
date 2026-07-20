@@ -13,9 +13,7 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-101";
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/FS-370-HDS-010-SDS-010-SMS-101-per-lane-return-path-routing.sh";
     activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-101";
     smtRow = "GAMP/SMT/README.md row 513";
     status = "OK";

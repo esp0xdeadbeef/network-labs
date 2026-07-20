@@ -11,7 +11,7 @@ currently consumes:
 Run the row-local source structure check:
 
 ```sh
-bash tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh
+bash tests/FS-800-HDS-010-SDS-020-SMS-040.sh
 ```
 
 Run the live provider-handoff default-route SIT against the active lab:

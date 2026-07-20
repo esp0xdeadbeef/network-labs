@@ -23,8 +23,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
     observedResult = "NOT OK: the isolated dual-stack recursive and local-only source is present, but acceptance remains open until the row-specific CPM and renderer predicates and the cold-staged NixOS/CLAB protocol pass";
   };
 }

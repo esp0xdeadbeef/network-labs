@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/run-active-lab-mini-smt.sh FS-760-HDS-010-SDS-010-SMS-050";
-    focusedTest = "tests/test-FS-760-HDS-010-SDS-010-SMS-050-receiver-multicast-flooding-denial.sh";
     observedResult = "Focused SMS-050 construction test PASS (7/7 predicates, 2/2 seeded negatives active). Live mini-SMT runtime verified: s-router-nixos (192.168.1.17) artifacts OK, s-router-clab (192.168.1.19) artifacts OK. Both hosts carry mini-smt topology section in control-plane.json with 1 target each. Pinned nixos-shell build PASS.";
   };
 }

@@ -1,7 +1,7 @@
-# SIT Source Stub: FS-162-HDS-010-SDS-010
+# SIT Construction Boundary: FS-162-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: OK at the construction boundary.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+The root validation lock integrates canonical mapping, OpenConfig instance
+emission, exact fail-closed diagnostics, recovery, and YANG release. This
+status does not claim live-device deployment.

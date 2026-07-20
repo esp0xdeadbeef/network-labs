@@ -10,7 +10,6 @@
     };
   };
   evidence = {
-    command = "bash tests/test-gamp-row-source-stubs.sh";
     sourcePaths = [
       "GAMP/SMT/FS-190-HDS-010-SDS-010-SMS-010/intent.nix"
     ];

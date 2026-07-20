@@ -21,9 +21,6 @@
   };
   status = "OK";
   evidence = {
-    command = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/test.sh";
-    focusedTest = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-020/test.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-020.sh";
     observedResult = "fixture compiles explicit service/public-ingress public IPv4 shortcuts into NFM shortcutAuthorizations";
   };
 }

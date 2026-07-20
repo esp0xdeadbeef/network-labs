@@ -13,7 +13,7 @@ Row-local source for IPv4 Decimal Offset Parsing Software Module Specification.
 ## Construction Evidence
 
 - Repo: `network-control-plane-model`
-- Test: `tests/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.sh`
+- Test: `tests/FS-970-HDS-010-SDS-010-SMS-020.sh`
 - Commit: `c0e9ee1`
 - Verified by: sms-specialist-042 (2026-06-17)
 - Status: PASS — proves `requireInt` gate rejects non-integer offsets, `ipam.allocOne` enforces out-of-prefix rejection. Nix parser auto-normalizes `0x0A` to integer 10 (constraint not CMC gap).

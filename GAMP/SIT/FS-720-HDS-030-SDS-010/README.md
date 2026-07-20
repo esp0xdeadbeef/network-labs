@@ -6,15 +6,15 @@ evidence, and live active-lab runtime materialization probes pass.
 Focused evidence:
 
 ```bash
-bash tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh
-bash tests/FS-720-HDS-030-SDS-010-SMS-041-SIT-live-clab-render-status.sh s-router-clab
+bash tests/FS-720-HDS-030-SDS-010-SMS-041.sh
+bash tests/FS-720-HDS-030-SDS-010-SMS-041.sh --live s-router-clab
 (cd ../network-renderer-access-endpoint-nixos &&
   NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh &&
   NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-030-SDS-010-SMS-041.sh)
 (cd ../network-renderer-containerlab-linux-backend &&
   NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs720-hds030-sds010-sms041-wan-host-uplink-bridge.sh)
 (cd ../network-codex-agent &&
-  scripts/fs720-active-lab-endpoint-clab-runtime-check.sh --live)
+  scripts/live-FS-720-HDS-030-SDS-010-SMS-041.sh --live)
 ```
 
 This proves the active-lab HAT inventories expose explicit tenant bridge fields

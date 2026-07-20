@@ -10,8 +10,6 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-800-HDS-030-SDS-030-SMS-010";
-    focusedTest = "tests/test-active-lab-mini-smt-pppoe-pairing-only.sh";
     maxRuntimeTargets = 5;
     scope = "PPPoE provider/customer pairing and fallback rejection";
   };

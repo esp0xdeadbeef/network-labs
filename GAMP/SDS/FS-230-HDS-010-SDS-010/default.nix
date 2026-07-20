@@ -28,8 +28,4 @@
       evidenceBoundary = "construction-source-only-live-pending";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-    "tests/FS-230-HDS-010-SDS-010-SMS-040-native-protected-ipv6-ingress.sh"
-  ];
 }

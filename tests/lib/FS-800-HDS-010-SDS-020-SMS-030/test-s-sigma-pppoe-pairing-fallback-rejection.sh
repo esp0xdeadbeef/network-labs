@@ -1,0 +1,1 @@
+../shared/test-s-sigma-pppoe-pairing-fallback-rejection.sh

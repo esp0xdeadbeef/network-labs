@@ -18,10 +18,6 @@
   };
   status = "OK";
   evidence = {
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-020";
-    focusedTest = "../network-codex-agent/tests/test-smt-live-FS-030-HDS-010-SDS-010-SMS-020.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-020.sh";
-    constructionTest = "../network-control-plane-model/tests/FS-030-HDS-010-SDS-010-SMS-020-cpm-realization-binder-source-audit.sh";
     owningRepo = "network-control-plane-model";
     maxRuntimeTargets = 5;
     scope = "CPM realization binder authority boundary: prevents inventory from creating unauthorized behavior and proves row-local mini-SMT artifacts";

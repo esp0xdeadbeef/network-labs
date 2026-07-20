@@ -7,9 +7,9 @@ Evidence command:
 
 ```bash
 network_labs_path="${PWD}";
-bash tests/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-source.sh &&
-bash ../network-codex-agent/tests/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-record-checks.sh &&
-(cd ../network-control-plane-model && NETWORK_LABS_PATH="${network_labs_path}" NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-800-HDS-030-SDS-010-SMS-010-pppoe-service-interface-contract.sh) &&
+bash tests/FS-800-HDS-030-SDS-020-SMS-010.sh &&
+bash ../network-codex-agent/tests/FS-800-HDS-030-SDS-020-SMS-010.sh &&
+(cd ../network-control-plane-model && NETWORK_LABS_PATH="${network_labs_path}" NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-800-HDS-030-SDS-010-SMS-010.sh) &&
 (cd ../network-renderer-containerlab-linux-backend &&
   NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs800-hds030-sds010-sms010-target-host-bridge-scope.sh &&
   NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs800-hds030-sds010-sms010-pppoe-artifacts.sh) &&
@@ -29,7 +29,7 @@ Live row evidence on 2026-06-29 after renderer fixes:
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
-  ../network-codex-agent/scripts/fs800-pppoe-hat-active-lab-runtime-check.sh --live
+  ../network-codex-agent/scripts/live-FS-800-HDS-030-SDS-030-SMS-010.sh --live
 ```
 
 The live verifier passes end-to-end against active-lab HAT hosts:

@@ -61,64 +61,6 @@ write_empty_sops() {
 EOF
 }
 
-write_default_nixos_inventory() {
-  write_file "${current_dir}/inventory-nixos.nix" cat <<'EOF'
-{
-  activeLabInventoryStub = {
-    kind = "mini-smt-renderer-input-stub";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-901";
-    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-901";
-    rendererTarget = "nixos";
-    entryBoundary = "renderer-input";
-    traceId = "FS-166-HDS-010-SDS-010-SMS-901";
-
-    cpmInput = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix;
-    test = ../tests/test-active-lab-mini-smt-runtime-nixos-renderer-input.sh;
-    runner = ../tests/run-active-lab-mini-smt.sh;
-
-    note = "Inventory is provenance for FS-166-HDS-010-SDS-010-SMS-901. The source fixture carries the on-prem VLAN2 management adapter required by the s-router runtime consumers.";
-
-    runtimeManagement = {
-      vlan2 = "management-only";
-      testDhcpUplinks = [
-        "vlan4"
-        "vlan5"
-      ];
-    };
-  };
-}
-EOF
-}
-
-write_default_clab_inventory() {
-  write_file "${current_dir}/inventory-clab.nix" cat <<'EOF'
-let
-  source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix;
-  cpm = import source;
-in
-{
-  activeLabInventoryStub = {
-    kind = "runtime-clab-inventory-stub";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-904";
-    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-904";
-    rendererTarget = "clab";
-    entryBoundary = "renderer-input";
-    traceId = "FS-166-HDS-010-SDS-010-SMS-904";
-    inherit source;
-    cpmInput = source;
-    test = ../tests/test-active-lab-mini-smt-renderer-clab-only.sh;
-    runner = ../tests/run-active-lab-mini-smt.sh;
-    note = "Inventory is provenance for FS-166-HDS-010-SDS-010-SMS-904. The source fixture carries the on-prem VLAN2 management adapter required by the s-router-clab runtime consumer.";
-    runtimeManagement.vlan2 = "management-only";
-  };
-
-  deployment = cpm.control_plane_model.deployment;
-  deploymentHosts = cpm.deploymentHosts;
-  realization = cpm.control_plane_model.realization or { nodes = { }; };
-}
-EOF
-}
-
 write_default_hetz_inventory() {
   write_file "${current_dir}/inventory-hetz.nix" cat <<'EOF'
 let
@@ -173,62 +115,6 @@ rec {
   realization.nodes = { };
   endpoints = { };
   clients = { };
-}
-EOF
-}
-
-write_default_clients() {
-  write_file "${current_dir}/clients.nix" cat <<'EOF'
-{
-  activeLabClientStub = {
-    kind = "runtime-client-source-stub";
-    scope = "NixOS access-endpoint renderer input path";
-    miniSmtId = "FS-166-HDS-010-SDS-010-SMS-903";
-    miniSmtManifestKey = "FS-166-HDS-010-SDS-010-SMS-903";
-    source = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix;
-    test = ../tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh;
-  };
-
-  clients = { };
-}
-EOF
-}
-
-write_default_inventory_test_clients() {
-  write_file "${current_dir}/inventory-test-clients.nix" cat <<'EOF'
-let
-  managementVlan2 = {
-    bridge = "vlan2";
-    ipv4 = {
-      dhcp = true;
-      enable = true;
-      method = "dhcp";
-    };
-    ipv6 = {
-      acceptRA = false;
-      dhcp = false;
-      dhcpv6PD = false;
-      enable = false;
-      method = "none";
-    };
-    mode = "vlan";
-    parent = "eth0";
-    vlan = 2;
-  };
-in
-{
-  meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
-    renderer = "test-clients";
-    scope = "active-lab-current-selection";
-  };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      hat.endpointClients = { };
-      uplinks.management = managementVlan2;
-    };
-  };
 }
 EOF
 }
@@ -323,57 +209,6 @@ rec {
   deploymentHosts = control_plane_model.deployment.hosts;
   deployment = control_plane_model.deployment;
   realization = control_plane_model.realization;
-}
-EOF
-}
-
-write_renderer_clients_inventory_test_clients() {
-  local source_path="$1"
-
-  write_file "${current_dir}/inventory-test-clients.nix" cat <<EOF
-let
-  source = import ../${source_path};
-  managementVlan2 = {
-    bridge = "vlan2";
-    ipv4 = {
-      dhcp = true;
-      enable = true;
-      method = "dhcp";
-    };
-    ipv6 = {
-      acceptRA = false;
-      dhcp = false;
-      dhcpv6PD = false;
-      enable = false;
-      method = "none";
-    };
-    mode = "vlan";
-    parent = "eth0";
-    vlan = 2;
-  };
-  sourceHosts =
-    (source.deploymentHosts or { })
-    // (((source.control_plane_model or { }).deployment or { }).hosts or { });
-  sourceTestClientHost = sourceHosts.s-router-test-clients or { };
-  testClientHost = sourceTestClientHost // {
-    uplinks = (sourceTestClientHost.uplinks or { }) // {
-      management = managementVlan2;
-    };
-  };
-in
-{
-  meta = {
-    traceId = "FS-166-HDS-010-SDS-010-SMS-903";
-    renderer = "test-clients";
-    scope = "active-lab-current-selection";
-  };
-  clients = { };
-  deploymentHosts = {
-    s-router-test-clients = testClientHost;
-  };
-  deployment.hosts = {
-    s-router-test-clients = testClientHost;
-  };
 }
 EOF
 }
@@ -1005,47 +840,6 @@ write_smt_row_sops_overrides() {
   done
 }
 
-write_wireguard_sops_nixos() {
-  local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
-  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
-{
-  sops.secrets."wireguard-mini-provider-private-key" = {
-    group = "systemd-network";
-    key = "wireguard-mini-provider-private-key";
-    mode = "0440";
-    sopsFile = ${sops_file};
-  };
-}
-EOF
-}
-
-write_nebula_sops_nixos() {
-  local sops_file="${1:-../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/secrets/sops-s-router-nixos.yaml}"
-  write_file "${current_dir}/sops-routing-s-router-nixos.nix" cat <<EOF
-{ ... }:
-
-let
-  sopsFile = ${sops_file};
-  mkProfileSecret = nodeName: fileName: {
-    inherit sopsFile;
-    owner = "root";
-    mode = "0400";
-    path = "/persist/nebula-runtime/profiles/\${nodeName}/\${fileName}";
-  };
-in
-{
-  sops.secrets = {
-    "nebula-profile-lab-lighthouse-ca-crt" = mkProfileSecret "lab-lighthouse" "ca.crt";
-    "nebula-profile-lab-lighthouse-crt" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.crt";
-    "nebula-profile-lab-lighthouse-key" = mkProfileSecret "lab-lighthouse" "lab-lighthouse.key";
-    "nebula-profile-lab-client-nebula-ca-crt" = mkProfileSecret "lab-client-nebula" "ca.crt";
-    "nebula-profile-lab-client-nebula-crt" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.crt";
-    "nebula-profile-lab-client-nebula-key" = mkProfileSecret "lab-client-nebula" "lab-client-nebula.key";
-  };
-}
-EOF
-}
-
 write_metadata() {
   local layer="$1"
   local selector="$2"
@@ -1069,23 +863,18 @@ EOF
 
 select_default() {
   mkdir -p "${current_dir}"
-  write_import "intent.nix" "../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix"
-  write_default_nixos_inventory
-  write_default_clab_inventory
-  write_default_hetz_inventory
-  write_default_inventory_test_clients
-  write_default_clients
+  write_construction_only_stub \
+    "FS-166-HDS-010-SDS-010-SMS-901" \
+    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901"
   write_default_sops
   write_current_host_entrypoints
-  write_empty_clab_intent "FS-166-HDS-010-SDS-010-SMS-901"
-  write_empty_test_clients_intent "FS-166-HDS-010-SDS-010-SMS-901"
   write_metadata \
     "SMT" \
     "FS-166-HDS-010-SDS-010-SMS-901" \
     "FS-166-HDS-010-SDS-010-SMS-901" \
-    "renderer-input" \
+    "replacement-cpm-artifact" \
     "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901" \
-    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix" \
+    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-single.nix" \
     "scripts/select-current-lab.sh default"
 }
 
@@ -1248,7 +1037,7 @@ rec {
   control_plane_model = {
     meta = {
       traceId = "${trace}";
-      source = "network-labs current-lab construction-only renderer-input stub";
+      source = "network-labs current-lab construction-only lifecycle stub";
       evidenceBoundary = "construction-only";
       expectedRuntimeTargets = [ ];
       constructionOnly = true;
@@ -1346,39 +1135,6 @@ EOF
   done
 }
 
-sit_command_for() {
-  local sds="$1"
-  nix eval --impure --raw --expr "
-let
-  row = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
-in
-  if (row.evidence.command or null) == null then \"\" else row.evidence.command
-"
-}
-
-sit_construction_command_for() {
-  local sds="$1"
-  nix eval --impure --raw --expr "
-let
-  row = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
-in
-  if (row.evidence.constructionCommand or null) == null then \"\" else row.evidence.constructionCommand
-"
-}
-
-normalize_mini_smt_command() {
-  local raw="$1"
-  if [[ "${raw}" == tests/run-active-lab-mini-smt.sh\ * ]]; then
-    printf '%s\n' "${raw}"
-    return 0
-  fi
-  if [[ "${raw}" == *"tests/run-active-lab-mini-smt.sh "* ]]; then
-    printf 'tests/run-active-lab-mini-smt.sh %s\n' "${raw#*tests/run-active-lab-mini-smt.sh }"
-    return 0
-  fi
-  return 1
-}
-
 first_manifest_mini_key_for_sit() {
   local sds="$1"
   nix eval --impure --raw --expr "
@@ -1395,42 +1151,13 @@ in
 
 first_manifest_mini_for_sit() {
   local sds="$1"
-  local command construction_command normalized rest mini_id
-  command="$(sit_command_for "${sds}")"
-  construction_command="$(sit_construction_command_for "${sds}")"
-  if normalized="$(normalize_mini_smt_command "${command}")"; then
-    command="${normalized}"
-  elif normalized="$(normalize_mini_smt_command "${construction_command}")"; then
-    command="${normalized}"
+  local mini_id
+  mini_id="$(first_manifest_mini_key_for_sit "${sds}")"
+  if [[ -n "${mini_id}" ]]; then
+    printf '%s\n' "${mini_id}"
+    return 0
   fi
-  case "${command}" in
-    "tests/run-active-lab-mini-smt.sh "*) ;;
-    "")
-      mini_id="$(first_manifest_mini_key_for_sit "${sds}")"
-      if [[ -n "${mini_id}" ]]; then
-        printf '%s\n' "${mini_id}"
-        return 0
-      fi
-      echo "SIT row has no registered mini-SMT selector in ${manifest_file}: ${sds}" >&2
-      return 2
-      ;;
-    *)
-      echo "SIT row is not a current active-lab SIT shim: ${sds}" >&2
-      echo "SIT row command: ${command:-<none>}" >&2
-      return 2
-      ;;
-  esac
-
-  rest="${command#tests/run-active-lab-mini-smt.sh }"
-  for mini_id in ${rest}; do
-    if mini_id="$(mini_key_for_manifest_token "${mini_id}")"; then
-      printf '%s\n' "${mini_id}"
-      return 0
-    fi
-  done
-
   echo "SIT row has no registered mini-SMT selector in ${manifest_file}: ${sds}" >&2
-  echo "SIT row command: ${command}" >&2
   return 2
 }
 
@@ -1478,16 +1205,18 @@ select_smt() {
     return 0
   fi
 
+  if [[ "${source_kind}" == "replacement-cpm-artifact" ]]; then
+    write_construction_only_stub "${trace}" "${row_dir}"
+    write_default_sops
+    write_current_host_entrypoints
+    write_metadata "SMT" "${trace}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
+    return 0
+  fi
+
   if [[ "${source_kind}" == "renderer-input" ]]; then
-    if [[ "${renderer_target}" == "nixos" ]]; then
-      write_import "intent.nix" "../${source_path}"
-    else
-      write_import "intent.nix" "../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix"
-    fi
-    write_default_nixos_inventory
-    write_default_clab_inventory
-    write_default_inventory_test_clients
-    write_default_clients
+    echo "Legacy direct renderer-input rows are unsupported: ${trace}" >&2
+    echo "Migrate the row to a controlled replacement artifact and canonical renderer input." >&2
+    return 2
   else
     local forwarding_enterprise_json
     forwarding_enterprise_json="$(forwarding_enterprise_json_for_intent "../${row_dir}/intent.nix")"
@@ -1501,57 +1230,13 @@ select_smt() {
       hetz_runtime_supported=false
     fi
   fi
-  if [[ "${source_kind}" == "renderer-input" ]]; then
-    write_default_hetz_inventory
-  fi
   write_default_sops
   write_smt_row_sops_overrides "${row_dir}"
   write_current_host_entrypoints
   if [[ "${hetz_runtime_supported}" == "false" ]]; then
     write_empty_hetz_intent "${trace}"
   fi
-  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos" ]]; then
-    write_import "intent-s-router-nixos.nix" "../${source_path}"
-    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent "${trace}"
-    write_empty_test_clients_intent "${trace}"
-  fi
-  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "clab" ]]; then
-    write_import "intent-s-router-nixos.nix" "./intent.nix"
-    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_import "intent-s-router-clab.nix" "../${source_path}"
-    write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
-    write_empty_test_clients_intent "${trace}"
-    write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
-    write_import "clients-s-router-test-clients.nix" "./clients.nix"
-  fi
-  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "wireguard" ]]; then
-    write_import "intent-s-router-nixos.nix" "../${source_path}"
-    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent "${trace}"
-    write_empty_test_clients_intent "${trace}"
-    write_wireguard_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
-  fi
-  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nebula" ]]; then
-    write_import "intent-s-router-nixos.nix" "../${source_path}"
-    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent "${trace}"
-    write_empty_test_clients_intent "${trace}"
-    write_nebula_sops_nixos "../${row_dir}/secrets/sops-s-router-nixos.yaml"
-  fi
-  if [[ "${source_kind}" == "renderer-input" && "${renderer_target}" == "nixos-clients" ]]; then
-    write_import "intent-s-router-nixos.nix" "./intent.nix"
-    write_import "inventory-s-router-nixos.nix" "./inventory-nixos.nix"
-    write_empty_clab_intent "${trace}"
-    write_import "inventory-s-router-clab.nix" "./inventory-clab.nix"
-    write_import "intent-s-router-test-clients.nix" "../${source_path}"
-    write_renderer_clients_inventory_test_clients "${source_path}"
-    write_import "inventory-s-router-test-clients.nix" "./inventory-test-clients.nix"
-    write_import "clients-s-router-test-clients.nix" "./clients.nix"
-  fi
-  if [[ "${source_kind}" != "renderer-input" ]]; then
-    write_row_test_client_entrypoints "${row_dir}" "${forwarding_enterprise_json}"
-  fi
+  write_row_test_client_entrypoints "${row_dir}" "${forwarding_enterprise_json}"
   write_metadata "SMT" "${trace}" "${trace}" "${source_kind}" "${row_dir}" "${source_path}" "${selected_by}"
 }
 

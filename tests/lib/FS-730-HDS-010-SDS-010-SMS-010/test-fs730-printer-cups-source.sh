@@ -1,0 +1,1 @@
+../shared/test-fs730-printer-cups-source.sh

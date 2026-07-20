@@ -11,7 +11,6 @@
     };
   };
   evidence = {
-    command = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
     runtimeComparer = "python3 scripts/runtime-debugger/main.py --s-router-nixos s-router-nixos --s-router-clab s-router-clab --s-router-test-clients s-router-test-clients --check p2p --check routes --check runtime_signals";
     observedResult = "2026-07-04 direct live verifier and active-lab runner PASS; NixOS/CLAB artifacts carry five public-inventory-audited runtime targets, test-clients carries zero router runtime targets, and manual runtime enumeration plus runtime-debugger p2p/routes/runtime_signals passed";
     activeLabRun = "/tmp/active-lab-mini-smt-runs/20260704T062015Z-2938737/FS-040-HDS-010-SDS-010-SMS-010";

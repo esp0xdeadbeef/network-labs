@@ -1,0 +1,1 @@
+../shared/test-fs810-fs820-secret-source-records.sh

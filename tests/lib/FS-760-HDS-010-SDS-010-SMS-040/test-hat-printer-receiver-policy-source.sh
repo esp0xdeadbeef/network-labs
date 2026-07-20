@@ -1,0 +1,1 @@
+../shared/test-hat-printer-receiver-policy-source.sh

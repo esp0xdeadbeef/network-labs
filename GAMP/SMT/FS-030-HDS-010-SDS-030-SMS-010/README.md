@@ -8,7 +8,7 @@ Row-local mini-SMT source for the compiler overlay-underlay separation module.
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-030-SMS-010.sh`
+`tests/FS-030-HDS-010-SDS-030-SMS-010.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-030-SMS-010-overlay-underlay-separation.md):
 - Models each overlay leg as separate communication contract relation with own `p2pIsolationKey`

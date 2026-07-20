@@ -10,7 +10,4 @@
       evidenceBoundary = "runtime";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }

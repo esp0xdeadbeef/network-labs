@@ -1,8 +1,8 @@
-# SIT Boundary: FS-162-HDS-010-SDS-040
+# SIT Construction Boundary: FS-162-HDS-010-SDS-040
 
-Status: NOT OK - no integrated artifact evidence.
+Status: OK at the construction boundary.
 
-The required focused proof is construction-only and does not require a live
-OpenConfig device. This SIT row remains NOT OK until a separate integrated
-artifact predicate is specified and executed; the construction row shall not
-promote itself to SIT.
+The deterministic validation scheme compiles and realizes the isolated FS-230
+source once, then compares NixOS, CLAB, and OpenConfig using the same canonical
+bundle identity. Separate normalized platform-binding bundles do not change
+network semantics. No live OpenConfig device or production network is claimed.

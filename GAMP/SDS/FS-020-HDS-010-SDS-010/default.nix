@@ -10,7 +10,4 @@
       evidenceBoundary = "row-local-mini-smt";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }

@@ -22,7 +22,4 @@
       evidenceBoundary = "construction-only";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }

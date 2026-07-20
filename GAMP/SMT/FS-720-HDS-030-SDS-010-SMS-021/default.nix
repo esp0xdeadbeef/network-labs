@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "(cd ../network-renderer-access-endpoint-nixos && NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh)";
-    focusedTest = "../network-renderer-access-endpoint-nixos/tests/FS-720-HDS-030-SDS-010-SMS-021.sh";
     observedResult = "OK on 2026-06-29: owning access-endpoint renderer construction test passes; endpoint fixture data is consumed from CPM endpointAssignment, direct raw intent/inventory rediscovery and CPM-missing fallback recovery are rejected, and SMS-021 diagnostic guards are verified";
   };
 }

@@ -10,7 +10,4 @@
       evidenceBoundary = "construction-only";
     };
   };
-  templateTests = [
-    "tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh"
-  ];
 }

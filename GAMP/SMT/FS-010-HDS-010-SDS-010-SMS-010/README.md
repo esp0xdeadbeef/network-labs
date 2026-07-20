@@ -14,7 +14,7 @@ This row mirrors the canonical accepted-source-set SMS and is registered in
 - The run executed the focused source-set construction check with the offline
   compiler/NFM/CPM verifier disabled and the pinned `s-router-nixos` build
   enabled.
-- `../network-codex-agent/scripts/smt-live-FS-010-HDS-010-SDS-010-SMS-010.sh`
+- `../network-codex-agent/scripts/live-FS-010-HDS-010-SDS-010-SMS-010.sh`
   passed after the local-only NixOS lock consumed `network-labs` commit
   `d1bc908670207cae9a79ce153c9dc506250dadd3`.
 - Live evidence directory:

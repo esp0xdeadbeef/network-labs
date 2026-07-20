@@ -32,7 +32,6 @@
     };
   };
   evidence = {
-    command = null;
     observedResult = "SMS-040 construction is green, but no integrated cold-stage SIT runner or live artifact evidence is registered yet";
   };
 }

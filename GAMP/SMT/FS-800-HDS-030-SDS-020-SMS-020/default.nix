@@ -15,8 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
     observedResult = "inventory realization facts are valid; native CPM plus equivalent NixOS and CLAB IPv6/PD materialization and isolated staging remain unproven";
   };
 }

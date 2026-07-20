@@ -11,7 +11,6 @@
     };
   };
   evidence = {
-    command = null;
     observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
   };
 }

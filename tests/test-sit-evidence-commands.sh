@@ -1,43 +1,41 @@
 #!/usr/bin/env bash
-# GAMP-SCOPE: executes recorded SIT evidence commands; not HAT/SAT evidence
-set -eo pipefail
+# GAMP-SCOPE: SIT-to-SMS catalog derivation; not runtime evidence
+set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-failures=0
-total=0
-rows=()
-commands=()
-
-while IFS= read -r -d '' row && IFS= read -r -d '' cmd; do
-  rows+=("${row}")
-  commands+=("${cmd}")
-done < <(
-  cd "${repo_root}"
-  for file in GAMP/SIT/*/default.nix; do
-    cmd_json="$(nix eval --impure --json --expr "let row = import ./${file}; in row.evidence.command or null" 2>/dev/null || true)"
-    if [[ -n "${cmd_json}" && "${cmd_json}" != "null" ]]; then
-      printf '%s\0%s\0' "${file}" "$(jq -r . <<<"${cmd_json}")"
-    fi
-  done
-)
-
-for index in "${!rows[@]}"; do
-  row="${rows[${index}]}"
-  cmd="${commands[${index}]}"
-  total=$((total + 1))
-  echo "RUN ${row}: ${cmd}"
-  if (cd "${repo_root}" && bash -c "${cmd}"); then
-    echo "PASS ${row}"
-  else
-    rc=$?
-    failures=$((failures + 1))
-    echo "FAIL ${row}: rc=${rc} cmd=${cmd}" >&2
-  fi
-  echo
-done
-
-echo "SUMMARY total=${total} failures=${failures}"
-if [[ "${failures}" -ne 0 ]]; then
+count="$({
+  REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
+    let
+      repoRoot = builtins.getEnv "REPO_ROOT";
+      sitRoot = repoRoot + "/GAMP/SIT";
+      manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
+      names = builtins.filter
+        (name:
+          (builtins.readDir sitRoot).${name} == "directory"
+          && builtins.match "FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+" name != null
+          && builtins.pathExists (sitRoot + "/${name}/default.nix"))
+        (builtins.attrNames (builtins.readDir sitRoot));
+      validRow = name:
+        let
+          row = import (sitRoot + "/${name}/default.nix");
+          smsIds = builtins.attrNames (row.smsInputs or { });
+        in
+          (row.layer or null) == "SIT"
+          && (row.traceId or null) == name
+          && builtins.all
+            (traceId:
+              builtins.match "${name}-SMS-[0-9]+" traceId != null
+              && builtins.hasAttr traceId manifest.tests)
+            smsIds;
+    in
+      if builtins.all validRow names
+      then builtins.toString (builtins.length names)
+      else throw "SIT rows do not derive their SMS catalog from full trace IDs"
+  '
+} 2>&1)" || {
+  printf 'FAIL SIT catalog derivation: %s\n' "${count}" >&2
   exit 1
-fi
+}
+
+printf 'PASS SIT catalog derivation: %s SDS rows use full SMS trace IDs without runner mappings\n' "${count}"

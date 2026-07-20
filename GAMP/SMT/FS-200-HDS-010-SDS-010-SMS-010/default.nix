@@ -9,8 +9,6 @@
     ];
   };
   evidence = {
-    command = "bash tests/FS-200-HDS-010-SDS-010-SMS-010-shared-service-exposure-boundary.sh";
-    focusedTest = "tests/FS-200-HDS-010-SDS-010-SMS-010-shared-service-exposure-boundary.sh";
     scope = "structural validation: two-node topology with one tenant-to-external allow relation, verifies intent fixture parses and topology is well-formed";
   };
   sharedFiles = {

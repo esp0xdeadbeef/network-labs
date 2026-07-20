@@ -9,7 +9,6 @@
   };
   evidence = {
     owningRepo = "network-forwarding-model";
-    focusedTest = "tests/fs-350-hds-010-sds-010-sms-030.sh";
     smtRow = "GAMP/SMT/README.md row 221";
     status = "OK";
     verifiedAt = "network-forwarding-model local HEAD (2026-07-02)";

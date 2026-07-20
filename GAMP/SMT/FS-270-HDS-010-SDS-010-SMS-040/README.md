@@ -10,6 +10,6 @@ Run:
 tests/run-active-lab-mini-smt.sh --source FS-270-HDS-010-SDS-010-SMS-040
 ```
 
-Focused construction test: `network-control-plane-model/tests/FS-270-HDS-010-SDS-010-SMS-040-selector-forwarding-relation-identity.sh`
+Focused construction test: `network-control-plane-model/tests/FS-270-HDS-010-SDS-010-SMS-040.sh`
 
 This row validates that selector routers emit only modeled handoff and transport forwarding, preserving relation identity, and reject unlabeled broad forwarding from local interface fanout.

@@ -5,13 +5,10 @@
   titleSlug = "file-reachability-index";
   source = {
     kind = "construction-only";
-    constructionTest = "network-codex-agent/tests/FS-981-HDS-010-SDS-010-SMS-020.sh";
     evidenceBoundary = "construction-only";
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-981-HDS-010-SDS-010-SMS-020.sh";
-    focusedTest = "tests/FS-981-HDS-010-SDS-010-SMS-020.sh";
     observedResult = "All SMS predicates proven: N1 orphan module→UNRESOLVED, R1 add caller→active-implementation, N2 unreachable test helper→UNRESOLVED, R2 add test caller→active-test-helper, P1 well-connected→active-implementation. Test wired into tests/test.sh.";
   };
 }

@@ -9,12 +9,12 @@ rejection module testing. The intent uses `pppoe-client`/`pppoe-provider` roles
 with a `pppoePairs` section to exercise the CPM-level pairing validation.
 
 Focused CPM construction test:
-`network-control-plane-model/tests/test-FS-800-HDS-010-SDS-020-SMS-030-sat-pppoe-pairing-fallback-rejection.sh`
+`network-control-plane-model/tests/FS-800-HDS-010-SDS-020-SMS-030.sh`
 (4 seeded negatives + positive control: SN1 missing-handoff, SN2 wrong-address,
 SN3 missing-credentials, SN4 killswitch-bypass).
 
 Focused CPM contract test:
-`network-control-plane-model/tests/FS-800-HDS-010-SDS-020-SMS-030-provider-access-pppoe-negative-contract.sh`
+`network-control-plane-model/tests/FS-800-HDS-010-SDS-020-SMS-030.sh`
 
 Lab-side test:
 `network-labs/tests/test-s-sigma-pppoe-pairing-fallback-rejection.sh`

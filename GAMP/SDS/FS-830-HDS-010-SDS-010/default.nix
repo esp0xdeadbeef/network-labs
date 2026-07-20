@@ -15,8 +15,4 @@
       };
     };
   };
-  templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-runtime-artifact-sms-sit-boundary.sh"
-  ];
 }

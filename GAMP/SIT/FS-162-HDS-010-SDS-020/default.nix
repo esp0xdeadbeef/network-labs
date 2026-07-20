@@ -1,17 +1,16 @@
 {
   layer = "SIT";
   traceId = "FS-162-HDS-010-SDS-020";
-  smsInputs = {
-    "FS-162-HDS-010-SDS-020-SMS-010" = {
-      smtRow = ../../SMT/FS-162-HDS-010-SDS-020-SMS-010;
-      sourcePath = "GAMP/SMT/FS-162-HDS-010-SDS-020-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010-openconfig-yang-model-validation.md";
-      role = "canonical-sms-source-stub";
-      evidenceBoundary = "source-stub-only";
-    };
+  status = "OK";
+  evidenceBoundary = "construction-only";
+  smsInputs."FS-162-HDS-010-SDS-020-SMS-010" = {
+    smtRow = ../../SMT/FS-162-HDS-010-SDS-020-SMS-010;
+    role = "locked-yang-validation";
+    evidenceBoundary = "construction-only";
   };
   evidence = {
-    command = null;
-    observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
+    check = "openconfig-yang-validation";
+    observedResult = "The emitter and offline locked YANG release gate integrate with bound bundle, renderer, model, lock, tool, and candidate identities.";
+    liveDeviceClaimed = false;
   };
 }

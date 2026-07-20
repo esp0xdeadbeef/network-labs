@@ -1,0 +1,1 @@
+../shared/test-fs166-validation-scheme-contract.sh

@@ -27,8 +27,6 @@
     };
 };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-500-HDS-010-SDS-010-SMS-010 FS-500-HDS-010-SDS-010-SMS-030 FS-500-HDS-010-SDS-010-SMS-040";
-    liveCommand = "row-specific live verifiers: fs500-active-lab-reachability-runtime-check.sh --live; fs500-decision-reason-active-lab-runtime-check.sh --live; fs500-p2p-next-hop-active-lab-runtime-check.sh --live";
     sourcePaths = [
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix"
       "GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix"

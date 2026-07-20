@@ -17,7 +17,7 @@ Current evidence, 2026-07-04:
   `.#nixosConfigurations.s-router-clab.config.system.build.nixos-shell`, and
   `.#nixosConfigurations.s-router-test-clients.config.system.build.nixos-shell`.
 - Live row wrapper passed:
-  `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/smt-live-FS-030-HDS-010-SDS-040-SMS-010.sh`.
+  `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-030-HDS-010-SDS-040-SMS-010.sh`.
 - Manual runtime comparer passed p2p/routes/runtime-signals checks for
   NixOS and test-clients and confirmed five live CLAB nodes after the CLAB
   render service reached ready state.

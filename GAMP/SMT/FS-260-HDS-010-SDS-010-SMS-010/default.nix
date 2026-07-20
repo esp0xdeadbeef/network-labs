@@ -16,7 +16,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = "pending cold-stage live verifier on s-router-nixos, s-router-clab, and s-router-test-clients";
     observedResult = "Construction source is defined; live dual-substrate stateful-return and reverse-new-flow denial remain to be executed.";
   };
 }

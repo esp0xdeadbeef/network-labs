@@ -100,9 +100,6 @@ EOF
   done
   cat <<EOF
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }
 EOF
 }
@@ -146,13 +143,9 @@ write_sms_default() {
       traceId = "${trace}";
       kind = "source-reference";
       sourcePath = "GAMP/SMT/${trace}/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
       maxRuntimeTargets = 0;
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }
 EOF
 }
@@ -199,8 +192,6 @@ write_smt_default() {
   };
   status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
     observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
   };
 }
@@ -359,7 +350,6 @@ EOF
     cat <<EOF
   };
   evidence = {
-    command = null;
     observedResult = "canonical SMS inputs mirrored; no integrated SIT runner or artifact evidence is registered yet";
   };
 }

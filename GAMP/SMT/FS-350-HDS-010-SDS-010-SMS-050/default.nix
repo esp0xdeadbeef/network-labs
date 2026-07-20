@@ -9,7 +9,6 @@
   };
   evidence = {
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/FS-350-HDS-010-SDS-010-SMS-050-fs350-inventory-realization-cross-ledger-diagnostics.sh";
     smtRow = "GAMP/SMT/README.md row 223";
     status = "OK";
     verifiedAt = "network-control-plane-model local HEAD (2026-07-02)";

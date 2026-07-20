@@ -11,7 +11,6 @@
     };
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-020-SMS-010";
     observedResult = "row-local mini-SMT registered; live closure requires locked active-lab artifacts on s-router-nixos, s-router-clab, and s-router-test-clients";
   };
 }

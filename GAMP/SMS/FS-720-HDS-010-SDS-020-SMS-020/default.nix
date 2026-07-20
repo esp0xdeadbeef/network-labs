@@ -9,13 +9,7 @@
       traceId = "FS-720-HDS-010-SDS-020-SMS-020";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-020/intent.nix";
-      test = "../network-codex-agent/tests/FS-720-HDS-010-SDS-020-SMS-020.sh";
       maxRuntimeTargets = 3;
     };
   };
-  templateTests = [
-    "tests/test-gamp-row-source-stubs.sh"
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
-  ];
 }

@@ -2,21 +2,15 @@
   layer = "SMT";
   traceId = "FS-162-HDS-010-SDS-030-SMS-010";
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010-openconfig-cpm-interface-parsing-fail-closed.md";
-  titleSlug = "openconfig-cpm-interface-parsing-fail-closed";
+  titleSlug = "openconfig-canonical-interface-parsing-fail-closed";
   source = {
-    kind = "canonical-sms-source-stub";
-    sourcePath = "GAMP/SMT/FS-162-HDS-010-SDS-030-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-162-HDS-010-SDS-030-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-162-HDS-010-SDS-030-SMS-010/inventory-nixos.nix";
-      testClients = "GAMP/SMT/FS-162-HDS-010-SDS-030-SMS-010/inventory-test-clients.nix";
-    };
-    evidenceBoundary = "source-stub-only";
+    kind = "validated-canonical-bundle";
+    evidenceBoundary = "construction-only";
+    formerDirectCpmFixture = "retained-as-OC_RAW_CPM_INPUT-negative";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
-    command = null;
-    focusedTest = null;
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "Canonical path mapping, type identity, peer-input rejection, default rejection, provenance, and recovery predicates passed.";
+    liveDeviceClaimed = false;
   };
 }

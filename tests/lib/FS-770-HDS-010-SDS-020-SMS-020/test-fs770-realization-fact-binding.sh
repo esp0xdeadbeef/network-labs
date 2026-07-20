@@ -1,0 +1,1 @@
+../shared/test-fs770-realization-fact-binding.sh

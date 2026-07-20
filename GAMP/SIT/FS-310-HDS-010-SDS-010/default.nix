@@ -15,7 +15,6 @@
     };
 };
   evidence = {
-    command = "bash tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
     sourcePaths = [
       "GAMP/SMT/FS-310-HDS-010-SDS-010-SMS-030/intent.nix"
     ];

@@ -4,21 +4,19 @@
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md";
   titleSlug = "s-router-prod-comparable-projection";
   source = {
-    kind = "isolated-fs230-cpm";
-    sourcePath = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/intent.nix";
-    inventories = {
-      clab = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-clab.nix";
-      nixos = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-nixos.nix";
-      openconfig = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-openconfig.nix";
-      testClients = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-test-clients.nix";
-    };
+    kind = "validated-canonical-bundle";
+    semanticSourceTraceId = "FS-230-HDS-010-SDS-010-SMS-040";
+    firstActiveBoundary = "network-compiler";
+    rendererTargets = [
+      "nixos"
+      "clab"
+      "openconfig"
+    ];
     evidenceBoundary = "construction-only";
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
-    focusedTest = "network-renderer-openconfig/tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
-    rendererRevision = "9cff098bc2b9d6f9ae28ea5846eb7d128f530a2b";
-    observedResult = "direct NixOS, CLAB, and OpenConfig CPM inputs share source identity, pinned compiler/CPM revisions, and the normalized FS-230 posture; CPM portability passes while complete OpenConfig instance-model coverage remains false";
+    observedResult = "One validated FS-230 canonical bundle identity produced the same normalized posture at NixOS, CLAB, and OpenConfig canonical inputs. Complete OpenConfig model coverage remains a separate false limitation.";
+    liveDeviceClaimed = false;
   };
 }

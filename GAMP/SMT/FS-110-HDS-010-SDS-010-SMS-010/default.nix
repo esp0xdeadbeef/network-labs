@@ -7,7 +7,6 @@
   source = null;
   evidence = {
     owningRepo = "network-codex-agent";
-    focusedTest = "tests/FS-110-HDS-010-SDS-010-SMS-010.sh";
     smtRow = "GAMP/SMT/README.md";
     status = "OK";
     verifiedAt = "network-codex-agent code commit 3af8b6dc with active-lab wrapper PASS (2026-07-04)";

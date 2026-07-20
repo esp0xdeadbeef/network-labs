@@ -19,11 +19,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/test-service-provider-endpoints.sh";
-    integrationTest = "network-codex-agent/tests/test-sit-fs060-hds010-sds010-endpoint-runtime-fact-boundary.sh";
-    liveScript = "network-codex-agent/scripts/smt-live-FS-060-HDS-010-SDS-010-SMS-010.sh";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh FS-060-HDS-010-SDS-010-SMS-010";
-    fullLoopCommand = "S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-060-HDS-010-SDS-010-SMS-010 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 NETWORK_REPO_DIRECT_TEST_OK=1 MINI_SMT_OFFLINE_VERIFY=0 bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos";
     networkLabsRev = "a7df2334960b6422f285ff3e7f51afb3e3c8ab98";
     nixosLockCommit = "ebd9add2";
     cpmCommit = "76ae522c1368db2b1e8b87eed13e62bd1b15119b";

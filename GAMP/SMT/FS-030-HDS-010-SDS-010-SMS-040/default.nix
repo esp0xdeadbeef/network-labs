@@ -19,10 +19,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-control-plane-model";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-040";
-    focusedTest = "../network-codex-agent/tests/test-smt-live-FS-030-HDS-010-SDS-010-SMS-040.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-040.sh";
-    constructionTest = "../network-control-plane-model/tests/FS-030-HDS-010-SDS-010-SMS-020-cpm-realization-binder-source-audit.sh";
     smtRow = "GAMP/SMT/README.md row for FS-030-HDS-010-SDS-010-SMS-040";
     maxRuntimeTargets = 5;
     scope = "CPM binder source audit: ensures every CPM realization-binding field carries a binder source-class audit reference plus upstream behavior reference, fails closed on missing or cross-stage audit records";

@@ -9,5 +9,5 @@ claim HAT, SAT, or production readiness.
 Run:
 
 ```sh
-bash tests/test-fs400-hds010-sds010-sms020-ula-nat66-intent-fixture.sh && bash tests/FS-400-HDS-010-SDS-010-SMS-040-row-local-structural.sh
+bash tests/test-fs400-hds010-sds010-sms020-ula-nat66-intent-fixture.sh && bash tests/FS-400-HDS-010-SDS-010-SMS-040.sh
 ```

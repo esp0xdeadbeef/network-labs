@@ -15,8 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = null;
     observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
   };
 }

@@ -1,0 +1,1 @@
+../shared/test-active-lab-minimal-entrypoints.sh

@@ -9,7 +9,6 @@
     ];
   };
   evidence = {
-    focusedTest = "tests/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route.sh";
     scope = "CPM provider-access fabric gateway routing contract — construction-provable predicates (MR1-MR4, FC1-FC5, SN1-SN2)";
   };
   sharedFiles = {

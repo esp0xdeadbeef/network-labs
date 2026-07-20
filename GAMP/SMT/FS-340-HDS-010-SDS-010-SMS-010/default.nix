@@ -5,7 +5,6 @@
   source = null;
   evidence = {
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.sh";
     smtRow = "GAMP/SMT/README.md row 133";
     status = "NOT OK";
     verifiedAt = "network-control-plane-model HEAD c0e9ee1 (2026-06-17, verified by sms-specialist-042)";

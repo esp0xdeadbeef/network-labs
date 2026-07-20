@@ -9,7 +9,7 @@ remains excluded from non-management paths per SMS predicates.
 ## Run
 
 ```bash
-NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-240-HDS-010-SDS-010-SMS-020-management-plane-authority.sh
+NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-240-HDS-010-SDS-010-SMS-020.sh
 ```
 
 ## What it validates

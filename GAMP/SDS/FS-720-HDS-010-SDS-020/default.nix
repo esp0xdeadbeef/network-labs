@@ -16,9 +16,4 @@
       evidenceBoundary = "construction-only";
     };
   };
-  templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-mini-smt-sds-input-templates.sh"
-    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
-  ];
 }

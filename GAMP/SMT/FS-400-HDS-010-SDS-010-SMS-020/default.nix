@@ -10,8 +10,6 @@
     ];
   };
   evidence = {
-    command = "bash tests/test-fs400-hds010-sds010-sms020-ula-nat66-intent-fixture.sh";
-    focusedTest = "tests/test-fs400-hds010-sds010-sms020-ula-nat66-intent-fixture.sh";
     maxRuntimeTargets = 0;
     scope = "ULA NAT66 selection validation: CPM diagnostics for missing egress authority and untranslated ULA routing";
   };

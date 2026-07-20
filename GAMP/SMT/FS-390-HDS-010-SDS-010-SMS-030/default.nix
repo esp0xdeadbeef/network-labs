@@ -23,9 +23,6 @@
   };
   status = "OK";
   evidence = {
-    command = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-030/test.sh";
-    focusedTest = "GAMP/SMT/FS-390-HDS-010-SDS-010-SMS-030/test.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-390-HDS-010-SDS-010-SMS-030.sh";
     observedResult = "fixture compiles broad WAN attempts to model-owned public IPv4 into NFM broadWanDenials";
   };
 }

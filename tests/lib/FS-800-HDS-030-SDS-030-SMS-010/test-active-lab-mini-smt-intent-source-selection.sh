@@ -1,0 +1,1 @@
+../shared/test-active-lab-mini-smt-intent-source-selection.sh

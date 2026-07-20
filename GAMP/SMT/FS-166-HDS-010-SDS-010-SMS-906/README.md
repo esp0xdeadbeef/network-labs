@@ -1,9 +1,17 @@
-# SMT Source Stub: FS-166-HDS-010-SDS-010-SMS-906
+# SMT Construction Row: FS-166-HDS-010-SDS-010-SMS-906
 
-Renderer-entry Nebula mini SMT.
+Status: NOT OK overall. Construction is OK; fresh cold-stage runtime evidence
+is not yet recorded.
 
-Run:
+`replacement-artifacts/nebula.nix` is a conformant CPM replacement artifact
+for the exact target set `lab-client-nebula` and `lab-lighthouse`. The validation
+scheme executes the controlled skip acknowledgements, realization, schema
+release, one normalized Nebula platform-binding bundle, and the Nebula
+canonical adapter. Secret delivery stays opaque and supplies no overlay
+network meaning.
 
 ```bash
-tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-906
+bash tests/FS-166-HDS-010-SDS-010-SMS-906.sh
 ```
+
+No direct-CPM runner or legacy source is part of this row.

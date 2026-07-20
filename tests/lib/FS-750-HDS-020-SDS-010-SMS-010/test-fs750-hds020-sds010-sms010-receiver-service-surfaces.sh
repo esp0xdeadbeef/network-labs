@@ -1,0 +1,1 @@
+../shared/test-fs750-hds020-sds010-sms010-receiver-service-surfaces.sh

@@ -11,10 +11,6 @@
       "network-renderer-nixos"
       "network-renderer-containerlab-linux-backend"
     ];
-    focusedTests = {
-      nixos = "network-renderer-nixos/tests/test-FS-500-HDS-010-SDS-010-SMS-050-nixos-bridge-colocation.sh";
-      clab = "network-renderer-containerlab-linux-backend/tests/test-FS-500-HDS-010-SDS-010-SMS-050-clab-bridge-colocation.sh";
-    };
     status = "NOT OK";
     scope = "NixOS host bridge co-location and CLAB link co-location for selector fabric p2p links; includes both seeded negatives.";
   };

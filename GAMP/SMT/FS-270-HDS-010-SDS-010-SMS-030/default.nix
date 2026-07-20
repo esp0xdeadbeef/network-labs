@@ -8,7 +8,6 @@
   };
   evidence = {
     owningRepo = "network-labs";
-    focusedTest = "tests/test-gamp-row-source-stubs.sh";
     status = "NOT OK";
     scope = "Row-local SMT/SIT source stub exists so the SMS can be addressed by the controlled network-labs source tree.";
   };

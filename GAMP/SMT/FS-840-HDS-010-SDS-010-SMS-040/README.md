@@ -4,7 +4,7 @@ Row-local source for Impermanence-Safe Early SOPS Delivery.
 
 **Validation Evidence Boundary:** split. Construction tests prove the
 configuration predicates. The active-lab SMT/SIT wrapper
-`../network-codex-agent/scripts/smt-live-FS-840-HDS-010-SDS-010-SMS-040.sh`
+`../network-codex-agent/scripts/live-FS-840-HDS-010-SDS-010-SMS-040.sh`
 must also prove the selected full trace on `s-router-nixos`, `s-router-clab`,
 and `s-router-test-clients`.
 

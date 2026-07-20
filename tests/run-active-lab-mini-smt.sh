@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 current_lab_restore_dir=""
 
@@ -36,6 +36,19 @@ list_keys() {
   printf '\n'
 }
 
+list_runnable_ids() {
+  local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  local trace_id
+
+  while IFS= read -r trace_id || [[ -n "${trace_id}" ]]; do
+    [[ -n "${trace_id}" ]] || continue
+    if [[ -x "${agent_root}/scripts/live-${trace_id}.sh" \
+      || -x "${repo_root}/tests/${trace_id}.sh" ]]; then
+      printf '%s\n' "${trace_id}"
+    fi
+  done < <(list_ids)
+}
+
 list_ids() {
   nix eval --impure --raw --expr \
     "let
@@ -48,49 +61,25 @@ list_ids() {
 
 trace_for_key() {
   local key="$1"
-  nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; in manifest.tests.\"${key}\".traceId"
+  printf '%s\n' "${key}"
 }
 
 key_for_trace() {
   local trace="$1"
-  nix eval --impure --raw --expr \
-    "let
-       manifest = import ${manifest_file};
-       keys = builtins.attrNames manifest.tests;
-       matches = builtins.filter (key: (builtins.getAttr key manifest.tests).traceId == \"${trace}\") keys;
-     in
-       if matches == [ ] then \"\" else builtins.head matches"
-}
-
-key_exists() {
-  local requested="$1"
-  local known
-  while IFS= read -r known || [[ -n "${known}" ]]; do
-    [[ "${known}" == "${requested}" ]] && return 0
-  done < <(list_keys)
-  return 1
+  if [[ "${trace}" == FS-*-HDS-*-SDS-*-SMS-* \
+    && -f "${repo_root}/GAMP/SMT/${trace}/default.nix" ]]; then
+    printf '%s\n' "${trace}"
+  fi
 }
 
 resolve_key() {
   local requested="$1"
-  local key trace
+  local key
 
   key="$(key_for_trace "${requested}")"
   if [[ -n "${key}" ]]; then
     printf '%s\n' "${key}"
     return 0
-  fi
-
-  if key_exists "${requested}"; then
-    trace="$(trace_for_key "${requested}")"
-    if [[ "${NETWORK_LABS_ALLOW_LEGACY_MINI_SMT_ALIAS:-0}" == "1" ]]; then
-      printf '%s\n' "${requested}"
-      return 0
-    fi
-    echo "Alias mini-SMT selector rejected: ${requested}" >&2
-    echo "Use full trace ID: ${trace}" >&2
-    return 2
   fi
 
   echo "Unknown active-lab SMT trace ID: ${requested}" >&2
@@ -99,23 +88,39 @@ resolve_key() {
   return 2
 }
 
-script_for() {
-  local key="$1"
-  nix eval --impure --raw --expr \
-    "let manifest = import ${manifest_file}; entry = manifest.tests.\"${key}\"; in if (entry.script or null) == null then \"\" else entry.script"
-}
+script_path_for_trace() {
+  local trace_id="$1"
+  local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  local local_path="${repo_root}/tests/${trace_id}.sh"
+  local agent_path="${agent_root}/scripts/live-${trace_id}.sh"
+  local selected_path=""
+  local -a forbidden_entrypoints=()
 
-script_path_for() {
-  local script="$1"
-  case "${script}" in
-    ../network-codex-agent/*)
-      local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
-      printf '%s/%s\n' "${agent_root}" "${script#../network-codex-agent/}"
-      ;;
-    *)
-      printf '%s/%s\n' "${repo_root}" "${script}"
-      ;;
-  esac
+  # Detection only: evidence-layer prefixes and descriptive suffixes are
+  # rejected and are never candidates for execution.
+  shopt -s nullglob
+  forbidden_entrypoints+=("${repo_root}/tests/${trace_id}-"*.sh)
+  forbidden_entrypoints+=("${agent_root}/scripts/live-${trace_id}-"*.sh)
+  forbidden_entrypoints+=("${agent_root}/scripts/smt-live-${trace_id}"*.sh)
+  forbidden_entrypoints+=("${agent_root}/scripts/${trace_id}"*.sh)
+  shopt -u nullglob
+
+  if [[ -f "${agent_path}" ]]; then
+    selected_path="${agent_path}"
+  elif [[ -f "${local_path}" ]]; then
+    selected_path="${local_path}"
+  fi
+
+  if [[ -n "${selected_path}" ]]; then
+    if ((${#forbidden_entrypoints[@]} > 0)); then
+      echo "diagnostic.sms-test-entrypoint-ambiguous trace=${trace_id} canonical=${selected_path} noncanonical=${forbidden_entrypoints[*]}" >&2
+      return 2
+    fi
+    printf '%s\n' "${selected_path}"
+  else
+    echo "diagnostic.sms-test-entrypoint-noncanonical trace=${trace_id} required=tests/${trace_id}.sh-or-scripts/live-${trace_id}.sh observed=${forbidden_entrypoints[*]:-missing}" >&2
+    return 2
+  fi
 }
 
 source_kind_for() {
@@ -327,6 +332,8 @@ usage() {
 Usage:
   tests/run-active-lab-mini-smt.sh --list
   tests/run-active-lab-mini-smt.sh --source <FS-...-SMS-... trace-id>
+  tests/run-active-lab-mini-smt.sh --test-path <FS-...-SMS-... trace-id>
+  tests/run-active-lab-mini-smt.sh --test-paths
   tests/run-active-lab-mini-smt.sh all
   tests/run-active-lab-mini-smt.sh <FS-...-SMS-... trace-id> [<FS-...-SMS-... trace-id>...]
 EOF
@@ -338,7 +345,7 @@ if [[ "$#" -eq 0 ]]; then
 fi
 
 if [[ "$1" == "--list" ]]; then
-  list_ids
+  list_runnable_ids
   exit 0
 fi
 
@@ -363,8 +370,50 @@ if [[ "$1" == "--source" ]]; then
   exit 0
 fi
 
+if [[ "$1" == "--test-path" ]]; then
+  if [[ "$#" -ne 2 ]]; then
+    usage >&2
+    exit 2
+  fi
+  key="$(resolve_key "$2")"
+  trace_id="$(trace_for_key "${key}")"
+  script_path_for_trace \
+    "${trace_id}"
+  exit 0
+fi
+
+if [[ "$1" == "--test-paths" ]]; then
+  if [[ "$#" -ne 1 ]]; then
+    usage >&2
+    exit 2
+  fi
+  mapfile -t noncanonical_entrypoints < <(
+    find "${repo_root}/tests" "${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}/scripts" \
+      -maxdepth 1 \( -type f -o -type l \) -name '*.sh' -printf '%p\n' \
+      | grep -E '/smt-live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+.*\.sh$|/FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$|/live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$' \
+      || true
+  )
+  if ((${#noncanonical_entrypoints[@]} > 0)); then
+    printf 'diagnostic.sms-test-entrypoint-noncanonical observed=%s\n' \
+      "${noncanonical_entrypoints[*]}" >&2
+    exit 2
+  fi
+
+  agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  while IFS= read -r trace_id; do
+    [[ -n "${trace_id}" ]] || continue
+    if [[ -x "${agent_root}/scripts/live-${trace_id}.sh" ]]; then
+      script_path="${agent_root}/scripts/live-${trace_id}.sh"
+    else
+      script_path="${repo_root}/tests/${trace_id}.sh"
+    fi
+    printf '%s\t%s\n' "${trace_id}" "${script_path}"
+  done < <(list_runnable_ids)
+  exit 0
+fi
+
 if [[ "$1" == "all" ]]; then
-  mapfile -t selected < <(list_keys)
+  mapfile -t selected < <(list_runnable_ids)
 else
   selected=()
   for requested in "$@"; do
@@ -381,12 +430,16 @@ for key in "${selected[@]}"; do
   trace_id="$(trace_for_key "${key}")"
   evidence_boundary="$(evidence_boundary_for "${key}")"
   max_runtime_targets="$(max_runtime_targets_for "${key}")"
-  script="$(script_for "${key}")"
-  if [[ -z "${script}" ]]; then
-    echo "Mini SMT script is not registered for ${trace_id}" >&2
-    exit 1
+  script_path="$(script_path_for_trace "${trace_id}")"
+  if [[ "${script_path}" == "${repo_root}/tests/"* ]]; then
+    evidence_boundary="construction-only"
+    max_runtime_targets=0
   fi
-  script_path="$(script_path_for "${script}")"
+  if [[ "${script_path}" == "${repo_root}/"* ]]; then
+    script="${script_path#${repo_root}/}"
+  else
+    script="../network-codex-agent/scripts/live-${trace_id}.sh"
+  fi
 
   if [[ ! -x "${script_path}" ]]; then
     echo "Mini SMT script is missing or not executable: ${script}" >&2

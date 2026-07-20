@@ -1,17 +1,16 @@
 {
   layer = "SIT";
   traceId = "FS-162-HDS-010-SDS-040";
-  smsInputs = {
-    "FS-162-HDS-010-SDS-040-SMS-010" = {
-      smtRow = ../../SMT/FS-162-HDS-010-SDS-040-SMS-010;
-      sourcePath = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md";
-      role = "construction-context-only";
-      evidenceBoundary = "construction-only";
-    };
+  status = "OK";
+  evidenceBoundary = "construction-only";
+  smsInputs."FS-162-HDS-010-SDS-040-SMS-010" = {
+    smtRow = ../../SMT/FS-162-HDS-010-SDS-040-SMS-010;
+    role = "three-peer-canonical-posture-comparison";
+    evidenceBoundary = "construction-only";
   };
   evidence = {
-    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
-    observedResult = "the construction-only FS-230 OpenConfig posture predicate passed at network-renderer-openconfig@9cff098bc2b9; no live OpenConfig device or production network is required or claimed";
+    check = "openconfig-peer-posture";
+    observedResult = "NixOS, CLAB, and OpenConfig consume one FS-230 canonical bundle identity and produce equal normalized posture evidence with independent validated binding bundles.";
+    liveDeviceClaimed = false;
   };
 }
