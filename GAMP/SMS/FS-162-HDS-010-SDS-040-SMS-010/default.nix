@@ -4,18 +4,18 @@
   parentSds = ../../SDS/FS-162-HDS-010-SDS-040;
   canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md";
   titleSlug = "s-router-prod-comparable-projection";
-  purpose = "Canonical SMS mirror source-stub input template.";
-  evidenceBoundary = "source-stub-only";
+  purpose = "Direct OpenConfig construction proof for the isolated FS-230 CPM posture.";
+  evidenceBoundary = "construction-only";
   sourceInputs = {
-    "canonical-source-stub" = {
+    "fs230-openconfig-posture" = {
       traceId = "FS-162-HDS-010-SDS-040-SMS-010";
-      kind = "source-reference";
+      kind = "isolated-fs230-cpm";
       sourcePath = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
+      test = "tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
       maxRuntimeTargets = 0;
     };
   };
   templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
+    "tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh"
   ];
 }
