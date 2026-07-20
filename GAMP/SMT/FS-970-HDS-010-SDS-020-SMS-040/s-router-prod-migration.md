@@ -18,8 +18,8 @@ descendant recorded by the consumer lock file:
 | `network-forwarding-model-prod` | `a114b33ae555` | separate physical ingress anchors from egress and NAT authority |
 | `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations and names, IPv6 ingress, and explicit egress selection |
 | `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea, DNS, routes, firewall, and five-node ingress realization |
-| `network-renderer-containerlab-linux-backend` | `c3991505c176` | equivalent CLAB materialization, runtime rule validation, and declarative direct-host lifecycle prerequisites |
-| `network-renderer-access-endpoint-nixos` | `104e00047240` | real isolated clients with runtime-only protected `/128` plus composition of the explicitly selected consumer SOPS module |
+| `network-renderer-containerlab-linux-backend` | `124939a93395` | equivalent CLAB materialization, runtime rule validation, capability-scoped Kea lifecycle labels, and declarative direct-host lifecycle prerequisites |
+| `network-renderer-access-endpoint-nixos` | `db9abcb9701a` | real policy-neutral isolated clients with runtime-only protected `/128` plus composition of the explicitly selected consumer SOPS module |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay output without additional policy or DNS authority |
 
 With these revisions or descendants, `s-router-prod` builds without the local
@@ -96,6 +96,11 @@ configuration and shall be documented as such.
   must keep the bind and receive no Kea lifecycle label. Correcting this
   capability classification is a renderer change; no consumer migration is
   required.
+- An isolated endpoint fixture must not inherit an independent default-deny
+  firewall after the modeled router path. It must remain policy-neutral and
+  must not create a tuple-specific allow. Revision `db9abcb9701a` enforces that
+  boundary so positive and negative probes measure only upstream router policy;
+  no `intent.nix` or `inventory.nix` migration is required.
 
 ## Reservation migration
 

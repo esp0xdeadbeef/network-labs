@@ -17,10 +17,10 @@ compiler_revision="6dea1cd4315da82036fa46b68382586c9c01eda0"
 nfm_revision="a114b33ae5555485f3e5b49a9d586ad8bf67bfa5"
 cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
 nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
-clab_revision="15264eb1e7e598cbce270f494b6b275b6a1d021c"
-access_endpoint_revision="d2d78859130a14f0bfc5261a9dd29cc1fce3a251"
+clab_revision="124939a93395cd20f8887debc96ad0dcf46e6646"
+access_endpoint_revision="db9abcb9701a59aa50dc743bd577aaa866e50188"
 router_fixture_revision="109c3dfe8eee79688629d5c2d01a8485494a7257"
-endpoint_fixture_revision="562f749038ef08b840ce95615acfa595cae60943"
+endpoint_fixture_revision="29d3778ec8ddbf958172294c509e542dcea861ae"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
