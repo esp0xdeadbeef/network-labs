@@ -88,6 +88,7 @@ Current mini-labs:
 | `FS-166-HDS-010-SDS-010-SMS-905` | `FS-166-HDS-010-SDS-010-SMS-905` | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` | WireGuard provider runtime module from explicit CPM input. |
 | `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` | WireGuard remote-egress provider runtime imported into one active-lab container from explicit CPM providerContracts. |
 | `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` | One Nebula overlay with lighthouse/client nodes from explicit CPM input. |
+| `FS-162-HDS-010-SDS-040-SMS-010` | `FS-162-HDS-010-SDS-040-SMS-010` | `tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh` | Construction-only direct CPM comparison for the normalized FS-230 posture through OpenConfig; zero runtime targets. |
 
 All tabled mini-SMT rows now have complete SDS, SMS, SIT, and SMT row-directory infrastructure.
 See `GAMP/SMT/README.md` for the full inventory table and `GAMP/SDS/README.md`,

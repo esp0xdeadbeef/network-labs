@@ -236,6 +236,26 @@
       maxRuntimeTargets = 5;
     };
 
+    "FS-162-HDS-010-SDS-040-SMS-010" = {
+      id = "FS-162-HDS-010-SDS-040-SMS-010";
+      traceId = "FS-162-HDS-010-SDS-040-SMS-010";
+      rowDirectories = {
+        SDS = ../../SDS/FS-162-HDS-010-SDS-040;
+        SMS = ../../SMS/FS-162-HDS-010-SDS-040-SMS-010;
+        SMT = ../FS-162-HDS-010-SDS-040-SMS-010;
+        SIT = ../../SIT/FS-162-HDS-010-SDS-040;
+      };
+      source = null;
+      evidenceBoundary = "construction-only";
+      evidenceLevels = [ "SMT" ];
+      rendererTarget = "openconfig";
+      script = "tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
+      independent = true;
+      aggregateOnly = false;
+      scope = "direct peer-renderer CPM comparison for the normalized isolated FS-230 posture without OpenConfig device or production-network access";
+      maxRuntimeTargets = 0;
+    };
+
     "FS-380-HDS-020-SDS-010-SMS-050" = {
       id = "FS-380-HDS-020-SDS-010-SMS-050";
       traceId = "FS-380-HDS-020-SDS-010-SMS-050";

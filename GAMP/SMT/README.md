@@ -138,8 +138,9 @@ validation surfaces is not allowed.
 | `FS-166-HDS-010-SDS-010-SMS-905` | `FS-166-HDS-010-SDS-010-SMS-905` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-wireguard-only.sh` |
 | `FS-470-HDS-010-SDS-010-SMS-010` | `FS-470-HDS-010-SDS-010-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` |
 | `FS-166-HDS-010-SDS-010-SMS-906` | `FS-166-HDS-010-SDS-010-SMS-906` | ✓ | ✓ | ✓ | ✓ | `tests/test-active-lab-mini-smt-renderer-nebula-only.sh` |
+| `FS-162-HDS-010-SDS-040-SMS-010` | `FS-162-HDS-010-SDS-040-SMS-010` | ✓ | ✓ | ✓ | ✓ | `tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh` |
 
-All 17 tabled mini-SMT rows above have complete row-directory infrastructure
+All 18 tabled mini-SMT rows above have complete row-directory infrastructure
 (SDS template rows, SMS template rows, SIT integration containers, and SMT
 construction stubs). The full generated manifest is
 `GAMP/SMT/mini-smt/tests.nix`.
