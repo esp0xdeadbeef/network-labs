@@ -11,5 +11,8 @@ isolated cold stage.
 The canonical SMS title slug is
 `s-router-prod-nebula-ipv6-ingress-compatibility`. The row-specific source
 separates policy intent from inventory-owned endpoint/protected-source facts.
-Its focused cross-repo construction test is green; it is not live validation
-evidence and cannot mark this trace OK.
+The current cold stage rejected a CLAB artifact that serialized the runtime
+interface name `policy` as an unquoted nftables token. The canonical SMS now
+requires target-safe string-literal serialization and a keyword-like interface
+seeded negative. Construction and live validation must both pass before this
+trace can become OK.
