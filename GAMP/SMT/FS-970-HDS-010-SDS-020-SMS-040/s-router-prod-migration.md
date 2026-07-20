@@ -21,6 +21,7 @@ descendant recorded by the consumer lock file:
 | `network-renderer-containerlab-linux-backend` | `124939a93395` | equivalent CLAB materialization, runtime rule validation, capability-scoped Kea lifecycle labels, and declarative direct-host lifecycle prerequisites |
 | `network-renderer-access-endpoint-nixos` | `db9abcb9701a` | real policy-neutral isolated clients with runtime-only protected `/128` plus composition of the explicitly selected consumer SOPS module |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay output without additional policy or DNS authority |
+| `network-renderer-openconfig` | `9c20a6e6bc74` | track the third CPM peer renderer and its FS-162 fail-closed construction boundary; it does not yet emit an OpenConfig instance and is not a runtime target for this stage |
 
 With these revisions or descendants, `s-router-prod` builds without the local
 reservation DNS parser, DNS projections, IPv6/Nebula compatibility module, or
