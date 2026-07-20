@@ -51,6 +51,7 @@ configuration and shall be documented as such.
 | host-management DHCP and VM-facing bridge/NIC/MAC | host realization | these describe the physical consumer host |
 | selected SOPS delivery module, secret path, key, and mode | host realization / SOPS module | this binds protected runtime input to the selected NixOS host without exposing its value |
 | `/etc/hosts` on the direct Containerlab host | CLAB host realization | Containerlab requires this platform file during cleanup/reconfigure; it is not topology or site intent |
+| Kea lifecycle label on a CLAB node | CLAB renderer output | emit it only when the node has renderer-owned Kea reconciliation scripts for an explicitly served scope; an unrelated protected bind is not sufficient |
 | private hostname, client MAC, IPv4, IPv6/IID, DUID, and IAID | SOPS runtime source | these values must not enter evaluation, logs, or the Nix store |
 
 - The Nebula migration splits IPv4 NAPT from IPv6 no-translation. IPv6 uses
@@ -90,6 +91,11 @@ configuration and shall be documented as such.
   inventory change is required. The first cold stage exposed this through a
   Containerlab `ERRO`; the fix keeps `ERRO` handling fail-closed and adds no
   runtime hotpatch.
+- A protected routed-prefix reference in `intent.nix` or `inventory.nix` does
+  not request DHCP. If a CLAB target has that bind but no served DHCP scope, it
+  must keep the bind and receive no Kea lifecycle label. Correcting this
+  capability classification is a renderer change; no consumer migration is
+  required.
 
 ## Reservation migration
 
