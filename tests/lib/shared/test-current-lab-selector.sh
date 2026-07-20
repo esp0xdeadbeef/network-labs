@@ -724,10 +724,8 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
-  hetzNodes = builtins.attrNames inventoryHetz.realization.nodes;
   nixosUplinks = inventoryNixos.deploymentHosts.s-router-nixos.uplinks;
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
-  hetzUplinks = inventoryHetz.deploymentHosts.s-router-hetz.uplinks;
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
   clientSite = activeIntentClients.control_plane_model.data."mini-smt"."FS-540-HDS-010-SDS-010-SMS-020";
   clientEndpoint = clientSite.endpointAssignment."dns-resolver-config-access-dns" or {};
@@ -740,11 +738,16 @@ in
   && require (manifest.tests."FS-540-HDS-010-SDS-010-SMS-020".maxRuntimeTargets == 5) "FS-540 DNS resolver mini cap must be five targets"
   && require (nixosNodes == expectedNodes) "FS-540 NixOS SIT must realize exactly the five-node DNS mini path"
   && require (clabNodes == expectedNodes) "FS-540 CLAB SIT must realize exactly the five-node DNS mini path"
-  && require (hetzNodes == expectedNodes) "FS-540 Hetz SIT must realize exactly the five-node DNS mini path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-540 NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-540 CLAB mini nodes must stay on s-router-clab"
-  && require (builtins.all (name: inventoryHetz.realization.nodes.${name}.host == "s-router-hetz") hetzNodes) "FS-540 Hetz mini nodes must stay on s-router-hetz"
-  && require (!(inventoryHetz.realization.nodes ? esp-clab-clab-router-access-admin)) "FS-540 Hetz SIT must not import HAT esp.clab realization nodes"
+  && require (inventoryHetz.realization.nodes == {}) "FS-540 Hetz SIT must be an explicit runtime NOP"
+  && require (inventoryHetz.activeLabInventoryStub == {
+    kind = "unsupported-runtime-host-stub";
+    traceId = "FS-540-HDS-010-SDS-010-SMS-020";
+    hostName = "s-router-hetz";
+  }) "FS-540 Hetz SIT NOP must retain exact row and host provenance"
+  && require (inventoryHetz.deploymentHosts.s-router-hetz.bridgeNetworks == {}) "FS-540 Hetz SIT NOP must not inherit row-local lab bridges"
+  && require (inventoryHetz.deploymentHosts.s-router-hetz.uplinks.management.vlan == 2) "FS-540 Hetz SIT NOP must preserve only VLAN2 management"
   && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-540 test-client SIT inventory must keep s-router-test-clients host substrate"
   && require (activeInventoryClients == inventoryClients) "FS-540 test-client SIT host inventory must preserve row-local client inventory"
   && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT inventory must preserve VLAN2 management"
@@ -757,7 +760,6 @@ in
   && require (activeIntentClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT intent must preserve VLAN2 management"
   && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
-  && require (hetzUplinks ? testnet-vlan4 && hetzUplinks.testnet-vlan4.vlan == 4 && hetzUplinks.testnet-vlan4.mode == "vlan" && hetzUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 Hetz mini uplink must be explicit VLAN4 link with DHCP addressing, not HAT inventory"
   && require (sopsHetz._module.args.activeLabSopsStub.hostName == "s-router-hetz") "FS-540 Hetz SIT SOPS route must be an empty active-lab stub"
   && require (!(sopsHetz ? sops)) "FS-540 Hetz SIT SOPS route must not inherit HAT PPPoE secrets"
   && require (inventoryClab.containerlab.capabilities.labEmulation == true) "FS-540 CLAB SIT source must preserve explicit lab-emulation capability"
@@ -788,21 +790,23 @@ let
   ];
   nixosNodes = builtins.attrNames inventoryNixos.realization.nodes;
   clabNodes = builtins.attrNames inventoryClab.realization.nodes;
-  hetzNodes = builtins.attrNames inventoryHetz.realization.nodes;
-  hetzUplinks = inventoryHetz.deploymentHosts.s-router-hetz.uplinks;
 in
   require (current.selection.layer == "SIT") "FS-800 provider route SIT selector layer mismatch"
   && require (current.selection.selector == "FS-800-HDS-010-SDS-020") "FS-800 provider route SIT selector id mismatch"
   && require (nixosNodes == expectedNodes) "FS-800 provider route NixOS SIT must realize exactly the six-node provider path"
   && require (clabNodes == expectedNodes) "FS-800 provider route CLAB SIT must realize exactly the six-node provider path"
-  && require (hetzNodes == expectedNodes) "FS-800 provider route Hetz SIT must realize exactly the six-node provider path"
   && require (builtins.all (name: inventoryNixos.realization.nodes.${name}.host == "s-router-nixos") nixosNodes) "FS-800 provider route NixOS mini nodes must stay on s-router-nixos"
   && require (builtins.all (name: inventoryClab.realization.nodes.${name}.host == "s-router-clab") clabNodes) "FS-800 provider route CLAB mini nodes must stay on s-router-clab"
-  && require (builtins.all (name: inventoryHetz.realization.nodes.${name}.host == "s-router-hetz") hetzNodes) "FS-800 provider route Hetz mini nodes must stay on s-router-hetz"
+  && require (inventoryHetz.realization.nodes == {}) "FS-800 provider route Hetz SIT must be an explicit runtime NOP"
+  && require (inventoryHetz.activeLabInventoryStub == {
+    kind = "unsupported-runtime-host-stub";
+    traceId = "FS-800-HDS-010-SDS-020-SMS-040";
+    hostName = "s-router-hetz";
+  }) "FS-800 provider route Hetz SIT NOP must retain exact row and host provenance"
+  && require (inventoryHetz.deploymentHosts.s-router-hetz.bridgeNetworks == {}) "FS-800 provider route Hetz SIT NOP must not inherit provider bridges"
+  && require (inventoryHetz.deploymentHosts.s-router-hetz.uplinks.management.vlan == 2) "FS-800 provider route Hetz SIT NOP must preserve only VLAN2 management"
   && require (inventoryClients.deploymentHosts ? s-router-test-clients) "FS-800 provider route test-client inventory must keep s-router-test-clients host substrate"
   && require (((inventoryClients.realization or {}).nodes or {}) == {}) "FS-800 provider route must not render router nodes on s-router-test-clients"
-  && require (hetzUplinks ? isp && hetzUplinks.isp.mode == "vlan" && hetzUplinks.isp.vlan == 4 && hetzUplinks.isp.parent == "eth0") "FS-800 provider route Hetz isp uplink must be VLAN4, not raw eth0"
-  && require (hetzUplinks ? pppoe-provider && hetzUplinks.pppoe-provider.mode == "vlan" && hetzUplinks.pppoe-provider.vlan == 5 && hetzUplinks.pppoe-provider.parent == "eth0") "FS-800 provider route Hetz pppoe-provider uplink must be VLAN5, not raw eth0"
 ' >/dev/null || fail "SIT FS-800 provider default-route selection failed"
 
 "${selector}" SIT FS-010-HDS-010-SDS-010 >/dev/null

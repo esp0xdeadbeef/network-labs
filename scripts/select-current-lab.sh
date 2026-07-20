@@ -981,6 +981,15 @@ source_path_for_mini_key() {
 runtime_host_supported_for_mini_key() {
   local key="$1"
   local host="$2"
+
+  # SMT and SIT are local validation profiles. Hetz is a runtime surface only
+  # for the explicitly selected HAT and SAT sources, which do not use this
+  # mini-row selector.
+  if [[ "${host}" == "s-router-hetz" ]]; then
+    printf '%s\n' false
+    return 0
+  fi
+
   mini_attr "${key}" "
 let
   rowDefault =
