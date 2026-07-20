@@ -9,6 +9,7 @@
     inventories = {
       clab = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-clab.nix";
       nixos = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-nixos.nix";
+      openconfig = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-openconfig.nix";
       testClients = "GAMP/SMT/FS-162-HDS-010-SDS-040-SMS-010/inventory-test-clients.nix";
     };
     evidenceBoundary = "construction-only";
