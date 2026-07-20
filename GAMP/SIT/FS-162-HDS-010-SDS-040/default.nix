@@ -11,7 +11,7 @@
     };
   };
   evidence = {
-    command = null;
-    observedResult = "the FS-230 OpenConfig posture predicate is construction-only; no integrated SIT runner or artifact evidence is specified or executed";
+    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
+    observedResult = "the construction-only FS-230 OpenConfig posture predicate passed at network-renderer-openconfig@9cff098bc2b9; no live OpenConfig device or production network is required or claimed";
   };
 }

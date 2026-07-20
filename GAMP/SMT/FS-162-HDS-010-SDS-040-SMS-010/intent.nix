@@ -10,11 +10,11 @@
       port = 4242;
       translationMode = "none";
       sourcePreservation = "preserve-source";
-      returnBehavior = "stateful";
+      returnBehavior = "stateful-return";
       inheritedPublicEgress = false;
     };
     evidenceBoundary = "construction-only";
-    runnable = false;
-    notRunnableReason = "The owning OpenConfig construction test and mini-SMT registration are not implemented yet.";
+    runnable = true;
+    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
   };
 }

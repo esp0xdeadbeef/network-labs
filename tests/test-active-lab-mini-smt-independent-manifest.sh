@@ -19,6 +19,7 @@ let
       (name: (builtins.getAttr name manifest.tests).rendererTarget != null)
       names;
   expectedRendererNames = [
+    "FS-162-HDS-010-SDS-040-SMS-010"
     "FS-166-HDS-010-SDS-010-SMS-901"
     "FS-166-HDS-010-SDS-010-SMS-902"
     "FS-166-HDS-010-SDS-010-SMS-903"
@@ -117,7 +118,7 @@ in
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
   && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
-  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must include the FS-166 renderer rows and FS-470-HDS-010-SDS-010-SMS-010"
+  && require (rendererNames == expectedRendererNames) "renderer mini SMT coverage must include the FS-166 renderer rows, FS-470 WireGuard, and FS-162 OpenConfig"
 ' >/dev/null
 
 while IFS= read -r id || [[ -n "${id}" ]]; do

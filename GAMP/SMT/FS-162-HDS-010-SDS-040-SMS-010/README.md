@@ -2,7 +2,8 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md`
 
-Status: NOT OK - focused construction proof not executed.
+Status: OK - focused construction proof passed at
+`network-renderer-openconfig@9cff098bc2b9`.
 
 This row requires `network-renderer-openconfig` to consume its own CPM artifact
 compiled from the canonical isolated
@@ -22,5 +23,12 @@ bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh
 
 No live OpenConfig device, production VLAN, production address, or production
 secret is in scope.
+
+The proof reports `cpmPortable=true`: NixOS, CLAB, and OpenConfig inputs carry
+the same normalized posture from the same source identity and compiler/CPM
+pins. It reports `openConfigModelComplete=false` separately because the current
+OpenConfig model set cannot emit every policy field as an instance document.
+That limitation does not invalidate the CPM portability result and does not
+authorize renderer-local defaults.
 
 Title slug: `s-router-prod-comparable-projection`

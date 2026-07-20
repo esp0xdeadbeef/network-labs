@@ -21,7 +21,7 @@ descendant recorded by the consumer lock file:
 | `network-renderer-containerlab-linux-backend` | `124939a93395` | equivalent CLAB materialization, runtime rule validation, capability-scoped Kea lifecycle labels, and declarative direct-host lifecycle prerequisites |
 | `network-renderer-access-endpoint-nixos` | `db9abcb9701a` | real policy-neutral isolated clients with runtime-only protected `/128` plus composition of the explicitly selected consumer SOPS module |
 | `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay output without additional policy or DNS authority |
-| `network-renderer-openconfig` | `9c20a6e6bc74` | track the third CPM peer renderer and its FS-162 fail-closed construction boundary; it does not yet emit an OpenConfig instance and is not a runtime target for this stage |
+| `network-renderer-openconfig` | `9cff098bc2b9` | direct CPM proof for the same normalized FS-230 posture as NixOS and CLAB; incomplete OpenConfig instance-model coverage remains explicit and no OpenConfig device is a runtime target for this stage |
 
 With these revisions or descendants, `s-router-prod` builds without the local
 reservation DNS parser, DNS projections, IPv6/Nebula compatibility module, or
@@ -144,6 +144,10 @@ configuration and shall be documented as such.
 - `FS-230-HDS-010-SDS-010-SMS-040`: exact IPv6 UDP/4242, no NAT66/TCP,
   stateful return, and selected-path scoping are construction-green; the real
   isolated NixOS/CLAB/test-client stage remains `NOT OK`.
+- `FS-162-HDS-010-SDS-040-SMS-010`: the same normalized FS-230 posture is
+  construction-green through direct NixOS, CLAB, and OpenConfig CPM inputs;
+  complete OpenConfig instance-document coverage and a live OpenConfig device
+  are not claimed.
 
 The local `s-router-prod` build and migration test are compilation evidence.
 Production migration still requires both open cold stages and the required
