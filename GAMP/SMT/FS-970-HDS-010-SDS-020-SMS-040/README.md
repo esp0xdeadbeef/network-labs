@@ -3,7 +3,8 @@
 Canonical SMS:
 `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
-Status: OK at the isolated dual-substrate live boundary.
+Status: NOT OK pending the expanded protected-source capability negative and a
+fresh isolated dual-substrate cold stage.
 
 This row supplies one real NixOS reservation probe on lab VLAN397 and one real
 CLAB reservation probe on lab VLAN398. Both run on
@@ -42,6 +43,13 @@ predictable IPv6 address. The enrolled MAC, DUID, IAID, and IID remained stable
 across the clean stage. Public source, diagnostics, and build templates did not
 contain protected record values, and no host-profile overwrite modified the
 renderer output.
+
+That earlier positive remains historical evidence, but it did not exercise a
+node with an unrelated protected routed-prefix bind and no served DHCP scope.
+Retry-5 exposed that missing negative when every FS-230 node was incorrectly
+labeled for Kea reconciliation. The row cannot remain OK until the renderer
+derives the label from actual Kea reconciliation scripts, the new negative
+passes, and the corrected pins complete another cold stage.
 
 This is SMT/SIT evidence for isolated lab clients only. It is not HAT, SAT, or
 production evidence, and it does not authorize testing on VLAN2 or a production
