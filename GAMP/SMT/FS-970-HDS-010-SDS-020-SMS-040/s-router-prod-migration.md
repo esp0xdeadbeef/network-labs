@@ -1,132 +1,138 @@
-# s-router-prod: minimale migratie naar model-owned netwerkgedrag
+# s-router-prod: minimal migration to model-owned network behavior
 
-Dit is een korte operatornotitie, geen productie-activatiegoedkeuring. De
-canonieke `github/nixos`-repo blijft schoon op `origin/main`; alleen
-`github/.worktrees/nixos-s-router-prod-reservations/` is lokaal gebouwd. Alle
-runtimeproeven horen op de geïsoleerde `s-router-{nixos,clab,test-clients}` en
-niet op VLAN2, een productiesubnet of een productieadres.
+This is a short operator migration note, not production activation approval.
+The canonical `github/nixos` checkout remains clean at `origin/main`; only
+`github/.worktrees/nixos-s-router-prod-reservations/` is used for local builds.
+Runtime proof belongs on the isolated `s-router-{nixos,clab,test-clients}`
+hosts, never on VLAN2, a production subnet, or a production address.
 
-## Kandidaatpins en resultaat
+## Candidate pins and result
 
-De lokale consumerkandidaat gebruikt deze gepushte revisions:
+The local consumer candidate uses these pushed minimum revisions or a
+descendant recorded by the consumer lock file:
 
-| Flake-input | Revision | Verantwoordelijkheid |
+| Flake input | Minimum revision | Responsibility |
 | --- | --- | --- |
-| `network-labs` | `386966ad63d6` | geïsoleerde rows, protected endpointcontract, SOPS-delivery en een FS-230-stage die expliciet geen Hetzner-/productiehost projecteert |
-| `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | expliciete ingress-only intent zonder fictieve egress behouden |
-| `network-forwarding-model-prod` | `a114b33ae555` | fysieke ingress-anchor scheiden van egress-/NAT-authority |
-| `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations/namen, IPv6-ingress en expliciete egress-selectie |
-| `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea/DNS/routes/firewall en vijf-node ingressbewijs |
-| `network-renderer-containerlab-linux-backend` | `15264eb1e7e5` | equivalente CLAB-materialisatie en runtime-regelvalidatie |
-| `network-renderer-access-endpoint-nixos` | `104e00047240` | echte geïsoleerde test-clients met runtime-only protected `/128` en compositie van de expliciete consumer-SOPS-module |
-| `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay-output, zonder extra policy- of DNS-autoriteit |
+| `network-labs` | `e80069da5ee0` | isolated rows, protected endpoint contract, SOPS delivery, consumer/defect classification, and an FS-230 stage that selects no Hetzner or production host |
+| `network-compiler-prod` / `nixos-network-compiler-prod` | `6dea1cd4315d` | preserve explicit ingress-only intent without invented egress |
+| `network-forwarding-model-prod` | `a114b33ae555` | separate physical ingress anchors from egress and NAT authority |
+| `network-control-plane-model{,-prod}` | `0684468ba982` | protected reservations and names, IPv6 ingress, and explicit egress selection |
+| `network-renderer-nixos{,-prod}` | `1761fc229c44` | native NixOS Kea, DNS, routes, firewall, and five-node ingress realization |
+| `network-renderer-containerlab-linux-backend` | `c3991505c176` | equivalent CLAB materialization, runtime rule validation, and declarative direct-host lifecycle prerequisites |
+| `network-renderer-access-endpoint-nixos` | `104e00047240` | real isolated clients with runtime-only protected `/128` plus composition of the explicitly selected consumer SOPS module |
+| `network-renderer-nebula` / `network-renderer-wireguard` | `0e6ee9367b40` / `a12d75b229ce` | overlay output without additional policy or DNS authority |
 
-Met deze pinset bouwt `s-router-prod` zonder de lokale reservation-DNS-parser,
-DNS-projecties, IPv6/Nebula-compatibiliteitsmodule of VLAN2-policy-override.
-Kea, lokale protected A/AAAA/PTR-publicatie, DNS-paden, protected IPv6-routes
-en de exacte firewallhandoffs komen uit CPM plus renderers. Host-DHCPv4,
-QEMU-bridges, NIC-volgorde en de MAC’s van de VM-facing host-NICs blijven
-normale hostrealization; die hoeven niet naar een generieke network-*-laag.
-Client-MAC’s die een reservation identificeren blijven daarentegen uitsluitend
-in de protected SOPS-recordset.
+With these revisions or descendants, `s-router-prod` builds without the local
+reservation DNS parser, DNS projections, IPv6/Nebula compatibility module, or
+VLAN2 policy override. Kea, protected local A/AAAA/PTR publication, DNS paths,
+protected IPv6 routes, and exact firewall handoffs originate in CPM and the
+renderers. Host DHCPv4, QEMU bridges, NIC ordering, and MAC addresses of
+VM-facing host NICs remain ordinary host realization. Client MAC addresses
+that identify a reservation remain only in the protected SOPS record set.
 
-## Configuratie of defect
+## Configuration versus defect
 
-Een wijziging in `prod-network/s-router-prod/{intent,inventory}.nix` is niet
-automatisch een bug. Intent bezit allows, denies, familie/protocol/poort,
-return- en translation-authority. Inventory/site-realization bezit host,
-interface, endpoint, secretpad en providerbinding. Een pipeline-defect bestaat
-pas wanneer een downstreamlaag die invoer verliest, zelf nieuwe autoriteit
-verzint of host-lokale netwerkcode nodig heeft om haar te materialiseren.
-Ontbreekt de gewenste s-router-prod-authority of sitefact nog in deze twee
-consumerbestanden, dan is het toevoegen of corrigeren daarvan dus gewone
-migratieconfiguratie. Dat wordt in deze notitie benoemd en niet als een
-network-*-defect geregistreerd.
+A change to `prod-network/s-router-prod/{intent,inventory}.nix` is not
+automatically a bug. Intent owns allows, denies, family, protocol, port, return
+behavior, and translation authority. Inventory and site realization own hosts,
+interfaces, endpoints, secret paths, and provider bindings. A pipeline defect
+exists only when a downstream layer loses explicit input, invents authority,
+or requires host-local network code to materialize it. Adding a missing
+s-router-prod authority or site fact to these consumer files is normal migration
+configuration and shall be documented as such.
 
-| Vereiste consumentinvoer | Hoort in | Geen pipelinebug omdat |
+| Required consumer input | Owner | Why this is not a pipeline defect |
 | --- | --- | --- |
-| aparte IPv4-NAPT- en IPv6-no-translation-Nebula-relaties | `intent.nix` | alleen de operator ingress-authority kan verlenen |
-| VLAN2→core DNS, VLAN3 local-only sharing en expliciete denies | `intent.nix` | laterale toegang mag nooit impliciet recursie of egress erven |
-| core-DNS-provider, access-listeners en provider/uplinkbinding | `inventory.nix` | dit zijn site- en endpointfacts |
-| PPPoE DHCPv6-PD-modus, IAID/request-ID en reserverings-publicatieschema | `inventory.nix` | dit zijn expliciete site-/protocolinputs, geen rendererdefaults |
-| hostmanagement-DHCP en VM-facing bridge/NIC/MAC | hostrealization | dit beschrijft de fysieke consumerhost |
-| geselecteerde SOPS-deliverymodule, secretpad, key en mode | hostrealization/SOPS-module | dit bindt protected runtime-input aan de gekozen NixOS-host zonder de waarde openbaar te maken |
-| private hostname, client-MAC, IPv4, IPv6/IID, DUID en IAID | SOPS-runtimebron | deze waarden mogen evaluatie en Nix store niet in |
+| separate IPv4 NAPT and IPv6 no-translation Nebula relations | `intent.nix` | only operator intent can grant ingress authority |
+| VLAN2-to-core DNS, VLAN3 local-only sharing, and explicit denies | `intent.nix` | lateral access must not inherit recursion or egress |
+| core DNS provider, access listeners, and provider/uplink binding | `inventory.nix` | these are site and endpoint facts |
+| PPPoE DHCPv6-PD mode, IAID/request ID, and reservation publication schema | `inventory.nix` | these are explicit site and protocol inputs, not renderer defaults |
+| local DNS zone authority and protected `namePublication` policy | `inventory.nix` | the site selects namespace, record classes, owner/requesters, and local-only fallback |
+| host-management DHCP and VM-facing bridge/NIC/MAC | host realization | these describe the physical consumer host |
+| selected SOPS delivery module, secret path, key, and mode | host realization / SOPS module | this binds protected runtime input to the selected NixOS host without exposing its value |
+| `/etc/hosts` on the direct Containerlab host | CLAB host realization | Containerlab requires this platform file during cleanup/reconfigure; it is not topology or site intent |
+| private hostname, client MAC, IPv4, IPv6/IID, DUID, and IAID | SOPS runtime source | these values must not enter evaluation, logs, or the Nix store |
 
-- De Nebula-migratie splitst IPv4-NAPT en IPv6-no-translation. IPv6 staat op
-  UDP/4242, `preserve-source` en stateful return. De provider-uplink bindt aan
-  exact één bestaand VLAN3-endpoint; diens lage 64 bits zijn de stabiele IID.
-  Dit zijn geldige `intent.nix`/`inventory.nix`-wijzigingen, geen bugfix op
-  zichzelf.
-- Het huidige consumer-schema bewaart protected `routedPrefixes`, slot,
-  prefixlengtes en het opaque `sourceFile` onder `ownership` in `intent.nix`.
-  Ondanks de bestandsnaam zijn dit allocation-/site-inputs, geen egresspolicy.
-  Verplaats ze niet alleen voor cosmetische file ownership; het geheime prefix
-  zelf blijft uitsluitend runtime in SOPS.
-- Reservation-`namePublication` in plain inventory bevat alleen namespace,
-  owner/requesters, `A`/`AAAA`/`PTR`, `local-only` fallback en een redacted
-  diagnostic. CPM leidt `source` en `sourceFamily` af. Hostnaam, MAC, IPv4,
-  IPv6/IID, DUID en IAID horen niet in plain inventory of de Nix store.
-- DNS-adressen zijn endpointrealization; intent verwijst naar benoemde
-  services. Bij multi-egress moet exact één family-complete core/egressbinding
-  reproduceerbaar volgen. Anders worden zonder adressen deze warnings
-  uitgegeven: `DNS_EGRESS_SELECTION_MISSING`,
-  `DNS_EGRESS_SELECTION_AMBIGUOUS`, `DNS_CORE_ENDPOINT_PATH_MISMATCH` of
-  `DNS_CORE_FAMILY_INCOMPLETE`.
-- PPPoE-interface, IAID en DHCPv6-PD-request-ID zijn site-input. Default route,
-  PD-client, ordering en reply-firewall horen native uit CPM/renderers te
-  komen.
-- Een consumer die een bestaand SOPS-modulepad aan de endpointrenderer meegeeft
-  doet normale hostrealization; dat pad hoort niet in intent en de secretwaarde
-  hoort niet in inventory. Een ontbrekend of verkeerd gekozen pad is een
-  consumerconfiguratiefout. Een renderer die het expliciet ontvangen modulepad
-  stil negeert is daarentegen een pipeline-/rendererdefect. De eerste FS-230
-  cold-stage maakte precies dat onderscheid zichtbaar: de hostconfig koos de
-  juiste protected bron, maar revision `d2d78859130a` composeerde de module niet.
-  Revision `104e00047240` repareert dit generiek en de constructiontest evalueert
-  nu ook de gedeclareerde secretmetadata; er wordt geen secretwaarde gelezen.
+- The Nebula migration splits IPv4 NAPT from IPv6 no-translation. IPv6 uses
+  UDP/4242, `preserve-source`, stateful return, and exactly one existing VLAN3
+  provider endpoint; the endpoint's low 64 bits form the stable IID. These are
+  valid `intent.nix` and `inventory.nix` changes, not defects by themselves.
+- The current consumer schema keeps protected `routedPrefixes`, slots, prefix
+  lengths, and the opaque `sourceFile` under `ownership` in `intent.nix`.
+  Despite that filename, these are allocation/site inputs rather than egress
+  policy. Do not relocate them merely for cosmetic ownership; the prefix value
+  remains runtime-only in SOPS.
+- Plain inventory `namePublication` contains only namespace, owner/requesters,
+  A/AAAA/PTR classes, local-only fallback, and a redacted diagnostic. CPM
+  derives `source` and `sourceFamily`. Hostname, MAC, IPv4, IPv6/IID, DUID, and
+  IAID stay out of plain inventory and the Nix store.
+- Explicit static/local-only forward and reverse zones in inventory are normal
+  DNS authority configuration. A missing desired zone is a consumer migration
+  error. A declared zone lost between inventory, CPM, and Unbound is a pipeline
+  or renderer defect.
+- DNS addresses are endpoint realization; intent refers to named services.
+  Multi-egress must produce exactly one reproducible, family-complete core and
+  egress binding. Otherwise emit address-free warnings:
+  `DNS_EGRESS_SELECTION_MISSING`, `DNS_EGRESS_SELECTION_AMBIGUOUS`,
+  `DNS_CORE_ENDPOINT_PATH_MISMATCH`, or `DNS_CORE_FAMILY_INCOMPLETE`.
+- PPPoE interface, IAID, and DHCPv6-PD request ID are site inputs. Default
+  route, PD client, ordering, and reply firewall belong in CPM/renderers.
+- Selecting an existing SOPS module for the endpoint renderer is normal host
+  realization. A missing or wrong selected path is a consumer error; silently
+  ignoring an explicitly received path is a renderer defect. The first FS-230
+  cold stage exposed the latter in revision `d2d78859130a`. Revision
+  `104e00047240` fixes it generically and construction-evaluates only secret
+  metadata, never the secret value.
+- The CLAB host must have declarative `/etc/hosts` before `containerlab destroy
+  --cleanup` or `deploy --reconfigure`. A thin NixOS profile may disable its
+  normal hosts link, but the CLAB renderer owns restoring this platform
+  prerequisite whenever it emits the lifecycle service. No topology or
+  inventory change is required. The first cold stage exposed this through a
+  Containerlab `ERRO`; the fix keeps `ERRO` handling fail-closed and adds no
+  runtime hotpatch.
 
-## Migratie van reservations en compatibiliteit
+## Reservation migration
 
-1. Start een client op een geïsoleerde access-scope. Noteer van dezelfde
-   interface MAC, stabiele niet-tijdelijke IPv6-IID en zo nodig DUID/IAID.
-   Reboot de client en accepteer alleen identieke identifiers. Gebruik geen
-   productie-VLAN of productieadres voor deze opname.
-2. Zet één volledig record met private hostname, gewenste IPv4/IPv6 en de
-   identifiers in SOPS. Een hostname kan een serienummer bevatten en is daarom
-   net zo protected als MAC, IID, DUID en IAID. Print of kopieer geen recordveld
-   naar inventory, logs, diagnostics, evaluatie-output of de Nix store.
-3. Declareer uitsluitend het opaque schema, `sourceClass = "protected"`,
-   `/run/secrets/...`-pad en de owner-scoped `namePublication`. Lever het
-   gedecrypte bestand mode `0400`, read-only, aan de geselecteerde runtime.
-4. Laat dezelfde protected recordset pas runtime Kea én lokale Unbound-data
-   maken. De namespace is authoritative/static: een onbekende lokale naam of
-   reverse-entry eindigt lokaal en valt nooit door naar publieke recursie.
-   Bewijs na een reboot dat dezelfde MAC een voorspelbare IPv4-reservation en
-   dezelfde IID/prefixbinding een voorspelbare IPv6-`/128` opleveren.
-5. Verwijder host-lokale generators/overrides pas nadat NixOS én CLAB dezelfde
-   row uit gepushte pins bouwen, alle drie labhosts tegelijk uit zijn geweest,
-   offline zijn waargenomen en met nieuwe boot-ID/closure plus exacte
-   bronhashes/pins terugkomen. Een `switch-to-configuration`, namespace-edit of
-   andere runtime-hotpatch is geen stagebewijs.
+1. Boot a client on an isolated access scope. Record the MAC and stable,
+   non-temporary IPv6 IID from the same interface, plus DUID/IAID where needed.
+   Reboot and accept only stable identifiers. Do not use a production VLAN or
+   production address for this capture.
+2. Put one complete record containing the private hostname, desired IPv4/IPv6,
+   and identifiers in SOPS. A hostname may contain a serial number and is as
+   protected as MAC, IID, DUID, and IAID. Do not print any record field into
+   inventory, logs, diagnostics, evaluation output, or the Nix store.
+3. Declare only the opaque schema, `sourceClass = "protected"`, the
+   `/run/secrets/...` path, and owner-scoped `namePublication`. Deliver the
+   decrypted file mode `0400` and read-only to the selected runtime.
+4. Let the same protected record set generate Kea reservations and local
+   Unbound data only at runtime. The namespace is authoritative/static: an
+   unknown local forward or reverse name terminates locally and never falls
+   through to public recursion. After reboot, prove the same MAC receives the
+   predictable IPv4 reservation and the same IID/prefix binding receives the
+   predictable IPv6 `/128`.
+5. Remove host-local generators and overrides only after NixOS and CLAB build
+   the same row from pushed pins, all three lab hosts were shut down together,
+   were observed offline, and returned with new boot IDs/closures plus exact
+   source hashes and pins. `switch-to-configuration`, namespace edits, or other
+   runtime hotpatches are not stage evidence.
 
-## Bewijsgrens
+## Evidence boundary
 
-- `FS-970-HDS-010-SDS-020-SMS-040` plus SIT
-  `FS-970-HDS-010-SDS-020`: echte clients bewijzen SOPS→runtime en
-  voorspelbare IPv4/IPv6 uit stabiele MAC/IID/DUID/IAID op NixOS en CLAB.
-- `FS-270-HDS-010-SDS-010-SMS-020` plus SIT: vijf-node state-owner,
-  stateful return, reverse-new deny en geen geleende egress.
-- `FS-540-HDS-010-SDS-010-SMS-045` plus SIT: IPv4/IPv6 UDP/TCP DNS via één
-  modelgeselecteerde core-egress, lokale sharing, laterale `REFUSED`, directe
-  VLAN3→core blokkade en nul selectie-warnings.
-- `FS-560-HDS-010-SDS-010-SMS-050`: native protected A/AAAA/PTR en
-  local-only namespace zijn construction-green; de verse driehost-cold-stage
-  en live NixOS/CLAB-predicate staan nog `NOT OK`.
-- `FS-230-HDS-010-SDS-010-SMS-040`: exact IPv6 UDP/4242, geen NAT66/TCP,
-  stateful return en selected-path scoping zijn construction-green; de echte
-  geïsoleerde NixOS/CLAB/test-clientstage staat nog `NOT OK`.
+- `FS-970-HDS-010-SDS-020-SMS-040` and SIT
+  `FS-970-HDS-010-SDS-020`: real clients prove SOPS-to-runtime and predictable
+  IPv4/IPv6 from stable MAC/IID/DUID/IAID on NixOS and CLAB.
+- `FS-270-HDS-010-SDS-010-SMS-020` plus SIT: five-node state owner, stateful
+  return, reverse-new deny, and no borrowed egress.
+- `FS-540-HDS-010-SDS-010-SMS-045` plus SIT: IPv4/IPv6 UDP/TCP DNS through one
+  model-selected core egress, local sharing, lateral `REFUSED`, direct
+  VLAN3-to-core blocking, and zero selection warnings.
+- `FS-560-HDS-010-SDS-010-SMS-050`: native protected A/AAAA/PTR and local-only
+  namespace are construction-green; fresh three-host cold-stage and live
+  NixOS/CLAB predicates remain `NOT OK`.
+- `FS-230-HDS-010-SDS-010-SMS-040`: exact IPv6 UDP/4242, no NAT66/TCP,
+  stateful return, and selected-path scoping are construction-green; the real
+  isolated NixOS/CLAB/test-client stage remains `NOT OK`.
 
-De lokale `s-router-prod`-build en migratietest zijn compilatiebewijs. Pas na
-de twee open cold stages en de vereiste HAT/SAT/operatorgoedgekeuring mag de
-productieconfig worden gemigreerd.
+The local `s-router-prod` build and migration test are compilation evidence.
+Production migration still requires both open cold stages and the required
+HAT/SAT/operator approval.

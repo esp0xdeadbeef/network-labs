@@ -13,10 +13,9 @@ printing protected values.
 
 The row now uses the same already-enrolled encrypted lab records as the
 FS-970 reservation proof, under row-owned runtime paths. It selects dedicated
-VLAN399 and VLAN400 paths for NixOS and CLAB. De bestaande geïsoleerde
-FS-970-testnet-egress blijft ongewijzigd; `namePublication` voegt geen nieuwe
-egress- of recursieautoriteit toe. Dat is geldige labconfiguratie, geen
-pipeline-defect.
+VLAN399 and VLAN400 paths for NixOS and CLAB. The existing isolated FS-970
+test-network egress remains unchanged; `namePublication` adds no egress or
+recursion authority. This is valid lab configuration, not a pipeline defect.
 
 This remains not SIT or live-stage evidence. Closure requires a fresh cold
 stage on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`, with
