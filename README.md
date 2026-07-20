@@ -103,7 +103,7 @@ before reaching this repository.
 
 | Layer | ID | Description |
 |-------|----|-------------|
-| URS   | L196-235 | Controlled Lab Baseline — acceptance fixture root, site naming, tenant matrix, public ingress, equivalence |
+| URS   | Controlled Evidence and Acceptance; Canonical Realization and Renderer Boundary | Controlled source, lock-root, canonical bundle, and renderer-chain evidence |
 | FS    | FS-650 – FS-800 | Practical deployments, controlled lab baseline, s-router-test-clients, shared services, public ingress, provider-access fixtures |
 | FS    | FS-770 | Common Intent for Containerlab/Linux and NixOS — same modeled meaning for both lab profiles |
 | FS    | FS-780 | Containerlab/Linux and NixOS Equivalence Matrix |
@@ -112,8 +112,12 @@ before reaching this repository.
 ### Pipeline
 
 ```
-network-labs (intent + inventory) → network-compiler → NFM → CPM → renderers
+network-labs (intent + inventory) → network-compiler → NFM → CPM → network-realization-model → renderers
 ```
+
+`network-realization-schema` is the common pinned contract dependency for
+canonical-bundle production, validation, fixtures, and renderer consumption.
+It is not a transformation stage.
 
 Required inputs: `intent.nix` (user intent), `inventory-clab.nix` / `inventory-nixos.nix` (realization inventory).
 Output: deterministic model source consumed by network-compiler.
@@ -123,7 +127,7 @@ Output: deterministic model source consumed by network-compiler.
 Construction tests: `network-labs/tests/`
 Fixture source: `network-labs/GAMP/SAT/` (controlled SAT), `network-labs/GAMP/HAT/` (HAT preparation)
 
-## Layer-Entry POC Boundary
+## Controlled Layer-Entry Boundary
 
 `GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc/` is the source-side boundary and orchestrator for
 small deterministic POCs that do not need the full HAT/SAT deployment path.
@@ -131,35 +135,50 @@ These checks exist so downstream agents can test one FS/SMS/SMT point at a time
 from a declared input boundary instead of reverse-engineering fixtures inside a
 downstream repo.
 
-The default layer-entry rule is:
+The controlled layer-entry rule is:
 
-- skip `network-compiler` when the FS item is about NFM behavior and provide a
-  synthetic compiler-output/NFM-input fixture from `network-labs`;
-- optionally skip NFM when the FS item is about CPM behavior and provide a
-  synthetic forwarding-model/CPM-input fixture from `network-labs`;
-- optionally skip CPM when the FS item is about renderer behavior and provide a
-  synthetic CPM renderer-input fixture from `network-labs`;
-- feed the renderer/NixOS materialization path directly only when the test is
-  explicitly scoped to renderer projection or NixOS config materialization, for
-  example "can normal router runtime surfaces become NixOS container config?";
-- keep HAT and SAT out of this skip model. HAT/SAT approval must still run the
-  complete chain and collect runtime evidence from the correct harness.
+- a scenario may declare only one contiguous upstream prefix before
+  `network-realization-model` as skipped;
+- the orchestrator still invokes every repository hop in order;
+- a skipped stage executes only its controlled-skip interface, performs no
+  semantic transformation, and emits a deterministic acknowledgement;
+- the replacement artifact is injected only at the declared boundary;
+- every semantic stage after that boundary executes normally, including
+  `network-realization-model`, pinned schema validation, the selected renderer,
+  and the requested evidence context;
+- skipped stages remain outside evidence scope and are never reported as
+  executed, tested, or passed.
 
-In this POC, "skip" does not mean the repository disappears from the chain. The
-repo still participates as a pass-through/normalization boundary and must emit
-its own warning when its semantic work is not covered:
+The acknowledgement for each skipped stage records its repository identity,
+pinned revision, execution mode, full trace-chain ID, specification reason,
+normal input contract, expected replacement contract, declared replacement
+boundary, and next stage. It acknowledges control flow only; it is not a
+pass-through transformation of the replacement artifact.
 
-- `network-compiler`: `WARN_LAYER_ENTRY_SKIPS_NETWORK_COMPILER`;
-- `network-forwarding-model`: `WARN_LAYER_ENTRY_SKIPS_NFM`;
-- `network-control-plane-model`: `WARN_LAYER_ENTRY_SKIPS_CPM`.
+The orchestrator verifies those acknowledgements against the common
+`network-labs/flake.lock`. That lock remains the sole revision root for
+controlled SMT, SIT, HAT, and SAT runs and pins compiler, NFM, CPM,
+`network-realization-model`, `network-realization-schema`, and every selected
+renderer, including skipped repositories.
 
-The active-lab input can therefore choose:
+Current construction gap: the repository root does not yet contain that
+`flake.lock` or pin the realization schema/model. Until both the lock root and
+the controlled orchestration path are implemented, the legacy layer-entry
+harnesses below cannot produce current controlled GAMP evidence.
+
+Valid replacement boundaries include:
 
 - skip `network-compiler` and start from `forwarding-model-input`;
 - skip `network-compiler` plus `network-forwarding-model` and start from
   `control-plane-input`;
 - skip `network-compiler`, `network-forwarding-model`, and
-  `network-control-plane-model`, then feed renderer inputs directly.
+  `network-control-plane-model`, then start normal semantic execution at
+  `network-realization-model` with a valid replacement artifact.
+
+A renderer is never the first active semantic boundary in a controlled run.
+Direct raw CPM-to-renderer entry, a missing realization hop, a missing schema
+validation, or a gap after the declared replacement boundary invalidates the
+evidence.
 
 For runtime SMT work, small does not mean dry-run only. Runtime evidence must
 still use the real harness lifecycle, including the `s-router-nixos` shutdown
@@ -188,19 +207,21 @@ SOPS payloads live in the owning HAT, SAT, SIT, or SMT row/fixture directory.
 Host account and default-login secrets remain owned by the consuming host
 repository's default SOPS source, not by `network-labs`.
 
-Renderer-entry POCs are declared per renderer target. The current targets are
-`nixos`, `nixos-clients` (`network-renderer-access-endpoint-nixos`), `clab`,
-`wireguard`, and `nebula`. `network-labs` owns only the input fixtures and
-orchestration; the renderer remains the materializer for its output surface.
+Renderer-focused fixtures remain declared per renderer target. The current
+targets are `nixos`, `nixos-clients`
+(`network-renderer-access-endpoint-nixos`), `clab`, `wireguard`, and `nebula`.
+`network-labs` owns controlled fixtures and orchestration; the realization
+model owns canonical-bundle production and each renderer owns only its output
+surface.
 
-The focused construction-cycle harness is
-`tests/test-active-lab-layer-entry-construction-cycles.sh`. It proves the POC
-can skip `network-compiler`, run NFM -> CPM -> NixOS renderer; skip
-`network-compiler` plus `network-forwarding-model`, run CPM -> NixOS renderer;
-and keep compiler/NFM/CPM as warning/pass-through boundaries when renderer
-input is supplied directly. Direct multi-renderer input coverage lives in
-`tests/test-active-lab-layer-entry-renderer-input-poc.sh` for `nixos`,
-`nixos-clients`, `clab`, `wireguard`, and `nebula`.
+The existing focused harnesses
+`tests/test-active-lab-layer-entry-construction-cycles.sh` and
+`tests/test-active-lab-layer-entry-renderer-input-poc.sh` predate the canonical
+realization boundary. Their direct-CPM and warning/pass-through cases are
+legacy construction surfaces until they invoke the controlled-skip interfaces,
+execute `network-realization-model`, validate against the pinned schema, and
+pass the validated bundle to the selected renderer. They must not be cited as
+current controlled SMT, SIT, HAT, or SAT evidence before that migration.
 
 Row-level mini-SMT evidence must not depend on that aggregate renderer script.
 Use `GAMP/SMT/mini-smt/tests.nix` plus
@@ -259,11 +280,12 @@ Examples of intended use:
 - CPM FS item: start from network-labs-owned synthetic NFM/control-plane input,
   skip compiler and optionally NFM, and prove CPM handles topology that the
   ordinary compiler/NFM path might not emit, such as non-following p2p links.
-- Renderer/NixOS materialization FS item: start from network-labs-owned CPM
-  renderer input, skip compiler, NFM, and CPM, and prove the downstream
-  renderer plus NixOS materializer can project container start shape, PPPoE
-  server/client surfaces, p2p links, routes, firewall, DNS, or other runtime
-  surfaces without inventing upstream semantics.
+- Renderer/NixOS materialization FS item: supply a valid CPM replacement
+  artifact after controlled acknowledgements for compiler, NFM, and CPM; run
+  `network-realization-model`, schema validation, and the selected renderer;
+  then prove the renderer plus NixOS materializer can project container start
+  shape, PPPoE server/client surfaces, p2p links, routes, firewall, DNS, or
+  other runtime surfaces without inventing upstream semantics.
 
 These POCs may support SMT or SIT construction evidence. They are not HAT/SAT
 approval evidence and must not be promoted as runtime proof without the owning
@@ -279,10 +301,10 @@ can be reboot-tested without also deploying every full-lab router container.
 See `examples/README.md` for what each example is trying to demonstrate.
 
 Examples-only SMT traceability lives in `tests/SMT.md`. It maps stable
-`LAB-SMT-*` identifiers to the exact distributed repo tests that prove compiler,
-NFM, CPM, CLAB renderer, NixOS renderer, and Nebula renderer module contracts
-from `network-labs/examples`. It is not SAT evidence and must not reference
-disposable lab paths or live lab loops.
+`LAB-SMT-*` identifiers to distributed repository tests for compiler, NFM, CPM,
+canonical realization, schema validation, and selected renderer module
+contracts from `network-labs/examples`. It is not SAT evidence and must not
+reference disposable lab paths or live lab loops.
 
 ## HAT Fixtures
 
@@ -326,9 +348,9 @@ routes. NixOS/CLAB emulated-ISP PPPoE fixture rows are present in
 WireGuard, PPPoE, and other SAT rows still require harness-owned HAT/SAT runtime
 proof before acceptance.
 
-## Typical pipelines
+## Pipeline use
 
-### Build a control-plane model (compiler -> forwarding-model -> control-plane-model)
+### Build an upstream CPM artifact
 
 From `network-labs/`:
 
@@ -340,22 +362,29 @@ nix run github:esp0xdeadbeef/network-control-plane-model#compile-and-build-contr
   "$LABS_DIR/output-control-plane-model.json"
 ```
 
-This produces a renderer-neutral control-plane JSON that downstream renderers consume.
+This produces a renderer-neutral control-plane artifact. It is an upstream
+diagnostic artifact, not a renderer input.
 
-### Render to Containerlab
+### Produce renderer input
 
-```bash
-nix run github:esp0xdeadbeef/network-renderer-containerlab-linux-backend#generate-clab-config -- \
-  "$LABS_DIR/output-control-plane-model.json" \
-  "$LABS_DIR/fabric.clab.yml" \
-  "$LABS_DIR/vm-bridges-generated.nix"
+```text
+CPM artifact
+  -> network-realization-model
+  -> validation against network-realization-schema
+  -> validated canonical realization bundle
+  -> selected network-renderer-*
 ```
 
-### Render to NixOS artifacts (S88-style renderer)
+The root flake and its lock must pin `network-realization-model`,
+`network-realization-schema`, and the selected renderer before that path may
+produce controlled GAMP evidence. A direct CPM-to-renderer command is a legacy
+diagnostic or repository-local compatibility path only; it is not the
+controlled renderer boundary.
 
-```bash
-nix run github:esp0xdeadbeef/network-renderer-nixos#render-dry-config -- --debug "$LABS_DIR/output-control-plane-model.json"
-```
+A focused renderer repository test may instead begin with a fixture bundle
+that has been validated against the pinned schema contract. Such a test proves
+only renderer functionality and does not become controlled SMT, SIT, HAT, or
+SAT evidence without the complete controlled repository-hop flow.
 
 ## Notes / limitations
 
