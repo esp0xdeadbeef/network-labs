@@ -2,7 +2,7 @@
 
 SMT template row for the `ula-nat66-selection` mini-SMT input.
 
-Construction test: `network-control-plane-model/tests/FS-400-HDS-010-SDS-010-SMS-020-ula-nat66-explicit-contract.sh`
+Construction test: `network-control-plane-model/tests/FS-400-HDS-010-SDS-010-SMS-020.sh`
 Validation Evidence Boundary: construction-only — all predicates proven via CPM nix eval.
 
 This row-local intent fixture models a minimal tenant-topology exercising ULA NAT66 mode selection

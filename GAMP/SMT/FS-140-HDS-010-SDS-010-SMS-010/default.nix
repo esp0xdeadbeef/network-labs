@@ -8,7 +8,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/test-renderer-contract-boundary.sh";
     smtRow = "network-codex-agent/GAMP/SMT/README.md";
     status = "OK";
     verifiedAt = "network-control-plane-model focused construction proof via network-codex-agent active-lab wrapper";

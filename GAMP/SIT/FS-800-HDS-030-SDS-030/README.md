@@ -23,7 +23,7 @@ NETWORK_REPO_DIRECT_TEST_OK=1 \
   S_ROUTER_NIXOS=192.168.1.17 \
   S_ROUTER_CLAB=192.168.1.19 \
   S_ROUTER_TEST_CLIENTS=192.168.1.18 \
-  ../network-codex-agent/scripts/fs800-pppoe-pairing-active-lab-runtime-check.sh --live
+  ../network-codex-agent/scripts/live-FS-800-HDS-030-SDS-030-SMS-010.sh --live
 ```
 
 The selected current-lab source must render exactly five router targets on

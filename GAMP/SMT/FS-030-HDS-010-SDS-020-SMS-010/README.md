@@ -18,7 +18,7 @@ It is runtime fixture evidence for the valid canonical path; it is not proof
 that all non-canonical graph shapes are rejected.
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh`
+`tests/FS-030-HDS-010-SDS-020-SMS-010.sh`
 
 Run:
 

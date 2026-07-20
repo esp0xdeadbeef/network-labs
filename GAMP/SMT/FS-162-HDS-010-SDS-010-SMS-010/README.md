@@ -1,12 +1,9 @@
-# SMT Source Stub: FS-162-HDS-010-SDS-010-SMS-010
+# SMT Construction Row: FS-162-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-010-SMS-010-openconfig-instance-document-emission.md`
+Status: OK at the construction boundary.
 
-Status: NOT OK - source stub only.
-
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
-
-Title slug: `openconfig-instance-document-emission`
+`checks.<system>.openconfig-emission-negatives` runs the exact eight negative
+injections, diagnostics, exit codes, deterministic reruns, empty accepted
+stdout assertions, and recovery assertions defined by the canonical SMS. The
+positive recovery emits a YANG-validated instance with complete provenance.
+No live device is claimed.

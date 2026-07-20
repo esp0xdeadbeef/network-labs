@@ -6,12 +6,12 @@ Status: OK.
 
 This row is registered in `GAMP/SMT/mini-smt/tests.nix` as an `intent-source`
 mini-SMT and uses the full trace-ID live verifier:
-`../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh`
+`tests/FS-030-HDS-010-SDS-050-SMS-010.sh`
 
 Per the SMS Construction Handoff, the test proves:
 - valid canonical access -> downstream-selector -> policy -> upstream-selector -> core topology compiles;
@@ -33,9 +33,9 @@ runtime targets for this row.
 
 2026-07-04 evidence:
 - `network-compiler` commit `3d2f3f3` PASS:
-  `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+  `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`.
 - `network-codex-agent` commit `a61f921c` PASS:
-  `bash tests/test-smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+  `bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`.
 - `network-labs` PASS:
   `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh`.
 - Active-lab shutdown loop PASS for

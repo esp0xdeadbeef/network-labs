@@ -1,12 +1,9 @@
-# SMT Source Stub: FS-162-HDS-010-SDS-030-SMS-010
+# SMT Construction Row: FS-162-HDS-010-SDS-030-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010-openconfig-cpm-interface-parsing-fail-closed.md`
+Status: OK at the construction boundary.
 
-Status: NOT OK - source stub only.
-
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
-
-Title slug: `openconfig-cpm-interface-parsing-fail-closed`
+`checks.<system>.openconfig-emission-negatives` proves canonical interface
+mapping fails closed. The previous direct-CPM fixture is retained as the
+`OC_RAW_CPM_INPUT` negative, not deleted and not accepted as current input.
+All other mapping diagnostics and recoveries are tested explicitly. No live
+device is claimed.

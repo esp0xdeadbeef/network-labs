@@ -1,0 +1,1 @@
+../shared/test-fs650-fs690-profile-matrices.sh

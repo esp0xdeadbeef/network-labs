@@ -12,19 +12,10 @@
       traceId = "FS-040-HDS-010-SDS-010-SMS-010";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/intent.nix";
-      test = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh";
-      liveRunner = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
       maxRuntimeTargets = 5;
     };
   };
-  templateTests = [
-    "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh"
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
   evidence = {
-    constructionTest = "network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh";
-    liveRunner = "network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh";
-    sourceTest = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh";
     observedResult = "2026-07-04 PASS: public-inventory boundary construction wrapper, row-local source test, direct live verifier, active-lab runner, pinned builds, and runtime-debugger p2p/routes/runtime_signals";
     activeLabRun = "/tmp/active-lab-mini-smt-runs/20260704T062015Z-2938737/FS-040-HDS-010-SDS-010-SMS-010";
     liveEvidence = [

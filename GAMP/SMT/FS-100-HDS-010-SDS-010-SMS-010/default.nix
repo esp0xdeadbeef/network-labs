@@ -5,7 +5,6 @@
   source = null;
   evidence = {
     owningRepo = "network-compiler";
-    focusedTest = "tests/test-emitter-provenance-repo-boundary.sh";
     smtRow = "GAMP/SMT/README.md row 49";
     status = "OK";
     verifiedAt = "network-compiler HEAD aedc0f1 and active-lab wrapper PASS (2026-07-04)";

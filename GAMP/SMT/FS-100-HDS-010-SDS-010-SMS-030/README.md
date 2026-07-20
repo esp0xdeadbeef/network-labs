@@ -7,7 +7,7 @@ This row-local source stub keeps the controlled GAMP input addressable from
 claim HAT, SAT, or production readiness.
 
 Current SMT construction evidence:
-`NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_FOREIGN_CWD=/home/deadbeef/github/network-codex-agent bash tests/FS-100-HDS-010-SDS-010-SMS-030-signed-output-source-containment.sh`
+`NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_FOREIGN_CWD=/home/deadbeef/github/network-codex-agent bash tests/FS-100-HDS-010-SDS-010-SMS-030.sh`
 passed at `network-compiler` HEAD `878f54c` on 2026-07-04.
 
 Active-lab wrapper evidence:

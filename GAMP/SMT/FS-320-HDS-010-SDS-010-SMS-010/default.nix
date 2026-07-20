@@ -10,8 +10,6 @@
     ];
   };
   evidence = {
-    command = "bash tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh";
-    focusedTest = "tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh";
     scope = "structural validation: two-node co-located topology with client+mgmt tenants, distinct allow/deny policy boundary, 10 predicates";
   };
   sharedFiles = {

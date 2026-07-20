@@ -8,7 +8,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-codex-agent";
-    focusedTest = "tests/test-fs150-hds010-sds020-sms010-portability-comparison.sh";
     smtRow = "network-codex-agent/GAMP/SMT/README.md";
     status = "OK";
     verifiedAt = "network-codex-agent focused construction proof via active-lab wrapper";

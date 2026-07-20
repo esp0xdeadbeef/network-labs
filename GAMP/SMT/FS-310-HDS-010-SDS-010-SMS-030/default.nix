@@ -10,8 +10,6 @@
     ];
   };
   evidence = {
-    command = "bash tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
-    focusedTest = "tests/test-fs310-hds010-sds010-sms030-policy-router-relation-identity-row-local.sh";
     maxRuntimeTargets = 2;
     scope = "one tenant-client to external-testnet allow relation with relation identity preservation";
   };

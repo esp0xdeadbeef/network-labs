@@ -17,9 +17,7 @@
   };
   status = "OK";
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-120";
     owningRepo = "network-renderer-nixos";
-    focusedTest = "tests/FS-370-HDS-010-SDS-010-SMS-120.sh";
     activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-120";
     smtRow = "GAMP/SMT/README.md row 514";
     status = "OK";

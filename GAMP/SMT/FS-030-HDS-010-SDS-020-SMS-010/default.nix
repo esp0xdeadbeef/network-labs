@@ -12,8 +12,6 @@
   };
   status = "OK";
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh --source FS-030-HDS-010-SDS-020-SMS-010";
-    focusedTest = "network-compiler/tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh";
     maxRuntimeTargets = 5;
     observedResult = "2026-07-04: compiler construction test, row-specific live wrapper, MINI_SMT_OFFLINE_VERIFY=0 mini-SMT runner, pinned s-router-nixos build, and manual runtime-debugger p2p/routes/runtime_signals enumeration all pass for FS-030-HDS-010-SDS-020-SMS-010";
   };

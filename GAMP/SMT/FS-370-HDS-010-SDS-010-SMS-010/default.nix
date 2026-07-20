@@ -11,7 +11,6 @@
   };
   evidence = {
     owningRepo = "network-control-plane-model";
-    focusedTest = "tests/test-fs370-hds010-sds010-sms010-source-prefix-egress.sh";
     activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-010";
     smtRow = "GAMP/SMT/README.md row 63";
     status = "OK";

@@ -129,11 +129,10 @@ Fixture source: `network-labs/GAMP/SAT/` (controlled SAT), `network-labs/GAMP/HA
 
 ## Controlled Layer-Entry Boundary
 
-`GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/layer-entry-poc/` is the source-side boundary and orchestrator for
-small deterministic POCs that do not need the full HAT/SAT deployment path.
-These checks exist so downstream agents can test one FS/SMS/SMT point at a time
-from a declared input boundary instead of reverse-engineering fixtures inside a
-downstream repo.
+`packages.<system>.validation-scheme` is the deterministic authority for small
+controlled scenarios that do not need the full HAT/SAT deployment path. Each
+source lives under its trace row; downstream repositories do not own or
+reverse-engineer replacement artifacts.
 
 The controlled layer-entry rule is:
 
@@ -161,10 +160,13 @@ controlled SMT, SIT, HAT, and SAT runs and pins compiler, NFM, CPM,
 `network-realization-model`, `network-realization-schema`, and every selected
 renderer, including skipped repositories.
 
-Current construction gap: the repository root does not yet contain that
-`flake.lock` or pin the realization schema/model. Until both the lock root and
-the controlled orchestration path are implemented, the legacy layer-entry
-harnesses below cannot produce current controlled GAMP evidence.
+The repository root exports `packages.<system>.validation-scheme` and owns
+the common `flake.lock`. The package emits the scenario manifest, verifies the
+three repository-owned skip acknowledgements, injects the replacement once at
+the declared first active boundary, executes realization and schema validation,
+validates one normalized platform-binding bundle, and invokes the selected
+canonical renderer boundary. `network-codex-agent` may call this package, but
+does not own or reimplement these predicates.
 
 Valid replacement boundaries include:
 
@@ -195,33 +197,31 @@ uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 Keep the top-level `active-lab/` exposure minimal. `active-lab/default.nix`
 exists only to import the selected `intent.nix` and expose `mkSource` for
 row-local mini-lab intent stubs. `active-lab/intent.nix` points at the current
-default mini runtime CPM input, and `active-lab/inventory-nixos.nix` is an
-explicit provenance stub that points at `FS-166-HDS-010-SDS-010-SMS-901`, its
-CPM fixture, and its focused test. Do not add empty placeholders such as
+default mini runtime source, and `active-lab/inventory-nixos.nix` is an
+explicit provenance stub. Do not add empty placeholders such as
 `inventory.nix`, broad host inventory lookups, or catalog directories under
 `active-lab/`. Runtime files that the NixOS harness imports directly, such as
 `clients.nix`, `inventory-clab.nix`, `inventory-hetz.nix`, and
 `sops-routing-*.nix`, must remain explicit stubs to the selected GAMP/runtime
 source. `active-lab/` is a selector/import surface only: encrypted lab-runtime
-SOPS payloads live in the owning HAT, SAT, SIT, or SMT row/fixture directory.
+SOPS payloads live in the owning HAT, SAT, SIT, or SMT row directory.
 Host account and default-login secrets remain owned by the consuming host
 repository's default SOPS source, not by `network-labs`.
 
-Renderer-focused fixtures remain declared per renderer target. The current
+Controlled replacement artifacts remain declared per renderer target. The current
 targets are `nixos`, `nixos-clients`
-(`network-renderer-access-endpoint-nixos`), `clab`, `wireguard`, and `nebula`.
-`network-labs` owns controlled fixtures and orchestration; the realization
-model owns canonical-bundle production and each renderer owns only its output
-surface.
+(`network-renderer-access-endpoint-nixos`), `clab`, `wireguard`, `nebula`, and
+`openconfig`.
+`network-labs` owns controlled artifacts, the root lock, expected evidence, and
+deterministic orchestration; the realization model owns canonical-bundle
+production and each renderer owns only its output surface. The FS-162 peer
+comparison uses one bundle identity for NixOS, CLAB, and OpenConfig and records
+OpenConfig model limitations separately from CPM portability.
 
-The existing focused harnesses
-`tests/test-active-lab-layer-entry-construction-cycles.sh` and
-`tests/test-active-lab-layer-entry-renderer-input-poc.sh` predate the canonical
-realization boundary. Their direct-CPM and warning/pass-through cases are
-legacy construction surfaces until they invoke the controlled-skip interfaces,
-execute `network-realization-model`, validate against the pinned schema, and
-pass the validated bundle to the selected renderer. They must not be cited as
-current controlled SMT, SIT, HAT, or SAT evidence before that migration.
+Direct-CPM harnesses and non-conformant boundary sources are removed rather
+than retained as compatibility paths. Git history preserves prior work. The
+FS-166 construction entrypoint is `tests/<full-trace-id>.sh`; its path is
+derived from the selected trace and it invokes the locked validation scheme.
 
 Row-level mini-SMT evidence must not depend on that aggregate renderer script.
 Use `GAMP/SMT/mini-smt/tests.nix` plus

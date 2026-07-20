@@ -13,7 +13,7 @@ Validation Evidence Boundary: split
 Mini topology: access (client-edge) -> core (provider-edge) with policy and downstream-selector in the fabric chain. The policy node must use per-lane return routing instead of ECMP main-table symmetric return.
 
 Owning construction evidence lives in `network-control-plane-model`:
-`NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-370-HDS-010-SDS-010-SMS-101-per-lane-return-path-routing.sh`
+`NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-370-HDS-010-SDS-010-SMS-101.sh`
 
 The active-lab context runner is:
 `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-101`

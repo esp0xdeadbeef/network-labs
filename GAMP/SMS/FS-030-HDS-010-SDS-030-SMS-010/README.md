@@ -6,7 +6,7 @@ This row-local source keeps the compiler overlay-underlay separation module
 addressable from `network-labs`.
 
 The SMS construction handoff is implemented by the `network-compiler` focused
-test `tests/test-FS-030-HDS-010-SDS-030-SMS-010.sh`. The test proves:
+test `tests/FS-030-HDS-010-SDS-030-SMS-010.sh`. The test proves:
 
 - overlay paths carry `overlayIdentity`, `transportKind`, and
   `peerSiteIdentity`;
@@ -19,7 +19,7 @@ test `tests/test-FS-030-HDS-010-SDS-030-SMS-010.sh`. The test proves:
 
 Current live evidence, 2026-07-04:
 
-- `scripts/smt-live-FS-030-HDS-010-SDS-030-SMS-010.sh` passed against
+- `scripts/live-FS-030-HDS-010-SDS-030-SMS-010.sh` passed against
   `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
 - `s-router-nixos` emitted six full-trace runtime targets and all six NixOS
   containers were enumerated.

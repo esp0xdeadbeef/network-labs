@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs720-hds010-sds010-sms030-service-surfaces.sh";
-    focusedTest = "tests/test-fs720-hds010-sds010-sms030-service-surfaces.sh";
     observedResult = "PASS — SMS predicate coverage matrix 14/14: MR1 service role validation, MR2 discovery/payload separation, MR3 no fixture authority, FC1 missing service surface diagnostic, FC2 fixture-presence-grants-discovery rejected, SN1 active seeded negative (missing-service-surface diagnostic), SN2 active seeded negative (fixture-presence-grants-discovery diagnostic), plus construction handoff, CI1-CI2 consumed interfaces, EI1-EI3 emitted interfaces";
   };
 }

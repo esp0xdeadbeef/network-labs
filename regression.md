@@ -94,7 +94,7 @@ blobs, or shared example fragments.
   `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-820-HDS-010-SDS-010-SMS-050.sh`,
   `bash tests/test-active-lab-minimal-entrypoints.sh`,
   `bash tests/test-hat-sops-runtime-fact-bindings.sh`,
-  `bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh`,
+  `bash tests/FS-800-HDS-020-SDS-021-SMS-010.sh`,
   and `bash tests/test-current-lab-selector.sh`.
 - FS-166 renderer-input active-lab NixOS selections now install explicit
   trace-tagged no-runtime CPM-shaped host intents for `s-router-clab` and
@@ -260,7 +260,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
   and the locked mini-SMT check ran from
   `/nix/store/lxgfsjfg1vw6873i11qfllvj1l82li7k-source`. Follow-up verifier
-  `bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live` proved
+  `bash scripts/live-FS-370-HDS-010-SDS-010-SMS-050.sh --live` proved
   `s-router-nixos` and `s-router-clab` expose trace-matched control-plane
   artifacts with `runtimeTargets=5` and `uplinkLaneHits=1`; it also proved
   `s-router-test-clients` exposes `rendered-host.json` with `routerContainers=0`,
@@ -282,7 +282,7 @@ blobs, or shared example fragments.
   artifact checks PASS, local build hash `6xrmas7rfyi7py9f721sbq1nsb7nqz81`,
   post-reboot hash `jxy18dv36cl025lz1hfvgghfgq46q1i5`, and normalized renderer
   JSON match. Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs370-active-lab-lane-egress-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-370-HDS-010-SDS-010-SMS-050.sh --live`
   passed and proved `s-router-nixos` and `s-router-clab` expose
   `runtimeTargets=5` with `uplinkLaneHits=1`, while `s-router-test-clients`
   exposes `rendered-host.json` with `routerContainers=0`, `hostBridges=5`, and
@@ -310,7 +310,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=1`,
   and the locked mini-SMT check ran from
   `/nix/store/cwf875ckzdr9w9hgs298xr556lf9r94l-source`. Follow-up verifier
-  `bash scripts/fs380-active-lab-internet-mode-runtime-check.sh --live` proved
+  `bash scripts/live-FS-380-HDS-020-SDS-010-SMS-050.sh --live` proved
   `s-router-nixos` and `s-router-clab` expose trace-matched control-plane
   artifacts with `runtimeTargets=5`, `bridgeNetworks=6`, `privateNat44=1`, and
   `uplinks=internet-vlan4,internet-vlan5`; both surfaces successfully pinged
@@ -335,7 +335,7 @@ blobs, or shared example fragments.
   local build hash `j4q61zh3wkismy6g7cyzchz309mgmkqq`, post-reboot hash
   `i3i46v0y3nmajxhg8kx3bpi9b5hvqggc`, and normalized renderer JSON match.
   Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend NIXOS_REPO_PATH=/home/deadbeef/github/nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs380-active-lab-internet-mode-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend NIXOS_REPO_PATH=/home/deadbeef/github/nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-380-HDS-020-SDS-010-SMS-050.sh --live`
   passed and proved NixOS/CLAB PPPoE/VLAN4/VLAN5 runtime artifacts with
   `runtimeTargets=5`, `bridgeNetworks=6`, `privateNat44=1`, and successful
   `1.1.1.1` pings; it also proved `s-router-test-clients` exposes the host-only
@@ -363,7 +363,7 @@ blobs, or shared example fragments.
   `active-targets=0 lab-emulation=0 no-runtime=true`, and the locked mini-SMT
   check ran from `/nix/store/amncwykxph73bl4sbn9gasszii9c1g3c-source`.
   Follow-up verifier
-  `bash scripts/fs470-active-lab-wireguard-remote-egress-runtime-check.sh --live`
+  `bash scripts/live-FS-470-HDS-010-SDS-010-SMS-010.sh --live`
   proved `s-router-nixos` exposes `/etc/network-artifacts/control-plane.json`
   with `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
   `s-router-clab` and `s-router-test-clients` have no remote-egress runtime and
@@ -388,7 +388,7 @@ blobs, or shared example fragments.
   `smh6z5g8cyv75fi02n5ksbfs5sn6lc6p`, post-reboot host generation was
   `j210fyi5mfsw4bdngc839nvhd6wr4x83`, and normalized renderer JSON matched.
   Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs470-active-lab-wireguard-remote-egress-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-470-HDS-010-SDS-010-SMS-010.sh --live`
   passed and proved `s-router-nixos` exposes
   `/etc/network-artifacts/control-plane.json` with
   `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
@@ -416,7 +416,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
   and the locked mini-SMT check ran from
   `/nix/store/s09qn890id6rk47zbnwb5xq5d30xmwg0-source`. Follow-up verifier
-  `bash scripts/fs500-active-lab-reachability-runtime-check.sh --live` proved
+  `bash scripts/live-FS-500-HDS-010-SDS-010-SMS-010.sh --live` proved
   `s-router-nixos` and `s-router-clab` expose `/etc/network-artifacts/control-plane.json`
   with `runtimeTargets=5`, `validPathCount=1`, `invalidPathCount=0`, and
   `relationHits=1`; it also proved `s-router-test-clients` has
@@ -441,7 +441,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
   and the locked mini-SMT check ran from
   `/nix/store/63mvyf062ffcnzhav16hhpmv1wxh1bfr-source`. Follow-up verifier
-  `bash scripts/fs500-decision-reason-active-lab-runtime-check.sh --live`
+  `bash scripts/live-FS-500-HDS-010-SDS-010-SMS-030.sh --live`
   proved `s-router-nixos` and `s-router-clab` expose
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
@@ -467,7 +467,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
   and the locked mini-SMT check ran from
   `/nix/store/yp8cjm3ba8fgdyhyrlp76nm180gyqd01-source`. Follow-up verifier
-  `bash scripts/fs500-p2p-next-hop-active-lab-runtime-check.sh --live` proved
+  `bash scripts/live-FS-500-HDS-010-SDS-010-SMS-040.sh --live` proved
   `s-router-nixos` and `s-router-clab` expose
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
@@ -494,7 +494,7 @@ blobs, or shared example fragments.
   build expected system hash `bv44ws6fcg1n8k41m2isb6hjprqk92p4`, post-reboot
   host generation was `rncd29433m7m6yla2d64ch8w91saxqhf`, and normalized
   renderer JSON matched. Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_NFM_PATH=/home/deadbeef/github/network-forwarding-model NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs500-active-lab-reachability-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_NFM_PATH=/home/deadbeef/github/network-forwarding-model NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-500-HDS-010-SDS-010-SMS-010.sh --live`
   passed and proved `s-router-nixos` and `s-router-clab` expose
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
@@ -516,8 +516,8 @@ blobs, or shared example fragments.
   `GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/{intent-test-clients.nix,inventory-test-clients.nix}`
   source, and the final propagated access-renderer lock is
   `network-renderer-access-endpoint-nixos@6234a11`. Focused proof
-  `bash tests/FS-540-HDS-010-SDS-010-SMS-020-access-endpoint-bridge-name.sh`,
-  `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs bash tests/FS-540-HDS-010-SDS-010-SMS-020-access-endpoint-bridge-name.sh`,
+  `bash tests/FS-540-HDS-010-SDS-010-SMS-020.sh`,
+  `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs bash tests/FS-540-HDS-010-SDS-010-SMS-020.sh`,
   and `bash tests/run.sh` all passed. Local `nixos` lock `b04141b2` consumed
   the propagated lock chain (`network-compiler@5be5672`,
   `network-forwarding-model@b3012dd`,
@@ -532,7 +532,7 @@ blobs, or shared example fragments.
   `active-targets=5 lab-emulation=1`, locked checks ran from
   `/nix/store/0aqa0v6cmpcmjyrzjj8qc1rsybygxmml-source`, and normalized renderer
   JSON matched the post-reboot generation. Follow-up verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs540-active-lab-dns-resolver-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-540-HDS-010-SDS-010-SMS-020.sh --live`
   proved both router artifacts expose trace-matched
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5` and
   resolver-source counts `local-recursive=1`, `upstream-forwarder=0`,
@@ -564,7 +564,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=6 lab-emulation=0`,
   and locked checks ran from
   `/nix/store/cnz1s6i9y7cf5alff6c821s5v6ym90cc-source`. Follow-up verifier
-  `bash scripts/fs800-provider-default-route-active-lab-runtime-check.sh --live`
+  `bash scripts/live-FS-800-HDS-010-SDS-020-SMS-040.sh --live`
   proved NixOS and CLAB `provider-handoff-access-a` own
   `203.0.113.1` and route default/public egress via fabric gateway
   `10.80.255.2` on `p0` with no PPP leak; NixOS and CLAB `pppoe-core` keep
@@ -589,7 +589,7 @@ blobs, or shared example fragments.
   passed, the CLAB readiness gate reported `active-targets=5 lab-emulation=0`,
   and locked checks ran from
   `/nix/store/7wgrbwnb2zzvy5n1f66w4l4zf0h0yn4g-source`. Follow-up verifier
-  `bash scripts/fs800-pppoe-pairing-active-lab-runtime-check.sh --live` proved
+  `bash scripts/live-FS-800-HDS-030-SDS-030-SMS-010.sh --live` proved
   NixOS and CLAB expose trace-matched control-plane artifacts with the five
   expected runtime targets, `validPathCount=1`, `invalidPathCount=0`, and the
   `FS-800-HDS-030-SDS-030-SMS-010__mini-pppoe-client-to-provider` allow

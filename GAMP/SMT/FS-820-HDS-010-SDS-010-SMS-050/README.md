@@ -6,7 +6,7 @@ Status: NOT OK until the current active-lab runtime artifact proof passes.
 
 The construction guard `NETWORK_REPO_DIRECT_TEST_OK=1 bash
 tests/FS-820-HDS-010-SDS-010-SMS-050.sh` passed on 2026-06-30. This row now
-also requires `../network-codex-agent/scripts/smt-live-FS-820-HDS-010-SDS-010-SMS-050.sh`
+also requires `../network-codex-agent/scripts/live-FS-820-HDS-010-SDS-010-SMS-050.sh`
 to prove the selected full trace on `s-router-nixos`, `s-router-clab`, and
 `s-router-test-clients`.
 

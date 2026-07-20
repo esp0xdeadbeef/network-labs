@@ -26,7 +26,7 @@ Focused test:
 
 ```sh
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-  tests/FS-560-HDS-010-SDS-010-SMS-050-native-protected-name-publication.sh
+  tests/FS-560-HDS-010-SDS-010-SMS-050.sh
 ```
 
 Cold-stage SIT verifier (after recording pre-stage boot IDs, guest closures,
@@ -40,9 +40,9 @@ Its row-local runtime predicate executes both of these substrate probes:
 
 ```sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=nixos \
-  network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=clab \
-  network-codex-agent/scripts/smt-live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 ```
 
 Title slug: `protected-reservation-name-materialization`

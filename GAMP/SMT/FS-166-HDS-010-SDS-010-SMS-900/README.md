@@ -1,19 +1,24 @@
 # FS-166-HDS-010-SDS-010-SMS-900
 
-Renderer-entry SMT row for the active-lab mini runtime sources.
+Controlled construction row for NixOS, access-endpoint NixOS, Containerlab,
+WireGuard, and Nebula canonical renderer inputs.
 
-This row owns the explicit CPM inputs used by the NixOS, NixOS clients,
-Containerlab, WireGuard, and Nebula renderer mini-SMT checks. These are
-renderer-input sources only; they do not claim HAT or SAT acceptance.
+This row owns new contract-conformant CPM replacement artifacts. Each artifact
+contains only network meaning and the required replacement envelope. One
+normalized platform-binding bundle carries interface identity, deployment,
+secret delivery, lifecycle, backend selection, and provenance. Construction
+executes through `packages.validation-scheme`: compiler/NFM/CPM skip
+acknowledgement, one replacement injection at realization, schema release,
+binding release, and canonical renderer validation. It does not claim HAT or
+SAT acceptance.
 
-The active-lab shim points at `runtime-nixos-cpm.nix` for the global
-`s-router-nixos` profile and at `renderer-input/minimal-clab-cpm.nix` and
-`renderer-input/minimal-access-endpoint-cpm.nix` for the CLAB and client
-renderer provenance stubs.
+Run one construction scenario with:
 
-When a NixOS renderer row such as `FS-166-HDS-010-SDS-010-SMS-901` or
-`FS-166-HDS-010-SDS-010-SMS-902` is selected, the host-specific
-`s-router-clab` and `s-router-test-clients` intent aliases are explicit
-trace-tagged no-runtime CPM-shaped sources. They preserve the host substrate
-without asking the CLAB or test-client renderers to consume NixOS-only runtime
-targets.
+```bash
+bash tests/FS-166-HDS-010-SDS-010-SMS-904.sh
+```
+
+The removed direct-CPM sources, renderer sidecars, and direct-renderer runners
+are not compatibility inputs. Git history is the audit record. A child row may
+claim live status only after its controlled artifact and binding are cold-
+staged and observed on the declared real hosts.

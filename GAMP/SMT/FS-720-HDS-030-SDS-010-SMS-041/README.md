@@ -7,7 +7,7 @@ Status: OK - active-lab source fixture evidence only.
 Focused evidence:
 
 ```bash
-bash tests/FS-720-HDS-030-SDS-010-SMS-041-active-lab-tenant-bridge-source.sh
+bash tests/FS-720-HDS-030-SDS-010-SMS-041.sh
 ```
 
 This proves the active-lab HAT inventories expose explicit tenant `attach.bridge`

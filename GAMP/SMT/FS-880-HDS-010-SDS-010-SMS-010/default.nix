@@ -22,8 +22,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-880-HDS-010-SDS-010-SMS-010";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-880-HDS-010-SDS-010-SMS-010.sh";
     observedResult = "NOT OK pending current live run: this row now requires active-lab runtime artifact proof on s-router-nixos, s-router-clab, and s-router-test-clients with runtime target counts 5/5/0.";
   };
 }

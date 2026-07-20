@@ -13,9 +13,9 @@ full rebuild loop.
 
 Current evidence:
 
-- `network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh`
+- `network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010.sh`
   PASS with `NETWORK_REPO_DIRECT_TEST_OK=1`.
-- `network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh`
+- `network-codex-agent/scripts/live-FS-040-HDS-010-SDS-010-SMS-010.sh`
   PASS at `5f1fb8fe`, including manual NixOS/CLAB container enumeration.
 - Direct evidence:
   `/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T061645Z`.

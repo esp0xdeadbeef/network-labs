@@ -19,10 +19,6 @@
   status = "OK";
   evidence = {
     owningRepo = "network-compiler";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-030";
-    focusedTest = "../network-codex-agent/tests/test-smt-live-FS-030-HDS-010-SDS-010-SMS-030.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-030.sh";
-    constructionTest = "../network-compiler/tests/test-FS-030-HDS-010-SDS-010-SMS-030.sh";
     smtRow = "GAMP/SMT/README.md row for FS-030-HDS-010-SDS-010-SMS-030";
     maxRuntimeTargets = 5;
     scope = "Compiler behavior source audit: ensures every behavior-creating compiler output field carries a user-intent source-class audit reference, fails closed on missing or non-intent sourceClass, and proves row-local mini-SMT artifacts";

@@ -11,8 +11,6 @@
     ];
   };
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh --source FS-270-HDS-010-SDS-010-SMS-040";
-    focusedTest = "tests/FS-270-HDS-010-SDS-010-SMS-040-selector-forwarding-relation-identity.sh";
     owningRepo = "network-control-plane-model";
     maxRuntimeTargets = 2;
     scope = "selector handoff transport forwarding boundary: one access router with tenant client, one core router with uplink; validates CPM emits only modeled selector forwarding with relation identity";

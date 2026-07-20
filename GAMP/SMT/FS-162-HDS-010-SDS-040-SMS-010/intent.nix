@@ -15,6 +15,6 @@
     };
     evidenceBoundary = "construction-only";
     runnable = true;
-    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.sh";
+    command = "bash tests/FS-162-HDS-010-SDS-040-SMS-010.sh";
   };
 }

@@ -6,7 +6,7 @@ Status: OK - focused network-labs source fixture test passes.
 
 Evidence command:
 
-`tests/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-source.sh`
+`tests/FS-800-HDS-030-SDS-020-SMS-010.sh`
 
 This row verifies customer-side PPPoE source fixture records in network-labs.
 It does not claim live HAT/SAT PPPoE session acceptance.

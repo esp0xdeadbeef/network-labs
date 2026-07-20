@@ -4,7 +4,7 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010-publ
 
 Status: OK - SMT construction evidence proven.
 
-Focused construction test `tests/test-FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.sh` validates:
+Focused construction test `tests/FS-790-HDS-020-SDS-010-SMS-010.sh` validates:
 - 6 fixture rows atomized (2 per site: tcp + udp)
 - Each row has single publicSurface, protocol, publicPort, targetService,
   targetEndpoint, targetPort, returnPath

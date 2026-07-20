@@ -1,0 +1,1 @@
+../shared/test-fs690-support-view-provenance-non-authority.sh

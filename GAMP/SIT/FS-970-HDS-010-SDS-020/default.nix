@@ -32,7 +32,6 @@
     };
   };
   evidence = {
-    command = "network-codex-agent/tests/test-sit-FS-970-HDS-010-SDS-020-protected-reservation-live.sh with private enrollment files captured by the row-owned redacted enrollment protocol";
     observedResult = "2026-07-19 PASS after an exact pushed-revision cold stage: all three guests were observed offline and returned with new boot IDs and guest closures; real NixOS/VLAN397 and CLAB/VLAN398 clients reproduced privately enrolled MAC/DUID/IAID/IID values and obtained exact predictable IPv4/IPv6 reservations with runtime-only SOPS materialization and redacted public/build surfaces. No production VLAN or address was used; sibling SMS inputs retain their construction boundaries.";
   };
 }

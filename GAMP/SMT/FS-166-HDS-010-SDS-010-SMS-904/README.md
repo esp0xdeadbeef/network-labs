@@ -1,9 +1,15 @@
-# SMT Source Stub: FS-166-HDS-010-SDS-010-SMS-904
+# SMT Construction Row: FS-166-HDS-010-SDS-010-SMS-904
 
-Renderer-entry CLAB mini SMT.
+Status: NOT OK overall. Construction is OK; fresh cold-stage runtime evidence
+is not yet recorded.
 
-Run:
+`replacement-artifacts/clab-p2p.nix` is a conformant CPM replacement artifact
+for the exact target set `edge-a` and `edge-b`. The validation scheme executes the controlled
+skip acknowledgements, realization, schema release, one normalized CLAB
+platform-binding bundle, and the Containerlab canonical adapter.
 
 ```bash
-tests/run-active-lab-mini-smt.sh FS-166-HDS-010-SDS-010-SMS-904
+bash tests/FS-166-HDS-010-SDS-010-SMS-904.sh
 ```
+
+No direct-CPM runner or legacy source is part of this row.

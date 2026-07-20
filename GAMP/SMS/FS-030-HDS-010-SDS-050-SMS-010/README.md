@@ -14,16 +14,16 @@ Source inputs:
   coverage.
 
 The authoritative construction test is
-`network-compiler/tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh`. The row-local
+`network-compiler/tests/FS-030-HDS-010-SDS-050-SMS-010.sh`. The row-local
 `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` verifies the network-labs
 source binding; the live runner is
-`network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 Current evidence, 2026-07-04:
 
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh`
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`
   in `network-compiler` at `3d2f3f3`.
-- `bash tests/test-smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh` in
+- `bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh` in
   `network-codex-agent` at `a61f921c`.
 - `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` in `network-labs`.
 - Direct live verifier PASS:

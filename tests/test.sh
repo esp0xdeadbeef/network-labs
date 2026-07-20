@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 
 if [[ "${NETWORK_REPO_SWEEP:-0}" != "1" && "${NETWORK_REPO_DIRECT_TEST_OK:-0}" != "1" ]]; then
   echo "WARN: direct repo tests are partial; set NETWORK_REPO_DIRECT_TEST_OK=1 for intentional focused runs, or run network-codex-agent/scripts/s-router-full-lab-rebuild-loop.sh for the locked full network-* sweep plus live validation." >&2
@@ -19,121 +19,10 @@ if ! [[ "${test_timeout_seconds}" =~ ^[0-9]+$ ]] || [[ "${test_timeout_seconds}"
   exit 2
 fi
 
-tests=(
-  test-readable-examples-and-labs.sh
-  test-lab-sigma-runtime-contract.sh
-  test-lab-sigma-dns-intent-to-cpm.sh
-  test-lab-sigma-public-egress-intent.sh
-  test-lab-sigma-hetzner-ipv6-wan-transit.sh
-  test-lab-sigma-wan-vlan-uplink-authority.sh
-  test-hostile-exits-east-west-only.sh
-  test-lab-sigma-nebula-public-endpoints.sh
-  test-lab-sigma-nebula-underlay-access.sh
-  test-lab-sigma-wireguard-host128-core-split.sh
-  test-overlay-underlay-service-reachability-examples.sh
-  test-overlay-pools-live-in-intent.sh
-  test-runtime-routed-prefixes-live-in-intent.sh
-  test-inventory-model-boundary.sh
-  test-nebula-relay-realization-contract.sh
-  test-nebula-runtime-node-intent-contract.sh
-  test-tri-site-bgp-overlay-realization.sh
-  test-modeling-contract-docs.sh
-  test-example-explicit-return-behavior.sh
-  test-example-dns-provider-bindings.sh
-  test-smt-traceability-docs.sh
-  test-hat-traceability-docs.sh
-  test-sit-traceability-docs.sh
-  test-sat-traceability-docs.sh
-  test-gamp-vlan2-host-adapter-template.sh
-  test-gamp-layer-entry-scenario-templates.sh
-  test-gamp-row-directory-layout.sh
-  test-gamp-row-source-stubs.sh
-  test-gamp-canonical-sms-mirror.sh
-  test-fs164-controlled-document-language.sh
-  test-active-lab-mini-smt-independent-manifest.sh
-  test-active-lab-mini-smt-full-trace-grepability.sh
-  test-active-lab-mini-smt-intent-source-selection.sh
-  test-active-lab-minimal-entrypoints.sh
-  test-active-lab-mini-smt-pppoe-pairing-only.sh
-  test-active-lab-mini-smt-reachability-decision-only.sh
-  test-active-lab-mini-smt-p2p-next-hop-only.sh
-  test-active-lab-emulated-sms-trace.sh
-  test-active-lab-layer-entry-poc-boundary-inputs.sh
-  test-active-lab-layer-entry-construction-cycles.sh
-  test-active-lab-layer-entry-renderer-input-poc.sh
-  test-gamp-worker-hardware-validation-docs.sh
-  test-s-sigma-sat-source-contract-comments.sh
-  test-fs200-shared-service-source-matrix.sh
-  test-fs650-fs690-profile-matrices.sh
-  FS-660-HDS-010-SDS-010-SMS-010.sh
-  FS-660-HDS-010-SDS-010-SMS-020.sh
-  FS-670-HDS-010-SDS-010-SMS-030.sh
-  FS-670-HDS-010-SDS-010-SMS-040.sh
-  test-fs690-support-view-provenance-non-authority.sh
-  test-fs810-fs820-secret-source-records.sh
-  test-FS-820-HDS-010-SDS-010-SMS-020-secret-source-portability.sh
-  test-FS-820-HDS-010-SDS-010-SMS-030-secret-source-policy-boundary.sh
-  FS-820-HDS-010-SDS-010-SMS-050.sh
-  test-hat-sops-runtime-fact-bindings.sh
-  test-fs830-hds010-sds010-sms010-controlled-secret-preparation.sh
-  FS-970-HDS-010-SDS-020-SMS-040-protected-reservation-clab-source.sh
-  test-fs860-fs870-sat-state-contract.sh
-  test-fs880-lease-namespace-source-contract.sh
-  test-fs910-fs920-fs930-sat-source-contracts.sh
-  FS-985-HDS-010-SDS-010-SMS-020-repo-local-test-boundary.sh
-  test-s-sigma-pppoe-upstream-emulation-source.sh
-  test-s-sigma-provider-access-source-module-boundary.sh
-  FS-800-HDS-010-SDS-012-SMS-010-provider-access-non-authority.sh
-  test-s-sigma-provider-access-attachments.sh
-  FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh
-  test-s-sigma-pppoe-pairing-fallback-rejection.sh
-  test-s-sigma-site-role-map.sh
-  test-s-sigma-site-role-map-provider-ingress-overlay.sh
-  test-s-sigma-site-role-map-management-access-membership.sh
-  test-management-core-host-authority-source.sh
-  test-s-sigma-site-evidence-name-map.sh
-  test-s-sigma-public-ingress-fixture-table.sh
-  test-s-sigma-public-ingress-denied-variants.sh
-  test-s-sigma-public-ingress-provider-emulation-boundary.sh
-  test-FS-780-HDS-020-SDS-010-SMS-010-equivalence-row-atomization.sh
-  test-FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.sh
-  test-public-ingress-source-tuple-authority.sh
-  test-lab-intent-derived-topology-contract.sh
-  test-lab-inventory-derived-p2p-bindings-contract.sh
-  test-inventory-no-synthetic-default-containers.sh
-  test-lab-runtime-secret-boundary.sh
-  test-s-router-client-bridge-contract.sh
-  test-s-router-clab-access-vlans.sh
-  test-s-router-clab-inventory-interface-names.sh
-  test-clab-nat-uplink-examples.sh
-  test-ipv6-pd-downstream-delegation-example-required.sh
-  test-fs750-receiver-source.sh
-  test-fs730-printer-cups-source.sh
-  test-fs770-common-intent-field-presence.sh
-  test-fs770-realization-fact-classification.sh
-  test-fs770-realization-fact-binding.sh
-  test-fs770-hds010-sds020-sms010-realization-fact-binding.sh
-  test-fs770-realization-mutation-rejection.sh
-  test-hat-printer-receiver-policy-source.sh
-  test-hat-emulated-isp-residential-testnet.sh
-  test-hat-selector-fabric-link-realization.sh
-  test-hat-fixture-source-boundaries.sh
-  test-hat-upstream-inventory-realization-boundary.sh
-  test-fs700-hds020-sds010-sms010-lab-source-validation-boundary.sh
-  test-fs710-hds020-sds010-sms010-profile-realization-role-boundary.sh
-  test-fs720-hds010-sds010-sms010-test-clients-substrate.sh
-  test-fs720-hds010-sds010-sms020-assignment-address.sh
-  test-fs720-hds010-sds010-sms030-service-surfaces.sh
-  FS-720-HDS-010-SDS-010-SMS-040.sh
-  test-fs720-hds020-sds010-sms010-endpoint-inventory-union.sh
-  test-fs720-hds040-sds010-sms010-runtime-observation-boundary.sh
-  FS-260-HDS-010-SDS-010-SMS-010-policy-required-access-return-source.sh
-  FS-270-HDS-010-SDS-010-SMS-020-access-service-policy-state-owner-source.sh
-  test-fs770-hds020-sds010-sms010-common-source-inventory-split.sh
-  test-fs750-hds020-sds010-sms010-receiver-service-surfaces.sh
-  test-fs760-hds020-sds010-sms010-receiver-discovery-surface.sh
-  test-fs760-hds030-sds010-sms010-receiver-payload-reverse-surfaces.sh
-  test-fs760-hds040-sds010-sms010-receiver-denied-probe-surfaces.sh
+mapfile -t tests < <(
+  find "${repo_root}/tests" -maxdepth 1 -regextype posix-extended \( -type f -o -type l \) \
+    \( -name 'test-*.sh' -o -regex '.*\/FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+\.sh' \) \
+    ! -name 'test.sh' ! -name 'test-current-lab-selector.sh' -printf '%f\n' | LC_ALL=C sort
 )
 
 serial_tests=(

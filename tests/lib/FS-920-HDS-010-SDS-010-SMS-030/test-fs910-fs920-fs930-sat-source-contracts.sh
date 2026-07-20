@@ -1,0 +1,1 @@
+../shared/test-fs910-fs920-fs930-sat-source-contracts.sh

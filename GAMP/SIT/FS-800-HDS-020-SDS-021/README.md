@@ -6,7 +6,7 @@ pass.
 Focused evidence:
 
 ```bash
-bash tests/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.sh &&
+bash tests/FS-800-HDS-020-SDS-021-SMS-010.sh &&
 bash tests/FS-800-HDS-020-SDS-021-SIT-live-secret-presence.sh s-router-nixos
 ```
 

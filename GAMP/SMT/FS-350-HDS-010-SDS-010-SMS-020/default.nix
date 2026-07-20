@@ -9,7 +9,6 @@
   };
   evidence = {
     owningRepo = "network-forwarding-model";
-    focusedTest = "tests/test-fs350-prefix-authority-consumer-eligibility.sh";
     smtRow = "GAMP/SMT/README.md row 220";
     status = "OK";
     verifiedAt = "NFM HEAD (2026-06-05), re-verified 2026-06-27";

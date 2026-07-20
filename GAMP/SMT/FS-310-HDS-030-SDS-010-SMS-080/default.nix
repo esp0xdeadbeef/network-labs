@@ -18,8 +18,6 @@
   };
   status = "ACTIVE";
   evidence = {
-    command = "tests/run-active-lab-mini-smt.sh FS-310-HDS-030-SDS-010-SMS-080";
-    focusedTest = "../network-codex-agent/scripts/smt-live-FS-310-HDS-030-SDS-010-SMS-080.sh";
     maxRuntimeTargets = 5;
     observedResult = "registered in GAMP/SMT/mini-smt/tests.nix; live wrapper must fail unless the selected active-lab artifacts on s-router-nixos, s-router-clab, and s-router-test-clients prove the exact trace shape";
   };

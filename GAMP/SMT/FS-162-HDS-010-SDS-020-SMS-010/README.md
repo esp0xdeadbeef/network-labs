@@ -1,12 +1,7 @@
-# SMT Source Stub: FS-162-HDS-010-SDS-020-SMS-010
+# SMT Construction Row: FS-162-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010-openconfig-yang-model-validation.md`
+Status: OK at the construction boundary.
 
-Status: NOT OK - source stub only.
-
-This row exists so the network-labs GAMP tree mirrors every canonical SMS trace.
-It is not a runnable mini-SMT until `GAMP/SMT/mini-smt/tests.nix` registers a
-focused runner or the owning repository records construction evidence for this
-trace.
-
-Title slug: `openconfig-yang-model-validation`
+`checks.<system>.openconfig-yang-validation` validates the locked model closure
+offline and executes the exact YANG, lock, module, network-access, digest, and
+identity negatives with recovery assertions. No live device is claimed.

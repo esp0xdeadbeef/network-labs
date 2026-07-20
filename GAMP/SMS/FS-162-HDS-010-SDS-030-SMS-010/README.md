@@ -2,10 +2,10 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010-openconfig-cpm-interface-parsing-fail-closed.md`
 
-This network-labs row mirrors the canonical GAMP SMS trace so lab-source
-coverage cannot silently omit it.
+Status: OK at the construction boundary.
 
-Status: Source stub only - not validation evidence.
-
-The canonical SMS title slug is `openconfig-cpm-interface-parsing-fail-closed`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The renderer maps validated canonical interface paths only. The former direct
+CPM fixture remains as the `OC_RAW_CPM_INPUT` negative. Exact unmapped-path,
+type-identity, peer-renderer, invented-default, platform-authority, and missing-
+provenance failures include deterministic recovery assertions. No live device
+is claimed.

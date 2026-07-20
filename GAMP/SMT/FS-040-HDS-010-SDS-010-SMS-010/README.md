@@ -7,15 +7,15 @@ Status: OK - active-lab live evidence current 2026-07-04.
 This row is registered in `GAMP/SMT/mini-smt/tests.nix` as an active-lab
 SMT/SIT runner for the public-inventory boundary. The focused construction
 proof lives in `network-control-plane-model` at
-`tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh`; the live
+`tests/FS-040-HDS-010-SDS-010-SMS-010.sh`; the live
 row proof lives in `network-codex-agent` at
-`scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh`.
+`scripts/live-FS-040-HDS-010-SDS-010-SMS-010.sh`.
 
 Current evidence:
 
-- `network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh`
+- `network-control-plane-model/tests/FS-040-HDS-010-SDS-010-SMS-010.sh`
   PASS with `NETWORK_REPO_DIRECT_TEST_OK=1`.
-- `network-codex-agent/scripts/smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh`
+- `network-codex-agent/scripts/live-FS-040-HDS-010-SDS-010-SMS-010.sh`
   PASS at `5f1fb8fe`.
 - Direct live evidence:
   `/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T061645Z`.

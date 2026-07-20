@@ -1,26 +1,11 @@
 {
   meta = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    scope = "mini-smt-auto";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900-controlled-renderer-scenarios.md";
+    renderer = "nixos";
+    scope = "canonical-sms-source-stub";
+    evidenceBoundary = "source-stub-only";
   };
-  hosts = {};
-  deploymentHosts = {
-    s-router-nixos = {
-      bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
-      };
-      uplinks = {
-        internet-vlan4 = {
-          bridge = "internet-vlan4";
-          parent = "eth0";
-          vlan = 4;
-          mode = "vlan";
-          ipv4 = { enable = false; };
-          ipv6 = { enable = false; };
-        };
-      };
-    };
-  };
+  hosts = { };
+  deploymentHosts = { };
 }

@@ -8,10 +8,10 @@ the row-local source and live evidence boundary.
 
 Current evidence, 2026-07-04:
 
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.sh`
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-040-HDS-010-SDS-010-SMS-010.sh`
   in `network-control-plane-model`.
 - `GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh` in `network-labs`.
-- `bash tests/test-smt-live-FS-040-HDS-010-SDS-010-SMS-010.sh` in
+- `bash tests/FS-040-HDS-010-SDS-010-SMS-010.sh` in
   `network-codex-agent` at `5f1fb8fe`.
 - Direct live verifier PASS:
   `/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T061645Z`.

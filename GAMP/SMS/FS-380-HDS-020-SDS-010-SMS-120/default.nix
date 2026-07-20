@@ -17,14 +17,9 @@
       traceId = "FS-380-HDS-020-SDS-010-SMS-120";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-120/intent.nix";
-      test = "tests/FS-380-HDS-020-SDS-010-SMS-120-prod-like-vlan4-client-egress.sh";
       maxRuntimeTargets = 5;
     };
   };
-  templateTests = [
-    "tests/FS-380-HDS-020-SDS-010-SMS-120-prod-like-vlan4-client-egress.sh"
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
   evidence = {
     sourcePaths = [
       "GAMP/SMT/FS-380-HDS-020-SDS-010-SMS-120/intent.nix"

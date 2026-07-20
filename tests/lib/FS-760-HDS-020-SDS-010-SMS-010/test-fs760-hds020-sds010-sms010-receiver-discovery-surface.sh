@@ -1,0 +1,1 @@
+../shared/test-fs760-hds020-sds010-sms010-receiver-discovery-surface.sh

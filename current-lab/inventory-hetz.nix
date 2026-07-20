@@ -19,17 +19,34 @@ let
   };
 in
 rec {
-  activeLabInventoryStub = {
-    kind = "unsupported-runtime-host-stub";
-    traceId = "FS-230-HDS-010-SDS-010-SMS-040";
-    hostName = "s-router-hetz";
+  meta = {
+    traceId = "FS-166-HDS-010-SDS-010-SMS-901";
+    evidenceBoundary = "construction-only";
+    constructionOnly = true;
   };
-  deployment.hosts."s-router-hetz" = {
-    uplinks.management = managementVlan2;
-    bridgeNetworks = { };
+  activeLabConstructionOnly = {
+    traceId = "FS-166-HDS-010-SDS-010-SMS-901";
+    rowDirectory = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901;
+    evidenceBoundary = "construction-only";
+  };
+  deployment = {
+    hosts = {
+      s-router-nixos = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-clab = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+      s-router-test-clients = {
+        uplinks.management = managementVlan2;
+        bridgeNetworks = { };
+      };
+    };
   };
   deploymentHosts = deployment.hosts;
-  realization.nodes = { };
   endpoints = { };
+  realization = { nodes = { }; };
   clients = { };
 }

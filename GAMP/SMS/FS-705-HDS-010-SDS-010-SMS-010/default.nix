@@ -9,11 +9,7 @@
       traceId = "FS-705-HDS-010-SDS-010-SMS-010";
       kind = "construction-only";
       sourcePath = "GAMP/SMT/FS-705-HDS-010-SDS-010-SMS-010/default.nix";
-      test = "tests/test-gamp-sds-sms-template-mapping.sh";
       maxRuntimeTargets = 0;
     };
   };
-  templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-  ];
 }

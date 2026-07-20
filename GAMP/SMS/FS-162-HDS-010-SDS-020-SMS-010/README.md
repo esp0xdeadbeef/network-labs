@@ -2,10 +2,9 @@
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010-openconfig-yang-model-validation.md`
 
-This network-labs row mirrors the canonical GAMP SMS trace so lab-source
-coverage cannot silently omit it.
+Status: OK at the construction boundary.
 
-Status: Source stub only - not validation evidence.
-
-The canonical SMS title slug is `openconfig-yang-model-validation`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The focused check validates RFC 7951 input against the OpenConfig model closure
+selected by the root lock. It runs offline, preserves the candidate bytes,
+requires bound provenance identities, and proves the specified diagnostic and
+exit behavior. No live device is claimed.

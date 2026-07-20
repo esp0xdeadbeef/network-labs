@@ -11,7 +11,6 @@
     };
   };
   evidence = {
-    command = "MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh FS-130-HDS-010-SDS-010-SMS-010";
     observedResult = "FS-130-HDS-010-SDS-010-SMS-010 is construction-only scoped request evidence from network-codex-agent; no router runtime targets are created. 2026-07-04 active-lab run passed with runroot /tmp/active-lab-mini-smt-runs/20260704T112916Z-3130464 and workdir /tmp/s-router-live-smoke/FS-130-HDS-010-SDS-010-SMS-010/20260704T112919Z; s-router-nixos, s-router-clab, and s-router-test-clients artifacts were collected as context only.";
   };
 }

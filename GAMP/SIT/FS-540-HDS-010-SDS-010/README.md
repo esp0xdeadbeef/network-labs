@@ -25,7 +25,7 @@ Run the live recursive DNS SIT probe against the active lab:
 ```sh
 S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab \
   tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh
-../network-codex-agent/scripts/smt-live-FS-540-HDS-010-SDS-010-SMS-045.sh
+../network-codex-agent/scripts/live-FS-540-HDS-010-SDS-010-SMS-045.sh
 ```
 
 The live probe must verify resolver-source artifacts, local recursive resolver

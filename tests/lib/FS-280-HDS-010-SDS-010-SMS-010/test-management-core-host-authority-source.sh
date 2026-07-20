@@ -1,0 +1,1 @@
+../shared/test-management-core-host-authority-source.sh

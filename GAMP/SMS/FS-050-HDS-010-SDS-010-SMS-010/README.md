@@ -15,7 +15,7 @@ Current construction evidence is OK at
 `eade1c264d61db68d02aa8ade64b9ddfe975c4fd` via:
 
 ```bash
-NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-050-HDS-010-SDS-010-SMS-010-protected-inventory-boundary.sh
+NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-050-HDS-010-SDS-010-SMS-010.sh
 ```
 
 The construction test carries the full trace ID and proves the clean redacted

@@ -16,7 +16,6 @@
     };
   };
   evidence = {
-    command = "cd ../network-codex-agent && NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-s-router-fs720-source-harness-integration.sh";
     sourcePaths = [
       "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-020/intent.nix"
       "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-040/intent.nix"

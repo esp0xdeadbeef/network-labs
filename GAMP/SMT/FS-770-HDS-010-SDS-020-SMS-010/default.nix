@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh";
-    focusedTest = "tests/test-fs770-hds010-sds020-sms010-realization-fact-binding.sh";
     observedResult = "PASS: CLAB and NixOS HAT inventories emit a shared commonBehaviorSourceBinding with active seeded negatives for split behavior source and missing binding.";
   };
 }

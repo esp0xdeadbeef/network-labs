@@ -5,7 +5,6 @@
   source = null;
   evidence = {
     owningRepo = "network-codex-agent";
-    focusedTest = "tests/FS-320-HDS-030-SDS-010-SMS-040.sh";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
     verifiedAt = "network-codex-agent HEAD (pending verification)";

@@ -24,5 +24,5 @@ Defines the module contract for parsing IPv4 offsets as decimal host-position va
 ## Construction Test
 
 - Repo: `network-control-plane-model`
-- Test: `tests/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.sh`
+- Test: `tests/FS-970-HDS-010-SDS-010-SMS-020.sh`
 - Verified: sms-specialist-042 (2026-06-17)

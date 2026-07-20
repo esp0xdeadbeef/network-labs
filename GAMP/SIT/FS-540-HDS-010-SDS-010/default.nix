@@ -27,24 +27,6 @@
     };
   };
   evidence = {
-    command = ''
-      tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-020 &&
-      tests/run-active-lab-mini-smt.sh FS-540-HDS-010-SDS-010-SMS-045 &&
-      tests/FS-540-HDS-010-SDS-010-SIT-live-recursive-dns.sh
-    '';
-    liveCommand = ''
-      cd /home/deadbeef/github/network-codex-agent &&
-      NETWORK_REPO_DIRECT_TEST_OK=1 \
-      NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-      NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model \
-      NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos \
-      NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos \
-      NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend \
-      S_ROUTER_NIXOS=192.168.1.17 \
-      S_ROUTER_CLAB=192.168.1.19 \
-      S_ROUTER_TEST_CLIENTS=192.168.1.18 \
-      bash scripts/fs540-active-lab-dns-resolver-runtime-check.sh --live
-    '';
     sourcePaths = [
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent.nix"
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-020/intent-test-clients.nix"

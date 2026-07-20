@@ -1,0 +1,1 @@
+../shared/test-active-lab-runtime-artifact-sms-sit-boundary.sh

@@ -27,8 +27,4 @@
       evidenceBoundary = "source-stub-only";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-    "tests/test-active-lab-runtime-artifact-sms-sit-boundary.sh"
-  ];
 }

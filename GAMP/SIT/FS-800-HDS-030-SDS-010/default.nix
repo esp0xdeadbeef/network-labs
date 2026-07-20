@@ -11,15 +11,6 @@
     };
   };
   evidence = {
-    command = ''
-      network_labs_path="''${PWD}";
-      bash tests/FS-800-HDS-030-SDS-010-SMS-010-pppoe-provider-side-source.sh &&
-      (cd ../network-control-plane-model && NETWORK_LABS_PATH="''${network_labs_path}" NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-800-HDS-030-SDS-010-SMS-010-pppoe-service-interface-contract.sh) &&
-      (cd ../network-renderer-containerlab-linux-backend &&
-        NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs800-hds030-sds010-sms010-target-host-bridge-scope.sh &&
-        NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs800-hds030-sds010-sms010-pppoe-artifacts.sh) &&
-      bash tests/FS-800-HDS-030-SDS-010-SIT-live-pppoe-session-markers.sh
-    '';
     observedResult = "OK live on 2026-06-29: focused network-labs source test, CPM service-interface contract, CLAB renderer target-host bridge-scope test, CLAB renderer PPPoE artifact/link test, and bash tests/FS-800-HDS-030-SDS-010-SIT-live-pppoe-session-markers.sh pass; active-lab s-router-nixos and s-router-clab expose provider/customer PPPoE records and provider-side PPPoE server/runtime processes are active";
   };
 }

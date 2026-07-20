@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-800-HDS-010-SDS-010-SMS-020.sh";
-    focusedTest = "tests/FS-800-HDS-010-SDS-010-SMS-020.sh";
     observedResult = "8/8 SMS construction predicates PASS: offline topology checks, illegal bypass edge detection (5 edge classes), deterministic diagnostics, CPM stagePath and invalidPathCount, runtime targets, both seeded negatives. Evidence file: GAMP/SMT/FS-800-HDS-010-SDS-010-SMS-020-online-eval.txt";
   };
 }

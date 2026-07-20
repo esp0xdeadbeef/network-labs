@@ -12,7 +12,7 @@ preservation per SMS predicates MR1-MR4 and Seeded Negative SN1.
 
 - `intent.nix` — mini topology with co-located client+mgmt tenants
 - `default.nix` — metadata
-- Focused test: `tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh`
+- Focused test: `tests/FS-320-HDS-010-SDS-010-SMS-010.sh`
 
 No shared files (mini-smt/default.nix, mini-smt/tests.nix, tests/test.sh)
 were edited. Row-local files only per GAMP/SMT/README.md shared-file policy.
@@ -21,7 +21,7 @@ were edited. Row-local files only per GAMP/SMT/README.md shared-file policy.
 
 ```sh
 # Run the focused structural test directly
-bash tests/FS-320-HDS-010-SDS-010-SMS-010-layout-preservation.sh
+bash tests/FS-320-HDS-010-SDS-010-SMS-010.sh
 ```
 
 ## Evidence

@@ -12,7 +12,7 @@ Row-local mini-SMT source for the compiler behavior source audit module.
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-010-SMS-030.sh`
+`tests/FS-030-HDS-010-SDS-010-SMS-030.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compiler-behavior-source-audit.md):
 1. Iterates over all behavior-creating compiler output fields, asserts each carries `sourceClass: "user-intent"`
@@ -35,8 +35,8 @@ runtime-target shape.
 ## 2026-07-04 Verification
 
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-030` passed.
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash ../network-compiler/tests/test-FS-030-HDS-010-SDS-010-SMS-030.sh` passed inside the live wrapper, proving missing audit, non-intent audit, and non-compiler-authority seeded negatives fail closed with `E_COMPILER_BEHAVIOR_SOURCE_AUDIT`.
-- `../network-codex-agent/scripts/smt-live-FS-030-HDS-010-SDS-010-SMS-030.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash ../network-compiler/tests/FS-030-HDS-010-SDS-010-SMS-030.sh` passed inside the live wrapper, proving missing audit, non-intent audit, and non-compiler-authority seeded negatives fail closed with `E_COMPILER_BEHAVIOR_SOURCE_AUDIT`.
+- `../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-030.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
 - Evidence directory:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-010-SMS-030/20260704T041126Z`.
 - Runtime target counts were `s-router-nixos=5`, `s-router-clab=5`, and

@@ -11,7 +11,6 @@
       traceId = "FS-860-HDS-010-SDS-010-SMS-030";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-860-HDS-010-SDS-010-SMS-030/intent.nix";
-      test = "../network-codex-agent/scripts/smt-live-FS-860-HDS-010-SDS-010-SMS-030.sh";
       expectedRuntimeTargets = {
         "s-router-nixos" = 5;
         "s-router-clab" = 5;
@@ -20,8 +19,4 @@
       maxRuntimeTargets = 5;
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-    "tests/test-active-lab-runtime-artifact-sms-sit-boundary.sh"
-  ];
 }

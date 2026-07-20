@@ -20,9 +20,6 @@
   };
   evidence = {
     owningRepo = "network-codex-agent";
-    focusedTest = "tests/FS-830-HDS-010-SDS-010-SMS-040.sh";
-    liveScript = "../network-codex-agent/scripts/smt-live-FS-830-HDS-010-SDS-010-SMS-040.sh";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-830-HDS-010-SDS-010-SMS-040";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
     verifiedAt = "pending active-lab runtime artifact verification";

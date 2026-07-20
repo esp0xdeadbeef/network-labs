@@ -11,11 +11,7 @@
       traceId = "FS-690-HDS-010-SDS-010-SMS-040";
       kind = "source-reference";
       sourcePath = "GAMP/SMT/FS-690-HDS-010-SDS-010-SMS-040/intent.nix";
-      test = "tests/test-gamp-canonical-sms-mirror.sh";
       maxRuntimeTargets = 0;
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }

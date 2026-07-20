@@ -11,10 +11,10 @@ and tenant reachability stays delegated to downstream FS-250/CPM authority.
 
 Current evidence, 2026-07-04:
 
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-050-SMS-010.sh`
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`
   in `network-compiler`.
 - `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` in `network-labs`.
-- `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/smt-live-FS-030-HDS-010-SDS-050-SMS-010.sh`
+- `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`
   in `network-codex-agent`.
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-050-SMS-010`
   in `network-labs`; offline verifier was skipped, the live wrapper passed,

@@ -1,0 +1,1 @@
+../shared/test-fs880-lease-namespace-source-contract.sh

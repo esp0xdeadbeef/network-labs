@@ -28,7 +28,4 @@
       evidenceBoundary = "construction-only";
     };
   };
-  templateTests = [
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-  ];
 }

@@ -1,66 +1,91 @@
+let
+  platformBindingCategories = [
+    "interfaceIdentity"
+    "deployment"
+    "secretDelivery"
+    "lifecycle"
+    "backend"
+  ];
+
+  mkSource =
+    {
+      traceId,
+      rendererTarget,
+      sourcePath,
+      expectedTargetNames,
+    }:
+    {
+      inherit
+        traceId
+        rendererTarget
+        sourcePath
+        expectedTargetNames
+        ;
+      kind = "replacement-cpm-artifact";
+      replacementContract = "network-control-plane-artifact/v1";
+      declaredFirstActiveBoundary = "network-realization-model";
+      maxRuntimeTargets = builtins.length expectedTargetNames;
+      platformBindingBundle = {
+        normalized = true;
+        categoryNames = platformBindingCategories;
+      };
+    };
+in
 {
   layer = "SMS";
   traceId = "FS-166-HDS-010-SDS-010-SMS-900";
   parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
-  purpose = "Renderer-entry mini POC source input templates.";
+  purpose = "Controlled replacement-CPM construction scenarios for canonical renderer input.";
   sourceInputs = {
-    "FS-166-HDS-010-SDS-010-SMS-901" = {
+    "FS-166-HDS-010-SDS-010-SMS-901" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";
-      kind = "renderer-input";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-cpm.nix";
-      test = "../network-codex-agent/scripts/smt-live-FS-166-HDS-010-SDS-010-SMS-901.sh";
-      maxRuntimeTargets = 1;
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-single.nix";
+      expectedTargetNames = [ "poc-router" ];
     };
 
-    "FS-166-HDS-010-SDS-010-SMS-902" = {
+    "FS-166-HDS-010-SDS-010-SMS-902" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-902";
-      kind = "renderer-input";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/runtime-nixos-p2p-cpm.nix";
-      test = "tests/test-active-lab-mini-smt-runtime-nixos-p2p-renderer-input.sh";
-      maxRuntimeTargets = 2;
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-p2p.nix";
+      expectedTargetNames = [
+        "edge-a"
+        "edge-b"
+      ];
     };
 
-    "FS-166-HDS-010-SDS-010-SMS-903" = {
+    "FS-166-HDS-010-SDS-010-SMS-903" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-903";
-      kind = "renderer-input";
-      rendererTarget = "nixos-clients";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-access-endpoint-cpm.nix";
-      test = "tests/test-active-lab-mini-smt-renderer-nixos-clients-only.sh";
-      maxRuntimeTargets = 1;
+      rendererTarget = "access-endpoint-nixos";
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/access-endpoint.nix";
+      expectedTargetNames = [ "poc-client" ];
     };
 
-    "FS-166-HDS-010-SDS-010-SMS-904" = {
+    "FS-166-HDS-010-SDS-010-SMS-904" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-904";
-      kind = "renderer-input";
       rendererTarget = "clab";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-clab-cpm.nix";
-      test = "tests/test-active-lab-mini-smt-renderer-clab-only.sh";
-      maxRuntimeTargets = 2;
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/clab-p2p.nix";
+      expectedTargetNames = [
+        "edge-a"
+        "edge-b"
+      ];
     };
 
-    "FS-166-HDS-010-SDS-010-SMS-905" = {
+    "FS-166-HDS-010-SDS-010-SMS-905" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-905";
-      kind = "renderer-input";
       rendererTarget = "wireguard";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/wireguard-provider-contract.nix";
-      test = "tests/test-active-lab-mini-smt-renderer-wireguard-only.sh";
-      maxRuntimeTargets = 1;
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/wireguard.nix";
+      expectedTargetNames = [ "wireguard-egress" ];
     };
 
-    "FS-166-HDS-010-SDS-010-SMS-906" = {
+    "FS-166-HDS-010-SDS-010-SMS-906" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-906";
-      kind = "renderer-input";
       rendererTarget = "nebula";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix";
-      test = "tests/test-active-lab-mini-smt-renderer-nebula-only.sh";
-      maxRuntimeTargets = 2;
+      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nebula.nix";
+      expectedTargetNames = [
+        "lab-client-nebula"
+        "lab-lighthouse"
+      ];
     };
   };
-  templateTests = [
-    "tests/test-gamp-row-source-stubs.sh"
-    "tests/test-gamp-sds-sms-template-mapping.sh"
-    "tests/test-active-lab-mini-smt-sms-input-templates.sh"
-  ];
 }

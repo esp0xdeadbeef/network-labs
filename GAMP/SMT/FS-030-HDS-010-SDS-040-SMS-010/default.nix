@@ -11,10 +11,8 @@
   };
   evidence = {
     owningRepo = "network-compiler";
-    focusedTest = "tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh";
     smtRow = "GAMP/SMT/README.md row for FS-030-HDS-010-SDS-040-SMS-010";
     status = "OK";
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-040-SMS-010";
     maxRuntimeTargets = 5;
     observedResult = "2026-07-04 live mini-SMT passed: compiler construction predicates passed, offline verifier was skipped, s-router-nixos and s-router-clab each emitted and enumerated five full-trace runtime targets, s-router-test-clients emitted zero runtime targets, and pinned s-router-nixos build passed";
     evidenceDirs = [

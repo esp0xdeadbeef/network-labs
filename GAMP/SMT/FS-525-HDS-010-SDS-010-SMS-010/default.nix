@@ -48,8 +48,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = "NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs bash tests/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.sh";
-    focusedTest = "network-compiler/tests/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.sh";
     observedResult = "compiler construction source implemented; downstream NFM, CPM, renderer equivalence, and cold-stage live validation remain NOT OK";
   };
 }

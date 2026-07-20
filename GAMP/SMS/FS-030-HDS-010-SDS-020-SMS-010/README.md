@@ -13,7 +13,7 @@ path. It mirrors the canonical `network-codex-agent` SMS so lab-source coverage
 cannot silently omit the stage-topology enforcement trace.
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh`.
+`tests/FS-030-HDS-010-SDS-020-SMS-010.sh`.
 
 The current live evidence is recorded in the SMT/SIT rows after the
 row-specific `network-codex-agent` live wrapper and
@@ -22,9 +22,9 @@ the locked active-lab hosts.
 
 Latest validation, 2026-07-04:
 
-- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-FS-030-HDS-010-SDS-020-SMS-010.sh`
+- `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-020-SMS-010.sh`
   passed in `network-compiler`.
-- `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/smt-live-FS-030-HDS-010-SDS-020-SMS-010.sh`
+- `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-030-HDS-010-SDS-020-SMS-010.sh`
   passed in `network-codex-agent`; evidence root:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-020-SMS-010/20260704T044440Z`.
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-020-SMS-010`

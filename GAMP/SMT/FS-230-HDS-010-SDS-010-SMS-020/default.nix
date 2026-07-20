@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-fs230-hds010-sds010-sms020-public-ingress-translation-binding.sh";
-    focusedTest = "tests/test-fs230-hds010-sds010-sms020-public-ingress-translation-binding.sh";
     observedResult = "PASS: every fixture row using translation binds explicit translationMode (napt), sourcePreservation (rewritten), and asymmetricRouting (false); seeded negatives SN1 (missing translationMode) and SN2 (hairpin without hairpinAuthorized) fail closed with correct diagnostics";
   };
 }

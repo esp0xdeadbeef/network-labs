@@ -14,7 +14,6 @@
     };
   };
   evidence = {
-    command = "tests/test-gamp-sds-sms-template-mapping.sh";
     sourcePaths = [
       "GAMP/SMT/FS-705-HDS-010-SDS-010-SMS-010/default.nix"
       "GAMP/SMT/FS-705-HDS-010-SDS-010-SMS-020/default.nix"

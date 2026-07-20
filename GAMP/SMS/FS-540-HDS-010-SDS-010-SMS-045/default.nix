@@ -17,14 +17,9 @@
       traceId = "FS-540-HDS-010-SDS-010-SMS-045";
       kind = "intent-source";
       sourcePath = "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/intent.nix";
-      test = "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh";
       maxRuntimeTargets = 5;
     };
   };
-  templateTests = [
-    "tests/FS-540-HDS-010-SDS-010-SMS-045-prod-like-access-recursive-dns.sh"
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
   evidence = {
     sourcePaths = [
       "GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/intent.nix"

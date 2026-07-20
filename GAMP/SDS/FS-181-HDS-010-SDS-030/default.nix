@@ -10,7 +10,4 @@
       evidenceBoundary = "source-stub-only";
     };
   };
-  templateTests = [
-    "tests/test-gamp-canonical-sms-mirror.sh"
-  ];
 }

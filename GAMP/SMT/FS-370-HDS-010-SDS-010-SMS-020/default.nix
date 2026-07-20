@@ -11,7 +11,6 @@
   };
   evidence = {
     owningRepo = "network-forwarding-model";
-    focusedTest = "tests/fs-370-hds-010-sds-010-sms-020.sh";
     activeLabContext = "tests/run-active-lab-mini-smt.sh FS-370-HDS-010-SDS-010-SMS-020";
     smtRow = "GAMP/SMT/README.md row 227";
     status = "OK";

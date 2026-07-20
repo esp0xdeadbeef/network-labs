@@ -10,7 +10,6 @@
     };
   };
   evidence = {
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-040-SMS-010";
     lockedNetworkLabsRev = "6c85977ee6dbff2148a141e84988754fec7dba15";
     sourcePaths = [
       "GAMP/SMT/FS-030-HDS-010-SDS-040-SMS-010/intent.nix"

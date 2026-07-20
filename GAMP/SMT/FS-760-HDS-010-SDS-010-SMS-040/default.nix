@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/test-FS-760-HDS-010-SDS-010-SMS-040-receiver-tenant-management-denial.sh";
-    focusedTest = "tests/test-FS-760-HDS-010-SDS-010-SMS-040-receiver-tenant-management-denial.sh";
     observedResult = "Focused SMS-040 construction test PASS (8/8 predicates, 2/2 seeded negatives active). Row-local structural test PASS (10/10). Aggregate hat-printer-receiver-policy-source test PASS. Mini-SMT list: 0 runtime targets (construction-only). Pinned nixos-shell build PASS.";
   };
 }

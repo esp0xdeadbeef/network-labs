@@ -11,7 +11,6 @@
     };
   };
   evidence = {
-    command = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-030-SMS-010";
     observedResult = "2026-07-04 live closure passed against locked active-lab artifacts on s-router-nixos, s-router-clab, and s-router-test-clients; offline verifier skipped; pinned s-router-nixos build passed";
     lockedNetworkLabsRev = "e755869dd1d11a3a96d08c5ea933ba23456150c7";
     evidenceDirs = [

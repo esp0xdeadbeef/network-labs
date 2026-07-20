@@ -1,1 +1,10 @@
-import ../FS-166-HDS-010-SDS-010-SMS-900/renderer-input/minimal-nebula-cpm.nix
+{
+  canonicalSmsStub = {
+    traceId = "FS-166-HDS-010-SDS-010-SMS-906";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-906-nebula-replacement.md";
+    titleSlug = "nebula-replacement";
+    evidenceBoundary = "source-stub-only";
+    runnable = false;
+    notRunnableReason = "No focused mini-SMT runner is registered for this canonical SMS trace.";
+  };
+}

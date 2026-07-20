@@ -1,0 +1,1 @@
+../shared/test-current-lab-selector.sh

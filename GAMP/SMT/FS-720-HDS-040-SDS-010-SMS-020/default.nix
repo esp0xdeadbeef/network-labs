@@ -15,8 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    command = null;
-    focusedTest = "tests/test-fs720-hds040-sds010-sms020-clab-client-origin-probes.sh";
     observedResult = "canonical SMS mirrored from network-codex-agent; construction test registered below";
   };
 }

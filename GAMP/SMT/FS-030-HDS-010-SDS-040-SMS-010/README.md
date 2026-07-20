@@ -8,7 +8,7 @@ Row-local mini-SMT source for the compiler platform independence contract module
 ## Construction Evidence
 
 The authoritative construction test lives in `network-compiler`:
-`tests/test-FS-030-HDS-010-SDS-040-SMS-010.sh`
+`tests/FS-030-HDS-010-SDS-040-SMS-010.sh`
 
 Per the SMS Construction Handoff (GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010-platform-independence-contract.md):
 - Refuses intent payload fields carrying downstream side-channel material or realization technology selectors

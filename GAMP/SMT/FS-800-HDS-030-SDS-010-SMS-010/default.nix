@@ -15,8 +15,6 @@
   };
   status = "OK";
   evidence = {
-    command = "bash tests/FS-800-HDS-030-SDS-010-SMS-010-pppoe-provider-side-source.sh";
-    focusedTest = "tests/FS-800-HDS-030-SDS-010-SMS-010-pppoe-provider-side-source.sh";
     observedResult = "network-labs HAT/SAT provider-access source fixtures carry PPPoE provider records, isolated HAT bridges, provider-side service records, credential references, and no DHCP/SLAAC fallback; source fixture evidence only, not live HAT/SAT session proof";
   };
 }
