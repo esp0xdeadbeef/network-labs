@@ -1,7 +1,8 @@
-# SIT Source Stub: FS-162-HDS-010-SDS-040
+# SIT Boundary: FS-162-HDS-010-SDS-040
 
-Status: NOT OK - source stub only.
+Status: NOT OK - no integrated artifact evidence.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+The required focused proof is construction-only and does not require a live
+OpenConfig device. This SIT row remains NOT OK until a separate integrated
+artifact predicate is specified and executed; the construction row shall not
+promote itself to SIT.

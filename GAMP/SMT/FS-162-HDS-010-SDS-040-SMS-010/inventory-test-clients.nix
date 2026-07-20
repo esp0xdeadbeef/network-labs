@@ -3,8 +3,8 @@
     traceId = "FS-162-HDS-010-SDS-040-SMS-010";
     canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md";
     renderer = "test-clients";
-    scope = "canonical-sms-source-stub";
-    evidenceBoundary = "source-stub-only";
+    scope = "isolated-fs230-cpm-comparison-context";
+    evidenceBoundary = "construction-only";
   };
   clients = { };
   deploymentHosts = {
