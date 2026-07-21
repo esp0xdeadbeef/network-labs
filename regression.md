@@ -1,6 +1,6 @@
 # network-labs Regression State
 
-Last updated: 2026-05-14.
+Last updated: 2026-07-21.
 
 This file records current verified state only. `README.md` and `AGENTS.md` are
 leading: examples and labs must stay standalone model inputs. Do not solve LOC
@@ -8,6 +8,15 @@ failures by introducing helper imports, parent-relative imports, generated JSON
 blobs, or shared example fragments.
 
 ## Fixed and Locally Verified
+
+- `FS-800-HDS-020-SDS-021-SMS-010` now keeps the selected
+  `s-router-test-clients` SOPS source consistent with its declared
+  `hat-pppoe-username` and `hat-pppoe-password` keys. The encrypted source had
+  retained only SAT-prefixed keys, so `sops-install-secrets` rejected every
+  cold-staged SMT/SIT client build before runtime. The existing SMS already
+  required the generic HAT keys; the encrypted fixture was corrected without
+  exposing plaintext. The focused FS-800 and FS-820 secret-ownership tests
+  pass.
 
 - FS-540-HDS-010-SDS-010-SMS-045 now declares its supported runtime hosts.
   The selector emits both a no-runtime inventory and a trace-tagged no-runtime
