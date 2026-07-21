@@ -1,1 +1,0 @@
-lib/run-construction-sms.sh

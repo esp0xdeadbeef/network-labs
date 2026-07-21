@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-960-HDS-010-SDS-010-SMS-080
-# GAMP-SCOPE: network-labs standard test runner
+# Repository-wide test runner. SMS entrypoints remain trace-derived dispatchers.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
