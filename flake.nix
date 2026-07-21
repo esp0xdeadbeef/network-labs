@@ -160,6 +160,10 @@
                 "bundle"
                 "bindings"
               ];
+              fs540PeerComparison = builtins.removeAttrs scheme.fs540PeerComparison [
+                "bundle"
+                "bindings"
+              ];
               inherit (scheme) rendererBoundaryConformance;
             }
           );

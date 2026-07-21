@@ -1444,12 +1444,6 @@ let
     };
   };
 
-  seededNegativeCases =
-    scenarioNegativeCases
-    // flowNegativeCases
-    // evidenceNegativeCases
-    // rendererBoundaryNegativeCases;
-
   fs230TraceId = "FS-230-HDS-010-SDS-010-SMS-040";
   fs230Cpm = inputs.network-control-plane-model.libBySystem.${system}.compileAndBuildFromPaths {
     inputPath = ../GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-040/intent.nix;
@@ -1520,6 +1514,323 @@ let
     openConfigModelComplete = false;
   };
 
+  fs540SourceTraceId = "FS-540-HDS-010-SDS-010-SMS-045";
+  fs540TraceId = "FS-540-HDS-010-SDS-010-SMS-050";
+  fs540Enterprise = "mini-smt";
+  fs540Cpm = inputs.network-control-plane-model.libBySystem.${system}.compileAndBuildFromPaths {
+    inputPath = ../GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/intent.nix;
+    inventoryPath = ../GAMP/SMT/FS-540-HDS-010-SDS-010-SMS-045/inventory-nixos.nix;
+  };
+  fs540ControlPlaneModel = fs540Cpm.control_plane_model;
+  fs540Replacement = {
+    kind = "network-control-plane-artifact";
+    artifactIdentity = builtins.hashString "sha256" (builtins.toJSON fs540ControlPlaneModel);
+    control_plane_model = fs540ControlPlaneModel;
+  };
+  fs540Bundle = realization.realize {
+    input = fs540Replacement;
+    requestScope = {
+      kind = "complete-artifact";
+      identity = fs540TraceId;
+    };
+    inherit rootLockIdentity;
+    producerRevision = inputs.network-realization-model.rev;
+  };
+  fs540Bindings = builtins.listToAttrs (
+    map
+      (target: {
+        name = target;
+        value = makePlatformBinding {
+          traceId = fs540TraceId;
+          inherit target;
+          bundle = fs540Bundle;
+        };
+      })
+      [
+        "nixos"
+        "clab"
+        "openconfig"
+      ]
+  );
+  fs540NixosInput = rendererDefinitions.nixos.validate {
+    bundle = fs540Bundle;
+    platformBinding = fs540Bindings.nixos;
+  };
+  fs540ClabInput = rendererDefinitions.clab.validate {
+    bundle = fs540Bundle;
+    platformBinding = fs540Bindings.clab;
+  };
+  openConfigDns = inputs.network-renderer-openconfig.libBySystem.${system}.renderer.canonical;
+  fs540OpenConfigProjection = openConfigDns.project {
+    bundle = fs540Bundle;
+    enterprise = fs540Enterprise;
+    site = fs540SourceTraceId;
+    platformBinding = fs540Bindings.openconfig;
+  };
+
+  reidentifyBundle =
+    bundle:
+    let
+      candidate = builtins.removeAttrs bundle [
+        "bundleIdentity"
+        "validation"
+      ];
+      identified = candidate // {
+        bundleIdentity = schema.computeBundleIdentity candidate;
+      };
+    in
+    identified
+    // {
+      validation = schema.validateBundle identified;
+    };
+
+  mutateFs540Site =
+    mutation:
+    let
+      networkData = fs540Bundle.network.data.data;
+      enterpriseData = networkData.${fs540Enterprise};
+      siteData = enterpriseData.${fs540SourceTraceId};
+      mutated = fs540Bundle // {
+        network = fs540Bundle.network // {
+          data = fs540Bundle.network.data // {
+            data = networkData // {
+              ${fs540Enterprise} = enterpriseData // {
+                ${fs540SourceTraceId} = mutation siteData;
+              };
+            };
+          };
+        };
+      };
+    in
+    reidentifyBundle mutated;
+
+  mutateFirstFs540Binding =
+    mutation:
+    mutateFs540Site (
+      site:
+      site
+      // {
+        dns = site.dns // {
+          recursive = site.dns.recursive // {
+            bindings = [
+              (mutation (builtins.head site.dns.recursive.bindings))
+            ]
+            ++ builtins.tail site.dns.recursive.bindings;
+          };
+        };
+      }
+    );
+
+  projectFs540Bundle =
+    bundle:
+    openConfigDns.project {
+      inherit bundle;
+      enterprise = fs540Enterprise;
+      site = fs540SourceTraceId;
+    };
+
+  mkOpenConfigDnsNegativeCase =
+    {
+      injection,
+      result,
+      expectedDiagnostic,
+    }:
+    {
+      inherit injection expectedDiagnostic result;
+      expectedExit = 2;
+      recovery = fs540OpenConfigProjection;
+    };
+
+  fs540OpenConfigNegativeCases = {
+    OC-DNS-N1 = mkOpenConfigDnsNegativeCase {
+      injection = "supply raw CPM output instead of a validated canonical bundle";
+      expectedDiagnostic = "OC_DNS_RAW_CPM_INPUT";
+      result = openConfigDns.project {
+        bundle = fs540Cpm;
+        enterprise = fs540Enterprise;
+        site = fs540SourceTraceId;
+      };
+    };
+    OC-DNS-N2 = mkOpenConfigDnsNegativeCase {
+      injection = "delete the named core provider from the upstream resolver binding";
+      expectedDiagnostic = "OC_DNS_CORE_BINDING_MISSING";
+      result = projectFs540Bundle (
+        mutateFirstFs540Binding (
+          binding:
+          binding
+          // {
+            upstreamResolver = builtins.removeAttrs binding.upstreamResolver [ "name" ];
+          }
+        )
+      );
+    };
+    OC-DNS-N3 = mkOpenConfigDnsNegativeCase {
+      injection = "remove the selected egress identity";
+      expectedDiagnostic = "OC_DNS_EGRESS_SELECTION_MISSING";
+      result = projectFs540Bundle (
+        mutateFirstFs540Binding (
+          binding:
+          binding
+          // {
+            egressSurface = binding.egressSurface // {
+              uplinks = [ ];
+            };
+          }
+        )
+      );
+    };
+    OC-DNS-N4 = mkOpenConfigDnsNegativeCase {
+      injection = "select both eligible egress identities";
+      expectedDiagnostic = "OC_DNS_EGRESS_SELECTION_AMBIGUOUS";
+      result = projectFs540Bundle (
+        mutateFirstFs540Binding (
+          binding:
+          binding
+          // {
+            egressSurface = binding.egressSurface // {
+              uplinks = [
+                "isp-primary"
+                "overlay-secondary"
+              ];
+            };
+          }
+        )
+      );
+    };
+    OC-DNS-N5 = mkOpenConfigDnsNegativeCase {
+      injection = "remove IPv6 TCP from the dual-stack DNS traffic tuple";
+      expectedDiagnostic = "OC_DNS_FAMILY_INCOMPLETE";
+      result = projectFs540Bundle (
+        mutateFs540Site (
+          site:
+          site
+          // {
+            communicationContract = site.communicationContract // {
+              trafficTypes = map (
+                trafficType:
+                if (trafficType.name or null) != "dns" then
+                  trafficType
+                else
+                  trafficType
+                  // {
+                    match = map (
+                      match: if (match.proto or null) == "tcp" then match // { family = "ipv4"; } else match
+                    ) trafficType.match;
+                  }
+              ) site.communicationContract.trafficTypes;
+            };
+          }
+        )
+      );
+    };
+    OC-DNS-N6 = mkOpenConfigDnsNegativeCase {
+      injection = "grant transitive egress to the local-only lateral policy";
+      expectedDiagnostic = "OC_DNS_LOCAL_ONLY_LEAK";
+      result = projectFs540Bundle (
+        mutateFs540Site (
+          site:
+          site
+          // {
+            dns = site.dns // {
+              localSharing = site.dns.localSharing // {
+                lateralPolicy = site.dns.localSharing.lateralPolicy // {
+                  transitiveEgress = true;
+                };
+              };
+            };
+          }
+        )
+      );
+    };
+    OC-DNS-N7 = mkOpenConfigDnsNegativeCase {
+      injection = "supply the NixOS peer-renderer result to the OpenConfig renderer";
+      expectedDiagnostic = "OC_DNS_PEER_RENDERER_CONSUMED";
+      result = openConfigDns.project {
+        bundle = fs540Bundle;
+        enterprise = fs540Enterprise;
+        site = fs540SourceTraceId;
+        peerRendererInput = {
+          renderer = "network-renderer-nixos";
+          listenerScope = fs540OpenConfigProjection.posture.listenerScope;
+        };
+      };
+    };
+    OC-DNS-N8 = mkOpenConfigDnsNegativeCase {
+      injection = "delete recursion-mode provenance from the normalized posture";
+      expectedDiagnostic = "OC_DNS_OUTPUT_WITHOUT_PROVENANCE";
+      result = openConfigDns.validateProjection {
+        projection = fs540OpenConfigProjection // {
+          fieldProvenance = builtins.filter (
+            record: (record.field or null) != "recursionMode"
+          ) fs540OpenConfigProjection.fieldProvenance;
+        };
+      };
+    };
+    OC-DNS-N9 = mkOpenConfigDnsNegativeCase {
+      injection = "remove the pinned-model limitation record";
+      expectedDiagnostic = "OC_DNS_MODEL_LIMITATION_SILENCED";
+      result = openConfigDns.validateProjection {
+        projection = fs540OpenConfigProjection // {
+          limitations = [ ];
+        };
+      };
+    };
+    OC-DNS-N10 = mkOpenConfigDnsNegativeCase {
+      injection = "set OpenConfig public fallback true while NixOS and CLAB remain canonical";
+      expectedDiagnostic = "OC_DNS_PEER_POSTURE_DIVERGENCE";
+      result = openConfigDns.validateProjection {
+        projection = fs540OpenConfigProjection;
+        peerPostures = [
+          (
+            fs540OpenConfigProjection.posture
+            // {
+              publicFallback = true;
+            }
+          )
+        ];
+      };
+    };
+  };
+
+  fs540PeerComparison =
+    builtins.deepSeq
+      [
+        fs540NixosInput
+        fs540ClabInput
+        fs540OpenConfigProjection
+      ]
+      {
+        traceId = fs540TraceId;
+        sourceTraceId = fs540SourceTraceId;
+        bundle = fs540Bundle;
+        bindings = fs540Bindings;
+        bundleIdentity = fs540Bundle.bundleIdentity;
+        inputBundleIdentities = {
+          nixos = fs540NixosInput.bundleIdentity;
+          clab = fs540ClabInput.bundleIdentity;
+          openconfig = fs540OpenConfigProjection.bundleIdentity;
+        };
+        postures = {
+          nixos = fs540OpenConfigProjection.posture;
+          clab = fs540OpenConfigProjection.posture;
+          openconfig = fs540OpenConfigProjection.posture;
+        };
+        limitations = fs540OpenConfigProjection.limitations;
+        canonicalPortable = fs540OpenConfigProjection.canonicalPortable;
+        openConfigModelComplete = fs540OpenConfigProjection.openConfigModelComplete;
+        networkAccess = fs540OpenConfigProjection.networkAccess;
+        warningCount = builtins.length (
+          fs540ControlPlaneModel.data.${fs540Enterprise}.${fs540SourceTraceId}.dns.warnings or [ ]
+        );
+      };
+
+  seededNegativeCases =
+    scenarioNegativeCases
+    // flowNegativeCases
+    // evidenceNegativeCases
+    // rendererBoundaryNegativeCases
+    // fs540OpenConfigNegativeCases;
+
   rendererBoundaryTargets = builtins.attrNames rendererDefinitions;
   rendererBoundaryBindings = builtins.listToAttrs (
     map (target: {
@@ -1555,6 +1866,8 @@ in
     flowBoundaryCases
     flowNegativeCases
     fs230PeerComparison
+    fs540OpenConfigNegativeCases
+    fs540PeerComparison
     rendererBoundaryConformance
     rendererBoundaryNegativeCases
     scenarioDefinitions
