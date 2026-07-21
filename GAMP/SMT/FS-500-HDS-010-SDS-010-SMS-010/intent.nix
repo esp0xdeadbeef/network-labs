@@ -15,6 +15,7 @@
               uplinks = [ "internet-vlan4" ];
             };
             trafficType = "any";
+            returnBehavior = "stateful-return";
             priority = 100;
           }
         ];

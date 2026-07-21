@@ -3,8 +3,9 @@
 Status: NOT OK overall. Construction is OK; fresh cold-stage runtime evidence
 is not yet recorded.
 
-`replacement-artifacts/nixos-p2p.nix` is a conformant CPM replacement artifact
-for the exact target set `edge-a` and `edge-b`. The validation scheme executes
+The validation scheme constructs a conformant CPM replacement artifact for the
+exact target set `edge-a` and `edge-b` from the row-owned scenario definition.
+It executes
 the controlled skip acknowledgements, realization, schema release, normalized
 NixOS platform-binding validation, and NixOS canonical adapter.
 

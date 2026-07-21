@@ -2,16 +2,16 @@
 
 SIT integration container for FS-470-HDS-010-SDS-010 SMS-010 and sibling traces.
 
-**Evidence Boundary:** active-lab mini SMT/SIT for SMS-010; construction-only
-source for SMS-040.
+**Status:** NOT OK.
 
-Current focused command:
+SMS-010 has a canonical renderer construction test:
 
 ```sh
-tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010
+bash tests/FS-470-HDS-010-SDS-010-SMS-010.sh
 ```
 
-The SMS-010 input is the row-local renderer-input CPM fixture
-`GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix`.
-It verifies WireGuard provider-runtime import and materialization surfaces for
-one active-lab runtime target, not HAT/SAT acceptance.
+That command proves only the owning WireGuard renderer module. The former
+direct CPM-to-renderer mini-lab source is removed. SIT remains NOT OK until a
+controlled canonical-bundle scenario runs through realization, schema
+validation, platform-binding validation, renderer emission, and a fresh cold
+stage on the declared isolated substrates.

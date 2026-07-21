@@ -28,139 +28,184 @@ let
       hasProvider = pair ? provider && builtins.isAttrs pair.provider;
       hasCustomer = pair ? customer && builtins.isAttrs pair.customer;
       fallbackEnabled = pair ? fallback && pair.fallback == true;
-      opaqueTransport =
-        pair ? transportClassification && pair.transportClassification != "pppoe";
+      opaqueTransport = pair ? transportClassification && pair.transportClassification != "pppoe";
     in
-    if !hasProvider && !hasCustomer then {
-      ok = false;
-      diagnostic = "unpaired-pppoe-row";
-    } else if !hasProvider then {
-      ok = false;
-      diagnostic = "missing-provider-surface";
-    } else if !hasCustomer then {
-      ok = false;
-      diagnostic = "missing-customer-surface";
-    } else if fallbackEnabled then {
-      ok = false;
-      diagnostic = "fallback-enabled";
-    } else if opaqueTransport then {
-      ok = false;
-      diagnostic = "opaque-transport-classification";
-    } else {
-      ok = true;
-      diagnostic = null;
-    };
+    if !hasProvider && !hasCustomer then
+      {
+        ok = false;
+        diagnostic = "unpaired-pppoe-row";
+      }
+    else if !hasProvider then
+      {
+        ok = false;
+        diagnostic = "missing-provider-surface";
+      }
+    else if !hasCustomer then
+      {
+        ok = false;
+        diagnostic = "missing-customer-surface";
+      }
+    else if fallbackEnabled then
+      {
+        ok = false;
+        diagnostic = "fallback-enabled";
+      }
+    else if opaqueTransport then
+      {
+        ok = false;
+        diagnostic = "opaque-transport-classification";
+      }
+    else
+      {
+        ok = true;
+        diagnostic = null;
+      };
 
   p2pRouteResult =
     lab: route:
     let
       hasLink = route ? link && builtins.hasAttr route.link lab.links;
       endpoints = if hasLink then lab.links.${route.link}.endpoints else [ ];
-      sourceMatches =
-        builtins.filter
-          (endpoint: endpoint.target == route.sourceTarget)
-          endpoints;
-      nextHopMatches =
-        builtins.filter
-          (endpoint:
-            (route ? via4 && endpoint ? address4 && endpoint.address4 == route.via4)
-            || (route ? via6 && endpoint ? address6 && endpoint.address6 == route.via6))
-          endpoints;
+      sourceMatches = builtins.filter (endpoint: endpoint.target == route.sourceTarget) endpoints;
+      nextHopMatches = builtins.filter (
+        endpoint:
+        (route ? via4 && endpoint ? address4 && endpoint.address4 == route.via4)
+        || (route ? via6 && endpoint ? address6 && endpoint.address6 == route.via6)
+      ) endpoints;
       nextHopIsSource =
         nextHopMatches != [ ]
         && sourceMatches != [ ]
         && (builtins.head nextHopMatches).target == (builtins.head sourceMatches).target;
     in
-    if !hasLink then {
-      ok = false;
-      diagnostic = "p2p-link-missing";
-    } else if sourceMatches == [ ] then {
-      ok = false;
-      diagnostic = "p2p-source-endpoint-missing";
-    } else if nextHopMatches == [ ] then {
-      ok = false;
-      diagnostic = "p2p-next-hop-not-on-link";
-    } else if nextHopIsSource then {
-      ok = false;
-      diagnostic = "p2p-next-hop-is-self";
-    } else {
-      ok = true;
-      diagnostic = null;
-    };
+    if !hasLink then
+      {
+        ok = false;
+        diagnostic = "p2p-link-missing";
+      }
+    else if sourceMatches == [ ] then
+      {
+        ok = false;
+        diagnostic = "p2p-source-endpoint-missing";
+      }
+    else if nextHopMatches == [ ] then
+      {
+        ok = false;
+        diagnostic = "p2p-next-hop-not-on-link";
+      }
+    else if nextHopIsSource then
+      {
+        ok = false;
+        diagnostic = "p2p-next-hop-is-self";
+      }
+    else
+      {
+        ok = true;
+        diagnostic = null;
+      };
 
   reachabilityDecisionResult =
     relation:
-    if !(relation ? id) || relation.id != "${reachabilityTraceId}__mini-allow-client-to-testnet" then {
-      ok = false;
-      diagnostic = "reachability-relation-id-missing";
-      decisionClass = null;
-    } else if !(relation ? action) then {
-      ok = false;
-      diagnostic = "reachability-action-missing";
-      decisionClass = null;
-    } else if relation.action == "allow" then {
-      ok = true;
-      diagnostic = null;
-      decisionClass = "allowed";
-    } else if relation.action == "deny" then {
-      ok = true;
-      diagnostic = null;
-      decisionClass = "denied";
-    } else {
-      ok = false;
-      diagnostic = "reachability-action-unsupported";
-      decisionClass = null;
-    };
+    if !(relation ? id) || relation.id != "${reachabilityTraceId}__mini-allow-client-to-testnet" then
+      {
+        ok = false;
+        diagnostic = "reachability-relation-id-missing";
+        decisionClass = null;
+      }
+    else if !(relation ? action) then
+      {
+        ok = false;
+        diagnostic = "reachability-action-missing";
+        decisionClass = null;
+      }
+    else if relation.action == "allow" then
+      {
+        ok = true;
+        diagnostic = null;
+        decisionClass = "allowed";
+      }
+    else if relation.action == "deny" then
+      {
+        ok = true;
+        diagnostic = null;
+        decisionClass = "denied";
+      }
+    else
+      {
+        ok = false;
+        diagnostic = "reachability-action-unsupported";
+        decisionClass = null;
+      };
 
   laneEgressBindingResult =
     relation:
-    if !(relation ? id) || relation.id != "${laneEgressBindingTraceId}__mini-client-to-testnet-uplink" then {
-      ok = false;
-      diagnostic = "lane-egress-relation-id-missing";
-    } else if !(relation ? action) then {
-      ok = false;
-      diagnostic = "lane-egress-action-missing";
-    } else if relation.action == "allow" then {
-      ok = true;
-      diagnostic = null;
-      expectedLaneKind = "access-uplink";
-    } else {
-      ok = false;
-      diagnostic = "lane-egress-action-unsupported";
-    };
+    if
+      !(relation ? id) || relation.id != "${laneEgressBindingTraceId}__mini-client-to-testnet-uplink"
+    then
+      {
+        ok = false;
+        diagnostic = "lane-egress-relation-id-missing";
+      }
+    else if !(relation ? action) then
+      {
+        ok = false;
+        diagnostic = "lane-egress-action-missing";
+      }
+    else if relation.action == "allow" then
+      {
+        ok = true;
+        diagnostic = null;
+        expectedLaneKind = "access-uplink";
+      }
+    else
+      {
+        ok = false;
+        diagnostic = "lane-egress-action-unsupported";
+      };
 
   decisionReasonDiagnosticResult =
     path:
     let
       hasRelationId = path ? relationId && builtins.isString path.relationId;
       hasAction = path ? action && builtins.isString path.action;
-      validId = hasRelationId && path.relationId == "${decisionReasonTraceId}__mini-decision-reason-diagnostic";
+      validId =
+        hasRelationId && path.relationId == "${decisionReasonTraceId}__mini-decision-reason-diagnostic";
     in
-    if !hasRelationId then {
-      ok = false;
-      diagnostic = "missing-evidence";
-      reasonType = "missingEvidence";
-    } else if !hasAction then {
-      ok = false;
-      diagnostic = "missing-action-field";
-      reasonType = null;
-    } else if !validId then {
-      ok = false;
-      diagnostic = "missing-evidence";
-      reasonType = "missingEvidence";
-    } else if path.action == "allow" then {
-      ok = true;
-      diagnostic = null;
-      reasonType = null;
-    } else if path.action == "deny" || path.action == "reject" then {
-      ok = false;
-      diagnostic = "contract-contradiction";
-      reasonType = "contractContradiction";
-    } else {
-      ok = false;
-      diagnostic = "unsupported-action";
-      reasonType = null;
-    };
+    if !hasRelationId then
+      {
+        ok = false;
+        diagnostic = "missing-evidence";
+        reasonType = "missingEvidence";
+      }
+    else if !hasAction then
+      {
+        ok = false;
+        diagnostic = "missing-action-field";
+        reasonType = null;
+      }
+    else if !validId then
+      {
+        ok = false;
+        diagnostic = "missing-evidence";
+        reasonType = "missingEvidence";
+      }
+    else if path.action == "allow" then
+      {
+        ok = true;
+        diagnostic = null;
+        reasonType = null;
+      }
+    else if path.action == "deny" || path.action == "reject" then
+      {
+        ok = false;
+        diagnostic = "contract-contradiction";
+        reasonType = "contractContradiction";
+      }
+    else
+      {
+        ok = false;
+        diagnostic = "unsupported-action";
+        reasonType = null;
+      };
 
   dnsResolverConfigResult =
     relation:
@@ -174,117 +219,160 @@ let
       isDnsTraffic = (relation.trafficType or null) == "dns";
       pointsAtTestnet = (to.uplinks or [ ]) == [ "testnet-vlan4" ];
     in
-    if !(builtins.elem relationId dnsResolverRelationIds) then {
-      ok = false;
-      diagnostic = "dns-resolver-relation-id-missing";
-    } else if !(relation ? action) then {
-      ok = false;
-      diagnostic = "dns-resolver-action-missing";
-    } else if relation.action != "allow" then {
-      ok = false;
-      diagnostic = "dns-resolver-action-unsupported";
-    } else if isClientToService && !(
-      from.kind or null == "tenant"
-      && from.name or null == "client"
-      && to.kind or null == "service"
-      && to.name or null == "access-dns"
-      && isDnsTraffic
-    ) then {
-      ok = false;
-      diagnostic = "dns-resolver-client-service-policy-missing";
-    } else if isAccessToCore && !(
-      from.kind or null == "service"
-      && from.name or null == "access-dns"
-      && to.kind or null == "service"
-      && to.name or null == "core-dns"
-      && isDnsTraffic
-    ) then {
-      ok = false;
-      diagnostic = "dns-resolver-core-binding-missing";
-    } else if isCoreToTestnet && !(
-      from.kind or null == "service"
-      && from.name or null == "core-dns"
-      && to.kind or null == "external"
-      && pointsAtTestnet
-      && isDnsTraffic
-    ) then {
-      ok = false;
-      diagnostic = "dns-resolver-core-egress-policy-missing";
-    } else {
-      ok = true;
-      diagnostic = null;
-    };
+    if !(builtins.elem relationId dnsResolverRelationIds) then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-relation-id-missing";
+      }
+    else if !(relation ? action) then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-action-missing";
+      }
+    else if relation.action != "allow" then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-action-unsupported";
+      }
+    else if
+      isClientToService
+      && !(
+        from.kind or null == "tenant"
+        && from.name or null == "client"
+        && to.kind or null == "service"
+        && to.name or null == "access-dns"
+        && isDnsTraffic
+      )
+    then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-client-service-policy-missing";
+      }
+    else if
+      isAccessToCore
+      && !(
+        from.kind or null == "service"
+        && from.name or null == "access-dns"
+        && to.kind or null == "service"
+        && to.name or null == "core-dns"
+        && isDnsTraffic
+      )
+    then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-core-binding-missing";
+      }
+    else if
+      isCoreToTestnet
+      && !(
+        from.kind or null == "service"
+        && from.name or null == "core-dns"
+        && to.kind or null == "external"
+        && pointsAtTestnet
+        && isDnsTraffic
+      )
+    then
+      {
+        ok = false;
+        diagnostic = "dns-resolver-core-egress-policy-missing";
+      }
+    else
+      {
+        ok = true;
+        diagnostic = null;
+      };
 
   internetModeVerificationResult =
     record:
     let
       hasSkip =
-        (record.skipInternet or false)
-        || (record.skipInternetTest or false)
-        || (record ? skipReason);
+        (record.skipInternet or false) || (record.skipInternetTest or false) || (record ? skipReason);
       hasNat = record ? privateNat44 || record ? nat44 || record ? nat || record ? masquerade;
       handoff = record.accessHandoff or { };
       upstream = record.upstream or { };
       uplinks = upstream.internetUplinks or [ ];
       allowedVlan = vlan: vlan == 4 || vlan == 5;
       allowedUplinkName = name: name == "isp" || name == "pppoe-provider";
-      allowedHandoffKind =
-        kind:
-        kind == "pppoe" || kind == "dhcp-provider" || kind == "routed-testnet";
+      allowedHandoffKind = kind: kind == "pppoe" || kind == "dhcp-provider" || kind == "routed-testnet";
       uplinkOk =
-        uplink:
-        uplink ? name
-        && allowedUplinkName uplink.name
-        && (uplink.mode or null) == "dhcp";
-      hasVlan2 = builtins.any (uplink: (uplink.vlan or null) == 2 || (uplink.name or null) == "vlan2") uplinks;
+        uplink: uplink ? name && allowedUplinkName uplink.name && (uplink.mode or null) == "dhcp";
+      hasVlan2 = builtins.any (
+        uplink: (uplink.vlan or null) == 2 || (uplink.name or null) == "vlan2"
+      ) uplinks;
       hasBadVlan = builtins.any (uplink: uplink ? vlan && !(allowedVlan uplink.vlan)) uplinks;
-      hasBadUplinkName =
-        builtins.any (uplink: uplink ? name && !(allowedUplinkName uplink.name)) uplinks;
+      hasBadUplinkName = builtins.any (uplink: uplink ? name && !(allowedUplinkName uplink.name)) uplinks;
       hasBadMode = builtins.any (uplink: (uplink.mode or null) != "dhcp") uplinks;
     in
-    if hasSkip then {
-      ok = false;
-      diagnostic = "internet-test-skip-not-allowed";
-    } else if hasNat then {
-      ok = false;
-      diagnostic = "nat-not-allowed";
-    } else if !(handoff ? kind) then {
-      ok = false;
-      diagnostic = "missing-emulated-access-handoff";
-    } else if !(allowedHandoffKind handoff.kind) then {
-      ok = false;
-      diagnostic = "unsupported-emulated-access-handoff";
-    } else if (handoff.server or null) != "emulated-isp" then {
-      ok = false;
-      diagnostic = "access-handoff-server-not-emulated-isp";
-    } else if (handoff.client or null) != "client-edge" then {
-      ok = false;
-      diagnostic = "access-handoff-client-not-test-client";
-    } else if (upstream.kind or null) != "emulated-isp" then {
-      ok = false;
-      diagnostic = "upstream-not-emulated-isp";
-    } else if uplinks == [ ] then {
-      ok = false;
-      diagnostic = "missing-internet-uplinks";
-    } else if hasVlan2 then {
-      ok = false;
-      diagnostic = "vlan2-not-allowed";
-    } else if hasBadVlan then {
-      ok = false;
-      diagnostic = "internet-vlan-not-allowed";
-    } else if hasBadUplinkName then {
-      ok = false;
-      diagnostic = "internet-uplink-not-allowed";
-    } else if hasBadMode then {
-      ok = false;
-      diagnostic = "internet-uplink-must-use-dhcp";
-    } else if !(builtins.all uplinkOk uplinks) then {
-      ok = false;
-      diagnostic = "invalid-internet-uplink";
-    } else {
-      ok = true;
-      diagnostic = null;
-    };
+    if hasSkip then
+      {
+        ok = false;
+        diagnostic = "internet-test-skip-not-allowed";
+      }
+    else if hasNat then
+      {
+        ok = false;
+        diagnostic = "nat-not-allowed";
+      }
+    else if !(handoff ? kind) then
+      {
+        ok = false;
+        diagnostic = "missing-emulated-access-handoff";
+      }
+    else if !(allowedHandoffKind handoff.kind) then
+      {
+        ok = false;
+        diagnostic = "unsupported-emulated-access-handoff";
+      }
+    else if (handoff.server or null) != "emulated-isp" then
+      {
+        ok = false;
+        diagnostic = "access-handoff-server-not-emulated-isp";
+      }
+    else if (handoff.client or null) != "client-edge" then
+      {
+        ok = false;
+        diagnostic = "access-handoff-client-not-test-client";
+      }
+    else if (upstream.kind or null) != "emulated-isp" then
+      {
+        ok = false;
+        diagnostic = "upstream-not-emulated-isp";
+      }
+    else if uplinks == [ ] then
+      {
+        ok = false;
+        diagnostic = "missing-internet-uplinks";
+      }
+    else if hasVlan2 then
+      {
+        ok = false;
+        diagnostic = "vlan2-not-allowed";
+      }
+    else if hasBadVlan then
+      {
+        ok = false;
+        diagnostic = "internet-vlan-not-allowed";
+      }
+    else if hasBadUplinkName then
+      {
+        ok = false;
+        diagnostic = "internet-uplink-not-allowed";
+      }
+    else if hasBadMode then
+      {
+        ok = false;
+        diagnostic = "internet-uplink-must-use-dhcp";
+      }
+    else if !(builtins.all uplinkOk uplinks) then
+      {
+        ok = false;
+        diagnostic = "invalid-internet-uplink";
+      }
+    else
+      {
+        ok = true;
+        diagnostic = null;
+      };
 in
 {
   meta = {
@@ -676,36 +764,19 @@ in
       kind = "mini-smt";
       traceId = wireguardRemoteEgressTraceId;
       smsAtom = "WireGuard remote egress provider runtime materialization";
-      evidenceBoundary = "renderer-input CPM source plus active-lab live evidence on the declared one-target WireGuard remote-egress runtime";
-      source = {
-        kind = "renderer-input";
-        cpm = ../FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix;
-      };
-      maxRuntimeTargets = 1;
-      runtimeTargets = {
-        wireguard-remote-egress = {
-          role = "provider-egress";
-          placement.host = "s-router-nixos";
-          overlay = "wg-remote-egress";
-          interface = "wg-re-egress0";
-          providerContract = "controlPlane.providerContracts.wireguard.wg-remote-egress";
-        };
-      };
+      evidenceBoundary = "construction-only";
+      source = null;
+      maxRuntimeTargets = 0;
+      runtimeTargets = { };
       testsOnly = [
-        "provider-runtime-contract-presence"
-        "wireguard-hostmodule-runtime-import"
-        "source-scoped-nat44-nat66"
-        "dhcp4-ra-rdnss"
-        "bootstrap-payload-separation"
+        "wireguard-renderer-module-construction"
       ];
       forbiddenScope = [
         "active-lab/full"
         "HAT"
         "SAT"
       ];
-      liveSurfaces = [
-        "s-router-nixos"
-      ];
+      liveSurfaces = [ ];
     };
 
     "${dnsResolverConfigTraceId}" = {

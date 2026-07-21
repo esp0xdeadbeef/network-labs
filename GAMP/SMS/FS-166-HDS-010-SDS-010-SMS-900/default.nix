@@ -11,14 +11,14 @@ let
     {
       traceId,
       rendererTarget,
-      sourcePath,
+      sourceReference,
       expectedTargetNames,
     }:
     {
       inherit
         traceId
         rendererTarget
-        sourcePath
+        sourceReference
         expectedTargetNames
         ;
       kind = "replacement-cpm-artifact";
@@ -40,14 +40,14 @@ in
     "FS-166-HDS-010-SDS-010-SMS-901" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-901";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-single.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-901.sourceArtifact";
       expectedTargetNames = [ "poc-router" ];
     };
 
     "FS-166-HDS-010-SDS-010-SMS-902" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-902";
       rendererTarget = "nixos";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-p2p.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-902.sourceArtifact";
       expectedTargetNames = [
         "edge-a"
         "edge-b"
@@ -57,14 +57,14 @@ in
     "FS-166-HDS-010-SDS-010-SMS-903" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-903";
       rendererTarget = "access-endpoint-nixos";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/access-endpoint.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-903.sourceArtifact";
       expectedTargetNames = [ "poc-client" ];
     };
 
     "FS-166-HDS-010-SDS-010-SMS-904" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-904";
       rendererTarget = "clab";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/clab-p2p.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-904.sourceArtifact";
       expectedTargetNames = [
         "edge-a"
         "edge-b"
@@ -74,14 +74,14 @@ in
     "FS-166-HDS-010-SDS-010-SMS-905" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-905";
       rendererTarget = "wireguard";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/wireguard.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-905.sourceArtifact";
       expectedTargetNames = [ "wireguard-egress" ];
     };
 
     "FS-166-HDS-010-SDS-010-SMS-906" = mkSource {
       traceId = "FS-166-HDS-010-SDS-010-SMS-906";
       rendererTarget = "nebula";
-      sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nebula.nix";
+      sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-906.sourceArtifact";
       expectedTargetNames = [
         "lab-client-nebula"
         "lab-lighthouse"

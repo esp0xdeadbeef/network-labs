@@ -1,20 +1,19 @@
-# SMT Source Stub: FS-470-HDS-010-SDS-010-SMS-010
+# SMT Construction Row: FS-470-HDS-010-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wireguard-remote-egress.md`
 
-Status: OK - focused active-lab mini SMT/SIT source is registered.
+Status: OK for construction only. Integrated and live status is NOT OK.
 
-This row now owns the row-local renderer-input CPM fixture at
-`renderer-input/wireguard-remote-egress-cpm.nix`. The focused runner is
-`tests/test-active-lab-mini-smt-wireguard-remote-egress-only.sh` via:
+The canonical trace-derived construction entrypoint invokes the owning
+`network-renderer-wireguard` module test:
 
 ```sh
-tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010
+bash tests/FS-470-HDS-010-SDS-010-SMS-010.sh
 ```
 
-The fixture starts one runtime target, `wireguard-remote-egress`, and carries
-the explicit `controlPlane.providerContracts.wireguard.wg-remote-egress`
-provider runtime contract consumed by `network-renderer-wireguard.hostModule`.
-This is SMT/SIT mini runtime evidence only; it is not HAT/SAT approval.
+The former direct CPM-to-renderer mini-lab fixture is removed. This row does
+not currently select or start a runtime target. A new integrated scenario must
+enter through the canonical realization and platform-binding boundary before
+SIT or live evidence can be accepted.
 
 Title slug: `wireguard-remote-egress`

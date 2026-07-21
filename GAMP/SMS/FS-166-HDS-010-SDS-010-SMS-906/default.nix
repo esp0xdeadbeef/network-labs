@@ -8,7 +8,7 @@
     traceId = "FS-166-HDS-010-SDS-010-SMS-906";
     kind = "replacement-cpm-artifact";
     rendererTarget = "nebula";
-    sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nebula.nix";
+    sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-906.sourceArtifact";
     firstActiveBoundary = "network-realization-model";
     maxRuntimeTargets = 2;
   };
