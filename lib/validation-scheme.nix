@@ -57,20 +57,109 @@ let
     };
   };
 
+  mkReplacementArtifact =
+    traceId: siteData:
+    let
+      controlPlaneModel = {
+        meta = {
+          inherit traceId;
+          sourceContract = replacementContract;
+        };
+        data.acme.lab = {
+          enterprise = "acme";
+          siteName = "acme.lab";
+        }
+        // siteData;
+      };
+      artifactDigest = builtins.hashString "sha256" (builtins.toJSON controlPlaneModel);
+    in
+    {
+      kind = "network-control-plane-artifact";
+      artifactIdentity = artifactDigest;
+      inherit artifactDigest;
+      control_plane_model = controlPlaneModel;
+      provenance = {
+        producer = "network-labs/packages.validation-scheme";
+        inherit traceId;
+        contract = replacementContract;
+        declaredFirstActiveBoundary = firstActiveBoundary;
+      };
+    };
+
+  mkRuntimeTarget =
+    name: role: extra:
+    {
+      logicalNode = {
+        enterprise = "acme";
+        site = "lab";
+        inherit name;
+      };
+      inherit role;
+      routingMode = "static";
+    }
+    // extra;
+
+  mkPointToPointTarget =
+    {
+      name,
+      address4,
+      address6,
+      peer4 ? null,
+      peer6 ? null,
+    }:
+    mkRuntimeTarget name "core" {
+      effectiveRuntimeRealization.interfaces.edge-a-b = {
+        sourceKind = "p2p";
+        addr4 = address4;
+        addr6 = address6;
+        backingRef = {
+          kind = "logical-link";
+          id = "edge-a-b";
+        };
+      }
+      // (
+        if peer4 == null || peer6 == null then
+          { }
+        else
+          {
+            peer = {
+              ipv4 = peer4;
+              ipv6 = peer6;
+            };
+          }
+      );
+    };
+
+  pointToPointAdjacency = {
+    name = "edge-a-b";
+    link = "edge-a-b";
+    kind = "p2p";
+    endpoints = [
+      { unit = "edge-a"; }
+      { unit = "edge-b"; }
+    ];
+  };
+
+  mkScenario =
+    traceId: definition:
+    builtins.removeAttrs definition [ "siteData" ]
+    // {
+      sourceArtifact = mkReplacementArtifact traceId definition.siteData;
+    };
+
   scenarioDefinitions = {
-    "FS-166-HDS-010-SDS-010-SMS-901" = {
+    "FS-166-HDS-010-SDS-010-SMS-901" = mkScenario "FS-166-HDS-010-SDS-010-SMS-901" {
       target = "nixos";
       deploymentHost = "s-router-nixos";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-single.nix;
       expectedRuntimeTargets = 1;
       expectedTargetNames = [ "poc-router" ];
       interfaceBindings = { };
       secretBindings = { };
+      siteData.runtimeTargets.poc-router = mkRuntimeTarget "poc-router" "access" { };
     };
-    "FS-166-HDS-010-SDS-010-SMS-902" = {
+    "FS-166-HDS-010-SDS-010-SMS-902" = mkScenario "FS-166-HDS-010-SDS-010-SMS-902" {
       target = "nixos";
       deploymentHost = "s-router-nixos";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-p2p.nix;
       expectedRuntimeTargets = 2;
       expectedTargetNames = [
         "edge-a"
@@ -81,20 +170,50 @@ let
         edge-b.edge-a-b.runtimeName = "eth1";
       };
       secretBindings = { };
+      siteData = {
+        runtimeTargets = {
+          edge-a = mkPointToPointTarget {
+            name = "edge-a";
+            address4 = "10.200.0.0/31";
+            address6 = "fd42:200::/127";
+            peer4 = "10.200.0.1";
+            peer6 = "fd42:200::1";
+          };
+          edge-b = mkPointToPointTarget {
+            name = "edge-b";
+            address4 = "10.200.0.1/31";
+            address6 = "fd42:200::1/127";
+            peer4 = "10.200.0.0";
+            peer6 = "fd42:200::";
+          };
+        };
+        transit.adjacencies = [ pointToPointAdjacency ];
+      };
     };
-    "FS-166-HDS-010-SDS-010-SMS-903" = {
+    "FS-166-HDS-010-SDS-010-SMS-903" = mkScenario "FS-166-HDS-010-SDS-010-SMS-903" {
       target = "access-endpoint-nixos";
       deploymentHost = "s-router-test-clients";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/access-endpoint.nix;
       expectedRuntimeTargets = 1;
       expectedTargetNames = [ "poc-client" ];
       interfaceBindings.poc-client.runtimeName = "eth1";
       secretBindings = { };
+      siteData.endpointAssignment.poc-client = {
+        name = "poc-client";
+        tenant = "client";
+        mode = "static";
+        static = {
+          address = "10.201.0.10";
+          address6 = "fd42:201::10";
+          prefixLength = 24;
+          prefixLength6 = 64;
+          gateway4 = "10.201.0.1";
+          gateway6 = "fd42:201::1";
+        };
+      };
     };
-    "FS-166-HDS-010-SDS-010-SMS-904" = {
+    "FS-166-HDS-010-SDS-010-SMS-904" = mkScenario "FS-166-HDS-010-SDS-010-SMS-904" {
       target = "clab";
       deploymentHost = "s-router-clab";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/clab-p2p.nix;
       expectedRuntimeTargets = 2;
       expectedTargetNames = [
         "edge-a"
@@ -105,11 +224,25 @@ let
         edge-b.edge-a-b.runtimeName = "eth1";
       };
       secretBindings = { };
+      siteData = {
+        runtimeTargets = {
+          edge-a = mkPointToPointTarget {
+            name = "edge-a";
+            address4 = "10.204.0.0/31";
+            address6 = "fd42:204::/127";
+          };
+          edge-b = mkPointToPointTarget {
+            name = "edge-b";
+            address4 = "10.204.0.1/31";
+            address6 = "fd42:204::1/127";
+          };
+        };
+        transit.adjacencies = [ pointToPointAdjacency ];
+      };
     };
-    "FS-166-HDS-010-SDS-010-SMS-905" = {
+    "FS-166-HDS-010-SDS-010-SMS-905" = mkScenario "FS-166-HDS-010-SDS-010-SMS-905" {
       target = "wireguard";
       deploymentHost = "s-router-nixos";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/wireguard.nix;
       expectedRuntimeTargets = 1;
       expectedTargetNames = [ "wireguard-egress" ];
       interfaceBindings.wireguard-egress.wg-lab.runtimeName = "wg-lab";
@@ -118,11 +251,21 @@ let
         destination = "/run/network-renderer-wireguard/profile.conf";
         readOnly = true;
       };
+      siteData = {
+        runtimeTargets.wireguard-egress = mkRuntimeTarget "wireguard-egress" "access" { };
+        overlays.wg-lab = {
+          type = "wireguard";
+          terminateOn = [ "wireguard-egress" ];
+          nodes.wireguard-egress = {
+            addr4 = "10.205.0.2/32";
+            addr6 = "fd42:205::2/128";
+          };
+        };
+      };
     };
-    "FS-166-HDS-010-SDS-010-SMS-906" = {
+    "FS-166-HDS-010-SDS-010-SMS-906" = mkScenario "FS-166-HDS-010-SDS-010-SMS-906" {
       target = "nebula";
       deploymentHost = "s-router-nixos";
-      sourceArtifact = ../GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nebula.nix;
       expectedRuntimeTargets = 2;
       expectedTargetNames = [
         "lab-client-nebula"
@@ -136,6 +279,26 @@ let
         reference = "sops:nebula-lab-identity";
         destination = "/run/network-renderer-nebula/identity";
         readOnly = true;
+      };
+      siteData = {
+        runtimeTargets = {
+          lab-client-nebula = mkRuntimeTarget "lab-client-nebula" "access" { };
+          lab-lighthouse = mkRuntimeTarget "lab-lighthouse" "access" { };
+        };
+        overlays.nebula-lab = {
+          type = "nebula";
+          nodes = {
+            lab-client-nebula = {
+              addr4 = "10.206.0.2/24";
+              addr6 = "fd42:206::2/64";
+            };
+            lab-lighthouse = {
+              addr4 = "10.206.0.1/24";
+              addr6 = "fd42:206::1/64";
+            };
+          };
+          lighthouse.node = "lab-lighthouse";
+        };
       };
     };
   };
@@ -580,7 +743,7 @@ let
     kind = "replacement-cpm-artifact";
     inherit replacementContract;
     declaredFirstActiveBoundary = firstActiveBoundary;
-    sourceArtifactIdentity = builtins.hashString "sha256" (toString definition.sourceArtifact);
+    sourceArtifactIdentity = definition.sourceArtifact.artifactIdentity;
     rendererTarget = definition.target;
     sourceRendererTarget = definition.target;
     sourceTraceId = traceId;
@@ -716,7 +879,7 @@ let
   makeScenario =
     traceId: definition:
     let
-      sourceArtifact = import definition.sourceArtifact;
+      sourceArtifact = definition.sourceArtifact;
       sourceValidation = validateSourceArtifact traceId sourceArtifact;
       _sourceArtifact =
         if sourceValidation.accepted then true else throw sourceValidation.diagnostic.message;
@@ -922,7 +1085,7 @@ let
         result = validateSourceArtifact traceId {
           control_plane_model.meta.traceId = traceId;
         };
-        recovery = validateSourceArtifact traceId (import scenarioDefinitions.${traceId}.sourceArtifact);
+        recovery = validateSourceArtifact traceId scenarioDefinitions.${traceId}.sourceArtifact;
       };
   };
 

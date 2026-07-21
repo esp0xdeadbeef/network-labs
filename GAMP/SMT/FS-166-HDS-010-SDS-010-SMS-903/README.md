@@ -3,8 +3,8 @@
 Status: NOT OK overall. Construction is OK; fresh cold-stage runtime evidence
 is not yet recorded.
 
-`replacement-artifacts/access-endpoint.nix` is a conformant CPM replacement
-artifact for exactly `poc-client`. The validation scheme executes the controlled skip
+The validation scheme constructs a conformant CPM replacement artifact for
+exactly `poc-client` from the row-owned scenario definition. It executes the controlled skip
 acknowledgements, realization, schema release, one normalized access-endpoint
 platform-binding bundle, and the access-endpoint canonical adapter.
 

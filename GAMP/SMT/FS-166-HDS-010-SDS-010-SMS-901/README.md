@@ -3,8 +3,9 @@
 Status: NOT OK overall. Construction is OK; fresh cold-stage runtime evidence
 is not yet recorded.
 
-`replacement-artifacts/nixos-single.nix` is a conformant CPM replacement
-artifact for exactly `poc-router`. It contains network meaning only. The
+The validation scheme constructs a conformant CPM replacement artifact for
+exactly `poc-router` from the row-owned scenario definition. It contains
+network meaning only. The
 validation scheme supplies deployment and backend mechanics through one
 validated NixOS platform-binding bundle, records compiler, NFM, and CPM skip
 acknowledgements, injects the artifact once at the realization-model input,

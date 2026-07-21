@@ -6,7 +6,8 @@
           external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
-        relations = [ {
+        relations = [
+          {
             id = "FS-500-HDS-010-SDS-010-SMS-020__mini-verify";
             action = "allow";
             from = {
@@ -18,24 +19,32 @@
               uplinks = [ "internet-vlan4" ];
             };
             trafficType = "any";
+            returnBehavior = "stateful-return";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
             name = "client";
             ipv4 = "10.1.244.0/24";
             ipv6 = "fd42:01f4:50::/64";
-          } ];
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -49,18 +58,32 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {
             role = "access";
-            attachments = [ {
+            attachments = [
+              {
                 kind = "tenant";
                 name = "client";
-              } ];
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";

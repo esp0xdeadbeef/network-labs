@@ -8,6 +8,8 @@ result="$({
   REPO_ROOT="${repo_root}" nix eval --impure --raw --expr '
     let
       repoRoot = builtins.getEnv "REPO_ROOT";
+      flake = builtins.getFlake ("path:" + repoRoot);
+      scheme = flake.lib.validationScheme;
       manifest = import (repoRoot + "/GAMP/SMT/mini-smt/tests.nix");
       pathExistsRel = rel:
         builtins.pathExists (repoRoot + "/" + rel)
@@ -58,8 +60,10 @@ result="$({
           && source.kind == "replacement-cpm-artifact"
           && source.replacementContract == "network-control-plane-artifact/v1"
           && source.declaredFirstActiveBoundary == "network-realization-model"
-          && pathExistsRel source.sourcePath
-          && toString entry.source.cpm == repoRoot + "/" + source.sourcePath;
+          && source.sourceReference == "validation-scheme:scenarioDefinitions.${id}.sourceArtifact"
+          && entry.source.sourceReference == source.sourceReference
+          && scheme.scenarioDefinitions.${id}.sourceArtifact.provenance.traceId == id
+          && scheme.scenarioDefinitions.${id}.sourceArtifact.provenance.declaredFirstActiveBoundary == "network-realization-model";
       valid =
         sdsRows != [ ]
         && smsRows != [ ]

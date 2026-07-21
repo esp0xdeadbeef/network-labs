@@ -874,7 +874,7 @@ select_default() {
     "FS-166-HDS-010-SDS-010-SMS-901" \
     "replacement-cpm-artifact" \
     "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901" \
-    "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/nixos-single.nix" \
+    "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-901.sourceArtifact" \
     "scripts/select-current-lab.sh default"
 }
 
@@ -975,7 +975,15 @@ renderer_target_for_mini_key() {
 
 source_path_for_mini_key() {
   local key="$1"
-  mini_attr "${key}" "let source = row.source or null; in if source != null && source ? cpm then toString source.cpm else if source != null && source ? intent then toString source.intent else \"\""
+  mini_attr "${key}" "
+let
+  source = row.source or null;
+in
+  if source != null && source ? cpm then toString source.cpm
+  else if source != null && source ? intent then toString source.intent
+  else if source != null && source ? sourceReference then source.sourceReference
+  else \"\"
+"
 }
 
 runtime_host_supported_for_mini_key() {

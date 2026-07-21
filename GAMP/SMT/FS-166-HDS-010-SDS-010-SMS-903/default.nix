@@ -4,7 +4,7 @@
   smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-903;
   source = {
     kind = "replacement-cpm-artifact";
-    sourcePath = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-900/replacement-artifacts/access-endpoint.nix";
+    sourceReference = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-903.sourceArtifact";
     firstActiveBoundary = "network-realization-model";
     rendererTarget = "access-endpoint-nixos";
     expectedTargetNames = [ "poc-client" ];

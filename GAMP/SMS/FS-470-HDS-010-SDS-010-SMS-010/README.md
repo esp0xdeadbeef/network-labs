@@ -5,19 +5,16 @@ Canonical SMS: `network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wire
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.
 
-Status: Active-lab mini SMT/SIT source registered.
+Status: Construction mirror registered; integrated and live evidence is NOT OK.
 
-The row-specific source is
-`GAMP/SMT/FS-470-HDS-010-SDS-010-SMS-010/renderer-input/wireguard-remote-egress-cpm.nix`.
-It carries one `wireguard-remote-egress` runtime target and the explicit
-`controlPlane.providerContracts.wireguard.wg-remote-egress` provider runtime
-contract used by the WireGuard renderer host module.
+The former direct CPM-to-renderer mini-lab fixture is removed. The row now
+resolves only the canonical owning-repository construction test.
 
-Focused source/integration command:
+Focused construction command:
 
 ```sh
-tests/run-active-lab-mini-smt.sh FS-470-HDS-010-SDS-010-SMS-010
+bash tests/FS-470-HDS-010-SDS-010-SMS-010.sh
 ```
 
-This is row-local SMT/SIT evidence only. HAT/SAT remain separate validation
-boundaries.
+This does not establish SIT, live, HAT, or SAT evidence. A new integrated
+scenario must use the canonical realization and platform-binding boundary.
