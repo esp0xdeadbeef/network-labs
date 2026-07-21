@@ -2023,6 +2023,227 @@ let
     ) rendererBoundaryBindings;
     validation = validateRendererBoundary rendererBoundaryBase;
   };
+
+  lockClosureTraceId = "FS-163-HDS-010-SDS-010-SMS-010";
+
+  lockClosureAllRepositories = [
+    "network-compiler"
+    "network-forwarding-model"
+    "network-control-plane-model"
+    "network-realization-model"
+    "network-realization-schema"
+    "network-renderer-nixos"
+    "network-renderer-access-endpoint-nixos"
+    "network-renderer-containerlab-linux-backend"
+    "network-renderer-wireguard"
+    "network-renderer-nebula"
+    "network-renderer-openconfig"
+  ];
+
+  lockInputRev =
+    repoName:
+    if repoName == "network-compiler" then
+      inputs.network-compiler.rev
+    else if repoName == "network-forwarding-model" then
+      inputs.network-forwarding-model.rev
+    else if repoName == "network-control-plane-model" then
+      inputs.network-control-plane-model.rev
+    else if repoName == "network-realization-model" then
+      inputs.network-realization-model.rev
+    else if repoName == "network-realization-schema" then
+      inputs.network-realization-schema.rev
+    else if repoName == "network-renderer-nixos" then
+      inputs.network-renderer-nixos.rev
+    else if repoName == "network-renderer-access-endpoint-nixos" then
+      inputs.network-renderer-access-endpoint-nixos.rev
+    else if repoName == "network-renderer-containerlab-linux-backend" then
+      inputs.network-renderer-containerlab-linux-backend.rev
+    else if repoName == "network-renderer-wireguard" then
+      inputs.network-renderer-wireguard.rev
+    else if repoName == "network-renderer-nebula" then
+      inputs.network-renderer-nebula.rev
+    else if repoName == "network-renderer-openconfig" then
+      inputs.network-renderer-openconfig.rev
+    else
+      null;
+
+  validateLockClosure =
+    manifest:
+    let
+      traceId = manifest.traceId or lockClosureTraceId;
+      requiredNodes = manifest.requiredNodes or lockClosureAllRepositories;
+      executingRevisions = manifest.executingRevisions or { };
+      evidenceRepositories = manifest.evidenceRepositories or lockClosureAllRepositories;
+      lockDigest = manifest.lockDigest or rootLockIdentity;
+      currentLockDigest = manifest.currentLockDigest or rootLockIdentity;
+      selectedRenderer = manifest.selectedRenderer or "network-renderer-nixos";
+      skippedRepositories = manifest.skippedRepositories or [ ];
+      followsEdgeUnresolvable = manifest.followsEdgeUnresolvable or false;
+      alternateLockRoots = manifest.alternateLockRoots or [ ];
+
+      missingNodes = builtins.filter (
+        repoName: !(builtins.elem repoName requiredNodes)
+      ) (builtins.attrNames (manifest.requiredNodes or { }));
+
+      requiredMissingFromEvidence = builtins.filter (
+        repoName: !(builtins.elem repoName evidenceRepositories)
+      ) requiredNodes;
+
+      expectedRendererNodes = [ selectedRenderer ] ++ skippedRepositories;
+      missingRendererNodes = builtins.filter (
+        repoName: !(builtins.elem repoName requiredNodes)
+      ) expectedRendererNodes;
+
+      missingLockNodes = builtins.filter (
+        repoName: !(builtins.elem repoName requiredNodes)
+      ) requiredNodes;
+
+      revisionCheck =
+        builtins.filter (
+          repoName:
+          let
+            expected = executingRevisions.${repoName} or null;
+            locked = lockInputRev repoName;
+          in
+          expected != null && locked != null && expected != locked
+        ) (builtins.attrNames executingRevisions);
+    in
+    if missingRendererNodes != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "NL_LOCK_NODE_MISSING";
+        detail = "required renderer or tool node not in lock closure: ${
+          builtins.head missingRendererNodes
+        }";
+      }
+    else if followsEdgeUnresolvable then
+      mkRejected {
+        inherit traceId;
+        code = "NL_LOCK_NODE_UNRESOLVED";
+        detail = "a follows or transitive edge cannot resolve to an immutable node";
+      }
+    else if revisionCheck != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "NL_REPO_REVISION_MISMATCH";
+        detail = "expected revision for ${builtins.head revisionCheck} does not match locked node";
+      }
+    else if alternateLockRoots != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "NL_ALTERNATE_LOCK_ROOT";
+        detail = "alternate lock root or path override detected: ${
+          builtins.head alternateLockRoots
+        }";
+      }
+    else if lockDigest != currentLockDigest then
+      mkRejected {
+        inherit traceId;
+        code = "NL_LOCK_DIGEST_MISMATCH";
+        detail = "recorded root-lock digest differs from the evaluated file";
+      }
+    else if requiredMissingFromEvidence != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "NL_EVIDENCE_REVISION_MAP_INCOMPLETE";
+        detail = "evidence omits required closure node: ${
+          builtins.head requiredMissingFromEvidence
+        }";
+      }
+    else
+      mkAccepted traceId;
+
+  lockClosureBase = {
+    traceId = lockClosureTraceId;
+    requiredNodes = lockClosureAllRepositories;
+    executingRevisions = builtins.listToAttrs (
+      map (repoName: {
+        name = repoName;
+        value = lockInputRev repoName;
+      }) lockClosureAllRepositories
+    );
+    evidenceRepositories = lockClosureAllRepositories;
+    lockDigest = rootLockIdentity;
+    currentLockDigest = rootLockIdentity;
+    selectedRenderer = "network-renderer-nixos";
+    skippedRepositories = [
+      "network-renderer-access-endpoint-nixos"
+      "network-renderer-containerlab-linux-backend"
+      "network-renderer-wireguard"
+      "network-renderer-nebula"
+      "network-renderer-openconfig"
+    ];
+    followsEdgeUnresolvable = false;
+    alternateLockRoots = [ ];
+  };
+
+  mkLockNegativeCase =
+    {
+      injection,
+      manifest,
+      expectedDiagnostic,
+    }:
+    {
+      inherit injection expectedDiagnostic;
+      expectedExit = 2;
+      result = validateLockClosure manifest;
+      recovery = validateLockClosure lockClosureBase;
+    };
+
+  lockClosureNegativeCases = {
+    NL-LOCK-N1 = mkLockNegativeCase {
+      injection = "remove the selected OpenConfig renderer node from required nodes";
+      manifest = lockClosureBase // {
+        requiredNodes = builtins.filter (
+          r: r != "network-renderer-openconfig"
+        ) lockClosureBase.requiredNodes;
+        selectedRenderer = "network-renderer-openconfig";
+      };
+      expectedDiagnostic = "NL_LOCK_NODE_MISSING";
+    };
+    NL-LOCK-N2 = mkLockNegativeCase {
+      injection = "break a follows edge for the realization schema";
+      manifest = lockClosureBase // {
+        followsEdgeUnresolvable = true;
+      };
+      expectedDiagnostic = "NL_LOCK_NODE_UNRESOLVED";
+    };
+    NL-LOCK-N3 = mkLockNegativeCase {
+      injection = "run CPM from a checkout one commit ahead of its locked revision";
+      manifest = lockClosureBase // {
+        executingRevisions = lockClosureBase.executingRevisions // {
+          network-control-plane-model = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef0000";
+        };
+      };
+      expectedDiagnostic = "NL_REPO_REVISION_MISMATCH";
+    };
+    NL-LOCK-N4 = mkLockNegativeCase {
+      injection = "override one renderer with a local path or child flake lock";
+      manifest = lockClosureBase // {
+        alternateLockRoots = [
+          "network-renderer-nixos:/local/path/override"
+        ];
+      };
+      expectedDiagnostic = "NL_ALTERNATE_LOCK_ROOT";
+    };
+    NL-LOCK-N5 = mkLockNegativeCase {
+      injection = "change the lock file digest after recording";
+      manifest = lockClosureBase // {
+        lockDigest = "sha256-tampereddeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+      };
+      expectedDiagnostic = "NL_LOCK_DIGEST_MISMATCH";
+    };
+    NL-LOCK-N6 = mkLockNegativeCase {
+      injection = "remove one skipped repository from the evidence revision map";
+      manifest = lockClosureBase // {
+        evidenceRepositories = builtins.filter (
+          r: r != "network-renderer-nebula"
+        ) lockClosureBase.evidenceRepositories;
+      };
+      expectedDiagnostic = "NL_EVIDENCE_REVISION_MAP_INCOMPLETE";
+    };
+  };
+
 in
 {
   inherit
@@ -2033,12 +2254,15 @@ in
     fs230PeerComparison
     fs540OpenConfigNegativeCases
     fs540PeerComparison
+    lockClosureBase
+    lockClosureNegativeCases
     rendererBoundaryConformance
     rendererBoundaryNegativeCases
     scenarioDefinitions
     seededNegativeCases
     validateEvidenceManifest
     validateFlowManifest
+    validateLockClosure
     validateRendererBoundary
     validateSourceArtifact
     validateScenarioManifest
