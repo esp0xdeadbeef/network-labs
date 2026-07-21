@@ -9,10 +9,12 @@ address, resolver, or secret.
 
 ## Locked source set
 
-Every network input in `flake.nix` follows its repository's canonical `main`
-branch without an embedded commit. `nix flake update` is the only mechanism
-that selects revisions; the resulting `flake.lock` is the only revision-pinning
-surface. The controlled root lock includes:
+Every active s-router-prod network input in `flake.nix` follows its repository's
+canonical `main` branch without an embedded commit. `nix flake update` is the
+only mechanism that selects revisions; the resulting `flake.lock` is the only
+revision-pinning surface. Separately named legacy fallback inputs are outside
+the migrated profile and must not be consumed by it. The controlled root lock
+includes:
 
 | Input | Migrated responsibility |
 | --- | --- |
