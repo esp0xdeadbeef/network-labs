@@ -43,8 +43,11 @@ let
       source = normalizeSource traceId rowSource;
       rawBoundary = row.evidenceBoundary or (if rowSource == null then null else rowSource.evidenceBoundary or null);
       constructionOnly =
-        rawBoundary != null
-        && builtins.match ".*construction-only.*" rawBoundary != null;
+        (row.evidence.isConstructionOnly or false)
+        || (
+          rawBoundary != null
+          && builtins.match ".*construction-only.*" rawBoundary != null
+        );
       expectedRuntimeTargets =
         if rowSource != null && rowSource ? expectedRuntimeTargets
         then builtins.attrValues rowSource.expectedRuntimeTargets

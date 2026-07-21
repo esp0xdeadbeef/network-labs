@@ -35,10 +35,13 @@ let
         let entry = builtins.getAttr name manifest.tests;
             boundary = entry.evidenceBoundary or "runtime";
         in
-          if boundary == "construction-only" || boundary == "source-stub-only" then
-            entry ? source && entry.source == null
-          else
-            entry ? source && entry.source ? kind)
+          entry ? source
+          && (
+            if entry.source == null then
+              boundary == "construction-only" || boundary == "source-stub-only"
+            else
+              entry.source ? kind
+          ))
       names;
   allBoundariesConsistent =
     builtins.all
@@ -107,7 +110,7 @@ let
 in
   require (names != []) "mini SMT manifest is empty"
   && require allIndependent "every mini SMT must be independently runnable and not aggregate-only"
-  && require allHaveSource "every runtime mini SMT must declare an explicit source and every construction-only mini SMT must declare source = null"
+  && require allHaveSource "every runtime mini SMT must declare an explicit source; a construction row may declare either no source or one typed row-local source"
   && require allBoundariesConsistent "construction rows must declare zero runtime targets and runtime rows must declare a positive target count"
   && require rendererTargetsAreKnown "rendererTarget must name a supported renderer family"
   && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"

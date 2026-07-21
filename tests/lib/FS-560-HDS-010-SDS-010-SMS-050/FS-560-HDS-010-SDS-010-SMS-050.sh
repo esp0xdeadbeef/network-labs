@@ -4,44 +4,12 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-github_root="$(dirname "${repo_root}")"
 row="${repo_root}/GAMP/SMT/FS-560-HDS-010-SDS-010-SMS-050"
-cpm="${github_root}/network-control-plane-model"
-nixos_renderer="${github_root}/network-renderer-nixos"
-clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
-
-cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
-nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
-clab_revision="15264eb1e7e598cbce270f494b6b275b6a1d021c"
 
 fail() {
   printf 'FAIL FS-560-HDS-010-SDS-010-SMS-050: %s\n' "$*" >&2
   exit 1
 }
-
-for spec in \
-  "${cpm}:${cpm_revision}" \
-  "${nixos_renderer}:${nixos_revision}" \
-  "${clab_renderer}:${clab_revision}"; do
-  repo="${spec%%:*}"
-  revision="${spec##*:}"
-  [[ "$(git -C "${repo}" branch --show-current)" == "main" ]] \
-    || fail "$(basename "${repo}") is not on main"
-  git -C "${repo}" merge-base --is-ancestor "${revision}" refs/remotes/origin/main \
-    || fail "$(basename "${repo}") candidate is not on GitHub main"
-done
-
-locked_cpm_revision() {
-  local lock_file="$1"
-  jq -r \
-    '.nodes.root.inputs["network-control-plane-model"] as $node | .nodes[$node].locked.rev' \
-    "${lock_file}"
-}
-
-[[ "$(locked_cpm_revision "${nixos_renderer}/flake.lock")" == "${cpm_revision}" ]] \
-  || fail "NixOS renderer does not pin the candidate CPM revision"
-[[ "$(locked_cpm_revision "${clab_renderer}/flake.lock")" == "${cpm_revision}" ]] \
-  || fail "CLAB renderer does not pin the candidate CPM revision"
 
 ROW="${row}" nix eval --impure --expr '
   let
@@ -89,20 +57,4 @@ ROW="${row}" nix eval --impure --expr '
   true
 ' >/dev/null || fail "row-local intent/inventory ownership contract failed"
 
-(
-  cd "${cpm}"
-  NETWORK_REPO_DIRECT_TEST_OK=1 \
-    tests/FS-560-HDS-010-SDS-010-SMS-050.sh
-)
-(
-  cd "${nixos_renderer}"
-  NETWORK_REPO_DIRECT_TEST_OK=1 \
-    tests/FS-560-HDS-010-SDS-010-SMS-050.sh
-)
-(
-  cd "${clab_renderer}"
-  NETWORK_REPO_DIRECT_TEST_OK=1 \
-    tests/test-fs560-hds010-sds010-sms050-protected-reservation-name-materialization.sh
-)
-
-printf '%s\n' 'PASS FS-560-HDS-010-SDS-010-SMS-050 native protected name-publication construction candidate'
+printf '%s\n' 'PASS FS-560-HDS-010-SDS-010-SMS-050 row-local protected name-publication source'

@@ -41,7 +41,11 @@ mapfile -t candidates < <(
 
 for candidate in "${candidates[@]}"; do
   printf 'RUN %s: %s\n' "${trace_id}" "${candidate}"
-  NETWORK_REPO_DIRECT_TEST_OK=1 SMS_TEST_TRACE_ID="${trace_id}" bash "${candidate}"
+  candidate_repo="$(cd "$(dirname "${candidate}")/.." && pwd)"
+  (
+    cd "${candidate_repo}"
+    NETWORK_REPO_DIRECT_TEST_OK=1 SMS_TEST_TRACE_ID="${trace_id}" bash "${candidate}"
+  )
   run_count=$((run_count + 1))
 done
 
