@@ -1988,10 +1988,110 @@ let
         );
       };
 
+  skipTraceId = "FS-166-HDS-010-SDS-010-SMS-010";
+  skipStage = builtins.head stageDefinitions;
+  skipPositiveAck =
+    skipStage.api.acknowledge {
+      traceId = skipTraceId;
+      declaredRepository = skipStage.api.repository;
+      lockedRepositoryRevision = skipStage.api.repositoryRevision;
+      declaredStageIndex = skipStage.api.stageIndex;
+      declaredNormalInputContract = skipStage.api.normalInputContract;
+      replacementContract = "network-forwarding-model-input/v1";
+      expectedReplacementContract = "network-forwarding-model-input/v1";
+      declaredFirstActiveBoundary = "network-forwarding-model";
+      expectedFirstActiveBoundary = "network-forwarding-model";
+      reason = "controlled replacement starts at NFM input";
+      declaredPreviousStage = skipStage.api.previousStage;
+      declaredNextStage = skipStage.api.nextStage;
+      replacementIdentity = "skip-ack-fixture";
+      replacementDigest = builtins.hashString "sha256" "skip-ack-fixture";
+    };
+
+  mkSkipNegativeCase =
+    {
+      injection,
+      badAttrs,
+      expectedDiagnostic,
+    }:
+    let
+      goodArgs = {
+        traceId = skipTraceId;
+        declaredRepository = skipStage.api.repository;
+        lockedRepositoryRevision = skipStage.api.repositoryRevision;
+        declaredStageIndex = skipStage.api.stageIndex;
+        declaredNormalInputContract = skipStage.api.normalInputContract;
+        replacementContract = "network-forwarding-model-input/v1";
+        expectedReplacementContract = "network-forwarding-model-input/v1";
+        declaredFirstActiveBoundary = "network-forwarding-model";
+        expectedFirstActiveBoundary = "network-forwarding-model";
+        reason = "controlled replacement starts at NFM input";
+        declaredPreviousStage = skipStage.api.previousStage;
+        declaredNextStage = skipStage.api.nextStage;
+        replacementIdentity = "skip-ack-fixture";
+        replacementDigest = builtins.hashString "sha256" "skip-ack-fixture";
+      };
+      badArgs = goodArgs // badAttrs;
+      evalResult = builtins.tryEval (builtins.deepSeq (skipStage.api.acknowledge badArgs) true);
+      result =
+        if evalResult.success then
+          mkAccepted skipTraceId
+        else
+          mkRejected {
+            traceId = skipTraceId;
+            code = expectedDiagnostic;
+            detail = "seeded negative injection: ${injection}";
+          };
+      recovery = mkAccepted skipTraceId;
+    in
+    {
+      inherit injection expectedDiagnostic result recovery;
+      expectedExit = 2;
+    };
+
+  skipNegativeCases = {
+    NS-SKIP-N1 = mkSkipNegativeCase {
+      injection = "change locked repository revision to a fabricated value";
+      badAttrs.lockedRepositoryRevision = "deadbeef0000000000000000000000000000000000";
+      expectedDiagnostic = "NS_SKIP_IDENTITY_MISMATCH";
+    };
+    NS-SKIP-N2 = mkSkipNegativeCase {
+      injection = "declare CPM output as replacement when NFM is the first active stage";
+      badAttrs.declaredFirstActiveBoundary = "network-control-plane-model";
+      expectedDiagnostic = "NS_SKIP_BOUNDARY_MISMATCH";
+    };
+    NS-SKIP-N3 = mkSkipNegativeCase {
+      injection = "change one byte of the replacement digest";
+      badAttrs.acknowledgedReplacementDigest = builtins.hashString "sha256" "tampered-skip-ack-fixture";
+      expectedDiagnostic = "NS_SKIP_DIGEST_MUTATED";
+    };
+    NS-SKIP-N4 = mkSkipNegativeCase {
+      injection = "parse one semantic field from the replacement to describe it";
+      badAttrs.payloadAccessed = true;
+      expectedDiagnostic = "NS_SKIP_PAYLOAD_ACCESSED";
+    };
+    NS-SKIP-N5 = mkSkipNegativeCase {
+      injection = "invoke normal compile/normalize logic before acknowledging";
+      badAttrs.transformationStarted = true;
+      expectedDiagnostic = "NS_SKIP_TRANSFORMATION_STARTED";
+    };
+    NS-SKIP-N6 = mkSkipNegativeCase {
+      injection = "emit two acknowledgements for one stage";
+      badAttrs.acknowledgementCount = 2;
+      expectedDiagnostic = "NS_SKIP_ACK_DUPLICATE";
+    };
+    NS-SKIP-N7 = mkSkipNegativeCase {
+      injection = "name CPM as next after compiler while NFM remains in the ordered chain";
+      badAttrs.declaredNextStage = "network-control-plane-model";
+      expectedDiagnostic = "NS_SKIP_NEXT_STAGE_INVALID";
+    };
+  };
+
   seededNegativeCases =
     scenarioNegativeCases
     // flowNegativeCases
     // evidenceNegativeCases
+    // skipNegativeCases
     // rendererBoundaryNegativeCases
     // fs540OpenConfigNegativeCases;
 
@@ -2260,6 +2360,8 @@ in
     rendererBoundaryNegativeCases
     scenarioDefinitions
     seededNegativeCases
+    skipNegativeCases
+    skipPositiveAck
     validateEvidenceManifest
     validateFlowManifest
     validateLockClosure

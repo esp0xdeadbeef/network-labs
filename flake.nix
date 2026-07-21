@@ -167,6 +167,7 @@
                 recovery = case_.recovery;
               }) scheme.lockClosureNegativeCases;
               lockClosurePositivePath = scheme.validateLockClosure scheme.lockClosureBase;
+              skipPositiveAck = scheme.skipPositiveAck;
               fs230PeerComparison = builtins.removeAttrs scheme.fs230PeerComparison [
                 "bundle"
                 "bindings"
