@@ -160,6 +160,7 @@
                 "bundle"
                 "bindings"
               ];
+              inherit (scheme) rendererBoundaryConformance;
             }
           );
           fs230Bundle = pkgs.writeText "fs230-canonical-bundle.json" (
