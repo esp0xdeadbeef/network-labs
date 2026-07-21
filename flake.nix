@@ -120,6 +120,7 @@
 
       rootLockIdentity = builtins.hashString "sha256" (builtins.readFile ./flake.lock);
       networkLabsRevision = self.rev or self.dirtyRev or "uncommitted";
+      controlledDocumentLanguageContract = import ./lib/controlled-document-language-contract.nix;
       validationSchemes = forAllSystems (
         system:
         import ./lib/validation-scheme.nix {
@@ -128,6 +129,7 @@
             system
             rootLockIdentity
             networkLabsRevision
+            controlledDocumentLanguageContract
             ;
         }
       );
@@ -165,6 +167,7 @@
                 "bindings"
               ];
               inherit (scheme) rendererBoundaryConformance;
+              inherit (scheme) controlledDocumentLanguageContract;
             }
           );
           fs230Bundle = pkgs.writeText "fs230-canonical-bundle.json" (
@@ -173,9 +176,31 @@
           fs230Bindings = nixpkgs.lib.mapAttrs (
             target: binding: pkgs.writeText "fs230-${target}-platform-binding.json" (builtins.toJSON binding)
           ) scheme.fs230PeerComparison.bindings;
+          languageContract = pkgs.writeText "controlled-document-language-contract.json" (
+            builtins.toJSON controlledDocumentLanguageContract
+          );
+          controlledDocumentLanguage = pkgs.writeShellApplication {
+            name = "controlled-document-language";
+            runtimeInputs = [
+              pkgs.coreutils
+              pkgs.findutils
+              pkgs.gawk
+              pkgs.git
+              pkgs.glibc.bin
+              pkgs.gnugrep
+              pkgs.jq
+            ];
+            text = ''
+              export CONTROLLED_DOCUMENT_LANGUAGE_CONTRACT=${languageContract}
+              exec ${pkgs.bash}/bin/bash ${./scripts/controlled-document-language.sh} "$@"
+            '';
+          };
           validationScheme = pkgs.writeShellApplication {
             name = "network-validation-scheme";
-            runtimeInputs = [ pkgs.jq ];
+            runtimeInputs = [
+              controlledDocumentLanguage
+              pkgs.jq
+            ];
             text = ''
               set -euo pipefail
               results=${result}
@@ -219,8 +244,16 @@
                     | select(.accepted == true and .exit == 0 and .diagnostic == null)
                   ' "$results"
                   ;;
+                --language)
+                  shift
+                  test "$#" -gt 0 || {
+                    echo "usage: network-validation-scheme --language ROOT..." >&2
+                    exit 2
+                  }
+                  exec controlled-document-language scan "$@"
+                  ;;
                 *)
-                  echo "usage: network-validation-scheme {--all|--list|--scenario TRACE_ID|--negative-case CASE_ID|--recover-case CASE_ID}" >&2
+                  echo "usage: network-validation-scheme {--all|--list|--scenario TRACE_ID|--negative-case CASE_ID|--recover-case CASE_ID|--language ROOT...}" >&2
                   exit 2
                   ;;
               esac
@@ -228,7 +261,8 @@
           };
         in
         {
-          inherit validationScheme;
+          inherit controlledDocumentLanguage validationScheme;
+          controlled-document-language = controlledDocumentLanguage;
           validation-scheme = validationScheme;
           validation-scheme-results = result;
           fs230-canonical-bundle = fs230Bundle;
@@ -342,6 +376,30 @@
 
                 mkdir -p "$out"
                 cp ./*.json ./*.stderr "$out/"
+              '';
+
+          controlled-document-language =
+            pkgs.runCommand "controlled-document-language"
+              {
+                nativeBuildInputs = [
+                  self.packages.${system}.controlled-document-language
+                  pkgs.bash
+                  pkgs.git
+                  pkgs.jq
+                ];
+              }
+              ''
+                baseline="$(controlled-document-language scan ${self})"
+                jq -e '
+                  .traceId == "FS-164-HDS-010-SDS-010-SMS-010"
+                  and .ruleIdentity == ${builtins.toJSON controlledDocumentLanguageContract.ruleIdentity}
+                  and .corpusFiles > 0
+                  and .violations == 0
+                ' <<<"$baseline" >/dev/null
+                SMS_TEST_REPO_ROOT=${self} \
+                  CONTROLLED_DOCUMENT_LANGUAGE_CHECKER="$(command -v controlled-document-language)" \
+                  bash ${./tests/lib/FS-164-HDS-010-SDS-010-SMS-010/language.sh}
+                touch "$out"
               '';
 
           openconfig-peer-posture =
