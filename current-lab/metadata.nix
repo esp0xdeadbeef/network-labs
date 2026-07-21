@@ -1,9 +1,9 @@
 {
   layer = "SMT";
-  selector = "FS-166-HDS-010-SDS-010-SMS-901";
-  traceId = "FS-166-HDS-010-SDS-010-SMS-901";
-  sourceKind = "replacement-cpm-artifact";
-  sourceRoot = "GAMP/SMT/FS-166-HDS-010-SDS-010-SMS-901";
-  sourcePath = "validation-scheme:scenarioDefinitions.FS-166-HDS-010-SDS-010-SMS-901.sourceArtifact";
-  selectedBy = "scripts/select-current-lab.sh default";
+  selector = "FS-970-HDS-010-SDS-020-SMS-040";
+  traceId = "FS-970-HDS-010-SDS-020-SMS-040";
+  sourceKind = "intent-source";
+  sourceRoot = "GAMP/SMT/FS-970-HDS-010-SDS-020-SMS-040";
+  sourcePath = "GAMP/SMT/FS-970-HDS-010-SDS-020-SMS-040/intent.nix";
+  selectedBy = "scripts/select-current-lab.sh SMT FS-970-HDS-010-SDS-020-SMS-040";
 }
