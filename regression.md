@@ -21,10 +21,12 @@ blobs, or shared example fragments.
 - FS-540-HDS-010-SDS-010-SMS-045 now declares its supported runtime hosts.
   The selector emits both a no-runtime inventory and a trace-tagged no-runtime
   host intent for unsupported hosts, and active-lab exposes the matching
-  `intent-s-router-hetz.nix` entrypoint. Focused construction and minimal
-  entrypoint tests pass, `nix flake check --all-systems` passes in
-  network-labs, and the consuming NixOS worktree passes the same command when
-  its Hetz renderer uses that host-specific entrypoint.
+  `intent-s-router-hetz.nix` entrypoint. The canonical Hetz compatibility path
+  `active-lab/intent.nix` follows that host-specific entrypoint, so its actual
+  consumer pair with `active-lab/inventory-hetz.nix` compiles to an empty CPM
+  runtime target set for SMT/SIT without changing the NixOS consumer. HAT/SAT
+  selectors still resolve the same path to their real intent. The focused
+  `tests/test-hetz-smt-sit-nop.sh` test compiles the exact consumer pair.
 - All reusable example allow relations now carry an explicit recognized
   `returnBehavior`. Ordinary compatibility-fixture flows use `one-way`, while
   relations with an existing public-ingress authority retain their explicit
@@ -622,12 +624,6 @@ blobs, or shared example fragments.
 - live-discovery drift: FS-720 SMS-041 and FS-800 SMS-040 kept live probes under `tests/lib`, so the canonical construction dispatcher executed them without an explicit live stage. Both probes now live at `scripts/lib/<trace>/runtime.sh` and remain reachable only through the canonical `network-codex-agent/scripts/live-<trace>.sh` dispatcher. The FS-981 catalog gate rejects any future live-named implementation under construction discovery.
 
 ## Still Broken
-
-- The canonical NixOS Hetz consumer still compiles `active-lab/intent.nix`
-  rather than the host-specific `active-lab/intent-s-router-hetz.nix` now
-  provided by network-labs. Repository rights did not permit changing or
-  pushing canonical NixOS; the one-line consumer correction was validated only
-  in the authorized `nixos-s-router-prod-reservations` worktree.
 
 - FS-540-HDS-010-SDS-010-SMS-045 cold restage14 on 2026-07-18 proved the
   resolver's scoped pre-socket UDP/TCP port-53 rules emit traffic on the

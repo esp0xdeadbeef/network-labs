@@ -195,10 +195,14 @@ uplink or dataplane path. If a mini POC needs DHCP uplinks, use `vlan4` or
 `vlan5` and make that input explicit.
 
 Keep the top-level `active-lab/` exposure minimal. `active-lab/default.nix`
-exists only to import the selected `intent.nix` and expose `mkSource` for
-row-local mini-lab intent stubs. `active-lab/intent.nix` points at the current
-default mini runtime source, and `active-lab/inventory-nixos.nix` is an
-explicit provenance stub. Do not add empty placeholders such as
+exists only to import the selected intent and expose `mkSource` for row-local
+mini-lab intent stubs. The canonical Hetz consumer reads
+`active-lab/intent.nix` directly, so that compatibility entrypoint follows
+`intent-s-router-hetz.nix`: SMT/SIT selections expose the explicit Hetz
+no-runtime contract, while HAT/SAT selections resolve to their real intent.
+Other runtime hosts use their explicit `intent-s-router-<host>.nix` entrypoint,
+and `active-lab/inventory-nixos.nix` is an explicit provenance stub. Do not add
+empty placeholders such as
 `inventory.nix`, broad host inventory lookups, or catalog directories under
 `active-lab/`. Runtime files that the NixOS harness imports directly, such as
 `clients.nix`, `inventory-clab.nix`, `inventory-hetz.nix`, and
@@ -271,7 +275,7 @@ construction/integration layers.
 Select row-local sources with `active-lab.mkSource { intent = ...; }` or
 inspect the manifest source with
 `tests/run-active-lab-mini-smt.sh --source <FS-...-SMS-... trace-id>`. Do not rewrite the
-global `active-lab/intent.nix` to run a specific row.
+`current-lab` or host compatibility shims by hand to run a specific row.
 
 Examples of intended use:
 
