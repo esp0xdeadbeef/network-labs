@@ -168,6 +168,7 @@
               }) scheme.lockClosureNegativeCases;
               lockClosurePositivePath = scheme.validateLockClosure scheme.lockClosureBase;
               skipPositiveAck = scheme.skipPositiveAck;
+              evidencePositivePath = scheme.validateEvidenceManifest scheme.evidenceBase;
               fs230PeerComparison = builtins.removeAttrs scheme.fs230PeerComparison [
                 "bundle"
                 "bindings"
