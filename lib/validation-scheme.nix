@@ -2093,6 +2093,7 @@ let
     // evidenceNegativeCases
     // skipNegativeCases
     // rendererBoundaryNegativeCases
+    // rendererConsumptionNegativeCases
     // fs540OpenConfigNegativeCases;
 
   rendererBoundaryTargets = builtins.attrNames rendererDefinitions;
@@ -2122,6 +2123,248 @@ let
       _: binding: binding.bindingIdentity
     ) rendererBoundaryBindings;
     validation = validateRendererBoundary rendererBoundaryBase;
+  };
+
+  # ---- FS-168-HDS-010-SDS-010-SMS-010: Renderer Consumption Coverage ----
+
+  rendererConsumptionTraceId = "FS-168-HDS-010-SDS-010-SMS-010";
+
+  validateRendererConsumptionCoverage =
+    manifest:
+    let
+      traceId = manifest.traceId or rendererConsumptionTraceId;
+      bundleIdentity = manifest.bundleIdentity or null;
+      expectedBundleIdentity = manifest.expectedBundleIdentity or bundleIdentity;
+      expectedSchemaIdentity = manifest.expectedSchemaIdentity or null;
+      classifications = manifest.classifications or [ ];
+      requiredPaths = manifest.requiredPaths or [ ];
+      protectedMaterial = manifest.protectedMaterial or false;
+
+      classificationPaths = map (c: c.canonicalPath or "") classifications;
+      duplicatePaths =
+        builtins.filter (
+          p: builtins.length (builtins.filter (c: (c.canonicalPath or "") == p) classifications) > 1
+        ) classificationPaths;
+      hasDuplicates = builtins.length duplicatePaths > 0;
+      firstDuplicate = if hasDuplicates then builtins.head duplicatePaths else "";
+
+      classifiedPaths = builtins.filter (p: p != "") classificationPaths;
+      unclassifiedPaths = builtins.filter (p: !(builtins.elem p classifiedPaths)) requiredPaths;
+
+      consumedRecords = builtins.filter (c: (c.classification or "") == "consumed") classifications;
+      consumedWithoutRule = builtins.filter (c: (c.rendererRule or "") == "") consumedRecords;
+
+      notApplicableRecords = builtins.filter (c: (c.classification or "") == "not-applicable") classifications;
+      notApplicableWithoutCapability = builtins.filter (
+        c: (c.capabilityAuthority or "") == ""
+      ) notApplicableRecords;
+
+      unsupportedRecords = builtins.filter (c: (c.classification or "") == "unsupported") classifications;
+      unsupportedWithoutConsequence = builtins.filter (
+        c: (c.consequence or "") == ""
+      ) unsupportedRecords;
+
+      hasProtectedMaterial =
+        protectedMaterial
+        || builtins.any (
+          c:
+          let
+            reason = c.reason or "";
+          in
+          builtins.match ".*(secret|password|token|key|credential).*" reason != null
+        ) classifications;
+    in
+    if bundleIdentity != null && expectedBundleIdentity != null
+       && bundleIdentity != expectedBundleIdentity then
+      mkRejected {
+        inherit traceId;
+        code = "RR_BUNDLE_IDENTITY_MISMATCH";
+        detail = "coverage bundle ${bundleIdentity} does not match expected ${expectedBundleIdentity}";
+      }
+    else if hasProtectedMaterial then
+      mkRejected {
+        inherit traceId;
+        code = "RR_PROTECTED_VALUE_EXPOSED";
+        detail = "consumption manifest contains protected material";
+      }
+    else if unclassifiedPaths != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_CONSUMPTION_MISSING";
+        detail = "canonical path has no classification: ${builtins.head unclassifiedPaths}";
+      }
+    else if hasDuplicates then
+      mkRejected {
+        inherit traceId;
+        code = "RR_CONSUMPTION_DUPLICATE";
+        detail = "canonical path has multiple classifications: ${firstDuplicate}";
+      }
+    else if consumedWithoutRule != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_CONSUMPTION_RULE_UNKNOWN";
+        detail = "consumed path lacks pinned renderer rule: ${
+          (builtins.head consumedWithoutRule).canonicalPath or "unknown"
+        }";
+      }
+    else if notApplicableWithoutCapability != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_NOT_APPLICABLE_UNAUTHORIZED";
+        detail = "not-applicable classification lacks capability authority: ${
+          (builtins.head notApplicableWithoutCapability).canonicalPath or "unknown"
+        }";
+      }
+    else if unsupportedWithoutConsequence != [ ] && manifest.outputAccepted or false then
+      mkRejected {
+        inherit traceId;
+        code = "RR_UNSUPPORTED_REQUIRED";
+        detail = "required semantic unsupported but accepted output continues: ${
+          (builtins.head unsupportedWithoutConsequence).canonicalPath or "unknown"
+        }";
+      }
+    else
+      mkAccepted traceId;
+
+  rendererConsumptionBase = {
+    traceId = rendererConsumptionTraceId;
+    bundleIdentity = "sha256-consumption-coverage-bundle-v1";
+    expectedBundleIdentity = "sha256-consumption-coverage-bundle-v1";
+    expectedSchemaIdentity = "network-renderer-consumption-manifest/v1";
+    target = "nixos";
+    scope = "complete";
+    outputAccepted = false;
+    protectedMaterial = false;
+    requiredPaths = [
+      "/control_plane_model/canonicalInterfaces/0/mtu"
+      "/control_plane_model/canonicalInterfaces/0/dns"
+      "/control_plane_model/canonicalInterfaces/0/ingressPolicy"
+      "/control_plane_model/canonicalInterfaces/0/interfaceType"
+    ];
+    classifications = [
+      {
+        canonicalPath = "/control_plane_model/canonicalInterfaces/0/mtu";
+        classification = "consumed";
+        rendererRule = "interface-mtu-renderer-v1";
+      }
+      {
+        canonicalPath = "/control_plane_model/canonicalInterfaces/0/dns";
+        classification = "consumed";
+        rendererRule = "dns-resolver-renderer-v1";
+      }
+      {
+        canonicalPath = "/control_plane_model/canonicalInterfaces/0/ingressPolicy";
+        classification = "not-applicable";
+        capabilityAuthority = "target-capability-limitation-v1";
+        consequence = "ingress policy not materialized on core router target";
+      }
+      {
+        canonicalPath = "/control_plane_model/canonicalInterfaces/0/interfaceType";
+        classification = "consumed";
+        rendererRule = "interface-type-renderer-v1";
+      }
+    ];
+  };
+
+  mkRendererConsumptionNegativeCase =
+    {
+      injection,
+      manifest,
+      expectedDiagnostic,
+    }:
+    {
+      inherit injection expectedDiagnostic;
+      expectedExit = 2;
+      result = validateRendererConsumptionCoverage manifest;
+      recovery = validateRendererConsumptionCoverage rendererConsumptionBase;
+    };
+
+  rendererConsumptionNegativeCases = {
+    RR-CONSUME-N1 = mkRendererConsumptionNegativeCase {
+      injection = "delete the classification for one canonical MTU path";
+      manifest = rendererConsumptionBase // {
+        classifications = builtins.filter (
+          c: (c.canonicalPath or "") != "/control_plane_model/canonicalInterfaces/0/mtu"
+        ) rendererConsumptionBase.classifications;
+      };
+      expectedDiagnostic = "RR_CONSUMPTION_MISSING";
+    };
+    RR-CONSUME-N2 = mkRendererConsumptionNegativeCase {
+      injection = "mark one path both consumed and unsupported";
+      manifest = rendererConsumptionBase // {
+        classifications = rendererConsumptionBase.classifications ++ [
+          {
+            canonicalPath = "/control_plane_model/canonicalInterfaces/0/mtu";
+            classification = "unsupported";
+            consequence = "duplicate classification";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_CONSUMPTION_DUPLICATE";
+    };
+    RR-CONSUME-N3 = mkRendererConsumptionNegativeCase {
+      injection = "remove the renderer rule identity from a consumed DNS path";
+      manifest = rendererConsumptionBase // {
+        classifications = map (
+          c:
+          if (c.canonicalPath or "") == "/control_plane_model/canonicalInterfaces/0/dns" then
+            c // { rendererRule = ""; }
+          else
+            c
+        ) rendererConsumptionBase.classifications;
+      };
+      expectedDiagnostic = "RR_CONSUMPTION_RULE_UNKNOWN";
+    };
+    RR-CONSUME-N4 = mkRendererConsumptionNegativeCase {
+      injection = "mark a required interface type not applicable without capability authority";
+      manifest = rendererConsumptionBase // {
+        classifications = map (
+          c:
+          if (c.canonicalPath or "") == "/control_plane_model/canonicalInterfaces/0/interfaceType" then
+            {
+              canonicalPath = "/control_plane_model/canonicalInterfaces/0/interfaceType";
+              classification = "not-applicable";
+              capabilityAuthority = "";
+              consequence = "interface type not applicable on this target";
+            }
+          else
+            c
+        ) rendererConsumptionBase.classifications;
+      };
+      expectedDiagnostic = "RR_NOT_APPLICABLE_UNAUTHORIZED";
+    };
+    RR-CONSUME-N5 = mkRendererConsumptionNegativeCase {
+      injection = "mark required ingress policy unsupported and still emit accepted output";
+      manifest = rendererConsumptionBase // {
+        outputAccepted = true;
+        classifications = map (
+          c:
+          if (c.canonicalPath or "") == "/control_plane_model/canonicalInterfaces/0/ingressPolicy" then
+            {
+              canonicalPath = "/control_plane_model/canonicalInterfaces/0/ingressPolicy";
+              classification = "unsupported";
+              consequence = "";
+            }
+          else
+            c
+        ) rendererConsumptionBase.classifications;
+      };
+      expectedDiagnostic = "RR_UNSUPPORTED_REQUIRED";
+    };
+    RR-CONSUME-N6 = mkRendererConsumptionNegativeCase {
+      injection = "reuse coverage from another bundle identity";
+      manifest = rendererConsumptionBase // {
+        bundleIdentity = "sha256-wrong-bundle-identity-deadbeef";
+      };
+      expectedDiagnostic = "RR_BUNDLE_IDENTITY_MISMATCH";
+    };
+    RR-CONSUME-N7 = mkRendererConsumptionNegativeCase {
+      injection = "include a secret value in a reason field";
+      manifest = rendererConsumptionBase // {
+        protectedMaterial = true;
+      };
+      expectedDiagnostic = "RR_PROTECTED_VALUE_EXPOSED";
+    };
   };
 
   lockClosureTraceId = "FS-163-HDS-010-SDS-010-SMS-010";
@@ -2359,6 +2602,8 @@ in
     lockClosureNegativeCases
     rendererBoundaryConformance
     rendererBoundaryNegativeCases
+    rendererConsumptionBase
+    rendererConsumptionNegativeCases
     scenarioDefinitions
     seededNegativeCases
     skipNegativeCases
@@ -2367,6 +2612,7 @@ in
     validateFlowManifest
     validateLockClosure
     validateRendererBoundary
+    validateRendererConsumptionCoverage
     validateSourceArtifact
     validateScenarioManifest
     ;
