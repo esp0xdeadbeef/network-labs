@@ -64,9 +64,16 @@ let
   allIntentSourcesHaveRelations =
     builtins.all
       (name:
-        let entry = builtins.getAttr name manifest.tests;
+        let
+          entry = builtins.getAttr name manifest.tests;
+          boundary = entry.evidenceBoundary or "runtime";
         in
-          if entry.source != null && entry.source.kind == "intent-source" then
+          if
+            boundary != "construction-only"
+            && boundary != "source-stub-only"
+            && entry.source != null
+            && entry.source.kind == "intent-source"
+          then
             builtins.length (entry.source.expectedRelationIds or [ ]) >= 1
           else
             true)
@@ -113,7 +120,7 @@ in
   && require allHaveSource "every runtime mini SMT must declare an explicit source; a construction row may declare either no source or one typed row-local source"
   && require allBoundariesConsistent "construction rows must declare zero runtime targets and runtime rows must declare a positive target count"
   && require rendererTargetsAreKnown "rendererTarget must name a supported renderer family"
-  && require allIntentSourcesHaveRelations "intent-source mini SMTs must bind at least one relation id"
+  && require allIntentSourcesHaveRelations "runtime intent-source mini SMTs must bind at least one relation id"
   && require allSourcesAreMini "mini SMT sources must come from row-local GAMP/SMT/FS-* dirs"
   && require allRowsHaveLayerDirs "mini SMTs must declare SMT SMS-level and SIT SDS-level row directories"
   && require noHatSatEvidence "mini SMT manifest must not claim HAT/SAT evidence levels"
