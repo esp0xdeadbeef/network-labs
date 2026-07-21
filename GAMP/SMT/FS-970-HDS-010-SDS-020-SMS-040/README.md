@@ -3,8 +3,7 @@
 Canonical SMS:
 `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
-Status: NOT OK pending the expanded protected-source capability negative and a
-fresh isolated dual-substrate cold stage.
+Status: OK at the isolated SMT/SIT boundary.
 
 This row supplies one real NixOS reservation probe on lab VLAN397 and one real
 CLAB reservation probe on lab VLAN398. Both run on
@@ -25,7 +24,7 @@ The accepted protocol had two distinct boots:
 3. Compare the protected SOPS/runtime record and current client observations
    internally. Emit only redacted predicates.
 
-The 2026-07-19 run returned:
+The accepted 2026-07-21 run returned:
 
 ```text
 FS970_STAGING=PASS hosts=3 cold_start=yes guest_system=changed source_hashes=exact pins=exact
@@ -33,8 +32,8 @@ FS970_INTEGRATION=PASS substrates=nixos,clab client=s-router-test-clients
 OK FS-970-HDS-010-SDS-020
 ```
 
-The final restage selected `network-labs` revision `665bdc0e2f91` and common
-`network-renderer-nebula` revision `0e6ee9367b40`.
+The final restage selected `network-labs` revision `465123b4b5fc` and common
+`network-renderer-nebula` revision `94f2d80a908d` from the pushed root lock.
 
 Both substrates exposed real UDP 67/547 services, delivered the secret
 read-only with mode `0400`, materialized equivalent Kea reservations only at
@@ -44,12 +43,10 @@ across the clean stage. Public source, diagnostics, and build templates did not
 contain protected record values, and no host-profile overwrite modified the
 renderer output.
 
-That earlier positive remains historical evidence, but it did not exercise a
-node with an unrelated protected routed-prefix bind and no served DHCP scope.
-Retry-5 exposed that missing negative when every FS-230 node was incorrectly
-labeled for Kea reconciliation. The row cannot remain OK until the renderer
-derives the label from actual Kea reconciliation scripts, the new negative
-passes, and the corrected pins complete another cold stage.
+The construction negative also proves that a node with an unrelated protected
+routed-prefix bind and no served DHCP scope receives neither a Kea lifecycle
+label nor a reconciliation attempt. The live run used the corrected pushed
+renderer and did not add a runtime repair.
 
 This is SMT/SIT evidence for isolated lab clients only. It is not HAT, SAT, or
 production evidence, and it does not authorize testing on VLAN2 or a production

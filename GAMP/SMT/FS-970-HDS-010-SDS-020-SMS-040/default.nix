@@ -13,10 +13,10 @@
     };
     evidenceBoundary = "live-protected-reservation";
   };
-  status = "NOT OK";
+  status = "OK";
   evidence = {
     constructionStatus = "OK";
-    liveStatus = "NOT OK";
-    observedResult = "The previous live pass remains historical evidence. The expanded protected-source capability negative now passes in the owning CLAB renderer, but the corrected pushed lock still requires a fresh simultaneous three-host cold stage before this row can return to OK.";
+    liveStatus = "OK";
+    observedResult = "On 2026-07-21, the expanded protected-source capability negative and the canonical live validator passed after a simultaneous cold stage of s-router-nixos, s-router-clab, and s-router-test-clients from the exact pushed lock. Both substrates preserved enrolled MAC, DUID, IAID, and IID identity, materialized protected reservations only at runtime, and assigned one predictable IPv4 and IPv6 address without a hotpatch or protected-value disclosure.";
   };
 }
