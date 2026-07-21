@@ -11,7 +11,6 @@
     constructionStatus = "OK";
     liveStatus = "NOT OK";
     maxRuntimeTargets = 0;
-    command = "bash tests/FS-164-HDS-010-SDS-010-SMS-010.sh";
     observedResult = "The canonical validation-scheme language checker scans the controlled corpus and proves DOC-LANG-N1 through DOC-LANG-N5 with exact diagnostics, exit behavior, privacy-safe output, and recovery. This row has no runtime network target.";
   };
 }

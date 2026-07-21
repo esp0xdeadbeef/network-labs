@@ -608,6 +608,19 @@ blobs, or shared example fragments.
   SIT evidence only; it does not claim live PPPoE session establishment, HAT,
   or SAT acceptance.
 
+## 2026-07-21 canonical catalog and intent regressions
+
+- state=solved
+- owner: network-labs
+- scope: canonical test discovery and FS-060-HDS-010-SDS-010-SMS-010 selection
+- first-bad-artifact: The trace-derived FS-540 construction sweep encountered seven broken descriptive case symlinks that still referenced a removed shared manifest runner. The catalog gate also found one explicit `command` mapping in the FS-164 row, which duplicated data already derived from its trace ID.
+- discovery fix: Removed all seven broken legacy symlinks and the explicit FS-164 command field. `bash tests/FS-981-HDS-010-SDS-010-SMS-030.sh` now proves that all 553 SMS rows use trace-derived entrypoints: 513 runnable rows and 40 explicit `NOT OK` rows.
+- intent finding: The full current-lab selector rejected the FS-060 mini-SMT allow relation because it omitted `returnBehavior`. After the selector began consuming explicit SIT `smsInputs` instead of the alphabetically first global manifest row, it exposed the same omission in the previously masked FS-370 lane-egress and FS-800 provider-handoff sources. These were source-intent omissions, not downstream compiler or renderer defects.
+- intent fix: FS-060, FS-370, and FS-800 now declare `stateful-return` on their selected client/provider-to-external allow relations. The SIT selector consumes those explicit contracts successfully; no downstream stage invents return semantics.
+- selector fix: SIT selection now derives candidates from the row-owned `smsInputs`, excludes inputs declared as construction-only or source-stub-only, and uses the global manifest only for legacy SIT rows without `smsInputs`. This selects FS-370 SMS-050 and FS-540 SMS-020 from their controlled row data rather than from unrelated alphabetical ordering.
+- selector-test drift: Once FS-540 SMS-020 was selected correctly, the selector regression still expected one removed pseudo-client whose address was the access resolver itself. The row-owned client intent now exposes separate NixOS and CLAB endpoints. The regression asserts both clients, their isolated bridges, client addresses, gateways, and access-resolver-only DNS configuration.
+- live-discovery drift: FS-720 SMS-041 and FS-800 SMS-040 kept live probes under `tests/lib`, so the canonical construction dispatcher executed them without an explicit live stage. Both probes now live at `scripts/lib/<trace>/runtime.sh` and remain reachable only through the canonical `network-codex-agent/scripts/live-<trace>.sh` dispatcher. The FS-981 catalog gate rejects any future live-named implementation under construction discovery.
+
 ## Still Broken
 
 - The canonical NixOS Hetz consumer still compiles `active-lab/intent.nix`

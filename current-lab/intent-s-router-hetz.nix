@@ -5,7 +5,7 @@ in
 rec {
   control_plane_model = {
     meta = {
-      traceId = "FS-970-HDS-010-SDS-020-SMS-040";
+      traceId = "FS-540-HDS-010-SDS-010-SMS-045";
       source = "network-labs current-lab SMT/SIT hetz-host no-runtime source";
     };
     deployment.hosts.s-router-hetz = hetzHost // {

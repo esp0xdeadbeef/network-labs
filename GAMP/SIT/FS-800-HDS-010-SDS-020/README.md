@@ -14,11 +14,10 @@ Run the row-local source structure check:
 bash tests/FS-800-HDS-010-SDS-020-SMS-040.sh
 ```
 
-Run the live provider-handoff default-route SIT against the active lab:
+Run the canonical live entrypoint after staging this row on the isolated lab:
 
 ```sh
-S_ROUTER_NIXOS=192.168.1.17 S_ROUTER_CLAB=192.168.1.19 \
-  bash tests/FS-800-HDS-010-SDS-020-SIT-live-provider-access-default-route.sh
+../network-codex-agent/scripts/live-FS-800-HDS-010-SDS-020-SMS-040.sh --live
 ```
 
 Live row evidence on 2026-06-30:

@@ -139,5 +139,5 @@ echo "PASS ${trace_id}"
 
 if [[ "${1:-}" == "--live" ]]; then
   shift
-  bash "${repo_root}/tests/lib/FS-720-HDS-030-SDS-010-SMS-041-live.sh" "${1:-s-router-clab}"
+  bash "${repo_root}/scripts/lib/FS-720-HDS-030-SDS-010-SMS-041/runtime.sh" "${1:-s-router-clab}"
 fi

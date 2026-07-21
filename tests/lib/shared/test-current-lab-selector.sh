@@ -558,7 +558,8 @@ let
   clabUplinks = inventoryClab.deploymentHosts.s-router-clab.uplinks;
   clabProvider = builtins.head inventoryClab.containerlab.labEmulation.requests;
   clientSite = activeIntentClients.control_plane_model.data."mini-smt"."FS-540-HDS-010-SDS-010-SMS-020";
-  clientEndpoint = clientSite.endpointAssignment."dns-resolver-config-access-dns" or {};
+  nixosClientEndpoint = clientSite.endpointAssignment."dns-resolver-nixos-client" or {};
+  clabClientEndpoint = clientSite.endpointAssignment."dns-resolver-clab-client" or {};
 in
   require (current.selection.layer == "SIT") "FS-540 SIT selector layer mismatch"
   && require (current.selection.selector == "FS-540-HDS-010-SDS-010") "FS-540 SIT selector id mismatch"
@@ -583,10 +584,14 @@ in
   && require (inventoryClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT inventory must preserve VLAN2 management"
   && require (activeIntentClients.control_plane_model.realization.nodes == { }) "FS-540 test-client SIT intent must not synthesize router realization nodes"
   && require (clientSite.runtimeTargets == { }) "FS-540 test-client SIT intent must not synthesize router runtime targets"
-  && require (builtins.hasAttr "dns-resolver-config-access-dns" clientSite.endpointAssignment) "FS-540 test-client SIT intent must expose the DNS access endpoint assignment"
-  && require (clientEndpoint.owningSubstrate == "s-router-test-clients" && clientEndpoint.mode == "static") "FS-540 test-client SIT endpoint assignment must target s-router-test-clients as a static endpoint"
-  && require (clientEndpoint.bridge == "br-mini-smt-dns-resolver-config-tenant-client") "FS-540 test-client SIT endpoint assignment must use the modeled tenant bridge"
-  && require (clientEndpoint.static.address == "10.54.10.1" && clientEndpoint.static.address6 == "fd42:540::1") "FS-540 test-client SIT endpoint assignment must carry the DNS listener addresses"
+  && require (builtins.attrNames clientSite.endpointAssignment == [ "dns-resolver-clab-client" "dns-resolver-nixos-client" ]) "FS-540 test-client SIT intent must expose exactly the NixOS and CLAB DNS clients"
+  && require (nixosClientEndpoint.owningSubstrate == "s-router-test-clients" && nixosClientEndpoint.mode == "static") "FS-540 NixOS client endpoint must target s-router-test-clients as a static endpoint"
+  && require (clabClientEndpoint.owningSubstrate == "s-router-test-clients" && clabClientEndpoint.mode == "static") "FS-540 CLAB client endpoint must target s-router-test-clients as a static endpoint"
+  && require (nixosClientEndpoint.bridge == "dns540n" && clabClientEndpoint.bridge == "dns540c") "FS-540 test-client SIT endpoints must use their modeled substrate bridges"
+  && require (nixosClientEndpoint.static.address == "10.54.10.10" && nixosClientEndpoint.static.address6 == "fd42:540::10") "FS-540 NixOS client endpoint must carry its modeled dual-stack client addresses"
+  && require (clabClientEndpoint.static.address == "10.54.10.10" && clabClientEndpoint.static.address6 == "fd42:540::10") "FS-540 CLAB client endpoint must carry its modeled dual-stack client addresses"
+  && require (nixosClientEndpoint.static.gateway4 == "10.54.10.1" && nixosClientEndpoint.static.gateway6 == "fd42:540::1") "FS-540 NixOS client endpoint must point at the access resolver"
+  && require (clabClientEndpoint.static.dnsServers == [ "10.54.10.1" "fd42:540::1" ]) "FS-540 CLAB client endpoint must use only the access resolver"
   && require (activeIntentClients.deploymentHosts.s-router-test-clients.uplinks.management.vlan == 2) "FS-540 test-client SIT intent must preserve VLAN2 management"
   && require (nixosUplinks ? testnet-vlan4 && nixosUplinks.testnet-vlan4.vlan == 4 && nixosUplinks.testnet-vlan4.mode == "vlan" && nixosUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 NixOS mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"
   && require (clabUplinks ? testnet-vlan4 && clabUplinks.testnet-vlan4.vlan == 4 && clabUplinks.testnet-vlan4.mode == "vlan" && clabUplinks.testnet-vlan4.ipv4.method == "dhcp") "FS-540 CLAB mini uplink must be explicit VLAN4 link with DHCP addressing, not untagged testnet"

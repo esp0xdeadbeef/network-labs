@@ -6,6 +6,7 @@
           {
             id = "FS-370-HDS-010-SDS-010-SMS-050__mini-client-to-testnet-uplink";
             action = "allow";
+            returnBehavior = "stateful-return";
             from = {
               kind = "tenant";
               name = "client";
