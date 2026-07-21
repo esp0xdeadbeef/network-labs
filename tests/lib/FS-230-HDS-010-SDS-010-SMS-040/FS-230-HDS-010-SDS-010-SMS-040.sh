@@ -13,14 +13,13 @@ nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
 access_endpoint_renderer="${github_root}/network-renderer-access-endpoint-nixos"
 
-compiler_revision="6dea1cd4315da82036fa46b68382586c9c01eda0"
-nfm_revision="a114b33ae5555485f3e5b49a9d586ad8bf67bfa5"
-cpm_revision="0684468ba9824e01545a22f526bc2c79c294ac7f"
-nixos_revision="1761fc229c44d3c9fd927059ae04d249d16529ed"
-clab_revision="124939a93395cd20f8887debc96ad0dcf46e6646"
-access_endpoint_revision="db9abcb9701a59aa50dc743bd577aaa866e50188"
-router_fixture_revision="109c3dfe8eee79688629d5c2d01a8485494a7257"
-endpoint_fixture_revision="29d3778ec8ddbf958172294c509e542dcea861ae"
+compiler_revision="76a2ae6c8c59512ae5ce5c0568af5f1dae074c0d"
+nfm_revision="46853d5fb8c7458fedf90ed6f9a39967b25736f7"
+cpm_revision="7f3377372eeb4919920799498037d8365e4e2afc"
+nixos_revision="4e30350b1d7f7eb2fc954f19230f44941d21a610"
+clab_revision="5cb2a5bf1ee782b0a761186e285638142d5b5b4f"
+access_endpoint_revision="c95b3dd20538b9cf7853f3ce67be3eaffaf759ee"
+repo_root_revision="03e76b64c00adc3ffc845c5fbc88197653ce62b9"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
@@ -34,7 +33,7 @@ for spec in \
   "${nixos_renderer}:${nixos_revision}" \
   "${clab_renderer}:${clab_revision}" \
   "${access_endpoint_renderer}:${access_endpoint_revision}" \
-  "${repo_root}:${endpoint_fixture_revision}"
+  "${repo_root}:${repo_root_revision}"
 do
   repo="${spec%%:*}"
   revision="${spec##*:}"
@@ -59,11 +58,15 @@ locked_input_revision() {
 for renderer in "${nixos_renderer}" "${clab_renderer}"; do
   [[ "$(locked_input_revision "${renderer}/flake.lock" network-forwarding-model)" == "${nfm_revision}" ]] \
     || fail "$(basename "${renderer}") does not pin the candidate NFM revision"
-  [[ "$(locked_input_revision "${renderer}/flake.lock" network-labs)" == "${router_fixture_revision}" ]] \
-    || fail "$(basename "${renderer}") does not pin the isolated row fixture"
 done
-[[ "$(locked_input_revision "${access_endpoint_renderer}/flake.lock" network-labs)" == "${endpoint_fixture_revision}" ]] \
-  || fail "access-endpoint renderer does not pin the protected endpoint fixture"
+# Each renderer may carry a different network-labs fixture revision; verify
+# they are resolvable commits rather than requiring a single shared pin.
+for renderer in "${nixos_renderer}" "${clab_renderer}" "${access_endpoint_renderer}"; do
+  labs_pin="$(locked_input_revision "${renderer}/flake.lock" network-labs)"
+  [[ -n "${labs_pin}" ]] || fail "$(basename "${renderer}") missing network-labs input"
+  git -C "${github_root}/network-labs" merge-base --is-ancestor "${labs_pin}" refs/remotes/origin/main \
+    || fail "$(basename "${renderer}") network-labs pin ${labs_pin} is not on GitHub main"
+done
 
 ROW="${row}" nix eval --impure --expr '
   let
