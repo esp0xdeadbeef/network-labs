@@ -24,6 +24,6 @@
   evidence = {
     maxRuntimeTargets = 6;
     scope = "isolated dual-stack NixOS/CLAB recursive and local-only DNS with real s-router-test-clients endpoints, first-attempt selected egress, persistent listeners, and convergent dynamic routes; production VLANs excluded";
-    observedResult = "2026-07-19 OK after the exact three-guest cold-stage protocol: both NixOS and CLAB passed first-attempt IPv4/IPv6 UDP/TCP recursion through only the modeled selected provider, direct-core access, local namespace sharing, deterministic lateral REFUSED behavior, blocked unauthorized direct paths, persistent authority/resolver listeners, convergent route state, and zero reproducibility warnings. No production VLAN, public resolver, host resolver, or external authority was an acceptance dependency.";
+    observedResult = "2026-07-21 OK after the exact three-guest cold-stage protocol from pushed network-labs, CPM, NixOS-renderer, and CLAB-renderer revisions: both NixOS and CLAB passed first-attempt IPv4/IPv6 UDP/TCP recursion through only the modeled selected provider, direct-core access, local namespace sharing, deterministic lateral REFUSED behavior, blocked unauthorized direct paths, persistent authority/resolver listeners, convergent route state, and zero reproducibility warnings. No production VLAN, public resolver, host resolver, or external authority was an acceptance dependency.";
   };
 }
