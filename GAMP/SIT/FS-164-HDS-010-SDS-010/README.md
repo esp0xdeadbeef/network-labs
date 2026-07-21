@@ -1,7 +1,7 @@
-# SIT Source Stub: FS-164-HDS-010-SDS-010
+# SIT: FS-164-HDS-010-SDS-010
 
-Status: NOT OK - source stub only.
+Status: NOT OK - no integration promotion.
 
-This SDS-scoped SIT row was created to keep the network-labs GAMP tree aligned
-with the canonical SMS trace set. Add integrated artifact evidence before
-marking any child SMS input OK.
+The child SMS is intentionally construction-only and has no runtime network
+source. Its focused test does not promote the language checker to SIT, HAT,
+SAT, or live network evidence.

@@ -3,6 +3,7 @@
   system,
   rootLockIdentity,
   networkLabsRevision,
+  controlledDocumentLanguageContract,
 }:
 
 let
@@ -2025,6 +2026,7 @@ let
 in
 {
   inherit
+    controlledDocumentLanguageContract
     evidenceNegativeCases
     flowBoundaryCases
     flowNegativeCases

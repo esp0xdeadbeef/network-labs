@@ -1,11 +1,13 @@
-# SMS Mirror: FS-164-HDS-010-SDS-010-SMS-010
+# SMS: FS-164-HDS-010-SDS-010-SMS-010
 
 Canonical SMS: `network-codex-agent/GAMP/SMS/FS-164-HDS-010-SDS-010-SMS-010-english-controlled-corpus.md`
 
-This network-labs row mirrors the canonical GAMP SMS trace so lab-source
-coverage cannot silently omit it.
+This row binds the canonical specification to the versioned language contract,
+the deterministic checker, and the focused negative suite in
+`network-labs#validation-scheme`.
 
-Status: Source stub only - not validation evidence.
+Status: OK - construction evidence only.
 
-The canonical SMS title slug is `english-controlled-corpus`. Add row-specific lab source and
-focused validation evidence in the SMT/SIT row before marking this trace OK.
+The canonical trace-derived test proves the current corpus plus DOC-LANG-N1
+through DOC-LANG-N5. It has no runtime source or deployment target and cannot
+be promoted to live evidence.

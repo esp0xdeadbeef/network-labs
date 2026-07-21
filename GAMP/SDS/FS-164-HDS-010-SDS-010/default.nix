@@ -1,13 +1,13 @@
 {
   layer = "SDS";
   traceId = "FS-164-HDS-010-SDS-010";
-  purpose = "Canonical SMS mirror source-stub grouping.";
+  purpose = "Controlled document classification and language-gate interface.";
   smsInputs = {
     "FS-164-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-164-HDS-010-SDS-010-SMS-010;
-      miniSmtIds = [ "canonical-source-stub" ];
-      inputKinds = [ "source-reference" ];
-      evidenceBoundary = "source-stub-only";
+      miniSmtIds = [ "FS-164-HDS-010-SDS-010-SMS-010" ];
+      inputKinds = [ "construction-only" ];
+      evidenceBoundary = "construction-only";
     };
   };
 }
