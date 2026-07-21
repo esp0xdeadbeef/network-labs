@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# GAMP-ID: FS-960-HDS-010-SDS-010-SMS-080
-# GAMP-SCOPE: test infrastructure seed entrypoint for network-labs
+# Repository seed entrypoint; it is infrastructure, not an SMS test case.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -77,7 +76,7 @@ for example_dir in "${repo_root}/examples"/*; do
 done
 
 {
-  echo "trace=FS-960-HDS-010-SDS-010-SMS-080"
+  echo "source=network-labs-seed"
   echo "network-labs.repo=${repo_root}"
   echo "network-labs.commit=${head_commit}"
   echo "generated_at=${timestamp}"

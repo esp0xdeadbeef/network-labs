@@ -118,17 +118,35 @@ while IFS= read -r trace; do
     "GAMP/SMS/${trace}/README.md" \
     "GAMP/SMS/${trace}/default.nix" \
     "GAMP/SMT/${trace}/README.md" \
-    "GAMP/SMT/${trace}/default.nix" \
-    "GAMP/SMT/${trace}/intent.nix" \
-    "GAMP/SMT/${trace}/inventory-clab.nix" \
-    "GAMP/SMT/${trace}/inventory-nixos.nix" \
-    "GAMP/SMT/${trace}/inventory-test-clients.nix"; do
+    "GAMP/SMT/${trace}/default.nix"; do
     if [[ ! -f "${repo_root}/${path}" ]]; then
       echo "FAIL missing canonical mirror file: ${path}" >&2
       exit 1
     fi
   done
+
 done <"${canonical_unique}"
+
+jq -Rsc 'split("\n") | map(select(length > 0))' \
+  "${canonical_unique}" >"${tmp_dir}/canonical.json"
+nix eval --impure --expr "
+  let
+    traces = builtins.fromJSON (builtins.readFile ${tmp_dir}/canonical.json);
+    valid = trace:
+      let
+        sms = import (builtins.toPath (\"${repo_root}/GAMP/SMS/\" + trace + \"/default.nix\"));
+        smt = import (builtins.toPath (\"${repo_root}/GAMP/SMT/\" + trace + \"/default.nix\"));
+      in
+        sms.traceId == trace
+        && sms.layer == \"SMS\"
+        && smt.traceId == trace
+        && smt.layer == \"SMT\";
+  in
+    if builtins.all valid traces then true else throw \"canonical mirror metadata mismatch\"
+" >/dev/null || {
+  echo "FAIL canonical mirror metadata mismatch" >&2
+  exit 1
+}
 
 printf 'PASS canonical SMS mirror: %s SMS traces, %s SIT SDS traces\n' \
   "$(wc -l <"${canonical_unique}")" \
