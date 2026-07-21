@@ -44,7 +44,10 @@ for candidate in "${candidates[@]}"; do
   candidate_repo="$(cd "$(dirname "${candidate}")/.." && pwd)"
   (
     cd "${candidate_repo}"
-    NETWORK_REPO_DIRECT_TEST_OK=1 SMS_TEST_TRACE_ID="${trace_id}" bash "${candidate}"
+    NETWORK_LABS_PATH="${workspace_root}/network-labs" \
+      NETWORK_REPO_DIRECT_TEST_OK=1 \
+      SMS_TEST_TRACE_ID="${trace_id}" \
+      bash "${candidate}"
   )
   run_count=$((run_count + 1))
 done
