@@ -48,17 +48,10 @@ let
       dhcp = false;
       dhcpv6PD = false;
     };
-  }
-  // (
-    if clab then
-      { mode = "isolated"; }
-    else
-      {
-        mode = "vlan";
-        parent = "eth0";
-        vlan = 4;
-      }
-  );
+    mode = "vlan";
+    parent = "eth0";
+    vlan = 4;
+  };
   deploymentHosts.${host} = {
     bridgeNetworks = {
       ${clientBridge} = {
