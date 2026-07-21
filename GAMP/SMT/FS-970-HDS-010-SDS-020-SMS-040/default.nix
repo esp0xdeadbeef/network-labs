@@ -13,8 +13,10 @@
     };
     evidenceBoundary = "live-protected-reservation";
   };
-  status = "OK";
+  status = "NOT OK";
   evidence = {
-    observedResult = "On 2026-07-19, private enrollment followed by a second pushed-revision cold stage made real s-router-nixos/VLAN397 and s-router-clab/VLAN398 branches both pass exact SOPS runtime delivery, UDP 67/547 readiness, stable MAC/DUID/IAID/IID, predictable IPv4/IPv6 leases, zero extra global addresses, and public/build redaction on s-router-test-clients.";
+    constructionStatus = "OK";
+    liveStatus = "NOT OK";
+    observedResult = "The previous live pass remains historical evidence. The expanded protected-source capability negative now passes in the owning CLAB renderer, but the corrected pushed lock still requires a fresh simultaneous three-host cold stage before this row can return to OK.";
   };
 }
