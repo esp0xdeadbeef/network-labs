@@ -517,6 +517,42 @@
                 cp ./*.json "$out/"
               '';
 
+          openconfig-peer-posture-negatives =
+            pkgs.runCommand "openconfig-peer-posture-negatives"
+              {
+                nativeBuildInputs = [
+                  inputs.network-renderer-openconfig.packages.${system}.fs230-posture
+                  pkgs.bash
+                  pkgs.coreutils
+                  pkgs.diffutils
+                  pkgs.git
+                  pkgs.gnugrep
+                  pkgs.jq
+                ];
+              }
+              ''
+                export FS230_POSTURE=${inputs.network-renderer-openconfig.packages.${system}.fs230-posture}/bin/fs230-posture
+                export JQ=${pkgs.jq}/bin/jq
+                export DIFF=${pkgs.diffutils}/bin/diff
+                export CMP=${pkgs.diffutils}/bin/cmp
+                export GIT=${pkgs.git}/bin/git
+
+                export BUNDLE=${self.packages.${system}.fs230-canonical-bundle}
+                export INTENT=${./GAMP/SMT/FS-230-HDS-010-SDS-010-SMS-040/intent.nix}
+                export WRONG_BUNDLE=${inputs.network-renderer-openconfig.packages.${system}.fs230-wrong-canonical-bundle-json}
+
+                export COMPILER_REVISION=${inputs.network-compiler.rev}
+                export CPM_REVISION=${inputs.network-control-plane-model.rev}
+                export NETWORK_LABS_REVISION=${networkLabsRevision}
+
+                ${pkgs.bash}/bin/bash ${
+                  ./tests/lib/FS-162-HDS-010-SDS-040-SMS-010/all-negatives.sh
+                }
+
+                mkdir -p "$out"
+                touch "$out/OK"
+              '';
+
           openconfig-instance-emission =
             inputs.network-renderer-openconfig.checks.${system}.canonical-interface-emission;
           openconfig-emission-negatives =
