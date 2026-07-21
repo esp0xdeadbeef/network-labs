@@ -1,15 +1,18 @@
 {
   meta = {
     traceId = "FS-540-HDS-010-SDS-010-SMS-020";
-    scope = "row-local-test-client-endpoint-source";
+    scope = "isolated-dual-stack-dns-client-attachments";
   };
-  hosts = { };
-  deploymentHosts = {
-    s-router-test-clients = {
-      bridgeNetworks = {
-        "br-mini-smt-dns-resolver-config-tenant-client" = { };
-      };
+  deploymentHosts.s-router-test-clients.bridgeNetworks = {
+    dns540n = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 411;
+    };
+    dns540c = {
+      mode = "vlan";
+      parent = "eth0";
+      vlan = 412;
     };
   };
-  realization.nodes = { };
 }

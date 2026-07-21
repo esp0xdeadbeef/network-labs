@@ -3,7 +3,6 @@
     FS-540-HDS-010-SDS-010-SMS-020 = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4-vlan4 = "testnet-vlan4";
           service-access-dns = "access-dns";
           tenant-client = "client";
         };
@@ -24,22 +23,7 @@
             priority = 100;
           }
           {
-            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-service-to-testnet";
-            action = "allow";
-            from = {
-              kind = "service";
-              name = "access-dns";
-            };
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-vlan4" ];
-            };
-            trafficType = "dns";
-            returnBehavior = "stateful-return";
-            priority = 110;
-          }
-          {
-            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-dns-client-to-testnet";
+            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-client-web-to-testnet";
             action = "allow";
             from = {
               kind = "tenant";
@@ -49,9 +33,9 @@
               kind = "external";
               uplinks = [ "testnet-vlan4" ];
             };
-            trafficType = "any";
-            returnBehavior = "stateful-return";
-            priority = 120;
+            trafficType = "web";
+            returnBehavior = "symmetric";
+            priority = 200;
           }
         ];
         services = [
@@ -78,13 +62,96 @@
             ];
           }
           {
-            name = "any";
+            name = "web";
             match = [
               {
                 family = "any";
-                proto = "any";
+                proto = "tcp";
+                dports = [
+                  80
+                  443
+                ];
               }
             ];
+          }
+        ];
+      };
+
+      recursiveDnsIntent = {
+        services = [
+          {
+            name = "core-dns";
+            providerNode = "resolver-node";
+            addressAuthority = "model-allocated-service-prefix";
+            trafficType = "dns";
+            recursionMode = "iterative";
+          }
+        ];
+        relations = [
+          {
+            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-access-dns-to-core-dns";
+            priority = 110;
+            from = {
+              kind = "service";
+              name = "access-dns";
+            };
+            to = {
+              kind = "service";
+              name = "core-dns";
+            };
+            trafficType = "dns";
+            action = "allow";
+            returnBehavior = "symmetric";
+          }
+          {
+            id = "FS-540-HDS-010-SDS-010-SMS-020__mini-core-dns-to-testnet";
+            priority = 120;
+            from = {
+              kind = "service";
+              name = "core-dns";
+            };
+            to = {
+              kind = "external";
+              uplinks = [ "testnet-vlan4" ];
+            };
+            trafficType = "dns";
+            action = "allow";
+            returnBehavior = "symmetric";
+          }
+        ];
+        bindings = [
+          {
+            requesterScope = {
+              kind = "service";
+              name = "access-dns";
+            };
+            advertisedResolver = {
+              kind = "service";
+              name = "access-dns";
+            };
+            resolverSource = "local-recursive";
+            upstreamResolver = {
+              kind = "service";
+              name = "core-dns";
+              node = "resolver-node";
+            };
+            resolverPath = [
+              "access-dns"
+              "downstream-selector"
+              "policy"
+              "upstream-selector"
+              "resolver-node"
+            ];
+            egressSurface = {
+              kind = "external";
+              uplinks = [ "testnet-vlan4" ];
+            };
+            returnBehavior = "symmetric";
+            allowedAddressFamilies = [
+              "ipv4"
+              "ipv6"
+            ];
+            directPublicFallback = false;
           }
         ];
       };
@@ -157,7 +224,6 @@
           };
           resolver-node = {
             role = "core";
-            external = "testnet-vlan4";
             uplinks = {
               testnet-vlan4 = {
                 ipv4 = [ "0.0.0.0/0" ];
