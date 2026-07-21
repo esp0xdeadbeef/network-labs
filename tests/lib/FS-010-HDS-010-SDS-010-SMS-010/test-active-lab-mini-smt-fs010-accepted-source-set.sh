@@ -4,8 +4,6 @@ set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 trace="FS-010-HDS-010-SDS-010-SMS-010"
-agent_repo="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
-canonical_test="${agent_repo}/tests/test-gamp-sms-input-contracts.sh"
 intent_path="${MINI_SMT_INTENT_PATH:-${repo_root}/GAMP/SMT/${trace}/intent.nix}"
 
 fail() {
@@ -21,23 +19,19 @@ fail() {
   || fail "source kind must be intent-source, got ${MINI_SMT_SOURCE_KIND:-unset}"
 [[ -f "${intent_path}" ]] \
   || fail "intent source is missing: ${intent_path}"
-[[ -x "${canonical_test}" ]] \
-  || fail "canonical source-set construction test is missing or not executable: ${canonical_test}"
 
 expected_relation="${trace}__mini-verify"
-relation_ids="$(
+relation_records="$(
   INTENT_PATH="${intent_path}" TRACE_ID="${trace}" nix eval --impure --raw --expr '
     let
       intent = import (builtins.getEnv "INTENT_PATH");
       traceId = builtins.getEnv "TRACE_ID";
       site = builtins.getAttr traceId intent.mini-smt;
-    in builtins.concatStringsSep "\n" (map (relation: relation.id) site.communicationContract.relations)
+    in builtins.concatStringsSep "\n" (map (relation: "${relation.id}\t${relation.returnBehavior or "missing"}") site.communicationContract.relations)
   '
 )"
 
-grep -Fxq "${expected_relation}" <<<"${relation_ids}" \
-  || fail "intent source does not expose expected relation ${expected_relation}"
-
-bash "${canonical_test}"
+grep -Fxq "${expected_relation}"$'\tstateful-return' <<<"${relation_records}" \
+  || fail "intent source does not expose ${expected_relation} with explicit stateful-return behavior"
 
 echo "PASS ${trace}: accepted source-set construction"

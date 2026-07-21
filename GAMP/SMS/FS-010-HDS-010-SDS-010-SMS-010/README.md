@@ -11,10 +11,12 @@ The canonical SMS title slug is `accepted-source-set`.
 
 Focused evidence:
 
-- 2026-07-03: `tests/test-active-lab-mini-smt-fs010-accepted-source-set.sh`
-  runs the canonical `network-codex-agent/tests/test-gamp-sms-input-contracts.sh`
-  source-set construction check and verifies that this row's active-lab intent
-  exposes `FS-010-HDS-010-SDS-010-SMS-010__mini-verify`.
+- `tests/FS-010-HDS-010-SDS-010-SMS-010.sh` resolves the row from its full
+  trace ID. The local case verifies that the selected intent exposes
+  `FS-010-HDS-010-SDS-010-SMS-010__mini-verify` with explicit
+  `stateful-return` behavior. The repository dispatcher invokes other owning
+  repositories separately; this row does not hardcode a descriptive sibling
+  test path.
 
 This is SMT construction/source-set evidence only. It does not claim HAT/SAT
 runtime behavior or internet-routing validation.
