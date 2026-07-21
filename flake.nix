@@ -158,6 +158,15 @@
               flowBoundaryCases = nixpkgs.lib.mapAttrs (_: scheme.validateFlowManifest) scheme.flowBoundaryCases;
               seededNegativeCaseNames = builtins.attrNames scheme.seededNegativeCases;
               inherit (scheme) seededNegativeCases;
+              lockClosureNegativeCaseNames = builtins.attrNames scheme.lockClosureNegativeCases;
+              lockClosureNegativeCases = nixpkgs.lib.mapAttrs (name: case_: {
+                injection = case_.injection;
+                expectedDiagnostic = case_.expectedDiagnostic;
+                expectedExit = case_.expectedExit;
+                result = case_.result;
+                recovery = case_.recovery;
+              }) scheme.lockClosureNegativeCases;
+              lockClosurePositivePath = scheme.validateLockClosure scheme.lockClosureBase;
               fs230PeerComparison = builtins.removeAttrs scheme.fs230PeerComparison [
                 "bundle"
                 "bindings"
@@ -244,6 +253,30 @@
                     | select(.accepted == true and .exit == 0 and .diagnostic == null)
                   ' "$results"
                   ;;
+                --lock-negative-case)
+                  test "$#" -eq 2 || {
+                    echo "usage: network-validation-scheme --lock-negative-case CASE_ID" >&2
+                    exit 2
+                  }
+                  case_result="$(jq -c --arg caseId "$2" \
+                    '.lockClosureNegativeCases[$caseId] // empty' "$results")"
+                  test -n "$case_result" || {
+                    echo "unknown lock closure negative case: $2" >&2
+                    exit 2
+                  }
+                  jq -c '.result.diagnostic' <<<"$case_result" >&2
+                  exit "$(jq -r '.expectedExit' <<<"$case_result")"
+                  ;;
+                --lock-recover-case)
+                  test "$#" -eq 2 || {
+                    echo "usage: network-validation-scheme --lock-recover-case CASE_ID" >&2
+                    exit 2
+                  }
+                  jq -e --arg caseId "$2" '
+                    .lockClosureNegativeCases[$caseId].recovery
+                    | select(.accepted == true and .exit == 0 and .diagnostic == null)
+                  ' "$results"
+                  ;;
                 --language)
                   shift
                   test "$#" -gt 0 || {
@@ -253,7 +286,7 @@
                   exec controlled-document-language scan "$@"
                   ;;
                 *)
-                  echo "usage: network-validation-scheme {--all|--list|--scenario TRACE_ID|--negative-case CASE_ID|--recover-case CASE_ID|--language ROOT...}" >&2
+                  echo "usage: network-validation-scheme {--all|--list|--scenario TRACE_ID|--negative-case CASE_ID|--recover-case CASE_ID|--lock-negative-case CASE_ID|--lock-recover-case CASE_ID|--language ROOT...}" >&2
                   exit 2
                   ;;
               esac
@@ -400,6 +433,47 @@
                   CONTROLLED_DOCUMENT_LANGUAGE_CHECKER="$(command -v controlled-document-language)" \
                   bash ${./tests/lib/FS-164-HDS-010-SDS-010-SMS-010/language.sh}
                 touch "$out"
+              '';
+
+          controlled-lock-closure =
+            pkgs.runCommand "controlled-lock-closure"
+              {
+                nativeBuildInputs = [
+                  self.packages.${system}.validation-scheme
+                  pkgs.jq
+                ];
+              }
+              ''
+                results=${self.packages.${system}.validation-scheme-results}
+
+                jq -e '
+                  .lockClosurePositivePath.accepted == true
+                  and .lockClosurePositivePath.exit == 0
+                  and .lockClosurePositivePath.diagnostic == null
+                ' "$results" >/dev/null
+
+                while IFS= read -r case_id; do
+                  actual_exit=0
+                  diagnostic_json="$(network-validation-scheme --lock-negative-case "$case_id" 2>&1)" || actual_exit=$?
+                  test "$actual_exit" -eq 2 || {
+                    echo "$case_id exit=$actual_exit expected 2" >&2
+                    exit 1
+                  }
+                  expected_code="$(jq -r --arg caseId "$case_id" \
+                    '.lockClosureNegativeCases[$caseId].expectedDiagnostic' \
+                    "$results")"
+                  echo "$diagnostic_json" | jq -e --arg code "$expected_code" '.code == $code' >/dev/null || {
+                    echo "$case_id expected $expected_code got $(echo "$diagnostic_json" | jq -r .code)" >&2
+                    exit 1
+                  }
+                  network-validation-scheme --lock-recover-case "$case_id" >/dev/null || {
+                    echo "$case_id recovery failed" >&2
+                    exit 1
+                  }
+                done < <(jq -r '.lockClosureNegativeCaseNames[]' "$results")
+
+                mkdir -p "$out"
+                touch "$out/OK"
               '';
 
           openconfig-peer-posture =
