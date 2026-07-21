@@ -30,8 +30,15 @@ assert_hetz_nop() {
         expectedSelector = builtins.getEnv "EXPECTED_SELECTOR";
         expectedTrace = builtins.getEnv "EXPECTED_TRACE";
         current = import (repoRoot + "/current-lab");
-        inventory = import (repoRoot + "/active-lab/inventory-hetz.nix");
-        intent = import (repoRoot + "/active-lab/intent-s-router-hetz.nix");
+        consumerIntentPath = repoRoot + "/active-lab/intent.nix";
+        consumerInventoryPath = repoRoot + "/active-lab/inventory-hetz.nix";
+        inventory = import consumerInventoryPath;
+        intent = import consumerIntentPath;
+        cpmLib = (builtins.getFlake ("path:" + repoRoot + "/../network-control-plane-model")).libBySystem.${builtins.currentSystem};
+        built = cpmLib.compileAndBuildFromPaths {
+          inputPath = consumerIntentPath;
+          inventoryPath = consumerInventoryPath;
+        };
         host = inventory.deploymentHosts.s-router-hetz;
       in
       assert current.selection.layer == expectedLayer;
@@ -47,6 +54,8 @@ assert_hetz_nop() {
       assert host.bridgeNetworks == {};
       assert intent.control_plane_model.realization.nodes == {};
       assert intent.control_plane_model.data.active-lab.hetz.runtimeTargets == {};
+      assert built.control_plane_model.realization.nodes == {};
+      assert built.control_plane_model.data.active-lab.hetz.runtimeTargets == {};
       true
     ' >/dev/null
 }
@@ -82,4 +91,4 @@ done
 cleanup
 trap - EXIT
 
-echo "PASS s-router-hetz is NOP only for SMT/SIT selections"
+echo "PASS canonical s-router-hetz consumer is NOP only for SMT/SIT selections"

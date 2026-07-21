@@ -27,6 +27,7 @@ mapfile -t tests < <(
 
 serial_tests=(
   test-current-lab-selector.sh
+  test-hetz-smt-sit-nop.sh
 )
 
 tmp_dir="$(mktemp -d)"
