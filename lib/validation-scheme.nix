@@ -50,6 +50,11 @@ let
       repository = "network-renderer-nebula";
       validate = inputs.network-renderer-nebula.libBySystem.${system}.renderer.canonical.validateInput;
     };
+    openconfig = {
+      repository = "network-renderer-openconfig";
+      validate =
+        inputs.network-renderer-openconfig.libBySystem.${system}.renderer.canonical.validateInput;
+    };
   };
 
   scenarioDefinitions = {
@@ -1255,7 +1260,195 @@ let
     };
   };
 
-  seededNegativeCases = scenarioNegativeCases // flowNegativeCases // evidenceNegativeCases;
+  rendererBoundaryTraceId = "FS-982-HDS-010-SDS-010-SMS-110";
+
+  validateRendererBoundary =
+    manifest:
+    let
+      traceId = manifest.traceId or "<missing-trace>";
+      bindings = manifest.platformBindingBundles or [ ];
+      binding = if bindings == [ ] then null else builtins.head bindings;
+      expectedEntrypoint = "tests/${traceId}.sh";
+    in
+    if (manifest.inputKind or null) != "network-realization-bundle" then
+      mkRejected {
+        inherit traceId;
+        code = "RV_RAW_CPM_INPUT";
+        detail = "positive renderer input is not a validated canonical bundle";
+      }
+    else if
+      (manifest.replacement.count or 0) != 1
+      || (manifest.replacement.boundary or null) != (manifest.declaredFirstActiveBoundary or null)
+    then
+      mkRejected {
+        inherit traceId;
+        code = "RV_REPLACEMENT_BOUNDARY_INVALID";
+        detail = "replacement must be delivered exactly once at the declared first active boundary";
+      }
+    else if
+      !(manifest.realizationCompleted or false) || !(manifest.schemaValidationCompleted or false)
+    then
+      mkRejected {
+        inherit traceId;
+        code = "RV_REALIZATION_GATE_MISSING";
+        detail = "realization and canonical schema validation must precede rendering";
+      }
+    else if
+      builtins.length bindings > 1
+      || (binding != null && (!(binding.validated or false) || (binding.semanticAuthority or false)))
+    then
+      mkRejected {
+        inherit traceId;
+        code = "RV_PLATFORM_BINDING_INVALID";
+        detail = "platform mechanics must form zero or one validated non-semantic bundle";
+      }
+    else if manifest.peerRendererConsumed or false then
+      mkRejected {
+        inherit traceId;
+        code = "RV_PEER_RENDERER_CONSUMED";
+        detail = "peer renderer output cannot supply renderer input values";
+      }
+    else if !(manifest.provenanceComplete or false) then
+      mkRejected {
+        inherit traceId;
+        code = "RV_CANONICAL_PROVENANCE_MISSING";
+        detail = "every emitted field and assertion requires exact provenance";
+      }
+    else if
+      (manifest.entrypoint.path or null) != expectedEntrypoint
+      || !(manifest.entrypoint.canonical or false)
+      || (manifest.entrypoint.rendererLocalWrapper or false)
+    then
+      mkRejected {
+        inherit traceId;
+        code = "RV_TRACE_ENTRYPOINT_INVALID";
+        detail = "entrypoint must resolve to ${expectedEntrypoint} without a renderer-local wrapper";
+      }
+    else if (manifest.assertionCount or 0) < 1 then
+      mkRejected {
+        inherit traceId;
+        code = "RV_ASSERTION_SET_EMPTY";
+        detail = "the selected test has no behavioral assertion";
+      }
+    else
+      mkAccepted traceId;
+
+  rendererBoundaryBase = {
+    traceId = rendererBoundaryTraceId;
+    inputKind = "network-realization-bundle";
+    declaredFirstActiveBoundary = "network-realization-model";
+    replacement = {
+      count = 1;
+      boundary = "network-realization-model";
+    };
+    realizationCompleted = true;
+    schemaValidationCompleted = true;
+    platformBindingBundles = [
+      {
+        validated = true;
+        semanticAuthority = false;
+        identity = "normalized-platform-binding-bundle";
+      }
+    ];
+    peerRendererConsumed = false;
+    provenanceComplete = true;
+    entrypoint = {
+      canonical = true;
+      path = "tests/${rendererBoundaryTraceId}.sh";
+      rendererLocalWrapper = false;
+    };
+    assertionCount = 1;
+  };
+
+  mkRendererBoundaryNegativeCase =
+    {
+      injection,
+      manifest,
+      expectedDiagnostic,
+    }:
+    {
+      inherit injection expectedDiagnostic;
+      expectedExit = 2;
+      result = validateRendererBoundary manifest;
+      recovery = validateRendererBoundary rendererBoundaryBase;
+    };
+
+  rendererBoundaryNegativeCases = {
+    RV-N1 = mkRendererBoundaryNegativeCase {
+      injection = "supply raw CPM as positive renderer input";
+      manifest = rendererBoundaryBase // {
+        inputKind = "network-control-plane-artifact";
+      };
+      expectedDiagnostic = "RV_RAW_CPM_INPUT";
+    };
+    RV-N2 = mkRendererBoundaryNegativeCase {
+      injection = "skip compiler but deliver replacement at CPM instead of NFM";
+      manifest = rendererBoundaryBase // {
+        declaredFirstActiveBoundary = "network-forwarding-model";
+        replacement.boundary = "network-control-plane-model";
+      };
+      expectedDiagnostic = "RV_REPLACEMENT_BOUNDARY_INVALID";
+    };
+    RV-N3 = mkRendererBoundaryNegativeCase {
+      injection = "pass replacement CPM directly to renderer";
+      manifest = rendererBoundaryBase // {
+        realizationCompleted = false;
+        schemaValidationCompleted = false;
+      };
+      expectedDiagnostic = "RV_REALIZATION_GATE_MISSING";
+    };
+    RV-N4 = mkRendererBoundaryNegativeCase {
+      injection = "supply independent interface and secret sidecars";
+      manifest = rendererBoundaryBase // {
+        platformBindingBundles = rendererBoundaryBase.platformBindingBundles ++ [
+          {
+            validated = true;
+            semanticAuthority = false;
+            identity = "second-sidecar";
+          }
+        ];
+      };
+      expectedDiagnostic = "RV_PLATFORM_BINDING_INVALID";
+    };
+    RV-N5 = mkRendererBoundaryNegativeCase {
+      injection = "supply a missing field from a peer renderer";
+      manifest = rendererBoundaryBase // {
+        peerRendererConsumed = true;
+      };
+      expectedDiagnostic = "RV_PEER_RENDERER_CONSUMED";
+    };
+    RV-N6 = mkRendererBoundaryNegativeCase {
+      injection = "delete provenance for one emitted field";
+      manifest = rendererBoundaryBase // {
+        provenanceComplete = false;
+      };
+      expectedDiagnostic = "RV_CANONICAL_PROVENANCE_MISSING";
+    };
+    RV-N7 = mkRendererBoundaryNegativeCase {
+      injection = "select a descriptive renderer-local legacy wrapper";
+      manifest = rendererBoundaryBase // {
+        entrypoint = {
+          canonical = false;
+          path = "tests/${rendererBoundaryTraceId}-legacy.sh";
+          rendererLocalWrapper = true;
+        };
+      };
+      expectedDiagnostic = "RV_TRACE_ENTRYPOINT_INVALID";
+    };
+    RV-N8 = mkRendererBoundaryNegativeCase {
+      injection = "replace the selected case with a presence-only script";
+      manifest = rendererBoundaryBase // {
+        assertionCount = 0;
+      };
+      expectedDiagnostic = "RV_ASSERTION_SET_EMPTY";
+    };
+  };
+
+  seededNegativeCases =
+    scenarioNegativeCases
+    // flowNegativeCases
+    // evidenceNegativeCases
+    // rendererBoundaryNegativeCases;
 
   fs230TraceId = "FS-230-HDS-010-SDS-010-SMS-040";
   fs230Cpm = inputs.network-control-plane-model.libBySystem.${system}.compileAndBuildFromPaths {
@@ -1326,6 +1519,35 @@ let
     };
     openConfigModelComplete = false;
   };
+
+  rendererBoundaryTargets = builtins.attrNames rendererDefinitions;
+  rendererBoundaryBindings = builtins.listToAttrs (
+    map (target: {
+      name = target;
+      value = makePlatformBinding {
+        traceId = rendererBoundaryTraceId;
+        inherit target;
+        bundle = fs230Bundle;
+      };
+    }) rendererBoundaryTargets
+  );
+  rendererBoundaryInputs = builtins.mapAttrs (
+    target: renderer:
+    renderer.validate {
+      bundle = fs230Bundle;
+      platformBinding = rendererBoundaryBindings.${target};
+    }
+  ) rendererDefinitions;
+  rendererBoundaryConformance = builtins.deepSeq (builtins.attrValues rendererBoundaryInputs) {
+    traceId = rendererBoundaryTraceId;
+    bundleIdentity = fs230Bundle.bundleIdentity;
+    targets = rendererBoundaryTargets;
+    inputBundleIdentities = builtins.mapAttrs (_: input: input.bundleIdentity) rendererBoundaryInputs;
+    bindingIdentities = builtins.mapAttrs (
+      _: binding: binding.bindingIdentity
+    ) rendererBoundaryBindings;
+    validation = validateRendererBoundary rendererBoundaryBase;
+  };
 in
 {
   inherit
@@ -1333,10 +1555,13 @@ in
     flowBoundaryCases
     flowNegativeCases
     fs230PeerComparison
+    rendererBoundaryConformance
+    rendererBoundaryNegativeCases
     scenarioDefinitions
     seededNegativeCases
     validateEvidenceManifest
     validateFlowManifest
+    validateRendererBoundary
     validateSourceArtifact
     validateScenarioManifest
     ;

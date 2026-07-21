@@ -299,11 +299,11 @@
         "openconfig": "openconfig"
       },
       "locked": {
-        "lastModified": 1784572052,
-        "narHash": "sha256-yVREecMwlp0N6M+JVHKSSYUlHUPSg0dri365gkI5UaM=",
+        "lastModified": 1784606553,
+        "narHash": "sha256-ywoEMzG85kklkE5db0SbxeiiLs/Q8BLSBovI5ZiCwJQ=",
         "owner": "esp0xdeadbeef",
         "repo": "network-renderer-openconfig",
-        "rev": "29519cfaab0eb98c5eb921b9d8e877d61d30a864",
+        "rev": "c6be20aa71993e040e280253e2de8d2e01d48798",
         "type": "github"
       },
       "original": {
