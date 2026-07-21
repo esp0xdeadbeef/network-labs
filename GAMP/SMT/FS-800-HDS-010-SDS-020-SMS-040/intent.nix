@@ -11,6 +11,7 @@
           {
             id = "FS-800-HDS-010-SDS-020-SMS-040__mini-provider-handoff-to-internet";
             action = "allow";
+            returnBehavior = "stateful-return";
             from = {
               kind = "tenant";
               name = "provider-handoff-a";

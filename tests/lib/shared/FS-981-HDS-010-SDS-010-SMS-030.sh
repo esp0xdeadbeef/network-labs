@@ -132,6 +132,13 @@ mapfile -t noncanonical < <(
 ((${#noncanonical[@]} == 0)) \
   || fail "noncanonical SMS entrypoints remain: ${noncanonical[*]}"
 
+mapfile -t misplaced_live_cases < <(
+  find "${repo_root}/tests/lib" \( -type f -o -type l \) -name '*live*.sh' -print \
+    | LC_ALL=C sort
+)
+((${#misplaced_live_cases[@]} == 0)) \
+  || fail "live SMS implementations must be resolved through scripts/live-<trace>.sh, not construction discovery: ${misplaced_live_cases[*]}"
+
 for repository in "${workspace_root}"/network-*; do
   [[ -d "${repository}/tests" ]] || continue
   mapfile -t repository_noncanonical < <(

@@ -16,7 +16,7 @@ across integration boundaries, for example:
 
 | SIT ID | SOURCE | TEST SCRIPT | WHAT IT WILL PROVE | STATUS |
 | --- | --- | --- | --- | --- |
-| `FS-800-HDS-010-SDS-020-SMS-040` | `GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/intent.nix` plus active `s-router-nixos` and `s-router-clab` provider-handoff containers | `tests/FS-800-HDS-010-SDS-020-SIT-live-provider-access-default-route.sh` | Provider-handoff PPPoE sessions must route default/public egress from the PPP session address through live `ppp0`, not through fabric `ens*`. | NOT OK live on 2026-06-29; all four active-lab provider-handoff targets have PPP session addresses, but default and `ip route get 1.1.1.1 from <ppp-address>` select `ens21` via `10.10.44.50/52` or `10.50.44.50/52` instead of `ppp0`. |
+| `FS-800-HDS-010-SDS-020-SMS-040` | `GAMP/SMT/FS-800-HDS-010-SDS-020-SMS-040/intent.nix` plus the staged `s-router-nixos` and `s-router-clab` provider-handoff containers | `../network-codex-agent/scripts/live-FS-800-HDS-010-SDS-020-SMS-040.sh --live` | The provider-handoff default route stays on the modeled fabric path, while the separate PPPoE-side core keeps its default route on its uplink. | `OK` for the recorded isolated-lab stage; rerun the canonical live entrypoint after any source or lock change. |
 | `LAB-SIT-STUB-001` | `GAMP/SAT` and generated model artifacts | not implemented | Locked source-to-artifact integration evidence will be indexed here after a focused SIT command exists. | Stub only; no SIT `OK` claim. |
 
 ## Promotion Rule

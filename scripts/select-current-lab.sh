@@ -1157,10 +1157,23 @@ first_manifest_mini_key_for_sit() {
   nix eval --impure --raw --expr "
 let
   manifest = import ${manifest_file};
+  sitRow = import ${repo_root}/GAMP/SIT/${sds}/default.nix;
   ids = builtins.attrNames manifest.tests;
   traceFor = id: (builtins.getAttr id manifest.tests).traceId;
   sdsFor = trace: builtins.elemAt (builtins.match \"(FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+)-SMS-[0-9]+.*\" trace) 0;
-  matches = builtins.filter (id: sdsFor (traceFor id) == \"${sds}\") ids;
+  manifestMatches = builtins.filter (id: sdsFor (traceFor id) == \"${sds}\") ids;
+  smsInputs = sitRow.smsInputs or {};
+  declaredMatches = builtins.filter
+    (id:
+      let
+        input = smsInputs.\${id};
+        boundary = input.evidenceBoundary or null;
+      in
+        builtins.hasAttr id manifest.tests
+        && boundary != \"construction-only\"
+        && boundary != \"source-stub-only\")
+    (builtins.attrNames smsInputs);
+  matches = if smsInputs == {} then manifestMatches else declaredMatches;
 in
   if matches == [ ] then \"\" else builtins.head matches
 "

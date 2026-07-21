@@ -6,9 +6,11 @@
           external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
         };
-        relations = [ {
+        relations = [
+          {
             id = "FS-060-HDS-010-SDS-010-SMS-010__mini-verify";
             action = "allow";
+            returnBehavior = "stateful-return";
             from = {
               kind = "tenant";
               name = "client";
@@ -19,23 +21,30 @@
             };
             trafficType = "any";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
             name = "client";
             ipv4 = "10.0.60.0/24";
             ipv6 = "fd42:003c:50::/64";
-          } ];
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -49,18 +58,32 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {
             role = "access";
-            attachments = [ {
+            attachments = [
+              {
                 kind = "tenant";
                 name = "client";
-              } ];
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";
