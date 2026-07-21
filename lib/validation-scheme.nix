@@ -2367,6 +2367,322 @@ let
     };
   };
 
+  # ---- FS-169-HDS-010-SDS-010-SMS-010: Rendered Output Coverage ----
+
+  rendererOutputTraceId = "FS-169-HDS-010-SDS-010-SMS-010";
+
+  validateRendererOutputCoverage =
+    manifest:
+    let
+      traceId = manifest.traceId or rendererOutputTraceId;
+      artifactIdentity = manifest.artifactIdentity or null;
+      expectedArtifactIdentity = manifest.expectedArtifactIdentity or artifactIdentity;
+      bundleIdentity = manifest.bundleIdentity or null;
+      bindingIdentity = manifest.bindingIdentity or null;
+      expectedBindingIdentity = manifest.expectedBindingIdentity or bindingIdentity;
+      target = manifest.target or null;
+      expectedTarget = manifest.expectedTarget or target;
+      scope = manifest.scope or null;
+      expectedScope = manifest.expectedScope or scope;
+      outputRecords = manifest.outputRecords or [ ];
+      protectedMaterial = manifest.protectedMaterial or false;
+
+      hasProtectedMaterial =
+        protectedMaterial
+        || builtins.any (
+          r:
+          let
+            outputValue = r.outputValue or "";
+            source = r.canonicalSource or r.canonicalSources or "";
+            sources = if builtins.isList source then builtins.concatStringsSep "" source else source;
+          in
+          builtins.match ".*(secret|password|token|privatekey|serial).*" (outputValue + sources) != null
+        ) outputRecords;
+
+      semanticRecords = builtins.filter (
+        r: (r.classification or "") != "scaffolding" && (r.classification or "") != "packaging"
+      ) outputRecords;
+
+      untracedRecords = builtins.filter (
+        r:
+        let
+          canonicalSources = r.canonicalSources or [ ];
+          bindingPath = r.bindingPath or "";
+        in
+        canonicalSources == [ ] && bindingPath == ""
+      ) semanticRecords;
+
+      recordsWithoutRule = builtins.filter (
+        r: (r.rendererRule or "") == "" && (r.classification or "") != "scaffolding"
+      ) outputRecords;
+
+      recordsWithIncapableSource = builtins.filter (
+        r:
+        let
+          canonicalSources = r.canonicalSources or [ ];
+          classification = r.classification or "";
+          outputPath = r.outputPath or "";
+          # Source incapable: cite a source name that cannot derive the output path value
+          sourceField = r.canonicalSource or (if canonicalSources != [ ] then builtins.head canonicalSources else "");
+        in
+        classification != "scaffolding" && sourceField != "" &&
+        builtins.match ".*(name|identity|id|label).*" sourceField != null &&
+        builtins.match ".*(mtu|route|address|policy|dns|nat|firewall).*" outputPath != null &&
+        builtins.match ".*(mtu|route|address|policy|dns|nat|firewall).*" sourceField == null
+      ) semanticRecords;
+
+      platformBindingAuthorityRecords = builtins.filter (
+        r: (r.classification or "") == "platform-bound"
+           && builtins.match ".*(dns|nameserver|resolver|nat|policy|firewall|exposure|trust|route|address).*" (r.outputPath or "") != null
+           && (r.bindingPath or "") != ""
+      ) outputRecords;
+
+      scaffoldingMislabelRecords = builtins.filter (
+        r:
+        let
+          classification = r.classification or "";
+          outputPath = r.outputPath or "";
+          isScaffolding = classification == "scaffolding" || classification == "packaging";
+        in
+        isScaffolding &&
+        builtins.match ".*(route|address|policy|dns|nat|firewall|exposure|trust).*" outputPath != null
+      ) outputRecords;
+
+      identityMismatch =
+        (artifactIdentity != null && expectedArtifactIdentity != null
+         && artifactIdentity != expectedArtifactIdentity)
+        || (bundleIdentity != null && manifest.expectedBundleIdentity or null != null
+            && bundleIdentity != manifest.expectedBundleIdentity)
+        || (bindingIdentity != null && expectedBindingIdentity != null
+            && bindingIdentity != expectedBindingIdentity)
+        || (target != null && expectedTarget != null && target != expectedTarget)
+        || (scope != null && expectedScope != null && scope != expectedScope);
+
+      identityMismatchDetail =
+        if artifactIdentity != null && expectedArtifactIdentity != null
+           && artifactIdentity != expectedArtifactIdentity then
+          "artifact identity ${artifactIdentity} != expected ${expectedArtifactIdentity}"
+        else if bundleIdentity != null && manifest.expectedBundleIdentity or null != null
+                && bundleIdentity != manifest.expectedBundleIdentity then
+          "bundle identity ${bundleIdentity} != expected ${manifest.expectedBundleIdentity}"
+        else if bindingIdentity != null && expectedBindingIdentity != null
+                && bindingIdentity != expectedBindingIdentity then
+          "binding identity ${bindingIdentity} != expected ${expectedBindingIdentity}"
+        else if target != null && expectedTarget != null && target != expectedTarget then
+          "target ${target} != expected ${expectedTarget}"
+        else
+          "scope ${scope} != expected ${expectedScope}";
+    in
+    if identityMismatch then
+      mkRejected {
+        inherit traceId;
+        code = "RR_OUTPUT_IDENTITY_MISMATCH";
+        detail = identityMismatchDetail;
+      }
+    else if hasProtectedMaterial then
+      mkRejected {
+        inherit traceId;
+        code = "RR_PROTECTED_VALUE_EXPOSED";
+        detail = "output coverage contains protected material";
+      }
+    else if untracedRecords != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_OUTPUT_UNTRACED";
+        detail = "semantic output path lacks source or binding authority: ${(builtins.head untracedRecords).outputPath or "unknown"}";
+      }
+    else if recordsWithoutRule != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_OUTPUT_RULE_UNKNOWN";
+        detail = "output path lacks pinned renderer rule: ${(builtins.head recordsWithoutRule).outputPath or "unknown"}";
+      }
+    else if recordsWithIncapableSource != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_OUTPUT_SOURCE_INCAPABLE";
+        detail = "cited sources cannot derive observed value: ${(builtins.head recordsWithIncapableSource).outputPath or "unknown"}";
+      }
+    else if platformBindingAuthorityRecords != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_PLATFORM_BINDING_AUTHORITY";
+        detail = "platform binding creates network-semantic output: ${(builtins.head platformBindingAuthorityRecords).outputPath or "unknown"}";
+      }
+    else if scaffoldingMislabelRecords != [ ] then
+      mkRejected {
+        inherit traceId;
+        code = "RR_SEMANTIC_AS_SCAFFOLDING";
+        detail = "route, address, policy, DNS, NAT, firewall, exposure, or trust path labeled as packaging: ${(builtins.head scaffoldingMislabelRecords).outputPath or "unknown"}";
+      }
+    else
+      mkAccepted traceId;
+
+  rendererOutputBase = {
+    traceId = rendererOutputTraceId;
+    artifactIdentity = "sha256-rendered-artifact-nixos-v1";
+    expectedArtifactIdentity = "sha256-rendered-artifact-nixos-v1";
+    bundleIdentity = "sha256-canonical-bundle-v1";
+    expectedBundleIdentity = "sha256-canonical-bundle-v1";
+    bindingIdentity = null;
+    expectedBindingIdentity = null;
+    target = "nixos";
+    expectedTarget = "nixos";
+    scope = "complete";
+    expectedScope = "complete";
+    protectedMaterial = false;
+    outputRecords = [
+      {
+        outputPath = "/etc/nftables/forwarding-filter/default-route";
+        classification = "direct";
+        canonicalSources = [ "/control_plane_model/canonicalRoutes/0" ];
+        bindingPath = "";
+        outputValue = "REF:forwarding-filter-default-route";
+        rendererRule = "default-route-renderer-v1";
+      }
+      {
+        outputPath = "/etc/nftables/forwarding-filter/firewall-allow";
+        classification = "direct";
+        canonicalSources = [ "/control_plane_model/canonicalInterfaces/0/ingressPolicy" ];
+        bindingPath = "";
+        outputValue = "REF:forwarding-filter-firewall-allow";
+        rendererRule = "firewall-allow-renderer-v1";
+      }
+      {
+        outputPath = "/etc/nftables/interface/mtu";
+        classification = "derived";
+        canonicalSources = [ "/control_plane_model/canonicalInterfaces/0/mtu" ];
+        bindingPath = "";
+        outputValue = "REF:interface-mtu-1500";
+        rendererRule = "interface-mtu-renderer-v1";
+      }
+      {
+        outputPath = "/etc/network-artifacts/container-metadata.yaml";
+        classification = "scaffolding";
+        canonicalSources = [ ];
+        bindingPath = "";
+        outputValue = "REF:container-metadata";
+        rendererRule = "";
+      }
+    ];
+  };
+
+  mkRendererOutputNegativeCase =
+    {
+      injection,
+      manifest,
+      expectedDiagnostic,
+    }:
+    {
+      inherit injection expectedDiagnostic;
+      expectedExit = 2;
+      result = validateRendererOutputCoverage manifest;
+      recovery = validateRendererOutputCoverage rendererOutputBase;
+    };
+
+  rendererOutputNegativeCases = {
+    RR-OUTPUT-N1 = mkRendererOutputNegativeCase {
+      injection = "emit a firewall allow absent from canonical authority";
+      manifest = rendererOutputBase // {
+        outputRecords = [
+          {
+            outputPath = "/etc/nftables/forwarding-filter/firewall-allow";
+            classification = "direct";
+            canonicalSources = [ ];
+            bindingPath = "";
+            outputValue = "REF:firewall-allow-untraced";
+            rendererRule = "firewall-allow-renderer-v1";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_OUTPUT_UNTRACED";
+    };
+    RR-OUTPUT-N2 = mkRendererOutputNegativeCase {
+      injection = "delete the renderer rule identity for one emitted route";
+      manifest = rendererOutputBase // {
+        outputRecords = map (
+          r:
+          if (r.outputPath or "") == "/etc/nftables/forwarding-filter/default-route" then
+            r // { rendererRule = ""; }
+          else
+            r
+        ) rendererOutputBase.outputRecords;
+      };
+      expectedDiagnostic = "RR_OUTPUT_RULE_UNKNOWN";
+    };
+    RR-OUTPUT-N3 = mkRendererOutputNegativeCase {
+      injection = "cite interface name as authority for an unrelated MTU";
+      manifest = rendererOutputBase // {
+        outputRecords = [
+          {
+            outputPath = "/etc/nftables/interface/mtu";
+            classification = "derived";
+            canonicalSources = [ "/control_plane_model/canonicalInterfaces/0/name" ];
+            bindingPath = "";
+            outputValue = "REF:interface-mtu-1500";
+            rendererRule = "interface-mtu-renderer-v1";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_OUTPUT_SOURCE_INCAPABLE";
+    };
+    RR-OUTPUT-N4 = mkRendererOutputNegativeCase {
+      injection = "add a DNS resolver through the platform binding";
+      manifest = rendererOutputBase // {
+        outputRecords = [
+          {
+            outputPath = "/etc/resolv.conf/nameserver";
+            classification = "platform-bound";
+            canonicalSources = [ ];
+            bindingPath = "/platform/nixos/dns-resolver";
+            outputValue = "REF:dns-nameserver";
+            rendererRule = "dns-resolver-binding-v1";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_PLATFORM_BINDING_AUTHORITY";
+    };
+    RR-OUTPUT-N5 = mkRendererOutputNegativeCase {
+      injection = "label a default route as packaging scaffolding";
+      manifest = rendererOutputBase // {
+        outputRecords = [
+          {
+            outputPath = "/etc/nftables/forwarding-filter/default-route";
+            classification = "scaffolding";
+            canonicalSources = [ ];
+            bindingPath = "";
+            outputValue = "REF:default-route";
+            rendererRule = "";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_SEMANTIC_AS_SCAFFOLDING";
+    };
+    RR-OUTPUT-N6 = mkRendererOutputNegativeCase {
+      injection = "reuse output coverage from another artifact identity";
+      manifest = rendererOutputBase // {
+        artifactIdentity = "sha256-wrong-artifact-deadbeef000000000000000000000000";
+      };
+      expectedDiagnostic = "RR_OUTPUT_IDENTITY_MISMATCH";
+    };
+    RR-OUTPUT-N7 = mkRendererOutputNegativeCase {
+      injection = "include a private key or serial-bearing protected identity";
+      manifest = rendererOutputBase // {
+        outputRecords = [
+          {
+            outputPath = "/etc/wireguard/private-key";
+            classification = "derived";
+            canonicalSources = [ "/control_plane_model/securityCredentials/privatekey" ];
+            bindingPath = "";
+            outputValue = "REF:wireguard-privatekey";
+            rendererRule = "wireguard-key-renderer-v1";
+          }
+        ];
+      };
+      expectedDiagnostic = "RR_PROTECTED_VALUE_EXPOSED";
+    };
+  };
+
   lockClosureTraceId = "FS-163-HDS-010-SDS-010-SMS-010";
 
   lockClosureAllRepositories = [
@@ -2604,6 +2920,8 @@ in
     rendererBoundaryNegativeCases
     rendererConsumptionBase
     rendererConsumptionNegativeCases
+    rendererOutputBase
+    rendererOutputNegativeCases
     scenarioDefinitions
     seededNegativeCases
     skipNegativeCases
@@ -2613,6 +2931,7 @@ in
     validateLockClosure
     validateRendererBoundary
     validateRendererConsumptionCoverage
+    validateRendererOutputCoverage
     validateSourceArtifact
     validateScenarioManifest
     ;
