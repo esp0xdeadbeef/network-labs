@@ -2348,6 +2348,7 @@ in
 {
   inherit
     controlledDocumentLanguageContract
+    evidenceBase
     evidenceNegativeCases
     flowBoundaryCases
     flowNegativeCases
