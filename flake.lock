@@ -2,9 +2,7 @@
   "nodes": {
     "network-compiler": {
       "inputs": {
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -29,9 +27,7 @@
         "network-forwarding-model": [
           "network-forwarding-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -56,9 +52,7 @@
         "network-compiler": [
           "network-compiler"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -75,22 +69,6 @@
       "original": {
         "owner": "esp0xdeadbeef",
         "repo": "network-forwarding-model",
-        "type": "github"
-      }
-    },
-    "network-labs-source": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784629854,
-        "narHash": "sha256-bnpESms3c+ETwYWx0HKzYoLHaRRiF3RvZbGzVRsGYBc=",
-        "owner": "esp0xdeadbeef",
-        "repo": "network-labs",
-        "rev": "230d40c21b22ba229a4bb1585512fff8b3db4dd6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "esp0xdeadbeef",
-        "repo": "network-labs",
         "type": "github"
       }
     },
@@ -142,9 +120,7 @@
         "network-control-plane-model": [
           "network-control-plane-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "network-realization-model": [
           "network-realization-model"
         ],
@@ -177,9 +153,7 @@
         "network-forwarding-model": [
           "network-forwarding-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "network-realization-model": [
           "network-realization-model"
         ],
@@ -206,9 +180,7 @@
         "network-control-plane-model": [
           "network-control-plane-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "network-realization-model": [
           "network-realization-model"
         ],
@@ -238,9 +210,7 @@
         "network-forwarding-model": [
           "network-forwarding-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "network-realization-model": [
           "network-realization-model"
         ],
@@ -270,9 +240,7 @@
         "network-control-plane-model": [
           "network-control-plane-model"
         ],
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "network-realization-model": [
           "network-realization-model"
         ],
@@ -326,9 +294,7 @@
     },
     "nixos-network-compiler": {
       "inputs": {
-        "network-labs": [
-          "network-labs-source"
-        ],
+        "network-labs": [],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -449,7 +415,6 @@
         "network-compiler": "network-compiler",
         "network-control-plane-model": "network-control-plane-model",
         "network-forwarding-model": "network-forwarding-model",
-        "network-labs-source": "network-labs-source",
         "network-realization-model": "network-realization-model",
         "network-realization-schema": "network-realization-schema",
         "network-renderer-access-endpoint-nixos": "network-renderer-access-endpoint-nixos",
