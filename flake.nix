@@ -30,8 +30,13 @@
     network-realization-model.inputs.nixpkgs.follows = "nixpkgs";
     network-realization-model.inputs.network-realization-schema.follows = "network-realization-schema";
 
+    nixos-network-compiler.url = "github:esp0xdeadbeef/nixos-network-compiler";
+    nixos-network-compiler.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-network-compiler.inputs.network-labs.follows = "network-labs-source";
+
     network-renderer-nixos.url = "github:esp0xdeadbeef/network-renderer-nixos";
     network-renderer-nixos.inputs.nixpkgs.follows = "nixpkgs";
+    network-renderer-nixos.inputs.nixos-network-compiler.follows = "nixos-network-compiler";
     network-renderer-nixos.inputs.network-realization-model.follows = "network-realization-model";
     network-renderer-nixos.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-nixos.inputs.network-forwarding-model.follows = "network-forwarding-model";
