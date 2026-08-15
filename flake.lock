@@ -279,11 +279,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786825136,
-        "narHash": "sha256-jl7fVF/tACANBykxaHFrRaLb3rUDM36ulhJ4o2YPaD4=",
+        "lastModified": 1786827346,
+        "narHash": "sha256-khirDvMpAha+Qe7c+IF0rITQompAs7OCC/Ho9Jkjkfs=",
         "owner": "esp0xdeadbeef",
         "repo": "network-renderer-wireguard",
-        "rev": "c2002479aca54a355927793d90a52ce7d6660c66",
+        "rev": "9b0567681919c1cd249999fced8b7e0c1996d5a7",
         "type": "github"
       },
       "original": {
