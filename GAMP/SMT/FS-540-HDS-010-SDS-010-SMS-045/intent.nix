@@ -119,6 +119,16 @@
             }
           ];
         }
+        {
+          name = "bfd";
+          match = [
+            {
+              family = "any";
+              proto = "udp";
+              dports = [ 3784 ];
+            }
+          ];
+        }
       ];
     };
 
