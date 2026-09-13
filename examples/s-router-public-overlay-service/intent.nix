@@ -507,18 +507,6 @@
           };
           s-router-core-nebula = {
             role = "core";
-            uplinks = {
-              east-west = {
-                ipv4 = [
-                  "10.60.10.0/24"
-                  "10.70.10.0/24"
-                ];
-                ipv6 = [
-                  "fd42:dead:feed:10::/64"
-                  "fd42:dead:feed:70::/64"
-                ];
-              };
-            };
           };
           s-router-downstream-selector = {
             role = "downstream-selector";
@@ -926,12 +914,6 @@
           };
           c-router-nebula-core = {
             role = "core";
-            uplinks = {
-              east-west = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
-              };
-            };
           };
           c-router-policy = {
             role = "policy";
@@ -1279,12 +1261,6 @@
           };
           b-router-core-nebula = {
             role = "core";
-            uplinks = {
-              east-west = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
-              };
-            };
           };
           b-router-core-simulated-isp = {
             role = "core";
