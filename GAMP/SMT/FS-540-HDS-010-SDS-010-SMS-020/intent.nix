@@ -135,13 +135,6 @@
               name = "core-dns";
               node = "resolver-node";
             };
-            resolverPath = [
-              "access-dns"
-              "downstream-selector"
-              "policy"
-              "upstream-selector"
-              "resolver-node"
-            ];
             egressSurface = {
               kind = "external";
               uplinks = [ "testnet-vlan4" ];

@@ -127,13 +127,6 @@
               name = "core-dns";
               node = "core-primary";
             };
-            resolverPath = [
-              "access-dns"
-              "downstream-selector"
-              "policy"
-              "upstream-selector"
-              "core-primary"
-            ];
             egressSurface = {
               kind = "external";
               uplinks = [ "isp-primary" ];
