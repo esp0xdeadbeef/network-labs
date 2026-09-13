@@ -79,6 +79,7 @@
             ipv6 = "fd42:dead:beef:10::/64";
             kind = "tenant";
             name = "mgmt";
+            dnsDomain = "lan.";
           }
         ];
       };
@@ -262,6 +263,7 @@
             ipv6 = "fd42:dead:beef:11::/64";
             kind = "tenant";
             name = "mgmt";
+            dnsDomain = "lan.";
           }
         ];
       };

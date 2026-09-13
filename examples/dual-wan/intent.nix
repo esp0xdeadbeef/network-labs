@@ -89,12 +89,14 @@
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
             name = "mgmt";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.21.10.0/24";
             ipv6 = "fd42:dead:beef:21::/64";
             kind = "tenant";
             name = "adm";
+            dnsDomain = "lan.";
           }
         ];
       };
