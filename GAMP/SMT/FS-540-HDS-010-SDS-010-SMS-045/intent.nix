@@ -296,12 +296,14 @@
         {
           kind = "tenant";
           name = "recursive-client";
+          dnsDomain = "lan.";
           ipv4 = "10.54.45.0/24";
           ipv6 = "fd42:540:45::/64";
         }
         {
           kind = "tenant";
           name = "local-client";
+          dnsDomain = "lan.";
           ipv4 = "10.54.46.0/24";
           ipv6 = "fd42:540:46::/64";
         }
