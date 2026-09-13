@@ -245,18 +245,21 @@
             ipv6 = "fd42:dead:beef:10::/64";
             kind = "tenant";
             name = "mgmt";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.15.0/24";
             ipv6 = "fd42:dead:beef:15::/64";
             kind = "tenant";
             name = "admin";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.20.0/24";
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
           }
         ];
       };

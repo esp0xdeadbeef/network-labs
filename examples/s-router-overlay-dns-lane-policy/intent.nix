@@ -324,36 +324,42 @@
             ipv6 = "fd42:dead:beef:10::/64";
             kind = "tenant";
             name = "mgmt";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.15.0/24";
             ipv6 = "fd42:dead:beef:15::/64";
             kind = "tenant";
             name = "admin";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.20.0/24";
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.40.0/24";
             ipv6 = "fd42:dead:beef:40::/64";
             kind = "tenant";
             name = "client2";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.30.0/24";
             ipv6 = "fd42:dead:beef:30::/64";
             kind = "tenant";
             name = "dmz";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.50.0/24";
             ipv6 = "fd42:dead:beef:50::/64";
             kind = "tenant";
             name = "streaming";
+            dnsDomain = "lan.";
           }
         ];
       };
@@ -818,12 +824,14 @@
             ipv6 = "fd42:dead:cafe:10::/64";
             kind = "tenant";
             name = "dmz";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.90.20.0/24";
             ipv6 = "fd42:dead:cafe:20::/64";
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
             routedPrefixes = [
               {
                 allocation = "runtime";
@@ -1156,12 +1164,14 @@
             ipv6 = "fd42:dead:feed:10::/64";
             kind = "tenant";
             name = "branch";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.70.10.0/24";
             ipv6 = "fd42:dead:feed:70::/64";
             kind = "tenant";
             name = "hostile";
+            dnsDomain = "lan.";
             routedPrefixes = [
               {
                 allocation = "runtime";
