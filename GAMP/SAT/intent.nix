@@ -931,30 +931,6 @@ in
               }
             ];
             role = "core";
-            uplinks = {
-              east-west = {
-                ipv4 = [
-                  "10.50.10.0/24"
-                  "10.50.15.0/24"
-                  "10.50.20.0/24"
-                  "10.50.30.0/24"
-                  "10.50.50.0/24"
-                  "10.70.10.0/24"
-                  "10.90.10.0/24"
-                  "0.0.0.0/0"
-                ];
-                ipv6 = [
-                  "fd42:dead:feed:10::/64"
-                  "fd42:dead:feed:15::/64"
-                  "fd42:dead:feed:20::/64"
-                  "fd42:dead:feed:30::/64"
-                  "fd42:dead:feed:50::/64"
-                  "fd42:dead:feed:70::/64"
-                  "fd42:dead:cafe:10::/64"
-                  "::/0"
-                ];
-              };
-            };
           };
           nixos-router-downstream = {
             role = "downstream-selector";
@@ -2617,28 +2593,6 @@ in
               }
             ];
             role = "core";
-            uplinks = {
-              east-west = {
-                ipv4 = [
-                  "10.20.10.0/24"
-                  "10.20.15.0/24"
-                  "10.20.20.0/24"
-                  "10.20.30.0/24"
-                  "10.20.50.0/24"
-                  "10.90.10.0/24"
-                  "0.0.0.0/0"
-                ];
-                ipv6 = [
-                  "fd42:dead:beef:10::/64"
-                  "fd42:dead:beef:15::/64"
-                  "fd42:dead:beef:20::/64"
-                  "fd42:dead:beef:30::/64"
-                  "fd42:dead:beef:50::/64"
-                  "fd42:dead:cafe:10::/64"
-                  "::/0"
-                ];
-              };
-            };
           };
           clab-router-core-simulated-isp = {
             role = "core";
