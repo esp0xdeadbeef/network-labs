@@ -815,54 +815,63 @@ in
             ipv6 = "fd42:dead:beef:20::/64";
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.30.0/24";
             ipv6 = "fd42:dead:beef:30::/64";
             kind = "tenant";
             name = "trusted";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.40.0/24";
             ipv6 = "fd42:dead:beef:40::/64";
             kind = "tenant";
             name = "guest";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.50.0/24";
             ipv6 = "fd42:dead:beef:50::/64";
             kind = "tenant";
             name = "iot";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.60.0/24";
             ipv6 = "fd42:dead:beef:60::/64";
             kind = "tenant";
             name = "work";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.70.0/24";
             ipv6 = "fd42:dead:beef:70::/64";
             kind = "tenant";
             name = "management";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.20.80.0/24";
             ipv6 = "fd42:dead:beef:80::/64";
             kind = "tenant";
             name = "dmz";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.44.11.0/24";
             ipv6 = "fd42:dead:beef:4411::/64";
             kind = "tenant";
             name = "provider-handoff-a";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.44.12.0/24";
             ipv6 = "fd42:dead:beef:4412::/64";
             kind = "tenant";
             name = "provider-handoff-b";
+            dnsDomain = "lan.";
           }
         ];
       };
@@ -1980,54 +1989,63 @@ in
             ipv6 = "fd42:dead:feed:20::/64";
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.30.0/24";
             ipv6 = "fd42:dead:feed:30::/64";
             kind = "tenant";
             name = "trusted";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.40.0/24";
             ipv6 = "fd42:dead:feed:40::/64";
             kind = "tenant";
             name = "guest";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.50.0/24";
             ipv6 = "fd42:dead:feed:50::/64";
             kind = "tenant";
             name = "iot";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.60.0/24";
             ipv6 = "fd42:dead:feed:60::/64";
             kind = "tenant";
             name = "work";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.70.0/24";
             ipv6 = "fd42:dead:feed:70::/64";
             kind = "tenant";
             name = "management";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.50.80.0/24";
             ipv6 = "fd42:dead:feed:80::/64";
             kind = "tenant";
             name = "dmz";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.55.11.0/24";
             ipv6 = "fd42:dead:feed:5511::/64";
             kind = "tenant";
             name = "provider-handoff-a";
+            dnsDomain = "lan.";
           }
           {
             ipv4 = "10.55.12.0/24";
             ipv6 = "fd42:dead:feed:5512::/64";
             kind = "tenant";
             name = "provider-handoff-b";
+            dnsDomain = "lan.";
           }
         ];
       };
