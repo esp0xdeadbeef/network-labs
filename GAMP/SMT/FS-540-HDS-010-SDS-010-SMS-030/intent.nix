@@ -165,13 +165,6 @@
             name = "core-dns";
             node = "core-primary";
           };
-          resolverPath = [
-            "access-recursive"
-            "downstream-selector"
-            "policy"
-            "upstream-selector"
-            "core-primary"
-          ];
           egressSurface = {
             kind = "external";
             uplinks = [ "isp-primary" ];
@@ -213,11 +206,6 @@
         };
         trafficType = "dns";
         returnBehavior = "symmetric";
-        resolverPath = [
-          "access-local"
-          "downstream-selector"
-          "access-recursive"
-        ];
       };
       providerPolicy = {
         source = "local-dns";
