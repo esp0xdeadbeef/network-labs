@@ -1792,17 +1792,13 @@ in
                 name = "client";
               }
             ];
+            # FS-260: this node is an overlay endpoint (wg-host128-egress and
+            # wg-routed64 terminate on it). Its reachability and egress are the
+            # modeled overlay relations, and its overlay addresses come from
+            # overlayAddressPools. It therefore declares no local uplink; an
+            # overlay-named uplink carrying prefixes is the retired
+            # overlay-as-uplink shape.
             role = "core";
-            uplinks = {
-              wg-host128-egress = {
-                ipv4 = [ "10.66.128.2/32" ];
-                ipv6 = [ "2001:db8:128::2/128" ];
-              };
-              wg-routed64 = {
-                ipv4 = [ "10.66.64.2/32" ];
-                ipv6 = [ "2001:db8:64::2/128" ];
-              };
-            };
           };
           hetz-router-policy = {
             role = "policy";
