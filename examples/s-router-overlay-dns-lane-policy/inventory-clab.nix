@@ -1836,17 +1836,6 @@ in
         };
         platform = "nixos-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-wan";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              name = "east-west";
-            };
-            uplink = "east-west";
-          };
           upstream-selector = {
             adapterName = "p2p-c-router-nebula-core-c-router-upstream-selector-upstream-selector";
             attach = {
