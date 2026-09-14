@@ -1973,27 +1973,6 @@ in
         };
         platform = "nixos-container";
         ports = {
-          east-west = {
-            attach = {
-              bridge = "br-wan";
-              kind = "bridge";
-            };
-            external = true;
-            interface = {
-              addr4 = "172.31.254.2/24";
-              name = "east-west";
-              routes = {
-                ipv4 = [
-                  {
-                    metric = 5000;
-                    prefix = "0.0.0.0/0";
-                    via = "172.31.254.1";
-                  }
-                ];
-              };
-            };
-            uplink = "east-west";
-          };
           upstream-selector = {
             adapterName = "p2p-c-router-nebula-core-c-router-upstream-selector-upstream-selector";
             attach = {
