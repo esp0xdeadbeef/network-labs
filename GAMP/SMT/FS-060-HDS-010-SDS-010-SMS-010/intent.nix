@@ -15,7 +15,9 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
             priority = 100;
           }
@@ -74,6 +76,10 @@
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "internet-vlan4"
+            ];
+
             role = "access";
             attachments = [
               {

@@ -46,21 +46,56 @@ in
                 runtimeNodes = {
                   s-router-core-nebula = {
                     unsafeRoutes = [
-                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                      {
+                        route = "10.60.10.0/24";
+                        via4 = "100.96.10.2";
+                        install = true;
+                      }
+                      {
+                        route = "10.70.10.0/24";
+                        via4 = "100.96.10.2";
+                        install = true;
+                      }
+                      {
+                        route = "10.90.10.0/24";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "10.90.20.0/24";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:cafe:10::/64";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:cafe:20::/64";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:feed:10::/64";
+                        via6 = "fd42:dead:beef:ee::2";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:feed:70::/64";
+                        via6 = "fd42:dead:beef:ee::2";
+                        install = true;
+                      }
                     ];
                   };
                 };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [
+                  "/run/secrets/site-c-lighthouse-public-ipv4"
+                  "/run/secrets/hetzner-public-ipv4"
+                ];
                 ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {
@@ -121,22 +156,86 @@ in
                   };
                   c-router-nebula-core = {
                     unsafeRoutes = [
-                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.60.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "10.70.10.0/24"; via4 = "100.96.10.2"; install = true; }
-                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:feed:10::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
-                      { route = "fd42:dead:feed:70::/64"; via6 = "fd42:dead:beef:ee::2"; install = true; }
+                      {
+                        route = "10.20.10.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.15.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.20.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.30.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.40.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.50.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.60.10.0/24";
+                        via4 = "100.96.10.2";
+                        install = true;
+                      }
+                      {
+                        route = "10.70.10.0/24";
+                        via4 = "100.96.10.2";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:10::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:15::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:20::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:30::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:40::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:50::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:feed:10::/64";
+                        via6 = "fd42:dead:beef:ee::2";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:feed:70::/64";
+                        via6 = "fd42:dead:beef:ee::2";
+                        install = true;
+                      }
                       {
                         route = "fd42:dead:feed:70::/64";
                         via6 = "fd42:dead:beef:ee::2";
@@ -149,7 +248,10 @@ in
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [
+                  "/run/secrets/site-c-lighthouse-public-ipv4"
+                  "/run/secrets/hetzner-public-ipv4"
+                ];
                 ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {
@@ -236,33 +338,116 @@ in
                 runtimeNodes = {
                   b-router-core-nebula = {
                     unsafeRoutes = [
-                      { route = "0.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
-                      { route = "128.0.0.0/1"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.20.10.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.15.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.20.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.30.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.40.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.20.50.0/24"; via4 = "100.96.10.1"; install = true; }
-                      { route = "10.90.10.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "10.90.20.0/24"; via4 = "100.96.10.3"; install = true; }
-                      { route = "::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "8000::/1"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:beef:10::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:15::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:20::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:30::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:40::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:beef:50::/64"; via6 = "fd42:dead:beef:ee::1"; install = true; }
-                      { route = "fd42:dead:cafe:10::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
-                      { route = "fd42:dead:cafe:20::/64"; via6 = "fd42:dead:beef:ee::3"; install = true; }
+                      {
+                        route = "0.0.0.0/1";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "128.0.0.0/1";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.10.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.15.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.20.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.30.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.40.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.20.50.0/24";
+                        via4 = "100.96.10.1";
+                        install = true;
+                      }
+                      {
+                        route = "10.90.10.0/24";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "10.90.20.0/24";
+                        via4 = "100.96.10.3";
+                        install = true;
+                      }
+                      {
+                        route = "::/1";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
+                      {
+                        route = "8000::/1";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:10::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:15::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:20::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:30::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:40::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:beef:50::/64";
+                        via6 = "fd42:dead:beef:ee::1";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:cafe:10::/64";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
+                      {
+                        route = "fd42:dead:cafe:20::/64";
+                        via6 = "fd42:dead:beef:ee::3";
+                        install = true;
+                      }
                     ];
                   };
                 };
               };
               provider = "nebula";
               underlayEndpointSourceFiles = {
-                ipv4 = [ "/run/secrets/site-c-lighthouse-public-ipv4" "/run/secrets/hetzner-public-ipv4" ];
+                ipv4 = [
+                  "/run/secrets/site-c-lighthouse-public-ipv4"
+                  "/run/secrets/hetzner-public-ipv4"
+                ];
                 ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
               };
               runtimeNodes = {

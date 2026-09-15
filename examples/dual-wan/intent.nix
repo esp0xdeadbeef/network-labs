@@ -40,7 +40,9 @@
             id = "allow-tenants-to-uplinks";
             returnBehavior = "one-way";
             priority = 100;
-            to = { kind = "external"; scope = "isp-a"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
         ];
@@ -133,6 +135,10 @@
         ];
         nodes = {
           s-router-access-adm = {
+            selects = [
+              "isp-a"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -142,6 +148,10 @@
             role = "access";
           };
           s-router-access-mgmt = {
+            selects = [
+              "isp-a"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

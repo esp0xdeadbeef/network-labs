@@ -32,13 +32,19 @@ let
   };
   endpointAssignment = {
     fs260-nixos-source =
-      mkEndpoint "fs260-nixos-source" "f260nsrc" "source" "10.2.60.10" "fd42:0104:60::10" "10.2.60.1" "fd42:0104:60::1";
+      mkEndpoint "fs260-nixos-source" "f260nsrc" "source" "10.2.60.10" "fd42:0104:60::10" "10.2.60.1"
+        "fd42:0104:60::1";
     fs260-nixos-destination =
-      mkEndpoint "fs260-nixos-destination" "f260ndst" "destination" "10.2.61.10" "fd42:0104:61::10" "10.2.61.1" "fd42:0104:61::1";
+      mkEndpoint "fs260-nixos-destination" "f260ndst" "destination" "10.2.61.10" "fd42:0104:61::10"
+        "10.2.61.1"
+        "fd42:0104:61::1";
     fs260-clab-source =
-      mkEndpoint "fs260-clab-source" "f260csrc" "source" "10.2.60.10" "fd42:0104:60::10" "10.2.60.1" "fd42:0104:60::1";
+      mkEndpoint "fs260-clab-source" "f260csrc" "source" "10.2.60.10" "fd42:0104:60::10" "10.2.60.1"
+        "fd42:0104:60::1";
     fs260-clab-destination =
-      mkEndpoint "fs260-clab-destination" "f260cdst" "destination" "10.2.61.10" "fd42:0104:61::10" "10.2.61.1" "fd42:0104:61::1";
+      mkEndpoint "fs260-clab-destination" "f260cdst" "destination" "10.2.61.10" "fd42:0104:61::10"
+        "10.2.61.1"
+        "fd42:0104:61::1";
   };
 in
 rec {

@@ -4,13 +4,13 @@
     scope = "mini-smt-auto";
     renderer = "test-clients";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-test-clients = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
     };
   };

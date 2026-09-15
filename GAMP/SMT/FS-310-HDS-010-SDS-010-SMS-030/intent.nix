@@ -6,7 +6,8 @@
           external-testnet = "testnet";
           tenant-client = "client";
         };
-        relations = [ {
+        relations = [
+          {
             id = "FS-310-HDS-010-SDS-010-SMS-030__mini-allow-client-to-testnet";
             action = "allow";
             from = {
@@ -15,27 +16,33 @@
             };
             to = {
               kind = "external";
-              name = "testnet";
             };
             trafficType = "any";
             priority = 100;
-          } ];
-        services = [];
-        trafficTypes = [ {
+          }
+        ];
+        services = [ ];
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
             name = "client";
             ipv4 = "10.1.54.0/24";
             ipv6 = "fd42:0136:50::/64";
-          } ];
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -49,15 +56,24 @@
       };
       topology = {
         links = [
-          [ "client-edge" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "testnet"
+            ];
+
             role = "access";
-            attachments = [ {
+            attachments = [
+              {
                 kind = "tenant";
                 name = "client";
-              } ];
+              }
+            ];
           };
           core-vlan4-client-dhcp-slaac = {
             role = "external";

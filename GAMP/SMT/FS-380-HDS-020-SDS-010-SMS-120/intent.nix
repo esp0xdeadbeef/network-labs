@@ -32,8 +32,7 @@
             };
             to = {
               kind = "external";
-              name = "internet-vlan4";
-              uplinks = [ "internet-vlan4" ];
+              scope = "core";
             };
             trafficType = "dns";
             returnBehavior = "stateful-return";
@@ -48,8 +47,6 @@
             };
             to = {
               kind = "external";
-              name = "internet-vlan4";
-              uplinks = [ "internet-vlan4" ];
             };
             trafficType = "ipv4-any";
             returnBehavior = "stateful-return";
@@ -140,6 +137,10 @@
         ];
         nodes = {
           access-vlan2 = {
+            selects = [
+              "internet-vlan4"
+            ];
+
             role = "access";
             attachments = [
               {

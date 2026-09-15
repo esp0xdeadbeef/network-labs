@@ -43,7 +43,10 @@
             kind = "tenant";
             name = "source";
           };
-          to = { kind = "external"; scope = "internet-vlan4"; };
+          to = {
+            kind = "external";
+            scope = "internet-vlan4";
+          };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";
@@ -88,11 +91,26 @@
     };
     topology = {
       links = [
-        [ "access-source" "downstream-selector" ]
-        [ "access-destination" "downstream-selector" ]
-        [ "downstream-selector" "policy" ]
-        [ "policy" "upstream-selector" ]
-        [ "upstream-selector" "core-vlan4" ]
+        [
+          "access-source"
+          "downstream-selector"
+        ]
+        [
+          "access-destination"
+          "downstream-selector"
+        ]
+        [
+          "downstream-selector"
+          "policy"
+        ]
+        [
+          "policy"
+          "upstream-selector"
+        ]
+        [
+          "upstream-selector"
+          "core-vlan4"
+        ]
       ];
       nodes = {
         access-source = {

@@ -16,7 +16,9 @@
               kind = "tenant";
               name = "provider-handoff-a";
             };
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
             priority = 100;
           }
@@ -79,6 +81,10 @@
         ];
         nodes = {
           provider-handoff-access-a = {
+            selects = [
+              "isp"
+            ];
+
             role = "access";
             attachments = [
               {

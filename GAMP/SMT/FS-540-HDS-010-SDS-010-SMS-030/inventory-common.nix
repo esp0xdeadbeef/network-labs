@@ -130,8 +130,7 @@ in
           };
           interface.name = "lan0";
         };
-        transit-downstream-selector =
-          p2pPort links.accessRecursive bridges.accessRecursive "ar" "transit0";
+        transit-downstream-selector = p2pPort links.accessRecursive bridges.accessRecursive "ar" "transit0";
       };
       advertisements = accessAdvertisement "tenant-recursive-client";
       services.dns = {
@@ -157,8 +156,7 @@ in
           };
           interface.name = "lan0";
         };
-        transit-downstream-selector =
-          p2pPort links.accessLocal bridges.accessLocal "al" "transit0";
+        transit-downstream-selector = p2pPort links.accessLocal bridges.accessLocal "al" "transit0";
       };
       advertisements = accessAdvertisement "tenant-local-client";
       services.dns = {
@@ -187,10 +185,10 @@ in
       ports = {
         access-recursive = p2pPort links.accessRecursive bridges.accessRecursive "ra" "access0";
         access-local = p2pPort links.accessLocal bridges.accessLocal "la" "access1";
-        policy-access-recursive =
-          p2pPort links.downstreamPolicy bridges.downstreamPolicy "dp" "policy0";
+        policy-access-recursive = p2pPort links.downstreamPolicy bridges.downstreamPolicy "dp" "policy0";
         policy-access-local =
-          p2pPort links.downstreamPolicyLocal bridges.downstreamPolicyLocal "dl" "policy1";
+          p2pPort links.downstreamPolicyLocal bridges.downstreamPolicyLocal "dl"
+            "policy1";
       };
     };
     "${prefix}-policy" = {
@@ -198,12 +196,11 @@ in
       logicalNode = logicalNode "policy";
       platform = "nixos-container";
       ports = {
-        downstream-access-recursive =
-          p2pPort links.downstreamPolicy bridges.downstreamPolicy "pd" "down0";
+        downstream-access-recursive = p2pPort links.downstreamPolicy bridges.downstreamPolicy "pd" "down0";
         downstream-access-local =
-          p2pPort links.downstreamPolicyLocal bridges.downstreamPolicyLocal "ld" "down1";
-        upstream-access-recursive =
-          p2pPort links.policyUpstream bridges.policyUpstream "pu" "up0";
+          p2pPort links.downstreamPolicyLocal bridges.downstreamPolicyLocal "ld"
+            "down1";
+        upstream-access-recursive = p2pPort links.policyUpstream bridges.policyUpstream "pu" "up0";
       };
     };
     "${prefix}-upstream-selector" = {
@@ -211,8 +208,7 @@ in
       logicalNode = logicalNode "upstream-selector";
       platform = "nixos-container";
       ports = {
-        policy-access-recursive =
-          p2pPort links.policyUpstream bridges.policyUpstream "up" "policy0";
+        policy-access-recursive = p2pPort links.policyUpstream bridges.policyUpstream "up" "policy0";
         core-primary = p2pPort links.upstreamCore bridges.upstreamCore "uc" "core0";
       };
     };

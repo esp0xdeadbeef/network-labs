@@ -3,17 +3,17 @@
     traceId = "FS-010-HDS-010-SDS-010-SMS-010";
     scope = "mini-smt-auto";
   };
-  hosts = {};
+  hosts = { };
   deployment.hosts = {
     s-router-nixos = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
-        br-p2p-client-edge-downstream-selector = {};
-        br-p2p-downstream-selector-policy--access-client-edge = {};
-        br-p2p-policy-upstream-selector--access-client-edge--uplink-internet-vlan4 = {};
-        br-p2p-core-vlan4-client-dhcp-slaac-upstream-selector = {};
+        admin = { };
+        branch = { };
+        client = { };
+        br-p2p-client-edge-downstream-selector = { };
+        br-p2p-downstream-selector-policy--access-client-edge = { };
+        br-p2p-policy-upstream-selector--access-client-edge--uplink-internet-vlan4 = { };
+        br-p2p-core-vlan4-client-dhcp-slaac-upstream-selector = { };
       };
       uplinks = {
         internet-vlan4 = {
@@ -45,7 +45,7 @@
           rdnss = [ "router-self" ];
         };
       };
-      services.dns = {};
+      services.dns = { };
       host = "s-router-nixos";
       logicalNode = {
         enterprise = "mini-smt";

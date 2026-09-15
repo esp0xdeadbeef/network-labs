@@ -4,10 +4,10 @@
     renderer = "test-clients";
     scope = "mini-smt-auto";
   };
-  hosts = {};
-  clients = {};
+  hosts = { };
+  clients = { };
   deploymentHosts = {
-    s-router-test-clients = {};
+    s-router-test-clients = { };
   };
-  realization.nodes = {};
+  realization.nodes = { };
 }

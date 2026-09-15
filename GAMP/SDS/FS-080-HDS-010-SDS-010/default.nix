@@ -6,7 +6,10 @@
     "FS-080-HDS-010-SDS-010-SMS-010" = {
       smsRow = ../../SMS/FS-080-HDS-010-SDS-010-SMS-010;
       miniSmtIds = [ "FS-080-HDS-010-SDS-010-SMS-010" ];
-      inputKinds = [ "intent-source" "runtime-active-lab" ];
+      inputKinds = [
+        "intent-source"
+        "runtime-active-lab"
+      ];
       evidenceBoundary = "runtime";
     };
   };

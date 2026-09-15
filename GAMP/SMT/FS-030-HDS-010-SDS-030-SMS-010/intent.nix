@@ -29,7 +29,10 @@
               kind = "external";
               name = "east-west";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+              scope = "core-vlan4-client-dhcp-slaac";
+            };
             trafficType = "nebula";
             priority = 110;
           }
@@ -40,7 +43,9 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "nebula";
             priority = 105;
           }
@@ -90,14 +95,33 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "overlay-core" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "overlay-core"
+          ]
+          [
+            "upstream-selector"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "internet-vlan4"
+            ];
+
             role = "access";
             attachments = [
               {

@@ -1,15 +1,16 @@
 let
-  compatName = builtins.replaceStrings
-    [
-      "east-west"
-      "simulated-isp"
-      "s-router-hetzner-anywhere"
-    ]
-    [
-      "inter-site"
-      "testnet-host-isp"
-      "s-router-hetz"
-    ];
+  compatName =
+    builtins.replaceStrings
+      [
+        "east-west"
+        "simulated-isp"
+        "s-router-hetzner-anywhere"
+      ]
+      [
+        "inter-site"
+        "testnet-host-isp"
+        "s-router-hetz"
+      ];
 
   compatValue =
     value:
@@ -40,7 +41,16 @@ let
       }) (builtins.attrNames nodes)
     );
 
-  uniqueStrings = list: builtins.attrNames (builtins.listToAttrs (map (value: { name = value; value = true; }) list));
+  uniqueStrings =
+    list:
+    builtins.attrNames (
+      builtins.listToAttrs (
+        map (value: {
+          name = value;
+          value = true;
+        }) list
+      )
+    );
 
   mergeHost =
     left: right:
@@ -86,7 +96,12 @@ let
       management = uplinks.management or null;
       wan = uplinks.wan or null;
     in
-    if management != null && !(builtins.hasAttr "bridge" management) && wan != null && builtins.hasAttr "bridge" wan then
+    if
+      management != null
+      && !(builtins.hasAttr "bridge" management)
+      && wan != null
+      && builtins.hasAttr "bridge" wan
+    then
       host
       // {
         uplinks = uplinks // {
@@ -168,83 +183,75 @@ let
 
   withRealizationHostUplinks =
     hosts: nodes:
-    builtins.foldl'
-      (
-        result: entry:
-        let
-          host = result.${entry.host} or { };
-          uplinks = host.uplinks or { };
-          firstExisting = names:
-            let
-              matches = builtins.filter (name: builtins.hasAttr name uplinks) names;
-            in
-            if matches == [ ] then null else builtins.head matches;
-          sourceName =
-            firstExisting (
-              if entry.uplink == "isp-a" then
-                [ "uplink-isp-a" ]
-              else if entry.uplink == "isp-b" then
-                [ "uplink-isp-b" ]
-              else if entry.uplink == "inter-site" then
-                [ "wan" ]
-              else if entry.uplink == "wan" then
-                [ "wan" ]
-              else
-                [ ]
-            );
-          sourceUplink =
-            if sourceName == null then
-              throw "HAT SAT-compat missing explicit source uplink for ${entry.host}.${entry.uplink}; declare the uplink or a supported compatibility alias in public inventory"
-            else
-              uplinks.${sourceName};
-        in
-        if builtins.hasAttr entry.uplink uplinks then
-          result
-        else
-          result
-          // {
-            ${entry.host} = mergeHost host {
-              uplinks = {
-                ${entry.uplink} =
-                  sourceUplink
-                  // {
-                    bridge = entry.bridge;
-                    upstream = entry.uplink;
-                  };
+    builtins.foldl' (
+      result: entry:
+      let
+        host = result.${entry.host} or { };
+        uplinks = host.uplinks or { };
+        firstExisting =
+          names:
+          let
+            matches = builtins.filter (name: builtins.hasAttr name uplinks) names;
+          in
+          if matches == [ ] then null else builtins.head matches;
+        sourceName = firstExisting (
+          if entry.uplink == "isp-a" then
+            [ "uplink-isp-a" ]
+          else if entry.uplink == "isp-b" then
+            [ "uplink-isp-b" ]
+          else if entry.uplink == "inter-site" then
+            [ "wan" ]
+          else if entry.uplink == "wan" then
+            [ "wan" ]
+          else
+            [ ]
+        );
+        sourceUplink =
+          if sourceName == null then
+            throw "HAT SAT-compat missing explicit source uplink for ${entry.host}.${entry.uplink}; declare the uplink or a supported compatibility alias in public inventory"
+          else
+            uplinks.${sourceName};
+      in
+      if builtins.hasAttr entry.uplink uplinks then
+        result
+      else
+        result
+        // {
+          ${entry.host} = mergeHost host {
+            uplinks = {
+              ${entry.uplink} = sourceUplink // {
+                bridge = entry.bridge;
+                upstream = entry.uplink;
               };
             };
-          }
-      )
-      hosts
-      (portUplinkEntries nodes);
+          };
+        }
+    ) hosts (portUplinkEntries nodes);
 
   withRealizationHostBridges =
     hosts: nodes:
-    builtins.foldl'
-      (
-        result: entry:
-        let
-          host = result.${entry.host} or { };
-          uplinks = host.uplinks or { };
-          uplinkBridges =
-            builtins.map
-              (uplink: uplinks.${uplink}.bridge or null)
-              (builtins.attrNames uplinks);
-        in
-        if builtins.elem entry.bridge uplinkBridges then
-          result
-        else
-          result
-          // {
-            ${entry.host} = host // {
-              bridgeNetworks = {
-                ${entry.bridge} = { };
-              } // (host.bridgeNetworks or { });
-            };
-          }
-      )
-      hosts
-      (portAttachBridgeEntries nodes);
+    builtins.foldl' (
+      result: entry:
+      let
+        host = result.${entry.host} or { };
+        uplinks = host.uplinks or { };
+        uplinkBridges = builtins.map (uplink: uplinks.${uplink}.bridge or null) (
+          builtins.attrNames uplinks
+        );
+      in
+      if builtins.elem entry.bridge uplinkBridges then
+        result
+      else
+        result
+        // {
+          ${entry.host} = host // {
+            bridgeNetworks = {
+              ${entry.bridge} = { };
+            }
+            // (host.bridgeNetworks or { });
+          };
+        }
+    ) hosts (portAttachBridgeEntries nodes);
 
   withoutOldHetzHost =
     inventory:

@@ -52,17 +52,30 @@ let
     }
   ];
 
-  specsWithCommonFields = map (spec: spec // {
-    inherit site;
-    host = harness;
-    lifecycle = "hat-runtime";
-    required = true;
-    sourceClass = "deployment-platform-secret-reference";
-  }) specs;
+  specsWithCommonFields = map (
+    spec:
+    spec
+    // {
+      inherit site;
+      host = harness;
+      lifecycle = "hat-runtime";
+      required = true;
+      sourceClass = "deployment-platform-secret-reference";
+    }
+  ) specs;
 in
 {
   secretDeclarations = map (spec: {
-    inherit (spec) id credentialClass site tenant host consumer purpose lifecycle;
+    inherit (spec)
+      id
+      credentialClass
+      site
+      tenant
+      host
+      consumer
+      purpose
+      lifecycle
+      ;
     required = spec.required;
     requiredness = "mandatory";
     material = "reference-only";

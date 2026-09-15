@@ -14,7 +14,9 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
             returnBehavior = "stateful-return";
             priority = 100;
@@ -96,6 +98,10 @@
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "isp"
+            ];
+
             role = "access";
             accessHandoff = {
               kind = "pppoe";

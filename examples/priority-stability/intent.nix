@@ -47,7 +47,9 @@
             };
             id = "deny-admin-dns-to-wan";
             priority = 90;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "dns";
           }
           {
@@ -59,7 +61,9 @@
             id = "allow-admin-to-wan";
             returnBehavior = "one-way";
             priority = 200;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
         ];
@@ -159,6 +163,10 @@
         ];
         nodes = {
           s-router-access-admin = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

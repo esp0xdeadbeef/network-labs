@@ -24,7 +24,10 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+              scope = "internet-vlan4";
+            };
             trafficType = "any";
             priority = 100;
           }
@@ -43,10 +46,22 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {

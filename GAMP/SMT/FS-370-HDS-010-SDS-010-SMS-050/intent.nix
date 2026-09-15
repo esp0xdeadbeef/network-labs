@@ -13,8 +13,6 @@
             };
             to = {
               kind = "external";
-              name = "internet-vlan4";
-              uplinks = [ "internet-vlan4" ];
             };
             trafficType = "any";
             priority = 100;
@@ -73,6 +71,10 @@
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "internet-vlan4"
+            ];
+
             role = "access";
             attachments = [
               {
