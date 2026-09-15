@@ -139,6 +139,9 @@
           addressAuthority = "model-allocated-service-prefix";
           trafficType = "dns";
           recursionMode = "iterative";
+          # FS-440/FS-540: when the exit is a forwarding internet gateway, the
+          # core resolver uses the real upstream resolver for public recursion.
+          forwarders = [ "192.168.1.1" ];
         }
       ];
       relations = [

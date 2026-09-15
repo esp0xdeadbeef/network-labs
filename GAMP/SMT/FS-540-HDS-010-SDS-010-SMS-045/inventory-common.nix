@@ -96,6 +96,13 @@ let
       ipv6 = [ "fd42:540:45:ff::80" ];
     };
     trust.mode = "insecure-controlled-root";
+    # FS-440: this exit is modeled as a forwarding internet gateway so a
+    # permitted client reaches the public internet through the selected exit.
+    # The concrete upstream surface is realization (inventory).
+    forwardingGateway = {
+      enable = true;
+      upstreamInterface = "vlan2";
+    };
   };
   bridgeNetworks = {
     ${recursiveClientBridge} = {
