@@ -102,6 +102,7 @@ let
     forwardingGateway = {
       enable = true;
       upstreamInterface = "vlan2";
+      upstreamDns = [ "192.168.1.1" ];
     };
   };
   bridgeNetworks = {
