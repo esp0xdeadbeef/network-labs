@@ -15,10 +15,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             priority = 100;
           }
@@ -29,10 +26,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "fake-isp" ];
-            };
+            to = { kind = "external"; scope = "fake-isp"; };
             trafficType = "any";
             priority = 90;
           }

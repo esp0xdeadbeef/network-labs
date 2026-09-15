@@ -43,10 +43,7 @@
             kind = "tenant";
             name = "source";
           };
-          to = {
-            kind = "external";
-            uplinks = [ "internet-vlan4" ];
-          };
+          to = { kind = "external"; scope = "internet-vlan4"; };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";

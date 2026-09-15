@@ -69,10 +69,7 @@
             kind = "tenant";
             name = "recursive-client";
           };
-          to = {
-            kind = "external";
-            uplinks = [ "isp-primary" ];
-          };
+          to = { kind = "external"; scope = "isp-primary"; };
           trafficType = "web";
           action = "allow";
           returnBehavior = "symmetric";
@@ -180,10 +177,7 @@
             kind = "service";
             name = "core-dns";
           };
-          to = {
-            kind = "external";
-            uplinks = [ "isp-primary" ];
-          };
+          to = { kind = "external"; scope = "isp-primary"; };
           trafficType = "dns";
           action = "allow";
           returnBehavior = "symmetric";
@@ -205,10 +199,7 @@
             name = "core-dns";
             node = "core-primary";
           };
-          egressSurface = {
-            kind = "external";
-            uplinks = [ "isp-primary" ];
-          };
+          egressSurface = { kind = "external"; scope = "isp-primary"; };
           returnBehavior = "symmetric";
           allowedAddressFamilies = [
             "ipv4"

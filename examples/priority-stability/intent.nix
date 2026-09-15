@@ -47,10 +47,7 @@
             };
             id = "deny-admin-dns-to-wan";
             priority = 90;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "dns";
           }
           {
@@ -62,10 +59,7 @@
             id = "allow-admin-to-wan";
             returnBehavior = "one-way";
             priority = 200;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "any";
           }
         ];

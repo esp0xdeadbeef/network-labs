@@ -40,13 +40,7 @@
             id = "allow-tenants-to-uplinks";
             returnBehavior = "one-way";
             priority = 100;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
         ];

@@ -66,13 +66,7 @@
             id = "allow-mgmt-dns-to-uplinks";
             returnBehavior = "one-way";
             priority = 16;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "dns";
           }
           {
@@ -88,13 +82,7 @@
             };
             id = "deny-sitea-dns-to-uplinks";
             priority = 20;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "dns";
           }
           {
@@ -111,13 +99,7 @@
             id = "allow-tenants-to-uplinks";
             returnBehavior = "one-way";
             priority = 100;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -157,13 +139,7 @@
           }
           {
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            from = { kind = "external"; scope = "isp-a"; };
             id = "allow-wan-to-dmz-nebula";
             returnBehavior = "one-way";
             priority = 120;
@@ -214,13 +190,7 @@
             };
             id = "deny-sitea-streaming-dns-to-uplinks";
             priority = 22;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "dns";
           }
           {
@@ -232,13 +202,7 @@
             id = "allow-sitea-streaming-to-uplinks";
             returnBehavior = "one-way";
             priority = 103;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -250,13 +214,7 @@
             id = "allow-sitea-nebula-underlay-to-uplinks";
             returnBehavior = "one-way";
             priority = 118;
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp-a"
-                "isp-b"
-              ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "nebula";
           }
         ];
@@ -681,10 +639,7 @@
           }
           {
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            from = { kind = "external"; scope = "wan"; };
             id = "allow-sitec-wan-to-dmz-nebula";
             priority = 128;
             publicIngressTupleAuthority = {
@@ -738,10 +693,7 @@
             id = "allow-sitec-nebula-underlay-to-wan";
             returnBehavior = "one-way";
             priority = 133;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "nebula";
           }
         ];
@@ -1121,10 +1073,7 @@
             id = "allow-siteb-nebula-underlay-to-wan";
             returnBehavior = "one-way";
             priority = 117;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "nebula-storage";
           }
         ];

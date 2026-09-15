@@ -14,10 +14,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             priority = 100;
           }
@@ -67,10 +64,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-030__public-web-public-ingress-exposure-allow";
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            from = { kind = "external"; scope = "internet-vlan4"; };
             to = {
               kind = "service";
               name = "public-web-without-ingress-policy";
@@ -88,10 +82,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             priority = 100;
           }
@@ -141,10 +132,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-030__public-web-public-ingress-exposure-allow";
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            from = { kind = "external"; scope = "internet-vlan4"; };
             to = {
               kind = "service";
               name = "public-web-without-ingress-policy";

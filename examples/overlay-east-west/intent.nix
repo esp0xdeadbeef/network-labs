@@ -31,10 +31,7 @@
             id = "allow-mgmt-nebula-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 105;
-            to = {
-              kind = "external";
-              uplinks = [ "isp" ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "nebula";
           }
           {
@@ -46,10 +43,7 @@
             id = "allow-east-west-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 110;
-            to = {
-              kind = "external";
-              uplinks = [ "isp" ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "nebula";
           }
         ];
@@ -215,10 +209,7 @@
             id = "allow-mgmt-nebula-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 105;
-            to = {
-              kind = "external";
-              uplinks = [ "isp" ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "nebula";
           }
           {
@@ -230,10 +221,7 @@
             id = "allow-east-west-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 110;
-            to = {
-              kind = "external";
-              uplinks = [ "isp" ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "nebula";
           }
         ];

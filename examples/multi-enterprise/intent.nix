@@ -64,10 +64,7 @@
             id = "allow-clients-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "any";
           }
           {
@@ -309,10 +306,7 @@
             id = "allow-clients-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "any";
           }
           {

@@ -14,10 +14,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             priority = 100;
           }
@@ -38,10 +35,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__testnet-to-public-web";
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            from = { kind = "external"; scope = "internet-vlan4"; };
             to = {
               kind = "service";
               name = "public-web";
@@ -58,10 +52,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             priority = 100;
           }
@@ -82,10 +73,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__testnet-to-public-web";
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            from = { kind = "external"; scope = "internet-vlan4"; };
             to = {
               kind = "service";
               name = "public-web";
