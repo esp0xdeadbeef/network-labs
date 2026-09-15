@@ -29,7 +29,9 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "testnet-vlan4"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "web";
             returnBehavior = "symmetric";
             priority = 200;
@@ -107,7 +109,10 @@
               kind = "service";
               name = "core-dns";
             };
-            to = { kind = "external"; scope = "testnet-vlan4"; };
+            to = {
+              kind = "external";
+              scope = "resolver-node";
+            };
             trafficType = "dns";
             action = "allow";
             returnBehavior = "symmetric";
@@ -129,7 +134,10 @@
               name = "core-dns";
               node = "resolver-node";
             };
-            egressSurface = { kind = "external"; scope = "testnet-vlan4"; };
+            egressSurface = {
+              kind = "external";
+              scope = "testnet-vlan4";
+            };
             returnBehavior = "symmetric";
             allowedAddressFamilies = [
               "ipv4"
@@ -189,6 +197,10 @@
         ];
         nodes = {
           access-dns = {
+            selects = [
+              "testnet-vlan4"
+            ];
+
             role = "access";
             attachments = [
               {

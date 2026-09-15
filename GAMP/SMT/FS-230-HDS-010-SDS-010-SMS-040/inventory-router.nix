@@ -1,10 +1,10 @@
-{ host
-, wanBridge
-, wanVlan
-, dmzBridge
-, dmzVlan
-, containerlab ? false
-,
+{
+  host,
+  wanBridge,
+  wanVlan,
+  dmzBridge,
+  dmzVlan,
+  containerlab ? false,
 }:
 let
   traceId = "FS-230-HDS-010-SDS-010-SMS-040";
@@ -15,11 +15,11 @@ let
     inherit name;
   };
   mkTransitPort =
-    { link
-    , bridge
-    , adapterName
-    , interfaceName
-    ,
+    {
+      link,
+      bridge,
+      adapterName,
+      interfaceName,
     }:
     {
       inherit link adapterName;
@@ -83,27 +83,29 @@ in
   deploymentHosts.${host} = deploymentHost;
 
   realization.nodes = {
-    ${nodeId "access-dmz"} = (mkNode "access-dmz" {
-      tenant-lab-dmz = {
-        logicalInterface = "tenant-lab-dmz";
-        attach = {
-          kind = "bridge";
-          bridge = dmzBridge;
+    ${nodeId "access-dmz"} =
+      (mkNode "access-dmz" {
+        tenant-lab-dmz = {
+          logicalInterface = "tenant-lab-dmz";
+          attach = {
+            kind = "bridge";
+            bridge = dmzBridge;
+          };
+          interface.name = "tenant0";
         };
-        interface.name = "tenant0";
+        transit-downstream-selector = mkTransitPort {
+          link = accessLink;
+          bridge = "f230-ad";
+          adapterName = "f230-access-ds";
+          interfaceName = "transit";
+        };
+      })
+      // {
+        advertisements = {
+          dhcp4.tenant-lab-dmz.enabled = false;
+          ipv6Ra.tenant-lab-dmz.enabled = false;
+        };
       };
-      transit-downstream-selector = mkTransitPort {
-        link = accessLink;
-        bridge = "f230-ad";
-        adapterName = "f230-access-ds";
-        interfaceName = "transit";
-      };
-    }) // {
-      advertisements = {
-        dhcp4.tenant-lab-dmz.enabled = false;
-        ipv6Ra.tenant-lab-dmz.enabled = false;
-      };
-    };
 
     ${nodeId "downstream-selector"} = mkNode "downstream-selector" {
       access-dmz = mkTransitPort {
@@ -173,12 +175,17 @@ in
     };
   };
 }
-  // (if containerlab then {
-  containerlab.roles = {
-    access.forwarding.disable_eth0 = true;
-    downstream-selector.forwarding.disable_eth0 = true;
-    policy.forwarding.disable_eth0 = true;
-    upstream-selector.forwarding.disable_eth0 = true;
-    core.forwarding.disable_eth0 = false;
-  };
-} else { })
+// (
+  if containerlab then
+    {
+      containerlab.roles = {
+        access.forwarding.disable_eth0 = true;
+        downstream-selector.forwarding.disable_eth0 = true;
+        policy.forwarding.disable_eth0 = true;
+        upstream-selector.forwarding.disable_eth0 = true;
+        core.forwarding.disable_eth0 = false;
+      };
+    }
+  else
+    { }
+)

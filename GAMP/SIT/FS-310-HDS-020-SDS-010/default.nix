@@ -14,7 +14,7 @@
       role = "row-local-source-stub";
       evidenceBoundary = "source-stub-only";
     };
-};
+  };
   evidence = {
     observedResult = "Construction-only trace chain. SMT row pending verification at network-codex-agent HEAD.";
   };

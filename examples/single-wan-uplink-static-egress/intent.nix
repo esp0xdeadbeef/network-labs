@@ -80,7 +80,6 @@
             priority = 50;
             to = {
               kind = "external";
-              name = "wan";
             };
             trafficType = "web";
           }
@@ -99,7 +98,6 @@
             priority = 100;
             to = {
               kind = "external";
-              name = "wan";
             };
             trafficType = "any";
           }
@@ -107,7 +105,7 @@
             action = "allow";
             from = {
               kind = "external";
-              name = "wan";
+              scope = "s-router-core-wan";
             };
             id = "allow-wan-to-jump-host";
             returnBehavior = "one-way";
@@ -122,7 +120,7 @@
             action = "allow";
             from = {
               kind = "external";
-              name = "wan";
+              scope = "s-router-core-wan";
             };
             id = "allow-wan-to-mgmt-icmp";
             returnBehavior = "one-way";
@@ -137,7 +135,7 @@
             action = "allow";
             from = {
               kind = "external";
-              name = "wan";
+              scope = "s-router-core-wan";
             };
             id = "allow-wan-to-admin-web";
             returnBehavior = "one-way";
@@ -302,6 +300,10 @@
         ];
         nodes = {
           s-router-access-admin = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -311,6 +313,10 @@
             role = "access";
           };
           s-router-access-client = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -320,6 +326,10 @@
             role = "access";
           };
           s-router-access-mgmt = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

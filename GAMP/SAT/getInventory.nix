@@ -1,4 +1,6 @@
-{ renderer ? "nixos" }:
+{
+  renderer ? "nixos",
+}:
 
 if renderer == "clab" || renderer == "nixos" then
   import ./inventory.nix

@@ -32,9 +32,13 @@ let
   };
   endpointAssignment = {
     fs230-nixos-public =
-      mkEndpoint "fs230-nixos-public" "f230nwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2" "10.230.40.1" "fd42:0230:40:1::1";
+      mkEndpoint "fs230-nixos-public" "f230nwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2"
+        "10.230.40.1"
+        "fd42:0230:40:1::1";
     fs230-nixos-service =
-      (mkEndpoint "fs230-nixos-service" "f230ndmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1")
+      (mkEndpoint "fs230-nixos-service" "f230ndmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1"
+        "fd42:0230:40::1"
+      )
       // {
         runtimeAddressAssignments = [
           {
@@ -51,9 +55,13 @@ let
         ];
       };
     fs230-clab-public =
-      mkEndpoint "fs230-clab-public" "f230cwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2" "10.230.40.1" "fd42:0230:40:1::1";
+      mkEndpoint "fs230-clab-public" "f230cwan" "external-lab-wan" "10.230.40.2" "fd42:0230:40:1::2"
+        "10.230.40.1"
+        "fd42:0230:40:1::1";
     fs230-clab-service =
-      (mkEndpoint "fs230-clab-service" "f230cdmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1" "fd42:0230:40::1")
+      (mkEndpoint "fs230-clab-service" "f230cdmz" "lab-dmz" "10.2.30.42" "fd42:0230:40::42" "10.2.30.1"
+        "fd42:0230:40::1"
+      )
       // {
         runtimeAddressAssignments = [
           {

@@ -18,7 +18,9 @@ let
     in
     inventory
     // {
-      controlPlane = satCompat.recursiveMerge (satInventory.controlPlane or { }) (inventory.controlPlane or { });
+      controlPlane = satCompat.recursiveMerge (satInventory.controlPlane or { }) (
+        inventory.controlPlane or { }
+      );
       deployment = inventory.deployment // {
         hosts = satCompat.withRealizationHostBridges hostsWithUplinks satNodes;
       };
@@ -27,7 +29,8 @@ let
       failureHandlingContracts = satInventory.failureHandlingContracts;
       failureDiagnosticContracts = satInventory.failureDiagnosticContracts;
       realization = inventory.realization // {
-        fabricLinks = (satInventory.realization.fabricLinks or { }) // (inventory.realization.fabricLinks or { });
+        fabricLinks =
+          (satInventory.realization.fabricLinks or { }) // (inventory.realization.fabricLinks or { });
         nodes = satNodes // inventory.realization.nodes;
       };
     };

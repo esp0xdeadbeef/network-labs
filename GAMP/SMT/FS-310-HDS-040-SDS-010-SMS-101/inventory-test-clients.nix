@@ -3,13 +3,13 @@
     traceId = "FS-310-HDS-040-SDS-010-SMS-101";
     scope = "mini-smt-auto";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-nixos = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
     };
   };

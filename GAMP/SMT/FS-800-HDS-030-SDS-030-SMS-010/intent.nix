@@ -14,7 +14,9 @@
               kind = "tenant";
               name = "pppoe-client";
             };
-            to = { kind = "external"; scope = "pppoe-provider"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "pppoe-session";
             priority = 100;
           }
@@ -73,6 +75,10 @@
         ];
         nodes = {
           pppoe-client = {
+            selects = [
+              "pppoe-provider"
+            ];
+
             role = "access";
             attachments = [
               {

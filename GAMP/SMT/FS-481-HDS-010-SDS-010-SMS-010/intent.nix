@@ -76,7 +76,9 @@
             kind = "tenant";
             name = "multi-client";
           };
-          to = { kind = "external"; scope = "isp-dual"; };
+          to = {
+            kind = "external";
+          };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";
@@ -88,7 +90,9 @@
             kind = "tenant";
             name = "ordered-client";
           };
-          to = { kind = "external"; scope = "isp-v6"; };
+          to = {
+            kind = "external";
+          };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";
@@ -171,6 +175,10 @@
       ];
       nodes = {
         access-multi = {
+          selects = [
+            "isp-dual"
+          ];
+
           role = "access";
           attachments = [
             {
@@ -180,6 +188,10 @@
           ];
         };
         access-ordered = {
+          selects = [
+            "isp-v6"
+          ];
+
           role = "access";
           attachments = [
             {

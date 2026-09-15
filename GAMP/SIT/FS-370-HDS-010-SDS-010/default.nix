@@ -19,7 +19,7 @@
       role = "row-local-source-stub";
       evidenceBoundary = "source-stub-only";
     };
-};
+  };
   evidence = {
     sourcePaths = [
       "GAMP/SMT/FS-370-HDS-010-SDS-010-SMS-040/intent.nix"

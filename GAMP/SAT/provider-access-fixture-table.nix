@@ -3,30 +3,115 @@ let
     [ "scenarioId" ]
     [ "gampId" ]
     [ "site" ]
-    [ "provider" "role" ]
-    [ "provider" "handoff" ]
-    [ "provider" "addressDelivery" "ipv4" ]
-    [ "provider" "addressDelivery" "ipv6" ]
-    [ "provider" "addressDelivery" "excluded" ]
-    [ "customer" "site" ]
-    [ "customer" "coreNode" ]
-    [ "customer" "coreInterface" ]
-    [ "publicFacing" "ipv4" "sessionPrefix" ]
-    [ "publicFacing" "ipv4" "providerAddress" ]
-    [ "publicFacing" "ipv4" "customerAddress" ]
-    [ "publicFacing" "ipv4" "snatPrivateTenants" ]
-    [ "publicFacing" "ipv6" "delegatedAggregate" ]
-    [ "publicFacing" "ipv6" "childPrefixLength" ]
-    [ "publicFacing" "ipv6" "nat66" ]
-    [ "firewall" "defaultInbound" ]
-    [ "firewall" "allowEstablishedRelated" ]
-    [ "firewall" "allowPppoeControl" ]
-    [ "firewall" "publicIngress" ]
-    [ "firewall" "leakPrevention" ]
-    [ "dns" "followSource" ]
-    [ "dns" "resolver" "consumer" ]
-    [ "dns" "resolver" "implementationClass" ]
-    [ "dns" "resolver" "upstreamSource" ]
+    [
+      "provider"
+      "role"
+    ]
+    [
+      "provider"
+      "handoff"
+    ]
+    [
+      "provider"
+      "addressDelivery"
+      "ipv4"
+    ]
+    [
+      "provider"
+      "addressDelivery"
+      "ipv6"
+    ]
+    [
+      "provider"
+      "addressDelivery"
+      "excluded"
+    ]
+    [
+      "customer"
+      "site"
+    ]
+    [
+      "customer"
+      "coreNode"
+    ]
+    [
+      "customer"
+      "coreInterface"
+    ]
+    [
+      "publicFacing"
+      "ipv4"
+      "sessionPrefix"
+    ]
+    [
+      "publicFacing"
+      "ipv4"
+      "providerAddress"
+    ]
+    [
+      "publicFacing"
+      "ipv4"
+      "customerAddress"
+    ]
+    [
+      "publicFacing"
+      "ipv4"
+      "snatPrivateTenants"
+    ]
+    [
+      "publicFacing"
+      "ipv6"
+      "delegatedAggregate"
+    ]
+    [
+      "publicFacing"
+      "ipv6"
+      "childPrefixLength"
+    ]
+    [
+      "publicFacing"
+      "ipv6"
+      "nat66"
+    ]
+    [
+      "firewall"
+      "defaultInbound"
+    ]
+    [
+      "firewall"
+      "allowEstablishedRelated"
+    ]
+    [
+      "firewall"
+      "allowPppoeControl"
+    ]
+    [
+      "firewall"
+      "publicIngress"
+    ]
+    [
+      "firewall"
+      "leakPrevention"
+    ]
+    [
+      "dns"
+      "followSource"
+    ]
+    [
+      "dns"
+      "resolver"
+      "consumer"
+    ]
+    [
+      "dns"
+      "resolver"
+      "implementationClass"
+    ]
+    [
+      "dns"
+      "resolver"
+      "upstreamSource"
+    ]
     [ "failureExpectation" ]
     [ "probeIntent" ]
   ];

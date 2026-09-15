@@ -3,13 +3,13 @@
     traceId = "FS-470-HDS-010-SDS-010-SMS-040";
     scope = "mini-smt-auto";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-nixos = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
       uplinks = {
         internet-vlan4 = {
@@ -17,8 +17,12 @@
           parent = "eth0";
           vlan = 4;
           mode = "vlan";
-          ipv4 = { enable = false; };
-          ipv6 = { enable = false; };
+          ipv4 = {
+            enable = false;
+          };
+          ipv6 = {
+            enable = false;
+          };
         };
       };
     };

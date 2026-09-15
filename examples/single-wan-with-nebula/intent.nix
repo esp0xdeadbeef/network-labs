@@ -49,7 +49,9 @@
             id = "allow-client-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
           {
@@ -90,7 +92,10 @@
             id = "allow-nebula-underlay-to-wan";
             returnBehavior = "one-way";
             priority = 220;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
             trafficType = "nebula";
           }
         ];
@@ -240,6 +245,10 @@
             role = "access";
           };
           s-router-access-client = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

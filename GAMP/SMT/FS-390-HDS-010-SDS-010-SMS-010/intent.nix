@@ -14,7 +14,10 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+              scope = "internet-vlan4";
+            };
             trafficType = "any";
             priority = 100;
           }
@@ -49,7 +52,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
             action = "allow";
-            from = { kind = "external"; scope = "internet-vlan4"; };
+            from = {
+              kind = "external";
+              scope = "internet-vlan4";
+            };
             to = {
               kind = "service";
               name = "public-web";
@@ -66,7 +72,9 @@
               kind = "tenant";
               name = "client";
             };
-            to = { kind = "external"; scope = "internet-vlan4"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
             priority = 100;
           }
@@ -101,7 +109,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
             action = "allow";
-            from = { kind = "external"; scope = "internet-vlan4"; };
+            from = {
+              kind = "external";
+              scope = "core-vlan4-client-dhcp-slaac";
+            };
             to = {
               kind = "service";
               name = "public-web";
@@ -127,22 +138,28 @@
             };
           }
         ];
-        trafficTypes = [ {
+        trafficTypes = [
+          {
             name = "any";
-            match = [ {
+            match = [
+              {
                 family = "any";
                 proto = "any";
-              } ];
-          } ];
+              }
+            ];
+          }
+        ];
       };
       ownership = {
-        prefixes = [ {
+        prefixes = [
+          {
             kind = "tenant";
             name = "client";
             ipv4 = "10.1.134.0/24";
             ipv6 = "fd42:0186:50::/64";
             publicIpv4 = "198.51.100.10/32";
-          } ];
+          }
+        ];
         endpoints = [
           {
             kind = "local";
@@ -154,7 +171,8 @@
             name = "provider-owned-endpoint";
             providerOwned = true;
             publicIpv4 = "198.51.100.13/32";
-          } ];
+          }
+        ];
       };
       pools = {
         loopback = {
@@ -168,18 +186,36 @@
       };
       topology = {
         links = [
-          [ "client-edge" "downstream-selector" ]
-          [ "downstream-selector" "policy" ]
-          [ "policy" "upstream-selector" ]
-          [ "upstream-selector" "core-vlan4-client-dhcp-slaac" ]
+          [
+            "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
+            "core-vlan4-client-dhcp-slaac"
+          ]
         ];
         nodes = {
           client-edge = {
+            selects = [
+              "internet-vlan4"
+            ];
+
             role = "access";
-            attachments = [ {
+            attachments = [
+              {
                 kind = "tenant";
                 name = "client";
-              } ];
+              }
+            ];
           };
           downstream-selector = {
             role = "downstream-selector";

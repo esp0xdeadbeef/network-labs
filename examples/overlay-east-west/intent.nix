@@ -31,7 +31,9 @@
             id = "allow-mgmt-nebula-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 105;
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "nebula";
           }
           {
@@ -43,7 +45,10 @@
             id = "allow-east-west-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 110;
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
             trafficType = "nebula";
           }
         ];
@@ -124,6 +129,10 @@
         ];
         nodes = {
           s-router-access = {
+            selects = [
+              "isp"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -209,7 +218,9 @@
             id = "allow-mgmt-nebula-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 105;
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "nebula";
           }
           {
@@ -221,7 +232,10 @@
             id = "allow-east-west-underlay-to-isp";
             returnBehavior = "one-way";
             priority = 110;
-            to = { kind = "external"; scope = "isp"; };
+            to = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
             trafficType = "nebula";
           }
         ];
@@ -302,6 +316,10 @@
         ];
         nodes = {
           s-router-access = {
+            selects = [
+              "isp"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

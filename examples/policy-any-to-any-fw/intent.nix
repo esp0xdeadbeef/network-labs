@@ -42,12 +42,17 @@
             id = "allow-tenants-to-wan";
             returnBehavior = "one-way";
             priority = 1;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
           {
             action = "allow";
-            from = { kind = "external"; scope = "wan"; };
+            from = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
             id = "allow-wan-to-tenants";
             returnBehavior = "one-way";
             priority = 2;
@@ -172,6 +177,10 @@
         ];
         nodes = {
           s-router-access-admin = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -181,6 +190,10 @@
             role = "access";
           };
           s-router-access-client = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -190,6 +203,10 @@
             role = "access";
           };
           s-router-access-mgmt = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

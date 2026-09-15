@@ -1,10 +1,10 @@
-{ host
-, sourceBridge
-, sourceVlan
-, destinationBridge
-, destinationVlan
-, containerlab ? false
-,
+{
+  host,
+  sourceBridge,
+  sourceVlan,
+  destinationBridge,
+  destinationVlan,
+  containerlab ? false,
 }:
 let
   traceId = "FS-260-HDS-010-SDS-010-SMS-010";
@@ -15,11 +15,11 @@ let
     inherit name;
   };
   mkTransitPort =
-    { link
-    , bridge
-    , adapterName
-    , interfaceName
-    ,
+    {
+      link,
+      bridge,
+      adapterName,
+      interfaceName,
     }:
     {
       inherit link adapterName;
@@ -90,49 +90,53 @@ in
   deploymentHosts.${host} = deploymentHost;
 
   realization.nodes = {
-    ${nodeId "access-source"} = (mkNode "access-source" {
-      tenant-source = {
-        logicalInterface = "tenant-source";
-        attach = {
-          kind = "bridge";
-          bridge = sourceBridge;
+    ${nodeId "access-source"} =
+      (mkNode "access-source" {
+        tenant-source = {
+          logicalInterface = "tenant-source";
+          attach = {
+            kind = "bridge";
+            bridge = sourceBridge;
+          };
+          interface.name = "src-lan";
         };
-        interface.name = "src-lan";
+        transit-downstream-selector = mkTransitPort {
+          link = accessSourceLink;
+          bridge = "f260-access-source-ds";
+          adapterName = "f260-access-source-ds";
+          interfaceName = "transit";
+        };
+      })
+      // {
+        advertisements = {
+          dhcp4.tenant-source.enabled = false;
+          ipv6Ra.tenant-source.enabled = false;
+        };
       };
-      transit-downstream-selector = mkTransitPort {
-        link = accessSourceLink;
-        bridge = "f260-access-source-ds";
-        adapterName = "f260-access-source-ds";
-        interfaceName = "transit";
-      };
-    }) // {
-      advertisements = {
-        dhcp4.tenant-source.enabled = false;
-        ipv6Ra.tenant-source.enabled = false;
-      };
-    };
 
-    ${nodeId "access-destination"} = (mkNode "access-destination" {
-      tenant-destination = {
-        logicalInterface = "tenant-destination";
-        attach = {
-          kind = "bridge";
-          bridge = destinationBridge;
+    ${nodeId "access-destination"} =
+      (mkNode "access-destination" {
+        tenant-destination = {
+          logicalInterface = "tenant-destination";
+          attach = {
+            kind = "bridge";
+            bridge = destinationBridge;
+          };
+          interface.name = "dst-lan";
         };
-        interface.name = "dst-lan";
+        transit-downstream-selector = mkTransitPort {
+          link = accessDestinationLink;
+          bridge = "f260-access-destination-ds";
+          adapterName = "f260-access-destination-ds";
+          interfaceName = "transit";
+        };
+      })
+      // {
+        advertisements = {
+          dhcp4.tenant-destination.enabled = false;
+          ipv6Ra.tenant-destination.enabled = false;
+        };
       };
-      transit-downstream-selector = mkTransitPort {
-        link = accessDestinationLink;
-        bridge = "f260-access-destination-ds";
-        adapterName = "f260-access-destination-ds";
-        interfaceName = "transit";
-      };
-    }) // {
-      advertisements = {
-        dhcp4.tenant-destination.enabled = false;
-        ipv6Ra.tenant-destination.enabled = false;
-      };
-    };
 
     ${nodeId "downstream-selector"} = mkNode "downstream-selector" {
       access-source = mkTransitPort {
@@ -216,12 +220,17 @@ in
     };
   };
 }
-  // (if containerlab then {
-  containerlab.roles = {
-    access.forwarding.disable_eth0 = true;
-    downstream-selector.forwarding.disable_eth0 = true;
-    policy.forwarding.disable_eth0 = true;
-    upstream-selector.forwarding.disable_eth0 = true;
-    core.forwarding.disable_eth0 = false;
-  };
-} else { })
+// (
+  if containerlab then
+    {
+      containerlab.roles = {
+        access.forwarding.disable_eth0 = true;
+        downstream-selector.forwarding.disable_eth0 = true;
+        policy.forwarding.disable_eth0 = true;
+        upstream-selector.forwarding.disable_eth0 = true;
+        core.forwarding.disable_eth0 = false;
+      };
+    }
+  else
+    { }
+)

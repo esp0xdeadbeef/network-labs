@@ -846,7 +846,10 @@ in
             kind = "service";
             name = "core-dns";
           };
-          to = { kind = "external"; scope = "testnet-vlan4"; };
+          to = {
+            kind = "external";
+            scope = "testnet-vlan4";
+          };
           trafficType = "dns";
           returnBehavior = "symmetric";
         }

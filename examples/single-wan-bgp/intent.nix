@@ -46,7 +46,6 @@
             priority = 100;
             to = {
               kind = "external";
-              name = "wan";
             };
             trafficType = "any";
           }
@@ -147,6 +146,10 @@
         ];
         nodes = {
           s-router-access-admin = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -156,6 +159,10 @@
             role = "access";
           };
           s-router-access-client = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -165,6 +172,10 @@
             role = "access";
           };
           s-router-access-mgmt = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

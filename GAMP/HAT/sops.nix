@@ -1,20 +1,23 @@
-{ config ? {}, lib ? {}, pkgs ? null
-, sopsFile ? ./emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml
-, runtimeFactSecrets ? []
-, ... }:
+{
+  config ? { },
+  lib ? { },
+  pkgs ? null,
+  sopsFile ? ./emulated-isp-residential-testnet/secrets/sops-s-router-clab.yaml,
+  runtimeFactSecrets ? [ ],
+  ...
+}:
 
 let
-  runtimeFactSecretDeclarations =
-    builtins.listToAttrs (map
-      (name: {
-        inherit name;
-        value = {
-          key = name;
-          mode = "0400";
-          inherit sopsFile;
-        };
-      })
-      runtimeFactSecrets);
+  runtimeFactSecretDeclarations = builtins.listToAttrs (
+    map (name: {
+      inherit name;
+      value = {
+        key = name;
+        mode = "0400";
+        inherit sopsFile;
+      };
+    }) runtimeFactSecrets
+  );
 in
 {
   # Shared HAT lab sops module.

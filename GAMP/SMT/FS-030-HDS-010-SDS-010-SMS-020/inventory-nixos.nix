@@ -4,13 +4,13 @@
     scope = "mini-smt-auto";
     renderer = "nixos";
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-nixos = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
       uplinks = {
         internet-vlan4 = {
@@ -18,8 +18,12 @@
           parent = "eth0";
           vlan = 4;
           mode = "vlan";
-          ipv4 = { enable = false; };
-          ipv6 = { enable = false; };
+          ipv4 = {
+            enable = false;
+          };
+          ipv6 = {
+            enable = false;
+          };
         };
       };
     };

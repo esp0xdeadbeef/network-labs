@@ -23,13 +23,13 @@
       };
     };
   };
-  hosts = {};
+  hosts = { };
   deploymentHosts = {
     s-router-clab = {
       bridgeNetworks = {
-        admin = {};
-        branch = {};
-        client = {};
+        admin = { };
+        branch = { };
+        client = { };
       };
     };
   };

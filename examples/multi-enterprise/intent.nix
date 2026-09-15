@@ -64,7 +64,9 @@
             id = "allow-clients-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
           {
@@ -202,6 +204,10 @@
             role = "access";
           };
           s-router-access-clients = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -306,7 +312,9 @@
             id = "allow-clients-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = { kind = "external"; scope = "wan"; };
+            to = {
+              kind = "external";
+            };
             trafficType = "any";
           }
           {
@@ -444,6 +452,10 @@
             role = "access";
           };
           s-router-access-clients = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";

@@ -1,4 +1,6 @@
-{ renderer ? "nixos" }:
+{
+  renderer ? "nixos",
+}:
 
 let
   inventory = import ./getInventory.nix { inherit renderer; };
@@ -17,15 +19,13 @@ let
   recursiveUpdate =
     left: right:
     left
-    // builtins.mapAttrs
-      (
-        name: value:
-        if builtins.isAttrs value && builtins.isAttrs (left.${name} or null) then
-          recursiveUpdate left.${name} value
-        else
-          value
-      )
-      right;
+    // builtins.mapAttrs (
+      name: value:
+      if builtins.isAttrs value && builtins.isAttrs (left.${name} or null) then
+        recursiveUpdate left.${name} value
+      else
+        value
+    ) right;
 in
 builtins.foldl' recursiveUpdate { } [
   inventory
