@@ -13,10 +13,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "any";
             returnBehavior = "one-way";
             priority = 100;

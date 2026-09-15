@@ -13,10 +13,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "testnet" ];
-            };
+            to = { kind = "external"; scope = "testnet"; };
             trafficType = "any";
             priority = 100;
           } ];

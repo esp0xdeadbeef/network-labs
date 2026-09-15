@@ -408,13 +408,7 @@ in
             id = "allow-hat-site-dns-service-to-client-uplinks";
             returnBehavior = "one-way";
             priority = 71;
-            to = {
-              kind = "external";
-              uplinks = [
-                "testnet-host-isp"
-                "testnet-routed-isp"
-              ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "dns";
           }
           {
@@ -425,13 +419,7 @@ in
             };
             id = "deny-client-dns-to-uplinks";
             priority = 72;
-            to = {
-              kind = "external";
-              uplinks = [
-                "testnet-host-isp"
-                "testnet-routed-isp"
-              ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "dns";
           }
           {
@@ -503,10 +491,7 @@ in
             id = "allow-provider-handoff-a-to-isp-a";
             returnBehavior = "one-way";
             priority = 80;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -518,10 +503,7 @@ in
             id = "allow-provider-handoff-b-to-isp-a";
             returnBehavior = "one-way";
             priority = 81;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -533,10 +515,7 @@ in
             id = "allow-management-icmp-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 96;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "icmp";
           }
           {
@@ -548,10 +527,7 @@ in
             id = "allow-management-icmp-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 97;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "icmp";
           }
           {
@@ -563,10 +539,7 @@ in
             id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 98;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "icmp";
           }
           {
@@ -578,10 +551,7 @@ in
             id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 99;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "icmp";
           }
           {
@@ -593,10 +563,7 @@ in
             id = "allow-client-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 100;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "any";
           }
           {
@@ -608,10 +575,7 @@ in
             id = "allow-client-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 101;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "any";
           }
           {
@@ -623,10 +587,7 @@ in
             id = "allow-iot-underlay-to-nebula-egress";
             returnBehavior = "one-way";
             priority = 110;
-            to = {
-              kind = "external";
-              uplinks = [ "nebula-egress" ];
-            };
+            to = { kind = "external"; scope = "nebula-egress"; };
             trafficType = "overlay-control";
           }
           {
@@ -638,10 +599,7 @@ in
             id = "allow-iot-underlay-to-wireguard-egress";
             returnBehavior = "one-way";
             priority = 111;
-            to = {
-              kind = "external";
-              uplinks = [ "wireguard-egress" ];
-            };
+            to = { kind = "external"; scope = "wireguard-egress"; };
             trafficType = "overlay-control";
           }
           {
@@ -671,10 +629,7 @@ in
             id = "allow-guest-to-isp-a";
             returnBehavior = "one-way";
             priority = 130;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -686,10 +641,7 @@ in
             id = "allow-work-to-isp-a";
             returnBehavior = "one-way";
             priority = 131;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -701,10 +653,7 @@ in
             id = "allow-provider-handoff-a-to-isp-b";
             returnBehavior = "one-way";
             priority = 82;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -716,10 +665,7 @@ in
             id = "allow-provider-handoff-b-to-isp-b";
             returnBehavior = "one-way";
             priority = 83;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -731,10 +677,7 @@ in
             id = "allow-guest-to-isp-b";
             returnBehavior = "one-way";
             priority = 132;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -746,10 +689,7 @@ in
             id = "allow-work-to-isp-b";
             returnBehavior = "one-way";
             priority = 133;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
         ];
@@ -1587,13 +1527,7 @@ in
             id = "allow-hat-site-dns-service-to-client-uplinks";
             returnBehavior = "one-way";
             priority = 71;
-            to = {
-              kind = "external";
-              uplinks = [
-                "testnet-host-isp"
-                "testnet-routed-isp"
-              ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "dns";
           }
           {
@@ -1604,13 +1538,7 @@ in
             };
             id = "deny-client-dns-to-uplinks";
             priority = 72;
-            to = {
-              kind = "external";
-              uplinks = [
-                "testnet-host-isp"
-                "testnet-routed-isp"
-              ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "dns";
           }
           {
@@ -1682,10 +1610,7 @@ in
             id = "allow-provider-handoff-a-to-isp-a";
             returnBehavior = "one-way";
             priority = 80;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -1697,10 +1622,7 @@ in
             id = "allow-provider-handoff-b-to-isp-a";
             returnBehavior = "one-way";
             priority = 81;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -1712,10 +1634,7 @@ in
             id = "allow-management-icmp-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 96;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "icmp";
           }
           {
@@ -1727,10 +1646,7 @@ in
             id = "allow-management-icmp-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 97;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "icmp";
           }
           {
@@ -1742,10 +1658,7 @@ in
             id = "allow-provider-handoff-a-icmp-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 98;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "icmp";
           }
           {
@@ -1757,10 +1670,7 @@ in
             id = "allow-provider-handoff-b-icmp-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 99;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "icmp";
           }
           {
@@ -1772,10 +1682,7 @@ in
             id = "allow-client-to-testnet-host-isp";
             returnBehavior = "one-way";
             priority = 100;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-host-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-host-isp"; };
             trafficType = "any";
           }
           {
@@ -1787,10 +1694,7 @@ in
             id = "allow-client-to-testnet-routed-isp";
             returnBehavior = "one-way";
             priority = 101;
-            to = {
-              kind = "external";
-              uplinks = [ "testnet-routed-isp" ];
-            };
+            to = { kind = "external"; scope = "testnet-routed-isp"; };
             trafficType = "any";
           }
           {
@@ -1802,10 +1706,7 @@ in
             id = "allow-iot-underlay-to-nebula-egress";
             returnBehavior = "one-way";
             priority = 110;
-            to = {
-              kind = "external";
-              uplinks = [ "nebula-egress" ];
-            };
+            to = { kind = "external"; scope = "nebula-egress"; };
             trafficType = "overlay-control";
           }
           {
@@ -1817,10 +1718,7 @@ in
             id = "allow-iot-underlay-to-wireguard-egress";
             returnBehavior = "one-way";
             priority = 111;
-            to = {
-              kind = "external";
-              uplinks = [ "wireguard-egress" ];
-            };
+            to = { kind = "external"; scope = "wireguard-egress"; };
             trafficType = "overlay-control";
           }
           {
@@ -1850,10 +1748,7 @@ in
             id = "allow-guest-to-isp-a";
             returnBehavior = "one-way";
             priority = 130;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -1865,10 +1760,7 @@ in
             id = "allow-work-to-isp-a";
             returnBehavior = "one-way";
             priority = 131;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-a" ];
-            };
+            to = { kind = "external"; scope = "isp-a"; };
             trafficType = "any";
           }
           {
@@ -1880,10 +1772,7 @@ in
             id = "allow-provider-handoff-a-to-isp-b";
             returnBehavior = "one-way";
             priority = 82;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -1895,10 +1784,7 @@ in
             id = "allow-provider-handoff-b-to-isp-b";
             returnBehavior = "one-way";
             priority = 83;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -1910,10 +1796,7 @@ in
             id = "allow-guest-to-isp-b";
             returnBehavior = "one-way";
             priority = 132;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
           {
@@ -1925,10 +1808,7 @@ in
             id = "allow-work-to-isp-b";
             returnBehavior = "one-way";
             priority = 133;
-            to = {
-              kind = "external";
-              uplinks = [ "isp-b" ];
-            };
+            to = { kind = "external"; scope = "isp-b"; };
             trafficType = "any";
           }
         ];

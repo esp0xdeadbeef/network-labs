@@ -14,13 +14,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [
-                "isp"
-                "pppoe-provider"
-              ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "any";
             returnBehavior = "stateful-return";
             priority = 100;

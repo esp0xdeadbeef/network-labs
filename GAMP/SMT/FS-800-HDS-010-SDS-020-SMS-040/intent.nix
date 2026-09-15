@@ -16,10 +16,7 @@
               kind = "tenant";
               name = "provider-handoff-a";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "isp" ];
-            };
+            to = { kind = "external"; scope = "isp"; };
             trafficType = "any";
             priority = 100;
           }

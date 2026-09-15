@@ -76,14 +76,7 @@
             kind = "tenant";
             name = "multi-client";
           };
-          to = {
-            kind = "external";
-            uplinks = [
-              "isp-dual"
-              "isp-v4"
-              "isp-v6"
-            ];
-          };
+          to = { kind = "external"; scope = "isp-dual"; };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";
@@ -95,14 +88,7 @@
             kind = "tenant";
             name = "ordered-client";
           };
-          to = {
-            kind = "external";
-            uplinks = [
-              "isp-v6"
-              "isp-dual"
-              "isp-v4"
-            ];
-          };
+          to = { kind = "external"; scope = "isp-v6"; };
           trafficType = "any";
           action = "allow";
           returnBehavior = "symmetric";

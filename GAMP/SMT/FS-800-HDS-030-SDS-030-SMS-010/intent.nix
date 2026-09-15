@@ -14,10 +14,7 @@
               kind = "tenant";
               name = "pppoe-client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "pppoe-provider" ];
-            };
+            to = { kind = "external"; scope = "pppoe-provider"; };
             trafficType = "pppoe-session";
             priority = 100;
           }

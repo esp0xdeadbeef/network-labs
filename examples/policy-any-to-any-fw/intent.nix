@@ -42,18 +42,12 @@
             id = "allow-tenants-to-wan";
             returnBehavior = "one-way";
             priority = 1;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "any";
           }
           {
             action = "allow";
-            from = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            from = { kind = "external"; scope = "wan"; };
             id = "allow-wan-to-tenants";
             returnBehavior = "one-way";
             priority = 2;

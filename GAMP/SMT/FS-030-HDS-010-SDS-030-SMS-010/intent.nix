@@ -29,10 +29,7 @@
               kind = "external";
               name = "east-west";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "nebula";
             priority = 110;
           }
@@ -43,10 +40,7 @@
               kind = "tenant";
               name = "client";
             };
-            to = {
-              kind = "external";
-              uplinks = [ "internet-vlan4" ];
-            };
+            to = { kind = "external"; scope = "internet-vlan4"; };
             trafficType = "nebula";
             priority = 105;
           }

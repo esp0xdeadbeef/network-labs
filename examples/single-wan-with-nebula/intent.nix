@@ -49,10 +49,7 @@
             id = "allow-client-to-wan-any";
             returnBehavior = "one-way";
             priority = 200;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "any";
           }
           {
@@ -93,10 +90,7 @@
             id = "allow-nebula-underlay-to-wan";
             returnBehavior = "one-way";
             priority = 220;
-            to = {
-              kind = "external";
-              uplinks = [ "wan" ];
-            };
+            to = { kind = "external"; scope = "wan"; };
             trafficType = "nebula";
           }
         ];
