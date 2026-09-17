@@ -175,8 +175,19 @@
       ];
       nodes = {
         access-multi = {
+          # FS-481-HDS-010-SDS-010-SMS-010: name all three eligible egress
+          # members on the one access unit so the declared per-family member
+          # sets differ (isp-dual+isp-v4 for IPv4, isp-dual+isp-v6 for IPv6).
+          # The concurrent equal-cost behavior is declared, not inferred from
+          # the member count.
+          behaviors = [
+            "equal-cost-multipath"
+          ];
+
           selects = [
             "isp-dual"
+            "isp-v4"
+            "isp-v6"
           ];
 
           role = "access";
