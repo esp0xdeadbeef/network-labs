@@ -190,6 +190,13 @@
               wan = {
                 ipv4 = [ "0.0.0.0/0" ];
                 ipv6 = [ "::/0" ];
+                egress = {
+                  ipv4 = {
+                    translation = {
+                      mode = "nat44";
+                    };
+                  };
+                };
               };
             };
           };
