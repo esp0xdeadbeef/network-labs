@@ -3755,27 +3755,6 @@ in
                 };
                 logicalInterface = "tenant-client";
               };
-              inter-site = {
-                attach = {
-                  bridge = "br-wan";
-                  kind = "bridge";
-                };
-                external = true;
-                interface = {
-                  addr4 = "172.31.254.2/24";
-                  name = "inter-site";
-                  routes = {
-                    ipv4 = [
-                      {
-                        metric = 5000;
-                        prefix = "0.0.0.0/0";
-                        via = "172.31.254.1";
-                      }
-                    ];
-                  };
-                };
-                uplink = "inter-site";
-              };
               upstream = {
                 adapterName = "p2p-hetz-router-nebula-core-hetz-router-upstream-upstream";
                 attach = {
