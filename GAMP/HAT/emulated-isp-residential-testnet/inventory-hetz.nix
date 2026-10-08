@@ -1902,9 +1902,7 @@ in
           br-hetz-downstream-dmz = { };
           br-hetz-downstream-policy-access-client = { };
           br-hetz-downstream-policy-access-dmz = { };
-          br-hetz-policy-upstream-access-client-inter-site = { };
           br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-inter-site = { };
           br-hetz-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
@@ -3821,17 +3819,6 @@ in
                 };
                 link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
               };
-              upstream-dmz-inter-site = {
-                adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site-upstream-dmz-inter-site";
-                attach = {
-                  bridge = "br-hetz-policy-upstream-access-dmz-inter-site";
-                  kind = "bridge";
-                };
-                interface = {
-                  name = "up-dmz-ew";
-                };
-                link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site";
-              };
             };
           };
           esp-hetz-router-upstream = {
@@ -3886,17 +3873,6 @@ in
                   name = "policy-dmz-wan";
                 };
                 link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
-              };
-              policy-dmz-inter-site = {
-                adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site-policy-dmz-inter-site";
-                attach = {
-                  bridge = "br-hetz-policy-upstream-access-dmz-inter-site";
-                  kind = "bridge";
-                };
-                interface = {
-                  name = "pol-dmz-ew";
-                };
-                link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-inter-site";
               };
             };
           };
