@@ -294,18 +294,13 @@ in
           br-site-a-downstream-streaming = { };
           br-site-a-policy-upstream-access-admin-east-west = { };
           br-site-a-policy-upstream-access-admin-isp-a = { };
-          br-site-a-policy-upstream-access-admin-isp-b = { };
           br-site-a-policy-upstream-access-client-east-west = { };
           br-site-a-policy-upstream-access-client-isp-a = { };
-          br-site-a-policy-upstream-access-client-isp-b = { };
           br-site-a-policy-upstream-access-client2-east-west = { };
           br-site-a-policy-upstream-access-client2-isp-a = { };
-          br-site-a-policy-upstream-access-client2-isp-b = { };
           br-site-a-policy-upstream-access-mgmt-east-west = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
-          br-site-a-policy-upstream-access-mgmt-isp-b = { };
           br-site-a-policy-upstream-access-streaming-isp-a = { };
-          br-site-a-policy-upstream-access-streaming-isp-b = { };
           br-site-b-core-nebula-upstream = { };
           br-site-b-core-simulated-isp-upstream = { };
           br-site-b-downstream-branch = { };
@@ -1293,17 +1288,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-a";
           };
-          upstream-admin-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-b-upstream-admin-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-admin-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-admin-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-b";
-          };
           upstream-client-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-east-west-upstream-client-east-west";
             attach = {
@@ -1325,17 +1309,6 @@ in
               name = "up-client-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-a";
-          };
-          upstream-client-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-b-upstream-client-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-client-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-client-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-b";
           };
           upstream-client2-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-east-west-upstream-client2-east-west";
@@ -1359,17 +1332,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-a";
           };
-          upstream-client2-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-b-upstream-client2-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-client2-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-cl2-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-b";
-          };
           upstream-mgmt-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-east-west-upstream-mgmt-east-west";
             attach = {
@@ -1392,17 +1354,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
           };
-          upstream-mgmt-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b-upstream-mgmt-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-mgmt-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
-          };
           upstream-streaming-isp-a = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a-upstream-streaming-isp-a";
             attach = {
@@ -1413,17 +1364,6 @@ in
               name = "up-stream-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a";
-          };
-          upstream-streaming-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b-upstream-streaming-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-streaming-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "up-stream-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b";
           };
         };
       };
@@ -1491,17 +1431,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-a";
           };
-          policy-admin-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-b-policy-admin-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-admin-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-admin-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-admin--uplink-isp-b";
-          };
           policy-client-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-east-west-policy-client-east-west";
             attach = {
@@ -1523,17 +1452,6 @@ in
               name = "pol-client-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-a";
-          };
-          policy-client-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-b-policy-client-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-client-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-client-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client--uplink-isp-b";
           };
           policy-client2-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-east-west-policy-client2-east-west";
@@ -1557,17 +1475,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-a";
           };
-          policy-client2-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-b-policy-client2-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-client2-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-cl2-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-client2--uplink-isp-b";
-          };
           policy-mgmt-east-west = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-east-west-policy-mgmt-east-west";
             attach = {
@@ -1590,17 +1497,6 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
           };
-          policy-mgmt-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b-policy-mgmt-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-mgmt-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
-          };
           policy-streaming-isp-a = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";
             attach = {
@@ -1611,17 +1507,6 @@ in
               name = "pol-stream-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a";
-          };
-          policy-streaming-isp-b = {
-            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b-policy-streaming-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-streaming-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "pol-stream-b";
-            };
-            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-b";
           };
         };
       };
