@@ -254,11 +254,15 @@ let
   clabWanTenants = [
     "admin"
     "client"
+    "dmz"
+    "hostile"
     "mgmt"
     "streaming"
   ];
+  # FS-322: the east-west overlay uplink exists only for the access scopes that
+  # select it. In the clab site only hostile selects the overlay in addition to
+  # its wan exit.
   clabEastWestTenants = [
-    "client"
     "hostile"
   ];
 
@@ -1863,7 +1867,6 @@ in
           br-hetz-downstream-policy-access-dmz = { };
           br-hetz-policy-upstream-access-client-east-west = { };
           br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-east-west = { };
           br-hetz-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
@@ -1903,7 +1906,6 @@ in
           br-hetz-downstream-policy-access-dmz = { };
           br-hetz-policy-upstream-access-client-east-west = { };
           br-hetz-policy-upstream-access-client-wan = { };
-          br-hetz-policy-upstream-access-dmz-east-west = { };
           br-hetz-policy-upstream-access-dmz-wan = { };
           client = { };
           dmz = { };
@@ -1974,16 +1976,13 @@ in
           br-nixos-downstream-policy-access-streaming = { };
           br-nixos-downstream-streaming = { };
           br-nixos-policy-upstream-access-admin-isp-a = { };
-          br-nixos-policy-upstream-access-admin-isp-b = { };
           br-nixos-policy-upstream-access-client-isp-a = { };
-          br-nixos-policy-upstream-access-client-isp-b = { };
           br-nixos-policy-upstream-access-hostile-east-west = { };
+          br-nixos-policy-upstream-access-hostile-isp-a = { };
+          br-nixos-policy-upstream-access-hostile-isp-a = { };
           br-nixos-policy-upstream-access-mgmt-isp-a = { };
-          br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
-          br-nixos-policy-upstream-access-streaming-isp-b = { };
           br-nixos-policy-upstream-access-dmz-isp-a = { };
-          br-nixos-policy-upstream-access-dmz-isp-b = { };
           br-nix-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
@@ -2106,16 +2105,12 @@ in
           br-nixos-downstream-policy-access-streaming = { };
           br-nixos-downstream-streaming = { };
           br-nixos-policy-upstream-access-admin-isp-a = { };
-          br-nixos-policy-upstream-access-admin-isp-b = { };
           br-nixos-policy-upstream-access-client-isp-a = { };
-          br-nixos-policy-upstream-access-client-isp-b = { };
           br-nixos-policy-upstream-access-dmz-isp-a = { };
-          br-nixos-policy-upstream-access-dmz-isp-b = { };
           br-nixos-policy-upstream-access-hostile-east-west = { };
+          br-nixos-policy-upstream-access-hostile-isp-a = { };
           br-nixos-policy-upstream-access-mgmt-isp-a = { };
-          br-nixos-policy-upstream-access-mgmt-isp-b = { };
           br-nixos-policy-upstream-access-streaming-isp-a = { };
-          br-nixos-policy-upstream-access-streaming-isp-b = { };
           br-nix-pppoe = {
             hatPurpose = "residential-pppoe-handoff";
             isolated = true;
@@ -2232,7 +2227,6 @@ in
           br-clab-policy-upstream-access-client = { };
           br-clab-policy-upstream-access-client-east-west = { };
           br-clab-policy-upstream-access-dmz = { };
-          br-clab-policy-upstream-access-dmz-east-west = { };
           br-clab-policy-upstream-access-hostile = { };
           br-clab-policy-upstream-access-hostile-east-west = { };
           br-clab-policy-upstream-access-mgmt = { };
@@ -3355,17 +3349,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-a";
             };
-            upstream-admin-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-b-upstream-admin-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-admin-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-admin-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-b";
-            };
             upstream-client-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a-upstream-client-isp-a";
               attach = {
@@ -3376,17 +3359,6 @@ in
                 name = "up-client-a";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a";
-            };
-            upstream-client-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b-upstream-client-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-client-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-client-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
             };
             upstream-dmz-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
@@ -3399,17 +3371,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
             };
-            upstream-dmz-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-upstream-dmz-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-dmz-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
-            };
             upstream-hostile-east-west = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-upstream-hostile-east-west";
               attach = {
@@ -3420,6 +3381,17 @@ in
                 name = "up-hostile-ew";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
+            };
+            upstream-hostile-isp-a = {
+              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-isp-a-upstream-hostile-isp-a";
+              attach = {
+                bridge = "br-nixos-policy-upstream-access-hostile-isp-a";
+                kind = "bridge";
+              };
+              interface = {
+                name = "up-hostile-a";
+              };
+              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-isp-a";
             };
             upstream-mgmt-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-upstream-mgmt-isp-a";
@@ -3432,17 +3404,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a";
             };
-            upstream-mgmt-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b-upstream-mgmt-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-mgmt-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b";
-            };
             upstream-streaming-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a-upstream-streaming-isp-a";
               attach = {
@@ -3453,17 +3414,6 @@ in
                 name = "up-stream-a";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a";
-            };
-            upstream-streaming-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b-upstream-streaming-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-streaming-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-stream-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b";
             };
           };
         };
@@ -3520,17 +3470,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-a";
             };
-            policy-admin-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-b-policy-admin-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-admin-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-admin-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-admin--uplink-isp-b";
-            };
             policy-client-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a-policy-client-isp-a";
               attach = {
@@ -3541,17 +3480,6 @@ in
                 name = "pol-client-a";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a";
-            };
-            policy-client-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b-policy-client-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-client-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-client-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-b";
             };
             policy-dmz-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
@@ -3564,17 +3492,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
             };
-            policy-dmz-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b-policy-dmz-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-dmz-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-dmz-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-b";
-            };
             policy-hostile-east-west = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west-policy-hostile-east-west";
               attach = {
@@ -3585,6 +3502,17 @@ in
                 name = "pol-hostile-ew";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-east-west";
+            };
+            policy-hostile-isp-a = {
+              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-isp-a-policy-hostile-isp-a";
+              attach = {
+                bridge = "br-nixos-policy-upstream-access-hostile-isp-a";
+                kind = "bridge";
+              };
+              interface = {
+                name = "pol-hostile-a";
+              };
+              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-isp-a";
             };
             policy-mgmt-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a-policy-mgmt-isp-a";
@@ -3597,17 +3525,6 @@ in
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a";
             };
-            policy-mgmt-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b-policy-mgmt-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-mgmt-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-mgmt-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b";
-            };
             policy-streaming-isp-a = {
               adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";
               attach = {
@@ -3618,17 +3535,6 @@ in
                 name = "pol-stream-a";
               };
               link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-a";
-            };
-            policy-streaming-isp-b = {
-              adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b-policy-streaming-isp-b";
-              attach = {
-                bridge = "br-nixos-policy-upstream-access-streaming-isp-b";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-stream-b";
-              };
-              link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-streaming--uplink-isp-b";
             };
           };
         };
@@ -3863,27 +3769,6 @@ in
               };
               logicalInterface = "tenant-client";
             };
-            east-west = {
-              attach = {
-                bridge = "br-wan";
-                kind = "bridge";
-              };
-              external = true;
-              interface = {
-                addr4 = "172.31.254.2/24";
-                name = "east-west";
-                routes = {
-                  ipv4 = [
-                    {
-                      metric = 5000;
-                      prefix = "0.0.0.0/0";
-                      via = "172.31.254.1";
-                    }
-                  ];
-                };
-              };
-              uplink = "east-west";
-            };
             upstream = {
               adapterName = "p2p-hetz-router-nebula-core-hetz-router-upstream-upstream";
               attach = {
@@ -3950,17 +3835,6 @@ in
               };
               link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
             };
-            upstream-dmz-east-west = {
-              adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-upstream-dmz-east-west";
-              attach = {
-                bridge = "br-hetz-policy-upstream-access-dmz-east-west";
-                kind = "bridge";
-              };
-              interface = {
-                name = "up-dmz-ew";
-              };
-              link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
-            };
           };
         };
         esp-hetz-router-upstream = {
@@ -4015,17 +3889,6 @@ in
                 name = "policy-dmz-wan";
               };
               link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-wan";
-            };
-            policy-dmz-east-west = {
-              adapterName = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west-policy-dmz-east-west";
-              attach = {
-                bridge = "br-hetz-policy-upstream-access-dmz-east-west";
-                kind = "bridge";
-              };
-              interface = {
-                name = "pol-dmz-ew";
-              };
-              link = "p2p-hetz-router-policy-hetz-router-upstream--access-hetz-router-access-dmz--uplink-east-west";
             };
           };
         };
