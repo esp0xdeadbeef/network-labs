@@ -231,6 +231,7 @@
         {
           kind = "tenant";
           name = "local-client";
+          dnsDomain = "lab.";
           ipv4 = "10.54.31.0/24";
           ipv6 = "fd42:540:31::/64";
         }
