@@ -72,6 +72,7 @@
           br-site-a-policy-upstream-access-adm-isp-a = { };
           br-site-a-policy-upstream-access-adm-isp-b = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
+          br-site-a-policy-upstream-access-mgmt-isp-b = { };
         };
         uplinks = {
           uplink0 = {
