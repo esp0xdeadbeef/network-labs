@@ -1977,6 +1977,7 @@ in
           br-nixos-policy-upstream-access-admin-isp-a = { };
           br-nixos-policy-upstream-access-admin-isp-b = { };
           br-nixos-policy-upstream-access-client-isp-a = { };
+          br-nixos-policy-upstream-access-dmz-isp-a = { };
           br-nixos-policy-upstream-access-client-isp-b = { };
           br-nixos-policy-upstream-access-hostile-inter-site = { };
           br-nixos-policy-upstream-access-hostile-isp-a = { };
@@ -3303,6 +3304,17 @@ in
                 };
                 link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a";
               };
+              upstream-dmz-isp-a = {
+                adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
+                attach = {
+                  bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+                  kind = "bridge";
+                };
+                interface = {
+                  name = "up-dmz-a";
+                };
+                link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
+              };
               upstream-hostile-inter-site = {
                 adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site-upstream-hostile-inter-site";
                 attach = {
@@ -3412,6 +3424,17 @@ in
                   name = "pol-client-a";
                 };
                 link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-client--uplink-isp-a";
+              };
+              policy-dmz-isp-a = {
+                adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
+                attach = {
+                  bridge = "br-nixos-policy-upstream-access-dmz-isp-a";
+                  kind = "bridge";
+                };
+                interface = {
+                  name = "pol-dmz-a";
+                };
+                link = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-dmz--uplink-isp-a";
               };
               policy-hostile-inter-site = {
                 adapterName = "p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-hostile--uplink-inter-site-policy-hostile-inter-site";
