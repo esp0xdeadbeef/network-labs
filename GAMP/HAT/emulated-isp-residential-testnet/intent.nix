@@ -1094,6 +1094,16 @@ in
               }
             ];
             role = "core";
+            # FS-440: nebula-egress is an overlay exit scope. It offers exit
+            # reachability (the default); the peer's prefixes are modeled as the
+            # overlay's imported prefixes, not as an uplink tenant-prefix list
+            # (FS-260 rejects that retired shape).
+            uplinks = {
+              nebula-egress = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
           };
           nixos-core-route-import = {
             role = "core";
@@ -1218,25 +1228,6 @@ in
             role = "upstream-selector";
           };
         };
-      };
-      # FS-322/FS-460: nebula-egress is a modeled peer-site overlay, not a
-      # node uplink carrying a prefix list. The terminating core selects it;
-      # the peer's reachability is offered by the overlay, not restated as an
-      # uplink prefix list (FS-260 rejects the retired shape).
-      transport = {
-        overlays = [
-          {
-            name = "nebula-egress";
-            peerSites = [ "esp0xdeadbeef.site-b" ];
-            terminateOn = "nixos-core-nebula";
-            mustTraverse = [ "policy" ];
-            underlayAccess = {
-              kind = "tenant";
-              name = "iot";
-            };
-            underlayTrafficTypes = [ "overlay-control" ];
-          }
-        ];
       };
     };
     site-b = {
@@ -2295,6 +2286,10 @@ in
               }
             ];
             role = "core";
+            uplinks.nebula-egress = {
+              ipv4 = [ "0.0.0.0/0" ];
+              ipv6 = [ "::/0" ];
+            };
           };
           clab-core-route-import = {
             role = "core";
@@ -2383,22 +2378,6 @@ in
             role = "upstream-selector";
           };
         };
-      };
-      # FS-322/FS-460: mirrored peer-site overlay for the clab site (see site-a).
-      transport = {
-        overlays = [
-          {
-            name = "nebula-egress";
-            peerSites = [ "esp0xdeadbeef.site-a" ];
-            terminateOn = "clab-core-nebula";
-            mustTraverse = [ "policy" ];
-            underlayAccess = {
-              kind = "tenant";
-              name = "iot";
-            };
-            underlayTrafficTypes = [ "overlay-control" ];
-          }
-        ];
       };
     };
   };
