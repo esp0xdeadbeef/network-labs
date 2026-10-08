@@ -10,6 +10,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__mini-verify";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -24,6 +25,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-tenant-api";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -38,6 +40,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-fixture-missing-output";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -52,6 +55,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "external";
               scope = "internet-vlan4";
@@ -68,6 +72,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__mini-verify";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -81,6 +86,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-tenant-api";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -95,6 +101,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__client-to-fixture-missing-output";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -109,6 +116,7 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-010__testnet-to-public-web";
             action = "allow";
+            returnBehavior = "symmetric";
             from = {
               kind = "external";
               scope = "core-vlan4-client-dhcp-slaac";
