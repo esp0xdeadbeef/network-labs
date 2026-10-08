@@ -2325,6 +2325,7 @@ in
           ];
           endpointClients = {
             nixos-branch-node01 = {
+              bridge = "client";
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.60.10.1";
@@ -2343,6 +2344,7 @@ in
               tenant = "branch";
             };
             nixos-client01 = {
+              bridge = "client";
               assignment = "dhcp";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
@@ -2356,6 +2358,7 @@ in
               tenant = "client";
             };
             nixos-client02 = {
+              bridge = "client";
               assignment = "dhcp";
               managementBoundary = {
                 fixturePlacementCreatesManagementAccess = false;
@@ -2369,6 +2372,7 @@ in
               tenant = "client";
             };
             nixos-emulated-sigma = {
+              bridge = "mgmt";
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.20.10.1";
@@ -2387,6 +2391,7 @@ in
               tenant = "mgmt";
             };
             nixos-printer01 = {
+              bridge = "client";
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gampId = "FS-730-HDS-010-SDS-010-SMS-010";
@@ -2442,6 +2447,7 @@ in
               };
             };
             nixos-receiver01 = {
+              bridge = "client";
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gampId = "FS-750-HDS-010-SDS-010-SMS-010";
@@ -2492,6 +2498,7 @@ in
               tenant = "client";
             };
             nixos-streaming-test = {
+              bridge = "streaming";
               addressDelivery = "endpoint-configured";
               assignment = "static-ipv4-or-ipv6-client";
               gateway4 = "10.20.50.1";
