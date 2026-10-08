@@ -38,7 +38,6 @@
           br-site-a-policy-upstream-access-adm-isp-a = { };
           br-site-a-policy-upstream-access-adm-isp-b = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
-          br-site-a-policy-upstream-access-mgmt-isp-b = { };
         };
         uplinks = {
           uplink0 = {
@@ -338,17 +337,6 @@
             };
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
           };
-          upstream-access-mgmt-isp-b = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-policy-upstream-access-mgmt-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens6";
-            };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
-          };
         };
       };
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
@@ -414,17 +402,6 @@
               name = "ens7";
             };
             link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
-          };
-          policy-access-mgmt-isp-b = {
-            adapterName = "adp-esp0xdeadbeef-site-a-s-router-upstream-selector-policy-access-mgmt-isp-b";
-            attach = {
-              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
-              kind = "bridge";
-            };
-            interface = {
-              name = "ens8";
-            };
-            link = "p2p-s-router-policy-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
           };
         };
       };
