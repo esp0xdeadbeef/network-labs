@@ -1224,6 +1224,10 @@ in
             role = "access";
           };
           nixos-router-access-mgmt = {
+            selects = [
+              "isp-a"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
@@ -3614,6 +3618,10 @@ in
             role = "access";
           };
           clab-router-access-mgmt = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
