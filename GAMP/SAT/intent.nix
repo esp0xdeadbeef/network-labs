@@ -2421,6 +2421,10 @@ in
             role = "access";
           };
           hetz-router-access-dmz = {
+            selects = [
+              "wan"
+            ];
+
             attachments = [
               {
                 kind = "tenant";
