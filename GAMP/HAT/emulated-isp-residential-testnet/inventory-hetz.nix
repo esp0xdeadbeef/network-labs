@@ -298,6 +298,8 @@ let
   clabWanTenants = [
     "admin"
     "client"
+    "dmz"
+    "hostile"
     "mgmt"
     "streaming"
   ];
