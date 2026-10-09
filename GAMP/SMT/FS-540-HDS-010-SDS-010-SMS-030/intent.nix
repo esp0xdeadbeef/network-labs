@@ -225,6 +225,7 @@
         {
           kind = "tenant";
           name = "recursive-client";
+          dnsDomain = "lab.";
           ipv4 = "10.54.30.0/24";
           ipv6 = "fd42:540:30::/64";
         }
