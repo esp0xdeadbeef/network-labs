@@ -457,7 +457,8 @@
           };
           s-router-access-mgmt = {
             selects = [
-              "isp-a"
+              "s-router-core-isp-a"
+              "s-router-core-isp-b"
             ];
 
             attachments = [
