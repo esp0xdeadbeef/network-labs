@@ -565,6 +565,8 @@ in
           br-site-a-policy-upstream-access-client2-isp-a = { };
           br-site-a-policy-upstream-access-mgmt-east-west = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
+          br-site-a-policy-upstream-access-mgmt-isp-b = { };
+          br-site-a-policy-upstream-access-mgmt-isp-b = { };
           br-site-a-policy-upstream-access-streaming-isp-a = { };
           br-site-b-core-nebula-upstream = { };
           br-site-b-core-simulated-isp-upstream = { };
@@ -1625,6 +1627,17 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
           };
+          upstream-mgmt-isp-b = {
+            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b-upstream-mgmt-isp-b";
+            attach = {
+              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-mgmt-b";
+            };
+            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
+          };
           upstream-streaming-isp-a = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a-upstream-streaming-isp-a";
             attach = {
@@ -1767,6 +1780,17 @@ in
               name = "pol-mgmt-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
+          };
+          policy-mgmt-isp-b = {
+            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b-policy-mgmt-isp-b";
+            attach = {
+              bridge = "br-site-a-policy-upstream-access-mgmt-isp-b";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-mgmt-b";
+            };
+            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-b";
           };
           policy-streaming-isp-a = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";
