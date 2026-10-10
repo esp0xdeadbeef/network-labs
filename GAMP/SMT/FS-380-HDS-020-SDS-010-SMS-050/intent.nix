@@ -62,6 +62,7 @@
           {
             kind = "tenant";
             name = "client";
+            dnsDomain = "lan.";
             ipv4 = "10.1.124.0/24";
             ipv6 = "fd42:017c:50::/64";
           }
