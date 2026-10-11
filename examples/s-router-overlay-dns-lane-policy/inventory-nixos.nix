@@ -566,7 +566,6 @@ in
           br-site-a-policy-upstream-access-mgmt-east-west = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
           br-site-a-policy-upstream-access-mgmt-isp-b = { };
-          br-site-a-policy-upstream-access-mgmt-isp-b = { };
           br-site-a-policy-upstream-access-streaming-isp-a = { };
           br-site-b-core-nebula-upstream = { };
           br-site-b-core-simulated-isp-upstream = { };
