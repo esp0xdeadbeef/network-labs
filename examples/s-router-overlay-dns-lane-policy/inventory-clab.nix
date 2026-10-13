@@ -59,12 +59,12 @@ in
             east-west = {
               nodes = {
                 hetzner-nebula-prodtest-01 = {
-                  addr4 = "100.96.10.254/32";
-                  addr6 = "fd42:dead:beef:ee::254/128";
+                  addr4 = "100.96.10.254/24";
+                  addr6 = "fd42:dead:beef:ee::254/64";
                 };
                 s-router-core-nebula = {
-                  addr4 = "100.96.10.1/32";
-                  addr6 = "fd42:dead:beef:ee::1/128";
+                  addr4 = "100.96.10.1/24";
+                  addr6 = "fd42:dead:beef:ee::1/64";
                 };
               };
               nebula = {
@@ -108,12 +108,12 @@ in
             east-west = {
               nodes = {
                 c-router-nebula-core = {
-                  addr4 = "100.96.10.3/32";
-                  addr6 = "fd42:dead:beef:ee::3/128";
+                  addr4 = "100.96.10.3/24";
+                  addr6 = "fd42:dead:beef:ee::3/64";
                 };
                 hetzner-nebula-prodtest-01 = {
-                  addr4 = "100.96.10.254/32";
-                  addr6 = "fd42:dead:beef:ee::254/128";
+                  addr4 = "100.96.10.254/24";
+                  addr6 = "fd42:dead:beef:ee::254/64";
                 };
               };
               nebula = {
@@ -163,20 +163,20 @@ in
             east-west = {
               nodes = {
                 b-router-core-nebula = {
-                  addr4 = "100.96.10.2/32";
-                  addr6 = "fd42:dead:beef:ee::2/128";
+                  addr4 = "100.96.10.2/24";
+                  addr6 = "fd42:dead:beef:ee::2/64";
                 };
                 branch-node01 = {
-                  addr4 = "100.96.10.20/32";
-                  addr6 = "fd42:dead:beef:ee::20/128";
+                  addr4 = "100.96.10.20/24";
+                  addr6 = "fd42:dead:beef:ee::20/64";
                 };
                 hetzner-nebula-prodtest-01 = {
-                  addr4 = "100.96.10.254/32";
-                  addr6 = "fd42:dead:beef:ee::254/128";
+                  addr4 = "100.96.10.254/24";
+                  addr6 = "fd42:dead:beef:ee::254/64";
                 };
                 hostile-node01 = {
-                  addr4 = "100.96.10.30/32";
-                  addr6 = "fd42:dead:beef:ee::30/128";
+                  addr4 = "100.96.10.30/24";
+                  addr6 = "fd42:dead:beef:ee::30/64";
                 };
               };
               nebula = {

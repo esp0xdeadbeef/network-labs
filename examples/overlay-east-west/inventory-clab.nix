@@ -50,8 +50,8 @@
               };
               nodes = {
                 s-router-core-nebula = {
-                  addr4 = "100.64.100.1/32";
-                  addr6 = "fd00:64:100::1/128";
+                  addr4 = "100.64.100.1/24";
+                  addr6 = "fd00:64:100::1/64";
                 };
               };
               provider = "nebula";
@@ -74,8 +74,8 @@
               };
               nodes = {
                 s-router-core-nebula = {
-                  addr4 = "100.64.100.2/32";
-                  addr6 = "fd00:64:100::2/128";
+                  addr4 = "100.64.100.2/24";
+                  addr6 = "fd00:64:100::2/64";
                 };
               };
               provider = "nebula";
