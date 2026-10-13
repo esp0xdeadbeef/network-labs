@@ -520,6 +520,12 @@
             name = "east-west";
             peerSite = "espbranch.site-b";
             terminateOn = "s-router-core-nebula";
+            peerNodes = {
+              "espbranch.site-b" = {
+                addr4 = "100.96.10.2/24";
+                addr6 = "fd42:dead:beef:ee::2/64";
+              };
+            };
             underlayAccess = {
               kind = "tenant";
               name = "client";
@@ -929,6 +935,12 @@
             name = "east-west";
             peerSite = "espbranch.site-b";
             terminateOn = "c-router-nebula-core";
+            peerNodes = {
+              "espbranch.site-b" = {
+                addr4 = "100.96.10.2/24";
+                addr6 = "fd42:dead:beef:ee::2/64";
+              };
+            };
             underlayAccess = {
               kind = "tenant";
               name = "client";
@@ -1292,6 +1304,12 @@
             name = "east-west";
             peerSite = "esp0xdeadbeef.site-a";
             terminateOn = "b-router-core-nebula";
+            peerNodes = {
+              "esp0xdeadbeef.site-a" = {
+                addr4 = "100.96.10.1/24";
+                addr6 = "fd42:dead:beef:ee::1/64";
+              };
+            };
             underlayAccess = {
               kind = "tenant";
               name = "branch";
