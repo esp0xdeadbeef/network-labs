@@ -73,6 +73,16 @@
             ];
             name = "dns";
           }
+          {
+            match = [
+              {
+                dports = [ 3784 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "bfd";
+          }
         ];
       };
       ownership = {
