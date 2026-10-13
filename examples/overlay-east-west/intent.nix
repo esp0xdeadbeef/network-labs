@@ -177,6 +177,12 @@
             name = "east-west";
             peerSite = "enterprise-b.site-b";
             terminateOn = "s-router-core-nebula";
+            peerNodes = {
+              "enterprise-b.site-b" = {
+                addr4 = "100.64.100.2/24";
+                addr6 = "fd00:64:100::2/64";
+              };
+            };
             underlayAccess = {
               kind = "tenant";
               name = "mgmt";
@@ -364,6 +370,12 @@
             name = "east-west";
             peerSite = "enterprise-a.site-a";
             terminateOn = "s-router-core-nebula";
+            peerNodes = {
+              "enterprise-a.site-a" = {
+                addr4 = "100.64.100.1/24";
+                addr6 = "fd00:64:100::1/64";
+              };
+            };
             underlayAccess = {
               kind = "tenant";
               name = "mgmt";
