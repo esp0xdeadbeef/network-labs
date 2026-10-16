@@ -144,6 +144,17 @@ in
                 role = "core-client";
               };
               provider = "nebula";
+              # FS-460: the overlay underlay endpoint facts.  The underlayAccess
+              # tenant brings the public endpoint that the overlay default lanes
+              # route through; without it a delegated access has defaults but no
+              # overlay default lane.
+              underlayEndpointSourceFiles = {
+                ipv4 = [
+                  "/run/secrets/site-c-lighthouse-public-ipv4"
+                  "/run/secrets/hetzner-public-ipv4"
+                ];
+                ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
+              };
               runtimeNodes = {
                 c-router-nebula-core = {
                   container = {
@@ -207,6 +218,14 @@ in
                 role = "core-client";
               };
               provider = "nebula";
+              # FS-460: the overlay underlay endpoint facts (see site-c above).
+              underlayEndpointSourceFiles = {
+                ipv4 = [
+                  "/run/secrets/site-c-lighthouse-public-ipv4"
+                  "/run/secrets/hetzner-public-ipv4"
+                ];
+                ipv6 = [ "/run/secrets/site-c-lighthouse-public-ipv6" ];
+              };
               runtimeNodes = {
                 b-router-core-nebula = {
                   container = {
