@@ -282,6 +282,7 @@ in
           br-site-a-policy-upstream-access-client2-isp-a = { };
           br-site-a-policy-upstream-access-mgmt-east-west = { };
           br-site-a-policy-upstream-access-mgmt-isp-a = { };
+          br-site-a-policy-upstream-access-dmz-isp-a = { };
           br-site-a-policy-upstream-access-streaming-isp-a = { };
           br-site-b-core-nebula-upstream = { };
           br-site-b-core-simulated-isp-upstream = { };
@@ -1335,6 +1336,21 @@ in
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a";
           };
+          # FS-210/FS-230: s-router-access-dmz is publicly-ingress and declares
+          # no selects, so it has an ingress/return transport lane rather than
+          # an exit selection.  Realize it so the post-translation return path
+          # exists.
+          upstream-dmz-isp-a = {
+            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-dmz--uplink-isp-a-upstream-dmz-isp-a";
+            attach = {
+              bridge = "br-site-a-policy-upstream-access-dmz-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "up-dmz-a";
+            };
+            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-dmz--uplink-isp-a";
+          };
         };
       };
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
@@ -1466,6 +1482,17 @@ in
               name = "pol-mgmt-a";
             };
             link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-mgmt--uplink-isp-a";
+          };
+          policy-dmz-isp-a = {
+            adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-dmz--uplink-isp-a-policy-dmz-isp-a";
+            attach = {
+              bridge = "br-site-a-policy-upstream-access-dmz-isp-a";
+              kind = "bridge";
+            };
+            interface = {
+              name = "pol-dmz-a";
+            };
+            link = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-dmz--uplink-isp-a";
           };
           policy-streaming-isp-a = {
             adapterName = "p2p-s-router-policy-only-s-router-upstream-selector--access-s-router-access-streaming--uplink-isp-a-policy-streaming-isp-a";
