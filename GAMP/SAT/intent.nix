@@ -1324,6 +1324,21 @@ in
               "esp.clab"
               "esp.hetz"
             ];
+            # FS-460: each overlay reachability route carries the peer's modeled
+            # overlay next-hop address, derived from the peer's overlay
+            # participant address (the same value the peer models as its own
+            # node address).  The peer sites are not compiled in this site's
+            # pass, so the endpoint identity is modeled here on the overlay.
+            peerNodes = {
+              "esp.clab" = {
+                addr4 = "100.96.10.2/24";
+                addr6 = "fd42:dead:beef:ee::2/64";
+              };
+              "esp.hetz" = {
+                addr4 = "100.96.10.3/24";
+                addr6 = "fd42:dead:beef:ee::3/64";
+              };
+            };
             terminateOn = "nixos-router-core-nebula";
             underlayAccess = {
               kind = "tenant";
@@ -2484,6 +2499,17 @@ in
               "esp.nixos"
               "esp.clab"
             ];
+            # FS-460: modeled peer overlay next-hop addresses (see esp.nixos).
+            peerNodes = {
+              "esp.nixos" = {
+                addr4 = "100.96.10.1/24";
+                addr6 = "fd42:dead:beef:ee::1/64";
+              };
+              "esp.clab" = {
+                addr4 = "100.96.10.2/24";
+                addr6 = "fd42:dead:beef:ee::2/64";
+              };
+            };
             terminateOn = "hetz-router-nebula-core";
             underlayAccess = {
               kind = "tenant";
@@ -3696,6 +3722,17 @@ in
               "esp.nixos"
               "esp.hetz"
             ];
+            # FS-460: modeled peer overlay next-hop addresses (see esp.nixos).
+            peerNodes = {
+              "esp.nixos" = {
+                addr4 = "100.96.10.1/24";
+                addr6 = "fd42:dead:beef:ee::1/64";
+              };
+              "esp.hetz" = {
+                addr4 = "100.96.10.3/24";
+                addr6 = "fd42:dead:beef:ee::3/64";
+              };
+            };
             terminateOn = "clab-router-core-nebula";
             underlayAccess = {
               kind = "tenant";
