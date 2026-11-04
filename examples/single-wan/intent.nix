@@ -73,6 +73,20 @@
             ];
             name = "dns";
           }
+          # The core's upstream selector gates its lanes with BFD, so the
+          # intent must declare the BFD traffic type (udp/3784). Without it the
+          # renderer fails closed rather than emitting a lane-health allow it
+          # cannot justify.
+          {
+            match = [
+              {
+                dports = [ 3784 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "bfd";
+          }
         ];
       };
       ownership = {
