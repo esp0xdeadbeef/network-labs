@@ -26,6 +26,10 @@ in
           returnBehavior = "stateful-return";
           publicIngressTupleAuthority = {
             family = "ipv6";
+            # The ingress surface is the external scope the relation enters
+            # from. Required by FS-322: reachability is a scope property, so it
+            # is named here instead of being inferred from `from.uplinks`.
+            publicSurface = "lab-wan";
             targetService = "nebula-lab";
             targetPort = 4242;
             tuples = [
