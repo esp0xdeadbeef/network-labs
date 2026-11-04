@@ -1735,12 +1735,20 @@ let
   reidentifyBundle =
     bundle:
     let
+      # `coverageIdentity` is bound to the canonical artifact identity, so a
+      # mutated bundle must recompute it alongside `bundleIdentity`. Leaving it
+      # stale would trip NR_COVERAGE_IDENTITY_MISMATCH before the injected
+      # negative reaches the check it is meant to exercise.
       candidate = builtins.removeAttrs bundle [
         "bundleIdentity"
+        "coverageIdentity"
         "validation"
       ];
-      identified = candidate // {
-        bundleIdentity = schema.computeBundleIdentity candidate;
+      withCoverage = candidate // {
+        coverageIdentity = schema.computeCoverageIdentity candidate;
+      };
+      identified = withCoverage // {
+        bundleIdentity = schema.computeBundleIdentity withCoverage;
       };
     in
     identified
