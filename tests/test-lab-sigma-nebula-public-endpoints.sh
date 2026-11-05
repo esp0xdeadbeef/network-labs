@@ -21,13 +21,15 @@ let
   relayService = hetzOverlay.runtimeNodes.hetz-router-nebula-core.service or { };
   findService = name:
     builtins.filter (svc: (svc.name or null) == name) services;
+  # FS-322: the WAN exit is selected by the scope that owns it, not by an
+  # uplink-name list on the relation; the Hetz WAN core owns the public surface.
   findWanNebula = builtins.filter
     (rel:
       (rel.id or null) == \"allow-wan-to-dmz-nebula\"
       && (rel.action or null) == \"allow\"
       && (rel.trafficType or null) == \"nebula\"
       && (rel.from.kind or null) == \"external\"
-      && builtins.elem \"wan\" (rel.from.uplinks or [ ])
+      && (rel.from.scope or null) == \"hetz-router-core\"
       && (rel.to.kind or null) == \"service\"
       && (rel.to.name or null) == \"dmz-nebula\")
     relations;
@@ -39,8 +41,8 @@ let
       && (rel.from.kind or null) == \"external\"
       && (rel.from.name or null) == \"east-west\"
       && (rel.to.kind or null) == \"external\"
-      && builtins.elem \"isp-a\" (rel.to.uplinks or [ ])
-      && builtins.elem \"isp-b\" (rel.to.uplinks or [ ]))
+      # FS-322: the access scope's modeled exit select decides the WAN core.
+      && (rel.to.scope or null) == \"nixos-router-core-isp-a\")
     nixosRelations;
   findNixosRuntimeTrafficType = builtins.filter
     (trafficType:

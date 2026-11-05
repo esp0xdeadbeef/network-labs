@@ -18,12 +18,19 @@ let
   nodes128 = inventory.controlPlane.sites.esp.hetz.overlays.wg-host128-egress.nodes or {};
   nodes64 = inventory.controlPlane.sites.esp.hetz.overlays.wg-routed64.nodes or {};
   uplinks = intent.esp.hetz.topology.nodes.hetz-router-nebula-core.uplinks or {};
+  wanUplinks = intent.esp.hetz.topology.nodes.hetz-router-core.uplinks or {};
   pools = intent.esp.hetz.overlayAddressPools or {};
 in
   if overlay128.terminateOn == \"hetz-router-nebula-core\"
     && overlay64.terminateOn == \"hetz-router-nebula-core\"
-    && builtins.hasAttr \"wg-host128-egress\" uplinks
-    && builtins.hasAttr \"wg-routed64\" uplinks
+    # FS-260: an overlay endpoint owns its overlay reachability through the
+    # modeled transport, not through an overlay-named local uplink (the retired
+    # overlay-as-uplink shape), and WAN egress stays on the WAN core.
+    && !(builtins.hasAttr \"wg-host128-egress\" uplinks)
+    && !(builtins.hasAttr \"wg-routed64\" uplinks)
+    && !(builtins.hasAttr \"wan\" uplinks)
+    && !(builtins.hasAttr \"wg-host128-egress\" wanUplinks)
+    && !(builtins.hasAttr \"wg-routed64\" wanUplinks)
     && pools.east-west.ipv4.prefix == \"100.96.10.0/24\"
     && pools.wg-host128-egress.ipv4.prefix == \"10.66.128.0/24\"
     && pools.wg-routed64.ipv4.prefix == \"10.66.64.0/24\"
