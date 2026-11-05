@@ -28,7 +28,7 @@ require_phrase GAMP/AGENTS.md "s-router-clab"
 require_phrase GAMP/AGENTS.md "s-router-test-clients"
 
 require_phrase GAMP/SMT/README.md "Hardware-related SMT is not a dry-run bucket"
-require_phrase GAMP/SMT/README.md "/home/deadbeef/github/network-labs/GAMP/*"
+require_phrase GAMP/SMT/README.md "GAMP/*"
 require_phrase GAMP/SMT/README.md 'Put the `network-labs` side of that test under `../../tests/`'
 require_phrase GAMP/SMT/README.md 'Static parsing, `nix-instantiate --parse`, renderer-only JSON inspection, and'
 require_phrase GAMP/SMT/README.md "evidence for hardware-related SMT"

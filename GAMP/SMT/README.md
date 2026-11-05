@@ -46,6 +46,12 @@ SIT integrates SMS atoms at the SDS boundary. HAT and SAT remain separate
 controlled validation levels. An SMT result cannot promote a SIT, HAT, or SAT
 row.
 
+Hardware-related SMT is not a dry-run bucket: a claim that depends on
+adapters, bridges, namespaces, containers, routes, service activation, or
+packet behavior needs the bounded real runtime test above. Static parsing, `nix-instantiate --parse`, renderer-only JSON inspection, and similar construction-level checks are not evidence for hardware-related SMT.
+
+Row-local work for this repository lives under `GAMP/*`. Put the `network-labs` side of that test under `../../tests/` relative to the row directory, so the row points at an executable test instead of a prose claim.
+
 Aggregate checks may prove catalog wiring but cannot replace row-local
 evidence. A row without an executable implementation remains `NOT OK`; do not
 add a no-op wrapper.
