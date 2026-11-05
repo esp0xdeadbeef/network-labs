@@ -14,6 +14,12 @@ Construction:
 tests/<full-trace-id>.sh
 ```
 
+A SIT row's `smsInputs.<trace-id>` always maps to the canonical SMT row
+(`smtRow`). It may also name a repository `sourcePath` for the template the row
+consumes; when present that path must exist. Construction-only SIT rows that
+consume a modeled bundle name no source file, because their SMS row already
+declares the modeled source kind.
+
 Live:
 
 ```text

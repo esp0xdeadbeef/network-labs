@@ -12,6 +12,15 @@ The row `default.nix` records one or more deterministic `sourceInputs`. These
 inputs are templates for focused construction/runtime POCs; they are not HAT or
 SAT approval evidence.
 
+Every source input declares its `kind`. A repository-file template additionally
+declares `sourcePath` (a repository-relative path that must exist) and
+`maxRuntimeTargets`; a modeled source (validated canonical bundle, OpenConfig
+candidate, controlled validation scheme, controlled-skip implementation set)
+declares the kind and its own construction metadata instead, because no single
+repository file is its source. Rows never store a runner or test path: the trace
+id is the dispatch key and the entrypoint is derived from it
+(`GAMP/SMT/mini-smt/README.md`, "Canonical entrypoints").
+
 ## Current Active-Runner SMS Template Rows
 
 | SMS Directory | Parent SDS | Mini-SMT ID(s) |

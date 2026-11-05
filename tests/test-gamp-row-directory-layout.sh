@@ -57,14 +57,23 @@ validate_row_dir() {
       parentSds =
         let match = builtins.match \"(FS-[0-9][0-9][0-9]-HDS-[0-9][0-9][0-9]-SDS-[0-9][0-9][0-9])-SMS-[0-9][0-9][0-9]\" \"${name}\";
         in if match == null then null else builtins.head match;
+      # Every SMS input maps to its canonical SMT row. A source file is optional
+      # (a construction-only row declares its source by kind on the SMS row), but
+      # when the SIT row names one it must exist.
       smsInputShapeOk =
         builtins.all
           (sms:
             let input = builtins.getAttr sms row.smsInputs;
             in
-              input ? smtRow
-              && input ? sourcePath
+              builtins.isAttrs input
+              && input ? smtRow
               && toString input.smtRow == \"${repo_root}/GAMP/SMT/\" + sms
+              && (
+                if input ? sourcePath then
+                  builtins.pathExists (\"${repo_root}/\" + input.sourcePath)
+                else
+                  true
+              )
           )
           smsInputNames;
       sdsSmsInputShapeOk =
@@ -80,17 +89,29 @@ validate_row_dir() {
               && toString input.smsRow == \"${repo_root}/GAMP/SMS/\" + sms
           )
           smsInputNames;
+      # The trace id is the only dispatch key: a row must not store a runner or
+      # test path in its metadata (GAMP/SMT/mini-smt/README.md). Source inputs
+      # therefore carry the source they template and the runtime-target bound;
+      # the test path is derived from the trace id.
+      # A source input is a repository-file template when it names a file
+      # (sourcePath + maxRuntimeTargets, and the file must exist); otherwise it
+      # declares a modeled source shape by kind only (validated canonical
+      # bundle, openconfig candidate, controlled-skip input set, ...). The kind
+      # is always required so the declaration stays deterministic.
       sourceInputShapeOk =
         builtins.all
           (inputName:
             let input = builtins.getAttr inputName row.sourceInputs;
             in
-              input ? kind
-              && input ? sourcePath
-              && input ? test
-              && input ? maxRuntimeTargets
-              && builtins.pathExists (\"${repo_root}/\" + input.sourcePath)
-              && builtins.pathExists (\"${repo_root}/\" + input.test)
+              builtins.isAttrs input
+              && input ? kind
+              && (
+                if input ? sourcePath then
+                  builtins.pathExists (\"${repo_root}/\" + input.sourcePath)
+                  && input ? maxRuntimeTargets
+                else
+                  true
+              )
           )
           sourceInputNames;
     in
@@ -197,6 +218,21 @@ nix eval --impure --expr "
                 let childTrace = (builtins.getAttr sourceName sourceInputs).traceId or null;
                 in childTrace != null && smsTracePrefix childTrace == sdsTrace)
               sourceInputNames;
+          # A modeled source is not always another SMT row: a canonical bundle,
+          # an openconfig candidate or a controlled validation scheme declares its
+          # source by kind (and, for a validation scheme, by the sibling row that
+          # produces the bundle). Both are deterministic declarations on this row.
+          isModeledSourceInput =
+            (entry.source or null) != null
+            && sourceInputNames != [ ]
+            && builtins.all
+              (sourceName:
+                let input = builtins.getAttr sourceName sourceInputs;
+                    childTrace = input.traceId or null;
+                in
+                  (input.kind or null) == (entry.source.kind or null)
+                  || (childTrace != null && smsTracePrefix childTrace == sdsTrace))
+              sourceInputNames;
         in
           entry ? rowDirectories
           && entry.rowDirectories ? SDS
@@ -205,7 +241,7 @@ nix eval --impure --expr "
           && sdsTrace != null
           && sdsDir == \"${repo_root}/GAMP/SDS/\" + sdsTrace
           && smsDir == \"${repo_root}/GAMP/SMS/\" + entrySmsTrace
-          && (hasMatchingSourceInput || isConstructionSourceMap);
+          && (hasMatchingSourceInput || isConstructionSourceMap || isModeledSourceInput);
     intentRowOk =
       name:
         let
