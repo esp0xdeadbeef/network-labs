@@ -50,8 +50,8 @@ nix eval --impure --expr "
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-client-to-testnet\")
       \"P5 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.name == \"testnet\") relations)
-      \"P6 FAIL: client-to-testnet allow relation missing\"
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.kind == \"external\" && !(r.to ? name) && !(r.to ? uplinks)) relations)
+      \"P6 FAIL: client-to-external allow relation missing\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P7 FAIL: expected 1 ownership prefix\"
     && require (lab.pools ? loopback && lab.pools ? p2p)

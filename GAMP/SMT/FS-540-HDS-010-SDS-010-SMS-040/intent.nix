@@ -1,21 +1,31 @@
 {
   mini-smt = {
-    auto = {
-      addressPools = {
+    FS-540-HDS-010-SDS-010-SMS-040 = {
+      ownership = {
+        prefixes = [
+          {
+            kind = "tenant";
+            name = "client";
+            ipv4 = "10.2.28.0/24";
+            ipv6 = "fd42:021c:1::/64";
+          }
+        ];
+      };
+      pools = {
+        loopback = {
+          ipv4 = "10.127.28.0/24";
+          ipv6 = "fd42:021c:7f::/64";
+        };
         p2p = {
           ipv4 = "100.2.28.0/24";
           ipv6 = "fd42:021c::/64";
         };
-        tenant = {
-          ipv4 = "10.2.28.0/24";
-          ipv6 = "fd42:021c:1::/64";
-        };
-        local = {
-          ipv4 = "10.127.28.0/24";
-          ipv6 = "fd42:021c:7f::/64";
-        };
       };
       communicationContract = {
+        interfaceTags = {
+          external-internet-vlan4 = "internet-vlan4";
+          tenant-client = "client";
+        };
         relations = [
           {
             id = "FS-540-HDS-010-SDS-010-SMS-040__mini-verify";
