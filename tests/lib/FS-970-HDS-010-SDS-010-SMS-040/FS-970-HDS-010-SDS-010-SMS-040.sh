@@ -24,24 +24,28 @@ nix eval --impure --expr "
     links = lab.topology.links;
     relations = lab.communicationContract.relations;
   in
-    require (builtins.length nodes == 2)
-      \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
+    require (builtins.all (r: builtins.elem r [ \"access\" \"downstream-selector\" \"policy\" \"upstream-selector\" \"core\" ]) (map (n: lab.topology.nodes.\${n}.role or \"\") nodes))
+      \"P1 FAIL: fixture must use only canonical fabric roles (access/downstream-selector/policy/upstream-selector/core)\"
     && require (builtins.elem \"client-edge\" nodes)
       \"P1 FAIL: missing client-edge node\"
     && require (builtins.elem \"core-vlan4-client-dhcp-slaac\" nodes)
       \"P1 FAIL: missing core-vlan4-client-dhcp-slaac node\"
-    && require (builtins.length links == 1)
-      \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"client-edge\" \"core-vlan4-client-dhcp-slaac\" ])
-      \"P2 FAIL: link must be client-edge <-> core-vlan4-client-dhcp-slaac\"
+    && require (builtins.elem \"access\" (map (n: lab.topology.nodes.\${n}.role or \"\") nodes) && builtins.elem \"core\" (map (n: lab.topology.nodes.\${n}.role or \"\") nodes))
+      \"P1 FAIL: fixture must model an access and a core role\"
+    && require ((builtins.filter (r: builtins.elem r (map (n: lab.topology.nodes.\${n}.role or \"\") nodes)) [ \"downstream-selector\" \"policy\" \"upstream-selector\" ]) == [ ] || builtins.length (builtins.filter (r: builtins.elem r (map (n: lab.topology.nodes.\${n}.role or \"\") nodes)) [ \"downstream-selector\" \"policy\" \"upstream-selector\" ]) == 3)
+      \"P1 FAIL: the fabric selectors must be modelled as the complete access -> downstream-selector -> policy -> upstream-selector -> core chain or not at all\"
+    && require (builtins.all (l: builtins.isList l && builtins.length l == 2) links)
+      \"P2 FAIL: every fabric link must be a node pair\"
+    && require (!(builtins.any (l: builtins.elem \"client-edge\" l && builtins.elem \"core-vlan4-client-dhcp-slaac\" l) links))
+      \"P2 FAIL: client-edge must not link directly to core-vlan4-client-dhcp-slaac; fabric traffic crosses access -> downstream-selector -> policy -> upstream-selector -> core\"
     && require (builtins.length lab.topology.nodes.\"client-edge\".attachments == 1)
       \"P3 FAIL: client-edge must have 1 attachment\"
     && require (builtins.any (a: a.kind == \"tenant\" && a.name == \"client\") lab.topology.nodes.\"client-edge\".attachments)
       \"P3 FAIL: missing client tenant attachment\"
-    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
-      \"P4 FAIL: core-vlan4-client-dhcp-slaac missing uplinks\"
-    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks ? testnet)
-      \"P4 FAIL: core-vlan4-client-dhcp-slaac missing testnet uplink\"
+    && require (builtins.length (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks or { }) == 1)
+      \"P4 FAIL: core-vlan4-client-dhcp-slaac must model exactly one exit uplink\"
+    && require (builtins.any (u: builtins.elem \"0.0.0.0/0\" (u.ipv4 or [ ])) (builtins.attrValues (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks or { })))
+      \"P4 FAIL: the core-vlan4-client-dhcp-slaac exit uplink must offer a default route; an uplink named testnet is not required by the contract\"
     && require (builtins.length relations == 1)
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"FS-970-HDS-010-SDS-010-SMS-040__mini-client-to-testnet\")
