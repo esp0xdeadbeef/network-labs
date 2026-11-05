@@ -58,6 +58,18 @@
         links = [
           [
             "client-edge"
+            "downstream-selector"
+          ]
+          [
+            "downstream-selector"
+            "policy"
+          ]
+          [
+            "policy"
+            "upstream-selector"
+          ]
+          [
+            "upstream-selector"
             "core-vlan4-client-dhcp-slaac"
           ]
         ];
@@ -74,6 +86,15 @@
                 name = "client";
               }
             ];
+          };
+          downstream-selector = {
+            role = "downstream-selector";
+          };
+          policy = {
+            role = "policy";
+          };
+          upstream-selector = {
+            role = "upstream-selector";
           };
           core-vlan4-client-dhcp-slaac = {
             role = "core";
