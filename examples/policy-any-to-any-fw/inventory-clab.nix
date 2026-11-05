@@ -62,7 +62,6 @@
             ipv6 = {
               method = "slaac";
             };
-            masquerade = "ipv4";
             mode = "nat";
             parent = "eth0";
           };
