@@ -1,6 +1,6 @@
 {
   mini-smt = {
-    fs_760_hds_010_sds_010_sms_040 = {
+    FS-760-HDS-010-SDS-010-SMS-040 = {
       communicationContract = {
         interfaceTags = {
           testnet = "testnet-vlan4";

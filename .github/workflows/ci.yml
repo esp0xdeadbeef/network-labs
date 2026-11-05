@@ -80,12 +80,19 @@ jobs:
             echo "::endgroup::"
           done < "$RUNNER_TEMP/siblings.tsv"
 
-          # The canonical GAMP/SMS mirror lives in the orchestrator repository.
-          git init --quiet "${workspace}/network-codex-agent"
-          git -C "${workspace}/network-codex-agent" remote add origin https://github.com/esp0xdeadbeef/network-codex-agent.git
-          git -C "${workspace}/network-codex-agent" fetch --quiet --depth 1 origin HEAD
-          git -C "${workspace}/network-codex-agent" checkout --quiet FETCH_HEAD
-          printf 'CANONICAL_SMS_DIR=%s\n' "${workspace}/network-codex-agent/GAMP/SMS" >> "$GITHUB_ENV"
+          # The canonical GAMP/SMS mirror lives in the private orchestrator
+          # repository, which the workflow token cannot read. When it is not
+          # available the mirror comparison reports SKIP instead of pretending
+          # to have compared anything.
+          if git init --quiet "${workspace}/network-codex-agent" \
+            && git -C "${workspace}/network-codex-agent" remote add origin https://github.com/esp0xdeadbeef/network-codex-agent.git \
+            && git -C "${workspace}/network-codex-agent" fetch --quiet --depth 1 origin HEAD \
+            && git -C "${workspace}/network-codex-agent" checkout --quiet FETCH_HEAD; then
+            printf 'CANONICAL_SMS_DIR=%s\n' "${workspace}/network-codex-agent/GAMP/SMS" >> "$GITHUB_ENV"
+          else
+            rm -rf "${workspace}/network-codex-agent"
+            echo "::notice::network-codex-agent is not readable with this token; the canonical mirror comparison will be skipped."
+          fi
 
       - name: "Run repository test suite"
         env:
