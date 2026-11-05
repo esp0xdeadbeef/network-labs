@@ -95,7 +95,9 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
           && (relation.from.kind or null) == \"service\"
           && (relation.from.name or null) == \"clab-site-dns\"
           && (relation.to.kind or null) == \"external\"
-          && (relation.to.name or null) == \"wan\"
+          # FS-322: an exit is selected by the scope that owns it, not by a
+          # relation-level exit name; the clab WAN exit is the simulated ISP core.
+          && (relation.to.scope or null) == \"clab-router-core-simulated-isp\"
           && (relation.trafficType or null) == \"dns\"
           && (relation.priority or 999) < 25)
         clabRelations;
@@ -107,14 +109,15 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     policyPorts = nodes.esp-nixos-router-policy.ports;
     upstreamPorts = nodes.esp-nixos-router-upstream.ports;
     hostBridges = inventory.deployment.hosts.s-router-test.bridgeNetworks;
+    # FS-322: the management access scope models its exit explicitly (selects
+    # isp-a), so the DNS management service lane is realized for that modeled
+    # exit.  Requiring a second ISP lane would assert a redundancy the access
+    # scope does not declare.
     hasMgmtWanPorts =
       (policyPorts.upstream-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
-      && (policyPorts.upstream-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\"
-      && (upstreamPorts.policy-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\"
-      && (upstreamPorts.policy-mgmt-isp-b.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-b\";
+      && (upstreamPorts.policy-mgmt-isp-a.link or null) == \"p2p-nixos-router-policy-nixos-router-upstream--access-nixos-router-access-mgmt--uplink-isp-a\";
     hasMgmtWanBridges =
-      builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-a\" hostBridges
-      && builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-b\" hostBridges;
+      builtins.hasAttr \"br-nixos-policy-upstream-access-mgmt-isp-a\" hostBridges;
     clabPolicyPorts = nodes.esp-clab-router-policy.ports;
     clabUpstreamPorts = nodes.esp-clab-router-upstream.ports;
     clabHostBridges = inventory.deployment.hosts.s-router-clab.bridgeNetworks;
@@ -138,7 +141,7 @@ nix eval --extra-experimental-features 'nix-command flakes' --impure --expr "
     else if dnsForwarderNodes != [ ] then
       throw \"s-router-test inventory must not define services.dns.forwarders; DNS lookup path and resolver policy belong in intent/NFM, inventory may only realize service technology and physical/runtime facts\"
     else if !hasMgmtWanPorts then
-      throw \"s-router-test nixos inventory must explicitly realize site-dns-mgmt policy/upstream WAN lanes for isp-a and isp-b\"
+      throw \"s-router-test nixos inventory must explicitly realize the site-dns-mgmt policy/upstream WAN lane for the scope-selected exit isp-a\"
     else if !hasMgmtWanBridges then
       throw \"s-router-test nixos deployment host must declare bridge networks for site-dns-mgmt policy/upstream WAN lanes\"
     else if !hasClabMgmtWanPorts then

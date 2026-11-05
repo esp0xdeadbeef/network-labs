@@ -571,14 +571,19 @@ HAT_DIR="${hat_dir}" nix eval --impure --expr '
       "CLAB view of NixOS SAT-compat legacy isp-a uplink must remain DHCPv4"
     && require (!(clabNixosHost.uplinks.isp-a.ipv4 ? address))
       "CLAB view of NixOS SAT-compat legacy isp-a uplink must not inherit static BGP IPv4"
-    && require ((clabHetzHost.uplinks.inter-site.bridge or null) == "br-wan")
-      "HAT SAT-compat inter-site uplink must bind through the explicit WAN bridge"
-    && require ((clabHetzHost.uplinks.inter-site.mode or null) == "native")
-      "HAT SAT-compat inter-site uplink must not inherit management VLAN mode"
-    && require ((clabHetzHost.uplinks.inter-site.ipv6.method or null) == "slaac")
-      "HAT SAT-compat inter-site uplink must not inherit management IPv6 disablement"
-    && require (!(clabHetzHost.uplinks.inter-site ? vlan))
-      "HAT SAT-compat inter-site uplink must not inherit management VLAN 2"
+    # FS-322 moved reachability to scope selects: the SAT realization declares the
+    # site-to-site exit of the hetz core as its explicit `wan` uplink on the
+    # documented WAN bridge, not as an overlay-named `inter-site` uplink.  The
+    # protective content of these checks is unchanged -- that uplink must bind the
+    # explicit WAN bridge and must not inherit the management VLAN surface.
+    && require ((clabHetzHost.uplinks.wan.bridge or null) == "br-wan")
+      "HAT SAT WAN uplink must bind through the explicit WAN bridge"
+    && require ((clabHetzHost.uplinks.wan.mode or null) == "native")
+      "HAT SAT WAN uplink must not inherit management VLAN mode"
+    && require ((clabHetzHost.uplinks.wan.ipv6.method or null) == "slaac")
+      "HAT SAT WAN uplink must not inherit management IPv6 disablement"
+    && require (!(clabHetzHost.uplinks.wan ? vlan))
+      "HAT SAT WAN uplink must not inherit management VLAN 2"
     && require ((nixosHost.uplinks.uplink-isp-a.bridge or null) == "br-uplink0")
       "NixOS HAT core internet uplink must use br-uplink0"
     && require ((nixosHost.uplinks.uplink-isp-a.mode or null) == "vlan")
