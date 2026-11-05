@@ -35,18 +35,20 @@ nix eval --impure --expr "
     ];
   in
     # P1: Two nodes defined
-    require (builtins.length nodes == 2)
-      \"P1 FAIL: expected 2 nodes, got \${toString (builtins.length nodes)}\"
+    require (builtins.all (r: builtins.elem r [ \"access\" \"downstream-selector\" \"policy\" \"upstream-selector\" \"core\" ]) (map (n: lab.topology.nodes.\${n}.role or \"\") nodes))
+      \"P1 FAIL: fixture must use only canonical fabric roles (access/downstream-selector/policy/upstream-selector/core)\"
     && require (builtins.elem \"access-cohost\" nodes)
       \"P1 FAIL: missing access-cohost node\"
     && require (builtins.elem \"core-exit\" nodes)
       \"P1 FAIL: missing core-exit node\"
-
-    # P2: One link between nodes
-    && require (builtins.length links == 1)
-      \"P2 FAIL: expected 1 link, got \${toString (builtins.length links)}\"
-    && require (builtins.head links == [ \"access-cohost\" \"core-exit\" ])
-      \"P2 FAIL: link must be access-cohost <-> core-exit\"
+    && require (builtins.elem \"access\" (map (n: lab.topology.nodes.\${n}.role or \"\") nodes) && builtins.elem \"core\" (map (n: lab.topology.nodes.\${n}.role or \"\") nodes))
+      \"P1 FAIL: fixture must model an access and a core role\"
+    && require ((builtins.filter (r: builtins.elem r (map (n: lab.topology.nodes.\${n}.role or \"\") nodes)) [ \"downstream-selector\" \"policy\" \"upstream-selector\" ]) == [ ] || builtins.length (builtins.filter (r: builtins.elem r (map (n: lab.topology.nodes.\${n}.role or \"\") nodes)) [ \"downstream-selector\" \"policy\" \"upstream-selector\" ]) == 3)
+      \"P1 FAIL: the fabric selectors must be modelled as the complete access -> downstream-selector -> policy -> upstream-selector -> core chain or not at all\"
+    && require (builtins.all (l: builtins.isList l && builtins.length l == 2) links)
+      \"P2 FAIL: every fabric link must be a node pair\"
+    && require (!(builtins.any (l: builtins.elem \"access-cohost\" l && builtins.elem \"core-exit\" l) links))
+      \"P2 FAIL: access-cohost must not link directly to core-exit; fabric traffic crosses access -> downstream-selector -> policy -> upstream-selector -> core\"
 
     # P3: Role co-location — access-cohost has two tenant attachments
     && require (builtins.length lab.topology.nodes.\"access-cohost\".attachments == 2)
