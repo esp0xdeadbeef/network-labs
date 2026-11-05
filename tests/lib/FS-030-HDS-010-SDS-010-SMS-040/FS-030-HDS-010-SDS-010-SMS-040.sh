@@ -28,7 +28,7 @@ nix eval --impure --expr "
     relations = lab.communicationContract.relations;
 
     expectedIds = [
-      \"${trace_id}__mini-client-to-testnet\"
+      \"${trace_id}__mini-verify\"
     ];
   in
     # P1: Two nodes defined
@@ -64,7 +64,7 @@ nix eval --impure --expr "
       \"P5 FAIL: relation IDs must match expected IDs\"
 
     # P6: Client→testnet allow relation with correct fields
-    && require (builtins.any (r: r.id == \"${trace_id}__mini-client-to-testnet\" && r.action == \"allow\" && r.from.kind == \"tenant\" && r.from.name == \"client\" && r.to.kind == \"external\" && r.to.name == \"testnet\") relations)
+    && require (builtins.any (r: r.id == \"${trace_id}__mini-verify\" && r.action == \"allow\" && r.from.kind == \"tenant\" && r.from.name == \"client\" && r.to.kind == \"external\" && !(r.to ? name) && !(r.to ? uplinks)) relations)
       \"P6 FAIL: client→testnet allow relation missing or malformed\"
 
     # P7: Ownership prefix for client tenant

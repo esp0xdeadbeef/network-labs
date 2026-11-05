@@ -48,9 +48,9 @@ nix eval --impure --expr "
       \"P4 FAIL: the core-vlan4-client-dhcp-slaac exit uplink must offer a default route; an uplink named testnet is not required by the contract\"
     && require (builtins.length relations == 1)
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
-    && require (relations != [ ] && (builtins.head relations).id == \"FS-970-HDS-010-SDS-010-SMS-040__mini-client-to-testnet\")
+    && require (relations != [ ] && (builtins.head relations).id == \"FS-970-HDS-010-SDS-010-SMS-040__mini-verify\")
       \"P5 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.name == \"testnet\") relations)
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && !(r.to ? name) && !(r.to ? uplinks)) relations)
       \"P6 FAIL: client-to-testnet allow relation missing\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P7 FAIL: expected 1 ownership prefix\"
