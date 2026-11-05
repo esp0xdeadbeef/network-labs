@@ -30,7 +30,7 @@ nix eval --impure --expr "
 
     # Expected relation IDs
     expectedIds = [
-      \"${trace_id}__mini-client-to-testnet-allow\"
+      \"${trace_id}__mini-verify-allow\"
       \"${trace_id}__mini-mgmt-deny-internet\"
     ];
   in
@@ -69,11 +69,11 @@ nix eval --impure --expr "
       \"P5 FAIL: relation IDs must match expected IDs\"
 
     # P6: Client→testnet allow relation
-    && require (builtins.any (r: r.id == \"${trace_id}__mini-client-to-testnet-allow\" && r.action == \"allow\" && r.from.kind == \"tenant\" && r.from.name == \"client\" && r.to.kind == \"external\" && r.to.name == \"testnet\") relations)
+    && require (builtins.any (r: r.id == \"${trace_id}__mini-verify-allow\" && r.action == \"allow\" && r.from.kind == \"tenant\" && r.from.name == \"client\" && r.to.kind == \"external\" && !(r.to ? name) && !(r.to ? uplinks)) relations)
       \"P6 FAIL: client→testnet allow relation missing or malformed\"
 
     # P7: Mgmt→testnet deny relation (seeded negative: distinct deny policy)
-    && require (builtins.any (r: r.id == \"${trace_id}__mini-mgmt-deny-internet\" && r.action == \"deny\" && r.from.kind == \"tenant\" && r.from.name == \"mgmt\" && r.to.kind == \"external\" && r.to.name == \"testnet\") relations)
+    && require (builtins.any (r: r.id == \"${trace_id}__mini-mgmt-deny-internet\" && r.action == \"deny\" && r.from.kind == \"tenant\" && r.from.name == \"mgmt\" && r.to.kind == \"external\" && !(r.to ? name) && !(r.to ? uplinks)) relations)
       \"P7 FAIL: mgmt→testnet deny relation missing or malformed\"
 
     # P8: Role identity preserved — client allow ≠ mgmt deny (policy boundary)
