@@ -24,8 +24,8 @@ for `network-labs`. Keep changes narrow, source-backed, and testable.
 - Validation indexes live in `../tests/SMT.md`, `../tests/SIT.md`,
   `../tests/HAT.md`, and `../tests/SAT.md`.
 - Worker-owned GAMP validation artifacts live under
-  `/home/deadbeef/github/network-labs/GAMP/*`, not directly under
-  `/home/deadbeef/github/network-labs/*`.
+  `./GAMP/*`, not directly under
+  `./*`.
 
 Before editing, inspect the live tree instead of trusting stale counts:
 

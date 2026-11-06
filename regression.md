@@ -140,7 +140,7 @@ blobs, or shared example fragments.
   build hash `la5c9dr3fp6baf8awns8p0i008p7si6a`, post-reboot hash
   `kmgdjpilickdfbq1kgmzbx7gaglin85b`, and normalized renderer JSON match.
   Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_RENDERER_NIXOS_PATH=/path/to/network-renderer-nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/fs166-active-lab-renderer-nixos-runtime-check.sh --live`
   passed and proved `poc-router` only on `s-router-nixos`, with explicit
   no-runtime renderer-nixos artifacts on `s-router-clab` and
   `s-router-test-clients`. This records parent SIT/child SMS-901 runtime proof
@@ -293,7 +293,7 @@ blobs, or shared example fragments.
   artifact checks PASS, local build hash `6xrmas7rfyi7py9f721sbq1nsb7nqz81`,
   post-reboot hash `jxy18dv36cl025lz1hfvgghfgq46q1i5`, and normalized renderer
   JSON match. Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-370-HDS-010-SDS-010-SMS-050.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_CPM_PATH=/path/to/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-370-HDS-010-SDS-010-SMS-050.sh --live`
   passed and proved `s-router-nixos` and `s-router-clab` expose
   `runtimeTargets=5` with `uplinkLaneHits=1`, while `s-router-test-clients`
   exposes `rendered-host.json` with `routerContainers=0`, `hostBridges=5`, and
@@ -346,7 +346,7 @@ blobs, or shared example fragments.
   local build hash `j4q61zh3wkismy6g7cyzchz309mgmkqq`, post-reboot hash
   `i3i46v0y3nmajxhg8kx3bpi9b5hvqggc`, and normalized renderer JSON match.
   Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend NIXOS_REPO_PATH=/home/deadbeef/github/nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-380-HDS-020-SDS-010-SMS-050.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_CPM_PATH=/path/to/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/path/to/network-renderer-nixos NETWORK_RENDERER_CLAB_PATH=/path/to/network-renderer-containerlab-linux-backend NIXOS_REPO_PATH=/path/to/nixos S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-380-HDS-020-SDS-010-SMS-050.sh --live`
   passed and proved NixOS/CLAB PPPoE/VLAN4/VLAN5 runtime artifacts with
   `runtimeTargets=5`, `bridgeNetworks=6`, `privateNat44=1`, and successful
   `1.1.1.1` pings; it also proved `s-router-test-clients` exposes the host-only
@@ -399,7 +399,7 @@ blobs, or shared example fragments.
   `smh6z5g8cyv75fi02n5ksbfs5sn6lc6p`, post-reboot host generation was
   `j210fyi5mfsw4bdngc839nvhd6wr4x83`, and normalized renderer JSON matched.
   Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-470-HDS-010-SDS-010-SMS-010.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_RENDERER_WIREGUARD_PATH=/path/to/network-renderer-wireguard S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-470-HDS-010-SDS-010-SMS-010.sh --live`
   passed and proved `s-router-nixos` exposes
   `/etc/network-artifacts/control-plane.json` with
   `target=wireguard-remote-egress` and `iface=wg-re-egress0`, while
@@ -505,7 +505,7 @@ blobs, or shared example fragments.
   build expected system hash `bv44ws6fcg1n8k41m2isb6hjprqk92p4`, post-reboot
   host generation was `rncd29433m7m6yla2d64ch8w91saxqhf`, and normalized
   renderer JSON matched. Standalone verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_NFM_PATH=/home/deadbeef/github/network-forwarding-model NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-500-HDS-010-SDS-010-SMS-010.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_NFM_PATH=/path/to/network-forwarding-model NETWORK_CPM_PATH=/path/to/network-control-plane-model S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-500-HDS-010-SDS-010-SMS-010.sh --live`
   passed and proved `s-router-nixos` and `s-router-clab` expose
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5`,
   `validPathCount=1`, `invalidPathCount=0`, and `relationHits=1`; it also
@@ -528,7 +528,7 @@ blobs, or shared example fragments.
   source, and the final propagated access-renderer lock is
   `network-renderer-access-endpoint-nixos@6234a11`. Focused proof
   `bash tests/FS-540-HDS-010-SDS-010-SMS-020.sh`,
-  `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs bash tests/FS-540-HDS-010-SDS-010-SMS-020.sh`,
+  `NETWORK_LABS_PATH=/path/to/network-labs bash tests/FS-540-HDS-010-SDS-010-SMS-020.sh`,
   and `bash tests/run.sh` all passed. Local `nixos` lock `b04141b2` consumed
   the propagated lock chain (`network-compiler@5be5672`,
   `network-forwarding-model@b3012dd`,
@@ -543,7 +543,7 @@ blobs, or shared example fragments.
   `active-targets=5 lab-emulation=1`, locked checks ran from
   `/nix/store/0aqa0v6cmpcmjyrzjj8qc1rsybygxmml-source`, and normalized renderer
   JSON matched the post-reboot generation. Follow-up verifier
-  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/home/deadbeef/github/network-labs NETWORK_CPM_PATH=/home/deadbeef/github/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-540-HDS-010-SDS-010-SMS-020.sh --live`
+  `NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_LABS_PATH=/path/to/network-labs NETWORK_CPM_PATH=/path/to/network-control-plane-model NETWORK_RENDERER_NIXOS_PATH=/path/to/network-renderer-nixos NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/path/to/network-renderer-access-endpoint-nixos NETWORK_RENDERER_CLAB_PATH=/path/to/network-renderer-containerlab-linux-backend S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-540-HDS-010-SDS-010-SMS-020.sh --live`
   proved both router artifacts expose trace-matched
   `/etc/network-artifacts/control-plane.json` with `runtimeTargets=5` and
   resolver-source counts `local-recursive=1`, `upstream-forwarder=0`,

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-canonical_sms_dir="${CANONICAL_SMS_DIR:-/home/deadbeef/github/network-codex-agent/GAMP/SMS}"
+canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
 
 fail() {
   echo "FAIL active-lab-shim-classification: $*" >&2

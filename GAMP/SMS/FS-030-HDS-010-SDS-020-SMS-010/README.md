@@ -24,7 +24,7 @@ Latest validation, 2026-07-04:
 
 - `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-020-SMS-010.sh`
   passed in `network-compiler`.
-- `NETWORK_LABS_PATH=/home/deadbeef/github/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-030-HDS-010-SDS-020-SMS-010.sh`
+- `NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash scripts/live-FS-030-HDS-010-SDS-020-SMS-010.sh`
   passed in `network-codex-agent`; evidence root:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-020-SMS-010/20260704T044440Z`.
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-020-SMS-010`

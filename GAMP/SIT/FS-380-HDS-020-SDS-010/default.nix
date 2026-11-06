@@ -16,7 +16,7 @@
   evidence = {
     commandSms120 = "tests/run-active-lab-mini-smt.sh FS-380-HDS-020-SDS-010-SMS-120";
     liveCommandSms120 = ''
-      cd /home/deadbeef/github/network-codex-agent &&
+      cd /path/to/network-codex-agent &&
       bash scripts/live-FS-380-HDS-020-SDS-010-SMS-120.sh
     '';
     sourcePaths = [

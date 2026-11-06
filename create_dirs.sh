@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd /home/deadbeef/github/network-labs
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # All 56 SMS-040 traces from codex-agent, minus the 5 already existing in network-labs
 # Existing: FS-180, FS-270, FS-350, FS-500, FS-800-HDS-010-SDS-020

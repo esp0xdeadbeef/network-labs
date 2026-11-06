@@ -13,5 +13,5 @@ runtime modules that bind each VM to its selected active-lab source.
 Do not edit nixos source to select a lab. Select here, then build nixos with:
 
 ```bash
-nix build --dry-run --no-write-lock-file --override-input network-labs path:/home/deadbeef/github/network-labs <nixos-flake-attr>
+nix build --dry-run --no-write-lock-file --override-input network-labs path:/path/to/network-labs <nixos-flake-attr>
 ```
