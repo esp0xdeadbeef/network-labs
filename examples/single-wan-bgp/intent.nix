@@ -83,6 +83,23 @@
             ];
             name = "bfd";
           }
+          {
+            # FS-481: selecting the BGP behavior requires the declared BGP
+            # control-plane traffic type (TCP/179) for both address families.
+            match = [
+              {
+                dports = [ 179 ];
+                family = "ipv4";
+                proto = "tcp";
+              }
+              {
+                dports = [ 179 ];
+                family = "ipv6";
+                proto = "tcp";
+              }
+            ];
+            name = "bgp";
+          }
         ];
       };
       ownership = {
@@ -159,6 +176,7 @@
             selects = [
               "wan"
             ];
+            behaviors = [ "bgp" ];
 
             attachments = [
               {
@@ -172,6 +190,7 @@
             selects = [
               "wan"
             ];
+            behaviors = [ "bgp" ];
 
             attachments = [
               {
@@ -185,6 +204,7 @@
             selects = [
               "wan"
             ];
+            behaviors = [ "bgp" ];
 
             attachments = [
               {
