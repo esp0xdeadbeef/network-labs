@@ -37,12 +37,14 @@
     sites = {
       esp0xdeadbeef = {
         site-a = {
+          # FS-481: the routing STYLE is declared as a behavior in the intent;
+          # the ASN and route-reflector topology are mechanism facts realized
+          # here.
           routing = {
             bgp = {
               asn = 65000;
               topology = "policy-rr";
             };
-            mode = "bgp";
           };
           uplinks = {
             wan = {
