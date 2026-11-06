@@ -16,7 +16,7 @@ execution surface. It must not stop at dry-running config generation.
 Use the controlled source root:
 
 ```text
-/home/deadbeef/github/network-labs/GAMP/*
+./GAMP/*
 ```
 
 Put the `network-labs` integration test under `../../tests/`. If the SMS is
@@ -118,8 +118,8 @@ Current SIT/HAT/SAT source-to-artifact prerequisite evidence was re-checked on
 
 ```bash
 nix build --dry-run ".#nixosConfigurations.${attr}.config.system.build.toplevel" \
-  --override-input network-labs path:/home/deadbeef/github/network-labs \
-  --override-input network-renderer-nixos path:/home/deadbeef/github/network-renderer-nixos
+  --override-input network-labs path:. \
+  --override-input network-renderer-nixos path:/path/to/network-renderer-nixos
 ```
 
 The matrix log is `/tmp/network-labs-active-lab-sit-hat-sat-20260627T092319Z`.
@@ -144,8 +144,8 @@ bash tests/FS-720-HDS-030-SDS-010-SMS-021.sh
 bash tests/run.sh
 nix build --dry-run --no-link --print-out-paths \
   .#nixosConfigurations.s-router-{clab,nixos,test-clients}.config.system.build.nixos-shell \
-  --override-input network-labs path:/home/deadbeef/github/network-labs \
-  --override-input network-renderer-access-endpoint-nixos path:/home/deadbeef/github/network-renderer-access-endpoint-nixos
+  --override-input network-labs path:. \
+  --override-input network-renderer-access-endpoint-nixos path:/path/to/network-renderer-access-endpoint-nixos
 ```
 
 This remains source-to-artifact prerequisite evidence. HAT/SAT still require the
@@ -178,8 +178,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_NIXOS_PATH=/path/to/network-renderer-nixos \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
@@ -207,8 +207,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_NIXOS_PATH=/home/deadbeef/github/network-renderer-nixos \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_NIXOS_PATH=/path/to/network-renderer-nixos \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
@@ -236,8 +236,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/home/deadbeef/github/network-renderer-access-endpoint-nixos \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_ACCESS_ENDPOINT_NIXOS_PATH=/path/to/network-renderer-access-endpoint-nixos \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
@@ -267,8 +267,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_CLAB_PATH=/home/deadbeef/github/network-renderer-containerlab-linux-backend \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_CLAB_PATH=/path/to/network-renderer-containerlab-linux-backend \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
@@ -301,8 +301,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_WIREGUARD_PATH=/home/deadbeef/github/network-renderer-wireguard \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_WIREGUARD_PATH=/path/to/network-renderer-wireguard \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \
@@ -335,8 +335,8 @@ After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
-NETWORK_LABS_PATH=/home/deadbeef/github/network-labs \
-NETWORK_RENDERER_NEBULA_PATH=/home/deadbeef/github/network-renderer-nebula \
+NETWORK_LABS_PATH=. \
+NETWORK_RENDERER_NEBULA_PATH=/path/to/network-renderer-nebula \
 S_ROUTER_NIXOS=192.168.1.17 \
 S_ROUTER_CLAB=192.168.1.19 \
 S_ROUTER_TEST_CLIENTS=192.168.1.18 \

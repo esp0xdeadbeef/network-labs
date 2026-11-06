@@ -45,8 +45,8 @@ Evidence commands exited 0:
 ```bash
 bash tests/test-s-sigma-sat-source-contract-comments.sh
 nix build --dry-run --no-link --print-out-paths \
-  path:/home/deadbeef/github/nixos#nixosConfigurations.s-router-{clab,nixos,test-clients}.config.system.build.nixos-shell \
-  --override-input network-labs path:/home/deadbeef/github/network-labs
+  path:/path/to/nixos#nixosConfigurations.s-router-{clab,nixos,test-clients}.config.system.build.nixos-shell \
+  --override-input network-labs path:/path/to/network-labs
 ```
 
 This is source-to-artifact prerequisite evidence only. It does not claim live

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-nixos_repo="${NIXOS_REPO:-/home/deadbeef/github/nixos}"
+nixos_repo="${NIXOS_REPO:-}"
 selector="${repo_root}/scripts/select-current-lab.sh"
 current_dir="${repo_root}/current-lab"
 log_root="${LOG_ROOT:-$(mktemp -d /tmp/network-labs-active-lab-shim-dry-runs.XXXXXX)}"

@@ -4,7 +4,7 @@ Row-local source stub for emitter repository provenance recording.
 
 This SMS is construction-only — no active-lab mini-SMT runtime targets.
 Current SMT construction evidence is in `network-compiler`:
-`NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_FOREIGN_CWD=/home/deadbeef/github/network-codex-agent bash tests/test-emitter-provenance-repo-boundary.sh`
+`NETWORK_REPO_DIRECT_TEST_OK=1 NETWORK_FOREIGN_CWD=/path/to/network-codex-agent bash tests/test-emitter-provenance-repo-boundary.sh`
 
 Active-lab wrapper evidence:
 `MINI_SMT_OFFLINE_VERIFY=0 tests/run-active-lab-mini-smt.sh FS-100-HDS-010-SDS-010-SMS-010`

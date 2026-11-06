@@ -1,7 +1,7 @@
 #!/bin/bash
 # Generate SMT and SMS content files for SMS-040 traces
 set -e
-cd /home/deadbeef/github/network-labs
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # All SMS-040 traces (excluding the 5 that already have full fixtures)
 # Existing: FS-180, FS-270, FS-350, FS-500, FS-800-HDS-010-SDS-020

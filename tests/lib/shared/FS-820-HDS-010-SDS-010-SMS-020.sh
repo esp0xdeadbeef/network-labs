@@ -135,7 +135,7 @@ jq -e '
 jq -e '
   .raw.secretSources[0] + {
     id: "negative-host-default-override",
-    defaultSopsFile: "/home/deadbeef/github/network-labs/GAMP/SAT/secrets/non-existent.yaml"
+    defaultSopsFile: "GAMP/SAT/secrets/non-existent.yaml"
   } as $mutated
   | ([$mutated | .. | objects | keys[]] as $keys |
      any($keys[]; . as $k | ["defaultSopsFile"] | index($k) != null))

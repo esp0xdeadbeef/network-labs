@@ -6,7 +6,7 @@ set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 fixture="${repo_root}/GAMP/SMT/FS-350-HDS-010-SDS-010-SMS-040/intent.nix"
-nfm_repo="${NFM_REPO_ROOT:-/home/deadbeef/github/network-forwarding-model}"
+nfm_repo="${NFM_REPO_ROOT:-$(nix flake archive --json "path:${repo_root}" | jq -er '.inputs["network-forwarding-model"].path')}"
 
 fail() {
   echo "FAIL FS-350-HDS-010-SDS-010-SMS-040: $*" >&2
