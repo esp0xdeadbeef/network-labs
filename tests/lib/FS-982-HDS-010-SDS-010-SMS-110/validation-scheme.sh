@@ -27,8 +27,8 @@ jq -e '
 for case_id in RV-N{1..8}; do
   expected_code="$(jq -r --arg caseId "${case_id}" \
     '.seededNegativeCases[$caseId].expectedDiagnostic' "${results}")"
-  stdout_file="$(mktemp "/tmp/${case_id}.stdout.XXXXXX")"
-  stderr_file="$(mktemp "/tmp/${case_id}.stderr.XXXXXX")"
+  stdout_file="$(mktemp "${TMPDIR:-/var/tmp}/${case_id}.stdout.XXXXXX")"
+  stderr_file="$(mktemp "${TMPDIR:-/var/tmp}/${case_id}.stderr.XXXXXX")"
 
   if "${runner}" --negative-case "${case_id}" >"${stdout_file}" 2>"${stderr_file}"; then
     echo "FAIL ${case_id}: seeded negative unexpectedly succeeded" >&2

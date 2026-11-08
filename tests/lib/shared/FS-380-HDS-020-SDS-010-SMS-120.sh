@@ -199,7 +199,7 @@ in
     \"mini row must preserve the expected prod-like path\"
 " >/dev/null || fail "source contract failed"
 
-tmp_dir="$(mktemp -d "/tmp/${trace_id}.XXXXXX")"
+tmp_dir="$(mktemp -d "${TMPDIR:-/var/tmp}/${trace_id}.XXXXXX")"
 trap 'rm -rf "${tmp_dir}"' EXIT
 ln -s "${repo_root}/GAMP" "${tmp_dir}/GAMP"
 

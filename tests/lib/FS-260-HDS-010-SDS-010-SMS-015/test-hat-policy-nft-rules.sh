@@ -81,7 +81,7 @@ RULESET=$(docker_exec "nft list ruleset" 2>&1) || {
     abort
 }
 pass "nft list ruleset captured successfully"
-RULESET_FILE="/tmp/nft-ruleset-${TRACE_ID}-$(date +%s).txt"
+RULESET_FILE="${TMPDIR:-/var/tmp}/nft-ruleset-${TRACE_ID}-$(date +%s).txt"
 printf '%s\n' "${RULESET}" > "${RULESET_FILE}"
 echo "Ruleset saved to: ${RULESET_FILE}"
 
