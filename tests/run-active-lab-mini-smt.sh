@@ -422,7 +422,7 @@ else
 fi
 
 run_stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-run_root="${MINI_SMT_RUN_ROOT:-${TMPDIR:-/tmp}/active-lab-mini-smt-runs/${run_stamp}-$$}"
+run_root="${MINI_SMT_RUN_ROOT:-${TMPDIR:-/var/tmp}/active-lab-mini-smt-runs/${run_stamp}-$$}"
 mkdir -p "${run_root}"
 prepare_current_lab_restore
 

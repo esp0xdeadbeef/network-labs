@@ -4,7 +4,7 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/network-labs-fs820-sms050.XXXXXX")"
+tmp_dir="$(mktemp -d "${TMPDIR:-/var/tmp}/network-labs-fs820-sms050.XXXXXX")"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
 fail() {

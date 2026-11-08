@@ -3,14 +3,14 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-seed_dir="${NETWORK_LABS_SEED_DIR:-/tmp/network-labs-seed}"
+seed_dir="${NETWORK_LABS_SEED_DIR:-${TMPDIR:-/var/tmp}/network-labs-seed}"
 force="${NETWORK_FORCE_RESEED:-0}"
 
 usage() {
   cat >&2 <<'EOF'
 Usage: scripts/seed.sh [--output DIR] [--force]
 
-Creates the standard network-labs test seed under /tmp/network-labs-seed by
+Creates the standard network-labs test seed under the test seed directory by
 evaluating the repo-owned lab index and copying representative example inputs.
 
 Environment:

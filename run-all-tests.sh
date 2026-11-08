@@ -4,8 +4,8 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 test_dir="${repo_root}/tests"
-cache_file="/tmp/network-labs-tests.out"
-seed_dir="${NETWORK_LABS_SEED_DIR:-/tmp/network-labs-seed}"
+cache_file="${TMPDIR:-/var/tmp}/network-labs-tests.out"
+seed_dir="${NETWORK_LABS_SEED_DIR:-${TMPDIR:-/var/tmp}/network-labs-seed}"
 
 replay_cached_result() {
   cat "${cache_file}"
@@ -101,11 +101,11 @@ if [[ -f "${cache_file}" && "${NETWORK_REPO_DIRECT_TEST_OK:-0}" != "1" ]]; then
 fi
 
 set +e
-run_suite 2>&1 | tee "/tmp/network-labs-tests.out"
+run_suite 2>&1 | tee "${TMPDIR:-/var/tmp}/network-labs-tests.out"
 suite_status="${PIPESTATUS[0]}"
 set -e
 
-printf 'CACHE_EXIT_STATUS=%s\n' "${suite_status}" | tee -a "/tmp/network-labs-tests.out"
+printf 'CACHE_EXIT_STATUS=%s\n' "${suite_status}" | tee -a "${TMPDIR:-/var/tmp}/network-labs-tests.out"
 
 summary="$(grep -E '^PASS: [0-9]+, FAIL: [0-9]+, TOTAL: [0-9]+' "${cache_file}" | tail -1 || true)"
 if [[ -n "${summary}" ]]; then
