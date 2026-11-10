@@ -3,6 +3,8 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=scripts/lib/discover-tests.sh
+source "${repo_root}/scripts/lib/discover-tests.sh"
 test_dir="${repo_root}/tests"
 cache_file="${TMPDIR:-/var/tmp}/network-labs-tests.out"
 seed_dir="${NETWORK_LABS_SEED_DIR:-${TMPDIR:-/var/tmp}/network-labs-seed}"
@@ -45,12 +47,17 @@ run_suite() {
     echo "SEED: using ${seed_dir}"
   fi
 
-  shopt -s nullglob
-  local tests=("${test_dir}"/test-*.sh)
-  shopt -u nullglob
+  local test_names=()
+  mapfile -t test_names < <(discover_tests "${repo_root}")
+
+  local tests=()
+  local test_name
+  for test_name in "${test_names[@]}"; do
+    tests+=("${test_dir}/${test_name}")
+  done
 
   if [[ "${#tests[@]}" -eq 0 ]]; then
-    echo "NO TESTS DISCOVERED: ${test_dir}/test-*.sh" >&2
+    echo "NO TESTS DISCOVERED: ${test_dir}" >&2
     printf 'PASS: 0, FAIL: 1, TOTAL: 0\n' >&2
     return 1
   fi
@@ -74,7 +81,7 @@ run_suite() {
       continue
     fi
 
-    if NETWORK_REPO_DIRECT_TEST_OK=1 bash "${test_file}" >"${log_file}" 2>&1; then
+    if NETWORK_REPO_DIRECT_TEST_OK=1 "$(discover_test_runner "${test_file}")" "${test_file}" >"${log_file}" 2>&1; then
       passed=$((passed + 1))
       printf 'TEST: %s PASS\n' "${test_name}"
     else
