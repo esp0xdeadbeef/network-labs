@@ -111,7 +111,7 @@
             };
             to = {
               kind = "external";
-              scope = "resolver-node";
+              scope = "testnet-vlan4";
             };
             trafficType = "dns";
             action = "allow";
@@ -134,6 +134,13 @@
               name = "core-dns";
               node = "resolver-node";
             };
+            resolverPath = [
+              "access-dns"
+              "downstream-selector"
+              "policy"
+              "upstream-selector"
+              "resolver-node"
+            ];
             egressSurface = {
               kind = "external";
               scope = "testnet-vlan4";

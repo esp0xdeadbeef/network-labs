@@ -217,7 +217,12 @@ let
       isAccessToCore = relationId == "${dnsResolverConfigTraceId}__mini-access-dns-to-core-dns";
       isCoreToTestnet = relationId == "${dnsResolverConfigTraceId}__mini-core-dns-to-testnet";
       isDnsTraffic = (relation.trafficType or null) == "dns";
-      pointsAtTestnet = (to.uplinks or [ ]) == [ "testnet-vlan4" ];
+      # A relation terminates on an external scope by naming that scope. The
+      # fixture below, and every other row in the tree, writes
+      # `to = { kind = "external"; scope = "testnet-vlan4"; }`. Reading
+      # `to.uplinks` here matched nothing, so the core DNS egress predicate
+      # always failed against a correct fixture.
+      pointsAtTestnet = (to.scope or null) == "testnet-vlan4";
     in
     if !(builtins.elem relationId dnsResolverRelationIds) then
       {
