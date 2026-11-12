@@ -44,7 +44,13 @@ for candidate in "${candidates[@]}"; do
   candidate_repo="$(cd "$(dirname "${candidate}")/.." && pwd)"
   (
     cd "${candidate_repo}"
+    # Publish the labs checkout under both names the sibling suites read. A
+    # delegating case in another repository resolves it as NETWORK_LABS_ROOT;
+    # the shared dispatchers here historically exported only NETWORK_LABS_PATH,
+    # so those cases silently fell back to a nonexistent sibling path and
+    # failed on inputs that were present all along.
     NETWORK_LABS_PATH="${workspace_root}/network-labs" \
+      NETWORK_LABS_ROOT="${workspace_root}/network-labs" \
       NETWORK_REPO_DIRECT_TEST_OK=1 \
       SMS_TEST_TRACE_ID="${trace_id}" \
       bash "${candidate}"
