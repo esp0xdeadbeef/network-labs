@@ -3,7 +3,12 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-nixos_repo="${NIXOS_REPO:-}"
+# Resolve the NixOS checkout through the same precedence the other consumers in
+# this repository use (tests/run-active-lab-mini-smt.sh): the network-labs
+# override, then the shared name, then the sibling checkout. Reading only a bare
+# ${NIXOS_REPO:-} left the path empty unless the caller exported that one name,
+# so the sweep failed with "NixOS repo missing:" before compiling anything.
+nixos_repo="${NETWORK_LABS_NIXOS_REPO:-${NIXOS_REPO:-${repo_root}/../nixos}}"
 selector="${repo_root}/scripts/select-current-lab.sh"
 current_dir="${repo_root}/current-lab"
 log_root="${LOG_ROOT:-$(mktemp -d "${TMPDIR:-/var/tmp}/network-labs-active-lab-shim-dry-runs.XXXXXX")}"
