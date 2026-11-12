@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-450-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-450-HDS-010-SDS-010-SMS-030-provider-profile-implicit-authority-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-450-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "provider-profile-implicit-authority-denial";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,5 +1,5 @@
 {
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-050-vlan4-upstream-inheritance.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "vlan4-upstream-inheritance";
   purpose = "Canonical SMS mirror for VLAN4 upstream inheritance. SMT/SIT construction-only verification that VLAN 200+ access networks referencing vlan4 inherit VLAN4 as the selected profile upstream/provider surface.";
   layer = "SMS";

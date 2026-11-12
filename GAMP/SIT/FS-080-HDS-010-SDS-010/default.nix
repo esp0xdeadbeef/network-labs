@@ -5,7 +5,7 @@
     "FS-080-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-080-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-080-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
       role = "missing-ambiguous-fact-failure-mini-path";
       evidenceBoundary = "runtime";
     };

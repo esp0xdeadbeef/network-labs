@@ -5,21 +5,21 @@
     "FS-730-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-730-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-730-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-010-cups-printer-vm.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-730-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-730-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-730-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-020-cups-printer-service-endpoints.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-020.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-730-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-730-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-730-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-030-cups-printer-persistence-non-authority.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-030.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

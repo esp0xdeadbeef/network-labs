@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-860-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-010-persistent-service-state.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "persistent-service-state";
   source = {
     kind = "canonical-sms-source-stub";

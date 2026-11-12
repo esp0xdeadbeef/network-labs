@@ -5,21 +5,21 @@
     "FS-360-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-360-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-360-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-010-downstream-client-public-prefix-authority.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-360-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-360-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-360-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020-public-prefix-return-route-precondition.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-360-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-360-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-360-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030-gua-transit-placement-validation.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

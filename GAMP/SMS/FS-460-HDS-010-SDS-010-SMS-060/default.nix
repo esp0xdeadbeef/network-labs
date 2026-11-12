@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-460-HDS-010-SDS-010-SMS-060";
   parentSds = ../../SDS/FS-460-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-060-nebula-fail-closed-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "nebula-fail-closed-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

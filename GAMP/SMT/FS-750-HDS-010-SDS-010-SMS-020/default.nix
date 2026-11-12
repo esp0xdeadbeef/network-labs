@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-750-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020-receiver-payload-ports.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "receiver-payload-ports";
   evidenceBoundary = "source-stub-only";
   source = {

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-030-HDS-010-SDS-050-SMS-010";
   parentSds = ../../SDS/FS-030-HDS-010-SDS-050;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010-core-role-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010.md";
   titleSlug = "core-role-boundary";
   purpose = "Core role boundary mini-SMT source and construction evidence template.";
   status = "OK";

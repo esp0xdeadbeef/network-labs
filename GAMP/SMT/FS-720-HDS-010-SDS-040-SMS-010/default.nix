@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-010-SDS-040-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-040-SMS-010-static-address-fixture.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-040-SMS-010.md";
   titleSlug = "static-address-fixture";
   source = {
     kind = "canonical-sms-source-stub";

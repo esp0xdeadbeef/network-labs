@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-275-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-275-HDS-010-SDS-010-SMS-010-virtual-adapter-transit-relation-preservation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-275-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "virtual-adapter-transit-relation-preservation";
   source = {
     kind = "canonical-sms-source-stub";

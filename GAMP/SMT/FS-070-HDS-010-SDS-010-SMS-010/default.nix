@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-070-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010-validation-context-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "validation-context-boundary";
   source = {
     kind = "intent-source";

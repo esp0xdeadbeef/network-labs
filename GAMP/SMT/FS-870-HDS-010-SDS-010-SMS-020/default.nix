@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-870-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-020-ephemeral-state-authority.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "ephemeral-state-authority";
   source = {
     kind = "canonical-sms-source-stub";

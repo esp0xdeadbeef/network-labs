@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-010-SMS-070";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-070-clab-autostart-cache-privileged-readiness.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-070.md";
   titleSlug = "clab-autostart-cache-privileged-readiness";
   source = {
     kind = "canonical-sms-source-stub";

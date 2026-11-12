@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-310-HDS-020-SDS-010-SMS-190";
   parentSds = ../../SDS/FS-310-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-190-renderer-pppoe-no-default-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-190.md";
   titleSlug = "renderer-pppoe-no-default-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

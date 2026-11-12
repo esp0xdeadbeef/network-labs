@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-470-HDS-010-SDS-010-SMS-022";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-022-wg-renderer-cpm-only-consumption.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-022.md";
   titleSlug = "wg-renderer-cpm-only-consumption";
   source = {
     kind = "canonical-sms-source-stub";

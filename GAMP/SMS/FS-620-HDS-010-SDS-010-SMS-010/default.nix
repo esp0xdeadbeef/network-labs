@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-620-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-620-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-010-client-isolation-shared-services.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "client-isolation-shared-services";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

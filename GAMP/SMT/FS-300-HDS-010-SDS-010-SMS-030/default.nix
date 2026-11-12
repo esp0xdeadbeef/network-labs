@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-300-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-300-HDS-010-SDS-010-SMS-030-ineligible-lane-route-rejection.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-300-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "ineligible-lane-route-rejection";
   source = {
     kind = "canonical-sms-source-stub";

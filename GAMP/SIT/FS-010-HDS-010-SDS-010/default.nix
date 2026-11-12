@@ -5,7 +5,7 @@
     "FS-010-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-010-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-010-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010-accepted-source-set.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010.md";
       role = "accepted-source-set-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };

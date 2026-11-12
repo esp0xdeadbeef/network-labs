@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-530-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-530-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-030-resolver-loopback-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "resolver-loopback-separation";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-020-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-020-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-020-HDS-010-SDS-010-SMS-010-source-class-assignment.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-020-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "source-class-assignment";
   purpose = "Row-local mini-SMT source for source-class assignment.";
   evidenceBoundary = "row-local-mini-smt";

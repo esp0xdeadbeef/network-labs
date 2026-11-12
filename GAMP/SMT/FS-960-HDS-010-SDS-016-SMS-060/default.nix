@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-016-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-060-clab-failure-diagnostics.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-060.md";
   titleSlug = "clab-failure-diagnostics";
   source = {
     kind = "canonical-sms-source-stub";

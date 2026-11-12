@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-981-HDS-010-SDS-010-SMS-050";
   parentSds = ../../SDS/FS-981-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-050-generated-output-containment.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "generated-output-containment";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

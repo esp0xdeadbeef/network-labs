@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-470-HDS-010-SDS-010-SMS-060";
   parentSds = ../../SDS/FS-470-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060-wireguard-hardcoded-value-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "wireguard-hardcoded-value-prevention";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

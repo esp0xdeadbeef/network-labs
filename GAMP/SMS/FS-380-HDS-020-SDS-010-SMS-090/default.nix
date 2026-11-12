@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-380-HDS-020-SDS-010-SMS-090";
   parentSds = ../../SDS/FS-380-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-090-cpm-explicit-interface-role-classification.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-090.md";
   titleSlug = "cpm-explicit-interface-role-classification";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

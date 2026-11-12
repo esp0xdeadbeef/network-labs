@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-167-HDS-010-SDS-010-SMS-010";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-167-HDS-010-SDS-010-SMS-010-upstream-realization-coverage.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-167-HDS-010-SDS-010-SMS-010.md";
     titleSlug = "upstream-realization-coverage";
     evidenceBoundary = "source-stub-only";
     runnable = false;

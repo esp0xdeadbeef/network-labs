@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-380-HDS-020-SDS-010-SMS-080";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080-nixos-nat-prefix-fabric-derivation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080.md";
   titleSlug = "nixos-nat-prefix-fabric-derivation";
   source = {
     kind = "canonical-sms-source-stub";

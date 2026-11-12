@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-720-HDS-010-SDS-025-SMS-010";
   parentSds = ../../SDS/FS-720-HDS-010-SDS-025;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010-dhcp-bridge-provisioning.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010.md";
   titleSlug = "dhcp-bridge-provisioning";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

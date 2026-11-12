@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-310-HDS-040-SDS-010-SMS-170";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-170-cpm-forwarding-intent-preservation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-170.md";
   titleSlug = "cpm-forwarding-intent-preservation";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-380-HDS-020-SDS-010-SMS-110";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-110-cpm-dhcp-server-authority.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-110.md";
   titleSlug = "cpm-dhcp-server-authority";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-190-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-190-HDS-010-SDS-010-SMS-030-service-exposure-reachability-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-190-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "service-exposure-reachability-separation";
   source = {
     kind = "canonical-sms-source-stub";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-460-HDS-010-SDS-010-SMS-070";
   parentSds = ../../SDS/FS-460-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070-nebula-hardcoded-value-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070.md";
   titleSlug = "nebula-hardcoded-value-prevention";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

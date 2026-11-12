@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-940-HDS-010-SDS-010-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-060-nix-evaluator-diagnostic-profile.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "nix-evaluator-diagnostic-profile";
   source = {
     kind = "canonical-sms-source-stub";

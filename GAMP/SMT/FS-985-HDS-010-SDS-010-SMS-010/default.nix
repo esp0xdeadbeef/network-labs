@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-985-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-010-flake-input-unpinned.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "flake-input-unpinned";
   source = {
     kind = "canonical-sms-source-stub";

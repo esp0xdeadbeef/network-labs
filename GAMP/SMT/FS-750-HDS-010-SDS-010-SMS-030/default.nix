@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-750-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-030-receiver-fixture-non-authority.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "receiver-fixture-non-authority";
   source = {
     kind = "canonical-sms-source-stub";

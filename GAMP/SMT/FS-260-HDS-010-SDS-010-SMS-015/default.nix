@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-260-HDS-010-SDS-010-SMS-015";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015-hat-policy-nft-rules-probe.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015.md";
   titleSlug = "hat-policy-nft-rules-probe";
   source = {
     kind = "canonical-sms-source-stub";

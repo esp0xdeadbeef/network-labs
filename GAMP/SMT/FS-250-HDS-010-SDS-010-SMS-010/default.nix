@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-250-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-250-HDS-010-SDS-010-SMS-010-core-role-minimal-permission.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-250-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "core-role-minimal-permission";
   source = {
     kind = "canonical-sms-source-stub";

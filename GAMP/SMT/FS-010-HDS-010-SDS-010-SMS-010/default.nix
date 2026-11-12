@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-010-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010-accepted-source-set.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "accepted-source-set";
   source = {
     kind = "intent-source";

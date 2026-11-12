@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-570-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-570-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-570-HDS-010-SDS-010-SMS-030-public-recursion-fallback-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-570-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "public-recursion-fallback-denial";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

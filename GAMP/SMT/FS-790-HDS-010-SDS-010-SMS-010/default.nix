@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-790-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-010-public-ingress-fixture-table.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "public-ingress-fixture-table";
   source = {
     kind = "canonical-sms-source-stub";

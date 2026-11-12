@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-550-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-020-forbidden-dns-fallback-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "forbidden-dns-fallback-denial";
   source = {
     kind = "canonical-sms-source-stub";

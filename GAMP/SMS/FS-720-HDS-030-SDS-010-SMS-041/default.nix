@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-720-HDS-030-SDS-010-SMS-041";
   parentSds = ../../SDS/FS-720-HDS-030-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041.md";
   titleSlug = "ae-fail-closed-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-970-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "static-reservation-offset-resolution";
   source = {
     kind = "canonical-sms-source-stub";

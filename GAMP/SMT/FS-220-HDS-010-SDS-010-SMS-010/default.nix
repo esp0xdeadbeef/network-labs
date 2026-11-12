@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-220-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-220-HDS-010-SDS-010-SMS-010-public-ingress-uniqueness.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-220-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "public-ingress-uniqueness";
   source = {
     kind = "canonical-sms-source-stub";

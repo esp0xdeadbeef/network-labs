@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-981-HDS-010-SDS-010-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-060-archive-compatibility-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "archive-compatibility-boundary";
   source = {
     kind = "canonical-sms-source-stub";

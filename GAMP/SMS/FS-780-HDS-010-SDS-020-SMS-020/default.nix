@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-780-HDS-010-SDS-020-SMS-020";
   parentSds = ../../SDS/FS-780-HDS-010-SDS-020;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-020-equivalence-limitation-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-020.md";
   titleSlug = "equivalence-limitation-binding";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

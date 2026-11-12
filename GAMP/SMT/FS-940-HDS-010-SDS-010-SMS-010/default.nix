@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-940-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-010-semantic-compile-performance.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "semantic-compile-performance";
   source = {
     kind = "canonical-sms-source-stub";

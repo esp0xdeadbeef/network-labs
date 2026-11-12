@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-310-HDS-020-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-050-renderer-nftables-primitive-source-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-050.md";
   titleSlug = "renderer-nftables-primitive-source-binding";
   source = {
     kind = "canonical-sms-source-stub";

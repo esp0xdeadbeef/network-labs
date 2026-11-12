@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-030-readiness-status-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "readiness-status-boundary";
   source = {
     kind = "canonical-sms-source-stub";

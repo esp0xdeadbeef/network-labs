@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-880-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "active-lab-mini-smt-runtime-artifact";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-010-lease-namespace-ownership.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "lease-namespace-ownership";
   source = {
     kind = "intent-source";

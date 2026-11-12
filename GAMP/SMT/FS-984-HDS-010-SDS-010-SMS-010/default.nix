@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-984-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-984-HDS-010-SDS-010-SMS-010-legacy-surface-inventory-and-resolution.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-984-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "legacy-surface-inventory-and-resolution";
   source = {
     kind = "canonical-sms-source-stub";

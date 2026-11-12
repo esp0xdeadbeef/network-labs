@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-030-HDS-010-SDS-040-SMS-010";
   parentSds = ../../SDS/FS-030-HDS-010-SDS-040;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010-platform-independence-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-040-SMS-010.md";
   titleSlug = "platform-independence-contract";
   purpose = "Active row-local mini-SMT input template for compiler platform independence.";
   evidenceBoundary = "row-local-mini-smt";

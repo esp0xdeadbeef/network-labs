@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-480-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-020-route-import-constraint-validation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "route-import-constraint-validation";
   source = {
     kind = "canonical-sms-source-stub";

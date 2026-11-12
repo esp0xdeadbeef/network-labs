@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-780-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-780-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-010-SDS-010-SMS-010-clab-nixos-equivalence-matrix.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "clab-nixos-equivalence-matrix";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

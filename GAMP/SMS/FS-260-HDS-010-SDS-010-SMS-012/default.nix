@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-260-HDS-010-SDS-010-SMS-012";
   parentSds = ../../SDS/FS-260-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-012-emulation-subnet-fabric-chain-injection.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-012.md";
   titleSlug = "emulation-subnet-fabric-chain-injection";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

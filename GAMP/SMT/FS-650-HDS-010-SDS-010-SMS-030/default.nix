@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-650-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-030-profile-scope-manifest.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "profile-scope-manifest";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-010-SDS-060-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-060-SMS-010-naming-no-validation-phase-labels.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-060-SMS-010.md";
   titleSlug = "naming-no-validation-phase-labels";
   source = {
     kind = "canonical-sms-source-stub";

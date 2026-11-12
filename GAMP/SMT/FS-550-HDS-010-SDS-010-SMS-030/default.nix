@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-550-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-030-bootstrap-dns-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "bootstrap-dns-separation";
   source = {
     kind = "canonical-sms-source-stub";

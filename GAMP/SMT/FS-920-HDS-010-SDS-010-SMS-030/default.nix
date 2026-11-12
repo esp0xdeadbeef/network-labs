@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-920-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030-failure-response-authority-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "failure-response-authority-boundary";
   source = {
     kind = "canonical-sms-source-stub";

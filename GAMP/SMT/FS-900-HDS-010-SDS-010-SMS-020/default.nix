@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-900-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-020-operational-event-context-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "operational-event-context-binding";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-580-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-020-direct-public-dns-policy-gate.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "direct-public-dns-policy-gate";
   source = {
     kind = "canonical-sms-source-stub";

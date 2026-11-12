@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-725-HDS-020-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-725-HDS-020-SDS-010-SMS-010-vlan2-management-integration.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-725-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "vlan2-management-integration";
   source = {
     kind = "canonical-sms-source-stub";

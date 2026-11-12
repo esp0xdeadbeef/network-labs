@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-983-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-983-HDS-010-SDS-010-SMS-010-renderer-endpoint-fixture-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-983-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "renderer-endpoint-fixture-boundary";
   source = {
     kind = "canonical-sms-source-stub";

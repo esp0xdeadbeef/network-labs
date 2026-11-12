@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-110-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010-deterministic-evaluation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "deterministic-evaluation";
   evidenceBoundary = "construction-only";
   source = null;

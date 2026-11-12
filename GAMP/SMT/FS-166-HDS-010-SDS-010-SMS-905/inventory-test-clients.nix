@@ -1,7 +1,7 @@
 {
   meta = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-905";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-905-wireguard-replacement.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-905.md";
     renderer = "test-clients";
     scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";

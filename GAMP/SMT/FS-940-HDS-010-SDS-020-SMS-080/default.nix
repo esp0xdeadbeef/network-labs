@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-940-HDS-010-SDS-020-SMS-080";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-080-route-cardinality-equivalence-diagnostics.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-080.md";
   titleSlug = "route-cardinality-equivalence-diagnostics";
   source = {
     kind = "canonical-sms-source-stub";

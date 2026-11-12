@@ -5,7 +5,7 @@
     "FS-800-HDS-020-SDS-040-SMS-010" = {
       smtRow = ../../SMT/FS-800-HDS-020-SDS-040-SMS-010;
       sourcePath = "GAMP/SMT/FS-800-HDS-020-SDS-040-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010-hat-script-override-rejection.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

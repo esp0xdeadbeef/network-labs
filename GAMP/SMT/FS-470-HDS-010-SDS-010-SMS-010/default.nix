@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-470-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wireguard-remote-egress.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "wireguard-remote-egress";
   source = null;
   status = "OK";

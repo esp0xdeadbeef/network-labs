@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-260-HDS-010-SDS-010-SMS-080";
   parentSds = ../../SDS/FS-260-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-080-nfm-forwarding-derivation-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-080.md";
   titleSlug = "nfm-forwarding-derivation-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

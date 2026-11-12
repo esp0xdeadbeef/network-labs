@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-981-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-030-focused-test-mapping.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "focused-test-mapping";
   source = {
     kind = "canonical-sms-source-stub";

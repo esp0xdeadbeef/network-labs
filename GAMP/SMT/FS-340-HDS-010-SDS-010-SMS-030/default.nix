@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-340-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-030-offset-boundary-validation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "offset-boundary-validation";
   source = {
     kind = "canonical-sms-source-stub";

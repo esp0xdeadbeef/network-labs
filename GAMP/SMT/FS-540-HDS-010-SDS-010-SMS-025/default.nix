@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-025";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-025-uplink-dns-follow-source.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-025.md";
   titleSlug = "uplink-dns-follow-source";
   source = {
     kind = "canonical-sms-source-stub";

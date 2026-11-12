@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-260-HDS-010-SDS-010-SMS-080";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-080-nfm-forwarding-derivation-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-080.md";
   titleSlug = "nfm-forwarding-derivation-contract";
   source = {
     kind = "canonical-sms-source-stub";

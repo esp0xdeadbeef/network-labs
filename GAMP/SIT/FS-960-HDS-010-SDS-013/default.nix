@@ -5,7 +5,7 @@
     "FS-960-HDS-010-SDS-013-SMS-010" = {
       smtRow = ../../SMT/FS-960-HDS-010-SDS-013-SMS-010;
       sourcePath = "GAMP/SMT/FS-960-HDS-010-SDS-013-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-013-SMS-010-marker-wait-ordering.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-013-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

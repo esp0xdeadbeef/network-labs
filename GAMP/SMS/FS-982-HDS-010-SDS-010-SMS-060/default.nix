@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-982-HDS-010-SDS-010-SMS-060";
   parentSds = ../../SDS/FS-982-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-060-upstream-gap-diagnostic.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "upstream-gap-diagnostic";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

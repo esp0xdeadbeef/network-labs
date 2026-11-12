@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-180-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-180-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-030-wildcard-destination-expansion.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "wildcard-destination-expansion";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

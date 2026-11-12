@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-180-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-180-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-020-adjacent-traffic-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "adjacent-traffic-denial";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-780-HDS-020-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-020-SDS-010-SMS-010-equivalence-row-atomization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-780-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "equivalence-row-atomization";
   source = {
     kind = "canonical-sms-source-stub";

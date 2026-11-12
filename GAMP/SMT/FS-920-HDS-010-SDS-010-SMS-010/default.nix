@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-920-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010-modeled-failure-handling.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "modeled-failure-handling";
   source = {
     kind = "canonical-sms-source-stub";

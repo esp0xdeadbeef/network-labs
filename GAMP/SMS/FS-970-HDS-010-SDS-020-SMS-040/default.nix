@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-970-HDS-010-SDS-020-SMS-040";
   parentSds = ../../SDS/FS-970-HDS-010-SDS-020;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040.md";
   titleSlug = "runtime-secret-reservation-materialization";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

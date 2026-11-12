@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-760-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-760-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-020-receiver-controller-payload-policy.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "receiver-controller-payload-policy";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

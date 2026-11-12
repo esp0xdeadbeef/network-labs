@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-920-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-920-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010-modeled-failure-handling.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "modeled-failure-handling";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

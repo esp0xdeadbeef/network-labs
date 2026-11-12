@@ -5,7 +5,7 @@
     "FS-310-HDS-050-SDS-010-SMS-220" = {
       smtRow = ../../SMT/FS-310-HDS-050-SDS-010-SMS-220;
       sourcePath = "GAMP/SMT/FS-310-HDS-050-SDS-010-SMS-220/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-050-SDS-010-SMS-220-test-input-pinning.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-050-SDS-010-SMS-220.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

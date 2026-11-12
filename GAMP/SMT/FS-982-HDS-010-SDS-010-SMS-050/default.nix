@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-982-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-050-renderer-ownership-routing.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "renderer-ownership-routing";
   source = {
     kind = "canonical-sms-source-stub";

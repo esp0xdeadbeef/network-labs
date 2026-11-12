@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-650-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-020-profile-surface-manifest.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "profile-surface-manifest";
   source = {
     kind = "canonical-sms-source-stub";

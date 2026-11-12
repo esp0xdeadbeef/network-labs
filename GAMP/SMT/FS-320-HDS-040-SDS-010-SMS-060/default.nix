@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-320-HDS-040-SDS-010-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060-nixos-interface-role-classification.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060.md";
   titleSlug = "nixos-interface-role-classification";
   source = {
     kind = "canonical-sms-source-stub";

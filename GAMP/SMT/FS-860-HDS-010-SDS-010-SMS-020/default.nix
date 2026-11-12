@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-860-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020-required-state-retention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "required-state-retention";
   source = {
     kind = "canonical-sms-source-stub";

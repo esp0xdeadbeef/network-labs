@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-950-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-010-evidence-handoff-package.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "evidence-handoff-package";
   source = {
     kind = "canonical-sms-source-stub";

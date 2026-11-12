@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-705-HDS-010-SDS-010-SMS-030";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-030-validation-profile-posture-reuse.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-030.md";
     titleSlug = "validation-profile-posture-reuse";
     evidenceBoundary = "source-stub-only";
     runnable = false;

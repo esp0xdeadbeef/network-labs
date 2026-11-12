@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-830-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-830-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-830-HDS-010-SDS-010-SMS-030-non-secret-preparation-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-830-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "non-secret-preparation-binding";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

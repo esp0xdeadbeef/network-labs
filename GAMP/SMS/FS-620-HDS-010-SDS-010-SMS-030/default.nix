@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-620-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-620-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-030-underlay-authority-rejection.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "underlay-authority-rejection";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

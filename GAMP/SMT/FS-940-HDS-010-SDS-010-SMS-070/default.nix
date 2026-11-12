@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-940-HDS-010-SDS-010-SMS-070";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-070-nfm-semantic-lib-performance-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-070.md";
   titleSlug = "nfm-semantic-lib-performance-boundary";
   source = {
     kind = "canonical-sms-source-stub";

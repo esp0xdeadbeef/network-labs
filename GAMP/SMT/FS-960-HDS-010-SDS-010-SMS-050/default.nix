@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-050-hat-renderer-hotpatch-diagnostic.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "hat-renderer-hotpatch-diagnostic";
   source = {
     kind = "canonical-sms-source-stub";

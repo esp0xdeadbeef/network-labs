@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-870-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-030-state-loss-classification.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "state-loss-classification";
   source = {
     kind = "canonical-sms-source-stub";

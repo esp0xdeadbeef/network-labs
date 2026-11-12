@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-470-HDS-010-SDS-010-SMS-041";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-041-wg-fail-closed-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-041.md";
   titleSlug = "wg-fail-closed-contract";
   source = {
     kind = "canonical-sms-source-stub";

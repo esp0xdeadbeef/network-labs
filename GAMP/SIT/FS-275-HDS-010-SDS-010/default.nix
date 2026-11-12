@@ -5,7 +5,7 @@
     "FS-275-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-275-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-275-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-275-HDS-010-SDS-010-SMS-010-virtual-adapter-transit-relation-preservation.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-275-HDS-010-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

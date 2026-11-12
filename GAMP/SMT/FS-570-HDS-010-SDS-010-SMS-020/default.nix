@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-570-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-570-HDS-010-SDS-010-SMS-020-split-horizon-fallback-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-570-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "split-horizon-fallback-binding";
   source = {
     kind = "canonical-sms-source-stub";

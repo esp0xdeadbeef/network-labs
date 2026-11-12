@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-720-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-720-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-010-SMS-030-test-clients-service-surfaces.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "test-clients-service-surfaces";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

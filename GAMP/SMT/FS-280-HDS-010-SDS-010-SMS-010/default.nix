@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-280-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010-core-boundary-host-traffic-exception.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "core-boundary-host-traffic-exception";
   source = {
     kind = "canonical-sms-source-stub";

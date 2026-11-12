@@ -5,7 +5,7 @@
     "FS-181-HDS-010-SDS-030-SMS-010" = {
       smtRow = ../../SMT/FS-181-HDS-010-SDS-030-SMS-010;
       sourcePath = "GAMP/SMT/FS-181-HDS-010-SDS-030-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010-realization-authority-binding.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

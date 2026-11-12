@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-720-HDS-040-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-720-HDS-040-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020-clab-client-origin-runtime-probes.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020.md";
   titleSlug = "clab-client-origin-runtime-probes";
   sourceInputs."FS-720-HDS-040-SDS-010-SMS-020-construction" = {
     traceId = "FS-720-HDS-040-SDS-010-SMS-020";

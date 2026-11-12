@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-190-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-190-HDS-010-SDS-010-SMS-020-service-exposure-scope-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-190-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "service-exposure-scope-binding";
   source = {
     kind = "canonical-sms-source-stub";

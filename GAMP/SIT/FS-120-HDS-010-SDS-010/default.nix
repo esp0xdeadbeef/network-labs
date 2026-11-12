@@ -5,7 +5,7 @@
     "FS-120-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-120-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-120-HDS-010-SDS-010-SMS-010-deterministic-diagnostics.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-120-HDS-010-SDS-010-SMS-010.md";
       role = "deterministic-diagnostics";
       evidenceBoundary = "construction-only";
     };

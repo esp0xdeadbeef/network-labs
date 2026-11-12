@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-110-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-110-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010-deterministic-evaluation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "deterministic-evaluation";
   purpose = "Deterministic Evaluation (construction-only).";
   evidenceBoundary = "construction-only";

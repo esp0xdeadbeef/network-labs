@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-014-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-014-SMS-010-hotpatch-diagnostic-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-014-SMS-010.md";
   titleSlug = "hotpatch-diagnostic-boundary";
   source = {
     kind = "canonical-sms-source-stub";

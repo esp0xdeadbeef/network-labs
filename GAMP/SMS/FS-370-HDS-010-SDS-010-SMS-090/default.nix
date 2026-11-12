@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-370-HDS-010-SDS-010-SMS-090";
   parentSds = ../../SDS/FS-370-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-090-core-return-path-routing.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-090.md";
   titleSlug = "core-return-path-routing";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

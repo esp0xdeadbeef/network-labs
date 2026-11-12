@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-470-HDS-010-SDS-010-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060-wireguard-hardcoded-value-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "wireguard-hardcoded-value-prevention";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-580-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-030-generic-egress-dns-bypass-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "generic-egress-dns-bypass-denial";
   source = {
     kind = "canonical-sms-source-stub";

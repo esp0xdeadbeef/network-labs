@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-163-HDS-010-SDS-010-SMS-010";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-163-HDS-010-SDS-010-SMS-010-complete-lock-closure.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-163-HDS-010-SDS-010-SMS-010.md";
     titleSlug = "complete-lock-closure";
     evidenceBoundary = "source-stub-only";
     runnable = false;

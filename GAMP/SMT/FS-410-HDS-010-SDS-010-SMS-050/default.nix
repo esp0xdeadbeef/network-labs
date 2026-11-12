@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-410-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-410-HDS-010-SDS-010-SMS-050-renderer-gua-host128-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-410-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "renderer-gua-host128-boundary";
   source = {
     kind = "canonical-sms-source-stub";

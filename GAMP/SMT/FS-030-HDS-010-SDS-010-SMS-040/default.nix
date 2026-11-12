@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-030-HDS-010-SDS-010-SMS-040";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040-cpm-binder-source-audit.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040.md";
   titleSlug = "cpm-binder-source-audit";
   source = {
     kind = "intent-source";

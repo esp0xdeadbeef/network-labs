@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-035";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-035-renderer-dns-nft-materialization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-035.md";
   titleSlug = "renderer-dns-nft-materialization";
   source = {
     kind = "canonical-sms-source-stub";

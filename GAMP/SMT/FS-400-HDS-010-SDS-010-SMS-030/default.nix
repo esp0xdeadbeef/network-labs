@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-400-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-030-routed-client-gua-mode.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "routed-client-gua-mode";
   source = {
     kind = "canonical-sms-source-stub";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-720-HDS-030-SDS-010-SMS-021";
   parentSds = ../../SDS/FS-720-HDS-030-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-021-ae-cpm-only-consumption.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-021.md";
   titleSlug = "ae-cpm-only-consumption";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

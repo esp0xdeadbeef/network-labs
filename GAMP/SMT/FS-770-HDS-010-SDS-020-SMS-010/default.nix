@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-770-HDS-010-SDS-020-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "realization-fact-binding";
   source = {
     kind = "canonical-sms-source-stub";

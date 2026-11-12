@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-170-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-170-HDS-010-SDS-010-SMS-030-policy-record-normalization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-170-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "policy-record-normalization";
   source = {
     kind = "canonical-sms-source-stub";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-940-HDS-010-SDS-020-SMS-050";
   parentSds = ../../SDS/FS-940-HDS-010-SDS-020;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-050-forwarding-equivalence-group-planner.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-050.md";
   titleSlug = "forwarding-equivalence-group-planner";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

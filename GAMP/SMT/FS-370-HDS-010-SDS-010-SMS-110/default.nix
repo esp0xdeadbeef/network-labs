@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-110";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110-clab-linux-forwarding-materialization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110.md";
   titleSlug = "clab-linux-forwarding-materialization";
   evidenceBoundary = "split";
   source = {

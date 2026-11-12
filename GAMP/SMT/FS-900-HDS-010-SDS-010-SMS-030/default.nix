@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-900-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-030-event-class-inspection-index.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "event-class-inspection-index";
   source = {
     kind = "canonical-sms-source-stub";

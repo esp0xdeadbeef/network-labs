@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-790-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-030-public-ingress-denied-variants.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "public-ingress-denied-variants";
   source = {
     kind = "canonical-sms-source-stub";
