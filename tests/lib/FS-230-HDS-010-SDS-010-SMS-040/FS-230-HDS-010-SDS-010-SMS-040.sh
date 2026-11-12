@@ -105,7 +105,7 @@ ROW="${row}" nix eval --impure --expr '
   assert !(authority ? publicSurface);
   assert !(authority ? targetEndpoint);
   assert !(authority ? runtimePrefix);
-  assert relation.from == { kind = "external"; uplinks = [ "lab-wan" ]; };
+  assert relation.from == { kind = "external"; scope = "lab-wan"; };
   assert relation.to == { kind = "service"; name = "nebula-lab"; };
   assert authority.family == "ipv6";
   assert authority.tuples == [ { protocol = "udp"; publicPort = 4242; } ];

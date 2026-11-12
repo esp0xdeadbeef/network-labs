@@ -94,7 +94,7 @@ nix eval --impure --expr "
       \"recursive forwarding must terminate at the named core resolver\"
     && require (coreEgressRelation.from == { kind = \"service\"; name = \"core-dns\"; })
       \"provider DNS egress must originate from the named core resolver\"
-    && require (coreEgressRelation.to == { kind = \"external\"; uplinks = [ \"testnet-vlan4\" ]; })
+    && require (coreEgressRelation.to == { kind = \"external\"; scope = \"testnet-vlan4\"; })
       \"core DNS egress must select exactly the controlled VLAN4 provider\"
     && require (coreEgressRelation.trafficType == \"dns\")
       \"core provider relation must not grant non-DNS egress\"
@@ -114,7 +114,7 @@ nix eval --impure --expr "
       \"access resolver upstream must be the named core service and node\"
     && require (binding.resolverPath == [ \"access-dns\" \"downstream-selector\" \"policy\" \"upstream-selector\" \"resolver-node\" ])
       \"binding must name the complete access-to-core path\"
-    && require (binding.egressSurface == { kind = \"external\"; uplinks = [ \"testnet-vlan4\" ]; })
+    && require (binding.egressSurface == { kind = \"external\"; scope = \"testnet-vlan4\"; })
       \"binding must select the same provider identity as the core egress relation\"
     && require (binding.allowedAddressFamilies == [ \"ipv4\" \"ipv6\" ] && binding.directPublicFallback == false)
       \"binding must be dual-stack and forbid direct public fallback\"

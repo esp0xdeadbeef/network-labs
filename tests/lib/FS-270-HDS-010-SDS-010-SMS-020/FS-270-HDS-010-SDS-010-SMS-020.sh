@@ -77,7 +77,7 @@ FS270_ROW="${row}" nix eval --impure --expr '
       "independently initiated reverse traffic must remain denied"
     && require (
       externalAllow.from == { kind = "tenant"; name = "source"; }
-      && externalAllow.to == { kind = "external"; uplinks = [ "internet-vlan4" ]; }
+      && externalAllow.to == { kind = "external"; scope = "internet-vlan4"; }
       && externalAllow.action == "allow"
       && externalAllow.returnBehavior == "symmetric")
       "complete site source must keep its external allow on the isolated lab uplink"
