@@ -73,6 +73,10 @@ jobs:
       # matches a local checkout instead of silently missing them.
       - name: "Check out sibling repositories"
         shell: bash
+        env:
+          # Optional: read access to the private canonical repository. Absent by
+          # default, in which case the step reports the exact consequence.
+          CANONICAL_REPO_TOKEN: ${{ secrets.CANONICAL_REPO_TOKEN }}
         run: |
           set -euo pipefail
           workspace="$(dirname "$GITHUB_WORKSPACE")"
@@ -101,17 +105,32 @@ jobs:
           done < "$RUNNER_TEMP/siblings.tsv"
 
           # The canonical GAMP/SMS mirror lives in the private orchestrator
-          # repository, which the workflow token cannot read. When it is not
-          # available the mirror comparison reports SKIP instead of pretending
-          # to have compared anything.
+          # repository. Reading it needs a token this workflow does not get by
+          # default: the job token is scoped to this repository, and the repo is
+          # a best-effort clone below rather than a flake input.
+          #
+          # Set the CANONICAL_REPO_TOKEN repository secret to a token with read
+          # access to esp0xdeadbeef/network-codex-agent. Without it, roughly 75
+          # SMS entrypoints report "no canonical construction implementation
+          # found" and fail: their construction cases live in that repository,
+          # so they cannot run. That is a missing-input failure, not a defect in
+          # this repository, and it is reported as such below rather than being
+          # silently skipped.
+          canonical_remote="https://github.com/esp0xdeadbeef/network-codex-agent.git"
+          if [[ -n "${CANONICAL_REPO_TOKEN:-}" ]]; then
+            canonical_remote="https://x-access-token:${CANONICAL_REPO_TOKEN}@github.com/esp0xdeadbeef/network-codex-agent.git"
+          fi
+
           if git init --quiet "${workspace}/network-codex-agent" \
-            && git -C "${workspace}/network-codex-agent" remote add origin https://github.com/esp0xdeadbeef/network-codex-agent.git \
+            && git -C "${workspace}/network-codex-agent" remote add origin "${canonical_remote}" \
             && git -C "${workspace}/network-codex-agent" fetch --quiet --depth 1 origin HEAD \
             && git -C "${workspace}/network-codex-agent" checkout --quiet FETCH_HEAD; then
+            # Never leave the credential on disk for later steps.
+            git -C "${workspace}/network-codex-agent" remote set-url origin "https://github.com/esp0xdeadbeef/network-codex-agent.git"
             printf 'CANONICAL_SMS_DIR=%s\n' "${workspace}/network-codex-agent/GAMP/SMS" >> "$GITHUB_ENV"
           else
             rm -rf "${workspace}/network-codex-agent"
-            echo "::notice::network-codex-agent is not readable with this token; the canonical mirror comparison will be skipped."
+            echo "::warning::network-codex-agent is not readable with this token. Roughly 75 SMS entrypoints will fail with 'no canonical construction implementation found' because their construction cases live in that private repository. Add a CANONICAL_REPO_TOKEN repository secret with read access to esp0xdeadbeef/network-codex-agent to run them."
           fi
 
       - name: "Run repository test suite"
