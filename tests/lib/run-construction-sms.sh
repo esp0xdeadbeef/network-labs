@@ -49,7 +49,17 @@ for candidate in "${candidates[@]}"; do
     # the shared dispatchers here historically exported only NETWORK_LABS_PATH,
     # so those cases silently fell back to a nonexistent sibling path and
     # failed on inputs that were present all along.
-    NETWORK_LABS_PATH="${workspace_root}/network-labs" \
+    #
+    # Drop SMS_TEST_REPO_ROOT for the same reason: it names the repository that
+    # owns the case, and this case belongs to the sibling, not to network-labs.
+    # Leaving it set made a sibling case that delegates onward
+    # (`bash "${repo_root}/tests/<trace>.sh"`) resolve `repo_root` to
+    # network-labs, land on this dispatcher through the symlinked entrypoint,
+    # and re-enter the case. FS-380-HDS-010-SDS-010-SMS-010 and
+    # FS-800-HDS-020-SDS-040-SMS-010 called each other without bound that way.
+    # The sibling computes its own root when the variable is absent.
+    env -u SMS_TEST_REPO_ROOT \
+      NETWORK_LABS_PATH="${workspace_root}/network-labs" \
       NETWORK_LABS_ROOT="${workspace_root}/network-labs" \
       NETWORK_REPO_DIRECT_TEST_OK=1 \
       SMS_TEST_TRACE_ID="${trace_id}" \
