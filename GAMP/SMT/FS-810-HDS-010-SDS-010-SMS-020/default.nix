@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-810-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-810-HDS-010-SDS-010-SMS-020-secret-scope-lifecycle-metadata.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-810-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "secret-scope-lifecycle-metadata";
   source = {
     kind = "canonical-sms-source-stub";

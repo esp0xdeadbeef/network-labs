@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-280-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-280-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-020-core-host-exception-non-exempt-traffic.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "core-host-exception-non-exempt-traffic";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-880-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-880-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-010-lease-namespace-ownership.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "lease-namespace-ownership";
   purpose = "Canonical SMS mirror with active-lab SMT/SIT runtime artifact validation.";
   evidenceBoundary = "active-lab-mini-smt-runtime-artifact";

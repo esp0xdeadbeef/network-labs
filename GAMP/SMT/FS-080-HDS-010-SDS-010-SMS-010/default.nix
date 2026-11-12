@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-080-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "missing-ambiguous-fact-failure";
   source = {
     kind = "intent-source";

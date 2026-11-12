@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-640-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-050-media-denied-path-preservation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "media-denied-path-preservation";
   source = {
     kind = "canonical-sms-source-stub";

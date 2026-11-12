@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-020-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-020-SDS-010-SMS-010-endpoint-inventory-union.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "endpoint-inventory-union";
   source = {
     kind = "canonical-sms-source-stub";

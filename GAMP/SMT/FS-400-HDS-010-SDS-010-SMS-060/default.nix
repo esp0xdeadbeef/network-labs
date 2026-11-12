@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-400-HDS-010-SDS-010-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-060-renderer-ipv6-internet-mode.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "renderer-ipv6-internet-mode";
   source = {
     kind = "canonical-sms-source-stub";

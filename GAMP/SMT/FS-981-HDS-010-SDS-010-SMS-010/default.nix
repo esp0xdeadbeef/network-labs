@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-981-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-010-dead-code-test-target-hygiene.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "dead-code-test-target-hygiene";
   source = {
     kind = "canonical-sms-source-stub";

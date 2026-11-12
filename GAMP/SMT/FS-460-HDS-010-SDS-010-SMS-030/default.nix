@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-460-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-030-nebula-overlay-route-metadata.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "nebula-overlay-route-metadata";
   source = {
     kind = "canonical-sms-source-stub";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-740-HDS-040-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-740-HDS-040-SDS-010-SMS-010-printer-denied-probe-surfaces.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-740-HDS-040-SDS-010-SMS-010.md";
   titleSlug = "printer-denied-probe-surfaces";
   source = {
     kind = "canonical-sms-source-stub";

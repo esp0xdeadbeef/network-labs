@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-660-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-660-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-020-access-space-address-assignment.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "access-space-address-assignment";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

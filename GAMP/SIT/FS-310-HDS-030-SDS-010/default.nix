@@ -5,35 +5,35 @@
     "FS-310-HDS-030-SDS-010-SMS-080" = {
       smtRow = ../../SMT/FS-310-HDS-030-SDS-010-SMS-080;
       sourcePath = "GAMP/SMT/FS-310-HDS-030-SDS-010-SMS-080/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080-renderer-shell-fallback-error-propagation.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080.md";
       role = "renderer-shell-fallback-error-propagation";
       evidenceBoundary = "active mini-SMT runtime wrapper plus owning renderer construction proof";
     };
     "FS-310-HDS-030-SDS-010-SMS-090" = {
       smtRow = ../../SMT/FS-310-HDS-030-SDS-010-SMS-090;
       sourcePath = "GAMP/SMT/FS-310-HDS-030-SDS-010-SMS-090/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090-renderer-check-bypass-prevention.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-310-HDS-030-SDS-010-SMS-110" = {
       smtRow = ../../SMT/FS-310-HDS-030-SDS-010-SMS-110;
       sourcePath = "GAMP/SMT/FS-310-HDS-030-SDS-010-SMS-110/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-110-renderer-fail-closed-contract.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-110.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-310-HDS-030-SDS-010-SMS-111" = {
       smtRow = ../../SMT/FS-310-HDS-030-SDS-010-SMS-111;
       sourcePath = "GAMP/SMT/FS-310-HDS-030-SDS-010-SMS-111/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111-nixos-fail-closed-contract.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-310-HDS-030-SDS-010-SMS-112" = {
       smtRow = ../../SMT/FS-310-HDS-030-SDS-010-SMS-112;
       sourcePath = "GAMP/SMT/FS-310-HDS-030-SDS-010-SMS-112/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-112-clab-fail-closed-contract.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-112.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

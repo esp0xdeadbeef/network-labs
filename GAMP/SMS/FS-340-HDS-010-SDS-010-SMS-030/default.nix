@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-340-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-340-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-030-offset-boundary-validation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "offset-boundary-validation";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -5,7 +5,7 @@
     "FS-150-HDS-010-SDS-020-SMS-010" = {
       smtRow = ../../SMT/FS-150-HDS-010-SDS-020-SMS-010;
       sourcePath = "GAMP/SMT/FS-150-HDS-010-SDS-020-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-150-HDS-010-SDS-020-SMS-010-portability-comparison-record.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-150-HDS-010-SDS-020-SMS-010.md";
       role = "portability-comparison-record";
       evidenceBoundary = "construction-only";
     };

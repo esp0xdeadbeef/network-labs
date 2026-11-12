@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-430-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-430-HDS-010-SDS-010-SMS-030-translation-fail-closed-routing.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-430-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "translation-fail-closed-routing";
   source = {
     kind = "canonical-sms-source-stub";

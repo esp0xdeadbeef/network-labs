@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-460-HDS-010-SDS-010-SMS-070";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070-nebula-hardcoded-value-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070.md";
   titleSlug = "nebula-hardcoded-value-prevention";
   source = {
     kind = "canonical-sms-source-stub";

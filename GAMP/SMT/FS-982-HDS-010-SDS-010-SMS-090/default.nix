@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-982-HDS-010-SDS-010-SMS-090";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-090-platform-native-service-grouping.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-090.md";
   titleSlug = "platform-native-service-grouping";
   source = {
     kind = "canonical-sms-source-stub";

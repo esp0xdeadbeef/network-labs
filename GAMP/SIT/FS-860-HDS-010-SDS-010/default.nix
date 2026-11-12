@@ -5,21 +5,21 @@
     "FS-860-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-860-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-860-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-010-persistent-service-state.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-860-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-860-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-860-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020-required-state-retention.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-860-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-860-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-860-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030-scoped-storage-binding-emission.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030.md";
       role = "scoped-storage-binding-active-lab-runtime-artifact";
       evidenceBoundary = "active-lab-mini-smt-runtime-artifact";
       expectedRuntimeTargets = {

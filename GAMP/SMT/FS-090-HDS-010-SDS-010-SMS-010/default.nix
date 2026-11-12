@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-090-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010-no-downstream-heuristic-repair.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "no-downstream-heuristic-repair";
   source = {
     kind = "intent-source";

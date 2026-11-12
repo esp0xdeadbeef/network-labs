@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-905";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-905-wireguard-replacement.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-905.md";
     titleSlug = "wireguard-replacement";
     evidenceBoundary = "source-stub-only";
     runnable = false;

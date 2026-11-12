@@ -1,7 +1,7 @@
 {
   constructionScenario = {
     traceId = "FS-162-HDS-010-SDS-040-SMS-010";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010-s-router-prod-comparable-projection.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010.md";
     titleSlug = "s-router-prod-comparable-projection";
     sourceTrace = "FS-230-HDS-010-SDS-010-SMS-040";
     requiredPosture = {

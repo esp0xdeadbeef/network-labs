@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-380-HDS-020-SDS-010-SMS-070";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-070-egress-path-priority.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-070.md";
   titleSlug = "egress-path-priority";
   source = {
     kind = "canonical-sms-source-stub";

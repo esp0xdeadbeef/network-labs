@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-530-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-030-resolver-loopback-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "resolver-loopback-separation";
   source = {
     kind = "canonical-sms-source-stub";

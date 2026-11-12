@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-030-HDS-010-SDS-020-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stage-topology-enforcement.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "stage-topology-enforcement";
   source = {
     kind = "intent-source";

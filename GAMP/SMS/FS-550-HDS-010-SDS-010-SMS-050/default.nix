@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-550-HDS-010-SDS-010-SMS-050";
   parentSds = ../../SDS/FS-550-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-050-cross-tenant-dns-egress-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "cross-tenant-dns-egress-denial";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

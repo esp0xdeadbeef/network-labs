@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-800-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-010-SDS-010-SMS-030-provider-access-underlay-attachments.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "provider-access-underlay-attachments";
   source = {
     kind = "intent-source";

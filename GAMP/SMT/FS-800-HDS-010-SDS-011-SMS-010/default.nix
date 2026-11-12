@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-800-HDS-010-SDS-011-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-010-SDS-011-SMS-010-provider-access-required-fields.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-010-SDS-011-SMS-010.md";
   titleSlug = "provider-access-required-fields";
   source = {
     kind = "canonical-sms-source-stub";

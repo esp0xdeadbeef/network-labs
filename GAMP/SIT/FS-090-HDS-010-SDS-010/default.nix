@@ -5,7 +5,7 @@
     "FS-090-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-090-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-090-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010-no-downstream-heuristic-repair.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010.md";
       role = "no-downstream-heuristic-repair-mini-path";
       evidenceBoundary = "runtime";
     };

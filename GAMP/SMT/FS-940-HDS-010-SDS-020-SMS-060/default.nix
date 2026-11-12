@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-940-HDS-010-SDS-020-SMS-060";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-060-route-exception-layer.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-060.md";
   titleSlug = "route-exception-layer";
   source = {
     kind = "canonical-sms-source-stub";

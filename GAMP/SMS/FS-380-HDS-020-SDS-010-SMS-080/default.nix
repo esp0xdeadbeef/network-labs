@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-380-HDS-020-SDS-010-SMS-080";
   parentSds = ../../SDS/FS-380-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080-nixos-nat-prefix-fabric-derivation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080.md";
   titleSlug = "nixos-nat-prefix-fabric-derivation";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

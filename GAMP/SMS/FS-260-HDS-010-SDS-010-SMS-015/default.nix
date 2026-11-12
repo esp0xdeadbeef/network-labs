@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-260-HDS-010-SDS-010-SMS-015";
   parentSds = ../../SDS/FS-260-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015-hat-policy-nft-rules-probe.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015.md";
   titleSlug = "hat-policy-nft-rules-probe";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

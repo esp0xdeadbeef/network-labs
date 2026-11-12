@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-180-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-020-adjacent-traffic-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-180-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "adjacent-traffic-denial";
   source = {
     kind = "canonical-sms-source-stub";

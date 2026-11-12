@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-130-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-130-HDS-010-SDS-010-SMS-010-scoped-request-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-130-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "scoped-request-contract";
   evidenceBoundary = "construction-only";
   source = null;

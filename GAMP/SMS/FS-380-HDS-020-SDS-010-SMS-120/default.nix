@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-380-HDS-020-SDS-010-SMS-120";
   parentSds = ../../SDS/FS-380-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-120-prod-like-vlan4-client-egress.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-120.md";
   titleSlug = "prod-like-vlan4-client-egress";
   purpose = "Canonical SMS mirror for prod-like IPv4 client egress over VLAN4.";
   evidenceBoundary = "source-stub-plus-live-clab-script";

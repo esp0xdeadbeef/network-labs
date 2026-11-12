@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-800-HDS-030-SDS-020-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-record-checks.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-010.md";
   titleSlug = "pppoe-customer-side-record-checks";
   source = {
     kind = "network-labs-hat-source-fixture";

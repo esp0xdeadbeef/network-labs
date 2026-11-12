@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-940-HDS-010-SDS-020-SMS-030";
   parentSds = ../../SDS/FS-940-HDS-010-SDS-020;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-030-source-eligibility-matrix.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-030.md";
   titleSlug = "source-eligibility-matrix";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -5,7 +5,7 @@
     "FS-740-HDS-030-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-740-HDS-030-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-740-HDS-030-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-740-HDS-030-SDS-010-SMS-010-printer-payload-admin-surfaces.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-740-HDS-030-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-630-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-630-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-630-HDS-010-SDS-010-SMS-030-printer-administration-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-630-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "printer-administration-boundary";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

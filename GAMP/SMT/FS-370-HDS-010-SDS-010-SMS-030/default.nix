@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-030-host-only-source-prefix-denial.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "host-only-source-prefix-denial";
   evidenceBoundary = "construction-only";
   source = {

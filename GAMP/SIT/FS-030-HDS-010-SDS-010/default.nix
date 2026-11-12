@@ -5,28 +5,28 @@
     "FS-030-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-040;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-040/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040-cpm-binder-source-audit.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040.md";
       role = "cpm-binder-source-audit-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010-intent-authority-boundary.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010.md";
       role = "intent-authority-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-020-realization-binder-authority.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-020.md";
       role = "realization-binder-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compiler-behavior-source-audit.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030.md";
       role = "compiler-source-audit-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };

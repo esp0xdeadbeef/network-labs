@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-660-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-030-access-space-resolver-discovery.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "access-space-resolver-discovery";
   source = {
     kind = "canonical-sms-source-stub";

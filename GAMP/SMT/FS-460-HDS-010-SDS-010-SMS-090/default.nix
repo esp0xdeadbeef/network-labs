@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-460-HDS-010-SDS-010-SMS-090";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-090-nebula-policy-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-090.md";
   titleSlug = "nebula-policy-boundary";
   source = {
     kind = "canonical-sms-source-stub";

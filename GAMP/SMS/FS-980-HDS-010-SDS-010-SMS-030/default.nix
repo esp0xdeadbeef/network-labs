@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-980-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-980-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-030-output-hygiene-diagnostics.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "output-hygiene-diagnostics";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

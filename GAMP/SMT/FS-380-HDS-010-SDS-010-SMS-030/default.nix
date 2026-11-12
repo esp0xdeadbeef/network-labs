@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-380-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-010-SDS-010-SMS-030-routed-public-ipv4-selection.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "routed-public-ipv4-selection";
   source = {
     kind = "canonical-sms-source-stub";

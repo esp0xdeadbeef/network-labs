@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-970-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-030-static-reservation-duplicate-service-target-rejection.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "static-reservation-duplicate-service-target-rejection";
   source = {
     kind = "canonical-sms-source-stub";

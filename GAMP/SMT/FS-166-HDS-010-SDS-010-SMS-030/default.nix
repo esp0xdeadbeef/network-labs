@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-166-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030-controlled-evidence-scope.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030.md";
   evidenceBoundary = "construction-only";
   source = null;
   status = "OK";

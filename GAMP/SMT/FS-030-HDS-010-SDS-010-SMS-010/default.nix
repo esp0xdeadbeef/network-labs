@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-030-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010-intent-authority-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "intent-authority-boundary";
   source = {
     kind = "intent-source";

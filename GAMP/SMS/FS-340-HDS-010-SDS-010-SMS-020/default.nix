@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-340-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-340-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-020-ipv6-hex-offset-parsing.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "ipv6-hex-offset-parsing";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

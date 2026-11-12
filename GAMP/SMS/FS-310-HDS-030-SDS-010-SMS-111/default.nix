@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-310-HDS-030-SDS-010-SMS-111";
   parentSds = ../../SDS/FS-310-HDS-030-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111-nixos-fail-closed-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111.md";
   titleSlug = "nixos-fail-closed-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

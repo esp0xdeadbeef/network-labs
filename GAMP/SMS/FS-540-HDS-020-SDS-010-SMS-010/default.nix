@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-540-HDS-020-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-540-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-020-SDS-010-SMS-010-clab-recursive-dns-requester-fixture.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "clab-recursive-dns-requester-fixture";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

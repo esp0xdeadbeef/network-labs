@@ -5,7 +5,7 @@
     "FS-040-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-040-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-010-public-inventory-boundary.md";
+      canonicalSms = "network-codex-agent/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-010.md";
       role = "active-lab-smt-input";
       evidenceBoundary = "construction-plus-live-active-lab-artifact";
     };

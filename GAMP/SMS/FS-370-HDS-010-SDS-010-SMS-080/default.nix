@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-370-HDS-010-SDS-010-SMS-080";
   parentSds = ../../SDS/FS-370-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080-upstream-selector-default-route.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080.md";
   titleSlug = "upstream-selector-default-route";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

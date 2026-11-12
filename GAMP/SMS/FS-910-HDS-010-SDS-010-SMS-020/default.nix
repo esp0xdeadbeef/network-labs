@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-910-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-910-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-020-operational-retention-access-redaction.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "operational-retention-access-redaction";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

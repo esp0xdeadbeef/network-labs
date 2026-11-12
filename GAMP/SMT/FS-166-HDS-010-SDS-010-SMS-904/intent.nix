@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-904";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-904-containerlab-replacement.md";
+    canonicalSms = "network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-904.md";
     titleSlug = "containerlab-replacement";
     evidenceBoundary = "source-stub-only";
     runnable = false;

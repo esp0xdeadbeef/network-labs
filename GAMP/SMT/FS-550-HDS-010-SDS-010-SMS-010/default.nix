@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-550-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-010-dns-leak-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "dns-leak-prevention";
   source = {
     kind = "canonical-sms-source-stub";

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-920-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-920-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030-failure-response-authority-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "failure-response-authority-boundary";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

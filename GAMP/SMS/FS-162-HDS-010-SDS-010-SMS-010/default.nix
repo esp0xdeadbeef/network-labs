@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-162-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-162-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-010-SMS-010-openconfig-instance-document-emission.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "openconfig-instance-document-emission";
   purpose = "Canonical-bundle to RFC 7951 OpenConfig instance construction proof.";
   evidenceBoundary = "construction-only";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-267-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010-virtual-adapter-host-facing-exclusion.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "virtual-adapter-host-facing-exclusion";
   source = {
     kind = "canonical-sms-source-stub";

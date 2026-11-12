@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-267-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-267-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010-virtual-adapter-host-facing-exclusion.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "virtual-adapter-host-facing-exclusion";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

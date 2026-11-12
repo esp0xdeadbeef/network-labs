@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-240-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-240-HDS-010-SDS-010-SMS-030-management-recovery-mode-binding.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-240-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "management-recovery-mode-binding";
   source = {
     kind = "canonical-sms-source-stub";

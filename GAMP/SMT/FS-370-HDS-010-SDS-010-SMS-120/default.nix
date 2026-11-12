@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-120";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-120-nixos-per-lane-return-path-routing.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-120.md";
   miniSmtId = "FS-370-HDS-010-SDS-010-SMS-120";
   titleSlug = "nixos-per-lane-return-path-routing";
   evidenceBoundary = "split";

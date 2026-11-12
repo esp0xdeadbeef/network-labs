@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-610-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-020-discovery-boundary-decision-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "discovery-boundary-decision-separation";
   source = {
     kind = "canonical-sms-source-stub";

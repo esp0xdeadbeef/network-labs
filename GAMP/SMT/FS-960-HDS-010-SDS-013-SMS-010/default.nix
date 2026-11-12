@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-013-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-013-SMS-010-marker-wait-ordering.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-013-SMS-010.md";
   titleSlug = "marker-wait-ordering";
   source = {
     kind = "canonical-sms-source-stub";

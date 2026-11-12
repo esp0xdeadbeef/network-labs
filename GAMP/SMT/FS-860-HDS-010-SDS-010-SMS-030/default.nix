@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-860-HDS-010-SDS-010-SMS-030";
   evidenceBoundary = "active-lab-mini-smt-runtime-artifact";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030-scoped-storage-binding-emission.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "scoped-storage-binding-emission";
   source = {
     kind = "intent-source";

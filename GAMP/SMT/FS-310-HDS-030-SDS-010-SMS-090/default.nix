@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-310-HDS-030-SDS-010-SMS-090";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090-renderer-check-bypass-prevention.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090.md";
   titleSlug = "renderer-check-bypass-prevention";
   source = {
     kind = "canonical-sms-source-stub";

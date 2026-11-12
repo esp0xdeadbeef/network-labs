@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-820-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-020-secret-source-class-portability.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "secret-source-class-portability";
   source = {
     kind = "canonical-sms-source-stub";

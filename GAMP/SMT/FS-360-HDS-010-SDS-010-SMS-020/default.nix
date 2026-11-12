@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-360-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020-public-prefix-return-route-precondition.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "public-prefix-return-route-precondition";
   evidenceBoundary = "construction-only";
   source = {

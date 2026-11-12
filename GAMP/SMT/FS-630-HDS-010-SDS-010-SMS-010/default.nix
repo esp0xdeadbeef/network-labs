@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-630-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-630-HDS-010-SDS-010-SMS-010-printer-service-class.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-630-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "printer-service-class";
   source = {
     kind = "canonical-sms-source-stub";

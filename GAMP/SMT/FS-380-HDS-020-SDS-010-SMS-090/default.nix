@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-380-HDS-020-SDS-010-SMS-090";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-090-cpm-explicit-interface-role-classification.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-090.md";
   titleSlug = "cpm-explicit-interface-role-classification";
   source = {
     kind = "canonical-sms-source-stub";

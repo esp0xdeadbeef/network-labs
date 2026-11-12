@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-010-SDS-025-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010-dhcp-bridge-provisioning.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010.md";
   titleSlug = "dhcp-bridge-provisioning";
   source = {
     kind = "canonical-sms-source-stub";

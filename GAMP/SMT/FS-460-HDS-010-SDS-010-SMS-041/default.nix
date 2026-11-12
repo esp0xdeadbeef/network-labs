@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-460-HDS-010-SDS-010-SMS-041";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-041-nebula-fail-closed-contract.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-041.md";
   titleSlug = "nebula-fail-closed-contract";
   source = {
     kind = "canonical-sms-source-stub";

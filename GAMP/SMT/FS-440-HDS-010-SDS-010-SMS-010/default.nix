@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-440-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-440-HDS-010-SDS-010-SMS-010-provider-profile-classification.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-440-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "provider-profile-classification";
   source = {
     kind = "canonical-sms-source-stub";

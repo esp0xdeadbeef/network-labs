@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-790-HDS-020-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-790-HDS-020-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "public-ingress-row-atomization";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

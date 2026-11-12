@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-880-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-020-namespace-conflict-state-predicates.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "namespace-conflict-state-predicates";
   source = {
     kind = "canonical-sms-source-stub";

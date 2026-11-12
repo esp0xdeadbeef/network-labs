@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-470-HDS-010-SDS-010-SMS-080";
   parentSds = ../../SDS/FS-470-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-080-wireguard-policy-boundary.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-080.md";
   titleSlug = "wireguard-policy-boundary";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

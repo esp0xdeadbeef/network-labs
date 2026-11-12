@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-320-HDS-030-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-320-HDS-030-SDS-010-SMS-050-per-interface-policy-table-connected-peer-routes.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-320-HDS-030-SDS-010-SMS-050.md";
   titleSlug = "per-interface-policy-table-connected-peer-routes";
   source = {
     kind = "canonical-sms-source-stub";

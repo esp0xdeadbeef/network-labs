@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-960-HDS-010-SDS-011-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-011-SMS-010-readiness-predicate-owner-map.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-011-SMS-010.md";
   titleSlug = "readiness-predicate-owner-map";
   source = {
     kind = "canonical-sms-source-stub";

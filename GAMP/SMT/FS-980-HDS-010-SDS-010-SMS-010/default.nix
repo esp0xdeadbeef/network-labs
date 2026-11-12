@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-980-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-010-repository-output-hygiene.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "repository-output-hygiene";
   source = {
     kind = "canonical-sms-source-stub";

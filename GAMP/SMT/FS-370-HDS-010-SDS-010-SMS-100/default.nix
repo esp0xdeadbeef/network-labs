@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-100";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-100-upstream-selector-shared-iface-ip-rule-priority.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-100.md";
   titleSlug = "upstream-selector-shared-iface-ip-rule-priority";
   evidenceBoundary = "construction-only";
   source = {

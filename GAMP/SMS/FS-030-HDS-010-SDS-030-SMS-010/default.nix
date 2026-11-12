@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-030-HDS-010-SDS-030-SMS-010";
   parentSds = ../../SDS/FS-030-HDS-010-SDS-030;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-030-SMS-010-overlay-underlay-separation.md";
+  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-030-SMS-010.md";
   titleSlug = "overlay-underlay-separation";
   purpose = "Overlay-underlay separation row-local mini-SMT input.";
   evidenceBoundary = "row-local-mini-smt";
