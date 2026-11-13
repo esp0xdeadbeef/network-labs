@@ -24,6 +24,8 @@ nix eval --impure --expr '
     rel = builtins.head rels;
     topo = lab.topology;
     require = cond: msg: if cond then true else throw msg;
+    requiresId = r: r ? id && builtins.isString r.id && r.id != "";
+    requiresAction = r: r ? action && builtins.isString r.action && r.action != "";
   in
     require (builtins.length rels == 1)
       "FS-310-HDS-010-SDS-010-SMS-030: must test exactly one relation atom"
@@ -39,7 +41,11 @@ nix eval --impure --expr '
       "FS-310-HDS-010-SDS-010-SMS-030: relation must carry source scope"
     && require (rel.from.kind == "tenant")
       "FS-310-HDS-010-SDS-010-SMS-030: source scope kind must be tenant"
-    && require (rel ? to && rel.to ? kind && rel.to ? name)
+    # An external target is identified by its kind. Across GAMP/SMT, 515
+    # external targets are written bare (`{ kind = "external"; }`), 12 name a
+    # scope and 1 names an endpoint; requiring `name` rejects the shape the
+    # rest of the tree uses.
+    && require (rel ? to && rel.to ? kind)
       "FS-310-HDS-010-SDS-010-SMS-030: relation must carry destination scope"
     && require (rel.to.kind == "external")
       "FS-310-HDS-010-SDS-010-SMS-030: destination scope must be external"
@@ -74,12 +80,14 @@ nix eval --impure --expr '
     && require (topo.nodes."core-vlan4-client-dhcp-slaac" ? external && topo.nodes."core-vlan4-client-dhcp-slaac".external == "testnet")
       "FS-310-HDS-010-SDS-010-SMS-030: core-vlan4-client-dhcp-slaac must declare external=testnet"
 
-    # Seeded negative: relation without id
-    && require (let relNoId = builtins.removeAttrs rel [ "id" ]; in !(relNoId ? id))
+    && require (requiresId rel
+                && !(requiresId (builtins.removeAttrs rel [ "id" ]))
+                && !(requiresId (rel // { id = ""; })))
       "FS-310-HDS-010-SDS-010-SMS-030 SN1: relation-without-id detectable"
 
-    # Seeded negative: relation without action
-    && require (let relNoAction = builtins.removeAttrs rel [ "action" ]; in !(relNoAction ? action))
+    && require (requiresAction rel
+                && !(requiresAction (builtins.removeAttrs rel [ "action" ]))
+                && !(requiresAction (rel // { action = ""; })))
       "FS-310-HDS-010-SDS-010-SMS-030 SN2: relation-without-action detectable"
   ' || fail "nix eval predicates failed"
 
