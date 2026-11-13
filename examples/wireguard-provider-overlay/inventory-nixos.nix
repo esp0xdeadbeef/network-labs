@@ -161,6 +161,37 @@
   realization = {
     nodes = {
       esp0xdeadbeef-site-a-s-router-access-admin = {
+        # FS-800-HDS-030-SDS-020-SMS-030 consumes IAID and the PD request
+        # identity and publishes one active generation identity plus an opaque
+        # prefix handle. A PPPoE customer-side handoff with DHCPv6-PD is the
+        # modeled shape for that; the credentials are file references, never
+        # values.
+        services = {
+          pppoe = {
+            client = {
+              interface = "wan";
+              runtimeInterface = "ppp0";
+              defaultRoute = true;
+              usePeerDns = false;
+              mtu = 1492;
+              credentials = {
+                usernameFile = "/run/secrets/pppoe-username";
+                passwordFile = "/run/secrets/pppoe-password";
+              };
+              ipv6 = {
+                mode = "dhcpv6-pd";
+                defaultRoute = true;
+                iaid = 1;
+                prefixDelegationRequestId = 1;
+                duidMode = "persistent";
+                resolverMode = "disabled";
+                ipv4Mode = "disabled";
+                routerSolicitation = false;
+                fallbackPolicy = "none";
+              };
+            };
+          };
+        };
         advertisements = {
           dhcp4 = {
             tenant-admin = {
@@ -492,6 +523,34 @@
         };
       };
       esp0xdeadbeef-site-a-s-router-upstream-selector = {
+        # A PPPoE server target must explicitly disable DHCP4 and IPv6 RA/SLAAC
+        # fallback before renderer handoff.
+        advertisements = {
+          dhcp4 = {
+            tenant-admin = { enabled = false; };
+          };
+          ipv6Ra = {
+            tenant-admin = { enabled = false; };
+          };
+        };
+        # PPPoE server side of the DHCPv6-PD handoff modeled on the admin access
+        # node; the protocol requires exactly one client and one server.
+        services = {
+          pppoe = {
+            server = {
+              interface = "wan";
+              implementation = "rp-pppoe";
+              providerAddress = "100.64.0.1";
+              customerAddress = "100.64.0.2";
+              maxSessions = 1;
+              mtu = 1492;
+              credentials = {
+                usernameFile = "/run/secrets/pppoe-username";
+                passwordFile = "/run/secrets/pppoe-password";
+              };
+            };
+          };
+        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
