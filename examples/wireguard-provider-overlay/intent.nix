@@ -1,0 +1,373 @@
+{
+  esp0xdeadbeef = {
+    site-a = {
+      communicationContract = {
+        interfaceTags = {
+          external-nebula = "nebula";
+          external-wan = "wan";
+          service-dns-site = "dns-site";
+          tenant-admin = "admin";
+          tenant-client = "client";
+          tenant-mgmt = "mgmt";
+        };
+        relations = [
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "admin";
+            };
+            id = "allow-admin-to-mgmt-dns";
+            returnBehavior = "one-way";
+            priority = 100;
+            to = {
+              kind = "service";
+              name = "dns-site";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "deny-client-to-mgmt-dns";
+            priority = 90;
+            to = {
+              kind = "service";
+              name = "dns-site";
+            };
+            trafficType = "dns";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "allow-client-to-wan-any";
+            returnBehavior = "one-way";
+            priority = 200;
+            to = {
+              kind = "external";
+            };
+            trafficType = "any";
+          }
+          {
+            action = "deny";
+            from = {
+              kind = "tenant";
+              name = "client";
+            };
+            id = "deny-client-to-mgmt";
+            priority = 150;
+            to = {
+              kind = "tenant";
+              name = "mgmt";
+            };
+            trafficType = "any";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "admin";
+            };
+            id = "allow-admin-to-nebula-ssh";
+            returnBehavior = "one-way";
+            priority = 210;
+            to = {
+              kind = "external";
+              name = "nebula";
+            };
+            trafficType = "ssh";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "nebula";
+            };
+            id = "allow-nebula-underlay-to-wan";
+            returnBehavior = "one-way";
+            priority = 220;
+            to = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
+            trafficType = "nebula";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "tenant";
+              name = "admin";
+            };
+            id = "allow-admin-to-wg-egress";
+            returnBehavior = "one-way";
+            priority = 230;
+            to = {
+              kind = "external";
+              name = "wg-egress";
+            };
+            trafficType = "wireguard";
+          }
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              name = "wg-egress";
+            };
+            id = "allow-wg-egress-to-wan";
+            returnBehavior = "symmetric";
+            priority = 231;
+            to = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
+            trafficType = "wireguard";
+          }
+        ];
+        services = [
+          {
+            name = "dns-site";
+            providers = [ "site-dns" ];
+            trafficType = "dns";
+          }
+        ];
+        trafficTypes = [
+          {
+            match = [
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "udp";
+              }
+              {
+                dports = [ 53 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "dns";
+          }
+          {
+            match = [
+              {
+                dports = [ 22 ];
+                family = "any";
+                proto = "tcp";
+              }
+            ];
+            name = "ssh";
+          }
+          {
+            match = [
+              {
+                dports = [ 4242 ];
+                family = "any";
+                proto = "tcp";
+              }
+              {
+                dports = [ 4242 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "nebula";
+          }
+          {
+            match = [
+              {
+                dports = [ 51820 ];
+                family = "any";
+                proto = "udp";
+              }
+            ];
+            name = "wireguard";
+          }
+        ];
+      };
+      ownership = {
+        endpoints = [
+          {
+            kind = "host";
+            name = "site-dns";
+            tenant = "mgmt";
+          }
+        ];
+        prefixes = [
+          {
+            ipv4 = "10.20.10.0/24";
+            ipv6 = "fd42:dead:beef:10::/64";
+            kind = "tenant";
+            name = "mgmt";
+            dnsDomain = "lan.";
+          }
+          {
+            ipv4 = "10.20.15.0/24";
+            ipv6 = "fd42:dead:beef:15::/64";
+            kind = "tenant";
+            name = "admin";
+            dnsDomain = "lan.";
+          }
+          {
+            ipv4 = "10.20.20.0/24";
+            ipv6 = "fd42:dead:beef:20::/64";
+            kind = "tenant";
+            name = "client";
+            dnsDomain = "lan.";
+          }
+        ];
+      };
+      pools = {
+        overlay = {
+          ipv4 = {
+            offsetStart = 10;
+            perNodePrefixLength = 32;
+            prefix = "100.96.10.0/24";
+          };
+          ipv6 = {
+            offsetStart = 10;
+            perNodePrefixLength = 128;
+            prefix = "fd42:dead:beef:ee::/64";
+          };
+        };
+        loopback = {
+          ipv4 = "10.19.0.0/24";
+          ipv6 = "fd42:dead:beef:1900::/118";
+        };
+        p2p = {
+          ipv4 = "10.10.0.0/24";
+          ipv6 = "fd42:dead:beef:1000::/118";
+        };
+      };
+      topology = {
+        links = [
+          [
+            "s-router-core-wan"
+            "s-router-upstream-selector"
+          ]
+          [
+            "s-router-core-nebula"
+            "s-router-upstream-selector"
+          ]
+          [
+            "s-router-upstream-selector"
+            "s-router-policy"
+          ]
+          [
+            "s-router-policy"
+            "s-router-downstream-selector"
+          ]
+          [
+            "s-router-downstream-selector"
+            "s-router-access-client"
+          ]
+          [
+            "s-router-downstream-selector"
+            "s-router-access-admin"
+          ]
+          [
+            "s-router-downstream-selector"
+            "s-router-access-mgmt"
+          ]
+        ];
+        nodes = {
+          s-router-access-admin = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "admin";
+              }
+            ];
+            role = "access";
+          };
+          s-router-access-client = {
+            selects = [
+              "wan"
+            ];
+
+            attachments = [
+              {
+                kind = "tenant";
+                name = "client";
+              }
+            ];
+            role = "access";
+          };
+          s-router-access-mgmt = {
+            attachments = [
+              {
+                kind = "tenant";
+                name = "mgmt";
+              }
+            ];
+            role = "access";
+          };
+          s-router-core-nebula = {
+            role = "core";
+            uplinks = {
+              nebula = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+          s-router-core-wan = {
+            role = "core";
+            uplinks = {
+              wan = {
+                ipv4 = [ "0.0.0.0/0" ];
+                ipv6 = [ "::/0" ];
+              };
+            };
+          };
+          s-router-downstream-selector = {
+            role = "downstream-selector";
+          };
+          s-router-policy = {
+            role = "policy";
+          };
+          s-router-upstream-selector = {
+            role = "upstream-selector";
+          };
+        };
+      };
+      transport = {
+        overlays = [
+          {
+            ingressSubject = {
+              kind = "tenant";
+              name = "admin";
+            };
+            mustTraverse = [ "policy" ];
+            name = "nebula";
+            terminateOn = "s-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+          }
+          # WireGuard provider overlay reached from the same tenants. The
+          # provider contract lives in the inventory; the intent only names the
+          # overlay, who may ingress it, and where it terminates.
+          {
+            ingressSubject = {
+              kind = "tenant";
+              name = "admin";
+            };
+            mustTraverse = [ "policy" ];
+            name = "wg-egress";
+            terminateOn = "s-router-core-nebula";
+            underlayAccess = {
+              kind = "tenant";
+              name = "client";
+            };
+          }
+        ];
+      };
+    };
+  };
+}
