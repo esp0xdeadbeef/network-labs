@@ -31,6 +31,45 @@
             };
             trafficType = "dns";
           }
+          # Public ingress to the site resolver. FS-790 validates each emitted
+          # public-ingress row for public surface, allowed source scope and
+          # exposure identity, so the example has to model one.
+          {
+            action = "allow";
+            from = {
+              kind = "external";
+              scope = "s-router-core-wan";
+            };
+            id = "allow-wan-to-site-dns";
+            priority = 10;
+            publicIngressTupleAuthority = {
+              sourceScope = "internet";
+              publicSurface = "wan";
+              targetService = "site-dns";
+              targetEndpoint = "s-sigma";
+              targetPort = 53;
+              returnBehavior = "stateful-return";
+              sourcePreservation = "rewritten";
+              translationMode = "napt";
+              hairpin = "not-modeled";
+              asymmetricRouting = "not-allowed";
+              tuples = [
+                {
+                  protocol = "udp";
+                  publicPort = 53;
+                }
+                {
+                  protocol = "tcp";
+                  publicPort = 53;
+                }
+              ];
+            };
+            to = {
+              kind = "service";
+              name = "site-dns";
+            };
+            trafficType = "dns";
+          }
           {
             action = "allow";
             from = {
