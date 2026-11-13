@@ -103,7 +103,20 @@
             };
           };
         };
-        services.dns = { };
+        services.dns = {
+          # FS-560-HDS-010-SDS-020-SMS-020 requires more-specific local/forward
+          # zones to precede the terminal local refusal. A forward zone names the
+          # relation that authorizes it and the authority it forwards to, so the
+          # zone is never emitted without a modeled source.
+          localForwardZones = [
+            {
+              name = "dmz.lan.";
+              relationId = "allow-tenants-to-site-dns";
+              forwardTo = [ "10.20.10.10" ];
+              forwardFirst = false;
+            }
+          ];
+        };
         host = "lab-host";
         logicalNode = {
           enterprise = "esp0xdeadbeef";
