@@ -13,8 +13,14 @@
               };
               nebula = {
                 lighthouse = {
+                  addr4 = "100.96.10.1/24";
+                  addr6 = "fd42:dead:beef:ee::1/64";
                   endpoint = "198.51.100.20";
                   endpoint6 = "2001:db8:200::20";
+                  # FS-460-HDS-010-SDS-010-SMS-070 requires a target-only secret
+                  # path to be a reference the trace can name, not a carried
+                  # value.
+                  endpointSourceFile = "/run/secrets/nebula-lighthouse-endpoint4";
                   node = "s-router-core-nebula";
                   port = 4242;
                 };
