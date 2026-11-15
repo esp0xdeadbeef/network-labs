@@ -104,7 +104,34 @@ for substrate in nixos clab; do
       | [$targets[] | select(.role == "policy")
           | .forwardingIntent.rules[]] as $policyRules
       | ([$targets | to_entries[]] | length) == 6
-      and ([$selectorRules[] | select(.relationId == $relation)] | length) == 0
+      # The selector must not decide the relation: every accept carrying the
+      # relation id is either a policy-point handoff or the FS-540-SMS-020
+      # requester-lane companion on the requester policy interface. No rule
+      # may carry it from the access source straight to the destination access.
+      and ([$selectorRules[] | select(.relationId == $relation)] | length) == 5
+      and ([$selectorRules[]
+        | select(.relationId == $relation and .action != "accept")]
+        | length) == 0
+      and ([$selectorRules[]
+        | select(
+            .relationId == $relation
+            and .direction == "relation-forward-requester-lane"
+            and .fromInterface == "access-source"
+            and .toInterface == "policy-source"
+          )] | length) == 1
+      and ([$selectorRules[]
+        | select(
+            .relationId == $relation
+            and .direction == "relation-reverse-requester-lane"
+            and .fromInterface == "policy-source"
+            and .toInterface == "access-source"
+          )] | length) == 1
+      and ([$selectorRules[]
+        | select(
+            .relationId == $relation
+            and .fromInterface == "access-source"
+            and .toInterface == "dst-access"
+          )] | length) == 0
       and ([$selectorRules[]
         | select(
             .relationId == "selector-handoff-forward--access-source--access-to-selector-to-selector-to-policy--fabric"
