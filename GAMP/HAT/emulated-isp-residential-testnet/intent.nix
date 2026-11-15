@@ -2333,6 +2333,15 @@ in
             uplinks.isp-a = {
               ipv4 = [ "0.0.0.0/0" ];
               ipv6 = [ "::/0" ];
+              # NAT is an explicit requirement, not a default (FS-420): this
+              # residential-style public egress translates.
+              egress = {
+                ipv4 = {
+                  translation = {
+                    mode = "nat44";
+                  };
+                };
+              };
             };
           };
           clab-core-bgp-uplink-isp-b = {
