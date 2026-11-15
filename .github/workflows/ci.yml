@@ -57,12 +57,14 @@ jobs:
 
       - uses: DeterminateSystems/determinate-nix-action@v3
 
-      # The suites shell out to rg/sops/yq, which the runner image does not ship.
+      # The suites shell out to rg/sops/yq/age, which the runner image does not
+      # ship. age-keygen is required by the SOPS routing fixtures.
       - name: "Install test dependencies"
         shell: bash
         run: |
           set -euo pipefail
           nix profile install --accept-flake-config \
+            nixpkgs#age \
             nixpkgs#ripgrep \
             nixpkgs#sops \
             nixpkgs#yq
