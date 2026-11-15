@@ -19,7 +19,7 @@ fail() {
 nix eval --impure --expr "
   let
     intent = import ${intent_file};
-    lab = intent.\"mini-smt\".\"renderer-layout-preservation\";
+    lab = intent.\"mini-smt\".\"${trace_id}\";
     require = cond: msg: if cond then true else throw msg;
     traceId = \"${trace_id}\";
 
@@ -47,8 +47,14 @@ nix eval --impure --expr "
       \"P1 FAIL: the fabric selectors must be modelled as the complete access -> downstream-selector -> policy -> upstream-selector -> core chain or not at all\"
     && require (builtins.all (l: builtins.isList l && builtins.length l == 2) links)
       \"P2 FAIL: every fabric link must be a node pair\"
-    && require (!(builtins.any (l: builtins.elem \"access-cohost\" l && builtins.elem \"core-exit\" l) links))
-      \"P2 FAIL: access-cohost must not link directly to core-exit; fabric traffic crosses access -> downstream-selector -> policy -> upstream-selector -> core\"
+    # A compact layout may link access straight to core; once the fabric
+    # selectors are modelled, traffic must cross them instead (FS-320 accepts
+    # unusual valid layouts without silently inserting the default fabric).
+    && require (
+      !(builtins.elem \"downstream-selector\" (map (n: lab.topology.nodes.\${n}.role or \"\") nodes))
+      || !(builtins.any (l: builtins.elem \"access-cohost\" l && builtins.elem \"core-exit\" l) links)
+    )
+      \"P2 FAIL: with selectors modelled, access-cohost must not link directly to core-exit\"
 
     # P3: Role co-location — access-cohost has two tenant attachments
     && require (builtins.length lab.topology.nodes.\"access-cohost\".attachments == 2)

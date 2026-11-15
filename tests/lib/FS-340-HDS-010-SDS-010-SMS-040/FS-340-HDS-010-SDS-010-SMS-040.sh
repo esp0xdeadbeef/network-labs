@@ -23,6 +23,9 @@ nix eval --impure --expr "
     nodes = builtins.attrNames lab.topology.nodes;
     links = lab.topology.links;
     relations = lab.communicationContract.relations;
+    # FS-322 moved reachability to scope selects: the access node names the
+    # external scope it reaches and the core carries the uplink for it.
+    scope = builtins.head lab.topology.nodes.\"client-edge\".selects;
   in
     require (builtins.length nodes == 5)
       \"P1 FAIL: expected 5 nodes, got \${toString (builtins.length nodes)}\"
@@ -57,13 +60,13 @@ nix eval --impure --expr "
       \"P4 FAIL: upstream-selector role mismatch\"
     && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\" ? uplinks)
       \"P5 FAIL: core-vlan4-client-dhcp-slaac missing uplinks\"
-    && require (lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks ? testnet)
-      \"P5 FAIL: core-vlan4-client-dhcp-slaac missing testnet uplink\"
+    && require (builtins.hasAttr scope lab.topology.nodes.\"core-vlan4-client-dhcp-slaac\".uplinks)
+      \"P5 FAIL: core-vlan4-client-dhcp-slaac missing the selected scope uplink\"
     && require (builtins.length relations == 1)
       \"P6 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"${trace_id}__mini-verify\")
       \"P6 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.kind == \"external\" && builtins.elem \"testnet\" r.to.uplinks) relations)
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.kind == \"external\" && !(r.to ? uplinks)) relations)
       \"P7 FAIL: client-to-testnet allow relation missing\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P8 FAIL: expected 1 ownership prefix\"

@@ -3,12 +3,13 @@
     FS-320-HDS-010-SDS-010-SMS-010 = {
       communicationContract = {
         interfaceTags = {
-          external-internet-vlan4 = "internet-vlan4";
           tenant-client = "client";
+          tenant-mgmt = "mgmt";
+          external-testnet = "testnet";
         };
         relations = [
           {
-            id = "FS-320-HDS-010-SDS-010-SMS-010__mini-verify";
+            id = "FS-320-HDS-010-SDS-010-SMS-010__mini-verify-allow";
             action = "allow";
             from = {
               kind = "tenant";
@@ -19,6 +20,19 @@
             };
             trafficType = "any";
             priority = 100;
+          }
+          {
+            id = "FS-320-HDS-010-SDS-010-SMS-010__mini-mgmt-deny-internet";
+            action = "deny";
+            from = {
+              kind = "tenant";
+              name = "mgmt";
+            };
+            to = {
+              kind = "external";
+            };
+            trafficType = "any";
+            priority = 90;
           }
         ];
         services = [ ];
@@ -39,70 +53,56 @@
           {
             kind = "tenant";
             name = "client";
-            ipv4 = "10.1.64.0/24";
-            ipv6 = "fd42:0140:50::/64";
+            ipv4 = "10.50.10.0/24";
+            ipv6 = "fd42:mini:320:10::/64";
+          }
+          {
+            kind = "tenant";
+            name = "mgmt";
+            ipv4 = "10.50.20.0/24";
+            ipv6 = "fd42:mini:320:20::/64";
           }
         ];
       };
       pools = {
         loopback = {
-          ipv4 = "10.1.0.0/24";
-          ipv6 = "fd42:0140:ff::/118";
+          ipv4 = "10.50.0.0/24";
+          ipv6 = "fd42:mini:320:ff::/118";
         };
         p2p = {
-          ipv4 = "10.1.255.0/24";
-          ipv6 = "fd42:0140:fe::/118";
+          ipv4 = "10.0.0.0/30";
+          ipv6 = "fd42:mini:320:fe::/126";
         };
       };
       topology = {
         links = [
           [
-            "client-edge"
-            "downstream-selector"
-          ]
-          [
-            "downstream-selector"
-            "policy"
-          ]
-          [
-            "policy"
-            "upstream-selector"
-          ]
-          [
-            "upstream-selector"
-            "core-vlan4-client-dhcp-slaac"
+            "access-cohost"
+            "core-exit"
           ]
         ];
         nodes = {
-          client-edge = {
-            selects = [
-              "internet-vlan4"
-            ];
-
+          access-cohost = {
             role = "access";
+            selects = [ "testnet" ];
             attachments = [
               {
                 kind = "tenant";
                 name = "client";
               }
+              {
+                kind = "tenant";
+                name = "mgmt";
+              }
             ];
           };
-          downstream-selector = {
-            role = "downstream-selector";
-          };
-          policy = {
-            role = "policy";
-          };
-          upstream-selector = {
-            role = "upstream-selector";
-          };
-          core-vlan4-client-dhcp-slaac = {
+          core-exit = {
             role = "core";
-            external = "internet-vlan4";
+            external = "testnet";
             uplinks = {
-              internet-vlan4 = {
-                ipv4 = [ "0.0.0.0/0" ];
-                ipv6 = [ "::/0" ];
+              testnet = {
+                ipv4 = [ "10.20.0.0/24" ];
+                ipv6 = [ "fd42:mini:320:20::/64" ];
               };
             };
           };

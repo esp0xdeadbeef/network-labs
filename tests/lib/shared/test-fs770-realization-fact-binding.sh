@@ -2,7 +2,10 @@
 # GAMP-IDS: FS-770-HDS-010-SDS-020-SMS-020, FS-770-HDS-010-SDS-020-SMS-030
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve through a symlink: a shared case is reached from a sibling
+# repository, and the symlink target owns the GAMP fixtures.
+qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
 hat_dir="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet"
 # SMS-020 CMC: cpm_flake removed — downstream entrypoint reference.
 # CPM compile-and-build invocations and jq validation of CPM output

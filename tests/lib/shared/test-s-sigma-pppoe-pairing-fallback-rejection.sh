@@ -4,7 +4,10 @@
 # GAMP-SCOPE: software-integration-test
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve through a symlink: a shared case is reached from a sibling
+# repository, and the symlink target owns the GAMP fixtures.
+qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
 current_lab_status_before="$(git -C "${repo_root}" status --porcelain=v1 -- current-lab)"
 current_lab_diff_before="$(git -C "${repo_root}" diff -- current-lab)"
 

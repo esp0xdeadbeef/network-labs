@@ -64,18 +64,20 @@ nix eval --impure --expr "
       \"P5 FAIL: pppoe-core must be role=core\"
     && require (lab.topology.nodes.\"pppoe-core\" ? uplinks)
       \"P5 FAIL: pppoe-core missing uplinks required by current compiler/NFM\"
-    && require (lab.topology.nodes.\"pppoe-core\".uplinks ? pppoe-provider)
+    && require (lab.topology.nodes.\"pppoe-core\".uplinks ? \"pppoe-provider\")
       \"P5 FAIL: pppoe-core missing pppoe-provider uplink\"
-    && require (lab.topology.nodes.\"pppoe-core\".uplinks.pppoe-provider.ipv4 == [ \"0.0.0.0/0\" ])
+    && require (lab.topology.nodes.\"pppoe-core\".uplinks.\"pppoe-provider\".ipv4 == [ \"0.0.0.0/0\" ])
       \"P5 FAIL: pppoe-core pppoe-provider uplink missing IPv4 default\"
-    && require (lab.topology.nodes.\"pppoe-core\".uplinks.pppoe-provider.ipv6 == [ \"::/0\" ])
+    && require (lab.topology.nodes.\"pppoe-core\".uplinks.\"pppoe-provider\".ipv6 == [ \"::/0\" ])
       \"P5 FAIL: pppoe-core pppoe-provider uplink missing IPv6 default\"
     && require (builtins.length relations == 1)
       \"P6 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require ((builtins.head relations).id == \"\${trace}__mini-provider-handoff-to-internet\")
       \"P6 FAIL: relation ID mismatch\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"provider-handoff-a\" && r.to.uplinks == [ \"isp\" ]) relations)
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"provider-handoff-a\" && r.to.kind == \"external\" && !(r.to ? uplinks) && r.returnBehavior == \"stateful-return\") relations)
       \"P7 FAIL: provider-handoff-to-isp allow relation missing\"
+    && require (lab.topology.nodes.\"pppoe-core\".external == \"pppoe-provider\")
+      \"P7 FAIL: pppoe-core must exit through the pppoe-provider scope\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P8 FAIL: expected 1 ownership prefix\"
     && require ((builtins.head lab.ownership.prefixes).ipv4 == \"203.0.113.0/24\")
