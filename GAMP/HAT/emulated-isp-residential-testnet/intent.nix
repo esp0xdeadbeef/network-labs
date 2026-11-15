@@ -1136,6 +1136,15 @@ in
               testnet-host-isp = {
                 ipv4 = [ "203.0.113.4/32" ];
                 ipv6 = [ "2001:db8:113:64::/64" ];
+                # Provider-access SNAT is an explicit requirement; defaulting
+                # a translation mode is forbidden (FS-420).
+                egress = {
+                  ipv4 = {
+                    translation = {
+                      mode = "snat";
+                    };
+                  };
+                };
               };
             };
           };
@@ -1157,6 +1166,13 @@ in
               testnet-routed-isp = {
                 ipv4 = [ "203.0.113.0/30" ];
                 ipv6 = [ "2001:db8:113::/48" ];
+                egress = {
+                  ipv4 = {
+                    translation = {
+                      mode = "snat";
+                    };
+                  };
+                };
               };
             };
           };
@@ -2313,6 +2329,13 @@ in
             uplinks.testnet-host-isp = {
               ipv4 = [ "203.0.113.4/32" ];
               ipv6 = [ "2001:db8:113:64::/64" ];
+              egress = {
+                ipv4 = {
+                  translation = {
+                    mode = "snat";
+                  };
+                };
+              };
             };
           };
           clab-core-testnet-routed-isp = {
@@ -2326,6 +2349,13 @@ in
             uplinks.testnet-routed-isp = {
               ipv4 = [ "203.0.113.0/30" ];
               ipv6 = [ "2001:db8:113::/48" ];
+              egress = {
+                ipv4 = {
+                  translation = {
+                    mode = "snat";
+                  };
+                };
+              };
             };
           };
           clab-core-upstream-vlan4 = {
