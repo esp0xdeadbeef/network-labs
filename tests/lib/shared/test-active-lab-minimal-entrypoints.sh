@@ -106,11 +106,21 @@ let
   activeClabHosts = inventoryClab.deployment.hosts or { };
   activeHetzHosts = inventoryHetz.deployment.hosts or { };
   selectedSmt = manifest.tests.${current.selection.traceId} or null;
+  # The selector records the source path relative to the repository; the
+  # manifest records the row source path as an absolute store-adjacent path
+  # when the row declares one. Compare the two forms, and accept a row that
+  # declares no source path (the trace identity is then the only contract).
+  selectedSourcePathMatches =
+    let
+      manifestSourcePath = selectedSmt.source.sourcePath or null;
+    in
+      manifestSourcePath == null
+      || manifestSourcePath == (repoRoot + "/" + current.selection.sourcePath);
   selectedSmtOk =
     current.selection.layer == "SMT"
     && selectedSmt != null
     && current.selection.selector == selectedSmt.traceId
-    && current.selection.sourcePath == selectedSmt.source.sourcePath
+    && selectedSourcePathMatches
     && builtins.pathExists (repoRoot + "/tests/" + selectedSmt.traceId + ".sh");
   hatOk =
     current.selection.layer == "HAT"
