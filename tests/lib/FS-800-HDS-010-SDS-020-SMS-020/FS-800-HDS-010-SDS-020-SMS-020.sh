@@ -51,10 +51,14 @@ nix eval --impure --expr "
       \"P7 FAIL: core-vlan4 missing internet-vlan4 uplink\"
     && require (builtins.length relations == 2)
       \"P8 FAIL: expected 2 relations, got \${toString (builtins.length relations)}\"
-    && require (builtins.any (r: builtins.elem \"fake-isp\" r.to.uplinks) relations)
+    && require (builtins.any (r: r.id == \"${trace_id}__fake-isp\" && r.to.kind == \"external\" && !(r.to ? uplinks)) relations)
       \"P8 FAIL: missing fake-isp relation\"
-    && require (builtins.any (r: builtins.elem \"internet-vlan4\" r.to.uplinks) relations)
+    && require (builtins.any (r: r.id == \"${trace_id}__internet-vlan4\" && r.to.kind == \"external\" && !(r.to ? uplinks)) relations)
       \"P8 FAIL: missing internet-vlan4 relation\"
+    && require (builtins.elem \"fake-isp\" lab.topology.nodes.\"core-fake-isp\".selects)
+      \"P8 FAIL: core-fake-isp must select the fake-isp scope\"
+    && require (builtins.elem \"internet-vlan4\" lab.topology.nodes.\"core-fake-isp\".selects)
+      \"P8 FAIL: core-fake-isp must select the internet-vlan4 scope\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P9 FAIL: expected 1 ownership prefix\"
     && require (lab.pools ? loopback && lab.pools ? p2p)

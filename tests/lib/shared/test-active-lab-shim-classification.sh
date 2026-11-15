@@ -2,7 +2,10 @@
 # GAMP-SCOPE: active-lab selector inventory and source-stub classification; not HAT/SAT runtime evidence
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve through a symlink: a shared case is reached from a sibling
+# repository, and the symlink target owns the GAMP fixtures.
+qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
 canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
 
 fail() {

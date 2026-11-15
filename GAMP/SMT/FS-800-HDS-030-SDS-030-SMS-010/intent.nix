@@ -19,6 +19,7 @@
             };
             trafficType = "pppoe-session";
             priority = 100;
+            returnBehavior = "stateful-return";
           }
         ];
         services = [ ];

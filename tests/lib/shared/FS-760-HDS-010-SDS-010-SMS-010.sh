@@ -6,7 +6,10 @@
 # discovery visibility separate from payload/reverse/tenant/management/multicast.
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve through a symlink: a shared case is reached from a sibling
+# repository, and the symlink target owns the GAMP fixtures.
+qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
 intent="${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/intent.nix"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT

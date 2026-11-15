@@ -466,7 +466,16 @@ for key in "${selected[@]}"; do
     cpm_path=""
   fi
 
-  if select_current_lab "${trace_id}" >"${select_log}" 2>&1; then
+  # A construction-only row is validated from its own fixture; it does not run
+  # the substrate, so the global current-lab selection is neither required nor
+  # meaningful. Selecting there rewrote the tracked current-lab, or failed on a
+  # read-only checkout whose selection is another row.
+  if [[ "${evidence_boundary}" == "construction-only" || "${max_runtime_targets}" == "0" ]]; then
+    {
+      echo "INFO ${trace_id}: current-lab selection not applicable to construction-only row"
+    } >"${select_log}"
+    cat "${select_log}"
+  elif select_current_lab "${trace_id}" >"${select_log}" 2>&1; then
     cat "${select_log}"
   else
     cat "${select_log}" >&2

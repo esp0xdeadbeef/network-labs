@@ -3,7 +3,10 @@
 # GAMP-SCOPE: deterministic SMS test-entrypoint discovery contract
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve through a symlink: a shared case is reached from a sibling
+# repository, and the symlink target owns the GAMP fixtures.
+qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
+repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
 agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
 workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}"
 manifest="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
