@@ -1,6 +1,6 @@
 # SMS Mirror: FS-640-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-060-nfm-returnBehavior-injection-scoping.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-060-nfm-returnBehavior-injection-scoping.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

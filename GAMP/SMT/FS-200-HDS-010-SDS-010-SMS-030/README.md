@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-200-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-200-HDS-010-SDS-010-SMS-030-shared-service-denied-path-preservation.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-200-HDS-010-SDS-010-SMS-030-shared-service-denied-path-preservation.md`
 
 Status: NOT OK - source stub only.
 

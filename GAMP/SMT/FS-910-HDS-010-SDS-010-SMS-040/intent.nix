@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-910-HDS-010-SDS-010-SMS-040";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-040.md";
+    canonicalSms = "canonical-gamp/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-040.md";
     titleSlug = "s-router-prod-public-address-operational-log-redaction";
     evidenceBoundary = "source-stub-only";
     runnable = false;

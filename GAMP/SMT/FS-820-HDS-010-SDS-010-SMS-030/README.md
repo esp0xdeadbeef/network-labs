@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-820-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-030-secret-source-policy-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-030-secret-source-policy-boundary.md`
 
 Status: NOT OK - source stub only.
 

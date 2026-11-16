@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-760-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-050-receiver-multicast-flooding-denial.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-050-receiver-multicast-flooding-denial.md`
 
 Status: NOT OK - source stub only.
 

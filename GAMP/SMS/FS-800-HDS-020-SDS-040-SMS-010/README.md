@@ -1,6 +1,6 @@
 # SMS Mirror: FS-800-HDS-020-SDS-040-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010-hat-script-override-rejection.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010-hat-script-override-rejection.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

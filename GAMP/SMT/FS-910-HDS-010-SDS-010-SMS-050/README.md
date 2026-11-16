@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-910-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-050-s-router-prod-public-address-validation-log-redaction.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-050-s-router-prod-public-address-validation-log-redaction.md`
 
 Status: NOT OK - source stub only.
 

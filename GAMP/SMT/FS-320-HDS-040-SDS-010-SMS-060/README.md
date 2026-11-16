@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-320-HDS-040-SDS-010-SMS-060
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060-nixos-interface-role-classification.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060-nixos-interface-role-classification.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-040-HDS-010-SDS-010-SMS-020";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-020.md";
+    canonicalSms = "canonical-gamp/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-020.md";
     titleSlug = "physical-interface-attachment-cardinality";
     evidenceBoundary = "source-stub-only";
     runnable = false;

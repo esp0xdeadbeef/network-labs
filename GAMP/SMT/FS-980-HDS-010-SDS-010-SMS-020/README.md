@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-980-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-020-post-run-worktree-cleanliness.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-020-post-run-worktree-cleanliness.md`
 
 Status: NOT OK - source stub only.
 

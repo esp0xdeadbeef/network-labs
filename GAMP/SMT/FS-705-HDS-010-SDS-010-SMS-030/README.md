@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-705-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-030-validation-profile-posture-reuse.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-030-validation-profile-posture-reuse.md`
 
 Status: NOT OK - source stub only.
 

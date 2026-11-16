@@ -12,4 +12,4 @@ This row currently maps:
 
 SMS-010 is construction-only (compiler provenance recording) — no mini-SMT
 runtime surface required. Remaining SMS traces have independent construction tests
-in their owning repositories (network-compiler, network-codex-agent).
+in their owning repositories (network-compiler, canonical-gamp).

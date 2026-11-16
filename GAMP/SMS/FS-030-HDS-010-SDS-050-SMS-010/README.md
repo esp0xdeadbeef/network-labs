@@ -1,6 +1,6 @@
 # SMS Mirror: FS-030-HDS-010-SDS-050-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010-core-role-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010-core-role-boundary.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace and binds it to the
 row-local mini-SMT source used by `GAMP/SMT/mini-smt/tests.nix`.
@@ -17,14 +17,14 @@ The authoritative construction test is
 `network-compiler/tests/FS-030-HDS-010-SDS-050-SMS-010.sh`. The row-local
 `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` verifies the network-labs
 source binding; the live runner is
-`network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`canonical-gamp/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 Current evidence, 2026-07-04:
 
 - `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`
   in `network-compiler` at `3d2f3f3`.
 - `bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh` in
-  `network-codex-agent` at `a61f921c`.
+  `canonical-gamp` at `a61f921c`.
 - `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` in `network-labs`.
 - Direct live verifier PASS:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-050-SMS-010/20260704T055541Z`.

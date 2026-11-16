@@ -3,7 +3,7 @@
 SIT row stub for the scoped request contract chain.
 
 `FS-130-HDS-010-SDS-010-SMS-010` is construction-only: it contributes scoped
-request validation evidence from the network-codex-agent construction helper
+request validation evidence from the canonical-gamp construction helper
 and does not create router runtime targets.
 
 The current focused proof is:

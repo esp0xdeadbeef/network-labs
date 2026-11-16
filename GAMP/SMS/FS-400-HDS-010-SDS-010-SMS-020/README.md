@@ -2,7 +2,7 @@
 
 SMS template row for the `ula-nat66-selection` mini-SMT input.
 
-The authoritative SMS lives in `network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-020-ula-nat66-selection.md`.
+The authoritative SMS lives in `canonical-gamp/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-020-ula-nat66-selection.md`.
 This template row provides the network-labs source anchor for row-local mini-SMT evidence.
 
 The intent fixture models a minimal topology exercising ULA NAT66 mode selection:

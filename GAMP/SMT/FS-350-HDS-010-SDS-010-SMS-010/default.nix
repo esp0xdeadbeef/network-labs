@@ -8,7 +8,7 @@
     expectedRelationIds = null;
   };
   evidence = {
-    owningRepo = "network-forwarding-model";
+    owningRepo = "canonical-gamp";
     smtRow = "GAMP/SMT/README.md row pending";
     status = "OK";
     verifiedAt = "network-labs HEAD (2026-06-27)";

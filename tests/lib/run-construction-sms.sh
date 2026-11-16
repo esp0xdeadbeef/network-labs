@@ -23,14 +23,21 @@ if [[ -d "${local_case_root}" ]] \
 fi
 
 mapfile -t candidates < <(
-  for repository in "${workspace_root}"/network-*; do
-    [[ -d "${repository}/tests" ]] || continue
-    [[ "$(realpath "${repository}")" != "$(realpath "${repo_root}")" ]] || continue
-    candidate="${repository}/tests/${trace_id}.sh"
-    [[ -x "${candidate}" ]] || continue
-    [[ "$(readlink -f "${candidate}")" != "${helper_path}" ]] || continue
-    printf '%s\n' "${candidate}"
-  done | LC_ALL=C sort -u
+  {
+    for repository in "${workspace_root}"/network-*; do
+      [[ -d "${repository}/tests" ]] || continue
+      [[ "$(realpath "${repository}")" != "$(realpath "${repo_root}")" ]] || continue
+      candidate="${repository}/tests/${trace_id}.sh"
+      [[ -x "${candidate}" ]] || continue
+      [[ "$(readlink -f "${candidate}")" != "${helper_path}" ]] || continue
+      printf '%s\n' "${candidate}"
+    done
+    # A canonical GAMP mirror outside this workspace may own the case; it is an
+    # optional input supplied by the caller, never a repository this tree names.
+    if [[ -n "${CANONICAL_GAMP_ROOT:-}" && -x "${CANONICAL_GAMP_ROOT}/tests/${trace_id}.sh" ]]; then
+      printf '%s\n' "${CANONICAL_GAMP_ROOT}/tests/${trace_id}.sh"
+    fi
+  } | LC_ALL=C sort -u
 )
 
 ((${#candidates[@]} > 0 || run_count > 0)) || {

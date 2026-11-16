@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-330-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-330-HDS-010-SDS-010-SMS-010-stable-client-address-identity.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-330-HDS-010-SDS-010-SMS-010-stable-client-address-identity.md`
 
 Status: NOT OK - source stub only.
 

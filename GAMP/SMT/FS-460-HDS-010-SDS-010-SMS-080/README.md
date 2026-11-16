@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-460-HDS-010-SDS-010-SMS-080
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-080-nebula-output-containment.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-080-nebula-output-containment.md`
 
 Status: NOT OK - source stub only.
 

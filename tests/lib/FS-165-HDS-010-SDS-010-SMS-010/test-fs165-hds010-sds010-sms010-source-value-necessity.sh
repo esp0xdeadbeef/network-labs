@@ -5,7 +5,7 @@
 set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
-agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}"
 
 fail() { echo "FAIL FS-165-HDS-010-SDS-010-SMS-010: $*" >&2; exit 1; }
 

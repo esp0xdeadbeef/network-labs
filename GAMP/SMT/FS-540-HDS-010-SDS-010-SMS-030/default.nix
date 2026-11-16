@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-030.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "recursive-authority-separation";
   source = {
     kind = "intent-source";
@@ -23,6 +23,7 @@
   };
   status = "NOT OK";
   evidence = {
+    owningRepo = "canonical-gamp";
     observedResult = "NOT OK: the isolated dual-stack recursive and local-only source is present, but acceptance remains open until the row-specific CPM and renderer predicates and the cold-staged NixOS/CLAB protocol pass";
   };
 }

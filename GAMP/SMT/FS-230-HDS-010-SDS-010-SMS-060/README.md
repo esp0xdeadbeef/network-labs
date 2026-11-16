@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-230-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-060.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-060.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMS Mirror: FS-680-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-680-HDS-010-SDS-010-SMS-050-shared-service-denial-management.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-680-HDS-010-SDS-010-SMS-050-shared-service-denial-management.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

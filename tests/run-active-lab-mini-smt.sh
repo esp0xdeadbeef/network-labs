@@ -43,7 +43,7 @@ list_keys() {
 }
 
 list_runnable_ids() {
-  local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  local agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}"
   local trace_id
 
   while IFS= read -r trace_id || [[ -n "${trace_id}" ]]; do
@@ -96,7 +96,7 @@ resolve_key() {
 
 script_path_for_trace() {
   local trace_id="$1"
-  local agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  local agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}"
   local local_path="${repo_root}/tests/${trace_id}.sh"
   local agent_path="${agent_root}/scripts/live-${trace_id}.sh"
   local selected_path=""
@@ -394,7 +394,10 @@ if [[ "$1" == "--test-paths" ]]; then
     exit 2
   fi
   mapfile -t noncanonical_entrypoints < <(
-    find "${repo_root}/tests" "${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}/scripts" \
+    scan_dirs=("${repo_root}/tests")
+    canonical_scripts_dir="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}/scripts"
+    [[ -d "${canonical_scripts_dir}" ]] && scan_dirs+=("${canonical_scripts_dir}")
+    find "${scan_dirs[@]}" \
       -maxdepth 1 \( -type f -o -type l \) -name '*.sh' -printf '%p\n' \
       | grep -E '/smt-live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+.*\.sh$|/FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$|/live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$' \
       || true
@@ -405,7 +408,7 @@ if [[ "$1" == "--test-paths" ]]; then
     exit 2
   fi
 
-  agent_root="${NETWORK_CODEX_AGENT_ROOT:-${repo_root}/../network-codex-agent}"
+  agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}"
   while IFS= read -r trace_id; do
     [[ -n "${trace_id}" ]] || continue
     if [[ -x "${agent_root}/scripts/live-${trace_id}.sh" ]]; then
@@ -444,7 +447,7 @@ for key in "${selected[@]}"; do
   if [[ "${script_path}" == "${repo_root}/"* ]]; then
     script="${script_path#${repo_root}/}"
   else
-    script="../network-codex-agent/scripts/live-${trace_id}.sh"
+    script="../canonical-gamp/scripts/live-${trace_id}.sh"
   fi
 
   if [[ ! -x "${script_path}" ]]; then

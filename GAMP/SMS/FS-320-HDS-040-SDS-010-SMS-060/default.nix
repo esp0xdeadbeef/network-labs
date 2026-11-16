@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-320-HDS-040-SDS-010-SMS-060";
   parentSds = ../../SDS/FS-320-HDS-040-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-320-HDS-040-SDS-010-SMS-060.md";
   titleSlug = "nixos-interface-role-classification";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

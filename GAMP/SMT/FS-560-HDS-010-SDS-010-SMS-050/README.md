@@ -1,6 +1,6 @@
 # SMT Candidate: FS-560-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-560-HDS-010-SDS-010-SMS-050-protected-reservation-name-materialization.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-560-HDS-010-SDS-010-SMS-050-protected-reservation-name-materialization.md`
 
 Status: NOT OK - construction and isolated live-source wiring are green; the
 required cold stage has not yet run.
@@ -33,16 +33,16 @@ Cold-stage SIT verifier (after recording pre-stage boot IDs, guest closures,
 source hashes and pushed revisions):
 
 ```sh
-network-codex-agent/tests/test-sit-FS-560-HDS-010-SDS-010-protected-name-publication-live.sh
+canonical-gamp/tests/test-sit-FS-560-HDS-010-SDS-010-protected-name-publication-live.sh
 ```
 
 Its row-local runtime predicate executes both of these substrate probes:
 
 ```sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=nixos \
-  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  canonical-gamp/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=clab \
-  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  canonical-gamp/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 ```
 
 Title slug: `protected-reservation-name-materialization`

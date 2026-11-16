@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-070-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-070-HDS-010-SDS-010;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "validation-context-boundary";
   purpose = "Validation-context boundary template (active-lab runtime SMT OK).";
   evidenceBoundary = "runtime";

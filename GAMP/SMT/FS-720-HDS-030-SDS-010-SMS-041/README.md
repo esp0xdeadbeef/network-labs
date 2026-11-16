@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-030-SDS-010-SMS-041
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md`
 
 Status: OK - active-lab source fixture evidence only.
 

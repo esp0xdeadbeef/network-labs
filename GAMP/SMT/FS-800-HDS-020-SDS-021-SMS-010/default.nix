@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-800-HDS-020-SDS-021-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010.md";
   titleSlug = "hat-emulated-test-secret-materialization";
   source = {
     kind = "hat-source-contract";

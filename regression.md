@@ -127,9 +127,9 @@ blobs, or shared example fragments.
   renderer-nixos child path. `network-labs@c8ff5e2` selected
   `FS-166-HDS-010-SDS-010`, which resolves the parent SIT to
   `FS-166-HDS-010-SDS-010-SMS-901`; local `nixos` lock `8e121758` consumed the
-  propagated lock chain. `network-codex-agent@1403e2ea` fixed CLAB readiness to
+  propagated lock chain. `canonical-gamp@1403e2ea` fixed CLAB readiness to
   accept parent-SIT `parent-SMS-*` renderer-input no-runtime artifacts, and
-  `network-codex-agent@50aff666` fixed locked SIT verifier dispatch so immutable
+  `canonical-gamp@50aff666` fixed locked SIT verifier dispatch so immutable
   network-labs sources use the local `network-renderer-nixos` checkout for
   nested mini-SMT checks. The scoped full loop passed on 2026-07-01 with
   `NETWORK_REPO_DIRECT_TEST_OK=1 SKIP_NIXOS_LOCK_BUMP=1 RUN_NETWORK_REPO_TESTS=0 RUN_CONTAINERLAB_TESTS=0 LAUNCH_HETZNER_MACHINE=0 REBOOT_S_ROUTER_TEST_CLIENTS=1 RUN_S_ROUTER_CLAB_REBUILD_LOOP=1 S_ROUTER_ACTIVE_LAB_TRACE_ID=FS-166-HDS-010-SDS-010 S_ROUTER_NIX_BUILD_PREFIX='sudo -n' S_ROUTER_NIX_BUILD_FLAGS='--option sandbox false' bash scripts/s-router-full-lab-rebuild-loop.sh s-router-nixos`.
@@ -148,7 +148,7 @@ blobs, or shared example fragments.
   acceptance.
 - FS-166 renderer-nixos-p2p active-lab selection is current live-validated.
   `network-labs@05813b6` selected
-  `FS-166-HDS-010-SDS-010-SMS-902`, `network-codex-agent@f9d58a73` updated the
+  `FS-166-HDS-010-SDS-010-SMS-902`, `canonical-gamp@f9d58a73` updated the
   p2p verifier to require explicit no-runtime CLAB/test-client host artifacts,
   and local `nixos` lock `75ff6b7d` consumed the propagated lock chain
   (`network-compiler@d70c7e9`, `network-forwarding-model@59cdf3d`,
@@ -171,7 +171,7 @@ blobs, or shared example fragments.
   `FS-166-HDS-010-SDS-010-SMS-903` so `s-router-clab` receives a trace-matched
   empty no-runtime host artifact while `s-router-nixos` keeps the default
   router CPM and `s-router-test-clients` receives the endpoint CPM.
-  `network-codex-agent@08303e69` updated the clients verifier expectation.
+  `canonical-gamp@08303e69` updated the clients verifier expectation.
   Local `nixos` lock `7dede923` consumed the propagated lock chain
   (`network-compiler@1178ca5`, `network-forwarding-model@f00bbfc`,
   `network-control-plane-model@5949269`,
@@ -191,7 +191,7 @@ blobs, or shared example fragments.
   `s-router-clab` runtime targets and made the selector export CPM realization
   into `current-lab/inventory-clab.nix`; this fixed the first wrong layer behind
   the renderer rejecting `targetHost = "s-router-clab"` with zero matching
-  realization nodes. `network-codex-agent@eb7a40dc`, `14c1b15b`, `918ae992`,
+  realization nodes. `canonical-gamp@eb7a40dc`, `14c1b15b`, `918ae992`,
   and `ed6e48c8` updated the verifier, CLAB readiness target derivation, empty
   optional-container handling, and locked mini-SMT working directory.
   Local `nixos` lock `91e5bec5` consumed the propagated lock chain
@@ -413,7 +413,7 @@ blobs, or shared example fragments.
   no test-client router realization nodes. No owning-layer implementation fix
   was needed during this 2026-07-01 re-run; the row-local mini-SMT, sibling
   FS-500 mini-SMT fixtures, NFM construction fixtures, CPM preservation SIT,
-  and network-codex-agent runtime-debugger fixture all passed. Local `nixos`
+  and canonical-gamp runtime-debugger fixture all passed. Local `nixos`
   lock `a26ba773` consumed the propagated lock chain
   (`network-compiler@fb1ea41`, `network-forwarding-model@a02a932`,
   `network-control-plane-model@6123da2`,
@@ -464,7 +464,7 @@ blobs, or shared example fragments.
   upstream-selector -> router-b active-lab source across NixOS and CLAB, with
   no test-client router realization nodes. No owning-layer implementation fix
   was needed during this 2026-07-01 re-run; the row-local mini-SMT, CPM
-  current-lab artifacts, and network-codex-agent p2p runtime-debugger fixture
+  current-lab artifacts, and canonical-gamp p2p runtime-debugger fixture
   all passed. Local `nixos` lock `30fb7d3a` consumed the propagated lock chain
   (`network-compiler@f8e41c9`, `network-forwarding-model@6f776b8`,
   `network-control-plane-model@c20c541`,
@@ -560,7 +560,7 @@ blobs, or shared example fragments.
   `FS-800-HDS-010-SDS-020-SMS-040` provider-handoff default-route source for
   the six-node provider-handoff -> downstream-selector -> policy ->
   upstream-selector -> fabric-core/pppoe-core path. During live validation,
-  `network-codex-agent@5a199592` fixed the CLAB readiness harness for
+  `canonical-gamp@5a199592` fixed the CLAB readiness harness for
   renderer-scoped over-length Containerlab names, and `network-labs@7aafaa02`
   fixed this row's live SIT probe to resolve CLAB containers from deployed
   control-plane and topology artifacts instead of stale
@@ -621,7 +621,7 @@ blobs, or shared example fragments.
 - intent fix: FS-060, FS-370, and FS-800 now declare `stateful-return` on their selected client/provider-to-external allow relations. The SIT selector consumes those explicit contracts successfully; no downstream stage invents return semantics.
 - selector fix: SIT selection now derives candidates from the row-owned `smsInputs`, excludes inputs declared as construction-only or source-stub-only, and uses the global manifest only for legacy SIT rows without `smsInputs`. This selects FS-370 SMS-050 and FS-540 SMS-020 from their controlled row data rather than from unrelated alphabetical ordering.
 - selector-test drift: Once FS-540 SMS-020 was selected correctly, the selector regression still expected one removed pseudo-client whose address was the access resolver itself. The row-owned client intent now exposes separate NixOS and CLAB endpoints. The regression asserts both clients, their isolated bridges, client addresses, gateways, and access-resolver-only DNS configuration.
-- live-discovery drift: FS-720 SMS-041 and FS-800 SMS-040 kept live probes under `tests/lib`, so the canonical construction dispatcher executed them without an explicit live stage. Both probes now live at `scripts/lib/<trace>/runtime.sh` and remain reachable only through the canonical `network-codex-agent/scripts/live-<trace>.sh` dispatcher. The FS-981 catalog gate rejects any future live-named implementation under construction discovery.
+- live-discovery drift: FS-720 SMS-041 and FS-800 SMS-040 kept live probes under `tests/lib`, so the canonical construction dispatcher executed them without an explicit live stage. Both probes now live at `scripts/lib/<trace>/runtime.sh` and remain reachable only through the canonical `canonical-gamp/scripts/live-<trace>.sh` dispatcher. The FS-981 catalog gate rejects any future live-named implementation under construction discovery.
 
 ## Still Broken
 

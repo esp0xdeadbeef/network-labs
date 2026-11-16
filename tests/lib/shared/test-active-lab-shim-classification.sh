@@ -11,7 +11,7 @@ qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
 repo_root="$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)"
 # Child helpers must resolve the same repository as this case.
 export SMS_TEST_REPO_ROOT="${repo_root}"
-canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
+canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../canonical-gamp/GAMP/SMS}"
 
 fail() {
   echo "FAIL active-lab-shim-classification: $*" >&2

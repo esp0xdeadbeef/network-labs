@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-590-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-590-HDS-010-SDS-010-SMS-030-discovery-transport-explicitness.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-590-HDS-010-SDS-010-SMS-030-discovery-transport-explicitness.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-590-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-590-HDS-010-SDS-010-SMS-020-cross-boundary-discovery-denial.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-590-HDS-010-SDS-010-SMS-020-cross-boundary-discovery-denial.md`
 
 Status: NOT OK - source stub only.
 

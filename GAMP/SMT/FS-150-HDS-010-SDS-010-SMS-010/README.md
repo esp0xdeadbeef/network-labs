@@ -1,6 +1,6 @@
 # SMT Construction Row: FS-150-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-150-HDS-010-SDS-010-SMS-010-portable-meaning-contract.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-150-HDS-010-SDS-010-SMS-010-portable-meaning-contract.md`
 
 Status: OK - construction-only.
 

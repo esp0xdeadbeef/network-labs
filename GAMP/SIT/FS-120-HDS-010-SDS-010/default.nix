@@ -5,12 +5,12 @@
     "FS-120-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-120-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-120-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "network-codex-agent/GAMP/SMS/FS-120-HDS-010-SDS-010-SMS-010.md";
+      canonicalSms = "canonical-gamp/GAMP/SMS/FS-120-HDS-010-SDS-010-SMS-010.md";
       role = "deterministic-diagnostics";
       evidenceBoundary = "construction-only";
     };
   };
   evidence = {
-    observedResult = "FS-120-HDS-010-SDS-010-SMS-010 is construction-only deterministic diagnostics evidence from network-codex-agent; no router runtime targets are created.";
+    observedResult = "FS-120-HDS-010-SDS-010-SMS-010 is construction-only deterministic diagnostics evidence from canonical-gamp; no router runtime targets are created.";
   };
 }

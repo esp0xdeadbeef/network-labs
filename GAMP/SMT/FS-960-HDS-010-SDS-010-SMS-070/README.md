@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-010-SMS-070
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-070-clab-autostart-cache-privileged-readiness.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-070-clab-autostart-cache-privileged-readiness.md`
 
 Status: NOT OK - source stub only.
 

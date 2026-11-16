@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-060-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-060-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-060-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "runtime-fact-boundary";
   source = {
     kind = "intent-source";

@@ -8,7 +8,7 @@ fixtures are consumed only from SMS-010 source-classified records, not from
 scripts, renderer defaults, or runtime discovery.
 
 Status: OK - construction-only source stub. The owning proof is
-`network-codex-agent@d7f20211`:
+`canonical-gamp@d7f20211`:
 `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-720-HDS-010-SDS-020-SMS-020.sh`
 PASS at `/tmp/fs720-sds020-sms020-harness-consumption/run.cR20UO`.
 

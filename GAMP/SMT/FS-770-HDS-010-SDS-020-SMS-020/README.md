@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-770-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-020-nixos-realization-fact-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-020-nixos-realization-fact-binding.md`
 
 Status: NOT OK - source stub only.
 

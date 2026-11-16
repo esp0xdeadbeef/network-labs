@@ -4,10 +4,10 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "network-codex-agent";
+    owningRepo = "canonical-gamp";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
-    verifiedAt = "network-codex-agent HEAD (pending verification)";
-    scope = "See SMS spec in network-codex-agent/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-040-*.md";
+    verifiedAt = "canonical-gamp HEAD (pending verification)";
+    scope = "See SMS spec in canonical-gamp/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-040-*.md";
   };
 }

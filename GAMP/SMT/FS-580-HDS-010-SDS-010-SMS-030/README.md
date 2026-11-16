@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-580-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-030-generic-egress-dns-bypass-denial.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-580-HDS-010-SDS-010-SMS-030-generic-egress-dns-bypass-denial.md`
 
 Status: NOT OK - source stub only.
 

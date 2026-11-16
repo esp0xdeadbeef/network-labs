@@ -1,6 +1,6 @@
 # SMS Mirror: FS-970-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

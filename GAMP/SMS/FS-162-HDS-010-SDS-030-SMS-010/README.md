@@ -1,6 +1,6 @@
 # SMS Mirror: FS-162-HDS-010-SDS-030-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010-openconfig-cpm-interface-parsing-fail-closed.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010-openconfig-cpm-interface-parsing-fail-closed.md`
 
 Status: OK at the construction boundary.
 

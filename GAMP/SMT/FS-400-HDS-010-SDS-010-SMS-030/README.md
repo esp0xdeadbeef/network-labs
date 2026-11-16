@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-400-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-030-routed-client-gua-mode.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-030-routed-client-gua-mode.md`
 
 Status: NOT OK - source stub only.
 

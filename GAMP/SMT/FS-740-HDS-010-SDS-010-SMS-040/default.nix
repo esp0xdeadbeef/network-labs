@@ -4,10 +4,10 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "network-codex-agent";
+    owningRepo = "canonical-gamp";
     smtRow = "GAMP/SMT/README.md";
     status = "OK";
-    verifiedAt = "network-codex-agent HEAD (2026-07-09, focused test PASS 11/11 predicates)";
-    scope = "See SMS spec in network-codex-agent/GAMP/SMS/FS-740-HDS-010-SDS-010-SMS-040-*.md";
+    verifiedAt = "canonical-gamp HEAD (2026-07-09, focused test PASS 11/11 predicates)";
+    scope = "See SMS spec in canonical-gamp/GAMP/SMS/FS-740-HDS-010-SDS-010-SMS-040-*.md";
   };
 }

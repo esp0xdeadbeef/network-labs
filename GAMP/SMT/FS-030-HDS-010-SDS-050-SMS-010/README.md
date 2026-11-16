@@ -1,12 +1,12 @@
 # FS-030-HDS-010-SDS-050-SMS-010 SMT
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010-core-role-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010-core-role-boundary.md`
 
 Status: OK.
 
 This row is registered in `GAMP/SMT/mini-smt/tests.nix` as an `intent-source`
 mini-SMT and uses the full trace-ID live verifier:
-`../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 ## Construction Evidence
 
@@ -34,7 +34,7 @@ runtime targets for this row.
 2026-07-04 evidence:
 - `network-compiler` commit `3d2f3f3` PASS:
   `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`.
-- `network-codex-agent` commit `a61f921c` PASS:
+- `canonical-gamp` commit `a61f921c` PASS:
   `bash tests/FS-030-HDS-010-SDS-050-SMS-010.sh`.
 - `network-labs` PASS:
   `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh`.

@@ -1,6 +1,6 @@
 # SMS Mirror: FS-610-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-030-discovery-requester-scope-preservation.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-030-discovery-requester-scope-preservation.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

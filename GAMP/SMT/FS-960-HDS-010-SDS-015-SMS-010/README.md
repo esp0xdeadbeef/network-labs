@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-015-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-015-SMS-010-startup-gate-override-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-015-SMS-010-startup-gate-override-boundary.md`
 
 Status: NOT OK - source stub only.
 

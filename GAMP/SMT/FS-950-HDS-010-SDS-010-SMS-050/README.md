@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-950-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-050-s-router-prod-offline-latest-pin-migration-package.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-050-s-router-prod-offline-latest-pin-migration-package.md`
 
 Status: NOT OK - source stub only.
 

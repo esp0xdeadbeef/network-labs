@@ -1,6 +1,6 @@
 # SMT Runtime Evidence: FS-090-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010-no-downstream-heuristic-repair.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010-no-downstream-heuristic-repair.md`
 
 Status: OK - active-lab SMT/SIT runtime evidence recorded.
 

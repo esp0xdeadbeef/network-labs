@@ -6,7 +6,7 @@ necessity validation (FS-165-HDS-010-SDS-010-SMS-010).
 ## Test Location
 
 The focused construction test lives in `network-labs` and calls the
-`network-codex-agent` checker:
+`canonical-gamp` checker:
 
 ```sh
 bash tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh

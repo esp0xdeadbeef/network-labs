@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-010-SDS-010-SMS-120
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-120-renderer-no-naming-inference.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-120-renderer-no-naming-inference.md`
 
 Status: NOT OK - source stub only.
 

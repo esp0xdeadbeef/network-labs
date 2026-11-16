@@ -11,4 +11,4 @@ This row currently maps:
 - `FS-400-HDS-010-SDS-010-SMS-050` for ULA WAN denial.
 - `FS-400-HDS-010-SDS-010-SMS-060` for renderer IPv6 internet mode.
 
-The authoritative SDS lives in the FS-400 chain in `network-codex-agent/GAMP/`.
+The authoritative SDS lives in the FS-400 chain in `canonical-gamp/GAMP/`.

@@ -1,7 +1,7 @@
 {
   meta = {
     traceId = "FS-625-HDS-010-SDS-010-SMS-030";
-    canonicalSms = "network-codex-agent/GAMP/SMS/FS-625-HDS-010-SDS-010-SMS-030.md";
+    canonicalSms = "canonical-gamp/GAMP/SMS/FS-625-HDS-010-SDS-010-SMS-030.md";
     renderer = "nixos";
     scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";

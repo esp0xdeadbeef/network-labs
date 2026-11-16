@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-040-SDS-010-SMS-180
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-180-cpm-inventory-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-180-cpm-inventory-boundary.md`
 
 Status: NOT OK - source stub only.
 

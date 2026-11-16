@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-880-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-020-namespace-conflict-state-predicates.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-880-HDS-010-SDS-010-SMS-020-namespace-conflict-state-predicates.md`
 
 Status: NOT OK - source stub only.
 

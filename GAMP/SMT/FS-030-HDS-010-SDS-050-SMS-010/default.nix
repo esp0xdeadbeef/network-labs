@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-030-HDS-010-SDS-050-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-050-SMS-010.md";
   evidenceBoundary = "construction-plus-live-artifact";
   titleSlug = "core-role-boundary";
   source = {

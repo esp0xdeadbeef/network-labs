@@ -1,6 +1,6 @@
 # SMS Mirror: FS-770-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-770-HDS-020-SDS-010-SMS-010-common-source-inventory-split.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-020-SDS-010-SMS-010-common-source-inventory-split.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

@@ -3,7 +3,7 @@
 SIT row stub for the deterministic evaluation chain.
 
 `FS-110-HDS-010-SDS-010-SMS-010` is construction-only: it contributes
-deterministic evaluation evidence from the network-codex-agent construction
+deterministic evaluation evidence from the canonical-gamp construction
 helper and does not create router runtime targets.
 
 The current focused proof is:

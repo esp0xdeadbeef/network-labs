@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-162-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-162-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "openconfig-instance-document-emission";
   source = {
     kind = "validated-canonical-bundle";

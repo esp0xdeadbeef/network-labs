@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-960-HDS-010-SDS-014-SMS-010";
   parentSds = ../../SDS/FS-960-HDS-010-SDS-014;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-960-HDS-010-SDS-014-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-014-SMS-010.md";
   titleSlug = "hotpatch-diagnostic-boundary";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -1,9 +1,9 @@
 # FS-390-HDS-010-SDS-010-SMS-010 SMT
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-010-public-ipv4-destination-classification.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-010-public-ipv4-destination-classification.md`
 
 Status: focused source and NFM construction check present; live row proof is
-recorded by `network-codex-agent/scripts/live-FS-390-HDS-010-SDS-010-SMS-010.sh`.
+recorded by `canonical-gamp/scripts/live-FS-390-HDS-010-SDS-010-SMS-010.sh`.
 
 This row models public IPv4 destination ownership records for:
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-940-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-020-stage-budget-cardinality-benchmark.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-020-stage-budget-cardinality-benchmark.md`
 
 Status: NOT OK - source stub only.
 

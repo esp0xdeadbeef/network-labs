@@ -1,6 +1,6 @@
 # SMS Mirror: FS-525-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.md`
 
 This row mirrors the named core resolver binding, exact relation-terminal
 listener/forwarder endpoint, and deterministic warning contract so lab-source

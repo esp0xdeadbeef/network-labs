@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-830-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-830-HDS-010-SDS-010-SMS-020-protected-secret-cold-handling.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-830-HDS-010-SDS-010-SMS-020-protected-secret-cold-handling.md`
 
 Status: NOT OK - source stub only.
 

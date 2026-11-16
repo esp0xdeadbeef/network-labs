@@ -1,6 +1,6 @@
 # SMS Mirror: FS-080-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace and binds it to the
 row-local active-lab source for runtime SMT/SIT validation.

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-790-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-020-public-ingress-port-target-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-020-public-ingress-port-target-binding.md`
 
 Status: NOT OK - source stub only.
 

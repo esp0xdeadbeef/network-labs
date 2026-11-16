@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-710-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-710-HDS-020-SDS-010-SMS-010-profile-realization-role-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-710-HDS-020-SDS-010-SMS-010-profile-realization-role-boundary.md`
 
 Status: NOT OK - source stub only.
 

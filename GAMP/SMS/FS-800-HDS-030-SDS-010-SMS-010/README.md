@@ -1,6 +1,6 @@
 # SMS Mirror: FS-800-HDS-030-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-010-SMS-010-pppoe-provider-side.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-010-SMS-010-pppoe-provider-side.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.
