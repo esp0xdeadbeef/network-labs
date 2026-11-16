@@ -52,8 +52,10 @@ nix eval --impure --expr "
       \"P5 FAIL: expected 1 relation, got \${toString (builtins.length relations)}\"
     && require (relations != [ ] && (builtins.head relations).id == \"FS-720-HDS-010-SDS-010-SMS-040__mini-verify\")
       \"P5 FAIL: relation ID mismatch or empty relations\"
-    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.uplinks or [] != []) relations)
+    && require (builtins.any (r: r.action == \"allow\" && r.from.name == \"client\" && r.to.kind == \"external\" && !(r.to ? uplinks)) relations)
       \"P6 FAIL: client-to-uplink allow relation missing\"
+    && require (builtins.elem \"internet-vlan4\" lab.topology.nodes.\"client-edge\".selects)
+      \"P6 FAIL: client-edge must select the internet-vlan4 scope\"
     && require (builtins.length lab.ownership.prefixes == 1)
       \"P7 FAIL: expected 1 ownership prefix\"
     && require (lab.pools ? loopback && lab.pools ? p2p)

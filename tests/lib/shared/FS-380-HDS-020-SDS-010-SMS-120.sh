@@ -130,11 +130,11 @@ in
     \"row relations must keep full-trace ids in declared order\"
   && require (clientDnsRelation.from == { kind = \"tenant\"; name = \"client\"; } && clientDnsRelation.to == { kind = \"service\"; name = \"access-dns\"; } && clientDnsRelation.trafficType == \"dns\")
     \"row must model client access to the access DNS service\"
-  && require (dnsVlan4Relation.from == { kind = \"service\"; name = \"access-dns\"; } && dnsVlan4Relation.to.kind == \"external\" && dnsVlan4Relation.to.uplinks == [ \"internet-vlan4\" ] && dnsVlan4Relation.trafficType == \"dns\")
-    \"row must model access DNS service egress to VLAN4\"
+  && require (dnsVlan4Relation.from == { kind = \"service\"; name = \"access-dns\"; } && dnsVlan4Relation.to.kind == \"external\" && dnsVlan4Relation.to.scope == \"core\" && !(dnsVlan4Relation.to ? uplinks) && dnsVlan4Relation.trafficType == \"dns\")
+    \"row must model access DNS service egress to VLAN4 through the core exit\"
   && require (internetRelation.id == \"${internet_relation_id}\" && internetRelation.trafficType == \"ipv4-any\")
     \"row relation must be IPv4-only and full-trace identified\"
-  && require (internetRelation.to.uplinks == [ \"internet-vlan4\" ])
+  && require (internetRelation.to.kind == \"external\" && !(internetRelation.to ? uplinks) && builtins.elem \"internet-vlan4\" site.topology.nodes.\"access-vlan2\".selects)
     \"row internet relation must target the VLAN4 upstream only\"
   && require (accessDnsService == { name = \"access-dns\"; providers = [ \"access-dns\" ]; trafficType = \"dns\"; })
     \"row must declare the access DNS service provider explicitly\"
