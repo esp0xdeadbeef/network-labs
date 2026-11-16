@@ -13,13 +13,20 @@ nixos_renderer="${github_root}/network-renderer-nixos"
 clab_renderer="${github_root}/network-renderer-containerlab-linux-backend"
 access_endpoint_renderer="${github_root}/network-renderer-access-endpoint-nixos"
 
-compiler_revision="76a2ae6c8c59512ae5ce5c0568af5f1dae074c0d"
-nfm_revision="46853d5fb8c7458fedf90ed6f9a39967b25736f7"
-cpm_revision="7f3377372eeb4919920799498037d8365e4e2afc"
-nixos_revision="4e30350b1d7f7eb2fc954f19230f44941d21a610"
-clab_revision="5cb2a5bf1ee782b0a761186e285638142d5b5b4f"
-access_endpoint_revision="c95b3dd20538b9cf7853f3ce67be3eaffaf759ee"
-repo_root_revision="03e76b64c00adc3ffc845c5fbc88197653ce62b9"
+# The candidate revisions are the ones this run actually uses: CI checks the
+# siblings out at the flake-lock rev, so asserting a frozen literal only ever
+# goes stale (the previous hardcoded compiler commit was never pushed to main).
+revision_of() {
+  git -C "$1" rev-parse HEAD 2>/dev/null || true
+}
+
+compiler_revision="$(revision_of "${compiler}")"
+nfm_revision="$(revision_of "${nfm}")"
+cpm_revision="$(revision_of "${cpm}")"
+nixos_revision="$(revision_of "${nixos_renderer}")"
+clab_revision="$(revision_of "${clab_renderer}")"
+access_endpoint_revision="$(revision_of "${access_endpoint_renderer}")"
+repo_root_revision="$(revision_of "${repo_root}")"
 
 fail() {
   echo "FAIL FS-230-HDS-010-SDS-010-SMS-040: $*" >&2
