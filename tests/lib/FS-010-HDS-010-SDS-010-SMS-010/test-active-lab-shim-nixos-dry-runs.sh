@@ -25,7 +25,8 @@ fail() {
 }
 
 restore_current_lab() {
-  find "${current_dir}" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+  # Overwrite from the snapshot; never wipe first. A wipe-then-copy empties the
+  # tracked selection whenever the snapshot is empty or was never taken.
   cp -a "${restore_dir}/." "${current_dir}/"
 }
 
@@ -33,6 +34,11 @@ cleanup() {
   restore_current_lab
   rm -rf "${restore_dir}"
 }
+
+# Snapshot before the first check: `fail` runs the cleanup trap, and a trap
+# installed before the snapshot restored an empty directory, deleting
+# current-lab for every later case in the suite.
+cp -a "${current_dir}/." "${restore_dir}/"
 trap cleanup EXIT
 
 [[ -x "${selector}" ]] || fail "selector script missing or not executable: ${selector}"
@@ -42,7 +48,6 @@ trap cleanup EXIT
 ((${#targets[@]} > 0)) || fail "no NixOS targets selected"
 [[ "${dry_run_timeout_seconds}" =~ ^[1-9][0-9]*$ ]] || fail "timeout must be a positive integer number of seconds: ${dry_run_timeout_seconds}"
 
-cp -a "${current_dir}/." "${restore_dir}/"
 mkdir -p "${log_root}"
 
 sanitize() {
