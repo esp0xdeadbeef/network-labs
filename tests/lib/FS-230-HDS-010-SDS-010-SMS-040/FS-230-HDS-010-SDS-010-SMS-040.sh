@@ -56,8 +56,15 @@ do
   fi
   git -C "${repo}" rev-parse --verify --quiet refs/remotes/origin/main >/dev/null \
     || fail "$(basename "${repo}") has no refs/remotes/origin/main to compare against"
-  git -C "${repo}" merge-base --is-ancestor "${revision}" refs/remotes/origin/main \
-    || fail "$(basename "${repo}") candidate ${revision} is not on GitHub main"
+  if ! git -C "${repo}" merge-base --is-ancestor "${revision}" refs/remotes/origin/main; then
+    # A shallow checkout carries only the tip, so a pinned parent looks
+    # unreachable; deepen before deciding the revision is unpublished.
+    git -C "${repo}" fetch --quiet --unshallow origin 2>/dev/null \
+      || git -C "${repo}" fetch --quiet --deepen=200 origin 2>/dev/null \
+      || true
+    git -C "${repo}" merge-base --is-ancestor "${revision}" refs/remotes/origin/main \
+      || fail "$(basename "${repo}") candidate ${revision} is not on GitHub main"
+  fi
 done
 
 locked_input_revision() {
@@ -127,7 +134,10 @@ ROW="${row}" nix eval --impure --expr '
     "s-router-clab"
     "s-router-test-clients"
   ];
-  assert !(authority ? publicSurface);
+  # FS-322 names the ingress surface as a scope on the relation; it must agree
+  # with the scope the relation enters from. It is intent, not a realization
+  # fact, so only the target endpoint and runtime prefix stay forbidden.
+  assert authority.publicSurface == relation.from.scope;
   assert !(authority ? targetEndpoint);
   assert !(authority ? runtimePrefix);
   assert relation.from == { kind = "external"; scope = "lab-wan"; };

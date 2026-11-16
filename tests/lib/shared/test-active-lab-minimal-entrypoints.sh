@@ -5,7 +5,12 @@ set -euo pipefail
 # Resolve through a symlink: a shared case is reached from a sibling
 # repository, and the symlink target owns the GAMP fixtures.
 qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
+# These cases read network-labs-owned fixtures (GAMP/SMT, active-lab,
+# current-lab), so the symlink target is authoritative even when the
+# dispatcher names a sibling repository as the case owner.
+repo_root="$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)"
+# Child helpers must resolve the same repository as this case.
+export SMS_TEST_REPO_ROOT="${repo_root}"
 
 fail() {
   echo "FAIL active-lab-minimal-entrypoints: $*" >&2
@@ -61,7 +66,7 @@ rg -q '[.]?/secrets/sops-s-router-clab[.]yaml' "${repo_root}/GAMP/HAT/emulated-i
 rg -q '[.]?/secrets/sops-s-router-test[.]yaml' "${repo_root}/GAMP/HAT/emulated-isp-residential-testnet/sops-routing-s-router-test-clients.nix" \
   || fail "HAT s-router-test-clients SOPS routing must bind to the HAT-owned s-router-test encrypted file"
 
-REPO_ROOT="${repo_root}" nix eval --impure --expr '
+if ! qw_eval_error="$(REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
   active = import (repoRoot + "/active-lab");
@@ -160,6 +165,9 @@ in
   && require (protectedSecretRows != [ ]) "protected PPPoE secret rows must exist"
   && require (builtins.all hasRequiredSecretIds protectedSecretRows) "HAT SOPS material must stay tied to the protected PPPoE FS IDs"
   && require selectedEntrypointsOk "active-lab entrypoint content must match the selected current-lab layer"
-' >/dev/null || fail "active-lab minimal entrypoint contract failed"
+' 2>&1 >/dev/null)"; then
+  printf '%s\n' "${qw_eval_error}" | tail -20 >&2
+  fail "active-lab minimal entrypoint contract failed"
+fi
 
 echo "PASS active-lab-minimal-entrypoints"

@@ -5,7 +5,12 @@ set -euo pipefail
 # Resolve through a symlink: a shared case is reached from a sibling
 # repository, and the symlink target owns the GAMP fixtures.
 qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
+# These cases read network-labs-owned fixtures (GAMP/SMT, active-lab,
+# current-lab), so the symlink target is authoritative even when the
+# dispatcher names a sibling repository as the case owner.
+repo_root="$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)"
+# Child helpers must resolve the same repository as this case.
+export SMS_TEST_REPO_ROOT="${repo_root}"
 canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
 
 fail() {
