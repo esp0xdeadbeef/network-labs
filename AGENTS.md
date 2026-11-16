@@ -178,3 +178,19 @@ NETWORK_REPO_DIRECT_TEST_OK=1 ./run-all-tests.sh
 5. Tests that need live infrastructure (containers, live hosts, secrets) stay
    opt-in and must remain skipped in CI; they must not become silently passing
    because the environment lacks them.
+
+## Private repositories
+
+A public tree must not name a private repository anywhere: code, tests,
+generated GAMP rows, or spec files. The canonical GAMP mirror is an optional
+input supplied through `CANONICAL_GAMP_ROOT`, never a hardcoded sibling path,
+and this workflow neither clones it nor carries a token for it.
+
+Case implementations that live in the mirror stay there. A public tree carries
+at most a dispatcher entrypoint, never a copy of the case, and must not warn
+about the mirror by name.
+
+`tests/test-no-private-mirror-reference.sh` enforces this across the catalog and
+every public `network-*` checkout. It fails on a literal private repository name
+or on a GitHub token literal, and it reports `file:line` without echoing the
+matched value.
