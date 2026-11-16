@@ -160,7 +160,12 @@ for repository in "${workspace_root}"/network-*; do
       *) fail "canonical construction entrypoint has non-dispatcher target: ${entrypoint} -> ${resolved_dispatcher}" ;;
     esac
     entrypoint_trace="$(basename "${entrypoint}" .sh)"
-    if [[ "${repository}" == "${repo_root}" ]]; then
+    if [[ "${resolved_dispatcher}" == "${cross_repo_dispatcher}" ]]; then
+      # A cross-repo entrypoint delegates to the canonical repository, which
+      # owns the case; demanding a repository-owned case here would contradict
+      # the dispatcher this branch just allowed (FS-705-SMS-050).
+      :
+    elif [[ "${repository}" == "${repo_root}" ]]; then
       trace_has_construction_case "${entrypoint_trace}" \
         || fail "catalog construction entrypoint has no repository-owned case: ${entrypoint}"
     else
