@@ -128,7 +128,11 @@ if rg -n \
 fi
 
 mapfile -t noncanonical < <(
-  find "${repo_root}/tests" "${agent_root}/scripts" -maxdepth 1 -type f -name '*.sh' -printf '%f\n' \
+  {
+    find "${repo_root}/tests" -maxdepth 1 -type f -name '*.sh' -printf '%f\n'
+    [[ -d "${agent_root}/scripts" ]] \
+      && find "${agent_root}/scripts" -maxdepth 1 -type f -name '*.sh' -printf '%f\n'
+  } \
     | grep -E '^smt-live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+.*\.sh$|^FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$|^live-FS-[0-9]+-HDS-[0-9]+-SDS-[0-9]+-SMS-[0-9]+-.+\.sh$' \
     || true
 )
@@ -244,7 +248,11 @@ done <"${tmp_dir}/unimplemented-traces"
 [[ $((resolved_count + unimplemented_count)) == "${manifest_count}" ]] \
   || fail "catalog accounting mismatch: runnable=${resolved_count} unimplemented=${unimplemented_count} catalog=${manifest_count}"
 ((construction_count > 0)) || fail "catalog has no construction entrypoints"
-((live_count > 0)) || fail "catalog has no live entrypoints"
+# Live entrypoints live beside the mirror that owns them; without a supplied
+# mirror the live surface is not part of this workspace.
+if [[ -d "${agent_root}/scripts" ]]; then
+  ((live_count > 0)) || fail "catalog has no live entrypoints"
+fi
 
 seed_trace="$(head -n 1 "${tmp_dir}/unimplemented-traces")"
 [[ -n "${seed_trace}" ]] || fail "seeded noncanonical case requires one explicit NOT OK row"
