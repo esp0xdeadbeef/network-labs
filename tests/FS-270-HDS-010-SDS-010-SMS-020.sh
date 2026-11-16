@@ -1,1 +1,1 @@
-lib/run-construction-sms.sh
+lib/run-sms-cases.sh
