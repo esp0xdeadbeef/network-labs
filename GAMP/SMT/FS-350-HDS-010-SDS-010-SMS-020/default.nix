@@ -1,5 +1,6 @@
 {
   layer = "SMT";
+  executionBoundary = "external";
   traceId = "FS-350-HDS-010-SDS-010-SMS-020";
   evidenceBoundary = "construction-only";
   source = {

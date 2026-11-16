@@ -3,6 +3,7 @@ let
 in
 {
   layer = "SMT";
+  executionBoundary = "external";
   traceId = "FS-166-HDS-010-SDS-010-SMS-900";
   smsRow = ../../SMS/FS-166-HDS-010-SDS-010-SMS-900;
   sitRow = ../../SIT/FS-166-HDS-010-SDS-010;

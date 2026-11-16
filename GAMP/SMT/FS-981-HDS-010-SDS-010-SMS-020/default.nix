@@ -1,5 +1,6 @@
 {
   layer = "SMT";
+  executionBoundary = "external";
   traceId = "FS-981-HDS-010-SDS-010-SMS-020";
   canonicalSms = "canonical-gamp/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "file-reachability-index";

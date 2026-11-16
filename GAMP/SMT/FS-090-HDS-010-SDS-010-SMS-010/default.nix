@@ -1,5 +1,6 @@
 {
   layer = "SMT";
+  executionBoundary = "external";
   traceId = "FS-090-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
   canonicalSms = "canonical-gamp/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010.md";

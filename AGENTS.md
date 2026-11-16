@@ -194,3 +194,13 @@ about the mirror by name.
 every public `network-*` checkout. It fails on a literal private repository name
 or on a GitHub token literal, and it reports `file:line` without echoing the
 matched value.
+
+## Execution boundary on catalog rows
+
+A row whose executable check runs outside this catalog's workspace (for
+example, a spec-authoring check that needs an external GAMP mirror) declares
+`executionBoundary = "external"` in its `HDS/…/default.nix` row. Such a row
+must not expose a `tests/<trace>.sh` entrypoint: the catalog carries the claim
+and its evidence, and FS-981 counts it in a separate bucket instead of
+pretending it is runnable here. A row with a local or public implementation
+must not set the field.

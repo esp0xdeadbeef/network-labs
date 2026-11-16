@@ -84,6 +84,9 @@ let
         rendererTarget
         ;
       status = row.status or row.evidence.status or null;
+      # A row whose executable check lives outside this catalog declares that
+      # boundary explicitly; the catalog carries the claim and its evidence.
+      executionBoundary = row.executionBoundary or null;
       rowDirectories = {
         SDS = ../../SDS + "/${parentSdsFor traceId}";
         SMS = ../../SMS + "/${traceId}";
