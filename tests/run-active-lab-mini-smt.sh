@@ -9,7 +9,8 @@ cleanup_current_lab_restore() {
   local status=$?
 
   if [[ -n "${current_lab_restore_dir}" && -d "${current_lab_restore_dir}" ]]; then
-    find "${repo_root}/current-lab" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+    # Copy over instead of wiping first: a partial restore must not delete the
+    # tracked selection other cases are reading.
     cp -a "${current_lab_restore_dir}/." "${repo_root}/current-lab/"
     rm -rf "${current_lab_restore_dir}"
   fi
@@ -27,6 +28,11 @@ prepare_current_lab_restore() {
 
   current_lab_restore_dir="$(mktemp -d -t active-lab-mini-smt-current-lab.XXXXXX)"
   cp -a "${repo_root}/current-lab/." "${current_lab_restore_dir}/"
+  # The suite runs cases in parallel and every case rewrites the tracked
+  # selection; serialize the snapshot/select/restore window so one case cannot
+  # restore a half-written current-lab under another.
+  exec 9>"${current_lab_restore_dir}.lock"
+  flock 9
   trap cleanup_current_lab_restore EXIT
 }
 

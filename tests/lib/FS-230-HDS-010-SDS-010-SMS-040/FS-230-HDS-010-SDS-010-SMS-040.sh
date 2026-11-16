@@ -96,8 +96,14 @@ done
 for renderer in "${nixos_renderer}" "${clab_renderer}" "${access_endpoint_renderer}"; do
   labs_pin="$(locked_input_revision "${renderer}/flake.lock" network-labs)"
   [[ -n "${labs_pin}" ]] || fail "$(basename "${renderer}") missing network-labs input"
-  git -C "${github_root}/network-labs" merge-base --is-ancestor "${labs_pin}" refs/remotes/origin/main \
-    || fail "$(basename "${renderer}") network-labs pin ${labs_pin} is not on GitHub main"
+  if ! git -C "${github_root}/network-labs" merge-base --is-ancestor "${labs_pin}" refs/remotes/origin/main; then
+    # The workspace checkout is shallow; deepen before calling the pin stale.
+    git -C "${github_root}/network-labs" fetch --quiet --unshallow origin 2>/dev/null \
+      || git -C "${github_root}/network-labs" fetch --quiet --deepen=200 origin 2>/dev/null \
+      || true
+    git -C "${github_root}/network-labs" merge-base --is-ancestor "${labs_pin}" refs/remotes/origin/main \
+      || fail "$(basename "${renderer}") network-labs pin ${labs_pin} is not on GitHub main"
+  fi
 done
 
 ROW="${row}" nix eval --impure --expr '
