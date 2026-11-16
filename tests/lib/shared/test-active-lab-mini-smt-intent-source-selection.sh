@@ -5,7 +5,12 @@ set -euo pipefail
 # Resolve through a symlink: a shared case is reached from a sibling
 # repository, and the symlink target owns the GAMP fixtures.
 qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
+# These cases read network-labs-owned fixtures (GAMP/SMT, active-lab,
+# current-lab), so the symlink target is authoritative even when the
+# dispatcher names a sibling repository as the case owner.
+repo_root="$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)"
+# Child helpers must resolve the same repository as this case.
+export SMS_TEST_REPO_ROOT="${repo_root}"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 runner="${repo_root}/tests/run-active-lab-mini-smt.sh"
 
@@ -18,7 +23,7 @@ nix-instantiate --parse "${repo_root}/GAMP/SMT/FS-800-HDS-030-SDS-030-SMS-010/in
 nix-instantiate --parse "${repo_root}/GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-010/intent.nix" >/dev/null
 nix-instantiate --parse "${repo_root}/GAMP/SMT/FS-500-HDS-010-SDS-010-SMS-040/intent.nix" >/dev/null
 
-REPO_ROOT="${repo_root}" nix eval --impure --expr '
+if ! qw_eval_error="$(REPO_ROOT="${repo_root}" nix eval --impure --expr '
 let
   repoRoot = builtins.getEnv "REPO_ROOT";
   active = import (repoRoot + "/active-lab");
@@ -86,7 +91,10 @@ in
   && require (toString pppoeSource.sourcePaths.intent != toString active.sourcePaths.intent) "pppoe mini intent must be separate from global active-lab intent"
   && require (toString reachabilitySource.sourcePaths.intent != toString active.sourcePaths.intent) "reachability mini intent must be separate from global active-lab intent"
   && require (toString p2pSource.sourcePaths.intent != toString active.sourcePaths.intent) "p2p mini intent must be separate from global active-lab intent"
-' >/dev/null || fail "alternate intent source selection failed"
+' 2>&1 >/dev/null)"; then
+  printf '%s\n' "${qw_eval_error}" | tail -20 >&2
+  fail "alternate intent source selection failed"
+fi
 
 pppoe_source="$("${runner}" --source FS-800-HDS-030-SDS-030-SMS-010)"
 reachability_source="$("${runner}" --source FS-500-HDS-010-SDS-010-SMS-010)"
