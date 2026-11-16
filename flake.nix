@@ -546,7 +546,7 @@
                 export NETWORK_LABS_REVISION=${networkLabsRevision}
 
                 ${pkgs.bash}/bin/bash ${
-                  ./tests/lib/FS-162-HDS-010-SDS-040-SMS-010/all-negatives.sh
+                  ./tests/lib/FS-162-HDS-010-SDS-040-SMS-010/all-negatives.case
                 }
 
                 mkdir -p "$out"
