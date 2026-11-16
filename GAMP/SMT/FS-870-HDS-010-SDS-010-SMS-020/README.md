@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-870-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-020-ephemeral-state-authority.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-020-ephemeral-state-authority.md`
 
 Status: NOT OK - source stub only.
 

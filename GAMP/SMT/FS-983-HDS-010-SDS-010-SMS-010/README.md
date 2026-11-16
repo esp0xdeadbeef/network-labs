@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-983-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-983-HDS-010-SDS-010-SMS-010-renderer-endpoint-fixture-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-983-HDS-010-SDS-010-SMS-010-renderer-endpoint-fixture-boundary.md`
 
 Status: NOT OK - source stub only.
 

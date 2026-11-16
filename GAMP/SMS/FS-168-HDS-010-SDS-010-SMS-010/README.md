@@ -1,6 +1,6 @@
 # SMS Mirror: FS-168-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-168-HDS-010-SDS-010-SMS-010-renderer-consumption-coverage.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-168-HDS-010-SDS-010-SMS-010-renderer-consumption-coverage.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

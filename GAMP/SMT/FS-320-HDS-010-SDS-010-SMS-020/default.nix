@@ -5,7 +5,7 @@
   source = null;
   evidence = {
     owningRepo = "network-renderer-containerlab-linux-backend";
-    smtRow = "GAMP/SMT/README.md (network-codex-agent)";
+    smtRow = "GAMP/SMT/README.md (canonical-gamp)";
     status = "OK";
     scope = "CLAB renderer bridge link realization: CPM links with bridge fields translated to containerlab topology, missing bridge rejected with MISSING_CPM_BRIDGE_FIELD";
   };

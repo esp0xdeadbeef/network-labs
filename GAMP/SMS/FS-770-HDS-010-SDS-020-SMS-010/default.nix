@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-770-HDS-010-SDS-020-SMS-010";
   parentSds = ../../SDS/FS-770-HDS-010-SDS-020;
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "realization-fact-binding";
   purpose = "Focused common behavior source binding construction input.";
   evidenceBoundary = "focused-construction";

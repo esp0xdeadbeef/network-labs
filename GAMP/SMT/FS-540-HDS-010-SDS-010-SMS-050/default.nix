@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-540-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "openconfig-dns-peer-posture";
   source = {
     kind = "controlled-validation-scheme";

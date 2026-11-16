@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-460-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-010-nebula-remote-egress.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-010-nebula-remote-egress.md`
 
 Status: NOT OK - source stub only.
 

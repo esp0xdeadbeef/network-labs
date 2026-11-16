@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-360-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "gua-transit-placement-validation";
   evidenceBoundary = "construction-only";
   source = {

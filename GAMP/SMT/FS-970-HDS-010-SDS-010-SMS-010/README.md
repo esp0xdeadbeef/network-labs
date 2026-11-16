@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-970-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-010-static-client-reservation-contract.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-010-static-client-reservation-contract.md`
 
 Status: NOT OK - source stub only.
 

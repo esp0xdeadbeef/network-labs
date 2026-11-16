@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-010-SDS-010-SMS-130
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-130-renderer-no-policy-invention.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-130-renderer-no-policy-invention.md`
 
 Status: NOT OK - source stub only.
 

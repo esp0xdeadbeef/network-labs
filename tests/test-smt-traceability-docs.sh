@@ -60,7 +60,7 @@ if grep -Eq 'labs/lab-sigma|labs/lab-s-sigma|s-router-full-lab-rebuild-loop' "${
 FAIL smt-traceability-docs: examples-only SMT doc must not cite SAT source paths or the full lab loop.
 
 SMT rows belong to stable network-labs/examples fixtures. SAT source/runtime
-evidence is tracked separately in network-codex-agent GAMP/SAT and regression
+evidence is tracked separately in canonical-gamp GAMP/SAT and regression
 notes.
 EOF
   exit 1

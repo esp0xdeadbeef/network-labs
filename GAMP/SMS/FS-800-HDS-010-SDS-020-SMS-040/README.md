@@ -7,7 +7,7 @@ the provider-access fabric gateway routing contract.
 
 ## Controlled spec
 
-The authoritative SMS spec is in network-codex-agent:
+The authoritative SMS spec is in canonical-gamp:
 `GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-040-provider-access-default-route-selection.md`
 
 ## Mini-SMT fixture

@@ -23,7 +23,7 @@ declares the modeled source kind.
 Live:
 
 ```text
-network-codex-agent/scripts/live-<full-trace-id>.sh
+canonical-gamp/scripts/live-<full-trace-id>.sh
 ```
 
 Both names are stable symlinks to generic dispatchers. Row-specific test cases

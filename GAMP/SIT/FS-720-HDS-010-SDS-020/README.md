@@ -10,7 +10,7 @@ currently keeps these prepared SMS inputs visible:
 
 Status: OK - construction/source-artifact evidence only. The owning NCA proof
 `NETWORK_REPO_DIRECT_TEST_OK=1 bash tests/test-s-router-fs720-source-harness-integration.sh`
-passed at `network-codex-agent@d7f20211` with evidence under
+passed at `canonical-gamp@d7f20211` with evidence under
 `/tmp/hat-sat-agent-fs720-sit-source-harness-integration-high/run.Gp2DgG`.
 This row is intentionally not an active-lab mini runtime selector and does not
 claim HAT/SAT acceptance.

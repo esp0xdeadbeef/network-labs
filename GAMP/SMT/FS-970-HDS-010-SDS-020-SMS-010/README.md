@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-970-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-010-reservation-identity-source-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-010-reservation-identity-source-boundary.md`
 
 Status: NOT OK - source stub only.
 

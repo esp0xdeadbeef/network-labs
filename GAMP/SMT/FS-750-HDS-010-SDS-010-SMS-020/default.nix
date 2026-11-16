@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-750-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "receiver-payload-ports";
   evidenceBoundary = "source-stub-only";
   source = {
@@ -15,6 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
   };
 }

@@ -12,7 +12,7 @@
       "FS-310-HDS-010-SDS-010-SMS-040"
       "FS-310-HDS-020-SDS-010-SMS-200"
     ];
-    smtRow = "GAMP/SMT/README.md (network-codex-agent)";
+    smtRow = "GAMP/SMT/README.md (canonical-gamp)";
     status = "NOT OK";
     scope = "Coordinator that routes renderer policy-boundary checks to child SMS rows; parent closure requires all applicable children OK";
   };

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-420-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-420-HDS-010-SDS-010-SMS-020-selected-translation-record-emission.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-420-HDS-010-SDS-010-SMS-020-selected-translation-record-emission.md`
 
 Status: NOT OK - source stub only.
 

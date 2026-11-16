@@ -1,6 +1,6 @@
 # SMT Source: FS-790-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-790-HDS-020-SDS-010-SMS-010-public-ingress-row-atomization.md`
 
 Status: OK - SMT construction evidence proven.
 

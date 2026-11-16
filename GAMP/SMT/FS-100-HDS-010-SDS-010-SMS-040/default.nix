@@ -4,10 +4,10 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "network-codex-agent";
+    owningRepo = "canonical-gamp";
     smtRow = "GAMP/SMT/README.md";
     status = "OK";
-    verifiedAt = "network-codex-agent HEAD 018960fe with active-lab wrapper PASS (2026-07-04)";
-    scope = "network-codex-agent provenance redaction construction proof: protected-value redaction, comparable references, deterministic diagnostics, fail-closed publication, and seeded negatives";
+    verifiedAt = "canonical-gamp HEAD 018960fe with active-lab wrapper PASS (2026-07-04)";
+    scope = "canonical-gamp provenance redaction construction proof: protected-value redaction, comparable references, deterministic diagnostics, fail-closed publication, and seeded negatives";
   };
 }

@@ -3,7 +3,7 @@
 Layer: SMT
 
 This row-local SMT selector is construction-only. It delegates the scoped
-request contract proof to `network-codex-agent`:
+request contract proof to `canonical-gamp`:
 
 ```text
 bash tests/FS-130-HDS-010-SDS-010-SMS-010.sh

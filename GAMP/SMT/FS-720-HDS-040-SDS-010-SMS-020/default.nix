@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-040-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020.md";
   titleSlug = "clab-client-origin-runtime-probes";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,6 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from network-codex-agent; construction test registered below";
+    observedResult = "canonical SMS mirrored from canonical-gamp; construction test registered below";
   };
 }

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-030-SDS-020-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020-s-router-prod-pppoe-ipv6-prefix-delegation.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020-s-router-prod-pppoe-ipv6-prefix-delegation.md`
 
 Status: NOT OK - native CPM/NixOS/CLAB realization is not constructed or
 staged.

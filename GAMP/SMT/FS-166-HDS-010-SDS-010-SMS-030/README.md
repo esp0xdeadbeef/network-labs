@@ -1,6 +1,6 @@
 # SMT: FS-166-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030-controlled-evidence-scope.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030-controlled-evidence-scope.md`
 
 Status: OK - construction-only.
 

@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-020 SMT
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-020-overlay-source-prefix-identity-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-020-overlay-source-prefix-identity-binding.md`
 
 Status: OK - construction-only.
 

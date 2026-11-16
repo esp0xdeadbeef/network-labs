@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-280-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-020-core-host-exception-non-exempt-traffic.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-020-core-host-exception-non-exempt-traffic.md`
 
 Status: NOT OK - source stub only.
 

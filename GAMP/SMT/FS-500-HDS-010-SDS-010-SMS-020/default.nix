@@ -10,6 +10,7 @@
     ];
   };
   evidence = {
+    owningRepo = "canonical-gamp";
     maxRuntimeTargets = 2;
     scope = "NFM reachability decision type preservation: traffic-path answer records carry type identifiers, missing-type/wrong-type detection with diagnostics";
   };

@@ -17,7 +17,7 @@ bash tests/FS-800-HDS-010-SDS-020-SMS-040.sh
 Run the canonical live entrypoint after staging this row on the isolated lab:
 
 ```sh
-../network-codex-agent/scripts/live-FS-800-HDS-010-SDS-020-SMS-040.sh --live
+../canonical-gamp/scripts/live-FS-800-HDS-010-SDS-020-SMS-040.sh --live
 ```
 
 Live row evidence on 2026-06-30:

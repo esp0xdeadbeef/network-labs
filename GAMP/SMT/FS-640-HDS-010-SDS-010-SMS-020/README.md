@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-640-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-020-media-payload-authorization.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-020-media-payload-authorization.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-860-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020-required-state-retention.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-020-required-state-retention.md`
 
 Status: NOT OK - source stub only.
 

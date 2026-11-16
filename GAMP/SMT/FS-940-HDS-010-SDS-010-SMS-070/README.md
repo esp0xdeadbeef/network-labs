@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-940-HDS-010-SDS-010-SMS-070
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-070-nfm-semantic-lib-performance-boundary.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-070-nfm-semantic-lib-performance-boundary.md`
 
 Status: NOT OK - source stub only.
 

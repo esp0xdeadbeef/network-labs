@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-255-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-255-HDS-010-SDS-010-SMS-010-core-role-host-facing-interface-cardinality.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-255-HDS-010-SDS-010-SMS-010-core-role-host-facing-interface-cardinality.md`
 
 Status: NOT OK - source stub only.
 

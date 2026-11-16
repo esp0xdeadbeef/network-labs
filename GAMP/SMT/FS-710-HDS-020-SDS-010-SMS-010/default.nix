@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-710-HDS-020-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-710-HDS-020-SDS-010-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-710-HDS-020-SDS-010-SMS-010.md";
   titleSlug = "profile-realization-role-boundary";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,6 +15,6 @@
   };
   status = "OK";
   evidence = {
-    observedResult = "2026-07-09 re-verification: NOT_OK→OK. Construction test PASS (192 lines, 2 seeded negatives + recovery). All 7 SMS predicates proven. Live SMT wrapper PASS: CPM artifact present on 3/3 lab hosts with 1 runtimeTarget each. 5-node canonical topology, 1 valid traffic path, private NAT44, IPv6 fail-closed. Preflight v10: lock-bump OK, all hosts online after fresh s-sigma rebuild. Evidence file: network-codex-agent/GAMP/SMT/FS-710-HDS-020-SDS-010-SMS-010-online-eval.txt";
+    observedResult = "2026-07-09 re-verification: NOT_OK→OK. Construction test PASS (192 lines, 2 seeded negatives + recovery). All 7 SMS predicates proven. Live SMT wrapper PASS: CPM artifact present on 3/3 lab hosts with 1 runtimeTarget each. 5-node canonical topology, 1 valid traffic path, private NAT44, IPv6 fail-closed. Preflight v10: lock-bump OK, all hosts online after fresh s-sigma rebuild. Evidence file: canonical-gamp/GAMP/SMT/FS-710-HDS-020-SDS-010-SMS-010-online-eval.txt";
   };
 }

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-390-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "public-ipv4-shortcut-policy";
   source = {
     kind = "intent-source";
@@ -21,6 +21,7 @@
   };
   status = "OK";
   evidence = {
+    owningRepo = "canonical-gamp";
     observedResult = "fixture compiles explicit service/public-ingress public IPv4 shortcuts into NFM shortcutAuthorizations";
   };
 }

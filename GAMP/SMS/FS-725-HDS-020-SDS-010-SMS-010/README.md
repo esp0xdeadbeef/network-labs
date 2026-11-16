@@ -1,6 +1,6 @@
 # SMS Mirror: FS-725-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-725-HDS-020-SDS-010-SMS-010-vlan2-management-integration.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-725-HDS-020-SDS-010-SMS-010-vlan2-management-integration.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

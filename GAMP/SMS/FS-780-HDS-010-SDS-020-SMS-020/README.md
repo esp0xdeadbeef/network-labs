@@ -1,6 +1,6 @@
 # SMS Mirror: FS-780-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-020-equivalence-limitation-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-020-equivalence-limitation-binding.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

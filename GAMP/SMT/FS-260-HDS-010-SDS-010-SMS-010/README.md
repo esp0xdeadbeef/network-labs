@@ -1,6 +1,6 @@
 # SMT: FS-260-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-010-default-site-fabric-chain.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-010-default-site-fabric-chain.md`
 
 Status: NOT OK pending the controlled cold-stage live run.
 

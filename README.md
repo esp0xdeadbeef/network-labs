@@ -165,7 +165,7 @@ the common `flake.lock`. The package emits the scenario manifest, verifies the
 three repository-owned skip acknowledgements, injects the replacement once at
 the declared first active boundary, executes realization and schema validation,
 validates one normalized platform-binding bundle, and invokes the selected
-canonical renderer boundary. `network-codex-agent` may call this package, but
+canonical renderer boundary. `canonical-gamp` may call this package, but
 does not own or reimplement these predicates.
 
 Valid replacement boundaries include:

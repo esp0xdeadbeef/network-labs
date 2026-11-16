@@ -1,6 +1,6 @@
 # SMS Mirror: FS-310-HDS-030-SDS-010-SMS-111
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111-nixos-fail-closed-contract.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-111-nixos-fail-closed-contract.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

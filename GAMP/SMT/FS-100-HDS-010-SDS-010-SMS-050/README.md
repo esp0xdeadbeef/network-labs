@@ -3,7 +3,7 @@
 Layer: SMT
 
 This row-local SMT selector is construction-only. It delegates the actual module
-proof to `network-codex-agent`:
+proof to `canonical-gamp`:
 
 ```text
 bash tests/FS-100-HDS-010-SDS-010-SMS-050.sh

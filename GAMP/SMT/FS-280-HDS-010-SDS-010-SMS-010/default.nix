@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-280-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "core-boundary-host-traffic-exception";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,6 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
   };
 }

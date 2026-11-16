@@ -1,6 +1,6 @@
 # SMT Runtime Evidence: FS-080-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010-missing-ambiguous-fact-failure.md`
 
 Status: OK - active-lab SMT/SIT runtime evidence recorded.
 

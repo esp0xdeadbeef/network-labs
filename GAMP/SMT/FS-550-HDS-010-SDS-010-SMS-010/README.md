@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-550-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-010-dns-leak-prevention.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-010-dns-leak-prevention.md`
 
 Status: NOT OK - source stub only.
 

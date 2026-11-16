@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-020-SDS-010-SMS-070
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-070-renderer-nat-nat66-primitive-source-binding.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-070-renderer-nat-nat66-primitive-source-binding.md`
 
 Status: NOT OK - source stub only.
 

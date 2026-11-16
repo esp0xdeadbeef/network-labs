@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-550-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-030-bootstrap-dns-separation.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-030-bootstrap-dns-separation.md`
 
 Status: NOT OK - source stub only.
 

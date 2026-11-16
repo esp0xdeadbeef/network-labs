@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-530-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-020-missing-dns-policy-rejection.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-020-missing-dns-policy-rejection.md`
 
 Status: NOT OK - source stub only.
 

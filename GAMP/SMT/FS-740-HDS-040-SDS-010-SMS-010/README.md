@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-740-HDS-040-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-740-HDS-040-SDS-010-SMS-010-printer-denied-probe-surfaces.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-740-HDS-040-SDS-010-SMS-010-printer-denied-probe-surfaces.md`
 
 Status: NOT OK - source stub only.
 

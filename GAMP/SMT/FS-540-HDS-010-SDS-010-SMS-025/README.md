@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-540-HDS-010-SDS-010-SMS-025
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-025-uplink-dns-follow-source.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-025-uplink-dns-follow-source.md`
 
 Status: NOT OK - source stub only.
 

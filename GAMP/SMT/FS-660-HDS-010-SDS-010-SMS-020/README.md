@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-660-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-020-access-space-address-assignment.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-660-HDS-010-SDS-010-SMS-020-access-space-address-assignment.md`
 
 Status: NOT OK - source stub only.
 

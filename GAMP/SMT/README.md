@@ -24,7 +24,7 @@ tests/<full-trace-id>.sh
 Live tests use:
 
 ```text
-network-codex-agent/scripts/live-<full-trace-id>.sh
+canonical-gamp/scripts/live-<full-trace-id>.sh
 ```
 
 The entrypoints are thin symlinks to generic dispatchers. Unique cases live in

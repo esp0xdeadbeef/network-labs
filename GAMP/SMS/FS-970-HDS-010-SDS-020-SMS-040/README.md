@@ -1,6 +1,6 @@
 # SMS Mirror: FS-970-HDS-010-SDS-020-SMS-040
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it. The specification requires the lab to create

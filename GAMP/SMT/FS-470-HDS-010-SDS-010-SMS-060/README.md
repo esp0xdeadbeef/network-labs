@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-470-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060-wireguard-hardcoded-value-prevention.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-060-wireguard-hardcoded-value-prevention.md`
 
 Status: NOT OK - source stub only.
 

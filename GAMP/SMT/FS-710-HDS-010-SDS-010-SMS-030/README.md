@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-710-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-710-HDS-010-SDS-010-SMS-030-lab-site-management-access-membership.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-710-HDS-010-SDS-010-SMS-030-lab-site-management-access-membership.md`
 
 Status: NOT OK - source stub only.
 

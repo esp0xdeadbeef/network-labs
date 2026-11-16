@@ -19,7 +19,7 @@
     evidenceBoundary = "active-lab-mini-smt-runtime-artifact";
   };
   evidence = {
-    owningRepo = "network-codex-agent";
+    owningRepo = "canonical-gamp";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
     verifiedAt = "pending active-lab runtime artifact verification";

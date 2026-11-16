@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-260-HDS-010-SDS-010-SMS-015
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015-hat-policy-nft-rules-probe.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-015-hat-policy-nft-rules-probe.md`
 
 Status: NOT OK - source stub only.
 

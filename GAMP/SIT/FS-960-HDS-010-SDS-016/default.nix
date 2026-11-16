@@ -10,6 +10,6 @@
     };
   };
   evidence = {
-    observedResult = "Construction-only trace chain. SMT row pending verification at network-codex-agent HEAD.";
+    observedResult = "Construction-only trace chain. SMT row pending verification at canonical-gamp HEAD.";
   };
 }

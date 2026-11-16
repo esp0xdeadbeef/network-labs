@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-380-HDS-020-SDS-010-SMS-070
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-070-egress-path-priority.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-070-egress-path-priority.md`
 
 Status: NOT OK - source stub only.
 

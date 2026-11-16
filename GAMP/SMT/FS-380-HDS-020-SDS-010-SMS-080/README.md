@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-380-HDS-020-SDS-010-SMS-080
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080-nixos-nat-prefix-fabric-derivation.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-080-nixos-nat-prefix-fabric-derivation.md`
 
 Status: NOT OK - source stub only.
 

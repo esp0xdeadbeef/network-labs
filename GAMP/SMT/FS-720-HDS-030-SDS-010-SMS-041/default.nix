@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-720-HDS-030-SDS-010-SMS-041";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041.md";
   titleSlug = "ae-fail-closed-contract";
   source = {
     kind = "network-labs-active-lab-source-fixture";

@@ -1,6 +1,6 @@
 # SMS Mirror: FS-940-HDS-010-SDS-020-SMS-080
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-080-route-cardinality-equivalence-diagnostics.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-080-route-cardinality-equivalence-diagnostics.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

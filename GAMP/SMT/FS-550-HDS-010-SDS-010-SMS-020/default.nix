@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-550-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "network-codex-agent/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "canonical-gamp/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "forbidden-dns-fallback-denial";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,6 +15,7 @@
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from network-codex-agent; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "canonical-gamp";
+    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
   };
 }

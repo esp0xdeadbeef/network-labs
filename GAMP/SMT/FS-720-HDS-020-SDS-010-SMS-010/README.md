@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-720-HDS-020-SDS-010-SMS-010-endpoint-inventory-union.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-020-SDS-010-SMS-010-endpoint-inventory-union.md`
 
 Status: OK — construction test verified at HEAD 4cc95123.
 

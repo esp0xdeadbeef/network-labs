@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-930-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-930-HDS-010-SDS-010-SMS-030-lower-layer-repair-prohibition.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-930-HDS-010-SDS-010-SMS-030-lower-layer-repair-prohibition.md`
 
 Status: NOT OK - source stub only.
 

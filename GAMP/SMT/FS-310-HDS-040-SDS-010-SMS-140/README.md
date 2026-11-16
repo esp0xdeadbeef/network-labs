@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-040-SDS-010-SMS-140
 
-Canonical SMS: `network-codex-agent/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-140-cpm-renderer-contract-completeness.md`
+Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-140-cpm-renderer-contract-completeness.md`
 
 Status: NOT OK - source stub only.
 

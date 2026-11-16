@@ -3,7 +3,7 @@
 Status: OK - active-lab evidence current 2026-07-04.
 
 This row groups the public-inventory boundary SMS for active-lab execution.
-The canonical design remains in `network-codex-agent`; this lab row records
+The canonical design remains in `canonical-gamp`; this lab row records
 the row-local source and live evidence boundary.
 
 Current evidence, 2026-07-04:
@@ -12,7 +12,7 @@ Current evidence, 2026-07-04:
   in `network-control-plane-model`.
 - `GAMP/SMT/FS-040-HDS-010-SDS-010-SMS-010/test.sh` in `network-labs`.
 - `bash tests/FS-040-HDS-010-SDS-010-SMS-010.sh` in
-  `network-codex-agent` at `5f1fb8fe`.
+  `canonical-gamp` at `5f1fb8fe`.
 - Direct live verifier PASS:
   `/tmp/s-router-live-smoke/FS-040-HDS-010-SDS-010-SMS-010/20260704T061645Z`.
 - Active-lab runner PASS with offline verifier disabled:
