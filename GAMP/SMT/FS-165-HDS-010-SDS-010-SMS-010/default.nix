@@ -1,5 +1,6 @@
 {
   layer = "SMT";
+  executionBoundary = "external";
   traceId = "FS-165-HDS-010-SDS-010-SMS-010";
   evidence = {
     repo = "network-labs with canonical-gamp checker";

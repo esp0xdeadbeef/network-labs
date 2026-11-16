@@ -208,6 +208,7 @@ case_declares_trace FS-981-HDS-010-SDS-010-SMS-030 "${tmp_dir}/recovered-case.sh
 resolved_count=0
 construction_count=0
 live_count=0
+external_count=0
 : >"${tmp_dir}/resolved-traces"
 while IFS=$'\t' read -r trace_id test_path; do
   [[ -n "${trace_id}" ]] || continue
@@ -230,6 +231,8 @@ while IFS=$'\t' read -r trace_id test_path; do
     *) fail "${trace_id} resolved to noncanonical path ${test_path}" ;;
   esac
   [[ -x "${test_path}" ]] || fail "${test_path} is not executable"
+  [[ "$(jq -r --arg trace_id "${trace_id}" '.tests[$trace_id].executionBoundary // ""' "${tmp_dir}/manifest.json")" != "external" ]] \
+    || fail "${trace_id} declares an external execution boundary but exposes ${test_path}"
   printf '%s\n' "${trace_id}" >>"${tmp_dir}/resolved-traces"
 done < <("${runner}" --test-paths)
 
@@ -241,12 +244,20 @@ comm -23 "${tmp_dir}/catalog-traces" "${tmp_dir}/resolved-traces" >"${tmp_dir}/u
 unimplemented_count=0
 while IFS= read -r trace_id; do
   [[ -n "${trace_id}" ]] || continue
-  unimplemented_count=$((unimplemented_count + 1))
-  [[ "$(jq -r --arg trace_id "${trace_id}" '.tests[$trace_id].status // ""' "${tmp_dir}/manifest.json")" == "NOT OK" ]] \
-    || fail "${trace_id} has no entrypoint but is not explicitly NOT OK"
+  boundary="$(jq -r --arg trace_id "${trace_id}" '.tests[$trace_id].executionBoundary // ""' "${tmp_dir}/manifest.json")"
+  status="$(jq -r --arg trace_id "${trace_id}" '.tests[$trace_id].status // ""' "${tmp_dir}/manifest.json")"
+  if [[ "${boundary}" == "external" ]]; then
+    # The check runs outside this catalog's workspace. The row keeps whatever
+    # claim it carries (a stub may carry none) and must not pretend to be
+    # runnable here, which the resolved-loop already enforces.
+    external_count=$((external_count + 1))
+  else
+    unimplemented_count=$((unimplemented_count + 1))
+    [[ "${status}" == "NOT OK" ]] || fail "${trace_id} has no entrypoint but is not explicitly NOT OK"
+  fi
 done <"${tmp_dir}/unimplemented-traces"
-[[ $((resolved_count + unimplemented_count)) == "${manifest_count}" ]] \
-  || fail "catalog accounting mismatch: runnable=${resolved_count} unimplemented=${unimplemented_count} catalog=${manifest_count}"
+[[ $((resolved_count + unimplemented_count + external_count)) == "${manifest_count}" ]] \
+  || fail "catalog accounting mismatch: runnable=${resolved_count} unimplemented=${unimplemented_count} external=${external_count} catalog=${manifest_count}"
 ((construction_count > 0)) || fail "catalog has no construction entrypoints"
 # Live entrypoints live beside the mirror that owns them; without a supplied
 # mirror the live surface is not part of this workspace.
