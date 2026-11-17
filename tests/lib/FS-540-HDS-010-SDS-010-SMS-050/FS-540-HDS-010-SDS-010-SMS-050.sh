@@ -5,7 +5,7 @@ set -euo pipefail
 
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 trace="FS-540-HDS-010-SDS-010-SMS-050"
-results="$(nix build --no-link --print-out-paths "${repo_root}#validation-scheme-results")"
+results="$(nix build --no-link --print-out-paths "${repo_root}#fs540-peer-posture")"
 runner="$(nix build --no-link --print-out-paths "${repo_root}#validation-scheme")/bin/network-validation-scheme"
 work_dir="$(mktemp -d)"
 trap 'rm -rf "${work_dir}"' EXIT
