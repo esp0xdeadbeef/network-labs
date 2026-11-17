@@ -21,12 +21,12 @@
     };
   };
   evidence = {
-    repo = "network-labs with the network-codex-agent checker";
+    repo = "network-labs with the $NETWORK_WORKSPACE_ROOT checker";
     sourcePaths = [
       "GAMP/SMT/FS-165-HDS-010-SDS-010-SMS-010/intent.nix"
-      "network-codex-agent/scripts/helpers/gamp-sms-input-contracts.py"
+      "$NETWORK_WORKSPACE_ROOT/scripts/helpers/gamp-sms-input-contracts.py"
     ];
-    observedResult = "2026-06-29: row-local source fixture plus the network-codex-agent checker passed source-form minimality predicates for SMS-010/020/030 cases; source-to-construction evidence only.";
+    observedResult = "2026-06-29: row-local source fixture plus the $NETWORK_WORKSPACE_ROOT checker passed source-form minimality predicates for SMS-010/020/030 cases; source-to-construction evidence only.";
     scope = "source-form review: SMS-010 necessity + SMS-020 readability + SMS-030 gap diagnostics";
   };
 }

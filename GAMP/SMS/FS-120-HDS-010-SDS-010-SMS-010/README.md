@@ -8,5 +8,5 @@ coverage cannot silently omit it.
 Status: construction-only source mapping for the owning construction proof.
 
 The canonical SMS title slug is `deterministic-diagnostics`. The active mini-SMT
-entry delegates proof to `network-codex-agent/tests/FS-120-HDS-010-SDS-010-SMS-010.sh`
+entry delegates proof to `$NETWORK_WORKSPACE_ROOT/tests/FS-120-HDS-010-SDS-010-SMS-010.sh`
 and records live host artifacts as context only.

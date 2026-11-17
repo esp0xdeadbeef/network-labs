@@ -6,7 +6,7 @@ Status: OK.
 
 This row is registered in `GAMP/SMT/mini-smt/tests.nix` as an `intent-source`
 mini-SMT and uses the full trace-ID live verifier:
-`../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`$NETWORK_WORKSPACE_ROOT/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 ## Construction Evidence
 

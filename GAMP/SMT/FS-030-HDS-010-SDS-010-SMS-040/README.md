@@ -33,7 +33,7 @@ access -> external stages.
 
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-040` passed.
 - `NETWORK_REPO_DIRECT_TEST_OK=1 bash ../network-control-plane-model/tests/FS-030-HDS-010-SDS-010-SMS-020.sh` passed inside the live wrapper, proving missing binder source audit, missing upstream behavior reference, and cross-stage authority seeded negatives fail closed.
-- `../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-040.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
+- `$NETWORK_WORKSPACE_ROOT/scripts/live-FS-030-HDS-010-SDS-010-SMS-040.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
 - Evidence directory:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-010-SMS-040/20260704T042319Z`.
 - Runtime target counts were `s-router-nixos=5`, `s-router-clab=5`, and

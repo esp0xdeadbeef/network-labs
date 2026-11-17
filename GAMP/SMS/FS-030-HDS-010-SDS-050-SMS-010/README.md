@@ -17,7 +17,7 @@ The authoritative construction test is
 `network-compiler/tests/FS-030-HDS-010-SDS-050-SMS-010.sh`. The row-local
 `GAMP/SMT/FS-030-HDS-010-SDS-050-SMS-010/test.sh` verifies the network-labs
 source binding; the live runner is
-`network-codex-agent/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
+`$NETWORK_WORKSPACE_ROOT/scripts/live-FS-030-HDS-010-SDS-050-SMS-010.sh`.
 
 Current evidence, 2026-07-04:
 

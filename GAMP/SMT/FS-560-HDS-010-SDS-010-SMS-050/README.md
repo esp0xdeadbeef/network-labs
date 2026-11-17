@@ -33,16 +33,16 @@ Cold-stage SIT verifier (after recording pre-stage boot IDs, guest closures,
 source hashes and pushed revisions):
 
 ```sh
-network-codex-agent/tests/test-sit-FS-560-HDS-010-SDS-010-protected-name-publication-live.sh
+$NETWORK_WORKSPACE_ROOT/tests/test-sit-FS-560-HDS-010-SDS-010-protected-name-publication-live.sh
 ```
 
 Its row-local runtime predicate executes both of these substrate probes:
 
 ```sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=nixos \
-  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  $NETWORK_WORKSPACE_ROOT/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 FS560_RUN_LIVE=1 FS560_ROUTER_SUBSTRATE=clab \
-  network-codex-agent/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
+  $NETWORK_WORKSPACE_ROOT/scripts/live-FS-560-HDS-010-SDS-010-SMS-050.sh
 ```
 
 Title slug: `protected-reservation-name-materialization`

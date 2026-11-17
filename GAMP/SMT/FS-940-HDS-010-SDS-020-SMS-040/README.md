@@ -4,6 +4,6 @@ Row-local source for Next-Hop Equivalence Table.
 
 **Validation Evidence Boundary:** construction-only — all predicates are provable with construction tests against compile-time output. No live host/runtime surface required.
 
-Construction test: `network-codex-agent/tests/FS-940-HDS-010-SDS-020-SMS-040.sh`
+Construction test: `$NETWORK_WORKSPACE_ROOT/tests/FS-940-HDS-010-SDS-020-SMS-040.sh`
 
 See SMS spec in the platform GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-040-*.md
