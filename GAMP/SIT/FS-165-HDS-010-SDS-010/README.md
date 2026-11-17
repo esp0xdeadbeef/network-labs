@@ -19,7 +19,7 @@ All three SMS modules are exercised by a row-local construction test in
 `network-labs`: `bash tests/test-fs165-hds010-sds010-sms010-source-value-necessity.sh`.
 
 The test uses the Python checker
-`network-codex-agent/scripts/helpers/gamp-sms-input-contracts.py` with inline
+`$NETWORK_WORKSPACE_ROOT/scripts/helpers/gamp-sms-input-contracts.py` with inline
 JSON fixtures covering predicates across all three SMS specs.
 
 ## Evidence Boundary

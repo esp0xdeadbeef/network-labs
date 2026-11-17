@@ -9,7 +9,7 @@ generate() {
   local trace="$1"
   local fs=$(echo "$trace" | grep -oP '^FS-\d+')
   local sds_chain=$(echo "$trace" | sed 's/-SMS-040//')
-  local sms_file=$(ls ../network-codex-agent/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
+  local sms_file=$(ls $NETWORK_WORKSPACE_ROOT/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
   local title=""
   local scope_line=""
   
@@ -28,7 +28,7 @@ generate() {
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "network-codex-agent";
+    owningRepo = "$NETWORK_WORKSPACE_ROOT";
     focusedTest = "tests/${trace}.sh";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
@@ -46,7 +46,7 @@ Row-local source for $title.
 
 **Validation Evidence Boundary:** construction-only — all predicates are provable with construction tests against compile-time output. No live host/runtime surface required.
 
-Construction test: \`network-codex-agent/tests/${trace}.sh\`
+Construction test: \`$NETWORK_WORKSPACE_ROOT/tests/${trace}.sh\`
 
 $scope_line
 MDEOF

@@ -3,7 +3,7 @@
   executionBoundary = "external";
   traceId = "FS-165-HDS-010-SDS-010-SMS-010";
   evidence = {
-    repo = "network-labs with the network-codex-agent checker";
+    repo = "network-labs with the $NETWORK_WORKSPACE_ROOT checker";
     scope = "source-value necessity validation: accept/reject source values based on source class and downstream derivation";
     isConstructionOnly = true;
   };

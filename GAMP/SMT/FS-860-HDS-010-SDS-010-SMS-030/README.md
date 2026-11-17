@@ -5,7 +5,7 @@ Canonical SMS: `the platform GAMP/SMS/FS-860-HDS-010-SDS-010-SMS-030-scoped-stor
 Status: NOT OK until the current active-lab runtime artifact proof passes.
 
 This row is registered in `GAMP/SMT/mini-smt/tests.nix` and uses
-`../network-codex-agent/scripts/live-FS-860-HDS-010-SDS-010-SMS-030.sh`
+`$NETWORK_WORKSPACE_ROOT/scripts/live-FS-860-HDS-010-SDS-010-SMS-030.sh`
 for active-lab SMT/SIT artifact validation on `s-router-nixos`,
 `s-router-clab`, and `s-router-test-clients`.
 

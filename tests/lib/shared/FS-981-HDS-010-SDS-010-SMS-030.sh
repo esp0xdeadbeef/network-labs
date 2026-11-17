@@ -7,7 +7,7 @@ set -euo pipefail
 # repository, and the symlink target owns the GAMP fixtures.
 qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
-agent_root="${PLATFORM_SPEC_ROOT:-${repo_root}/../network-codex-agent}"
+agent_root="${PLATFORM_SPEC_ROOT:-${repo_root}/$NETWORK_WORKSPACE_ROOT}"
 workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}"
 manifest="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 runner="${repo_root}/tests/run-active-lab-mini-smt.sh"
