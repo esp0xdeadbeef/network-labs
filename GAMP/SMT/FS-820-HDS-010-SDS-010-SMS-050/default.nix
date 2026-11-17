@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-820-HDS-010-SDS-010-SMS-050";
   evidenceBoundary = "active-lab-mini-smt-runtime-artifact";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-050.md";
+  canonicalSms = "the platform GAMP/SMS/FS-820-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "network-labs-sops-configuration-validation";
   source = {
     kind = "intent-source";

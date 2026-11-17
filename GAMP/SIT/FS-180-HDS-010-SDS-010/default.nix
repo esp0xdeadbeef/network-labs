@@ -9,6 +9,6 @@
     };
   };
   evidence = {
-    observedResult = "Split evidence boundary: construction tests PASS at canonical-gamp HEAD; HAT live re-verify pending.";
+    observedResult = "Split evidence boundary: construction tests PASS at the platform specification HEAD; HAT live re-verify pending.";
   };
 }

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-162-HDS-010-SDS-020-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "openconfig-yang-model-validation";
   source = {
     kind = "openconfig-rfc7951-candidate";

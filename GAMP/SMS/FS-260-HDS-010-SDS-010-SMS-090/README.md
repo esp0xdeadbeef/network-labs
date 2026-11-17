@@ -1,6 +1,6 @@
 # SMS Mirror: FS-260-HDS-010-SDS-010-SMS-090
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-090-nfm-naming-inference-prevention.md`
+Canonical SMS: `the platform GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-090-nfm-naming-inference-prevention.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

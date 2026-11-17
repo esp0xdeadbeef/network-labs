@@ -1,6 +1,6 @@
 # SMT Source Fixture: FS-800-HDS-030-SDS-020-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-record-checks.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-010-pppoe-customer-side-record-checks.md`
 
 Status: OK - focused network-labs source fixture test passes.
 

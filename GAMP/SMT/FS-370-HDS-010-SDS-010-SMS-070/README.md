@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-070 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-070-core-forwarding-chain.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-070-core-forwarding-chain.md`
 
 Status: OK - construction-only.
 

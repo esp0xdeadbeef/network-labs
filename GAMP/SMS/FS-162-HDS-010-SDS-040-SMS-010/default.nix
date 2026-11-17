@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-162-HDS-010-SDS-040-SMS-010";
   parentSds = ../../SDS/FS-162-HDS-010-SDS-040;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010.md";
   titleSlug = "s-router-prod-comparable-projection";
   purpose = "Three-peer construction proof from one isolated FS-230 canonical bundle.";
   evidenceBoundary = "construction-only";

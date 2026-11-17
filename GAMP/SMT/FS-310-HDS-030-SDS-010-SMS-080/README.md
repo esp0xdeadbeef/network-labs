@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-030-SDS-010-SMS-080
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080-renderer-shell-fallback-error-propagation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080-renderer-shell-fallback-error-propagation.md`
 
 Status: ACTIVE MINI-SMT - registered runtime wrapper.
 

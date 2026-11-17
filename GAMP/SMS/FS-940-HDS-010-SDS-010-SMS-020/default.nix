@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-940-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-940-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "stage-budget-cardinality-benchmark";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

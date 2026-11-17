@@ -1,6 +1,6 @@
 # SMS Mirror: FS-230-HDS-010-SDS-010-SMS-040
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md`
+Canonical SMS: `the platform GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

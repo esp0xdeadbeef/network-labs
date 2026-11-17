@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-010-SDS-012-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-012-SMS-010-provider-access-non-authority.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-012-SMS-010-provider-access-non-authority.md`
 
 Status: NOT OK - source stub only.
 

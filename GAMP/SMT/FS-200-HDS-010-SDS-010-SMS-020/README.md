@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-200-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-200-HDS-010-SDS-010-SMS-020-shared-service-discovery-payload-separation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-200-HDS-010-SDS-010-SMS-020-shared-service-discovery-payload-separation.md`
 
 Status: NOT OK - source stub only.
 

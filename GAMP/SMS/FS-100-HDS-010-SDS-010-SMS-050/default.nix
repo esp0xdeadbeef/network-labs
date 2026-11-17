@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-100-HDS-010-SDS-010-SMS-050";
   parentSds = ../../SDS/FS-100-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-050.md";
+  canonicalSms = "the platform GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "output-artifact-baseline-binding";
   purpose = "Output Artifact Baseline Binding (construction-only).";
   evidenceBoundary = "construction-only";

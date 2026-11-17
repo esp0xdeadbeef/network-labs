@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-540-HDS-010-SDS-010-SMS-050";
   parentSds = ../../SDS/FS-540-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050.md";
+  canonicalSms = "the platform GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "openconfig-dns-peer-posture";
   purpose = "Canonical SMS mirror for deterministic renderer-peer construction.";
   evidenceBoundary = "construction";

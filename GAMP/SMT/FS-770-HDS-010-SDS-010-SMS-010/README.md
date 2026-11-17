@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-770-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-010-SMS-010-common-intent-containerlab-nixos.md`
+Canonical SMS: `the platform GAMP/SMS/FS-770-HDS-010-SDS-010-SMS-010-common-intent-containerlab-nixos.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-360-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "downstream-client-public-prefix-authority";
   evidenceBoundary = "construction-only";
   source = {
@@ -13,7 +13,7 @@
     owningRepo = "network-forwarding-model";
     smtRow = "GAMP/SMT/README.md row 135";
     status = "OK";
-    verifiedAt = "canonical-gamp + network-forwarding-model local HEAD (2026-07-02)";
+    verifiedAt = "the platform specification + network-forwarding-model local HEAD (2026-07-02)";
     scope = "downstream client public prefix authority classification: consumes routed, delegated, tunneled, provider-owned, WAN, uplink, host-only, and non-delegating upstream prefix facts; emits classed prefix-authority records and consumer-eligibility decisions; denies host-only, WAN, uplink, and non-delegating upstream facts as downstream client public prefix authority (construction-only, NFM-owned)";
   };
 }

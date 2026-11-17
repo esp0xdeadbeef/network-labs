@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-920-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030-failure-response-authority-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-030-failure-response-authority-boundary.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMT Mini Source: FS-030-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compiler-behavior-source-audit.md`
+Canonical SMS: `the platform GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030-compiler-behavior-source-audit.md`
 
 Status: OK - active-lab mini-SMT runtime evidence.
 
@@ -36,7 +36,7 @@ runtime-target shape.
 
 - `MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-030` passed.
 - `NETWORK_REPO_DIRECT_TEST_OK=1 bash ../network-compiler/tests/FS-030-HDS-010-SDS-010-SMS-030.sh` passed inside the live wrapper, proving missing audit, non-intent audit, and non-compiler-authority seeded negatives fail closed with `E_COMPILER_BEHAVIOR_SOURCE_AUDIT`.
-- `../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-010-SMS-030.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
+- `../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-030.sh` passed on `s-router-nixos`, `s-router-clab`, and `s-router-test-clients`.
 - Evidence directory:
   `/tmp/s-router-live-smoke/FS-030-HDS-010-SDS-010-SMS-030/20260704T041126Z`.
 - Runtime target counts were `s-router-nixos=5`, `s-router-clab=5`, and

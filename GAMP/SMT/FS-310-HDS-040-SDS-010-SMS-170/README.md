@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-040-SDS-010-SMS-170
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-170-cpm-forwarding-intent-preservation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-170-cpm-forwarding-intent-preservation.md`
 
 Status: NOT OK - source stub only.
 

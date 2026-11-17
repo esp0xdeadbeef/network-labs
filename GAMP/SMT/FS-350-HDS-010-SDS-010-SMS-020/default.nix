@@ -9,7 +9,7 @@
     expectedRelationIds = [ "FS-350-HDS-010-SDS-010-SMS-020__mini-verify" ];
   };
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     smtRow = "GAMP/SMT/README.md row 220";
     status = "OK";
     verifiedAt = "NFM HEAD (2026-06-05), re-verified 2026-06-27";

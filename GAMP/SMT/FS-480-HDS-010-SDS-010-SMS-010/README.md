@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-480-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-010-runtime-route-import-authority.md`
+Canonical SMS: `the platform GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-010-runtime-route-import-authority.md`
 
 Status: NOT OK - source stub only.
 

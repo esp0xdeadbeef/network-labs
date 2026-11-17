@@ -1,6 +1,6 @@
 # SMS Mirror: FS-162-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010-openconfig-yang-model-validation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-162-HDS-010-SDS-020-SMS-010-openconfig-yang-model-validation.md`
 
 Status: OK at the construction boundary.
 

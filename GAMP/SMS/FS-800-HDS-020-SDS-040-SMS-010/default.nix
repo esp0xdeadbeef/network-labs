@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-800-HDS-020-SDS-040-SMS-010";
   parentSds = ../../SDS/FS-800-HDS-020-SDS-040;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010.md";
   titleSlug = "hat-script-override-rejection";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

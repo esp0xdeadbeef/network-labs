@@ -1,6 +1,6 @@
 # FS-070-HDS-010-SDS-010-SMS-010 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010-validation-context-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010-validation-context-boundary.md`
 
 Status: OK live on 2026-07-04.
 

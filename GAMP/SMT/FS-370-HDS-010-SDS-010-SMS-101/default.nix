@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-101";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-101.md";
+  canonicalSms = "the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-101.md";
   miniSmtId = "FS-370-HDS-010-SDS-010-SMS-101";
   titleSlug = "policy-ds-per-lane-return-path-routing";
   evidenceBoundary = "split";

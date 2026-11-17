@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-750-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-030-receiver-fixture-non-authority.md`
+Canonical SMS: `the platform GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-030-receiver-fixture-non-authority.md`
 
 Status: NOT OK - source stub only.
 

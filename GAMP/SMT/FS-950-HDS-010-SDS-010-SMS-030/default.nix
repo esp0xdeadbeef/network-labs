@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-950-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-030.md";
+  canonicalSms = "the platform GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "validation-metadata-routing-boundary";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,7 +15,7 @@
   };
   status = "NOT OK";
   evidence = {
-    owningRepo = "canonical-gamp";
-    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "the platform specification";
+    observedResult = "canonical SMS mirrored from the platform specification; no focused mini-SMT or owning construction test is registered yet";
   };
 }

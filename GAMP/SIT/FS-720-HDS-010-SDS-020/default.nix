@@ -20,6 +20,6 @@
       "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-020/intent.nix"
       "GAMP/SMT/FS-720-HDS-010-SDS-020-SMS-040/intent.nix"
     ];
-    observedResult = "2026-07-01 construction/source-artifact proof PASS at canonical-gamp@d7f20211: /tmp/hat-sat-agent-fs720-sit-source-harness-integration-high/run.Gp2DgG. FS-720-HDS-010-SDS-020-SMS-020 is construction-only and intentionally not registered in GAMP/SMT/mini-smt/tests.nix.";
+    observedResult = "2026-07-01 construction/source-artifact proof PASS at the platform specification@d7f20211: /tmp/hat-sat-agent-fs720-sit-source-harness-integration-high/run.Gp2DgG. FS-720-HDS-010-SDS-020-SMS-020 is construction-only and intentionally not registered in GAMP/SMT/mini-smt/tests.nix.";
   };
 }

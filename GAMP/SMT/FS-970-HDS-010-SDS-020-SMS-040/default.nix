@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-970-HDS-010-SDS-020-SMS-040";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040.md";
+  canonicalSms = "the platform GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040.md";
   titleSlug = "runtime-secret-reservation-materialization";
   source = {
     kind = "intent-source";

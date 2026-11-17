@@ -1,6 +1,6 @@
 # SMS Mirror: FS-460-HDS-010-SDS-010-SMS-080
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-080-nebula-output-containment.md`
+Canonical SMS: `the platform GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-080-nebula-output-containment.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

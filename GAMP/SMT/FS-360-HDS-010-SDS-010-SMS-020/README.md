@@ -1,6 +1,6 @@
 # FS-360-HDS-010-SDS-010-SMS-020 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020-public-prefix-return-route-precondition.md`
+Canonical SMS: `the platform GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-020-public-prefix-return-route-precondition.md`
 
 Status: OK - construction-only.
 

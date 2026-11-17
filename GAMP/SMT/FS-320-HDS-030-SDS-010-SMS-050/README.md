@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-320-HDS-030-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-320-HDS-030-SDS-010-SMS-050-per-interface-policy-table-connected-peer-routes.md`
+Canonical SMS: `the platform GAMP/SMS/FS-320-HDS-030-SDS-010-SMS-050-per-interface-policy-table-connected-peer-routes.md`
 
 Status: NOT OK - source stub only.
 

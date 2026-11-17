@@ -2,7 +2,7 @@
   layer = "SMT";
   executionBoundary = "external";
   traceId = "FS-010-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-010-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "accepted-source-set";
   source = {
     kind = "intent-source";

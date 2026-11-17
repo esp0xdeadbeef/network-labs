@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-981-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-010-dead-code-test-target-hygiene.md`
+Canonical SMS: `the platform GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-010-dead-code-test-target-hygiene.md`
 
 Status: NOT OK - source stub only.
 

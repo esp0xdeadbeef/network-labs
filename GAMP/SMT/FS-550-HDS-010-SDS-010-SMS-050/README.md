@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-550-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-050-cross-tenant-dns-egress-denial.md`
+Canonical SMS: `the platform GAMP/SMS/FS-550-HDS-010-SDS-010-SMS-050-cross-tenant-dns-egress-denial.md`
 
 Status: NOT OK - source stub only.
 

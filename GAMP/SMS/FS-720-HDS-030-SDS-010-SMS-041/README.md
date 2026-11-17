@@ -1,6 +1,6 @@
 # SMS Mirror: FS-720-HDS-030-SDS-010-SMS-041
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-041-ae-fail-closed-contract.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

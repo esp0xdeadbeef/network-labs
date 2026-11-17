@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-280-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010-core-boundary-host-traffic-exception.md`
+Canonical SMS: `the platform GAMP/SMS/FS-280-HDS-010-SDS-010-SMS-010-core-boundary-host-traffic-exception.md`
 
 Status: NOT OK - source stub only.
 

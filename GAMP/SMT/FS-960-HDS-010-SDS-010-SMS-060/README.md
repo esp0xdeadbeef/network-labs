@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-060-validation-prerequisite-startup-gate.md`
+Canonical SMS: `the platform GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-060-validation-prerequisite-startup-gate.md`
 
 Status: NOT OK - source stub only.
 

@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-100-HDS-010-SDS-010-SMS-020";
   parentSds = ../../SDS/FS-100-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "deterministic-source-identity";
   purpose = "Deterministic source identity construction-only source template.";
   evidenceBoundary = "construction-only";

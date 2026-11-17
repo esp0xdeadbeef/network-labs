@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-770-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
 
 Status: OK - focused construction test registered.
 

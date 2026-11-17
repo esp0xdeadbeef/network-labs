@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-090 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-090-core-return-path-routing.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-090-core-return-path-routing.md`
 
 Status: OK - construction-only.
 

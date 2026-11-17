@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-420-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-420-HDS-010-SDS-010-SMS-030-translation-authority-containment.md`
+Canonical SMS: `the platform GAMP/SMS/FS-420-HDS-010-SDS-010-SMS-030-translation-authority-containment.md`
 
 Status: NOT OK - source stub only.
 

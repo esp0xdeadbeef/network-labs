@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-270-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-270-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-270-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "client-tenant-policy-transit";
   source = {
     kind = "intent-source";

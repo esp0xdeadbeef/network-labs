@@ -1,6 +1,6 @@
 # FS-540-HDS-010-SDS-010-SMS-050 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050-openconfig-dns-peer-posture.md`
+Canonical SMS: `the platform GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-050-openconfig-dns-peer-posture.md`
 
 Status: OK.
 

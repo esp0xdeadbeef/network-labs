@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-080 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080-upstream-selector-default-route.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080-upstream-selector-default-route.md`
 
 Status: OK - construction-only.
 

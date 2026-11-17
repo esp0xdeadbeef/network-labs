@@ -1,6 +1,6 @@
 # SMT Construction Candidate: FS-230-HDS-010-SDS-010-SMS-040
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md`
+Canonical SMS: `the platform GAMP/SMS/FS-230-HDS-010-SDS-010-SMS-040-s-router-prod-nebula-ipv6-ingress-compatibility.md`
 
 Status: NOT OK - retry-6 cold-staged the exact pushed pins and deployed both
 substrates without a hotpatch, but the NixOS service endpoint inherited a

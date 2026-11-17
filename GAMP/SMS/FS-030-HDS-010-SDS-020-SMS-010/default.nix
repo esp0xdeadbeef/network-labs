@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-030-HDS-010-SDS-020-SMS-010";
   parentSds = ../../SDS/FS-030-HDS-010-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "stage-topology-enforcement";
   purpose = "Active row-local mini-SMT input template for compiler stage-topology enforcement.";
   evidenceBoundary = "row-local-mini-smt";

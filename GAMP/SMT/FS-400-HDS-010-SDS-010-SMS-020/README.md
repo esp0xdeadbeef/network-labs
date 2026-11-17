@@ -8,4 +8,4 @@ Validation Evidence Boundary: construction-only — all predicates proven via CP
 This row-local intent fixture models a minimal tenant-topology exercising ULA NAT66 mode selection
 with dedicated NAT66 egress prefix. Intended for focused deterministic SMT construction evidence.
 
-The authoritative SMT row lives in `canonical-gamp/GAMP/SMT/README.md` row 234.
+The authoritative SMT row lives in `the platform GAMP/SMT/README.md` row 234.

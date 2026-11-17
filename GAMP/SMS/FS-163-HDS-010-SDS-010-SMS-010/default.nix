@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-163-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-163-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-163-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-163-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "complete-lock-closure";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

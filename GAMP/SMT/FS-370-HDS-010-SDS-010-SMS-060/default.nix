@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-060";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-060.md";
+  canonicalSms = "the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-060.md";
   titleSlug = "access-node-tenant-internet-forwarding";
   evidenceBoundary = "construction-only";
   source = {

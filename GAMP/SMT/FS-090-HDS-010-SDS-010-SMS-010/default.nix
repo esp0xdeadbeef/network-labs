@@ -3,7 +3,7 @@
   executionBoundary = "external";
   traceId = "FS-090-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-090-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "no-downstream-heuristic-repair";
   source = {
     kind = "intent-source";
@@ -19,7 +19,7 @@
   };
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     networkLabsRev = "4ab9987cccf95c32d31c300e5a52ad16910ac91e";
     nixosLockCommit = "75c0032e6a38";
     networkCodexAgentCommit = "c45f7f51";

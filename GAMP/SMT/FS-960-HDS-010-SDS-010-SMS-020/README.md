@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-020-runtime-substrate-owner-classification.md`
+Canonical SMS: `the platform GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-020-runtime-substrate-owner-classification.md`
 
 Status: NOT OK - source stub only.
 

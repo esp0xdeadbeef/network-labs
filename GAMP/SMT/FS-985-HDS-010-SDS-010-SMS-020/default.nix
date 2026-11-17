@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-985-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "repo-local-test-boundary";
   source = {
     kind = "construction-only";

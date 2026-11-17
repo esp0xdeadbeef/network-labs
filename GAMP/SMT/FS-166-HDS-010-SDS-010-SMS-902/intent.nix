@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-902";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-902.md";
+    canonicalSms = "the platform GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-902.md";
     titleSlug = "nixos-p2p-replacement";
     evidenceBoundary = "source-stub-only";
     runnable = false;

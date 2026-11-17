@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-290-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-290-HDS-010-SDS-010-SMS-020-access-space-discovery-export.md`
+Canonical SMS: `the platform GAMP/SMS/FS-290-HDS-010-SDS-010-SMS-020-access-space-discovery-export.md`
 
 Status: NOT OK - source stub only.
 

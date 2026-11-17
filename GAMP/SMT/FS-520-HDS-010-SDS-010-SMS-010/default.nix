@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-520-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-520-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-520-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "runtime-route-import-explanation";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,7 +15,7 @@
   };
   status = "NOT OK";
   evidence = {
-    owningRepo = "canonical-gamp";
-    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
+    owningRepo = "the platform specification";
+    observedResult = "canonical SMS mirrored from the platform specification; no focused mini-SMT or owning construction test is registered yet";
   };
 }

@@ -5,7 +5,7 @@
     "FS-800-HDS-030-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-800-HDS-030-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-800-HDS-030-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-010-SMS-010.md";
+      canonicalSms = "the platform GAMP/SMS/FS-800-HDS-030-SDS-010-SMS-010.md";
       role = "pppoe-provider-side-source-fixture";
       evidenceBoundary = "source-fixture-cpm-renderer-integration-plus-live-session-probe";
     };

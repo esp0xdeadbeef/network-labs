@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-167-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-167-HDS-010-SDS-010-SMS-010-upstream-realization-coverage.md`
+Canonical SMS: `the platform GAMP/SMS/FS-167-HDS-010-SDS-010-SMS-010-upstream-realization-coverage.md`
 
 Status: NOT OK - source stub only.
 

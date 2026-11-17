@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-480-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-020-route-import-constraint-validation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-480-HDS-010-SDS-010-SMS-020-route-import-constraint-validation.md`
 
 Status: NOT OK - source stub only.
 

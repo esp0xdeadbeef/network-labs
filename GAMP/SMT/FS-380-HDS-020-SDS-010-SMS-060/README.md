@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-380-HDS-020-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-060-core-wan-ip-assignment.md`
+Canonical SMS: `the platform GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-060-core-wan-ip-assignment.md`
 
 Status: NOT OK - source stub only.
 

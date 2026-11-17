@@ -3,7 +3,7 @@
 Layer: SMT
 
 This row-local SMT selector is construction-only. It delegates the actual module
-proof to `canonical-gamp`:
+proof to the platform specification:
 
 ```text
 bash tests/FS-110-HDS-010-SDS-010-SMS-010.sh

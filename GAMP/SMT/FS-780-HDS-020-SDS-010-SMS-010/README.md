@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-780-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-780-HDS-020-SDS-010-SMS-010-equivalence-row-atomization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-780-HDS-020-SDS-010-SMS-010-equivalence-row-atomization.md`
 
 Status: NOT OK - source stub only.
 

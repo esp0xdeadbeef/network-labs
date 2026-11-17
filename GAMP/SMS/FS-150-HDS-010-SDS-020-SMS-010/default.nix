@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-150-HDS-010-SDS-020-SMS-010";
   parentSds = ../../SDS/FS-150-HDS-010-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-150-HDS-010-SDS-020-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-150-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "portability-comparison-record";
   purpose = "Portability Comparison Record (construction-only).";
   evidenceBoundary = "construction-only";

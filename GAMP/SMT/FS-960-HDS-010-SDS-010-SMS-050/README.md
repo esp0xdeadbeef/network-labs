@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-050-hat-renderer-hotpatch-diagnostic.md`
+Canonical SMS: `the platform GAMP/SMS/FS-960-HDS-010-SDS-010-SMS-050-hat-renderer-hotpatch-diagnostic.md`
 
 Status: NOT OK - source stub only.
 

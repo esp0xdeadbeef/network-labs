@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-960-HDS-010-SDS-016-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-030-clab-cache-absent-build-save.md`
+Canonical SMS: `the platform GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-030-clab-cache-absent-build-save.md`
 
 Status: NOT OK - source stub only.
 

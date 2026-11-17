@@ -1,6 +1,6 @@
 # FS-360-HDS-010-SDS-010-SMS-030 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030-gua-transit-placement-validation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-360-HDS-010-SDS-010-SMS-030-gua-transit-placement-validation.md`
 
 Status: OK - construction-only.
 

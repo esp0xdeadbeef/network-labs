@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-985-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-010-flake-input-unpinned.md`
+Canonical SMS: `the platform GAMP/SMS/FS-985-HDS-010-SDS-010-SMS-010-flake-input-unpinned.md`
 
 Status: NOT OK - source stub only.
 

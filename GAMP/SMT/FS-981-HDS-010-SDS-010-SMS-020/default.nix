@@ -2,7 +2,7 @@
   layer = "SMT";
   executionBoundary = "external";
   traceId = "FS-981-HDS-010-SDS-010-SMS-020";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-020.md";
   titleSlug = "file-reachability-index";
   source = {
     kind = "construction-only";
@@ -10,7 +10,7 @@
   };
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     observedResult = "All SMS predicates proven: N1 orphan module→UNRESOLVED, R1 add caller→active-implementation, N2 unreachable test helper→UNRESOLVED, R2 add test caller→active-test-helper, P1 well-connected→active-implementation. Test wired into tests/test.sh.";
   };
 }

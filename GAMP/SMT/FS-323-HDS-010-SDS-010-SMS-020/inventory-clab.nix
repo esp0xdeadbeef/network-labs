@@ -1,7 +1,7 @@
 {
   meta = {
     traceId = "FS-323-HDS-010-SDS-010-SMS-020";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-323-HDS-010-SDS-010-SMS-020.md";
+    canonicalSms = "the platform GAMP/SMS/FS-323-HDS-010-SDS-010-SMS-020.md";
     renderer = "clab";
     scope = "canonical-sms-source-stub";
     evidenceBoundary = "source-stub-only";

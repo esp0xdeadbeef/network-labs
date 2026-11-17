@@ -1,6 +1,6 @@
 # SMS Mirror: FS-960-HDS-010-SDS-015-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-015-SMS-010-startup-gate-override-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-960-HDS-010-SDS-015-SMS-010-startup-gate-override-boundary.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

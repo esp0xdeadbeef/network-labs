@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-700-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-700-HDS-010-SDS-020-SMS-010-source-file-classification.md`
+Canonical SMS: `the platform GAMP/SMS/FS-700-HDS-010-SDS-020-SMS-010-source-file-classification.md`
 
 Status: NOT OK - source stub only.
 

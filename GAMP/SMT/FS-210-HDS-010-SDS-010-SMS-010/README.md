@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-210-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-210-HDS-010-SDS-010-SMS-010-public-ingress-authorization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-210-HDS-010-SDS-010-SMS-010-public-ingress-authorization.md`
 
 Status: NOT OK - source stub only.
 

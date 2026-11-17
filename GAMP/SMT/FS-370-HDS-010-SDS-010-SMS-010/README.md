@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-010 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-010-source-prefix-egress-surface.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-010-source-prefix-egress-surface.md`
 
 Status: OK - construction-only.
 

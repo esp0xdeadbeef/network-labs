@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-800-HDS-030-SDS-020-SMS-040";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-040.md";
+  canonicalSms = "the platform GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-040.md";
   titleSlug = "canonical-sms";
   source = {
     kind = "canonical-sms-source-stub";
@@ -15,6 +15,6 @@
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "canonical SMS mirrored from the platform specification; no focused mini-SMT or owning construction test is registered yet";
   };
 }

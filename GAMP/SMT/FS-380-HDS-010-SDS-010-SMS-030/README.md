@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-380-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-380-HDS-010-SDS-010-SMS-030-routed-public-ipv4-selection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-380-HDS-010-SDS-010-SMS-030-routed-public-ipv4-selection.md`
 
 Status: NOT OK - source stub only.
 

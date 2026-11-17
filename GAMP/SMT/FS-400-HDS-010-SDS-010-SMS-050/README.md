@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-400-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-050-ula-wan-denial.md`
+Canonical SMS: `the platform GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-050-ula-wan-denial.md`
 
 Status: NOT OK - source stub only.
 

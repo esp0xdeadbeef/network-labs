@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-690-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-690-HDS-010-SDS-010-SMS-010-operator-support-view.md`
+Canonical SMS: `the platform GAMP/SMS/FS-690-HDS-010-SDS-010-SMS-010-operator-support-view.md`
 
 Status: NOT OK - source stub only.
 

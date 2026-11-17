@@ -1,6 +1,6 @@
 # SMS Mirror: FS-560-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-560-HDS-010-SDS-020-SMS-020-source-scoped-resolver-materialization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-560-HDS-010-SDS-020-SMS-020-source-scoped-resolver-materialization.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

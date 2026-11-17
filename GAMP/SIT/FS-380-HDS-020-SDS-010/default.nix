@@ -16,7 +16,7 @@
   evidence = {
     commandSms120 = "tests/run-active-lab-mini-smt.sh FS-380-HDS-020-SDS-010-SMS-120";
     liveCommandSms120 = ''
-      cd /path/to/canonical-gamp &&
+      cd /path/to/the platform specification &&
       bash scripts/live-FS-380-HDS-020-SDS-010-SMS-120.sh
     '';
     sourcePaths = [

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-950-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-020-evidence-design-construction-routing.md`
+Canonical SMS: `the platform GAMP/SMS/FS-950-HDS-010-SDS-010-SMS-020-evidence-design-construction-routing.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,7 +1,7 @@
 # SMT: FS-970-HDS-010-SDS-020-SMS-040
 
 Canonical SMS:
-`canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
+`the platform GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-040-runtime-secret-reservation-materialization.md`
 
 Status: OK at the isolated SMT/SIT boundary.
 

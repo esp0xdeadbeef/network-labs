@@ -1,6 +1,6 @@
 # SMS Mirror: FS-800-HDS-030-SDS-020-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020-s-router-prod-pppoe-ipv6-prefix-delegation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020-s-router-prod-pppoe-ipv6-prefix-delegation.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-705-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-050-vlan4-upstream-inheritance.md`
+Canonical SMS: `the platform GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-050-vlan4-upstream-inheritance.md`
 
 Status: NOT OK - source stub only.
 

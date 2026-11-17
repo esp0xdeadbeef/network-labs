@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-240-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-240-HDS-010-SDS-010-SMS-010-management-plane-exclusion.md`
+Canonical SMS: `the platform GAMP/SMS/FS-240-HDS-010-SDS-010-SMS-010-management-plane-exclusion.md`
 
 Status: NOT OK - source stub only.
 

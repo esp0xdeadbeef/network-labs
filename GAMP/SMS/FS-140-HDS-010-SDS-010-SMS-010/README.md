@@ -1,6 +1,6 @@
 # SMS Mirror: FS-140-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010-scoped-output-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010-scoped-output-boundary.md`
 
 This network-labs row maps the canonical GAMP SMS trace to the construction-only
 active-lab wrapper for the owning CPM proof.

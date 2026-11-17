@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-181-HDS-010-SDS-030-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010-realization-authority-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010-realization-authority-binding.md`
 
 Status: NOT OK - source stub only.
 

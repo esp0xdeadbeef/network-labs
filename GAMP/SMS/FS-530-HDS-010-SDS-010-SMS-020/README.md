@@ -1,6 +1,6 @@
 # SMS Mirror: FS-530-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-020-missing-dns-policy-rejection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-530-HDS-010-SDS-010-SMS-020-missing-dns-policy-rejection.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

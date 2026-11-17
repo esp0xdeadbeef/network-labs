@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-910-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-030-scoped-detail-mode-selection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-030-scoped-detail-mode-selection.md`
 
 Status: NOT OK - source stub only.
 

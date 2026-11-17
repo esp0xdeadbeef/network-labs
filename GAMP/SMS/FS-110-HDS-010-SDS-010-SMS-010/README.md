@@ -3,11 +3,11 @@
 Layer: SMS
 
 This row-local source reference binds the canonical
-`canonical-gamp/GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010-deterministic-evaluation.md`
+`the platform GAMP/SMS/FS-110-HDS-010-SDS-010-SMS-010-deterministic-evaluation.md`
 SMS to the active-lab construction-only selector.
 
 The row does not create runtime targets. Current evidence is the
-`canonical-gamp` focused construction proof:
+the platform specification focused construction proof:
 
 ```text
 bash tests/FS-110-HDS-010-SDS-010-SMS-010.sh

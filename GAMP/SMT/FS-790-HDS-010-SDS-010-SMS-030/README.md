@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-790-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-030-public-ingress-denied-variants.md`
+Canonical SMS: `the platform GAMP/SMS/FS-790-HDS-010-SDS-010-SMS-030-public-ingress-denied-variants.md`
 
 Status: NOT OK - source stub only.
 

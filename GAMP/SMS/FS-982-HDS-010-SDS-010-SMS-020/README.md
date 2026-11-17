@@ -1,6 +1,6 @@
 # SMS Mirror: FS-982-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-020-minimal-host-profile-shape.md`
+Canonical SMS: `the platform GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-020-minimal-host-profile-shape.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

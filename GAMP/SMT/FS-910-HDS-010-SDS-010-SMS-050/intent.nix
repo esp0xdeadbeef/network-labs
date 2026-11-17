@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-910-HDS-010-SDS-010-SMS-050";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-050.md";
+    canonicalSms = "the platform GAMP/SMS/FS-910-HDS-010-SDS-010-SMS-050.md";
     titleSlug = "s-router-prod-public-address-validation-log-redaction";
     evidenceBoundary = "source-stub-only";
     runnable = false;

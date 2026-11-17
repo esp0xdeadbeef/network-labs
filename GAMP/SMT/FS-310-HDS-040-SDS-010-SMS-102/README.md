@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-040-SDS-010-SMS-102
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-102-clab-cpm-only-consumption.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-102-clab-cpm-only-consumption.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-760-HDS-010-SDS-010-SMS-050";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-050.md";
+  canonicalSms = "the platform GAMP/SMS/FS-760-HDS-010-SDS-010-SMS-050.md";
   titleSlug = "receiver-multicast-flooding-denial";
   source = {
     kind = "intent-source";

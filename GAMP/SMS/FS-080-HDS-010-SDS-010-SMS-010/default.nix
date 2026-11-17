@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-080-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-080-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "missing-ambiguous-fact-failure";
   purpose = "Missing-or-ambiguous fact failure template (active-lab runtime SMT OK).";
   evidenceBoundary = "runtime";

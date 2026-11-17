@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-010-SDS-010-SMS-030-test-clients-service-surfaces.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-010-SDS-010-SMS-030-test-clients-service-surfaces.md`
 
 Status: NOT OK - source stub only.
 

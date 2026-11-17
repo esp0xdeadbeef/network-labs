@@ -1,6 +1,6 @@
 # SMS Mirror: FS-770-HDS-010-SDS-020-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-010-realization-fact-binding.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace and records the
 focused common behavior source binding construction input.

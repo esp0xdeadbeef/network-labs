@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-370-HDS-010-SDS-010-SMS-080";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080.md";
+  canonicalSms = "the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-080.md";
   titleSlug = "upstream-selector-default-route";
   evidenceBoundary = "construction-only";
   source = {

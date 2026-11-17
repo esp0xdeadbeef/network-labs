@@ -1,6 +1,6 @@
 # SMS Mirror: FS-380-HDS-020-SDS-010-SMS-110
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-110-cpm-dhcp-server-authority.md`
+Canonical SMS: `the platform GAMP/SMS/FS-380-HDS-020-SDS-010-SMS-110-cpm-dhcp-server-authority.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

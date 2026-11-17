@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-940-HDS-010-SDS-020-SMS-020";
   parentSds = ../../SDS/FS-940-HDS-010-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-020.md";
   titleSlug = "route-atom-index";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-310-HDS-030-SDS-010-SMS-080";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080.md";
+  canonicalSms = "the platform GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-080.md";
   titleSlug = "renderer-shell-fallback-error-propagation";
   source = {
     kind = "intent-source";

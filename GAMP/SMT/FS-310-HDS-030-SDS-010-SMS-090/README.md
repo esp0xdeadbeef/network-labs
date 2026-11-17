@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-030-SDS-010-SMS-090
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090-renderer-check-bypass-prevention.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-090-renderer-check-bypass-prevention.md`
 
 Status: NOT OK - source stub only.
 

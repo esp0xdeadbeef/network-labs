@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-800-HDS-030-SDS-020-SMS-020";
   parentSds = ../../SDS/FS-800-HDS-030-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020.md";
+  canonicalSms = "the platform GAMP/SMS/FS-800-HDS-030-SDS-020-SMS-020.md";
   titleSlug = "s-router-prod-pppoe-ipv6-prefix-delegation";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

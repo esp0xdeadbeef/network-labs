@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-970-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-020-non-public-reservation-identity-source.md`
+Canonical SMS: `the platform GAMP/SMS/FS-970-HDS-010-SDS-020-SMS-020-non-public-reservation-identity-source.md`
 
 Status: NOT OK - source stub only.
 

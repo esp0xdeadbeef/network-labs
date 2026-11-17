@@ -1,6 +1,6 @@
 # FS-390-HDS-010-SDS-010-SMS-030 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-030-broad-wan-public-ipv4-denial.md`
+Canonical SMS: `the platform GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-030-broad-wan-public-ipv4-denial.md`
 
 Status: OK - runnable intent-source fixture.
 
