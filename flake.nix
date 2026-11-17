@@ -181,6 +181,19 @@
               inherit (scheme) controlledDocumentLanguageContract;
             }
           );
+          # One scenario's comparison and the seeded negatives it cites. A focused
+          # SMS case must not serialise every scenario, renderer boundary and
+          # lock-closure case of the whole scheme.
+          fs540PeerPosture = pkgs.writeText "fs540-peer-posture.json" (
+            builtins.toJSON {
+              fs540PeerComparison = builtins.removeAttrs scheme.fs540PeerComparison [
+                "bundle"
+                "bindings"
+              ];
+              seededNegativeCaseNames = builtins.attrNames scheme.seededNegativeCases;
+              inherit (scheme) seededNegativeCases;
+            }
+          );
           fs230Bundle = pkgs.writeText "fs230-canonical-bundle.json" (
             builtins.toJSON scheme.fs230PeerComparison.bundle
           );
@@ -300,6 +313,7 @@
           controlled-document-language = controlledDocumentLanguage;
           validation-scheme = validationScheme;
           validation-scheme-results = result;
+          fs540-peer-posture = fs540PeerPosture;
           fs230-canonical-bundle = fs230Bundle;
           fs230-openconfig-platform-binding = fs230Bindings.openconfig;
           default = validationScheme;
