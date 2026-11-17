@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../canonical-gamp/GAMP/SMS}"
+canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
 
 if [[ ! -d "${canonical_sms_dir}" ]]; then
   echo "canonical SMS directory not found: ${canonical_sms_dir}" >&2
@@ -36,7 +36,7 @@ slug_for_file() {
 }
 
 relative_canonical_path() {
-  printf 'canonical-gamp/GAMP/SMS/%s\n' "$1"
+  printf 'the platform GAMP/SMS/%s\n' "$1"
 }
 
 write_if_missing() {
@@ -67,7 +67,7 @@ write_sds_readme() {
 Status: NOT OK - source stub only.
 
 This row exists so the network-labs GAMP tree can mirror canonical SMS children
-from canonical-gamp. Add real design detail and focused evidence before
+from the platform specification. Add real design detail and focused evidence before
 marking any child SMS input OK.
 EOF
 }
@@ -192,7 +192,7 @@ write_smt_default() {
   };
   status = "NOT OK";
   evidence = {
-    observedResult = "canonical SMS mirrored from canonical-gamp; no focused mini-SMT or owning construction test is registered yet";
+    observedResult = "canonical SMS mirrored from the platform specification; no focused mini-SMT or owning construction test is registered yet";
   };
 }
 EOF

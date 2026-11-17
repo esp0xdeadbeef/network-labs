@@ -9,7 +9,7 @@ generate() {
   local trace="$1"
   local fs=$(echo "$trace" | grep -oP '^FS-\d+')
   local sds_chain=$(echo "$trace" | sed 's/-SMS-040//')
-  local sms_file=$(ls ../canonical-gamp/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
+  local sms_file=$(ls ../network-codex-agent/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
   local title=""
   local scope_line=""
   
@@ -18,7 +18,7 @@ generate() {
     scope_line=$(grep -A1 '^## Scope' "$sms_file" | tail -1 | sed 's/^This SMS //;s/^This software module specification //;s/^This SMS item //' | tr -d '\n' | head -c 200)
   fi
   [ -z "$title" ] && title="$trace"
-  [ -z "$scope_line" ] && scope_line="See SMS spec in canonical-gamp/GAMP/SMS/${trace}-*.md"
+  [ -z "$scope_line" ] && scope_line="See SMS spec in the platform GAMP/SMS/${trace}-*.md"
 
   # SMT default.nix
   cat > "GAMP/SMT/$trace/default.nix" <<NIXEOF
@@ -28,11 +28,11 @@ generate() {
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "network-codex-agent";
     focusedTest = "tests/${trace}.sh";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
-    verifiedAt = "canonical-gamp HEAD (pending verification)";
+    verifiedAt = "orchestrator HEAD (pending verification)";
     scope = "$scope_line";
   };
 }
@@ -46,7 +46,7 @@ Row-local source for $title.
 
 **Validation Evidence Boundary:** construction-only — all predicates are provable with construction tests against compile-time output. No live host/runtime surface required.
 
-Construction test: \`canonical-gamp/tests/${trace}.sh\`
+Construction test: \`network-codex-agent/tests/${trace}.sh\`
 
 $scope_line
 MDEOF
@@ -74,7 +74,7 @@ Template row for $title.
 
 **Evidence Boundary:** construction-only.
 
-SMS spec: \`canonical-gamp/GAMP/SMS/${trace}-*.md\`
+SMS spec: \`the platform GAMP/SMS/${trace}-*.md\`
 
 $scope_line
 MDEOF
