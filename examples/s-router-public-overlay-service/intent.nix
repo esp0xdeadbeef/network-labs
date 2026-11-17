@@ -501,6 +501,11 @@
           };
           s-router-core-nebula = {
             role = "core";
+            # FS-255: the overlay endpoint's egress-facing host surface is the
+            # carriage attachment its underlayAccess names, so the core is a
+            # client of the client LAN (as cobalt's garnet terminator is a
+            # client of iot-srv). It carries the tunnel, not an exit.
+            attachments = [ { kind = "tenant"; name = "client"; } ];
           };
           s-router-downstream-selector = {
             role = "downstream-selector";
@@ -919,6 +924,9 @@
           };
           c-router-nebula-core = {
             role = "core";
+            # FS-255: the overlay endpoint's egress-facing host surface is the
+            # carriage attachment its underlayAccess names (client).
+            attachments = [ { kind = "tenant"; name = "client"; } ];
           };
           c-router-policy = {
             role = "policy";
@@ -1276,6 +1284,9 @@
           };
           b-router-core-nebula = {
             role = "core";
+            # FS-255: the overlay endpoint's egress-facing host surface is the
+            # carriage attachment its underlayAccess names (branch).
+            attachments = [ { kind = "tenant"; name = "branch"; } ];
           };
           b-router-core-simulated-isp = {
             role = "core";
