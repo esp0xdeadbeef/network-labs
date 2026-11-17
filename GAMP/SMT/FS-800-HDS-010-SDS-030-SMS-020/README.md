@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-010-SDS-030-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-030-SMS-020-hat-inventory-realization-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-030-SMS-020-hat-inventory-realization-boundary.md`
 
 Status: NOT OK - source stub only.
 

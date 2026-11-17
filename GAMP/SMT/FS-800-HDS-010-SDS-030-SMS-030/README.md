@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-010-SDS-030-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-030-SMS-030-hat-source-lock-selection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-030-SMS-030-hat-source-lock-selection.md`
 
 Status: NOT OK - source stub only.
 

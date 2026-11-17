@@ -11,10 +11,10 @@
   };
   evidenceBoundary = "construction-only";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     maxRuntimeTargets = 3;
     status = "OK";
-    observedResult = "2026-07-01 construction proof PASS at canonical-gamp@d7f20211: /tmp/fs720-sds020-sms020-harness-consumption/run.cR20UO. This row is a construction-only source stub and is intentionally not registered as an active-lab mini runtime shim.";
-    scope = "Prepared source fixture for s-router-test-clients endpoint harness consumption; owning proof is the canonical-gamp construction harness, not tests/run-active-lab-mini-smt.sh.";
+    observedResult = "2026-07-01 construction proof PASS at the platform specification@d7f20211: /tmp/fs720-sds020-sms020-harness-consumption/run.cR20UO. This row is a construction-only source stub and is intentionally not registered as an active-lab mini runtime shim.";
+    scope = "Prepared source fixture for s-router-test-clients endpoint harness consumption; owning proof is the the platform specification construction harness, not tests/run-active-lab-mini-smt.sh.";
   };
 }

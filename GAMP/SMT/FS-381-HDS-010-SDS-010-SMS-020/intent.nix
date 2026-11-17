@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-381-HDS-010-SDS-010-SMS-020";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-020.md";
+    canonicalSms = "the platform GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-020.md";
     titleSlug = "canonical-sms";
     evidenceBoundary = "source-stub-only";
     runnable = false;

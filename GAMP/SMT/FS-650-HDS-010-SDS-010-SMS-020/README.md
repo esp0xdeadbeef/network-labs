@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-650-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-020-profile-surface-manifest.md`
+Canonical SMS: `the platform GAMP/SMS/FS-650-HDS-010-SDS-010-SMS-020-profile-surface-manifest.md`
 
 Status: NOT OK - source stub only.
 

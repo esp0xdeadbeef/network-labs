@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-981-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-060-archive-compatibility-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-981-HDS-010-SDS-010-SMS-060-archive-compatibility-boundary.md`
 
 Status: NOT OK - source stub only.
 

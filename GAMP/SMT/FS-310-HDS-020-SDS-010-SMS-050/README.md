@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-020-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-050-renderer-nftables-primitive-source-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-020-SDS-010-SMS-050-renderer-nftables-primitive-source-binding.md`
 
 Status: NOT OK - source stub only.
 

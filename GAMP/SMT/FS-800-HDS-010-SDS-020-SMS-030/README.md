@@ -1,6 +1,6 @@
 # SMT Source: FS-800-HDS-010-SDS-020-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-030-pppoe-pairing-and-fallback-rejection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-030-pppoe-pairing-and-fallback-rejection.md`
 
 Title slug: `pppoe-pairing-and-fallback-rejection`
 

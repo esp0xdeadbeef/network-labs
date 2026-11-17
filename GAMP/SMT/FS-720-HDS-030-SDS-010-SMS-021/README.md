@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-030-SDS-010-SMS-021
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-021-ae-cpm-only-consumption.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-030-SDS-010-SMS-021-ae-cpm-only-consumption.md`
 
 Status: OK - owning access-endpoint renderer construction evidence passes.
 

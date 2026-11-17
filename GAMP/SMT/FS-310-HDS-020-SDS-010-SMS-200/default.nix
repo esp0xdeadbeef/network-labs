@@ -6,7 +6,7 @@
   evidence = {
     owningRepo = "network-renderer-containerlab-linux-backend";
     cmcModule = "CLAB renderer bridge-network and VM-network modules";
-    smtRow = "GAMP/SMT/README.md (canonical-gamp)";
+    smtRow = "GAMP/SMT/README.md (the platform specification)";
     status = "OK";
     scope = "CLAB renderer bridge-network no-default contract: bridge addresses, DHCP, masquerade must trace to explicit CPM or inventory data, not hardcoded defaults";
   };

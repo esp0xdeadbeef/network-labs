@@ -1,6 +1,6 @@
 # SMS Mirror: FS-920-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010-modeled-failure-handling.md`
+Canonical SMS: `the platform GAMP/SMS/FS-920-HDS-010-SDS-010-SMS-010-modeled-failure-handling.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

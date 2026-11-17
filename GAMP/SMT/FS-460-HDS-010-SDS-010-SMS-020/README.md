@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-460-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-020-nebula-underlay-payload-separation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-020-nebula-underlay-payload-separation.md`
 
 Status: NOT OK - source stub only.
 

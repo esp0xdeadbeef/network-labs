@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-940-HDS-010-SDS-020-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-030-source-eligibility-matrix.md`
+Canonical SMS: `the platform GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-030-source-eligibility-matrix.md`
 
 Status: NOT OK - source stub only.
 

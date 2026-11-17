@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-300-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-300-HDS-010-SDS-010-SMS-030-ineligible-lane-route-rejection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-300-HDS-010-SDS-010-SMS-030-ineligible-lane-route-rejection.md`
 
 Status: NOT OK - source stub only.
 

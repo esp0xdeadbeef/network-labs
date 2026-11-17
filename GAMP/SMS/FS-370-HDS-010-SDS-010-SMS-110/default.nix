@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-370-HDS-010-SDS-010-SMS-110";
   parentSds = ../../SDS/FS-370-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110.md";
+  canonicalSms = "the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110.md";
   titleSlug = "clab-linux-forwarding-materialization";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

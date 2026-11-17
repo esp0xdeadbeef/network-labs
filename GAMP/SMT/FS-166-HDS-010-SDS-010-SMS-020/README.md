@@ -1,6 +1,6 @@
 # SMT: FS-166-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-020-controlled-scenario-orchestrator.md`
+Canonical SMS: `the platform GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-020-controlled-scenario-orchestrator.md`
 
 Status: OK - construction-only.
 

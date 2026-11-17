@@ -127,7 +127,7 @@ tests/run-active-lab-mini-smt.sh --source FS-540-HDS-010-SDS-010-SMS-045
 
 After every owning `network-*` revision is pushed, select this row, cold-stage
 all three lab guests, verify their new boot/system/source pins, and run the
-row-local live protocol from `canonical-gamp`. Previous 2026-07-03
+row-local live protocol from the platform specification. Previous 2026-07-03
 IPv4-only evidence is superseded and cannot promote this revised atom. A
 successful launcher or visible route without successful first-attempt
 recursion, scoped resolver-identity UDP/TCP port-53 socket rules, an

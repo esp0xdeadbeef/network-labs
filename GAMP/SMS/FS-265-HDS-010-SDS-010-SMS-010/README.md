@@ -1,6 +1,6 @@
 # SMS Mirror: FS-265-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-265-HDS-010-SDS-010-SMS-010-access-role-host-facing-interface-cardinality.md`
+Canonical SMS: `the platform GAMP/SMS/FS-265-HDS-010-SDS-010-SMS-010-access-role-host-facing-interface-cardinality.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

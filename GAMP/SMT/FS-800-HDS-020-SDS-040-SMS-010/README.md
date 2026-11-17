@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-020-SDS-040-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010-hat-script-override-rejection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-020-SDS-040-SMS-010-hat-script-override-rejection.md`
 
 Status: NOT OK - source stub only.
 

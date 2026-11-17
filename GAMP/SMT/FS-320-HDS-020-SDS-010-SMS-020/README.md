@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-320-HDS-020-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-320-HDS-020-SDS-010-SMS-020-renderer-runtime-interface-name-mapping.md`
+Canonical SMS: `the platform GAMP/SMS/FS-320-HDS-020-SDS-010-SMS-020-renderer-runtime-interface-name-mapping.md`
 
 Status: NOT OK - source stub only.
 

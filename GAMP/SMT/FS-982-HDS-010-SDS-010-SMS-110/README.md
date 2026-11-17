@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-982-HDS-010-SDS-010-SMS-110
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-110-renderer-testing-infrastructure.md`
+Canonical SMS: `the platform GAMP/SMS/FS-982-HDS-010-SDS-010-SMS-110-renderer-testing-infrastructure.md`
 
 Status: NOT OK - source stub only.
 

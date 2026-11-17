@@ -1,6 +1,6 @@
 # SMT: FS-166-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-010-controlled-skip-acknowledgement.md`
+Canonical SMS: `the platform GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-010-controlled-skip-acknowledgement.md`
 
 Status: OK - construction-only.
 

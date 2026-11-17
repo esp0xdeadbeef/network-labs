@@ -1,6 +1,6 @@
 # SMS Mirror: FS-770-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-020-nixos-realization-fact-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-770-HDS-010-SDS-020-SMS-020-nixos-realization-fact-binding.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

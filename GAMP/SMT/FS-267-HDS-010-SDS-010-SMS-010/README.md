@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-267-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010-virtual-adapter-host-facing-exclusion.md`
+Canonical SMS: `the platform GAMP/SMS/FS-267-HDS-010-SDS-010-SMS-010-virtual-adapter-host-facing-exclusion.md`
 
 Status: NOT OK - source stub only.
 

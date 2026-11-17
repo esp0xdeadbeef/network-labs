@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-970-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.md`
+Canonical SMS: `the platform GAMP/SMS/FS-970-HDS-010-SDS-010-SMS-020-static-reservation-offset-resolution.md`
 
 Status: NOT OK - source stub only.
 

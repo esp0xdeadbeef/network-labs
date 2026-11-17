@@ -5,7 +5,7 @@
     "FS-720-HDS-010-SDS-025-SMS-010" = {
       smtRow = ../../SMT/FS-720-HDS-010-SDS-025-SMS-010;
       sourcePath = "GAMP/SMT/FS-720-HDS-010-SDS-025-SMS-010/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010.md";
+      canonicalSms = "the platform GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

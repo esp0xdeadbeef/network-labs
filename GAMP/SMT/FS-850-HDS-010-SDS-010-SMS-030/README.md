@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-850-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-850-HDS-010-SDS-010-SMS-030-secret-bearing-output-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-850-HDS-010-SDS-010-SMS-030-secret-bearing-output-boundary.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-730-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-030-cups-printer-persistence-non-authority.md`
+Canonical SMS: `the platform GAMP/SMS/FS-730-HDS-010-SDS-010-SMS-030-cups-printer-persistence-non-authority.md`
 
 Status: NOT OK - source stub only.
 

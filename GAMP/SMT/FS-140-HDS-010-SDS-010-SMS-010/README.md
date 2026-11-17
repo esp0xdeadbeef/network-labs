@@ -1,6 +1,6 @@
 # SMT Construction Row: FS-140-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010-scoped-output-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010-scoped-output-boundary.md`
 
 Status: OK - construction-only.
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-870-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-030-state-loss-classification.md`
+Canonical SMS: `the platform GAMP/SMS/FS-870-HDS-010-SDS-010-SMS-030-state-loss-classification.md`
 
 Status: NOT OK - source stub only.
 

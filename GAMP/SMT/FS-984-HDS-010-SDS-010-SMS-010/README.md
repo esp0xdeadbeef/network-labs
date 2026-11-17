@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-984-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-984-HDS-010-SDS-010-SMS-010-legacy-surface-inventory-and-resolution.md`
+Canonical SMS: `the platform GAMP/SMS/FS-984-HDS-010-SDS-010-SMS-010-legacy-surface-inventory-and-resolution.md`
 
 Status: NOT OK - source stub only.
 

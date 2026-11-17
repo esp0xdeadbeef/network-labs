@@ -1,10 +1,10 @@
 # FS-030-HDS-010-SDS-020-SMS-010 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stage-topology-enforcement.md`
+Canonical SMS: `the platform GAMP/SMS/FS-030-HDS-010-SDS-020-SMS-010-stage-topology-enforcement.md`
 
 Status: Source OK - row-local mini-SMT fixture is selectable and renderable.
 Overall SMT status remains governed by
-`canonical-gamp/GAMP/SMT/README.md`; as of the 2026-07-03 construction
+`the platform GAMP/SMT/README.md`; as of the 2026-07-03 construction
 recheck, `FS-030-HDS-010-SDS-020-SMS-010` is `OK`. The earlier
 pairwise-adjacent graph notes (`core -> upstream -> core` and
 `access -> downstream -> access`) were reclassified as valid selector fanout,

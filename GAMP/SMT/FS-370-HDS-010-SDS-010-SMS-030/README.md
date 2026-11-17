@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-030 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-030-host-only-source-prefix-denial.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-030-host-only-source-prefix-denial.md`
 
 Status: OK - construction-only.
 

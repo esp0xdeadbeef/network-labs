@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-040-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020-clab-client-origin-runtime-probes.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-020-clab-client-origin-runtime-probes.md`
 
 Status: NOT OK - source stub until construction test passes.
 

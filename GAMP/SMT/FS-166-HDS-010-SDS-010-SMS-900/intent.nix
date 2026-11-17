@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-166-HDS-010-SDS-010-SMS-900";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900.md";
+    canonicalSms = "the platform GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-900.md";
     titleSlug = "controlled-renderer-scenarios";
     evidenceBoundary = "source-stub-only";
     runnable = false;

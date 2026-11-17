@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-780-HDS-010-SDS-020-SMS-010";
   parentSds = ../../SDS/FS-780-HDS-010-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-780-HDS-010-SDS-020-SMS-010.md";
   titleSlug = "equivalence-atom-contract";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

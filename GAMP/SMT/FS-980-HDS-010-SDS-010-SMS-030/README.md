@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-980-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-030-output-hygiene-diagnostics.md`
+Canonical SMS: `the platform GAMP/SMS/FS-980-HDS-010-SDS-010-SMS-030-output-hygiene-diagnostics.md`
 
 Status: NOT OK - source stub only.
 

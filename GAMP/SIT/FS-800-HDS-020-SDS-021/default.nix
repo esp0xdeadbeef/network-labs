@@ -5,7 +5,7 @@
     "FS-800-HDS-020-SDS-021-SMS-010" = {
       smtRow = ../../SMT/FS-800-HDS-020-SDS-021-SMS-010;
       sourcePath = "GAMP/SMT/FS-800-HDS-020-SDS-021-SMS-010/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010.md";
+      canonicalSms = "the platform GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010.md";
       role = "hat-emulated-test-secret-materialization";
       evidenceBoundary = "source-contract-plus-live-active-lab-sit";
     };

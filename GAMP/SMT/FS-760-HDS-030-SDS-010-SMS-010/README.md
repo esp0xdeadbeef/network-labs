@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-760-HDS-030-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-760-HDS-030-SDS-010-SMS-010-receiver-payload-reverse-surfaces.md`
+Canonical SMS: `the platform GAMP/SMS/FS-760-HDS-030-SDS-010-SMS-010-receiver-payload-reverse-surfaces.md`
 
 Status: NOT OK - source stub only.
 

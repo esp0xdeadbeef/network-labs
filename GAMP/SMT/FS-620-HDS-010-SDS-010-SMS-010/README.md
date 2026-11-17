@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-620-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-010-client-isolation-shared-services.md`
+Canonical SMS: `the platform GAMP/SMS/FS-620-HDS-010-SDS-010-SMS-010-client-isolation-shared-services.md`
 
 Status: NOT OK - source stub only.
 

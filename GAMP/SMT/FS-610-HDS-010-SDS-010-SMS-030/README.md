@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-610-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-030-discovery-requester-scope-preservation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-610-HDS-010-SDS-010-SMS-030-discovery-requester-scope-preservation.md`
 
 Status: NOT OK - source stub only.
 

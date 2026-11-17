@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-164-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-164-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-164-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "english-controlled-corpus";
   evidenceBoundary = "construction-only";
   source = null;

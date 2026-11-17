@@ -2,7 +2,7 @@
   layer = "SMT";
   traceId = "FS-080-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-080-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "missing-ambiguous-fact-failure";
   source = {
     kind = "intent-source";
@@ -18,7 +18,7 @@
   };
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     networkLabsRev = "b96900ea11e473cb4230281573887aaefa09462e";
     nixosLockCommit = "9e9619fd";
     networkCodexAgentCommit = "b27f5394";

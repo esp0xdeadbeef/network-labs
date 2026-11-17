@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-740-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-740-HDS-010-SDS-010-SMS-010-printer-discovery-access-policy.md`
+Canonical SMS: `the platform GAMP/SMS/FS-740-HDS-010-SDS-010-SMS-010-printer-discovery-access-policy.md`
 
 Status: NOT OK - source stub only.
 

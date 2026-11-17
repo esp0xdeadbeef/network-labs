@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-640-HDS-010-SDS-010-SMS-050
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-050-media-denied-path-preservation.md`
+Canonical SMS: `the platform GAMP/SMS/FS-640-HDS-010-SDS-010-SMS-050-media-denied-path-preservation.md`
 
 Status: NOT OK - source stub only.
 

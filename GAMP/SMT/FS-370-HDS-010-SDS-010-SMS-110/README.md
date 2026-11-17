@@ -1,6 +1,6 @@
 # FS-370-HDS-010-SDS-010-SMS-110 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110-clab-linux-forwarding-materialization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-110-clab-linux-forwarding-materialization.md`
 
 Status: OK - split boundary, construction evidence with active-lab context.
 

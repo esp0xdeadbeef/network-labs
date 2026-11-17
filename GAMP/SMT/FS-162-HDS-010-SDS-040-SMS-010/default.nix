@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-162-HDS-010-SDS-040-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-162-HDS-010-SDS-040-SMS-010.md";
   titleSlug = "s-router-prod-comparable-projection";
   source = {
     kind = "validated-canonical-bundle";

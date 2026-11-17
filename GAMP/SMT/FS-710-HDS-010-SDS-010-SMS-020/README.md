@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-710-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-710-HDS-010-SDS-010-SMS-020-lab-site-provider-ingress-overlay.md`
+Canonical SMS: `the platform GAMP/SMS/FS-710-HDS-010-SDS-010-SMS-020-lab-site-provider-ingress-overlay.md`
 
 Status: NOT OK - source stub only.
 

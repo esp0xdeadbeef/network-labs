@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-340-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-020-ipv6-hex-offset-parsing.md`
+Canonical SMS: `the platform GAMP/SMS/FS-340-HDS-010-SDS-010-SMS-020-ipv6-hex-offset-parsing.md`
 
 Status: NOT OK - source stub only.
 

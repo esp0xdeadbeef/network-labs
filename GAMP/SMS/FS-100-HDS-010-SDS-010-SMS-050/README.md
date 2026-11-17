@@ -3,11 +3,11 @@
 Layer: SMS
 
 This row-local source reference binds the canonical
-`canonical-gamp/GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-050-output-artifact-baseline-binding.md`
+`the platform GAMP/SMS/FS-100-HDS-010-SDS-010-SMS-050-output-artifact-baseline-binding.md`
 SMS to the active-lab construction-only selector.
 
 The row does not create runtime targets. Current evidence is the
-`canonical-gamp` focused construction proof at code commit `f06e03c2` and
+the platform specification focused construction proof at code commit `f06e03c2` and
 the active-lab wrapper run:
 
 ```text

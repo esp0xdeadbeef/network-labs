@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-310-HDS-010-SDS-010-SMS-120";
   parentSds = ../../SDS/FS-310-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-120.md";
+  canonicalSms = "the platform GAMP/SMS/FS-310-HDS-010-SDS-010-SMS-120.md";
   titleSlug = "renderer-no-naming-inference";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

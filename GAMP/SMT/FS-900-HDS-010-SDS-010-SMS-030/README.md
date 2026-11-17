@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-900-HDS-010-SDS-010-SMS-030
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-030-event-class-inspection-index.md`
+Canonical SMS: `the platform GAMP/SMS/FS-900-HDS-010-SDS-010-SMS-030-event-class-inspection-index.md`
 
 Status: NOT OK - source stub only.
 

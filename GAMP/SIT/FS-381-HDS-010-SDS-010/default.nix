@@ -5,28 +5,28 @@
     "FS-381-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-381-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-381-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-010.md";
+      canonicalSms = "the platform GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-010.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-381-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-381-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-381-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-020.md";
+      canonicalSms = "the platform GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-020.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-381-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-381-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-381-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-030.md";
+      canonicalSms = "the platform GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-030.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };
     "FS-381-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-381-HDS-010-SDS-010-SMS-040;
       sourcePath = "GAMP/SMT/FS-381-HDS-010-SDS-010-SMS-040/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-040.md";
+      canonicalSms = "the platform GAMP/SMS/FS-381-HDS-010-SDS-010-SMS-040.md";
       role = "canonical-sms-source-stub";
       evidenceBoundary = "source-stub-only";
     };

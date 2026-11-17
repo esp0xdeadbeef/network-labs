@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-010-SDS-020-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-020-pppoe-customer-side-record.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-020-SMS-020-pppoe-customer-side-record.md`
 
 Status: NOT OK - source stub only.
 

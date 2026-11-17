@@ -10,7 +10,7 @@
     ];
   };
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     maxRuntimeTargets = 2;
     scope = "one symmetric relation with returnBehavior=symmetric: forward plus reverse nft accept rules";
   };

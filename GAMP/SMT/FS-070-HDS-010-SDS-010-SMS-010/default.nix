@@ -3,7 +3,7 @@
   executionBoundary = "external";
   traceId = "FS-070-HDS-010-SDS-010-SMS-010";
   evidenceBoundary = "runtime";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-070-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "validation-context-boundary";
   source = {
     kind = "intent-source";
@@ -19,7 +19,7 @@
   };
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     networkLabsRev = "8ef4117d91bad97c33ac02f61f00d6bbd6f79583";
     nixosLockCommit = "eba94e93";
     networkCodexAgentCommit = "c4c62045";

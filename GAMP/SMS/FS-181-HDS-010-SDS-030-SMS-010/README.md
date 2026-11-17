@@ -1,6 +1,6 @@
 # SMS Mirror: FS-181-HDS-010-SDS-030-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010-realization-authority-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-181-HDS-010-SDS-030-SMS-010-realization-authority-binding.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

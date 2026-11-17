@@ -33,4 +33,4 @@ owner, the allowed return was stateful, independently initiated reverse flows
 were denied, no direct shortcut existed, and the destination access scope did
 not confer unrelated public-egress rights. The validator made no route,
 firewall, or service mutations. Full evidence is recorded by
-`FS-270-HDS-010-SDS-010-SMS-020-online-eval.txt` in canonical-gamp.
+`FS-270-HDS-010-SDS-010-SMS-020-online-eval.txt` in the platform specification.

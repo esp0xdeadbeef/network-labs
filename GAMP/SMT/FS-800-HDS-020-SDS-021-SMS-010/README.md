@@ -1,6 +1,6 @@
 # SMT: FS-800-HDS-020-SDS-021-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-020-SDS-021-SMS-010-hat-emulated-test-secret-materialization.md`
 
 Status: OK - focused construction test registered.
 

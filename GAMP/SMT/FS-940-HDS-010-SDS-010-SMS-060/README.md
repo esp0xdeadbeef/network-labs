@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-940-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-060-nix-evaluator-diagnostic-profile.md`
+Canonical SMS: `the platform GAMP/SMS/FS-940-HDS-010-SDS-010-SMS-060-nix-evaluator-diagnostic-profile.md`
 
 Status: NOT OK - source stub only.
 

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-210-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-210-HDS-010-SDS-010-SMS-020-public-ingress-tuple-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-210-HDS-010-SDS-010-SMS-020-public-ingress-tuple-binding.md`
 
 Status: NOT OK - source stub only.
 

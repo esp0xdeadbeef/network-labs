@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-162-HDS-010-SDS-030-SMS-010";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010.md";
+    canonicalSms = "the platform GAMP/SMS/FS-162-HDS-010-SDS-030-SMS-010.md";
     titleSlug = "openconfig-cpm-interface-parsing-fail-closed";
     evidenceBoundary = "source-stub-only";
     runnable = false;

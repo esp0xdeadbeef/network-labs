@@ -174,7 +174,7 @@ prerequisite evidence only, not live HAT/SAT acceptance.
 and `s-router-test-clients`
 `/nix/store/kw8m11ib6xqkw739qshci20jkdiq503j-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
@@ -203,7 +203,7 @@ lock `5f86907b` consumed it, and the three local profiles built:
 and `s-router-test-clients`
 `/nix/store/x1rb1r0dwv7bqfzkddl41p7bxq3p3b0s-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
@@ -232,7 +232,7 @@ three local profiles built: `s-router-nixos`
 and `s-router-test-clients`
 `/nix/store/0b9hns2pz369q36nmhr9f8x8hwhv2aj2-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
@@ -263,7 +263,7 @@ local `nixos` lock `91fcc0f9` consumed it, and the three locked profiles built:
 and `s-router-test-clients`
 `/nix/store/400s30klvnl0shxxm0hwgamz9bg8xxny-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
@@ -297,7 +297,7 @@ with one `wireguard-egress` runtime target and row-local SOPS secret, local
 and `s-router-test-clients`
 `/nix/store/kb8bb4spfhj2y07l9fj6gps4sdik64p1-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \
@@ -331,7 +331,7 @@ locked profiles built: `s-router-nixos`
 and `s-router-test-clients`
 `/nix/store/d2awdxvzabd88g5vlwzgxmm648n30a5i-nixos-system-s-router-test-clients-26.05.20260627.714a5f8`.
 After shutdown/rebuild of `192.168.1.17`, `192.168.1.19`, and
-`192.168.1.18`, the live verifier in `canonical-gamp` passed:
+`192.168.1.18`, the live verifier in the platform specification passed:
 
 ```bash
 NETWORK_REPO_DIRECT_TEST_OK=1 \

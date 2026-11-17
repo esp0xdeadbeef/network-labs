@@ -1,6 +1,6 @@
 # SMT Construction Row: FS-470-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wireguard-remote-egress.md`
+Canonical SMS: `the platform GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010-wireguard-remote-egress.md`
 
 Status: OK for construction only. Integrated and live status is NOT OK.
 

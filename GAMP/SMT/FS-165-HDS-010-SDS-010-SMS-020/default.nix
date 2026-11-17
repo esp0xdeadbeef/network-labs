@@ -5,7 +5,7 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     status = "OK";
     scope = "Readable normalized source-form checker rejects duplicated classification, parallel naming, target labels, fixture/renderer hints, copied platform metadata, and downstream-derivable source padding before runtime consumers can infer behavior from it.";
   };

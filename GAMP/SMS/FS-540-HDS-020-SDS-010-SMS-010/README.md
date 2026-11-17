@@ -1,6 +1,6 @@
 # SMS Mirror: FS-540-HDS-020-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-540-HDS-020-SDS-010-SMS-010-clab-recursive-dns-requester-fixture.md`
+Canonical SMS: `the platform GAMP/SMS/FS-540-HDS-020-SDS-010-SMS-010-clab-recursive-dns-requester-fixture.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

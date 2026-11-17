@@ -1,6 +1,6 @@
 # SMT Source Specification: FS-525-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-525-HDS-010-SDS-010-SMS-010-named-core-resolver-binding.md`
 
 Status: NOT OK - compiler construction source implemented; downstream and live evidence remain open.
 

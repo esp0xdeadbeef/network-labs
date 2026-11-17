@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-770-HDS-010-SDS-030-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-770-HDS-010-SDS-030-SMS-020-source-shape-adapter-selection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-770-HDS-010-SDS-030-SMS-020-source-shape-adapter-selection.md`
 
 Status: NOT OK - source stub only.
 

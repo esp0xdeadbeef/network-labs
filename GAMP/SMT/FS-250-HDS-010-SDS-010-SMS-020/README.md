@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-250-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-250-HDS-010-SDS-010-SMS-020-core-role-unrelated-authority-rejection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-250-HDS-010-SDS-010-SMS-020-core-role-unrelated-authority-rejection.md`
 
 Status: NOT OK - source stub only.
 

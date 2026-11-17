@@ -1,6 +1,6 @@
 # SMS Mirror: FS-400-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-060-renderer-ipv6-internet-mode.md`
+Canonical SMS: `the platform GAMP/SMS/FS-400-HDS-010-SDS-010-SMS-060-renderer-ipv6-internet-mode.md`
 
 This network-labs row mirrors the canonical GAMP SMS trace so lab-source
 coverage cannot silently omit it.

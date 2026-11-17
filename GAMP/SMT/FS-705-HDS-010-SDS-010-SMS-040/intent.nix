@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-705-HDS-010-SDS-010-SMS-040";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-040.md";
+    canonicalSms = "the platform GAMP/SMS/FS-705-HDS-010-SDS-010-SMS-040.md";
     titleSlug = "access-client-endpoint-coverage";
     evidenceBoundary = "source-stub-only";
     runnable = false;

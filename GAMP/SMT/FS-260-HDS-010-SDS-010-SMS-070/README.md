@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-260-HDS-010-SDS-010-SMS-070
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-070-nfm-authority-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-260-HDS-010-SDS-010-SMS-070-nfm-authority-boundary.md`
 
 Status: NOT OK - source stub only.
 

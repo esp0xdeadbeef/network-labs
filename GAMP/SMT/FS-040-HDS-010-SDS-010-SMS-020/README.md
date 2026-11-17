@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-040-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-020-physical-interface-attachment-cardinality.md`
+Canonical SMS: `the platform GAMP/SMS/FS-040-HDS-010-SDS-010-SMS-020-physical-interface-attachment-cardinality.md`
 
 Status: NOT OK - source stub only.
 

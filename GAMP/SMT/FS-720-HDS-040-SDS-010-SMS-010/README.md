@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-040-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-010-runtime-observation-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-040-SDS-010-SMS-010-runtime-observation-boundary.md`
 
 Status: NOT OK - source stub only.
 

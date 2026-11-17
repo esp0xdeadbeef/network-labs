@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-166-HDS-010-SDS-010-SMS-030";
   parentSds = ../../SDS/FS-166-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030.md";
+  canonicalSms = "the platform GAMP/SMS/FS-166-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "controlled-evidence-scope";
   purpose = "Evidence-scope identity, promotion, entrypoint, and privacy construction validation.";
   evidenceBoundary = "construction-only";

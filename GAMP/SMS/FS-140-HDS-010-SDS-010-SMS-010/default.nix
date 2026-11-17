@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-140-HDS-010-SDS-010-SMS-010";
   parentSds = ../../SDS/FS-140-HDS-010-SDS-010;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-140-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "scoped-output-boundary";
   purpose = "Scoped Output Boundary (construction-only).";
   evidenceBoundary = "construction-only";

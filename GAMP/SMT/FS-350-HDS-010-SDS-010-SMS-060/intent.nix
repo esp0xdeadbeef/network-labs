@@ -1,7 +1,7 @@
 {
   canonicalSmsStub = {
     traceId = "FS-350-HDS-010-SDS-010-SMS-060";
-    canonicalSms = "canonical-gamp/GAMP/SMS/FS-350-HDS-010-SDS-010-SMS-060.md";
+    canonicalSms = "the platform GAMP/SMS/FS-350-HDS-010-SDS-010-SMS-060.md";
     titleSlug = "s-router-prod-runtime-delegated-prefix-materialization";
     evidenceBoundary = "source-stub-only";
     runnable = false;

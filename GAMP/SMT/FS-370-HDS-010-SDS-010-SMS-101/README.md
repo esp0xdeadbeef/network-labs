@@ -2,7 +2,7 @@
 
 Row-local intent-source fixture for per-lane return-path routing on policy and downstream-selector nodes.
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-101-policy-ds-per-lane-return-path-routing.md`
+Canonical SMS: `the platform GAMP/SMS/FS-370-HDS-010-SDS-010-SMS-101-policy-ds-per-lane-return-path-routing.md`
 
 Status: OK - split boundary, construction evidence with active-lab context.
 

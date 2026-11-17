@@ -5,7 +5,7 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     status = "OK";
     scope = "Downstream-contract gap diagnostic checker rejects ambiguous distinctions that cannot be represented through normalized declarations, shared structured data, or named relationships before downstream consumers can infer from ad hoc source padding.";
   };

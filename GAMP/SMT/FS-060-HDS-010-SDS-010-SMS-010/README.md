@@ -1,6 +1,6 @@
 # FS-060-HDS-010-SDS-010-SMS-010 SMT
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-060-HDS-010-SDS-010-SMS-010-runtime-fact-boundary.md`
+Canonical SMS: `the platform GAMP/SMS/FS-060-HDS-010-SDS-010-SMS-010-runtime-fact-boundary.md`
 
 Status: OK live on 2026-07-04.
 

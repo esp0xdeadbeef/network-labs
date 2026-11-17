@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-350-HDS-010-SDS-010-SMS-060
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-350-HDS-010-SDS-010-SMS-060-s-router-prod-runtime-delegated-prefix-materialization.md`
+Canonical SMS: `the platform GAMP/SMS/FS-350-HDS-010-SDS-010-SMS-060-s-router-prod-runtime-delegated-prefix-materialization.md`
 
 Status: NOT OK - source stub only.
 

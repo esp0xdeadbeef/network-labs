@@ -1,6 +1,6 @@
 # SMS Mirror: FS-150-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-150-HDS-010-SDS-010-SMS-010-portable-meaning-contract.md`
+Canonical SMS: `the platform GAMP/SMS/FS-150-HDS-010-SDS-010-SMS-010-portable-meaning-contract.md`
 
 This network-labs row maps the canonical GAMP SMS trace to the construction-only
 active-lab wrapper for the owning CPM proof.

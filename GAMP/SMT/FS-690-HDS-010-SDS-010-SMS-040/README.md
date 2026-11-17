@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-690-HDS-010-SDS-010-SMS-040
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-690-HDS-010-SDS-010-SMS-040-bounded-nix-evaluation-projection.md`
+Canonical SMS: `the platform GAMP/SMS/FS-690-HDS-010-SDS-010-SMS-040-bounded-nix-evaluation-projection.md`
 
 Status: NOT OK - source stub only.
 

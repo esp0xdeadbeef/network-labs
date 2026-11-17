@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-490-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-490-HDS-010-SDS-010-SMS-010-reachability-question-input.md`
+Canonical SMS: `the platform GAMP/SMS/FS-490-HDS-010-SDS-010-SMS-010-reachability-question-input.md`
 
 Status: NOT OK - source stub only.
 

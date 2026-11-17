@@ -1,12 +1,12 @@
 {
   layer = "SMT";
   traceId = "FS-470-HDS-010-SDS-010-SMS-010";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010.md";
+  canonicalSms = "the platform GAMP/SMS/FS-470-HDS-010-SDS-010-SMS-010.md";
   titleSlug = "wireguard-remote-egress";
   source = null;
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     isConstructionOnly = true;
     maxRuntimeTargets = 0;
     constructionStatus = "OK";

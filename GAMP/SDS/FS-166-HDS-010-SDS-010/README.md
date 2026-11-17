@@ -1,7 +1,7 @@
 # FS-166-HDS-010-SDS-010
 
 This lab source implements the controlled layer-entry architecture defined by
-the canonical SDS in `canonical-gamp`.
+the canonical SDS in the platform specification.
 
 The validation scheme invokes every repository hop. A contiguous skipped
 prefix emits repository-owned acknowledgements, while the replacement artifact

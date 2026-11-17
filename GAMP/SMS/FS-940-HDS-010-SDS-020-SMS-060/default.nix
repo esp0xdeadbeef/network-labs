@@ -2,7 +2,7 @@
   layer = "SMS";
   traceId = "FS-940-HDS-010-SDS-020-SMS-060";
   parentSds = ../../SDS/FS-940-HDS-010-SDS-020;
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-060.md";
+  canonicalSms = "the platform GAMP/SMS/FS-940-HDS-010-SDS-020-SMS-060.md";
   titleSlug = "route-exception-layer";
   purpose = "Canonical SMS mirror source-stub input template.";
   evidenceBoundary = "source-stub-only";

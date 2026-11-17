@@ -5,28 +5,28 @@
     "FS-030-HDS-010-SDS-010-SMS-040" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-040;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-040/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040.md";
+      canonicalSms = "the platform GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-040.md";
       role = "cpm-binder-source-audit-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-010" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-010;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-010/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010.md";
+      canonicalSms = "the platform GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-010.md";
       role = "intent-authority-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-020" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-020;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-020/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-020.md";
+      canonicalSms = "the platform GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-020.md";
       role = "realization-binder-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
     "FS-030-HDS-010-SDS-010-SMS-030" = {
       smtRow = ../../SMT/FS-030-HDS-010-SDS-010-SMS-030;
       sourcePath = "GAMP/SMT/FS-030-HDS-010-SDS-010-SMS-030/intent.nix";
-      canonicalSms = "canonical-gamp/GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030.md";
+      canonicalSms = "the platform GAMP/SMS/FS-030-HDS-010-SDS-010-SMS-030.md";
       role = "compiler-source-audit-active-lab-runtime";
       evidenceBoundary = "active-lab-mini-smt-runtime";
     };
@@ -34,19 +34,19 @@
   evidence = {
     childCommands = {
       "FS-030-HDS-010-SDS-010-SMS-010" = {
-        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-010-SMS-010.sh";
+        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-010.sh";
         miniSmt = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-010";
       };
       "FS-030-HDS-010-SDS-010-SMS-020" = {
-        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-010-SMS-020.sh";
+        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-020.sh";
         miniSmt = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-020";
       };
       "FS-030-HDS-010-SDS-010-SMS-030" = {
-        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-010-SMS-030.sh";
+        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-030.sh";
         miniSmt = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-030";
       };
       "FS-030-HDS-010-SDS-010-SMS-040" = {
-        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../canonical-gamp/scripts/live-FS-030-HDS-010-SDS-010-SMS-040.sh";
+        live = "NETWORK_LABS_PATH=/path/to/network-labs S_ROUTER_NIXOS=s-router-nixos S_ROUTER_CLAB=s-router-clab S_ROUTER_TEST_CLIENTS=s-router-test-clients bash ../network-codex-agent/scripts/live-FS-030-HDS-010-SDS-010-SMS-040.sh";
         miniSmt = "MINI_SMT_OFFLINE_VERIFY=0 bash tests/run-active-lab-mini-smt.sh FS-030-HDS-010-SDS-010-SMS-040";
       };
     };

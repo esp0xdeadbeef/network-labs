@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-460-HDS-010-SDS-010-SMS-070
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070-nebula-hardcoded-value-prevention.md`
+Canonical SMS: `the platform GAMP/SMS/FS-460-HDS-010-SDS-010-SMS-070-nebula-hardcoded-value-prevention.md`
 
 Status: NOT OK - source stub only.
 

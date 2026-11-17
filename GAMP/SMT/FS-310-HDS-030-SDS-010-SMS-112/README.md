@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-310-HDS-030-SDS-010-SMS-112
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-112-clab-fail-closed-contract.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-030-SDS-010-SMS-112-clab-fail-closed-contract.md`
 
 Status: NOT OK - source stub only.
 

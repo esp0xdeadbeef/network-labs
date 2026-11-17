@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-800-HDS-010-SDS-013-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-800-HDS-010-SDS-013-SMS-020-cpm-provider-handoff-fabric-egress.md`
+Canonical SMS: `the platform GAMP/SMS/FS-800-HDS-010-SDS-013-SMS-020-cpm-provider-handoff-fabric-egress.md`
 
 Status: NOT OK - source stub only.
 

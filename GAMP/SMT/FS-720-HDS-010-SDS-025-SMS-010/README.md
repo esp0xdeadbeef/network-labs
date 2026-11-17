@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-720-HDS-010-SDS-025-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010-dhcp-bridge-provisioning.md`
+Canonical SMS: `the platform GAMP/SMS/FS-720-HDS-010-SDS-025-SMS-010-dhcp-bridge-provisioning.md`
 
 Status: NOT OK - source stub only.
 

@@ -8,6 +8,6 @@ ownership loopback does not satisfy this row.
 
 **Evidence Boundary:** construction-only.
 
-SMS spec: `canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md`
+SMS spec: `the platform GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md`
 
-See SMS spec in canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md
+See SMS spec in the platform GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md

@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-600-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-600-HDS-010-SDS-010-SMS-020-payload-reachability-binding.md`
+Canonical SMS: `the platform GAMP/SMS/FS-600-HDS-010-SDS-010-SMS-020-payload-reachability-binding.md`
 
 Status: NOT OK - source stub only.
 

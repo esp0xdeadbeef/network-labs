@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-170-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-170-HDS-010-SDS-010-SMS-010-deny-by-default-policy-baseline.md`
+Canonical SMS: `the platform GAMP/SMS/FS-170-HDS-010-SDS-010-SMS-010-deny-by-default-policy-baseline.md`
 
 Status: NOT OK - source stub only.
 

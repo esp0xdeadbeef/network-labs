@@ -4,10 +4,10 @@
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";
-    verifiedAt = "canonical-gamp HEAD (pending verification)";
-    scope = "See SMS spec in canonical-gamp/GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md";
+    verifiedAt = "the platform specification HEAD (pending verification)";
+    scope = "See SMS spec in the platform GAMP/SMS/FS-540-HDS-010-SDS-010-SMS-040-*.md";
   };
 }

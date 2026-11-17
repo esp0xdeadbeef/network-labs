@@ -16,6 +16,6 @@
     };
   };
   evidence = {
-    observedResult = "Construction-only trace chain. SMT row pending verification at canonical-gamp HEAD.";
+    observedResult = "Construction-only trace chain. SMT row pending verification at the platform specification HEAD.";
   };
 }

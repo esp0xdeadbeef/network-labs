@@ -4,6 +4,6 @@ Template row for Direct-Host CLAB Marker And Artifact Ordering.
 
 **Evidence Boundary:** construction-only.
 
-SMS spec: `canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-040-*.md`
+SMS spec: `the platform GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-040-*.md`
 
-See SMS spec in canonical-gamp/GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-040-*.md
+See SMS spec in the platform GAMP/SMS/FS-960-HDS-010-SDS-016-SMS-040-*.md

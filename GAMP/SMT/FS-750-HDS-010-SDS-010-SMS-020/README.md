@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-750-HDS-010-SDS-010-SMS-020
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020-receiver-payload-ports.md`
+Canonical SMS: `the platform GAMP/SMS/FS-750-HDS-010-SDS-010-SMS-020-receiver-payload-ports.md`
 
 Status: NOT OK - source stub only.
 

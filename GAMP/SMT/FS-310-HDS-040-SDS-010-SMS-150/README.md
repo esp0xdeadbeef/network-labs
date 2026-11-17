@@ -1,6 +1,6 @@
 # SMT Source: FS-310-HDS-040-SDS-010-SMS-150
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-150-cpm-platform-abstention.md`
+Canonical SMS: `the platform GAMP/SMS/FS-310-HDS-040-SDS-010-SMS-150-cpm-platform-abstention.md`
 
 Status: ACTIVE MINI-SMT - registered runtime wrapper.
 

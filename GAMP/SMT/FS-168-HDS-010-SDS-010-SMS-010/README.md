@@ -1,6 +1,6 @@
 # SMT Source Stub: FS-168-HDS-010-SDS-010-SMS-010
 
-Canonical SMS: `canonical-gamp/GAMP/SMS/FS-168-HDS-010-SDS-010-SMS-010-renderer-consumption-coverage.md`
+Canonical SMS: `the platform GAMP/SMS/FS-168-HDS-010-SDS-010-SMS-010-renderer-consumption-coverage.md`
 
 Status: NOT OK - source stub only.
 

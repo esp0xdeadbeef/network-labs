@@ -1,7 +1,7 @@
 {
   layer = "SMT";
   traceId = "FS-390-HDS-010-SDS-010-SMS-030";
-  canonicalSms = "canonical-gamp/GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-030.md";
+  canonicalSms = "the platform GAMP/SMS/FS-390-HDS-010-SDS-010-SMS-030.md";
   titleSlug = "broad-wan-public-ipv4-denial";
   source = {
     kind = "intent-source";
@@ -23,7 +23,7 @@
   };
   status = "OK";
   evidence = {
-    owningRepo = "canonical-gamp";
+    owningRepo = "the platform specification";
     observedResult = "fixture compiles broad WAN attempts to model-owned public IPv4 into NFM broadWanDenials";
   };
 }
