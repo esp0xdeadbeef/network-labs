@@ -1308,6 +1308,16 @@ in
         };
         platform = "nixos-container";
         ports = {
+          tenant-client = {
+            attach = {
+              bridge = "br-site-a-downstream-client";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-client";
+            };
+            logicalInterface = "tenant-client";
+          };
           upstream-selector = {
             adapterName = "p2p-s-router-core-nebula-s-router-upstream-selector-upstream-selector";
             attach = {
@@ -2093,6 +2103,16 @@ in
         };
         platform = "nixos-container";
         ports = {
+          tenant-client = {
+            attach = {
+              bridge = "br-site-c-downstream-client";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-client";
+            };
+            logicalInterface = "tenant-client";
+          };
           upstream-selector = {
             adapterName = "p2p-c-router-nebula-core-c-router-upstream-selector-upstream-selector";
             attach = {
@@ -2420,6 +2440,16 @@ in
         };
         platform = "nixos-container";
         ports = {
+          tenant-branch = {
+            attach = {
+              bridge = "br-site-b-downstream-branch";
+              kind = "bridge";
+            };
+            interface = {
+              name = "tenant-branch";
+            };
+            logicalInterface = "tenant-branch";
+          };
           upstream-selector = {
             adapterName = "p2p-b-router-core-nebula-b-router-upstream-selector-upstream-selector";
             attach = {
