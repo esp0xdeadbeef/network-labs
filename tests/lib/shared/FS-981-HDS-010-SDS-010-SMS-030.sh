@@ -7,7 +7,7 @@ set -euo pipefail
 # repository, and the symlink target owns the GAMP fixtures.
 qw_resolved_self="$(readlink -f "${BASH_SOURCE[0]}")"
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${qw_resolved_self}")" rev-parse --show-toplevel)}"
-agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/../canonical-gamp}"
+agent_root="${PLATFORM_SPEC_ROOT:-${repo_root}/../network-codex-agent}"
 workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}"
 manifest="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 runner="${repo_root}/tests/run-active-lab-mini-smt.sh"
@@ -271,7 +271,7 @@ mkdir -p "${tmp_dir}/agent/scripts"
 printf '#!/usr/bin/env bash\nexit 0\n' >"${tmp_dir}/agent/scripts/smt-live-${seed_trace}.sh"
 chmod +x "${tmp_dir}/agent/scripts/smt-live-${seed_trace}.sh"
 must_fail_with noncanonical diagnostic.sms-test-entrypoint-noncanonical \
-  env CANONICAL_GAMP_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"
+  env PLATFORM_SPEC_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"
 
 mv \
   "${tmp_dir}/agent/scripts/smt-live-${seed_trace}.sh" \
@@ -279,10 +279,10 @@ mv \
 printf '#!/usr/bin/env bash\nexit 0\n' >"${tmp_dir}/agent/scripts/live-${seed_trace}-duplicate.sh"
 chmod +x "${tmp_dir}/agent/scripts/live-${seed_trace}-duplicate.sh"
 must_fail_with ambiguous diagnostic.sms-test-entrypoint-ambiguous \
-  env CANONICAL_GAMP_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"
+  env PLATFORM_SPEC_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"
 
 rm "${tmp_dir}/agent/scripts/live-${seed_trace}-duplicate.sh"
-resolved="$({ CANONICAL_GAMP_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"; })"
+resolved="$({ PLATFORM_SPEC_ROOT="${tmp_dir}/agent" "${runner}" --test-path "${seed_trace}"; })"
 [[ "${resolved}" == "${tmp_dir}/agent/scripts/live-${seed_trace}.sh" ]] \
   || fail "canonical recovery resolved to ${resolved}"
 

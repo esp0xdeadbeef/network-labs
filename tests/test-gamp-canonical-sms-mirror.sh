@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../canonical-gamp/GAMP/SMS}"
+canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/../network-codex-agent/GAMP/SMS}"
 forbidden_renderer_prefix="R""D""R-"
 forbidden_renderer_token="R""D""R"
 
