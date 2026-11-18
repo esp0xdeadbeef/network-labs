@@ -4,6 +4,11 @@ set -euo pipefail
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 current_lab_restore_dir=""
+# A canonical mirror may live beside this checkout; the caller names it
+# (CANONICAL_GAMP_ROOT, or PLATFORM_SPEC_ROOT for the SMS case contract), and
+# the workspace directory is the fallback. Never a hardcoded sibling path.
+workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}"
+canonical_root="${CANONICAL_GAMP_ROOT:-${PLATFORM_SPEC_ROOT:-${workspace_root}}}"
 
 cleanup_current_lab_restore() {
   local status=$?
@@ -43,7 +48,7 @@ list_keys() {
 }
 
 list_runnable_ids() {
-  local agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/$NETWORK_WORKSPACE_ROOT}"
+  local agent_root="${canonical_root}"
   local trace_id
 
   while IFS= read -r trace_id || [[ -n "${trace_id}" ]]; do
@@ -96,7 +101,7 @@ resolve_key() {
 
 script_path_for_trace() {
   local trace_id="$1"
-  local agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/$NETWORK_WORKSPACE_ROOT}"
+  local agent_root="${canonical_root}"
   local local_path="${repo_root}/tests/${trace_id}.sh"
   local agent_path="${agent_root}/scripts/live-${trace_id}.sh"
   local selected_path=""
@@ -395,7 +400,7 @@ if [[ "$1" == "--test-paths" ]]; then
   fi
   mapfile -t noncanonical_entrypoints < <(
     scan_dirs=("${repo_root}/tests")
-    canonical_scripts_dir="${CANONICAL_GAMP_ROOT:-${repo_root}/$NETWORK_WORKSPACE_ROOT}/scripts"
+    canonical_scripts_dir="${canonical_root}/scripts"
     [[ -d "${canonical_scripts_dir}" ]] && scan_dirs+=("${canonical_scripts_dir}")
     find "${scan_dirs[@]}" \
       -maxdepth 1 \( -type f -o -type l \) -name '*.sh' -printf '%p\n' \
@@ -408,7 +413,7 @@ if [[ "$1" == "--test-paths" ]]; then
     exit 2
   fi
 
-  agent_root="${CANONICAL_GAMP_ROOT:-${repo_root}/$NETWORK_WORKSPACE_ROOT}"
+  agent_root="${canonical_root}"
   while IFS= read -r trace_id; do
     [[ -n "${trace_id}" ]] || continue
     if [[ -x "${agent_root}/scripts/live-${trace_id}.sh" ]]; then
@@ -447,7 +452,7 @@ for key in "${selected[@]}"; do
   if [[ "${script_path}" == "${repo_root}/"* ]]; then
     script="${script_path#${repo_root}/}"
   else
-    script="$NETWORK_WORKSPACE_ROOT/scripts/live-${trace_id}.sh"
+    script="${workspace_root}/scripts/live-${trace_id}.sh"
   fi
 
   if [[ ! -x "${script_path}" ]]; then

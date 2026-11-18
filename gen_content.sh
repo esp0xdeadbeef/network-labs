@@ -3,13 +3,17 @@
 set -e
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# The canonical SMS mirror is an optional sibling of this checkout; the caller
+# names it, and the workspace directory is the fallback.
+workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd ".." && pwd)}"
+
 # All SMS-040 traces (excluding the 5 that already have full fixtures)
 # Existing: FS-180, FS-270, FS-350, FS-500, FS-800-HDS-010-SDS-020
 generate() {
   local trace="$1"
   local fs=$(echo "$trace" | grep -oP '^FS-\d+')
   local sds_chain=$(echo "$trace" | sed 's/-SMS-040//')
-  local sms_file=$(ls $NETWORK_WORKSPACE_ROOT/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
+  local sms_file=$(ls "$workspace_root"/GAMP/SMS/${trace}-*.md 2>/dev/null | head -1)
   local title=""
   local scope_line=""
   
@@ -28,7 +32,7 @@ generate() {
   evidenceBoundary = "construction-only";
   source = null;
   evidence = {
-    owningRepo = "$NETWORK_WORKSPACE_ROOT";
+    owningRepo = "$workspace_root";
     focusedTest = "tests/${trace}.sh";
     smtRow = "GAMP/SMT/README.md";
     status = "NOT OK";

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-canonical_sms_dir="${CANONICAL_SMS_DIR:-${repo_root}/$NETWORK_WORKSPACE_ROOT/GAMP/SMS}"
+canonical_sms_dir="${CANONICAL_SMS_DIR:-${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}/GAMP/SMS}"
 
 if [[ ! -d "${canonical_sms_dir}" ]]; then
   echo "canonical SMS directory not found: ${canonical_sms_dir}" >&2
