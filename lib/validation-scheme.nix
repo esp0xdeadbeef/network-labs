@@ -1991,6 +1991,14 @@ let
         canonicalPortable = fs540OpenConfigProjection.canonicalPortable;
         openConfigModelComplete = fs540OpenConfigProjection.openConfigModelComplete;
         networkAccess = fs540OpenConfigProjection.networkAccess;
+        # The source intent models its exit as a forwarding internet gateway, so
+        # the core resolver declares an explicit provider-bound upstream. The
+        # compiler reports that as DNS_CORE_UPSTREAM_HARDCODED by design
+        # (FS-440/FS-525); naming the expected codes keeps the assertion exact
+        # instead of accepting an unscoped warning count.
+        dnsWarningCodes = builtins.map (warning: warning.code) (
+          fs540ControlPlaneModel.data.${fs540Enterprise}.${fs540SourceTraceId}.dns.warnings or [ ]
+        );
         warningCount = builtins.length (
           fs540ControlPlaneModel.data.${fs540Enterprise}.${fs540SourceTraceId}.dns.warnings or [ ]
         );

@@ -17,7 +17,8 @@ jq -e '
   and .fs540PeerComparison.canonicalPortable == true
   and .fs540PeerComparison.openConfigModelComplete == false
   and .fs540PeerComparison.networkAccess == false
-  and .fs540PeerComparison.warningCount == 0
+  and .fs540PeerComparison.warningCount == 1
+  and .fs540PeerComparison.dnsWarningCodes == ["DNS_CORE_UPSTREAM_HARDCODED"]
   and all(.fs540PeerComparison.inputBundleIdentities[];
     . == $root.fs540PeerComparison.bundleIdentity
   )
