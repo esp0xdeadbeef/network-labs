@@ -1337,7 +1337,18 @@ list_sources() {
   echo "HAT emulated-isp-residential-testnet"
   while IFS= read -r id || [[ -n "${id}" ]]; do
     printf 'SMT %s\n' "${id}"
-  done < <(tests/run-active-lab-mini-smt.sh --list)
+  # Absolute, so `--list` does not silently drop all 441 SMT entries when the
+  # script is invoked from outside the repository root. `list_sit_sources`
+  # already uses the absolute ${manifest_file}, which is why only the SMT half
+  # disappeared and the omission was easy to miss.
+  #
+  # `SMS_TEST_REPO_ROOT` is dropped as well: it names the repository that owns
+  # *a case*, and a case calling this selector is usually in a sibling repo. The
+  # lister reads it as its own repo root, so it looked for
+  # `<sibling>/GAMP/SMT/mini-smt/tests.nix`, which does not exist, printed a Nix
+  # error, and emitted no ids at all -- `--list` then reported only the SIT half
+  # and every SMT self-selection check failed as "selector does not know".
+  done < <(env -u SMS_TEST_REPO_ROOT "${repo_root}/tests/run-active-lab-mini-smt.sh" --list)
   while IFS= read -r sds || [[ -n "${sds}" ]]; do
     printf 'SIT %s\n' "${sds}"
   done < <(list_sit_sources)
