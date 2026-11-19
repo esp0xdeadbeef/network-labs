@@ -184,8 +184,15 @@ for repository in "${workspace_root}"/network-*; do
   while IFS= read -r -d '' case_dir; do
     case_trace="$(basename "${case_dir}")"
     case_directory_has_test "${case_dir}" || continue
-    [[ -L "${repository}/tests/${case_trace}.sh" ]] \
-      || fail "case directory has no canonical symlink: ${case_dir}"
+    # Any execute-or-source entrypoint at `tests/<trace>.sh` satisfies the row:
+    # the symlink to `lib/run-sms-cases.sh` is the common form, but a handful of
+    # rows ship a thin dispatcher script instead (e.g. FS-230-HDS-010-SDS-010-SMS-030
+    # and FS-540-HDS-010-SDS-010-SMS-040/045 exec a shared case). Requiring the
+    # symlink specifically failed those rows even though they have a working
+    # entrypoint, and said "no canonical symlink" for a file that was right there.
+    entrypoint="${repository}/tests/${case_trace}.sh"
+    [[ -e "${entrypoint}" || -L "${entrypoint}" ]] \
+      || fail "case directory has no entrypoint: ${case_dir} (expected ${entrypoint})"
 
   done < <(
     find "${repository}/tests/lib" -mindepth 1 -maxdepth 1 -type d \
