@@ -46,6 +46,17 @@ mapfile -t candidates < <(
   exit 1
 }
 
+# This row is explicitly live-flagged: its only closing evidence is a focused
+# probe executed on s-router-clab, and the case blocks on ssh until that host
+# answers. Run as a plain suite member it would hang the whole run, so the live
+# half is opt-in, following the same convention as the other live evidence
+# commands in run-all-tests.sh. Construction contract checks still run by
+# default.
+live_skip="0"
+if [[ "${NETWORK_LABS_RUN_SMT_LIVE_CHECKS:-0}" != "1" ]]; then
+  live_skip="1"
+fi
+
 for candidate in "${candidates[@]}"; do
   printf 'RUN %s: %s\n' "${trace_id}" "${candidate}"
   candidate_repo="$(cd "$(dirname "${candidate}")/.." && pwd)"
@@ -69,6 +80,7 @@ for candidate in "${candidates[@]}"; do
       NETWORK_LABS_PATH="${workspace_root}/network-labs" \
       NETWORK_LABS_ROOT="${workspace_root}/network-labs" \
       NETWORK_REPO_DIRECT_TEST_OK=1 \
+      SKIP_LIVE_CHECKS="${live_skip}" \
       SMS_TEST_TRACE_ID="${trace_id}" \
       bash "${candidate}"
   )
