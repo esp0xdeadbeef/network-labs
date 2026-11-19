@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
+# Resolve this repository from the script's own location. `SMS_TEST_REPO_ROOT`
+# is exported by a dispatcher to name the repository that owns *the case it is
+# running*, so inheriting it here points `manifest_file` at a sibling checkout
+# that has no GAMP/SMT/mini-smt/tests.nix and every `--list`/`--source` call
+# fails with a Nix "path does not exist". Honour it only when it names this same
+# repository.
+repo_root="$(git -C "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" rev-parse --show-toplevel)"
+if [[ -n "${SMS_TEST_REPO_ROOT:-}" ]] \
+  && [[ "$(realpath "${SMS_TEST_REPO_ROOT}")" == "$(realpath "${repo_root}")" ]]; then
+  repo_root="${SMS_TEST_REPO_ROOT}"
+fi
 manifest_file="${repo_root}/GAMP/SMT/mini-smt/tests.nix"
 current_lab_restore_dir=""
 # A canonical mirror may live beside this checkout; the caller names it
