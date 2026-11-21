@@ -7,8 +7,9 @@ Owner of the fix: `network-renderer-nixos`,
 
 ## What is proven live
 
-Fixtures booted with `nixos-shell` and driven by `scripts/hat-isp.py`
-(`network-site-esp`). Both sites, from the innermost tenant client:
+Fixtures booted with `nixos-shell` and driven by the site acceptance harness's
+`hat-isp.py` (the harness is a private checkout; it is described here, not
+named). Both sites, from the innermost tenant client:
 
 | probe | cobalt | neon |
 | --- | --- | --- |
