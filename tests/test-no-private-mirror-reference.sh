@@ -9,9 +9,20 @@ set -euo pipefail
 repo_root="${SMS_TEST_REPO_ROOT:-$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)}"
 workspace_root="${NETWORK_WORKSPACE_ROOT:-$(cd "${repo_root}/.." && pwd)}"
 
-head="network"
-tail="codex-agent"
-private_name="${head}-${tail}"
+# Every private repository name, assembled at runtime so this guard never
+# contains the literal it forbids. `network-codex-agent` was the first; the site
+# acceptance harness is private too and was missing, which is how a public GAMP
+# document came to cite it by name (measured 2026-11-21).
+private_name() {
+  local head="$1" tail="$2"
+  printf '%s-%s' "${head}" "${tail}"
+}
+
+private_names=(
+  "$(private_name network codex-agent)"
+  "$(private_name network site-esp)"
+)
+private_name_primary="${private_names[0]}"
 
 self_path="$(readlink -f "${BASH_SOURCE[0]}")"
 
@@ -27,7 +38,11 @@ mapfile -t repositories < <(
   for candidate in "${workspace_root}"/network-*/; do
     candidate="${candidate%/}"
     [[ -d "${candidate}/.git" ]] || continue
-    [[ "$(basename "${candidate}")" == "${private_name}" ]] && continue
+    skip=0
+    for private in "${private_names[@]}"; do
+      [[ "$(basename "${candidate}")" == "${private}" ]] && skip=1
+    done
+    ((skip == 1)) && continue
     printf '%s\n' "${candidate}"
   done | LC_ALL=C sort -u
 )
@@ -35,9 +50,11 @@ mapfile -t repositories < <(
 violations=0
 for repository in "${repositories[@]}"; do
   mapfile -t hits < <(
-    rg -n --hidden --no-messages --glob '!**/.git/**' --glob '!*.lock' \
-      --fixed-strings "${private_name}" "${repository}" \
-      | grep -v -F "${self_path}:" || true
+    for private in "${private_names[@]}"; do
+      rg -n --hidden --no-messages --glob '!**/.git/**' --glob '!*.lock' \
+        --fixed-strings "${private}" "${repository}" \
+        | grep -v -F "${self_path}:" || true
+    done
   )
   if ((${#hits[@]} > 0)); then
     for hit in "${hits[@]}"; do
