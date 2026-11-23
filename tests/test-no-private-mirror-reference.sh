@@ -53,7 +53,8 @@ for repository in "${repositories[@]}"; do
     for private in "${private_names[@]}"; do
       rg -n --hidden --no-messages --glob '!**/.git/**' --glob '!*.lock' \
         --fixed-strings "${private}" "${repository}" \
-        | grep -v -F "${self_path}:" || true
+        | grep -v -F "${self_path}:" \
+        | grep -v -F "/tests/test-no-private-mirror-reference.sh:" || true
     done
   )
   if ((${#hits[@]} > 0)); then
