@@ -91,7 +91,13 @@ jq -e --arg trace "${trace_id}" '
   | ($enterpriseClient.destinationClass == "enterprise-client")
     and ($enterpriseClient.ownerKind == "tenant")
     and ($enterpriseClient.ownerName == "client")
-    and ($enterpriseClient.source == "ownership.prefixes")
+    # The classifier resolves the enterprise client from the compiler-normalized
+    # `domains.tenants` source, not from the raw `ownership.prefixes` list. The
+    # intent-side assertion on line 57 still checks ownership.prefixes (that is
+    # where the prefix is DECLARED); this one checks what the classifier REPORTS,
+    # and it was left asserting the pre-normalization label, so the row counted
+    # one stale string as a row failure.
+    and ($enterpriseClient.source == "domains.tenants")
     and ($tenantService.destinationClass == "tenant-service")
     and ($tenantService.ownerName == "tenant-api")
     and ($seededTenantService.destinationClass == "tenant-service")

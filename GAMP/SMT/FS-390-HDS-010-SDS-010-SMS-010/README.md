@@ -7,7 +7,9 @@ recorded by `$NETWORK_WORKSPACE_ROOT/scripts/live-FS-390-HDS-010-SDS-010-SMS-010
 
 This row models public IPv4 destination ownership records for:
 
-- enterprise-client ownership from `ownership.prefixes`
+- enterprise-client ownership declared in `ownership.prefixes` and reported by
+  the classifier with `source = "domains.tenants"` (the compiler-normalized
+  list; the classifier never reports the raw declaration path)
 - tenant-service ownership from `communicationContract.services`
 - public-ingress ownership from `communicationContract.services.publicIngress`
 - locally owned routed endpoints from `ownership.endpoints`

@@ -10,6 +10,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__mini-verify";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -24,6 +28,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__client-to-tenant-api";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -38,6 +46,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__testnet-to-public-web";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "external";
               scope = "internet-vlan4";
@@ -54,6 +66,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__mini-verify";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -67,6 +83,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__client-to-tenant-api";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "tenant";
               name = "client";
@@ -81,6 +101,10 @@
           {
             id = "FS-390-HDS-010-SDS-010-SMS-020__testnet-to-public-web";
             action = "allow";
+            # FS-180-HDS-010-SDS-010-SMS-010: an allow relation states its return behaviour
+            # explicitly. The sibling FS-390 row declares this and this one did not, so the
+            # row could not compile at all. Symmetric match preserves the intent as written.
+            returnBehavior = "symmetric";
             from = {
               kind = "external";
               scope = "core-vlan4-client-dhcp-slaac";
