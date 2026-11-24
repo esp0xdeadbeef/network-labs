@@ -135,7 +135,27 @@
                   };
                 };
               };
-              runtimeNodes = { };
+              # FS-460-HDS-010-SDS-010-SMS-070: the clab inventory must realize
+              # the same overlay terminator as the nixos inventory. Both
+              # inventories model one site; an empty `runtimeNodes` here would
+              # make the clab render see an overlay with provider material and
+              # no runtime interface.
+              runtimeNodes = {
+                s-router-core-nebula = {
+                  container = {
+                    profile = "core-router-nebula";
+                    targetContainer = "s-router-core-nebula";
+                  };
+                  groups = [
+                    "lab"
+                    "core"
+                  ];
+                  service = {
+                    interface = "overlay-wg-egress";
+                    name = "wg-runtime";
+                  };
+                };
+              };
             };
           };
         };

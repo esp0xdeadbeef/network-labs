@@ -101,7 +101,31 @@
                   };
                 };
               };
-              runtimeNodes = { };
+              # FS-460-HDS-010-SDS-010-SMS-070: the intent declares
+              # `wg-egress.terminateOn = "s-router-core-nebula"` and the model
+              # publishes a provider contract for it, so the inventory MUST
+              # realize the terminator and its carriage port here. An empty
+              # `runtimeNodes` publishes an overlay that carries provider
+              # material with no runtime interface, which is exactly the silent
+              # empty projection the gate rejects. The interface is the
+              # contract's `interfaces.vpn` (`overlay-wg-egress`), on the same
+              # container that terminates the `nebula` overlay.
+              runtimeNodes = {
+                s-router-core-nebula = {
+                  container = {
+                    profile = "core-router-nebula";
+                    targetContainer = "s-router-core-nebula";
+                  };
+                  groups = [
+                    "lab"
+                    "core"
+                  ];
+                  service = {
+                    interface = "overlay-wg-egress";
+                    name = "wg-runtime";
+                  };
+                };
+              };
             };
           };
         };
