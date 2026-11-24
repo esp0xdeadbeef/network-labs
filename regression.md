@@ -625,6 +625,28 @@ blobs, or shared example fragments.
 
 ## Still Broken
 
+- FS-310-HDS-020-SDS-010-SMS-060: the renderer withholds lane occurrences the
+  model publishes. `network-control-plane-model` 9155d82 publishes
+  `policyRoutingSources` and `networkBehavior` on every runtime target, which is
+  the producer half of this row's repair. The renderer's mapping then merges its
+  own derivation over the model's record
+  (`network-renderer-nixos` `s88/Unit/mapping/runtime-targets/default.nix`,
+  `normalizedRuntimeTargetForUnit`), so the check that the model supplies the
+  field passes while the value in use is still computed by the renderer.
+  Measured on `examples/wireguard-provider-overlay`, target
+  `esp0xdeadbeef::site-a::esp0xdeadbeef-site-a-s-router-core-nebula`: the model
+  names policy sources on `ens3`, `overlay-nebula` and `overlay-wg-egress`; the
+  mapped target carries `ens3` only, so `overlay-nebula` and
+  `overlay-wg-egress` are withheld, and five `networkBehavior` keys
+  (`enforcement`, `exit`, `participates`, `role`, `upstreamSelection`) never
+  reach the renderer. The five class keys the renderer keeps agree with the
+  model everywhere, so this is the wider record being replaced by the narrower
+  one, not a value disagreement. It is the row's third forbidden verb,
+  "withhold", and it is open rather than fixed because deleting the derivation
+  changes which lanes the core installs and needs this row's placement case to
+  be green first. Filed in full, with the reproduction, at
+  `network-renderer-nixos/BUG-FS-310-HDS-020-SDS-010-SMS-060-lane-occurrence-withheld.md`.
+
 - FS-540-HDS-010-SDS-010-SMS-045 cold restage14 on 2026-07-18 proved the
   resolver's scoped pre-socket UDP/TCP port-53 rules emit traffic on the
   selected NixOS provider, but the row still queried external root authority.
