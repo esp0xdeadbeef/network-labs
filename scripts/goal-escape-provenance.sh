@@ -33,16 +33,84 @@
 # script's. What it removes is the class of proof that is satisfiable without
 # doing the work.
 #
+# A third check, for the other half of the proof. `spec:` is normally defended by
+# "run sha256sum yourself", which says nothing about whether the digest a result
+# document quotes is the goal it actually answered. Measured this session: the
+# digest moved twice while the run was in progress, so a record that quoted the
+# first one looked verified and named a document nobody had any more.
+#
+#   DIGEST       a record that quotes a digest must quote the digest of the goal
+#                file it is recorded against, or say that it is stale.
+#
 # Usage:
 #   goal-escape-provenance.sh <goal-file> <commit> [<workspace-root>]
+#   goal-escape-provenance.sh --check-digest <goal-file> <record-file>
 #
 # Exit: 0 the commit has provenance and substance; 1 it does not; 2 misuse.
 #
 # Evidence boundary: construction. Git plumbing plus a text scan of the goal.
 set -euo pipefail
 
+if [[ "${1:-}" == "--check-digest" ]]; then
+  [[ $# -eq 3 ]] || {
+    echo "usage: goal-escape-provenance.sh --check-digest <goal-file> <record-file>" >&2
+    exit 2
+  }
+  goal_for_digest="$2"
+  record_file="$3"
+  [[ -f "${goal_for_digest}" ]] || {
+    echo "FAIL GOAL-ESCAPE-PROVENANCE: no goal file at ${goal_for_digest}" >&2
+    exit 2
+  }
+  [[ -f "${record_file}" ]] || {
+    echo "FAIL GOAL-ESCAPE-PROVENANCE: no record file at ${record_file}" >&2
+    exit 2
+  }
+  want_digest="$(cat "${goal_for_digest}" | sha256sum | cut -d' ' -f1)"
+  # Any 64-hex digest in the record is a claim about a goal document.
+  mapfile -t quoted < <(grep -oE '\b[0-9a-f]{64}\b' "${record_file}" | LC_ALL=C sort -u)
+  if ((${#quoted[@]} == 0)); then
+    echo "  note: ${record_file} quotes no digest, so there is nothing to compare" >&2
+    exit 0
+  fi
+  found=0
+  others=()
+  for digest in "${quoted[@]}"; do
+    if [[ "${digest}" == "${want_digest}" ]]; then
+      found=1
+    else
+      others+=("${digest}")
+    fi
+  done
+
+  # A record may legitimately quote several goals' digests -- one document, many
+  # runs. So the question is not "is every quoted digest this goal's" but "does
+  # this record quote THIS goal's digest at all". A record whose only digest is a
+  # stale one is the failure this catches; extra digests are other documents and
+  # are reported, not judged.
+  if ((found == 1)); then
+    echo "PASS DIGEST: ${record_file} quotes the digest of ${goal_for_digest} (${want_digest})"
+    if ((${#others[@]} > 0)); then
+      echo "  other digests in the record belong to other goal documents (not compared):"
+      printf '    %s\n' "${others[@]}"
+    fi
+    exit 0
+  fi
+
+  {
+    echo "FAIL DIGEST: ${record_file} quotes no digest of ${goal_for_digest}."
+    echo "  goal now: ${want_digest}"
+    printf '  quoted:   %s\n' "${quoted[@]}"
+    echo "  A record whose only digest is a stale one claims verification against a"
+    echo "  document that no longer exists. Recompute with:"
+    echo "    cat ${goal_for_digest} | sha256sum"
+  } >&2
+  exit 1
+fi
+
 if [[ $# -lt 2 || $# -gt 3 ]]; then
   echo "usage: goal-escape-provenance.sh <goal-file> <commit> [<workspace-root>]" >&2
+  echo "       goal-escape-provenance.sh --check-digest <goal-file> <record-file>" >&2
   exit 2
 fi
 

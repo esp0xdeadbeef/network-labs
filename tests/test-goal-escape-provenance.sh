@@ -186,6 +186,37 @@ else
   echo "PASS CASE 5: a commit in a scratch repository is not accepted as the workspace's work"
 fi
 
+# CASE 7 -- the other half of the proof: a record that quotes the goal's digest
+# passes the digest check. The digest moved twice in one session, so a record can
+# quote a document that no longer exists and still look verified.
+good_record="${work}/RECORD-good.md"
+printf '# result\n\n    cat ${work}/GOAL.md | sha256sum\n%s  -\n' "$(cat "${work}/GOAL.md" | sha256sum | cut -d' ' -f1)" >"${good_record}"
+out="$(bash "${script}" --check-digest "${work}/GOAL.md" "${good_record}" 2>&1 || true)"
+if ! grep -q '^PASS DIGEST' <<<"${out}"; then
+  issues=$((issues + 1))
+  {
+    echo "FAIL CASE 7: a record quoting the goal's own digest was rejected"
+    echo "${out}"
+  } >&2
+else
+  echo "PASS CASE 7: a record quoting the goal's digest passes"
+fi
+
+# CASE 8 -- the stale digest. Measured in this session: a record quoted 43511b04
+# for a goal whose digest had moved to 98e9384c, and nothing noticed.
+stale_record="${work}/RECORD-stale.md"
+printf '# result\n\n    cat ${work}/GOAL.md | sha256sum\n%s  -\n' "$(printf 'a goal that no longer exists\n' | sha256sum | cut -d' ' -f1)" >"${stale_record}"
+out="$(bash "${script}" --check-digest "${work}/GOAL.md" "${stale_record}" 2>&1 || true)"
+if ! grep -q '^FAIL DIGEST' <<<"${out}"; then
+  issues=$((issues + 1))
+  {
+    echo "FAIL CASE 8: a record quoting only a stale digest was accepted"
+    echo "${out}"
+  } >&2
+else
+  echo "PASS CASE 8: a record quoting only a stale digest is rejected"
+fi
+
 echo ""
 if ((issues > 0)); then
   echo "FAIL GOAL-ESCAPE-PROVENANCE: ${issues} case(s) did not behave as stated." >&2
