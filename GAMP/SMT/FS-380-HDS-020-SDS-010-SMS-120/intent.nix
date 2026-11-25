@@ -94,6 +94,15 @@
             name = "client";
             ipv4 = "10.38.120.0/24";
             ipv6 = "fd42:380:120::/64";
+            # DHCP advertisement derivation needs the tenant's domain: the access
+            # router advertises a domain search list and the reservation source keys
+            # on it, and network-control-plane-model fails closed with
+            #   forwarding-model update required: ...domains.tenants: tenant 'client'
+            #   requires a derived dnsDomain or zone reference
+            # rather than advertise an empty search list. The compiler derives the
+            # value from `dnsDomain` or from `zone` + `site.dnsZones`, so the row
+            # states its domain the way the HAT site states `lan.`.
+            dnsDomain = "lan.";
           }
         ];
         endpoints = [
