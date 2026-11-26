@@ -58,6 +58,61 @@ let
     };
   };
 
+  # FS-310-HDS-040-SDS-010-SMS-100: a renderer input is a validated bundle's
+  # canonical collections. `network-realization-model` still returns the historical
+  # `semanticModel` / `controlPlaneEnvelope` / `semanticArtifact` attributes, but they
+  # throw by design -- they used to hand a renderer the plain control-plane model the
+  # bundle wraps, which is upstream authority, not a renderer input.
+  #
+  # A blanket `builtins.deepSeq <rendererInput>` forces EVERY attribute, including
+  # those three, so it trips the withdrawal throw instead of proving the input is
+  # valid. Force the canonical-only surface the scheme consumes, and assert the
+  # withdrawn handles still throw so the boundary stays under test.
+  rendererInputConsumedFields = [
+    "bindingValidation"
+    "bundleValidation"
+    "canonical"
+    "expectedTarget"
+    "rendererInput"
+    "structuralView"
+    "bundleIdentity"
+    "bindingIdentity"
+    "validatedPlatformBinding"
+    "requestScope"
+  ];
+  withdrawnRendererInputFields = [
+    "semanticModel"
+    "controlPlaneEnvelope"
+    "semanticArtifact"
+  ];
+
+  # Force a renderer input's canonical-only surface, then prove that reading the
+  # plain-model handles still throws. Returns the enforced `true` so a caller can put
+  # the result straight in a `deepSeq` list: the point is what this function forces,
+  # not the value it hands back.
+  #
+  # NB: this must NOT return `rendererInput`. `deepSeq` forces every attribute of its
+  # second argument and every element of a list it is given, so a caller's
+  # `deepSeq [ (forceRendererInput x) ] ...` would deep-force the returned attrset and
+  # reach `semanticModel`/`controlPlaneEnvelope`/`semanticArtifact` -- the exact
+  # blanket force this helper replaces. Returning `true` keeps the caller's deepSeq on
+  # the sentinel while the renderer input itself is forced only field by field here.
+  #
+  # NB also: the final `deepSeq ... true` must not be `deepSeq ... rendererInput` for
+  # the same reason.
+  forceRendererInput =
+    rendererInput:
+    builtins.deepSeq (
+      [
+        (builtins.deepSeq (map (name: rendererInput.${name}) rendererInputConsumedFields) true)
+      ]
+      ++ map (
+        name:
+        assert !(builtins.tryEval (builtins.deepSeq rendererInput.${name} true)).success;
+        name
+      ) withdrawnRendererInputFields
+    ) true;
+
   mkReplacementArtifact =
     traceId: siteData:
     let
@@ -1652,7 +1707,10 @@ let
     bundle = fs230Bundle;
     platformBinding = fs230Bindings.clab;
   };
-  fs230PeerComparison = builtins.deepSeq [ fs230NixosInput fs230ClabInput ] {
+  fs230PeerComparison = builtins.deepSeq [
+    (forceRendererInput fs230NixosInput)
+    (forceRendererInput fs230ClabInput)
+  ] {
     traceId = "FS-162-HDS-010-SDS-040-SMS-010";
     sourceTraceId = fs230TraceId;
     bundle = fs230Bundle;
@@ -1967,8 +2025,8 @@ let
   fs540PeerComparison =
     builtins.deepSeq
       [
-        fs540NixosInput
-        fs540ClabInput
+        (forceRendererInput fs540NixosInput)
+        (forceRendererInput fs540ClabInput)
         fs540OpenConfigProjection
       ]
       {
@@ -2130,7 +2188,14 @@ let
       platformBinding = rendererBoundaryBindings.${target};
     }
   ) rendererDefinitions;
-  rendererBoundaryConformance = builtins.deepSeq (builtins.attrValues rendererBoundaryInputs) {
+  # `forceRendererInput`, NOT a blanket deepSeq.
+  #
+  # `builtins.deepSeq (builtins.attrValues rendererBoundaryInputs)` forces every
+  # attribute of every renderer's validate output, including the withdrawn handles
+  # (`semanticModel`, `controlPlaneEnvelope`, `semanticArtifact`) that throw by design
+  # under FS-310-HDS-040-SDS-010-SMS-100. That reported a violation no renderer in
+  # this comparison commits -- the same mistake already fixed for fs230 and fs540.
+  rendererBoundaryConformance = builtins.deepSeq (map forceRendererInput (builtins.attrValues rendererBoundaryInputs)) {
     traceId = rendererBoundaryTraceId;
     bundleIdentity = fs230Bundle.bundleIdentity;
     targets = rendererBoundaryTargets;
