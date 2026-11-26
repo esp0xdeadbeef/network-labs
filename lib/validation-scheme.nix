@@ -971,7 +971,14 @@ let
       rendererResult = renderer.validate {
         inherit bundle platformBinding;
       };
-      releasedRendererResult = builtins.deepSeq rendererResult {
+      # `forceRendererInput`, not a blanket `deepSeq rendererResult`: the latter forces
+      # every attribute of the validate result, including the withdrawn
+      # `semanticModel`/`controlPlaneEnvelope`/`semanticArtifact` handles that throw by
+      # design under FS-310-HDS-040-SDS-010-SMS-100. Measured on the network-labs flake
+      # drift job (2026-11-27): `nix flake check --no-build` died at
+      # `scenarios.FS-166-HDS-010-SDS-010-SMS-901.artifactFlow.renderer.semanticModel`
+      # -- this line, not the renderer.
+      releasedRendererResult = builtins.seq (forceRendererInput rendererResult) {
         repository = renderer.repository;
         target = definition.target;
         mode = "normal";
