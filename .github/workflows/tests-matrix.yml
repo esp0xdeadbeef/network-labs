@@ -128,15 +128,29 @@ jobs:
               stripped = line.strip()
               if line.startswith("  ") and not line.startswith("   ") and stripped.endswith(":") and not stripped.startswith("#"):
                   current = stripped[:-1]
-                  jobs[current] = {"needs": []}
+                  jobs[current] = {"needs": [], "continue_on_error": False}
               elif current and line.startswith("    needs:"):
                   value = line.split(":", 1)[1].strip()
                   jobs[current]["needs"] = [n.strip() for n in value.strip("[]").split(",") if n.strip()]
+              elif current and line.startswith("    continue-on-error:"):
+                  value = line.split(":", 1)[1].strip().lower()
+                  jobs[current]["continue_on_error"] = value in ("true", "yes")
 
           if "flake-check" not in jobs:
               failures.append("no flake-check job in this workflow")
-          if "flake-check" not in jobs.get("list", {}).get("needs", []):
-              failures.append("list does not declare `needs: flake-check`")
+          if "flake-drift" not in jobs:
+              failures.append("no flake-drift job in this workflow")
+
+          # Both flake jobs must be hard gates on `list`. Ordering alone is not a
+          # gate: a `continue-on-error` flake job still lets every shard run after it
+          # failed, which is how a red run used to spend the whole matrix to report
+          # something the flake job had already reported.
+          list_needs = jobs.get("list", {}).get("needs", [])
+          for gate in ("flake-check", "flake-drift"):
+              if gate not in list_needs:
+                  failures.append(f"list does not declare `needs: {gate}`")
+              if jobs.get(gate, {}).get("continue_on_error", False):
+                  failures.append(f"{gate} is `continue-on-error`: it cannot gate `list`")
           if "list" not in jobs.get("test", {}).get("needs", []):
               failures.append("test does not declare `needs: list`")
 
@@ -146,7 +160,7 @@ jobs:
                   print(f"  - {f}", file=sys.stderr)
               print("  A green badge must mean the tests ran, not that the flake evaluates.", file=sys.stderr)
               sys.exit(1)
-          print("PASS FLAKE-GATE: one workflow; flake-check -> list -> test")
+          print("PASS FLAKE-GATE: one workflow; flake-check + flake-drift -> list -> test")
           CHECK
 
 
@@ -258,19 +272,21 @@ jobs:
       - name: "Check flake outputs (committed pins)"
         run: nix flake check --no-build -L --show-trace
 
-  # Drift is a report, not a gate.
+  # Drift is a gate, like `flake-check`.
   #
   # This job updates every input and evaluates against the fleet as it is on main
-  # right now. Measured the first time it ran: `network-forwarding-model` deleted
-  # `compiler-input/sites/build.nix` (f843c4f) and `network-control-plane-model`
-  # still references it, so today's main does not evaluate. That is worth knowing
-  # every push -- the alternative is a nightly bumper discovering it a day later --
-  # but it must not stop 288 test jobs that test the commit under review.
+  # right now. It used to be `continue-on-error: true`, on the argument that an
+  # upstream break must not stop 288 test jobs that test the commit under review.
+  # That argument is wrong in the direction that costs the most: `list` still waited
+  # for it, so the shards ran anyway and burned a full matrix to discover something
+  # neither the commit nor the tests could fix. A red run must not spend the matrix
+  # to say what the flake job already said.
+  #
+  # Both flake jobs therefore gate `list`: any flake failure -- committed pins OR
+  # today's fleet -- and no shard is scheduled.
   flake-drift:
-    # Named so it cannot be mistaken for the gate: this one is a report.
-    name: "flake drift (today's pins, report only)"
+    name: "flake drift (today's pins)"
     needs: workflow-structure
-    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -370,12 +386,11 @@ jobs:
       NIX_CONFIG: "experimental-features = nix-command flakes"
     # Discovery is seconds; the build-closure warm is not. 60 keeps a cold cache from
     # turning discovery into a timeout.
-    # BOTH flake jobs, in order, before a single test is scheduled: the gate that
-    # evaluates the committed pins and the drift report that evaluates today's. They
-    # were parallel because drift is `continue-on-error` -- which controls whether a
-    # FAILURE stops dependants, not whether they WAIT. A test run that starts while
-    # the drift check is still resolving is a test run against two different input
-    # sets, and that is the thing this whole workflow exists to prevent.
+    # BOTH flake jobs gate this job, and both are hard failures: the committed pins
+    # (`flake-check`) and today's fleet (`flake-drift`). `needs` alone only orders the
+    # jobs -- a `continue-on-error` drift job would still let the shards run after it
+    # failed. Ordering and gating are the same statement here: no flake verdict, no
+    # matrix.
     needs: [flake-check, flake-drift]
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -1921,6 +1936,14 @@ jobs:
           lines="$(wc -l < "${log}")"
           if grep -qE '^FAIL |^FAIL$|declared SKIP' "${log}"; then
             echo "::error::the test failed, so this transcript is not evidence of an offline run"
+            # PRINT WHAT FAILED. The step failing here is the only signal an operator or an
+            # agent gets when the job-log API will not stream (measured twice on
+            # 2026-11-27: `gh api .../logs` returned nothing for every attempt), and the
+            # failure is indistinguishable from an environment fault without this tail.
+            # Diagnostics only: the gate above already decided, and nothing below relaxes it.
+            printf '%s\n' '--- last 60 transcript lines (diagnostic) ---'
+            tail -n 60 "${log}"
+            printf '%s\n' '--- end transcript ---'
             exit 1
           fi
           if ! grep -qE '^PASS ' "${log}"; then
