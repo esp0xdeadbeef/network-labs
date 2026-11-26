@@ -128,29 +128,15 @@ jobs:
               stripped = line.strip()
               if line.startswith("  ") and not line.startswith("   ") and stripped.endswith(":") and not stripped.startswith("#"):
                   current = stripped[:-1]
-                  jobs[current] = {"needs": [], "continue_on_error": False}
+                  jobs[current] = {"needs": []}
               elif current and line.startswith("    needs:"):
                   value = line.split(":", 1)[1].strip()
                   jobs[current]["needs"] = [n.strip() for n in value.strip("[]").split(",") if n.strip()]
-              elif current and line.startswith("    continue-on-error:"):
-                  value = line.split(":", 1)[1].strip().lower()
-                  jobs[current]["continue_on_error"] = value in ("true", "yes")
 
           if "flake-check" not in jobs:
               failures.append("no flake-check job in this workflow")
-          if "flake-drift" not in jobs:
-              failures.append("no flake-drift job in this workflow")
-
-          # Both flake jobs must be hard gates on `list`. Ordering alone is not a
-          # gate: a `continue-on-error` flake job still lets every shard run after it
-          # failed, which is how a red run used to spend the whole matrix to report
-          # something the flake job had already reported.
-          list_needs = jobs.get("list", {}).get("needs", [])
-          for gate in ("flake-check", "flake-drift"):
-              if gate not in list_needs:
-                  failures.append(f"list does not declare `needs: {gate}`")
-              if jobs.get(gate, {}).get("continue_on_error", False):
-                  failures.append(f"{gate} is `continue-on-error`: it cannot gate `list`")
+          if "flake-check" not in jobs.get("list", {}).get("needs", []):
+              failures.append("list does not declare `needs: flake-check`")
           if "list" not in jobs.get("test", {}).get("needs", []):
               failures.append("test does not declare `needs: list`")
 
@@ -160,7 +146,7 @@ jobs:
                   print(f"  - {f}", file=sys.stderr)
               print("  A green badge must mean the tests ran, not that the flake evaluates.", file=sys.stderr)
               sys.exit(1)
-          print("PASS FLAKE-GATE: one workflow; flake-check + flake-drift -> list -> test")
+          print("PASS FLAKE-GATE: one workflow; flake-check -> list -> test")
           CHECK
 
 
@@ -272,21 +258,19 @@ jobs:
       - name: "Check flake outputs (committed pins)"
         run: nix flake check --no-build -L --show-trace
 
-  # Drift is a gate, like `flake-check`.
+  # Drift is a report, not a gate.
   #
   # This job updates every input and evaluates against the fleet as it is on main
-  # right now. It used to be `continue-on-error: true`, on the argument that an
-  # upstream break must not stop 288 test jobs that test the commit under review.
-  # That argument is wrong in the direction that costs the most: `list` still waited
-  # for it, so the shards ran anyway and burned a full matrix to discover something
-  # neither the commit nor the tests could fix. A red run must not spend the matrix
-  # to say what the flake job already said.
-  #
-  # Both flake jobs therefore gate `list`: any flake failure -- committed pins OR
-  # today's fleet -- and no shard is scheduled.
+  # right now. Measured the first time it ran: `network-forwarding-model` deleted
+  # `compiler-input/sites/build.nix` (f843c4f) and `network-control-plane-model`
+  # still references it, so today's main does not evaluate. That is worth knowing
+  # every push -- the alternative is a nightly bumper discovering it a day later --
+  # but it must not stop 288 test jobs that test the commit under review.
   flake-drift:
-    name: "flake drift (today's pins)"
+    # Named so it cannot be mistaken for the gate: this one is a report.
+    name: "flake drift (today's pins, report only)"
     needs: workflow-structure
+    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -386,11 +370,12 @@ jobs:
       NIX_CONFIG: "experimental-features = nix-command flakes"
     # Discovery is seconds; the build-closure warm is not. 60 keeps a cold cache from
     # turning discovery into a timeout.
-    # BOTH flake jobs gate this job, and both are hard failures: the committed pins
-    # (`flake-check`) and today's fleet (`flake-drift`). `needs` alone only orders the
-    # jobs -- a `continue-on-error` drift job would still let the shards run after it
-    # failed. Ordering and gating are the same statement here: no flake verdict, no
-    # matrix.
+    # BOTH flake jobs, in order, before a single test is scheduled: the gate that
+    # evaluates the committed pins and the drift report that evaluates today's. They
+    # were parallel because drift is `continue-on-error` -- which controls whether a
+    # FAILURE stops dependants, not whether they WAIT. A test run that starts while
+    # the drift check is still resolving is a test run against two different input
+    # sets, and that is the thing this whole workflow exists to prevent.
     needs: [flake-check, flake-drift]
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -1123,25 +1108,38 @@ jobs:
             exit 0
           fi
           warmed=0
+          seen=""
           for app in "${apps[@]}"; do
-            # BOTH SPELLINGS. `path:$PWD#` and `$PWD#` and `.#` are three different
-            # source identities (measured), and the suites use more than one of them,
-            # so the app is warmed under each that resolves.
+            # EVERY SPELLING THE SUITES USE, DEDUPED BY DERIVATION.
+            #
+            # `path:$PWD#`, `$PWD#` and `.#` are different source identities, so a suite
+            # may ask for any of them. Warming all three unconditionally realises the
+            # same closure repeatedly when they agree -- which is what made the log read
+            # "default realised via ... / realised via ... / realised via ..." for one
+            # app -- so a derivation already seen is skipped instead.
+            drvs=""
             for try_ref in "${flake_ref}" "${PWD}" "."; do
-            drv="$(nix eval --raw --impure "${try_ref}#apps.${system}.${app}.program" \
-              --apply 'p: builtins.head (builtins.filter (n: builtins.match ".*\\.drv" n != null) (builtins.attrNames (builtins.getContext p)))' 2>/dev/null)" || {
-              printf '  %-34s no derivation in its program string; skipped\n' "${app}"
-              continue
-            }
-            if nix-store -r "${drv}" > /dev/null 2>&1; then
-              printf '  %-34s realised via %s\n' "${app}" "${try_ref}"
-              warmed=$((warmed + 1))
-            else
-              echo "::warning::app ${app} (${drv}) could not be realised"
-            fi
+              d="$(nix eval --raw --impure "${try_ref}#apps.${system}.${app}.program" \
+                --apply 'p: builtins.head (builtins.filter (n: builtins.match ".*\\.drv" n != null) (builtins.attrNames (builtins.getContext p)))' 2>/dev/null)" || continue
+              case " ${drvs} " in *" ${d} "*) continue ;; esac
+              drvs="${drvs} ${d}"
+              case " ${seen} " in
+                *" ${d} "*) ;;                       # already realised for another app
+                *) if nix-store -r "${d}" > /dev/null 2>&1; then
+                     seen="${seen} ${d}"
+                     warmed=$((warmed + 1))
+                   else
+                     echo "::warning::app ${app} (${d}) could not be realised"
+                   fi ;;
+              esac
             done
+            if [[ -n "${drvs}" ]]; then
+              printf '  %-34s %s derivation(s), all realised\n' "${app}" "$(wc -w <<<"${drvs}")"
+            else
+              printf '  %-34s no derivation in its program string; skipped\n' "${app}"
+            fi
           done
-          echo "PASS WARM-APPS: ${warmed} of ${#apps[@]} app(s) realised"
+          echo "PASS WARM-APPS: ${warmed} distinct app derivation(s) realised for ${#apps[@]} app(s)"
 
       - name: "Verify the cache: everything the tests need is already present"
         shell: bash
