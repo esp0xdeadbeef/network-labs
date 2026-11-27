@@ -7,16 +7,19 @@
     network-compiler.url = "github:esp0xdeadbeef/network-compiler";
     network-compiler.inputs.nixpkgs.follows = "nixpkgs";
     network-compiler.inputs.network-labs.follows = "";
+    network-compiler.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-forwarding-model.url = "github:esp0xdeadbeef/network-forwarding-model";
     network-forwarding-model.inputs.nixpkgs.follows = "nixpkgs";
     network-forwarding-model.inputs.network-compiler.follows = "network-compiler";
     network-forwarding-model.inputs.network-labs.follows = "";
+    network-forwarding-model.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-control-plane-model.url = "github:esp0xdeadbeef/network-control-plane-model";
     network-control-plane-model.inputs.nixpkgs.follows = "nixpkgs";
     network-control-plane-model.inputs.network-forwarding-model.follows = "network-forwarding-model";
     network-control-plane-model.inputs.network-labs.follows = "";
+    network-control-plane-model.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-realization-schema.url = "github:esp0xdeadbeef/network-realization-schema";
     network-realization-schema.inputs.nixpkgs.follows = "nixpkgs";
@@ -28,6 +31,7 @@
     nixos-network-compiler.url = "github:esp0xdeadbeef/nixos-network-compiler";
     nixos-network-compiler.inputs.nixpkgs.follows = "nixpkgs";
     nixos-network-compiler.inputs.network-labs.follows = "";
+    nixos-network-compiler.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-renderer-nixos.url = "github:esp0xdeadbeef/network-renderer-nixos";
     network-renderer-nixos.inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +40,7 @@
     network-renderer-nixos.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-nixos.inputs.network-forwarding-model.follows = "network-forwarding-model";
     network-renderer-nixos.inputs.network-labs.follows = "";
+    network-renderer-nixos.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-renderer-containerlab-linux-backend.url = "github:esp0xdeadbeef/network-renderer-containerlab-linux-backend";
     network-renderer-containerlab-linux-backend.inputs.nixpkgs.follows = "nixpkgs";
@@ -44,12 +49,14 @@
     network-renderer-containerlab-linux-backend.inputs.network-forwarding-model.follows = "network-forwarding-model";
     network-renderer-containerlab-linux-backend.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-containerlab-linux-backend.inputs.network-labs.follows = "";
+    network-renderer-containerlab-linux-backend.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-renderer-access-endpoint-nixos.url = "github:esp0xdeadbeef/network-renderer-access-endpoint-nixos";
     network-renderer-access-endpoint-nixos.inputs.nixpkgs.follows = "nixpkgs";
     network-renderer-access-endpoint-nixos.inputs.network-realization-model.follows = "network-realization-model";
     network-renderer-access-endpoint-nixos.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-access-endpoint-nixos.inputs.network-labs.follows = "";
+    network-renderer-access-endpoint-nixos.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-renderer-wireguard.url = "github:esp0xdeadbeef/network-renderer-wireguard";
     network-renderer-wireguard.inputs.nixpkgs.follows = "nixpkgs";
@@ -61,6 +68,7 @@
     network-renderer-nebula.inputs.network-realization-model.follows = "network-realization-model";
     network-renderer-nebula.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-nebula.inputs.network-labs.follows = "";
+    network-renderer-nebula.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
 
     network-renderer-openconfig.url = "github:esp0xdeadbeef/network-renderer-openconfig";
     network-renderer-openconfig.inputs.nixpkgs.follows = "nixpkgs";
@@ -68,6 +76,7 @@
     network-renderer-openconfig.inputs.network-realization-schema.follows = "network-realization-schema";
     network-renderer-openconfig.inputs.network-control-plane-model.follows = "network-control-plane-model";
     network-renderer-openconfig.inputs.network-labs.follows = "";
+    network-renderer-openconfig.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
