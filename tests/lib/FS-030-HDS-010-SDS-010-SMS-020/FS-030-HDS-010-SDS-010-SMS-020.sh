@@ -33,6 +33,12 @@ relation_check="$(
   " 2>&1
 )"
 
+# THE LAST LINE IS THE ANSWER. `2>&1` merges Nix's own diagnostics, and with the store
+# closed the first line is
+#   warning: you don't have Internet access; disabling some network-dependent features
+# so a comparison against "OK" failed for a warning, not for a relation id.
+relation_check="${relation_check##*$'\n'}"
+
 if [[ "${relation_check}" != "OK" ]]; then
   echo "FAIL: row-local intent.nix relation id mismatch" >&2
   [[ "${relation_check}" == FAIL:* ]] && echo "${relation_check}" >&2
