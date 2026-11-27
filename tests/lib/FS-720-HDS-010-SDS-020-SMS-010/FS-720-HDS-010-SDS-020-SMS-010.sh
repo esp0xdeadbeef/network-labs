@@ -31,7 +31,7 @@ clab_inv="${repo_root}/examples/${example}/inventory-clab.nix"
 [[ -f "${clab_inv}"  ]] || fail "P1 no CLAB HAT inventory at examples/${example}/inventory-clab.nix"
 
 # P1: the NixOS inventory imports and carries endpoint declarations.
-nixos_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${nixos_inv}" 2>&1)" \
+nixos_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${nixos_inv}" 2>&1 | grep -vF "you don't have Internet access")" \
   || fail "P1 the NixOS inventory does not import:
 ${nixos_json}"
 
@@ -40,7 +40,7 @@ if ! jq -e '[.. | objects | select(has("endpoints") or has("interfaces"))] | len
 fi
 
 # P2: the CLAB inventory imports and carries access-client declarations.
-clab_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${clab_inv}" 2>&1)" \
+clab_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${clab_inv}" 2>&1 | grep -vF "you don't have Internet access")" \
   || fail "P2 the CLAB inventory does not import:
 ${clab_json}"
 

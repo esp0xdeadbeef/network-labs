@@ -32,7 +32,7 @@ hetz_inv="${fixture_root}/inventory-hetz.nix"
 [[ -f "${nixos_inv}" ]]  || fail "P1 no NixOS fixture inventory"
 [[ -f "${hetz_inv}" ]]   || fail "P1 no second realization inventory, so the fixture is not dual-substrate"
 
-intent_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${intent}" 2>&1)" \
+intent_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${intent}" 2>&1 | grep -vF "you don't have Internet access")" \
   || fail "P1 the HAT intent does not import:
 ${intent_json}"
 
@@ -49,7 +49,7 @@ if ! jq -e '[.. | objects | select(has("name")) | select(.name | tostring | test
   fail "P1 no receiver service names a provider, so the fixture has no stable modelled host identity"
 fi
 
-nixos_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${nixos_inv}" 2>&1)" \
+nixos_json="$(nix eval --no-write-lock-file --impure --json --expr "import ${nixos_inv}" 2>&1 | grep -vF "you don't have Internet access")" \
   || fail "P1 the NixOS fixture inventory does not import:
 ${nixos_json}"
 
