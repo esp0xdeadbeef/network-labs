@@ -23,10 +23,29 @@
 
     network-realization-schema.url = "github:esp0xdeadbeef/network-realization-schema";
     network-realization-schema.inputs.nixpkgs.follows = "nixpkgs";
+    # THE BACK EDGE. The schema pins this repository (for its producer audit
+    # tests), so the two flakes form a cycle that a lock can only express by
+    # FORKING a duplicate snapshot unless every edge of the cycle is followed.
+    # Without these two lines the fork came back with its own -- stale --
+    # network-labs, and therefore its own stale schema revision:
+    #
+    #   network-realization-schema@730ca4f  (no warm store path carried it)
+    #   error: unable to download '.../archive/730ca4f....tar.gz':
+    #     Could not resolve host: github.com
+    #
+    # measured in the renderer matrix on 48 shards once the store was closed.
+    # One node per repository, or the pin is not the pin.
+    network-realization-schema.inputs.network-labs.follows = "";
+    network-realization-schema.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
+    network-realization-schema.inputs.network-control-plane-model.follows = "network-control-plane-model";
 
     network-realization-model.url = "github:esp0xdeadbeef/network-realization-model";
     network-realization-model.inputs.nixpkgs.follows = "nixpkgs";
     network-realization-model.inputs.network-realization-schema.follows = "network-realization-schema";
+    # Same cycle, same fix: the model also pins this repository.
+    network-realization-model.inputs.network-labs.follows = "";
+    network-realization-model.inputs.network-labs.inputs.nixpkgs.follows = "nixpkgs";
+    network-realization-model.inputs.network-control-plane-model.follows = "network-control-plane-model";
 
     nixos-network-compiler.url = "github:esp0xdeadbeef/nixos-network-compiler";
     nixos-network-compiler.inputs.nixpkgs.follows = "nixpkgs";
